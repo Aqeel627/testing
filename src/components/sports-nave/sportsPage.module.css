@@ -1,0 +1,115 @@
+/* Screen reader only */
+.sr-only {
+  white-space: nowrap;
+  clip: rect(0, 0, 0, 0);
+  border-width: 0;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  position: absolute;
+  overflow: hidden;
+}
+
+/* Root container */
+.tabs-root {
+  overflow: hidden;
+  /* min-height: 48px; */
+  display: flex;
+  background-color: var(--palette-background-neutral);
+  /* background-color: #28323D; */
+  /* border: 3px dashed rgba(145, 158, 171, 0.2); */
+  border-radius: 8px;
+  height: 48px;
+}
+
+/* Scrollable wrapper */
+.tabs-scroller {
+  position: relative;
+  /* display: inline-block; */
+  display: flex;
+  align-items: center;
+  flex: 1;
+  white-space: nowrap;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.tabs-scroller::-webkit-scrollbar {
+  display: none;
+}
+
+/* Tab list */
+.tabs-list {
+  display: flex;
+  /* gap: 40px; */
+  padding: 8px;
+  position: relative;
+  z-index: 1;
+}
+
+/* 👇 NAYA: Sliding Background Indicator ki styling */
+.sliding-indicator {
+  position: absolute;
+  /* background-color: #141A21; */
+   background-color: var(--background);
+  border-radius: 8px;
+  /* Ye transition hi wo smooth sliding effect deti hai */
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 0;
+  /* Taake text ke peechay rahe */
+}
+
+/* Tab button */
+.tab-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 600;
+  /* min-height: 48px; */
+  padding: 2px 16px;
+  color: #919EAB;
+  font-family: Inter, sans-serif;
+  transition: color 0.2s ease;
+  line-height: 1.57143;
+  position: relative; /* 👈 Zaroori */
+  z-index: 1; 
+}
+
+/* Active tab */
+.tab-btn.active {
+  color: rgb(104, 205, 249);
+}
+
+/* Icon */
+.tab-icon {
+  width: 24px;
+  height: 24px;
+  margin-left: 8px;
+  display: inline-flex;
+  background-color: currentColor;
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+}
+
+.icon-cricket {
+  mask-image: url("/ic_cricket.svg");
+}
+
+.icon-soccer {
+  mask-image: url("/ic_football.svg");
+}
+
+.icon-tennis {
+  mask-image: url("/ic_tennis.svg");
+}
+
+/* Active tab */
+.tab-btn.active {
+  color: rgb(104, 205, 249);
+}

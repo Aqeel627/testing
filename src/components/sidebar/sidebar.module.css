@@ -1,0 +1,399 @@
+.container {
+  width: 100%;
+  padding-inline: 1rem;
+  height: 100%;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.item {
+  display: inline-block;
+}
+
+.searchRow {
+  margin-top: 22px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  border-radius: 12px;
+  padding-right: 0.5rem;
+  background: rgba(145, 158, 171, 0.08);
+}
+
+.searchRow:hover {
+  background: rgba(145, 158, 171, 0.16);
+}
+
+.searchIconWrap {
+  display: inline-flex;
+  padding: 0.5rem;
+  color: #919eab;
+}
+
+.searchIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.shortcut {
+  display: inline-flex;
+  align-items: center;
+  height: 1.5rem;
+  min-width: 1.5rem;
+  padding-inline: 0.375rem;
+  border-radius: 0.375rem;
+  background: #fff;
+  color: #1c252e;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.sectionTitle {
+  position: relative;
+  cursor: pointer;
+  padding: 16px 8px 8px 12px;
+  color: #637381;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  line-height: normal;
+  text-transform: uppercase;
+  transition: all 0.3s ease;
+}
+
+.sectionTitle:hover {
+  padding: 16px 8px 8px 16px;
+  color: #fff;
+}
+
+.sectionIcon {
+  position: absolute;
+  left: -0.25rem;
+  display: inline-flex;
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.sectionTitle:hover .sectionIcon {
+  opacity: 1;
+}
+
+.sectionLabel {
+  cursor: pointer;
+  color: #637381;
+  font-size: 0.6875rem;
+  font-weight: 700;
+  line-height: normal;
+  text-transform: uppercase;
+}
+
+.sectionTitle:hover .sectionLabel {
+  color: #fff;
+}
+
+.subList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.link {
+  position: relative;
+  color: #919eab;
+  margin: 0;
+  display: inline-flex;
+  min-height: 2.75rem;
+  width: 100%;
+  cursor: pointer;
+  appearance: none;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 0.5rem;
+  background: transparent;
+  padding: 4px 8px 4px 12px;
+  text-decoration: none;
+  text-align: middle;
+  user-select: none;
+}
+
+.link:hover {
+  background: rgba(145, 158, 171, 0.08);
+}
+
+.linkIconWrap {
+  margin-right: 0.75rem;
+  display: inline-flex;
+  height: 1.5rem;
+  width: 1.5rem;
+  flex-shrink: 0;
+  color: #919eab;
+}
+
+.marketIconWrap {
+  margin-right: 0.75rem;
+  display: inline-flex;
+  height: 20px;
+  width: 20px;
+  flex-shrink: 0;
+  color: #919eab;
+}
+
+.linkIcon {
+  display: inline-flex;
+  height: 100%;
+  width: 100%;
+  flex-shrink: 0;
+}
+
+.linkText {
+  flex: 1 1 auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #919eab;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.57143;
+}
+
+.badgeWrap {
+  margin-left: 0.375rem;
+  display: inline-flex;
+  flex-shrink: 0;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: normal;
+}
+
+.badge {
+  display: inline-flex;
+  height: 1.5rem;
+  min-width: 1.5rem;
+  cursor: default;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 0.375rem;
+  background: rgba(7, 141, 238, 0.16);
+  padding: 0 0.5rem;
+  color: #68cdf9;
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 0;
+  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.navArrow {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  margin-left: 6px;
+  display: inline-flex;
+  transition: transform 220ms ease;
+}
+
+.navArrowOpen {
+  transform: rotate(90deg);
+}
+
+.navItem {
+  height: auto;
+  padding-left: 24px;
+  transition: height 300ms cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: visible;
+}
+
+.sportDropdown {
+  overflow: hidden;
+  will-change: height, opacity;
+
+}
+
+.navItemWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-left: 12px;
+  position: relative;
+}
+
+.navItemWrapper::before {
+  top: 0px;
+  left: 0px;
+  width: 2px;
+  content: "";
+  position: absolute;
+  background-color: #282f37;
+  bottom: calc(36px - 2px - 12px / 2);
+}
+
+.navItemLi {
+  /* margin-top: 4px; */
+  display: inline-block;
+}
+
+.navLink {
+  position: relative;
+  color: #919eab;
+  margin: 0;
+  display: inline-flex;
+  min-height: 36px;
+  width: 100%;
+  cursor: pointer;
+  appearance: none;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 0.5rem;
+  background: transparent;
+  padding: 4px 8px 4px 12px;
+  text-decoration: none;
+  text-align: middle;
+  user-select: none;
+}
+
+.navLink:hover {
+  background: rgba(145, 158, 171, 0.08);
+}
+
+.navLink::before {
+  left: 0px;
+  content: "";
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background-color: #282f37;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2714%27 height=%2714%27 fill=%27none%27 viewBox=%270 0 14 14%27%3E%3Cpath d=%27M1 1v4a8 8 0 0 0 8 8h4%27 stroke=%27%23efefef%27 stroke-width=%272%27 stroke-linecap=%27round%27/%3E%3C/svg%3E")
+    50% 50% / 100% no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2714%27 height=%2714%27 fill=%27none%27 viewBox=%270 0 14 14%27%3E%3Cpath d=%27M1 1v4a8 8 0 0 0 8 8h4%27 stroke=%27%23efefef%27 stroke-width=%272%27 stroke-linecap=%27round%27/%3E%3C/svg%3E")
+    50% 50% / 100% no-repeat;
+  transform: translate(calc(12px * -1), calc(12px * -0.4));
+}
+
+.navItemText {
+  text-overflow: ellipsis;
+  -webkit-box-orient: vertical;
+  flex: 1 1 auto;
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    "Helvetica Neue",
+    Arial,
+    sans-serif,
+    "Apple Color Emoji",
+    "Segoe UI Emoji",
+    "Segoe UI Symbol";
+  font-size: 0.875rem;
+  white-space: normal;
+  word-break: break-word;
+  overflow: visible;
+  font-weight: 500;
+  line-height: 1.25;
+  display: inline-flex;
+}
+
+.sportImage {
+  height: 100%;
+  width: 100%;
+  flex-shrink: 0;
+  display: inline-flex;
+  background-color: currentcolor;
+  -webkit-mask: var(--sport-icon, url(/sidebar/ic_cricket.svg)) center center /
+    contain no-repeat;
+  mask: var(--sport-icon, url(/sidebar/ic_cricket.svg)) center center / contain
+    no-repeat;
+}
+
+.thirdItemText {
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  flex: 1 1 auto;
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    "Helvetica Neue",
+    Arial,
+    sans-serif,
+    "Apple Color Emoji",
+    "Segoe UI Emoji",
+    "Segoe UI Symbol";
+  white-space: normal;
+  word-break: break-word;
+  overflow: visible;
+  font-weight: 400;
+  line-height: 1.25;
+  font-size: 0.785rem;
+  display: inline-flex;
+}
+
+.searchWrapper {
+  display: flex;
+  -webkit-box-align: center;
+  align-items: center;
+  margin-top: 12px;
+}
+
+.searchBtn {
+  display: inline-flex;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  position: relative;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+  background-color: transparent;
+  cursor: pointer;
+  user-select: none;
+  vertical-align: middle;
+  appearance: none;
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    "Helvetica Neue",
+    Arial,
+    sans-serif,
+    "Apple Color Emoji",
+    "Segoe UI Emoji",
+    "Segoe UI Symbol";
+  text-align: center;
+  font-size: 1.5rem;
+  color: var(--palette-action-active);
+  --IconButton-hoverBg: rgba(
+    var(--palette-action-activeChannel) /
+      calc(var(--palette-action-hoverOpacity))
+  );
+  outline: 0px;
+  border-width: 0px;
+  border-style: initial;
+  border-color: initial;
+  border-image: initial;
+  margin: 0px;
+  text-decoration: none;
+  flex: 0 0 auto;
+  padding: 8px;
+  border-radius: 50%;
+  transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.sidebarChanges {
+  width: 20px;
+  flex-shrink: 0;
+  height: 20px;
+  display: inline-flex;
+}
