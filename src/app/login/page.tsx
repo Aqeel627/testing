@@ -3,7 +3,7 @@
 import { useEffect, useState, type FormEvent } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import Loader from "@/components/Loader/loader";
+import Loader from "@/components/common/loader/loader";
 
 export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(true);

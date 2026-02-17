@@ -4,13 +4,13 @@ import { useEffect, useRef, useState, type ReactNode } from "react";
 import Marque from "@/components/common/marque";
 import Header from "@/components/common/header";
 import Footer from "@/components/common/footer";
-import Sidebar from "@/components/sidebar";
+import Sidebar from "@/components/common/sidebar";
 import { useAppStore } from "@/lib/store/store";
 import { usePathname } from "next/navigation";
 import { useAuthStore } from "@/lib/store/authStore";
 import { fetchData } from "@/lib/functions";
 import { CONFIG } from "@/lib/config";
-import BetSlip from "@/components/BetSlip/BetSlip";
+import BetSlip from "@/components/common/betslip";
 
 const MAIN_WIDTH_STORAGE_KEY = "pages-layout-main-width";
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from "react";
-import styles from "@/components/sports-nave/sportsPage.module.css";
+import styles from "@/components/pages/home/sports-nav/sportsPage.module.css";
 import { useAppStore } from "@/lib/store/store";
 import { useRouter } from "next/navigation";
 import Icon from "@/icons/icons";

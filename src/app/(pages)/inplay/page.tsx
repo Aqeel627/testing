@@ -1,4 +1,4 @@
-import InplayPage from "./index";
+import InplayPage from "@/components/pages/inplay";
 
 const Inplay = () => {
   return (

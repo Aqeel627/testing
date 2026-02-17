@@ -7,7 +7,7 @@ import Icon from "@/icons/icons";
 
 type NavItem = { label: string; href: string; id: string };
 
-export default function SportsNave() {
+export default function SportsNav() {
   const { menuList, setSelectedEventTypeId } = useAppStore();
 
   const [activeTab, setActiveTab] = useState("Cricket");
