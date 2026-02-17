@@ -9,7 +9,7 @@ import "./globals.css";
 import { Metadata } from "next";
 import SearchModal from "@/components/modal/search/SearchModal";
 import { AuExchThemeProvider } from "@/components/common/theme-provider";
-import TopLoader from "./providers";
+import NavigationLoader from "./navigation-loader";
 
 export const metadata: Metadata = {
   title: "Auexch",
@@ -82,7 +82,7 @@ export default function RootLayout({
         }}
         cz-shortcut-listen="true"
       >
-       <TopLoader />
+       <NavigationLoader />
         <AuExchThemeProvider>
             {children}
             <SearchModal />
