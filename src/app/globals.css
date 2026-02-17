@@ -820,11 +820,20 @@ body {
     stroke-dashoffset: -126px;
   }
 }
-
 #nprogress .bar {
-  background: rgb(7, 141, 238);
+  background: #3aa0ff;
   height: 3px;
 }
 #nprogress .peg {
-  box-shadow: 0 0 10px rgb(7, 141, 238), 0 0 5px rgb(7, 141, 238);
+  box-shadow: 0 0 10px #3aa0ff, 0 0 5px #3aa0ff;
+}
+
+.css-4uzy5s {
+    background-size: 50%, 50%;
+    background-repeat: no-repeat;
+    backdrop-filter: blur(20px);
+    background-color: rgba(var(--palette-background-paperChannel) / 90%);
+    box-shadow: var(--customShadows-dropdown);
+    background-position: right top, left bottom;
+    
 }

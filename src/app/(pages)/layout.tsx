@@ -62,7 +62,7 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
 
   const handleAllEvents = (data: any) => {
     setAllEventsList(data); // pehla kaam
-    console.log("Events Set",data);
+    console.log("Events Set", data);
 
     // doosra function
     const formatted = useAppStore.getState().getFormattedInplayEvents?.();
@@ -228,7 +228,7 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
           <Sidebar />
         </aside>
 
-        <main className="pt-28 px-3 h-screen overflow-y-auto">
+        <main className="pt-28 px-3 h-screen overflow-y-auto pb-2.5">
           {children}
           <Footer />
         </main>
@@ -254,7 +254,7 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
 
         {/* MAIN (resizable width) */}
         <main
-          className="h-full overflow-y-auto no-scrollbar min-w-[450px] ps-3 pe-[6px] mt-[10px]"
+          className="h-full overflow-y-auto no-scrollbar pb-[35px] min-w-[450px] ps-3 pe-[6px] mt-[10px]"
           style={
             mainWidth
               ? { width: `${mainWidth}px`, flex: `0 0 ${mainWidth}px` }
