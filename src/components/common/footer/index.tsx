@@ -38,11 +38,11 @@ export default function Footer() {
   return (
     <>
       <div className="mt-5">
-        <div className="w-full flex flex-col gap-2 max-[900px]:rounded-t-[16px] rounded-t-xl bg-(--palette-background-paper) text-(--palette-text-primary) border  border-[rgba(145,158,171,0.2)] p-2 max-[900px]:p-4">
+        <div className="w-full flex flex-col  max-[900px]:rounded-t-[16px] rounded-t-xl bg-(--palette-background-paper) text-(--palette-text-primary) border  border-[rgba(145,158,171,0.2)] p-2 max-[900px]:p-4">
           {/* TOP SECTION */}
-          <div className="flex flex-col-reverse gap-4 max-[900px]:items-center min-[900px]:gap-18  min-[900px]:flex-row">
+          <div className="flex flex-col-reverse  max-[900px]:items-center min-[900px]:gap-[11px]  min-[900px]:flex-row">
             {/* LEFT BLOCK */}
-            <div className="min-[900px]:w-62.5 w-full">
+            <div className="min-[900px]:w-62.5 w-full min-w-[250px]">
               <div className="md:mb-[3.5px] w-44  max-[899px]:mx-auto lg:mb-0  max-[900px]:flex max-[900px]:flex-col max-[900px]:justify-center">
                 <Image
                   src="/secure-ssl-3.webp"
@@ -61,17 +61,17 @@ export default function Footer() {
                 </p>
 
                 <div className="flex flex-col">
-                  <span className="flex max-[899px]:mb-[3px]  justify-center items-center h-[24px] rounded bg-[rgba(var(--palette-primary-mainChannel)_/_16%)]   text-[12px] font-bold leading-[19px] text-(--palette-primary-light)">
+                  <span className="inline-flex max-[899px]:mb-[3px]    justify-center items-center h-[24px] rounded bg-[rgba(var(--palette-primary-mainChannel)_/_16%)]   text-[12px] font-bold leading-[19px] text-(--palette-primary-light)">
                     Payment Gateways
                   </span>
 
-                  <div className="mb-2 mt-[9px] flex max-[900px]:justify-center items-center gap-[4px] min-[900px]gap-[4px] relative max-[899px]:top-[-2px]">
+                  <div className="mb-2 mt-[9px] px-1 flex max-[900px]:justify-center items-center gap-[4px] min-[900px]gap-[4px] relative max-[899px]:top-[-2px]">
                     <Icon name="crossPay" className="h-5 w-5 " />
                     <Icon name="gPay" className="h-5 w-11 ml-1 mr-1" />
-                    <Icon name="upi" className="h-5 w-11 max-[899px]:hidden" />
+                    <Icon name="upi" className="h-[24px] w-[53px] max-[899px]:hidden" />
                     <Icon
                       name="home"
-                      className="h-5 w-5 max-[899px]:ml-[12px]"
+                      className="h-5 w-5 max-[899px]:ml-[12px] ml-[5px]"
                     />
                   </div>
                 </div>
@@ -132,7 +132,7 @@ export default function Footer() {
                   <a
                     key={i}
                     href="#"
-                    className={`cursor-pointer text-wrap max-[600]:text-[13px] py-1 content-center hover:underline hover:text-(--palette-primary-main) ${
+                    className={`cursor-pointer text-wrap max-[600]:text-[13px]  font-normal content-center hover:underline hover:text-(--palette-primary-main) ${
                       i !== 3 && ""
                     } md:px-2 lg:px-0`}
                   >
@@ -207,7 +207,7 @@ export default function Footer() {
           </div>
 
           {/* POLICY LINKS */}
-          <div className="flex flex-wrap justify-center gap-x-2 max-[899px]:px-4 min-[900px]:gap-x-4 gap-y-2 py-2 max-[900px]:mt-[16px] text-[12px] min-[900px]:text-[13px] font-medium text-(--palette-text-secondary) ">
+          <div className="flex flex-wrap justify-center gap-x-2 max-[899px]:px-4 min-[900px]:gap-x-4  py-2 max-[900px]:mt-[16px] text-[12px] min-[900px]:text-[13px] font-medium text-(--palette-text-secondary) ">
             {[
               "Terms & Conditions",
               "Betting Rules",
