@@ -1,7 +1,14 @@
-import { Geist, Geist_Mono, Roboto_Condensed, Roboto, Inter } from "next/font/google";
+import {
+  Geist,
+  Geist_Mono,
+  Roboto_Condensed,
+  Roboto,
+  Inter,
+} from "next/font/google";
 import "./globals.css";
 import { Metadata } from "next";
 import SearchModal from "@/components/search/SearchModal";
+import { AuExchThemeProvider } from "@/components/common/theme-provider";
 
 export const metadata: Metadata = {
   title: "Auexch",
@@ -49,7 +56,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en">
       <head>
         <link
           rel="stylesheet"
@@ -70,12 +77,14 @@ export default function RootLayout({
           antialiased
         `}
         style={{
-          fontFamily: `var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"`
+          fontFamily: `var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol"`,
         }}
         cz-shortcut-listen="true"
       >
-        {children}
-        <SearchModal />
+        <AuExchThemeProvider>
+            {children}
+            <SearchModal />
+        </AuExchThemeProvider>
       </body>
     </html>
   );
