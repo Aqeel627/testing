@@ -122,9 +122,6 @@ export default function SearchModal() {
                         if (e.target === e.currentTarget) close();
                     }} 
                 >
-                    {/* ✅ REQUIRED FOR ACCESSIBILITY (HIDDEN) */}
-                    <Dialog.Title>Search</Dialog.Title>
-
                     <div className={styles.paper}>
                         {/* ---------- HEADER ---------- */}
                         <div className={styles.header}>
