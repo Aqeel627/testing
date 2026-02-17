@@ -3,6 +3,7 @@
 import { useState, type FormEvent } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import Loader from "@/components/Loader/loader";
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -259,6 +260,7 @@ export default function LoginPage() {
           </div>
         </div>
       </div>
+      <Loader />
     </section>
   );
 }
