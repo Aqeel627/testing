@@ -17,13 +17,17 @@ import { useAuthStore } from "@/lib/store/authStore";
 import { fetchData } from "@/lib/functions";
 import { CONFIG } from "@/lib/config";
 import BetSlip from "@/components/common/betslip";
+import { useUIStore } from "@/lib/store/ui-store"; // ✅ import store
 
 const MAIN_WIDTH_STORAGE_KEY = "pages-layout-main-width";
 
 export default function PagesLayout({ children }: { children: ReactNode }) {
   const [isMobile, setIsMobile] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
+
+  const isMobileSidebarOpen = useUIStore((s) => s.isSidebarOpen);
+  const openMobileSidebar = useUIStore((s) => s.openSidebar);
+  const closeMobileSidebar = useUIStore((s) => s.closeSidebar);
 
   const [hydratedWidth, setHydratedWidth] = useState(false);
 
@@ -104,37 +108,14 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
       setFn: setMenuList,
       expireIn: CONFIG.menuListTime,
     });
-
-    // fetchData({
-    //   url: CONFIG.exchangeTypeList,
-    //   payload: { key: CONFIG.siteKey },
-    //   cachedKey: "exchangeTypeList",
-    //   setFn: setExchangeTypeList,
-    //   expireIn: CONFIG.exchangeTypeListTime,
-    // });
-
-    // fetchData({
-    //   url: CONFIG.getExchangeNews,
-    //   payload: { key: CONFIG.siteKey },
-    //   cachedKey: "exchangeNews",
-    //   setFn: setExchangeNews,
-    //   expireIn: CONFIG.getExchangeNewsTime,
-    // });
-
-    // fetchData({
-    //   url: CONFIG.getUserBetStake,
-    //   payload: { key: CONFIG.siteKey },
-    //   cachedKey: "betStake",
-    //   setFn: setStakeValue,
-    //   expireIn: CONFIG.getUserBetStakeTime,
-    // });
   }, []);
 
   useEffect(() => {
     const handleResize = () => {
       const nextIsMobile = window.innerWidth < 1200;
       setIsMobile(nextIsMobile);
-      if (!nextIsMobile) setIsMobileSidebarOpen(false);
+      // ✅ close mobile sidebar via store when switching to desktop
+      if (!nextIsMobile) closeMobileSidebar();
     };
     handleResize();
     window.addEventListener("resize", handleResize);
@@ -144,7 +125,6 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
   useLayoutEffect(() => {
     if (typeof window === "undefined") return;
 
-    // if mobile, no need to hydrate width
     if (window.innerWidth < 1200) {
       setHydratedWidth(true);
       return;
@@ -234,16 +214,22 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
       <div className="w-full min-h-screen">
         <div className="w-full fixed top-0 z-50 css-before">
           <Marque />
-          <Header onMenuClick={() => setIsMobileSidebarOpen((prev) => !prev)} />
+          {/* ✅ toggle via store */}
+          <Header
+            onMenuClick={() =>
+              isMobileSidebarOpen ? closeMobileSidebar() : openMobileSidebar()
+            }
+          />
         </div>
 
+        {/* ✅ backdrop closes via store */}
         <div
           className={`fixed inset-0 z-[60] bg-black/50 transition-opacity duration-300 ${
             isMobileSidebarOpen
               ? "opacity-100 pointer-events-auto"
               : "opacity-0 pointer-events-none"
           }`}
-          onClick={() => setIsMobileSidebarOpen(false)}
+          onClick={() => closeMobileSidebar()}
           aria-hidden="true"
         />
 
@@ -321,7 +307,6 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
           </svg>
         </div>
 
-        {/* RIGHT (flexible) */}
         <aside className="flex-auto min-w-0 h-full overflow-y-auto no-scrollbar border-l border-white/5">
           <BetSlip />
         </aside>

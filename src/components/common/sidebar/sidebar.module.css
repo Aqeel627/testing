@@ -247,6 +247,7 @@
 
 .navLink {
   position: relative;
+  margin-top: 4px;
   color: #919eab;
   margin: 0;
   display: inline-flex;
@@ -404,3 +405,28 @@
   height: 20px;
   display: inline-flex;
 }
+
+
+.activeSubItem {
+  background-color: rgba(255, 255, 255, 0.08); 
+  border-radius: 6px;                          
+  font-weight: 500;
+  color: #fff;
+  margin-top: 4px;
+  transition: background-color 0.25s ease-in-out;
+}
+
+.activeSubItem:hover {
+  background-color: rgba(255, 255, 255, 0.12); 
+}
+
+.linkActive {
+  position: relative;
+  overflow: hidden;
+  animation: activateSpark 0.5s ease-out forwards;
+}
+.linkActive .linkText {
+  font-weight: 600;
+}
+
+
