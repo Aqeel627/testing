@@ -819,3 +819,14 @@ body {
     stroke-dashoffset: -126px;
   }
 }
+
+
+.css-4uzy5s {
+    background-size: 50%, 50%;
+    background-repeat: no-repeat;
+    backdrop-filter: blur(20px);
+    background-color: rgba(var(--palette-background-paperChannel) / 90%);
+    box-shadow: var(--customShadows-dropdown);
+    background-position: right top, left bottom;
+    
+}
