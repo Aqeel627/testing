@@ -325,7 +325,10 @@ export default function LoginPage() {
                   className="w-full rounded-[8px] cursor-pointer shadow-(--customShadows-z8) hover:bg-(--palette-grey-400)
   font-bold text-[15px] py-3.5 h-[48px] inline-flex justify-center items-center bg-white text-[#212B36]"
                 >
-                  Go to Home
+                  <span className="max-[600px]:translate-y-[-0.5px]">
+                    {" "}
+                    Go to Home
+                  </span>
                 </Link>
               </div>
             </form>
