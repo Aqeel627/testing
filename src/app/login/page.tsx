@@ -138,7 +138,7 @@ export default function LoginPage() {
                           : "border-[rgba(var(--palette-grey-500Channel)_/_20%)] group-hover:border-(--palette-text-primary) group-focus-within:border-(--palette-text-primary)"
                       }`}
                     >
-                      <legend className="w-auto overflow-hidden block h-[11px] text-[14px] invisible whitespace-nowrap max-w-full transition-[max-width] duration-100 ease-out delay-[50ms] p-0">
+                      <legend className="w-18.75 overflow-hidden block h-[11px] text-[14px] invisible whitespace-nowrap max-w-full transition-[max-width] duration-100 ease-out delay-[50ms] p-0">
                         <span>Username *</span>
                       </legend>
                     </fieldset>
@@ -191,6 +191,7 @@ export default function LoginPage() {
                         showPassword ? "Hide password" : "Show password"
                       }
                     >
+                      <span className="absolute inset-0 rounded-lg bg-[rgba(145,158,171,0.08)] opacity-0 active:opacity-100 active:animate-ping"></span>
                       {showPassword ? (
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -242,7 +243,7 @@ export default function LoginPage() {
                           : "border-[rgba(var(--palette-grey-500Channel)_/_20%)] group-hover:border-(--palette-text-primary) group-focus-within:border-(--palette-text-primary)"
                       }`}
                     >
-                      <legend className="w-auto overflow-hidden block h-[11px] text-[14px] invisible whitespace-nowrap max-w-full transition-[max-width] duration-100 ease-out delay-[50ms] p-0">
+                      <legend className="w-18.25 overflow-hidden block h-[11px] text-[14px] invisible whitespace-nowrap max-w-full transition-[max-width] duration-100 ease-out delay-[50ms] p-0">
                         <span>Password *</span>
                       </legend>
                     </fieldset>
@@ -284,7 +285,7 @@ export default function LoginPage() {
                 <button
                   type="submit"
                   disabled={!hasFormValues || isSubmitting}
-                  className={`w-full rounded-lg relative p-[6px_12px] min-h-9 text-sm font-bold transition-all ${
+                  className={`w-full rounded-lg relative p-[6px_12px] min-h-9 text-sm font-bold ${
                     hasFormValues && !isSubmitting
                       ? "bg-[#078DEE] text-white hover:shadow-(--customShadows-primary) cursor-pointer hover:bg-(--palette-primary-dark)"
                       : "bg-[rgba(145,158,171,0.24)] text-[rgba(145,158,171,0.8)] cursor-not-allowed"
