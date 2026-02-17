@@ -20,19 +20,24 @@ export default function SearchModal() {
 
     const close = () => toggleSearch(false);
 
+    /* -------------------- BODY SCROLL + FOCUS -------------------- */
     useEffect(() => {
         if (isOpenSearch) {
-            setTimeout(() => inputRef.current?.focus(), 0);
-            document.documentElement.style.overflow = "hidden";
+            requestAnimationFrame(() => {
+                inputRef.current?.focus();
+            });
+            document.body.style.overflow = "hidden";
         } else {
-            document.documentElement.style.overflow = "";
+            document.body.style.overflow = "";
             setQuery("");
         }
+
         return () => {
-            document.documentElement.style.overflow = "";
+            document.body.style.overflow = "";
         };
     }, [isOpenSearch]);
 
+    /* -------------------- DATA -------------------- */
     const data: SearchItem[] = useMemo(
         () => [
             {
@@ -40,11 +45,51 @@ export default function SearchModal() {
                 title: "ICC Men's T20 World Cup",
                 path: "/cricket/icc-men's-t20-world-cup/icc-mens-t20-world-cup",
             },
-            { id: "2", title: "AFC Champions League", path: "/soccer/afc-champions-league" },
-            { id: "3", title: "Al Ahli v Al Ahli (UAE)", path: "/soccer/afc-champions-league/al-ahli-v-al-ahli-uae" },
-            { id: "4", title: "Al-Hilal v Al Wahda (Abu Dhabi)", path: "/soccer/afc-champions-league/al-hilal-v-al-wahda-abu-dhabi" },
-            { id: "5", title: "Alan Rubio v Tomic", path: "/tennis/metepec-challenger-2026/alan-rubio-v-tomic" },
-            { id: "6", title: "Albion FC v Cerro", path: "/soccer/uruguayan-primera-division/albion-fc-v-cerro" },
+            {
+                id: "2",
+                title: "AFC Champions League",
+                path: "/soccer/afc-champions-league",
+            },
+            {
+                id: "3",
+                title: "Al Ahli v Al Ahli (UAE)",
+                path: "/soccer/afc-champions-league/al-ahli-v-al-ahli-uae",
+            },
+            {
+                id: "4",
+                title: "Al-Hilal v Al Wahda (Abu Dhabi)",
+                path: "/soccer/afc-champions-league/al-hilal-v-al-wahda-abu-dhabi",
+            },
+            {
+                id: "5",
+                title: "Alan Rubio v Tomic",
+                path: "/tennis/metepec-challenger-2026/alan-rubio-v-tomic",
+            },
+            {
+                id: "6",
+                title: "Albion FC v Cerro",
+                path: "/soccer/uruguayan-primera-division/albion-fc-v-cerro",
+            },
+            {
+                id: "7",
+                title: "Albion FC v Cerro",
+                path: "/soccer/uruguayan-primera-division/albion-fc-v-cerro",
+            },
+            {
+                id: "8",
+                title: "Albion FC v Cerro",
+                path: "/soccer/uruguayan-primera-division/albion-fc-v-cerro",
+            },
+            {
+                id: "9",
+                title: "Albion FC v Cerro",
+                path: "/soccer/uruguayan-primera-division/albion-fc-v-cerro",
+            },
+            {
+                id: "10",
+                title: "Albion FC v Cerro",
+                path: "/soccer/uruguayan-primera-division/albion-fc-v-cerro",
+            },
         ],
         []
     );
@@ -52,34 +97,37 @@ export default function SearchModal() {
     const filtered = useMemo(() => {
         const q = query.trim().toLowerCase();
         if (!q) return data;
+
         return data.filter(
             (x) =>
                 x.title.toLowerCase().includes(q) ||
                 x.path.toLowerCase().includes(q)
         );
-    }, [data, query]);
+    }, [query, data]);
 
     return (
         <Dialog.Root open={isOpenSearch} onOpenChange={toggleSearch}>
             <Dialog.Portal>
+                {/* ---------- OVERLAY ---------- */}
                 <Dialog.Overlay className={styles.overlay} />
 
+                {/* ---------- CONTENT ---------- */}
                 <Dialog.Content
                     className={styles.content}
                     onOpenAutoFocus={(e) => e.preventDefault()}
-                    onInteractOutside={(e) => {
+                     onInteractOutside={(e) => {
                         e.preventDefault();
                     }}
                     onPointerDown={(e) => {
                         if (e.target === e.currentTarget) close();
-                    }}
+                    }} 
                 >
                     <div className={styles.paper}>
+                        {/* ---------- HEADER ---------- */}
                         <div className={styles.header}>
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 aria-hidden="true"
-                                role="img"
                                 viewBox="0 0 24 24"
                                 className={styles.searchIcon}
                             >
@@ -97,20 +145,25 @@ export default function SearchModal() {
                                 onChange={(e) => setQuery(e.target.value)}
                             />
 
-                            <button type="button" className={styles.esc} onClick={close}>
+                            <button
+                                type="button"
+                                className={styles.esc}
+                                onClick={close}
+                            >
                                 Esc
                             </button>
                         </div>
 
                         <div className={styles.divider} />
 
+                        {/* ---------- LIST ---------- */}
                         <div className={styles.list}>
                             {filtered.map((item) => (
                                 <div
                                     key={item.id}
                                     className={styles.item}
                                     tabIndex={0}
-                                    onClick={() => close()}
+                                    onClick={close}
                                     onKeyDown={(e) => {
                                         if (e.key === "Enter") close();
                                     }}

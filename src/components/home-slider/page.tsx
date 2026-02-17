@@ -73,7 +73,7 @@ export default function HomeSlider() {
           modules={[Autoplay, Navigation, Pagination]}
           loop
           autoplay={{ delay: 3000, disableOnInteraction: false }}
-          speed={1000}  
+          speed={800}  
           autoHeight={false}
         >
           {displaySliders.map((item, index) => (

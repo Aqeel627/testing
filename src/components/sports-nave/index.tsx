@@ -5,16 +5,18 @@ import styles from "./sportsPage.module.css";
 import { useAppStore } from "@/lib/store/store";
 import Icon from "@/icons/icons";
 
+type NavItem = { label: string; href: string; id: string };
+
 export default function SportsNave() {
-  const { menuList } = useAppStore();
+  const { menuList, setSelectedEventTypeId } = useAppStore();
+
   const [activeTab, setActiveTab] = useState("Cricket");
-  const [navItems, setNavItems] = useState<{ label: string; href: string }[]>([]);
+  const [navItems, setNavItems] = useState<NavItem[]>([]);
 
   const navData = ["cricket", "soccer", "tennis"];
   const [isMobile, setIsMobile] = useState(false);
 
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-
   const [showLeftArrow, setShowLeftArrow] = useState(false);
   const [showRightArrow, setShowRightArrow] = useState(true);
   const tabsListRef = useRef<HTMLDivElement>(null);
@@ -27,34 +29,35 @@ export default function SportsNave() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-
   useEffect(() => {
-    const eventsType = menuList?.eventTypes;
+    const eventsType = menuList?.eventTypes;  // ✅ eventsType is defined here inside useEffect
 
     if (!eventsType) {
       setNavItems([]);
       return;
     }
 
-    type NavItem = { label: string; href: string };
-
+    // ✅ newItems built here with id included
     const newItems: NavItem[] = eventsType
       .filter((item: any) => navData.includes(item?.eventType?.name?.toLowerCase()))
       .map((item: any) => ({
         label: item?.eventType?.name,
         href: `/game-list/${item?.eventType?.name}/${item?.eventType?.id}`,
+        id: item?.eventType?.id,   // ✅ id added
       }));
 
     setNavItems(newItems);
 
-    // ✅ Explicitly typed `item`
-    if (!newItems.some((item: NavItem) => item.label === activeTab)) {
-      const cricketTab = newItems.find((item: NavItem) => item.label.toLowerCase() === "cricket");
-      setActiveTab(cricketTab ? cricketTab.label : newItems[0]?.label);
+    // ✅ cricketTab defined here inside useEffect
+    const cricketTab = newItems.find((item: NavItem) => item.label.toLowerCase() === "cricket");
+    const defaultTab = cricketTab ?? newItems[0];
+
+    if (defaultTab) {
+      setActiveTab(defaultTab.label);
+      setSelectedEventTypeId(defaultTab.id);  // ✅ set default sport ID
     }
+
   }, [menuList]);
-
-
 
   const isActive = useCallback(
     (href: string) => {
@@ -63,7 +66,6 @@ export default function SportsNave() {
     },
     []
   );
-
 
   const checkArrowsVisibility = useCallback(() => {
     if (!scrollContainerRef.current) return;
@@ -75,7 +77,6 @@ export default function SportsNave() {
   const updateIndicator = useCallback(() => {
     if (!tabsListRef.current || !activeTab) return;
 
-    // Active button dhoondo
     const activeBtn = tabsListRef.current.querySelector(`button[data-tab="${activeTab}"]`) as HTMLElement;
 
     if (activeBtn) {
@@ -90,7 +91,7 @@ export default function SportsNave() {
       activeBtn.scrollIntoView({
         behavior: "smooth",
         inline: "center",
-        block: "nearest"
+        block: "nearest",
       });
     }
   }, [activeTab]);
@@ -122,49 +123,47 @@ export default function SportsNave() {
 
   return (
     <section>
-      <div
-        className={`${styles["tabs-root"]} border-[1.5px] border-dashed border-[rgba(145,158,171,0.2)]`}>
-        <div onClick={() => handleScrollClick("left")} className={`inline-flex items-center justify-center relative box-border [-webkit-tap-highlight-color:transparent] bg-transparent outline-none border-0 m-0 rounded-none p-0 cursor-pointer select-none align-middle appearance-none no-underline text-inherit font-sans w-10 shrink-0
-          ${showLeftArrow ? "opacity-80" : "opacity-0 pointer-events-none"}
-          `}>
+      <div className={`${styles["tabs-root"]} border-[1.5px] border-dashed border-[rgba(145,158,171,0.2)]`}>
+        <div
+          onClick={() => handleScrollClick("left")}
+          className={`inline-flex items-center justify-center relative box-border bg-transparent outline-none border-0 m-0 p-0 cursor-pointer select-none font-sans w-10 shrink-0 ${showLeftArrow ? "opacity-80" : "opacity-0 pointer-events-none"}`}
+        >
           <Icon name="leftArrow" className="w-5 h-5 text-white" />
         </div>
 
         <div
           ref={scrollContainerRef}
           onScroll={checkArrowsVisibility}
-          className={`${styles["tabs-scroller"]} overflow-x-auto overflow-y-hidden`}>
+          className={`${styles["tabs-scroller"]} overflow-x-auto overflow-y-hidden`}
+        >
           <div role="tablist" className={styles["tabs-list"]} ref={tabsListRef}>
             <div
-           className={`${styles["sliding-indicator"]} py-[14.5px] `}
-
+              className={`${styles["sliding-indicator"]} py-[14.5px]`}
               style={{
                 left: `${indicatorStyle.left}px`,
-                 top: `${indicatorStyle.top - 0.5}px`,
+                top: `${indicatorStyle.top - 0.5}px`,
                 width: `${indicatorStyle.width}px`,
                 height: `${indicatorStyle.height}px`,
                 opacity: indicatorStyle.opacity,
               }}
             />
+
             {navItems.map((item, idx) => (
               <button
                 key={idx}
                 role="tab"
                 data-tab={item.label}
                 aria-selected={activeTab === item.label}
-                className={`${styles["tab-btn"]} label: item?.eventType?.name?.capitalize(), ${activeTab === item.label ? styles.active : ""
-                  }`}
-                onClick={() => setActiveTab(item.label)}
+                className={`${styles["tab-btn"]} ${activeTab === item.label ? styles.active : ""}`}
+                onClick={() => {
+                  setActiveTab(item.label);
+                  setSelectedEventTypeId(item.id);  // ✅ set sport ID on click
+                }}
               >
                 {item.label}
 
-                {/* Tab icon placeholder (optional) */}
-                <span
-                  className={`${styles["tab-icon"]} ${styles[`icon-${item.label.toLowerCase().replace(/\s/g, "-")}`]
-                    }`}
-                />
+                <span className={`${styles["tab-icon"]} ${styles[`icon-${item.label.toLowerCase().replace(/\s/g, "-")}`]}`} />
 
-                {/* Active underline */}
                 {activeTab === item.label && (
                   <span className={styles["tab-indicator"]}></span>
                 )}
@@ -173,9 +172,10 @@ export default function SportsNave() {
           </div>
         </div>
 
-        <div onClick={() => handleScrollClick("right")} className={`inline-flex items-center justify-center relative box-border [-webkit-tap-highlight-color:transparent] bg-transparent outline-none border-0 m-0 rounded-none p-0 cursor-pointer select-none align-middle appearance-none no-underline text-inherit font-sans w-10 shrink-0
-          ${showRightArrow ? "opacity-80" : "opacity-0 pointer-events-none"}
-          `}>
+        <div
+          onClick={() => handleScrollClick("right")}
+          className={`inline-flex items-center justify-center relative box-border bg-transparent outline-none border-0 m-0 p-0 cursor-pointer select-none font-sans w-10 shrink-0 ${showRightArrow ? "opacity-80" : "opacity-0 pointer-events-none"}`}
+        >
           <Icon name="rightArrow" className="w-5 h-5 text-white" />
         </div>
       </div>
