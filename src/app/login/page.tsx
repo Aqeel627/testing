@@ -87,7 +87,7 @@ export default function LoginPage() {
 
         {/* RIGHT SIDE */}
         <div className="flex flex-col justify-center px-4 md:px-4 lg:px-4 text-white flex-1 basis-auto max-[900px]:pt-6 min-[900px]:py-20">
-          <div className="md:mx-auto md:w-md xl:w-105  max-[900px]:max-w-105 max-[900px]:mt-[1px]">
+          <div className="md:mx-auto md:w-md xl:w-105 max-w-105 max-[900px]:max-w-105 max-[900px]:mt-[1px]">
             <form className="space-y-5" onSubmit={handleSubmit} noValidate>
               {/* Heading */}
               <div className="flex flex-col mb-[41px] gap-3.5 max-[900px]:items-center">
@@ -106,10 +106,11 @@ export default function LoginPage() {
                 <div className="inline-flex   flex-col relative min-w-0 align-top w-full m-0 p-0 border-0 border-[initial]">
                   <label
                     htmlFor="username"
-                    className={`font-semibold text-base leading-normal font-normal  leading-[1.57143] block text-ellipsis absolute origin-[left_top] z-[1] select-none pointer-events-auto max-w-[calc(133%-32px)] translate-x-3.5 translate-y-[-9px] whitespace-nowrap overflow-hidden p-0 scale-75 left-0 top-0 ${usernameError
+                    className={`font-semibold text-base leading-normal font-normal  leading-[1.57143] block text-ellipsis absolute origin-[left_top] z-[1] select-none pointer-events-auto max-w-[calc(133%-32px)] translate-x-3.5 translate-y-[-9px] whitespace-nowrap overflow-hidden p-0 scale-75 left-0 top-0 ${
+                      usernameError
                         ? "text-(--palette-error-main)"
                         : "text-(--palette-text-secondary)"
-                      }`}
+                    }`}
                   >
                     Username
                     <span className=""> *</span>
@@ -131,10 +132,11 @@ export default function LoginPage() {
                       className="font-[inherit] placeholder:text-(--palette-text-primary) outline-0 leading-[inherit] tracking-[inherit] text-current box-content h-[1.4375em] block min-w-0 w-full max-[600px]:text-base text-[0.9375rem] m-0 px-3.5 py-[16.5px] border-0"
                     />
                     <fieldset
-                      className={`text-left absolute top-[-5px] pointer-events-none min-w-[0%] border overflow-hidden transition-[border-color] duration ease-in-out m-0 px-2 py-0 rounded-[inherit] border-solid bottom-0 inset-x-0 ${usernameError
+                      className={`text-left absolute top-[-5px] group-focus-within:border-2 pointer-events-none min-w-[0%] border overflow-hidden transition-[border-color] duration ease-in-out m-0 px-2 py-0 rounded-[inherit] border-solid bottom-0 inset-x-0 ${
+                        usernameError
                           ? "border-(--palette-error-main)"
                           : "border-[rgba(var(--palette-grey-500Channel)_/_20%)] group-hover:border-(--palette-text-primary) group-focus-within:border-(--palette-text-primary)"
-                        }`}
+                      }`}
                     >
                       <legend className="w-auto overflow-hidden block h-[11px] text-[14px] invisible whitespace-nowrap max-w-full transition-[max-width] duration-100 ease-out delay-[50ms] p-0">
                         <span>Username *</span>
@@ -154,10 +156,11 @@ export default function LoginPage() {
                 <div className="inline-flex   flex-col relative min-w-0 align-top w-full m-0 p-0 border-0 border-[initial]">
                   <label
                     htmlFor="password"
-                    className={`font-semibold text-base leading-normal font-normal  leading-[1.57143] block text-ellipsis absolute origin-[left_top] z-[1] select-none pointer-events-auto max-w-[calc(133%-32px)] translate-x-3.5 translate-y-[-9px] whitespace-nowrap overflow-hidden p-0 scale-75 left-0 top-0 ${passwordError
+                    className={`font-semibold text-base leading-normal font-normal  leading-[1.57143] block text-ellipsis absolute origin-[left_top] z-[1] select-none pointer-events-auto max-w-[calc(133%-32px)] translate-x-3.5 translate-y-[-9px] whitespace-nowrap overflow-hidden p-0 scale-75 left-0 top-0 ${
+                      passwordError
                         ? "text-(--palette-error-main)"
                         : "text-(--palette-text-secondary)"
-                      }`}
+                    }`}
                   >
                     Password
                     <span className=""> *</span>
@@ -181,6 +184,7 @@ export default function LoginPage() {
                     />
                     <button
                       type="button"
+                      onMouseDown={(e) => e.preventDefault()}
                       onClick={() => setShowPassword((prev) => !prev)}
                       className="absolute top-1/2  -translate-y-1/2 right-0.5 text-(--palette-action-active)  cursor-pointer p-2 hover:bg-[rgba(145,158,171,0.08)] rounded-full flex justify-center items-center"
                       aria-label={
@@ -232,10 +236,11 @@ export default function LoginPage() {
                       )}
                     </button>
                     <fieldset
-                      className={`text-left absolute top-[-5px] pointer-events-none min-w-[0%] border overflow-hidden transition-[border-color] duration ease-in-out m-0 px-2 py-0 rounded-[inherit] border-solid bottom-0 inset-x-0 ${passwordError
+                      className={`text-left absolute top-[-5px] pointer-events-none group-focus-within:border-2 min-w-[0%] border overflow-hidden transition-[border-color] duration ease-in-out m-0 px-2 py-0 rounded-[inherit] border-solid bottom-0 inset-x-0 ${
+                        passwordError
                           ? "border-(--palette-error-main)"
                           : "border-[rgba(var(--palette-grey-500Channel)_/_20%)] group-hover:border-(--palette-text-primary) group-focus-within:border-(--palette-text-primary)"
-                        }`}
+                      }`}
                     >
                       <legend className="w-auto overflow-hidden block h-[11px] text-[14px] invisible whitespace-nowrap max-w-full transition-[max-width] duration-100 ease-out delay-[50ms] p-0">
                         <span>Password *</span>
@@ -279,10 +284,11 @@ export default function LoginPage() {
                 <button
                   type="submit"
                   disabled={!hasFormValues || isSubmitting}
-                  className={`w-full rounded-lg relative p-[6px_12px] min-h-9 text-sm font-bold transition-all ${hasFormValues && !isSubmitting
+                  className={`w-full rounded-lg relative p-[6px_12px] min-h-9 text-sm font-bold transition-all ${
+                    hasFormValues && !isSubmitting
                       ? "bg-[#078DEE] text-white hover:shadow-(--customShadows-primary) cursor-pointer hover:bg-(--palette-primary-dark)"
                       : "bg-[rgba(145,158,171,0.24)] text-[rgba(145,158,171,0.8)] cursor-not-allowed"
-                    }`}
+                  }`}
                 >
                   {isSubmitting ? (
                     <>
