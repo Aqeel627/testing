@@ -39,7 +39,7 @@ export default function Home() {
       {!isMobile && (
         <div>
             <HomeSlider />
-          <div className="mb-[8px] mt-[10px]">
+          <div className="mb-[8px] mt-[10.5px]">
             <SportsNave />
           </div>
           <div className="mb-4">
