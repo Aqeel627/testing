@@ -38,7 +38,7 @@ export default function Footer() {
    return (
      <>
        <div className="mt-5">
-         <div className="w-full max-[900px]:rounded-t-[16px] rounded-t-xl bg-[#1C252E] text-white border  border-[rgba(145,158,171,0.2)]">
+         <div className="w-full max-[900px]:rounded-t-[16px] rounded-t-xl bg-(--palette-background-paper) text-(--palette-text-primary) border  border-[rgba(145,158,171,0.2)]">
            {/* TOP SECTION */}
            <div className="flex flex-col-reverse gap-4 min-[900px]:gap-18 px-4 pt-4 min-[900px]:px-[8px] min-[900px]:pt-[8px] min-[900px]:flex-row">
              {/* LEFT BLOCK */}
