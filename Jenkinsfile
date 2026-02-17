@@ -2,10 +2,13 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = "auexch-frontend"
+        DOCKER_APP_NAME = "auexch-frontend"
+        DOCKER_IMAGE = "universecode11/auexch-frontend"
+        CONTEXT_NAME = "btf-ireland"
         DOCKER_TAG = "latest"
-        DOCKER_REGISTRY = "registry.f7information.com:80"  // change to your registry
-        DOCKER_CREDENTIALS_ID = "docker-credentials" // Jenkins credentials ID
+        AWS_ACCOUNT_ID = '372777850584' // Replace with your AWS Account ID
+        AWS_DEFAULT_REGION = 'eu-west-1' // Replace with your AWS Region (e.g., us-east-1)
+        ECR_REGISTRY_URI = "${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com"
     }
 
     stages {
@@ -25,13 +28,14 @@ pipeline {
             }
         }
 
-        stage('Login to Registry') {
+        stage('Login to AWS ECR') {
             steps {
                 script {
-                    withCredentials([usernamePassword(credentialsId: "$DOCKER_CREDENTIALS_ID", passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
-                        sh "echo $DOCKER_PASSWORD | docker  login -u $DOCKER_USERNAME --password-stdin $DOCKER_REGISTRY"
-                    }
+                    sh """
+                        aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${ECR_REGISTRY_URI}
+                    """
                 }
+                
             }
         }
 
@@ -39,8 +43,8 @@ pipeline {
             steps {
                 script {
                     sh """
-                    docker tag $DOCKER_IMAGE:$DOCKER_TAG $DOCKER_REGISTRY/$DOCKER_IMAGE:$DOCKER_TAG
-                    docker push $DOCKER_REGISTRY/$DOCKER_IMAGE:$DOCKER_TAG
+                    docker tag $DOCKER_IMAGE:$DOCKER_TAG $ECR_REGISTRY_URI/$DOCKER_IMAGE:$DOCKER_TAG
+                    docker push $ECR_REGISTRY_URI/$DOCKER_IMAGE:$DOCKER_TAG
                     """
                 }
             }
@@ -50,9 +54,9 @@ pipeline {
             steps {
                 script {
                     sh """
-                    docker --context remote-webserver rm -f $DOCKER_IMAGE || true
-                    sleep 10
-                    docker --context remote-webserver run --pull=always -d --name $DOCKER_IMAGE -p 4001:3000 $DOCKER_REGISTRY/$DOCKER_IMAGE:$DOCKER_TAG
+                    docker --context $CONTEXT_NAME rm  $DOCKER_APP_NAME --force || true
+                    docker --context $CONTEXT_NAME  system prune -a -f
+                    docker --context $CONTEXT_NAME run --pull=always -d --name $DOCKER_APP_NAME -p 4000:3000 $ECR_REGISTRY_URI/$DOCKER_IMAGE:$DOCKER_TAG
                     """
                 }
             }
@@ -73,10 +77,9 @@ pipeline {
             steps {
                 script {
                     sh """
-                    rsync -u auexch-webclient.conf ubuntu@3.249.85.72:/var/www/frontend/nginx_config/
-                    ssh ubuntu@3.249.85.72 -T "sudo cp -rf  /var/www/frontend/nginx_config/auexch-webclient.conf /etc/nginx/conf.d/"
+                    rsync -u auexch-webclient.conf ubuntu@3.249.85.72:/var/www/html/conf/
+                    ssh ubuntu@3.249.85.72 -T "sudo cp -rf  /var/www/html/conf/auexch-webclient.conf /etc/nginx/conf.d/"
                     ssh ubuntu@3.249.85.72 -T  "sudo service nginx reload"
-                    ssh ubuntu@3.249.85.72 -T "sudo docker image prune -f"
                     
                     """
                 }
