@@ -3,7 +3,7 @@
 import { useEffect, useState, type FormEvent } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import Loader from "@/components/Loader/loader";
+import Loader from "@/components/common/loader/loader";
 
 export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(true);
@@ -54,13 +54,15 @@ export default function LoginPage() {
   return (
     <section className="">
       <div className="flex justify-between items-center px-4 min-[600]:px-6 h-12">
-        <Image
-          src="/brand_logo_dark.png"
-          alt="AuExch Logo"
-          width={152}
-          height={1000}
-          className="object-contain h-13 min-[600]:mx-2 mx-1"
-        />
+        <Link href="/">
+          <Image
+            src="/brand_logo_dark.png"
+            alt="AuExch Logo"
+            width={152}
+            height={1000}
+            className="object-contain h-13 min-[600]:mx-2 mx-1"
+          />
+        </Link>
         <Link href="/" className="text-sm font-semibold  hover:underline">
           Need help?
         </Link>
@@ -104,11 +106,10 @@ export default function LoginPage() {
                 <div className="inline-flex   flex-col relative min-w-0 align-top w-full m-0 p-0 border-0 border-[initial]">
                   <label
                     htmlFor="username"
-                    className={`font-semibold text-base leading-normal font-normal  leading-[1.57143] block text-ellipsis absolute origin-[left_top] z-[1] select-none pointer-events-auto max-w-[calc(133%-32px)] translate-x-3.5 translate-y-[-9px] whitespace-nowrap overflow-hidden p-0 scale-75 left-0 top-0 ${
-                      usernameError
+                    className={`font-semibold text-base leading-normal font-normal  leading-[1.57143] block text-ellipsis absolute origin-[left_top] z-[1] select-none pointer-events-auto max-w-[calc(133%-32px)] translate-x-3.5 translate-y-[-9px] whitespace-nowrap overflow-hidden p-0 scale-75 left-0 top-0 ${usernameError
                         ? "text-(--palette-error-main)"
                         : "text-(--palette-text-secondary)"
-                    }`}
+                      }`}
                   >
                     Username
                     <span className=""> *</span>
@@ -130,11 +131,10 @@ export default function LoginPage() {
                       className="font-[inherit] placeholder:text-(--palette-text-primary) outline-0 leading-[inherit] tracking-[inherit] text-current box-content h-[1.4375em] block min-w-0 w-full max-[600px]:text-base text-[0.9375rem] m-0 px-3.5 py-[16.5px] border-0"
                     />
                     <fieldset
-                      className={`text-left absolute top-[-5px] pointer-events-none min-w-[0%] border overflow-hidden transition-[border-color] duration ease-in-out m-0 px-2 py-0 rounded-[inherit] border-solid bottom-0 inset-x-0 ${
-                        usernameError
+                      className={`text-left absolute top-[-5px] pointer-events-none min-w-[0%] border overflow-hidden transition-[border-color] duration ease-in-out m-0 px-2 py-0 rounded-[inherit] border-solid bottom-0 inset-x-0 ${usernameError
                           ? "border-(--palette-error-main)"
                           : "border-[rgba(var(--palette-grey-500Channel)_/_20%)] group-hover:border-(--palette-text-primary) group-focus-within:border-(--palette-text-primary)"
-                      }`}
+                        }`}
                     >
                       <legend className="w-auto overflow-hidden block h-[11px] text-[14px] invisible whitespace-nowrap max-w-full transition-[max-width] duration-100 ease-out delay-[50ms] p-0">
                         <span>Username *</span>
@@ -154,11 +154,10 @@ export default function LoginPage() {
                 <div className="inline-flex   flex-col relative min-w-0 align-top w-full m-0 p-0 border-0 border-[initial]">
                   <label
                     htmlFor="password"
-                    className={`font-semibold text-base leading-normal font-normal  leading-[1.57143] block text-ellipsis absolute origin-[left_top] z-[1] select-none pointer-events-auto max-w-[calc(133%-32px)] translate-x-3.5 translate-y-[-9px] whitespace-nowrap overflow-hidden p-0 scale-75 left-0 top-0 ${
-                      passwordError
+                    className={`font-semibold text-base leading-normal font-normal  leading-[1.57143] block text-ellipsis absolute origin-[left_top] z-[1] select-none pointer-events-auto max-w-[calc(133%-32px)] translate-x-3.5 translate-y-[-9px] whitespace-nowrap overflow-hidden p-0 scale-75 left-0 top-0 ${passwordError
                         ? "text-(--palette-error-main)"
                         : "text-(--palette-text-secondary)"
-                    }`}
+                      }`}
                   >
                     Password
                     <span className=""> *</span>
@@ -233,11 +232,10 @@ export default function LoginPage() {
                       )}
                     </button>
                     <fieldset
-                      className={`text-left absolute top-[-5px] pointer-events-none min-w-[0%] border overflow-hidden transition-[border-color] duration ease-in-out m-0 px-2 py-0 rounded-[inherit] border-solid bottom-0 inset-x-0 ${
-                        passwordError
+                      className={`text-left absolute top-[-5px] pointer-events-none min-w-[0%] border overflow-hidden transition-[border-color] duration ease-in-out m-0 px-2 py-0 rounded-[inherit] border-solid bottom-0 inset-x-0 ${passwordError
                           ? "border-(--palette-error-main)"
                           : "border-[rgba(var(--palette-grey-500Channel)_/_20%)] group-hover:border-(--palette-text-primary) group-focus-within:border-(--palette-text-primary)"
-                      }`}
+                        }`}
                     >
                       <legend className="w-auto overflow-hidden block h-[11px] text-[14px] invisible whitespace-nowrap max-w-full transition-[max-width] duration-100 ease-out delay-[50ms] p-0">
                         <span>Password *</span>
@@ -281,11 +279,10 @@ export default function LoginPage() {
                 <button
                   type="submit"
                   disabled={!hasFormValues || isSubmitting}
-                  className={`w-full rounded-lg relative p-[6px_12px] min-h-9 text-sm font-bold transition-all ${
-                    hasFormValues && !isSubmitting
+                  className={`w-full rounded-lg relative p-[6px_12px] min-h-9 text-sm font-bold transition-all ${hasFormValues && !isSubmitting
                       ? "bg-[#078DEE] text-white hover:shadow-(--customShadows-primary) cursor-pointer hover:bg-(--palette-primary-dark)"
                       : "bg-[rgba(145,158,171,0.24)] text-[rgba(145,158,171,0.8)] cursor-not-allowed"
-                  }`}
+                    }`}
                 >
                   {isSubmitting ? (
                     <>
