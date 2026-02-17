@@ -7,6 +7,7 @@ import Loader from "@/components/Loader/loader";
 
 export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(true);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -22,13 +23,14 @@ export default function LoginPage() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
-    }, 2000);
+    }, 1000);
 
     return () => clearTimeout(timer);
   }, []);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    if (isSubmitting) return;
 
     setTouched({
       username: true,
@@ -39,7 +41,10 @@ export default function LoginPage() {
       return;
     }
 
-    // TODO: call login API action/store here
+    setIsSubmitting(true);
+    setTimeout(() => {
+      setIsSubmitting(false);
+    }, 1000);
   };
 
   if (isLoading) {
@@ -56,7 +61,9 @@ export default function LoginPage() {
           height={1000}
           className="object-contain h-13 min-[600]:mx-2 mx-1"
         />
-        <h1 className="text-sm font-bold">Need help?</h1>
+        <Link href="/" className="text-sm font-semibold  hover:underline">
+          Need help?
+        </Link>
       </div>
       <div className="flex flex-col max-[900]:pt-12 pb-4 min-[900]:flex-row w-full flex-1 basis-auto min-[900]:h-[calc(100vh-48px)]">
         {/* LEFT SIDE */}
@@ -246,27 +253,76 @@ export default function LoginPage() {
                     </div>
                   )}
                 </div>
+
+                {/* toast error */}
+
+                {/* <div className="text-(--palette-error-lighter) bg-(--palette-error-darker) shadow-(--Paper-shadow) bg-none font-normal text-sm leading-[1.57143] flex   px-4 py-1.5 rounded-lg">
+                  <div className="flex text-[22px] text-(--palette-error-light) opacity-100 mr-3 px-0 py-1.75">
+                    <svg
+                      className="select-none w-[1em] h-[1em] inline-block shrink-0 fill-current text-2xl transition-[fill] duration-300 ease-in-out"
+                      focusable="false"
+                      aria-hidden="true"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        fill="currentColor"
+                        fill-rule="evenodd"
+                        d="M7.843 3.802C9.872 2.601 10.886 2 12 2c1.114 0 2.128.6 4.157 1.802l.686.406c2.029 1.202 3.043 1.803 3.6 2.792c.557.99.557 2.19.557 4.594v.812c0 2.403 0 3.605-.557 4.594c-.557.99-1.571 1.59-3.6 2.791l-.686.407C14.128 21.399 13.114 22 12 22c-1.114 0-2.128-.6-4.157-1.802l-.686-.407c-2.029-1.2-3.043-1.802-3.6-2.791C3 16.01 3 14.81 3 12.406v-.812C3 9.19 3 7.989 3.557 7c.557-.99 1.571-1.59 3.6-2.792zM13 16a1 1 0 1 1-2 0a1 1 0 0 1 2 0m-1-9.75a.75.75 0 0 1 .75.75v6a.75.75 0 0 1-1.5 0V7a.75.75 0 0 1 .75-.75"
+                        clip-rule="evenodd"
+                      ></path>
+                    </svg>
+                  </div>
+                  <div className="min-w-0 overflow-auto px-0 py-2">
+                    detail: Invalid username or password
+                  </div>
+                </div> */}
+
                 {/* Login Button */}
                 <button
                   type="submit"
-                  disabled={!hasFormValues}
-                  className={`w-full rounded-lg p-[6px_12px] min-h-9 text-sm font-semibold transition-all ${
-                    hasFormValues
-                      ? "bg-[#078DEE] text-white"
+                  disabled={!hasFormValues || isSubmitting}
+                  className={`w-full rounded-lg relative p-[6px_12px] min-h-9 text-sm font-bold transition-all ${
+                    hasFormValues && !isSubmitting
+                      ? "bg-[#078DEE] text-white hover:shadow-(--customShadows-primary) cursor-pointer hover:bg-(--palette-primary-dark)"
                       : "bg-[rgba(145,158,171,0.24)] text-[rgba(145,158,171,0.8)] cursor-not-allowed"
                   }`}
                 >
-                  Login
+                  {isSubmitting ? (
+                    <>
+                      {
+                        <span className="contents">
+                          <span className="absolute visible flex -translate-2/4 text-(--palette-action-disabled) left-2/4 top-2/4">
+                            <span className="h-4 w-4 inline-block submitLoader">
+                              <svg
+                                className="block text-(--palette-action-disabled)"
+                                viewBox="22 22 44 44"
+                              >
+                                <circle
+                                  className="visible text-(--palette-action-disabled) circleAnimation"
+                                  cx="44"
+                                  cy="44"
+                                  r="20.2"
+                                  fill="none"
+                                  stroke-width="3.6"
+                                ></circle>
+                              </svg>
+                            </span>
+                          </span>
+                        </span>
+                      }
+                    </>
+                  ) : (
+                    "Login"
+                  )}
                 </button>
 
                 {/* Go to Home */}
-                <Link href="/">
-                  <button
-                    type="button"
-                    className="w-full rounded-[8px] font-bold text-[15px] py-3.5 h-[48px] inline-flex justify-center items-center bg-white text-[#212B36]"
-                  >
-                    Go to Home
-                  </button>
+                <Link
+                  href="/"
+                  className="w-full rounded-[8px] cursor-pointer shadow-(--customShadows-z8) hover:bg-(--palette-grey-400)
+  font-bold text-[15px] py-3.5 h-[48px] inline-flex justify-center items-center bg-white text-[#212B36]"
+                >
+                  Go to Home
                 </Link>
               </div>
             </form>
