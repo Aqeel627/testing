@@ -78,14 +78,6 @@ export default function Header({ onMenuClick }: HeaderProps) {
             <span className="relative top-[-0.5px]">Exchange</span>
           </Link>
 
-          <Link href="/live-casino" className="flex p-1 items-center text-[13px] text-white hover:text-white transition-colors group relative left-[2px] font-bold">
-            {/* Live Casino Icon */}
-            <span className=" group-hover:text-white transition-colors mr-[2px]">
-              <Icon name="casino" className="h-6 w-6" />
-            </span>
-            <span className="relative top-[-0.5px]">Casino</span>
-          </Link>
-
           <Link
             href="/casinos/q-tech/aviator"
             className="flex p-1 items-center text-[13px] font-medium text-white hover:text-white transition-colors relative left-[0.5px]"
@@ -115,7 +107,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
               <Icon name="slot" className="h-5 w-5" />
             </span>
             <span className="text-white font-bold relative top-[-0.5px]">
-              Fancty
+              Slot
             </span>
           </Link>
 
@@ -157,16 +149,6 @@ export default function Header({ onMenuClick }: HeaderProps) {
             <span className="relative !top-[-0.5px] ml-[0.3px]">Exchange</span>
           </Link>
 
-          <Link href="/live-casino" className="flex py-1 pr-[4px] pl-[0.5px] items-center text-[13px] font-medium text-white hover:text-white transition-colors group whitespace-nowrap relative left-[3px] font-bold">
-            {/* Live Casino Icon */}
-            <span className=" group-hover:text-white transition-colors mr-[1.8px] ">
-              <Icon name="casino" className="h-6 w-6" />
-            </span>
-            <span className="relative !top-[-0.5px] font-bold">
-              Casino
-            </span>
-          </Link>
-
           <Link
             href="/casinos/q-tech/aviator"
             className="flex py-1 pr-[4px] pl-[3.8px] items-center text-[13px] font-medium text-white hover:text-white transition-colors whitespace-nowrap"
@@ -196,7 +178,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
               <Icon name="slot" className="h-5 w-5" />
             </span>
             <span className="text-white font-bold relative !top-[-0.5px]">
-              Fancty
+              Slot
             </span>
           </Link>
 
@@ -212,7 +194,6 @@ export default function Header({ onMenuClick }: HeaderProps) {
               Live Casino
             </span>
           </Link>
-          
         </nav>
       </div>
     </header>
