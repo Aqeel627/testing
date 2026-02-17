@@ -44,7 +44,7 @@ export default function LoginPage() {
         />
         <h1 className="text-sm font-bold">Need help?</h1>
       </div>
-      <div className="flex flex-col max-[900]:pt-12 pb-4 min-[900]:flex-row w-full flex-1 basis-auto min-[900]:h-[calc(100vh-50px)]">
+      <div className="flex flex-col max-[900]:pt-12 pb-4 min-[900]:flex-row w-full flex-1 basis-auto min-[900]:h-[calc(100vh-48px)]">
         {/* LEFT SIDE */}
         <div
           className="hidden min-[900]:flex flex-col gap-16 justify-center items-center w-120 h-full px-6 pt-18 pb-6 bg-no-repeat bg-cover bg-center"
@@ -52,7 +52,7 @@ export default function LoginPage() {
             backgroundImage: `linear-gradient(0deg, rgba(20 26 33 / 92%), rgba(20 26 33 / 92%)), url('https://auexch.com/assets/background/background-3-blur.webp')`,
           }}
         >
-          <h2 className="text-[32px] font-semibold">Hi, Welcome back</h2>
+          <h2 className="text-[32px] font-bold">Hi, Welcome back</h2>
           <Image
             src="/brand_logo_dark.png"
             alt="AuExch Logo"
@@ -63,17 +63,17 @@ export default function LoginPage() {
         </div>
 
         {/* RIGHT SIDE */}
-        <div className="flex flex-col justify-center px-8 md:px-4 lg:px-4 text-white flex-1 basis-auto py-20">
-          <div className="mx-4 mt-12 md:mx-auto md:w-md xl:w-105">
+        <div className="flex flex-col justify-center px-4 md:px-4 lg:px-4 text-white flex-1 basis-auto max-[900px]:pt-6 min-[900px]:py-20">
+          <div className="md:mx-auto md:w-md xl:w-105  max-[900px]:max-w-105 max-[900px]:mt-[1px]">
             <form className="space-y-5" onSubmit={handleSubmit} noValidate>
               {/* Heading */}
-              <div className="flex flex-col mb-10 gap-3">
-                <h2 className="text-xl xl:text-[19px] font-semibold">
+              <div className="flex flex-col mb-[41px] gap-3.5 max-[900px]:items-center">
+                <h2 className="text-xl xl:text-[19px] font-bold max-[600px]:text-[18px] max-[900px]:text-[19px]">
                   Sign in to AuExch
                 </h2>
                 <p className="text-sm  text-white">
                   Don’t have an account?{" "}
-                  <Link href="/signup" className="">
+                  <Link href="/signup" className="font-semibold">
                     Get started
                   </Link>
                 </p>
@@ -83,7 +83,11 @@ export default function LoginPage() {
                 <div className="inline-flex   flex-col relative min-w-0 align-top w-full m-0 p-0 border-0 border-[initial]">
                   <label
                     htmlFor="username"
-                    className="font-semibold text-base leading-normal text-(--palette-text-secondary) font-normal  leading-[1.57143] block text-ellipsis absolute origin-[left_top] z-[1] select-none pointer-events-auto max-w-[calc(133%-32px)] translate-x-3.5 translate-y-[-9px] whitespace-nowrap overflow-hidden p-0 scale-75 left-0 top-0"
+                    className={`font-semibold text-base leading-normal font-normal  leading-[1.57143] block text-ellipsis absolute origin-[left_top] z-[1] select-none pointer-events-auto max-w-[calc(133%-32px)] translate-x-3.5 translate-y-[-9px] whitespace-nowrap overflow-hidden p-0 scale-75 left-0 top-0 ${
+                      usernameError
+                        ? "text-(--palette-error-main)"
+                        : "text-(--palette-text-secondary)"
+                    }`}
                   >
                     Username
                     <span className=""> *</span>
@@ -102,13 +106,13 @@ export default function LoginPage() {
                       aria-describedby={
                         usernameError ? "username-helper-text" : undefined
                       }
-                      className="font-[inherit] placeholder:text-(--palette-text-primary) outline-0 leading-[inherit] tracking-[inherit] text-current box-content h-[1.4375em] block min-w-0 w-full text-[0.9375rem] m-0 px-3.5 py-[16.5px] border-0"
+                      className="font-[inherit] placeholder:text-(--palette-text-primary) outline-0 leading-[inherit] tracking-[inherit] text-current box-content h-[1.4375em] block min-w-0 w-full max-[600px]:text-base text-[0.9375rem] m-0 px-3.5 py-[16.5px] border-0"
                     />
                     <fieldset
-                      className={`text-left absolute top-[-5px] pointer-events-none min-w-[0%] border overflow-hidden transition-[border-color] duration ease-in-out m-0 px-2 py-0 rounded-[inherit] border-solid bottom-0 inset-x-0 group-hover:border-(--palette-text-primary) group-focus-within:border-(--palette-text-primary) ${
+                      className={`text-left absolute top-[-5px] pointer-events-none min-w-[0%] border overflow-hidden transition-[border-color] duration ease-in-out m-0 px-2 py-0 rounded-[inherit] border-solid bottom-0 inset-x-0 ${
                         usernameError
                           ? "border-(--palette-error-main)"
-                          : "border-[rgba(var(--palette-grey-500Channel)_/_20%)]"
+                          : "border-[rgba(var(--palette-grey-500Channel)_/_20%)] group-hover:border-(--palette-text-primary) group-focus-within:border-(--palette-text-primary)"
                       }`}
                     >
                       <legend className="w-auto overflow-hidden block h-[11px] text-[14px] invisible whitespace-nowrap max-w-full transition-[max-width] duration-100 ease-out delay-[50ms] p-0">
@@ -129,7 +133,11 @@ export default function LoginPage() {
                 <div className="inline-flex   flex-col relative min-w-0 align-top w-full m-0 p-0 border-0 border-[initial]">
                   <label
                     htmlFor="password"
-                    className="font-semibold text-base leading-normal text-(--palette-text-secondary) font-normal  leading-[1.57143] block text-ellipsis absolute origin-[left_top] z-[1] select-none pointer-events-auto max-w-[calc(133%-32px)] translate-x-3.5 translate-y-[-9px] whitespace-nowrap overflow-hidden p-0 scale-75 left-0 top-0"
+                    className={`font-semibold text-base leading-normal font-normal  leading-[1.57143] block text-ellipsis absolute origin-[left_top] z-[1] select-none pointer-events-auto max-w-[calc(133%-32px)] translate-x-3.5 translate-y-[-9px] whitespace-nowrap overflow-hidden p-0 scale-75 left-0 top-0 ${
+                      passwordError
+                        ? "text-(--palette-error-main)"
+                        : "text-(--palette-text-secondary)"
+                    }`}
                   >
                     Password
                     <span className=""> *</span>
@@ -149,7 +157,7 @@ export default function LoginPage() {
                       aria-describedby={
                         passwordError ? "password-helper-text" : undefined
                       }
-                      className="font-[inherit] placeholder:text-(--palette-text-primary) outline-0 leading-[inherit] tracking-[inherit] text-current box-content h-[1.4375em] block min-w-0 w-full text-[0.9375rem] m-0 px-3.5 py-[16.5px] border-0"
+                      className="font-[inherit] max-[600px]:text-base placeholder:text-(--palette-text-primary) outline-0 leading-[inherit] tracking-[inherit] text-current box-content h-[1.4375em] block min-w-0 w-full text-[0.9375rem] m-0 px-3.5 py-[16.5px] border-0"
                     />
                     <button
                       type="button"
@@ -177,9 +185,9 @@ export default function LoginPage() {
                           ></path>
                           <path
                             fill="currentColor"
-                            fill-rule="evenodd"
+                            fillRule="evenodd"
                             d="M2 12c0 1.64.425 2.191 1.275 3.296C4.972 17.5 7.818 20 12 20s7.028-2.5 8.725-4.704C21.575 14.192 22 13.639 22 12c0-1.64-.425-2.191-1.275-3.296C19.028 6.5 16.182 4 12 4S4.972 6.5 3.275 8.704C2.425 9.81 2 10.361 2 12m10-3.75a3.75 3.75 0 1 0 0 7.5a3.75 3.75 0 0 0 0-7.5"
-                            clip-rule="evenodd"
+                            clipRule="evenodd"
                           ></path>
                         </svg>
                       ) : (
@@ -196,18 +204,18 @@ export default function LoginPage() {
                         >
                           <path
                             fill="currentColor"
-                            fill-rule="evenodd"
+                            fillRule="evenodd"
                             d="M1.606 6.08a1 1 0 0 1 1.313.526L2 7l.92-.394v-.001l.003.009l.021.045l.094.194c.086.172.219.424.4.729a13.4 13.4 0 0 0 1.67 2.237a12 12 0 0 0 .59.592C7.18 11.8 9.251 13 12 13a8.7 8.7 0 0 0 3.22-.602c1.227-.483 2.254-1.21 3.096-1.998a13 13 0 0 0 2.733-3.725l.027-.058l.005-.011a1 1 0 0 1 1.838.788L22 7l.92.394l-.003.005l-.004.008l-.011.026l-.04.087a14 14 0 0 1-.741 1.348a15.4 15.4 0 0 1-1.711 2.256l.797.797a1 1 0 0 1-1.414 1.415l-.84-.84a12 12 0 0 1-1.897 1.256l.782 1.202a1 1 0 1 1-1.676 1.091l-.986-1.514c-.679.208-1.404.355-2.176.424V16.5a1 1 0 0 1-2 0v-1.544c-.775-.07-1.5-.217-2.177-.425l-.985 1.514a1 1 0 0 1-1.676-1.09l.782-1.203c-.7-.37-1.332-.8-1.897-1.257l-.84.84a1 1 0 0 1-1.414-1.414l.797-.797a15.4 15.4 0 0 1-1.87-2.519a14 14 0 0 1-.591-1.107l-.033-.072l-.01-.021l-.002-.007l-.001-.002v-.001C1.08 7.395 1.08 7.394 2 7l-.919.395a1 1 0 0 1 .525-1.314"
-                            clip-rule="evenodd"
+                            clipRule="evenodd"
                           ></path>
                         </svg>
                       )}
                     </button>
                     <fieldset
-                      className={`text-left absolute top-[-5px] pointer-events-none min-w-[0%] border overflow-hidden transition-[border-color] duration ease-in-out m-0 px-2 py-0 rounded-[inherit] border-solid bottom-0 inset-x-0 group-hover:border-(--palette-text-primary) group-focus-within:border-(--palette-text-primary) ${
+                      className={`text-left absolute top-[-5px] pointer-events-none min-w-[0%] border overflow-hidden transition-[border-color] duration ease-in-out m-0 px-2 py-0 rounded-[inherit] border-solid bottom-0 inset-x-0 ${
                         passwordError
                           ? "border-(--palette-error-main)"
-                          : "border-[rgba(var(--palette-grey-500Channel)_/_20%)]"
+                          : "border-[rgba(var(--palette-grey-500Channel)_/_20%)] group-hover:border-(--palette-text-primary) group-focus-within:border-(--palette-text-primary)"
                       }`}
                     >
                       <legend className="w-auto overflow-hidden block h-[11px] text-[14px] invisible whitespace-nowrap max-w-full transition-[max-width] duration-100 ease-out delay-[50ms] p-0">
@@ -224,29 +232,29 @@ export default function LoginPage() {
                     </div>
                   )}
                 </div>
-              </div>
-              {/* Login Button */}
-              <button
-                type="submit"
-                disabled={!hasFormValues}
-                className={`w-full rounded-lg p-[6px_12px] min-h-9 text-sm font-semibold transition-all ${
-                  hasFormValues
-                    ? "bg-[#078DEE] text-white"
-                    : "bg-[rgba(145,158,171,0.24)] text-[rgba(145,158,171,0.8)] cursor-not-allowed"
-                }`}
-              >
-                Login
-              </button>
-
-              {/* Go to Home */}
-              <Link href="/">
+                {/* Login Button */}
                 <button
-                  type="button"
-                  className="w-full rounded-[8px] py-3 font-semibold bg-white text-[#212B36]"
+                  type="submit"
+                  disabled={!hasFormValues}
+                  className={`w-full rounded-lg p-[6px_12px] min-h-9 text-sm font-semibold transition-all ${
+                    hasFormValues
+                      ? "bg-[#078DEE] text-white"
+                      : "bg-[rgba(145,158,171,0.24)] text-[rgba(145,158,171,0.8)] cursor-not-allowed"
+                  }`}
                 >
-                  Go to Home
+                  Login
                 </button>
-              </Link>
+
+                {/* Go to Home */}
+                <Link href="/">
+                  <button
+                    type="button"
+                    className="w-full rounded-[8px] font-bold text-[15px] py-3.5 h-[48px] inline-flex justify-center items-center bg-white text-[#212B36]"
+                  >
+                    Go to Home
+                  </button>
+                </Link>
+              </div>
             </form>
           </div>
         </div>
