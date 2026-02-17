@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import Icon from "@/icons/icons";
 import Link from "next/link";
 
-export default function SingleaMarket() {
+export default function SingleMarket() {
   const { allEventsList, selectedEventTypeId } = useAppStore();
   const { selectedBet, setSelectedBet, clearSelectedBet } = useAppStore();
 
