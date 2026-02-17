@@ -10,6 +10,7 @@ import { Metadata } from "next";
 import SearchModal from "@/components/modal/search/SearchModal";
 import { AuExchThemeProvider } from "@/components/common/theme-provider";
 import NavigationLoader from "./navigation-loader";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "Auexch",
@@ -86,7 +87,8 @@ export default function RootLayout({
         <AuExchThemeProvider>
             {children}
             <SearchModal />
-        </AuExchThemeProvider>
+          </AuExchThemeProvider>
+        </Suspense>
       </body>
     </html>
   );

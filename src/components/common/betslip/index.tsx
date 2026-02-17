@@ -24,6 +24,7 @@ export default function BetSlipUI() {
 
   // ✅ Nothing shown by default
   if (!selectedBet) return null;
+const btnBg = selectedBet.type === "lay" ? "bg-[rgba(255,82,110,0.6)]" : "bg-[#098DEE]";
 
   const oddsColor = selectedBet.type === "back"
     ? "rgb(3, 178, 255)"
@@ -62,12 +63,12 @@ export default function BetSlipUI() {
             {/* Odds Input */}
             <div className="relative w-[150px]">
               <button type="button" onClick={decOdds}
-                className="absolute left-[1px] top-[1px] z-50 h-[30px] cursor-pointer rounded-l-[6px] bg-[#098DEE] pt-[1px]"
+  className={`absolute left-[1px] top-[1px] z-50 h-[30px] cursor-pointer rounded-l-[6px] pt-[1px] ${btnBg}`}
                 aria-label="Decrease odds">
                 <img src="/minus.svg" width={24} alt="" />
               </button>
               <button type="button" onClick={incOdds}
-                className="absolute right-[1px] top-[1px] z-50 h-[30px] cursor-pointer rounded-r-[6px] bg-[#098DEE] pt-[1px]"
+  className={`absolute right-[1px] top-[1px] z-50 h-[30px] cursor-pointer rounded-r-[6px] pt-[1px] ${btnBg}`}
                 aria-label="Increase odds">
                 <img src="/plus.svg" width={24} alt="" />
               </button>

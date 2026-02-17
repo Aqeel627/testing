@@ -99,8 +99,8 @@ export default function Header({ onMenuClick }: HeaderProps) {
             href="/casinos/q-tech/aviator"
             className="flex p-1 items-center text-[13px] font-medium --palette-text-primary  hover:--palette-text-primary  transition-colors relative left-[0.5px] rounded-lg  hover:bg-[rgba(145,158,171,0.08)] "
           >
-            <span className=" group-hover:--palette-text-primary  transition-colors mr-[2px]">
-              <Icon name="aviator" className="h-8 w-8" />
+            <span className=" group-hover:--palette-text-primary  transition-colors mr-[3px] inline-block">
+              <Icon name="sportbook" className="h-4 w-4" />
             </span>
             <span className="font-bold --palette-text-primary  relative top-[-0.5px]">
               Sportbook
@@ -111,8 +111,8 @@ export default function Header({ onMenuClick }: HeaderProps) {
             href="/slot"
             className="flex p-1 items-center justify-center text-[13px] font-bold --palette-text-primary  hover:--palette-text-primary  transition-colors w-[70px] relative left-[3px] rounded-lg  hover:bg-[rgba(145,158,171,0.08)] "
           >
-            <span className=" group-hover:--palette-text-primary  transition-colors mr-[2px]">
-              <Icon name="slot" className="h-5 w-5" />
+            <span className=" group-hover:--palette-text-primary  transition-colors mr-[3px] inline-block">
+              <Icon name="fancty" className="h-4 w-4" />
             </span>
             <span className="--palette-text-primary  font-bold relative top-[-0.5px]">
               Fancty
@@ -158,26 +158,26 @@ export default function Header({ onMenuClick }: HeaderProps) {
           </Link>
 
           <Link
-            href="/casinos/q-tech/aviator"
-            className="flex py-1 pr-[4px] pl-[3.8px] items-center text-[13px] font-medium --palette-text-primary  hover:--palette-text-primary  transition-colors whitespace-nowrap"
+            href="/slot"
+            className="flex py-1 pr-[4px] pl-[2.8px] items-center justify-center min-w-[70px] text-[13px] font-medium --palette-text-primary  hover:--palette-text-primary  transition-colors whitespace-nowrap relative !left-[4px]"
           >
-            <span className="mr-[2px] ">
-              <Icon name="aviator" className="h-8 w-8" />
+            <span className="mr-[3px] inline-block ">
+              <Icon name="fancty" className="h-5 w-5" />
             </span>
-            <span className="font-bold --palette-text-primary    relative !top-[-0.5px]">
-              Sportbook
+            <span className="--palette-text-primary  font-bold relative !top-[-0.5px]">
+              Fancty
             </span>
           </Link>
 
           <Link
-            href="/slot"
-            className="flex py-1 pr-[4px] pl-[2.8px] items-center justify-center min-w-[70px] text-[13px] font-medium --palette-text-primary  hover:--palette-text-primary  transition-colors whitespace-nowrap relative !left-[4px]"
+            href="/casinos/q-tech/aviator"
+            className="flex py-1 pr-[4px] pl-[3.8px] items-center text-[13px] font-medium --palette-text-primary  hover:--palette-text-primary  transition-colors whitespace-nowrap"
           >
-            <span className="mr-[2px] ">
-              <Icon name="slot" className="h-5 w-5" />
+            <span className="mr-[3px] inline-block">
+              <Icon name="sportbook" className="h-5 w-5" />
             </span>
-            <span className="--palette-text-primary  font-bold relative !top-[-0.5px]">
-              Fancty
+            <span className="font-bold --palette-text-primary    relative !top-[-0.5px]">
+              Sportbook
             </span>
           </Link>
         </nav>
