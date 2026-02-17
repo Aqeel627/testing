@@ -1,10 +1,12 @@
 @import "tailwindcss";
-@custom-variant dark (&:where(.dark, .dark *));
+/* @custom-variant dark (&:where(.dark, .dark *)); */
+@custom-variant dark (&:is(.dark *));
 
 :root {
   --background: #fff;
   --foreground: #171717;
   --palette-common-black: #000000;
+  --text-primary-hover:black;
   --palette-common-white: #ffffff;
   --palette-common-blackChannel: 0 0 0;
   --palette-common-whiteChannel: 255 255 255;
@@ -13,7 +15,7 @@
   --palette-common-backgroundChannel: 255 255 255;
   --palette-common-onBackgroundChannel: 0 0 0;
   --palette-primary-lighter: #ccf4fe;
-  --palette-primary-light: #68cdf9;
+  --palette-primary-light: #0351AB;
   --palette-primary-main: #078dee;
   --palette-primary-dark: #0351ab;
   --palette-primary-darker: #012972;
@@ -315,6 +317,8 @@
   --customShadows-success: 0 8px 16px 0 rgba(34 197 94 / 24%);
   --customShadows-warning: 0 8px 16px 0 rgba(255 171 0 / 24%);
   --customShadows-error: 0 8px 16px 0 rgba(255 86 48 / 24%);
+  --nav-item-root-active-bg: rgba(7 141 238 / 8%);
+  --nav-item-root-active-color: #078dee;
 }
 
 @theme inline {
@@ -333,8 +337,9 @@
 .dark {
   --background: #141a21;
   --foreground: #ededed;
+  --text-primary-hover:white;
   --palette-primary-lighter: #ccf4fe;
-  --palette-primary-light: #68cdf9;
+  --palette-primary-light: #68CDF9;
   --palette-primary-main: #078dee;
   --palette-primary-dark: #0351ab;
   --palette-primary-darker: #012972;
@@ -620,6 +625,8 @@
   --opacity-inputUnderline: 0.7;
   --opacity-switchTrackDisabled: 0.2;
   --opacity-switchTrack: 0.3;
+  --nav-item-root-active-bg: rgba(7 141 238 / 8%);
+  --nav-item-root-active-color: #68cdf9;
 }
 
 body {
