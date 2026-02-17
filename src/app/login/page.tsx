@@ -4,6 +4,8 @@ import { useEffect, useState, type FormEvent } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Loader from "@/components/common/loader/loader";
+import { cn } from "@/lib/utils";
+import style from "./style.module.css";
 
 export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(true);
@@ -186,12 +188,14 @@ export default function LoginPage() {
                       type="button"
                       onMouseDown={(e) => e.preventDefault()}
                       onClick={() => setShowPassword((prev) => !prev)}
-                      className="absolute top-1/2  -translate-y-1/2 right-0.5 text-(--palette-action-active)  cursor-pointer p-2 hover:bg-[rgba(145,158,171,0.08)] rounded-full flex justify-center items-center"
+                      className={cn(
+                        style.btn,
+                        "top-1/2  -translate-y-1/2 right-0.5 text-(--palette-action-active)  cursor-pointer p-2 hover:bg-[rgba(145,158,171,0.08)] rounded-full flex justify-center items-center",
+                      )}
                       aria-label={
                         showPassword ? "Hide password" : "Show password"
                       }
                     >
-                      <span className="absolute inset-0 rounded-lg bg-[rgba(145,158,171,0.08)] opacity-0 active:opacity-100 active:animate-ping"></span>
                       {showPassword ? (
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
