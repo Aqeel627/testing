@@ -10,6 +10,7 @@ export const useAppStore = create<any>((set) => ({
   menuList: null,
   exchangeNews: null,
   stakeValue:null,
+selectedEventTypeId:  null,
 
   setCasinoEvents: (data: any) => set({ casinoEvents: data }),
   setExchangeTypeList: (data: any) => set({ exchangeTypeList: data }),
@@ -17,6 +18,7 @@ export const useAppStore = create<any>((set) => ({
   setAllEventsList: (data: any) => set({ allEventsList: data }),
   setExchangeNews: (data: any) => set({ exchangeNews: data }),
   setStakeValue: (data: any) => set({ stakeValue: data }),
+setSelectedEventTypeId: (id: string) => set({ selectedEventTypeId: id }),  // ✅ CORRECT
 
   // auth setter
   setUserBalance: (value: any) => set({ userBalance: value }),
