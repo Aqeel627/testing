@@ -8,7 +8,6 @@ import SingleaMarket from "@/components/single-market/page";
 import HomeSlider from "@/components/home-slider/page";
 import SportsNave from "@/components/sports-nave";
 
-
 export default function Home() {
   const [isMobile, setIsMobile] = useState(false);
 
@@ -29,7 +28,7 @@ export default function Home() {
             <SportsNave />
           </div>
           <div className="mb-4">
-          <SingleaMarket />
+            <SingleaMarket />
           </div>
           <Casino />
         </div>
