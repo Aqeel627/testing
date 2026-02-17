@@ -1,6 +1,7 @@
 @import "tailwindcss";
 /* @custom-variant dark (&:where(.dark, .dark *)); */
 @custom-variant dark (&:is(.dark *));
+@import "nprogress/nprogress.css";
 
 :root {
   --background: #fff;
@@ -818,4 +819,12 @@ body {
     stroke-dasharray: 1px, 200px;
     stroke-dashoffset: -126px;
   }
+}
+
+#nprogress .bar {
+  background: rgb(7, 141, 238);
+  height: 3px;
+}
+#nprogress .peg {
+  box-shadow: 0 0 10px rgb(7, 141, 238), 0 0 5px rgb(7, 141, 238);
 }
