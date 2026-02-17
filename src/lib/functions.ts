@@ -18,6 +18,11 @@ export function splitMsg(text: any) {
   };
 }
 
+export function capitalize(str: string) {
+  if (!str) return "";
+  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+}
+
 /* ---------------------------------- */
 /* GENERIC FETCH DATA */
 /* ---------------------------------- */
@@ -38,7 +43,7 @@ export async function fetchData({
   showToast?: (
     status: "error" | "info" | "success" | "warning",
     title: string,
-    desc: string
+    desc: string,
   ) => void;
   headers?: Record<string, string>;
   expireIn?: number;
@@ -77,8 +82,7 @@ export async function fetchData({
 
     /* ------------ TOAST ------------ */
     if (showToast) {
-      const message =
-        response?.data?.meta?.message || response?.meta?.message;
+      const message = response?.data?.meta?.message || response?.meta?.message;
 
       if (typeof message === "string") {
         const msg = splitMsg(message);
@@ -99,7 +103,7 @@ export async function fetchData({
       showToast(
         "error",
         "Failed",
-        error?.response?.data?.meta?.message || "Unauthorized / API Error"
+        error?.response?.data?.meta?.message || "Unauthorized / API Error",
       );
     }
   }
@@ -137,9 +141,8 @@ export async function loginRequest({
     });
 
     const encryptedResponse = await response.text();
-    const result: any = await CryptoService.decryptApiResponse(
-      encryptedResponse
-    );
+    const result: any =
+      await CryptoService.decryptApiResponse(encryptedResponse);
 
     if (result?.meta?.status_code === 200) {
       if (typeof window !== "undefined") {
@@ -147,7 +150,7 @@ export async function loginRequest({
         localStorage.setItem("intCasino", result.data.intCasino);
         localStorage.setItem(
           "userDetail",
-          JSON.stringify(result.data.userDetail)
+          JSON.stringify(result.data.userDetail),
         );
         localStorage.setItem("newLogin", "true");
       }

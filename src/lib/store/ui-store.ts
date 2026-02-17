@@ -5,7 +5,7 @@ type AppState = {
   toggleSearch: (open: boolean) => void;
 };
 
-export const useAppStore = create<AppState>((set) => ({
+export const useUIStore = create<AppState>((set) => ({
   isOpenSearch: false,
   toggleSearch: (open) => set({ isOpenSearch: open }),
 }));
