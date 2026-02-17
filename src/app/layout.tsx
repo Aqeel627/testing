@@ -83,8 +83,9 @@ export default function RootLayout({
         }}
         cz-shortcut-listen="true"
       >
-       <NavigationLoader />
-        <AuExchThemeProvider>
+        <Suspense>
+          <NavigationLoader />
+          <AuExchThemeProvider>
             {children}
             <SearchModal />
           </AuExchThemeProvider>
