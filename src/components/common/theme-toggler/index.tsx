@@ -15,11 +15,11 @@ export function ThemeToggle() {
   if (!mounted) return null;
 
   return (
-    <button
-      onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-      className="text-gray-400 hover:text-white hidden min-[600]:flex transition-colors p-1 cursor-pointer"
-      aria-label="Toggle color scheme"
-    >
+   <button
+  onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+  className="dark:text-gray-400 --palette-text-primary hidden min-[600px]:flex transition-colors p-1 cursor-pointer rounded-full hover:scale-[1.04] hover:bg-[rgba(145,158,171,0.08)]"
+  aria-label="Toggle color scheme"
+>
       <Icon
         name={theme === "dark" ? "moon" : "sun"}
         className="w-6 h-6 transition-transform"

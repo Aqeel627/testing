@@ -3,8 +3,12 @@ import { useAppStore } from "@/lib/store/store";
 import { useEffect } from "react";
 import Icon from "@/icons/icons";
 
+
+
 export default function SingleaMarket() {
   const { allEventsList, selectedEventTypeId } = useAppStore();
+  const { selectedBet, setSelectedBet, clearSelectedBet } = useAppStore();
+
 
   useEffect(() => {
     console.log(allEventsList, "events all");
@@ -26,16 +30,14 @@ export default function SingleaMarket() {
         const hasThreeRunners = event.runners?.length === 3;
         const isCricket = event.eventType?.name?.toLowerCase() === "cricket";
 
-        // ✅ RIGHT is always runner1 (Team 2), CENTER is always runner2 (Draw)
         const rightRunner = runner1;
         const rightRunnerName = event.runnersName?.[1]?.runnerName;
 
         return (
           <li
             key={event.marketId}
-            className="w-full rounded-[2px] border border-dashed border-[rgba(145,158,171,0.16)] bg-[rgba(145,158,171,0.04)] text-white overflow-hidden mb-2"
+            className="w-full rounded-[2px] border border-dashed border-[rgba(145,158,171,0.16)] bg-[rgba(145,158,171,0.04)] text-white overflow-hidden mb-[6px]"
           >
-            {/* MAIN ROW */}
             <div className="flex w-full flex-col min-[691px]:flex-row min-[1200px]:flex-col min-[1376px]:flex-row">
 
               {/* LEFT CONTENT – 60% */}
@@ -52,10 +54,10 @@ export default function SingleaMarket() {
                   </a>
                 </div>
 
-                {/* Runner Names — always show Team1 and Team2, never Draw */}
+                {/* Runner Names */}
                 <a href={`/event/${event.event?.id}`} className="flex flex-col w-full min-w-0 flex-auto no-underline">
 
-                  {/* Team 1 — runners[0] */}
+                  {/* Team 1 */}
                   <div className="flex flex-row gap-1.5 overflow-hidden justify-between items-center">
                     <div className="flex flex-row gap-1.5 items-center">
                       <p className="m-0 font-sans truncate text-[14px] font-bold leading-[1.3rem]">
@@ -67,7 +69,7 @@ export default function SingleaMarket() {
                     </div>
                   </div>
 
-                  {/* Team 2 — runners[1] always, with score badge */}
+                  {/* Team 2 */}
                   <div className="flex flex-row gap-1.5 overflow-hidden justify-between items-center">
                     <div className="flex flex-row gap-1.5 items-center">
                       <p className="m-0 font-sans truncate text-[14px] font-bold leading-[1.3rem]">
@@ -139,13 +141,22 @@ export default function SingleaMarket() {
               {/* RIGHT ODDS – 40% */}
               <div className="flex flex-row gap-2 items-center whitespace-nowrap min-[1376px]:flex-[1_0_20rem] relative w-full min-[691px]:w-[40%] min-[1200px]:w-[100%] min-[1376px]:max-w-[40%] leading-[1.125rem] text-xs p-[5px] overflow-hidden">
 
-                {/* LEFT — Team 1 odds (runners[0]) */}
+                {/* LEFT — Team 1 odds */}
                 <div className="flex flex-col gap-0.5 w-[33.3%]">
                   <span className="block h-[1.125rem] text-center truncate overflow-hidden">
                     {event.runnersName?.[0]?.runnerName}
                   </span>
                   <div className="flex gap-1">
-                    <div className="bg-[rgba(0,178,255,0.7)] w-[50%] rounded-[2px] text-center h-[35px] relative pt-0.5 text-black cursor-pointer select-none">
+                    <div
+                      className="bg-[rgba(0,178,255,0.7)] w-[50%] rounded-[2px] text-center h-[35px] relative pt-0.5 text-black cursor-pointer select-none"
+                      onClick={() => setSelectedBet({
+                        type: "back",
+                        odds: runner0?.ex?.availableToBack?.[0]?.price,
+                        teamName: event.runnersName?.[0]?.runnerName,
+                        eventName: event.event?.name,
+                        marketType: event.marketType,
+                      })}
+                    >
                       <span className="block whitespace-nowrap font-semibold text-[0.8rem] text-center">
                         {runner0?.ex?.availableToBack?.[0]?.price ?? "-"}
                       </span>
@@ -153,7 +164,16 @@ export default function SingleaMarket() {
                         {runner0?.ex?.availableToBack?.[0]?.size ?? ""}
                       </span>
                     </div>
-                    <div className="bg-[rgba(255,122,127,0.7)] w-[50%] rounded-[2px] text-center h-[35px] relative pt-0.5 text-black cursor-pointer select-none">
+                    <div
+                      className="bg-[rgba(255,122,127,0.7)] w-[50%] rounded-[2px] text-center h-[35px] relative pt-0.5 text-black cursor-pointer select-none"
+                      onClick={() => setSelectedBet({
+                        type: "lay",
+                        odds: runner0?.ex?.availableToLay?.[0]?.price,
+                        teamName: event.runnersName?.[0]?.runnerName,
+                        eventName: event.event?.name,
+                        marketType: event.marketType,
+                      })}
+                    >
                       <span className="block whitespace-nowrap font-semibold text-[0.8rem] text-center">
                         {runner0?.ex?.availableToLay?.[0]?.price ?? "-"}
                       </span>
@@ -164,13 +184,22 @@ export default function SingleaMarket() {
                   </div>
                 </div>
 
-                {/* CENTER — Draw odds (runners[2]) or disabled */}
+                {/* CENTER — Draw or disabled */}
                 <div className="flex flex-col gap-0.5 w-[33.3%]">
                   <span className="block h-[1.125rem] text-center truncate overflow-hidden">
                     {hasThreeRunners ? event.runnersName?.[2]?.runnerName : ""}
                   </span>
                   <div className="flex gap-1">
-                    <div className={`${hasThreeRunners ? "bg-[rgba(0,178,255,0.7)]" : "bg-[rgba(0,178,255,0.25)]"} w-[50%] rounded-[2px] text-center h-[35px] relative pt-0.5 text-black cursor-pointer select-none`}>
+                    <div
+                      className={`${hasThreeRunners ? "bg-[rgba(0,178,255,0.7)]" : "bg-[rgba(0,178,255,0.25)]"} w-[50%] rounded-[2px] text-center h-[35px] relative pt-0.5 text-black cursor-pointer select-none`}
+                      onClick={() => hasThreeRunners && setSelectedBet({
+                        type: "back",
+                        odds: runner2?.ex?.availableToBack?.[0]?.price,
+                        teamName: event.runnersName?.[2]?.runnerName,
+                        eventName: event.event?.name,
+                        marketType: event.marketType,
+                      })}
+                    >
                       <span className="block whitespace-nowrap font-semibold text-[0.8rem] text-center">
                         {hasThreeRunners ? runner2?.ex?.availableToBack?.[0]?.price ?? "-" : ""}
                       </span>
@@ -178,7 +207,16 @@ export default function SingleaMarket() {
                         {hasThreeRunners ? runner2?.ex?.availableToBack?.[0]?.size ?? "" : ""}
                       </span>
                     </div>
-                    <div className={`${hasThreeRunners ? "bg-[rgba(255,122,127,0.7)]" : "bg-[rgba(255,122,127,0.25)]"} w-[50%] rounded-[2px] text-center h-[35px] relative pt-0.5 text-black cursor-pointer select-none`}>
+                    <div
+                      className={`${hasThreeRunners ? "bg-[rgba(255,122,127,0.7)]" : "bg-[rgba(255,122,127,0.25)]"} w-[50%] rounded-[2px] text-center h-[35px] relative pt-0.5 text-black cursor-pointer select-none`}
+                      onClick={() => hasThreeRunners && setSelectedBet({
+                        type: "lay",
+                        odds: runner2?.ex?.availableToLay?.[0]?.price,
+                        teamName: event.runnersName?.[2]?.runnerName,
+                        eventName: event.event?.name,
+                        marketType: event.marketType,
+                      })}
+                    >
                       <span className="block whitespace-nowrap font-semibold text-[0.8rem] text-center">
                         {hasThreeRunners ? runner2?.ex?.availableToLay?.[0]?.price ?? "-" : ""}
                       </span>
@@ -189,13 +227,22 @@ export default function SingleaMarket() {
                   </div>
                 </div>
 
-                {/* RIGHT — Team 2 odds (runners[1]) */}
+                {/* RIGHT — Team 2 odds */}
                 <div className="flex flex-col gap-0.5 w-[33.3%]">
                   <span className="block h-[1.125rem] text-center truncate overflow-hidden">
                     {rightRunnerName}
                   </span>
                   <div className="flex gap-1">
-                    <div className="bg-[rgba(0,178,255,0.7)] w-[50%] rounded-[2px] text-center h-[35px] relative pt-0.5 text-black cursor-pointer select-none">
+                    <div
+                      className="bg-[rgba(0,178,255,0.7)] w-[50%] rounded-[2px] text-center h-[35px] relative pt-0.5 text-black cursor-pointer select-none"
+                      onClick={() => setSelectedBet({
+                        type: "back",
+                        odds: rightRunner?.ex?.availableToBack?.[0]?.price,
+                        teamName: rightRunnerName,
+                        eventName: event.event?.name,
+                        marketType: event.marketType,
+                      })}
+                    >
                       <span className="block whitespace-nowrap font-semibold text-[0.8rem] text-center">
                         {rightRunner?.ex?.availableToBack?.[0]?.price ?? "-"}
                       </span>
@@ -203,7 +250,16 @@ export default function SingleaMarket() {
                         {rightRunner?.ex?.availableToBack?.[0]?.size ?? ""}
                       </span>
                     </div>
-                    <div className="bg-[rgba(255,122,127,0.7)] w-[50%] rounded-[2px] text-center h-[35px] relative pt-0.5 text-black cursor-pointer select-none">
+                    <div
+                      className="bg-[rgba(255,122,127,0.7)] w-[50%] rounded-[2px] text-center h-[35px] relative pt-0.5 text-black cursor-pointer select-none"
+                      onClick={() => setSelectedBet({
+                        type: "lay",
+                        odds: rightRunner?.ex?.availableToLay?.[0]?.price,
+                        teamName: rightRunnerName,
+                        eventName: event.event?.name,
+                        marketType: event.marketType,
+                      })}
+                    >
                       <span className="block whitespace-nowrap font-semibold text-[0.8rem] text-center">
                         {rightRunner?.ex?.availableToLay?.[0]?.price ?? "-"}
                       </span>
@@ -220,16 +276,6 @@ export default function SingleaMarket() {
         );
       })}
     </ul>
-  );
-}
-/* ================== BUTTON COMPONENTS ================== */
-
-function OddsBack({ price, size }: any) {
-  return (
-    <button className="h-[34px] rounded bg-[rgba(0,178,255,0.7)] text-black hover:bg-[rgb(0,178,255)]">
-      <div className="text-sm font-semibold leading-none">{price}</div>
-      <div className="text-[10px] leading-none">{size}</div>
-    </button>
   );
 }
 

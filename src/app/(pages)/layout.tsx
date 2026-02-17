@@ -59,6 +59,15 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
 
   const pathname = usePathname();
   const { checkLogin, isLoggedIn } = useAuthStore();
+
+  const handleAllEvents = (data: any) => {
+    setAllEventsList(data); // pehla kaam
+    console.log("Events Set",data);
+
+    // doosra function
+    const formatted = useAppStore.getState().getFormattedInplayEvents?.();
+    console.log("Formatted:", formatted);
+  };
   // API Calls
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -68,7 +77,7 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
       url: CONFIG.getAllEventsList,
       payload: { key: CONFIG.siteKey },
       cachedKey: "allEventsList",
-      setFn: setAllEventsList,
+      setFn: handleAllEvents,
       expireIn: CONFIG.getAllEventsListTime,
     });
 
@@ -245,7 +254,7 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
 
         {/* MAIN (resizable width) */}
         <main
-          className="h-full overflow-y-auto no-scrollbar min-w-[450px] ps-3 pe-2 mt-[10px]"
+          className="h-full overflow-y-auto no-scrollbar min-w-[450px] ps-3 pe-[6px] mt-[10px]"
           style={
             mainWidth
               ? { width: `${mainWidth}px`, flex: `0 0 ${mainWidth}px` }
@@ -257,7 +266,7 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
         </main>
 
         {/* DIVIDER (keep exact design) */}
-        <div className="w-[0.279%] bg-[rgba(145,158,171,0.2)] --palette-text-primary ml-[3px] relative top-[-15px]">
+        <div className="w-[0.279%] bg-[rgba(145,158,171,0.2)] --palette-text-primary ml-[6.5px] relative">
           <svg
             onPointerDown={startDrag}
             onPointerMove={onDrag}
