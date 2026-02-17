@@ -689,6 +689,8 @@ body {
   align-items: center;
   justify-content: center;
   z-index: 20;
+  background-color: transparent;
+  backdrop-filter: blur(20px);
 }
 
 .announcement-svg {
@@ -825,15 +827,18 @@ body {
   height: 3px;
 }
 #nprogress .peg {
-  box-shadow: 0 0 10px #3aa0ff, 0 0 5px #3aa0ff;
+  box-shadow:
+    0 0 10px #3aa0ff,
+    0 0 5px #3aa0ff;
 }
 
 .css-4uzy5s {
-    background-size: 50%, 50%;
-    background-repeat: no-repeat;
-    backdrop-filter: blur(20px);
-    background-color: rgba(var(--palette-background-paperChannel) / 90%);
-    box-shadow: var(--customShadows-dropdown);
-    background-position: right top, left bottom;
-    
+  background-size: 50%, 50%;
+  background-repeat: no-repeat;
+  backdrop-filter: blur(20px);
+  background-color: rgba(var(--palette-background-paperChannel) / 90%);
+  box-shadow: var(--customShadows-dropdown);
+  background-position:
+    right top,
+    left bottom;
 }
