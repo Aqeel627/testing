@@ -297,7 +297,7 @@ export default function Sidebar({ config }: SidebarProps) {
       {
         label: "Inplay",
         href: "/inplay/all",
-        count: 34,
+        count: 22,
         icon: "inplay",
       },
       {

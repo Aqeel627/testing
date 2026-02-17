@@ -282,7 +282,7 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
             width="1em"
             height="1em"
             viewBox="0 0 24 24"
-            className="absolute translate-[-50%] left-1/2 top-1/2 h-5 w-5"
+            className="absolute translate-[-50%] left-[60%]  top-[44.1%] h-5 w-5"
           >
             <path
               fill="currentColor"
