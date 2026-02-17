@@ -100,7 +100,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
             className="flex p-1 items-center text-[13px] font-medium --palette-text-primary  hover:--palette-text-primary  transition-colors relative left-[0.5px] rounded-lg  hover:bg-[rgba(145,158,171,0.08)] "
           >
             <span className=" group-hover:--palette-text-primary  transition-colors mr-[2px]">
-              <Icon name="aviator" className="h-8 w-8" />
+              <Icon name="sportbook" className="h-4 w-4" />
             </span>
             <span className="font-bold --palette-text-primary  relative top-[-0.5px]">
               Sportbook
@@ -112,7 +112,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
             className="flex p-1 items-center justify-center text-[13px] font-bold --palette-text-primary  hover:--palette-text-primary  transition-colors w-[70px] relative left-[3px] rounded-lg  hover:bg-[rgba(145,158,171,0.08)] "
           >
             <span className=" group-hover:--palette-text-primary  transition-colors mr-[2px]">
-              <Icon name="slot" className="h-5 w-5" />
+              <Icon name="fancty" className="h-4 w-4" />
             </span>
             <span className="--palette-text-primary  font-bold relative top-[-0.5px]">
               Fancty
