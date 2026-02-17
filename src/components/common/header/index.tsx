@@ -12,7 +12,6 @@ import { useAuthStore } from "@/lib/store/authStore";
 import { ThemeToggle } from "../theme-toggler";
 import { useTheme } from "next-themes";
 
-
 type HeaderProps = {
   onMenuClick?: () => void;
 };
@@ -24,7 +23,6 @@ export default function Header({ onMenuClick }: HeaderProps) {
   const { userBalance, setUserBalance } = useAppStore();
   const { isLoggedIn } = useAuthStore();
   const { resolvedTheme } = useTheme();
-
 
   //   useEffect(() => {
   //   console.log("isLoggedIn:", isLoggedIn);
@@ -53,7 +51,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
           <button
             type="button"
             onClick={onMenuClick}
-            className="text-gray-400 hover:--palette-text-primary  transition-colors p-1 cursor-pointer"
+            className="text-[#637381]  dark:text-gray-400  transition-colors p-1 cursor-pointer rounded-full hover:scale-[1.04] hover:bg-[rgba(145,158,171,0.08)]"
             aria-label="Toggle sidebar"
           >
             <Icon name="logo" className="h-6 w-6" />
@@ -63,7 +61,11 @@ export default function Header({ onMenuClick }: HeaderProps) {
             className="font-[inherit]  no-underline shrink-0 text-transparent inline-flex h-[44px] w-[152px] cursor-pointer"
           >
             <Image
-src={resolvedTheme === "light" ? "/brand_logo_light.png" : "/brand_logo_dark.png"}
+              src={
+                resolvedTheme === "light"
+                  ? "/brand_logo_light.png"
+                  : "/brand_logo_dark.png"
+              }
               alt="AuExch Logo"
               fill
               className="object-contain relative! mx-1 "
@@ -74,9 +76,9 @@ src={resolvedTheme === "light" ? "/brand_logo_light.png" : "/brand_logo_dark.png
         <nav className="hidden min-[960px]:flex items-center gap-2 font-bold --palette-text-primary  relative left-[3px]">
           <Link
             href="/"
-            className="flex p-1 items-center text-[13px] font-bold --palette-text-primary  hover:--palette-text-primary  transition-colors group"
+            className="flex p-1 items-center text-[13px] font-bold --palette-text-primary  hover:--palette-text-primary  transition-colors group rounded-lg  hover:bg-[rgba(145,158,171,0.08)] "
           >
-            <span className=" group-hover:--palette-text-primary  transition-colors mr-[2px]">
+            <span className=" group-hover:--palette-text-primary  transition-colors mr-[2px] ">
               <Icon name="exchange" className="h-6 w-6" />
             </span>
             <span className="relative top-[-0.5px]">Exchange</span>
@@ -84,7 +86,7 @@ src={resolvedTheme === "light" ? "/brand_logo_light.png" : "/brand_logo_dark.png
 
           <Link
             href="/live-casino"
-            className="flex p-1 items-center text-[13px] --palette-text-primary  hover:--palette-text-primary  transition-colors group relative left-[2px] font-bold"
+            className="flex p-1 items-center text-[13px] --palette-text-primary  hover:--palette-text-primary  transition-colors group relative left-[2px] font-bold rounded-lg  hover:bg-[rgba(145,158,171,0.08)] "
           >
             {/* Live Casino Icon */}
             <span className=" group-hover:--palette-text-primary  transition-colors mr-[2px]">
@@ -95,7 +97,7 @@ src={resolvedTheme === "light" ? "/brand_logo_light.png" : "/brand_logo_dark.png
 
           <Link
             href="/casinos/q-tech/aviator"
-            className="flex p-1 items-center text-[13px] font-medium --palette-text-primary  hover:--palette-text-primary  transition-colors relative left-[0.5px]"
+            className="flex p-1 items-center text-[13px] font-medium --palette-text-primary  hover:--palette-text-primary  transition-colors relative left-[0.5px] rounded-lg  hover:bg-[rgba(145,158,171,0.08)] "
           >
             <span className=" group-hover:--palette-text-primary  transition-colors mr-[2px]">
               <Icon name="aviator" className="h-8 w-8" />
@@ -107,7 +109,7 @@ src={resolvedTheme === "light" ? "/brand_logo_light.png" : "/brand_logo_dark.png
 
           <Link
             href="/slot"
-            className="flex p-1 items-center justify-center text-[13px] font-bold --palette-text-primary  hover:--palette-text-primary  transition-colors w-[70px] relative left-[3px]"
+            className="flex p-1 items-center justify-center text-[13px] font-bold --palette-text-primary  hover:--palette-text-primary  transition-colors w-[70px] relative left-[3px] rounded-lg  hover:bg-[rgba(145,158,171,0.08)] "
           >
             <span className=" group-hover:--palette-text-primary  transition-colors mr-[2px]">
               <Icon name="slot" className="h-5 w-5" />
@@ -116,16 +118,14 @@ src={resolvedTheme === "light" ? "/brand_logo_light.png" : "/brand_logo_dark.png
               Fancty
             </span>
           </Link>
-
-
         </nav>
 
-        <div className="flex items-center gap-2 sm:gap-[10px]">
+        <div className="flex items-center gap-2 sm:gap-[6px]">
           <ThemeToggle />
 
           <Link
             href="/login"
-            className="text-sm leading-[1.71429] [text-transform:unset] min-w-16 py-[5px] px-3 flex justify-center items-center text-sm border-1 border-[#919eab52] rounded-[8px] --palette-text-primary   font-bold transition-all duration-300 mr-1"
+            className="text-sm leading-[1.71429] [text-transform:unset] min-w-16 py-[5px] px-3 flex justify-center items-center text-sm border-1 border-[#919eab52] rounded-[8px] --palette-text-primary  rounded-lg  hover:bg-[rgba(145,158,171,0.08)]   font-bold transition-all duration-300 mr-1"
           >
             Login
           </Link>
@@ -154,9 +154,7 @@ src={resolvedTheme === "light" ? "/brand_logo_light.png" : "/brand_logo_dark.png
             <span className=" group-hover:--palette-text-primary  transition-colors mr-[1.8px] ">
               <Icon name="casino" className="h-6 w-6" />
             </span>
-            <span className="relative !top-[-0.5px] font-bold">
-              Casino
-            </span>
+            <span className="relative !top-[-0.5px] font-bold">Casino</span>
           </Link>
 
           <Link
@@ -171,7 +169,6 @@ src={resolvedTheme === "light" ? "/brand_logo_light.png" : "/brand_logo_dark.png
             </span>
           </Link>
 
-
           <Link
             href="/slot"
             className="flex py-1 pr-[4px] pl-[2.8px] items-center justify-center min-w-[70px] text-[13px] font-medium --palette-text-primary  hover:--palette-text-primary  transition-colors whitespace-nowrap relative !left-[4px]"
@@ -183,8 +180,6 @@ src={resolvedTheme === "light" ? "/brand_logo_light.png" : "/brand_logo_dark.png
               Fancty
             </span>
           </Link>
-
-
         </nav>
       </div>
     </header>

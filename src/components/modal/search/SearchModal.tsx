@@ -3,7 +3,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import styles from "./SearchModal.module.css";
-import { useAppStore } from "@/lib/store/ui-store";
+import { useUIStore } from "@/lib/store/ui-store";
 
 type SearchItem = {
     id: string;
@@ -12,8 +12,8 @@ type SearchItem = {
 };
 
 export default function SearchModal() {
-    const isOpenSearch = useAppStore((s) => s.isOpenSearch);
-    const toggleSearch = useAppStore((s) => s.toggleSearch);
+    const isOpenSearch = useUIStore((s) => s.isOpenSearch);
+    const toggleSearch = useUIStore((s) => s.toggleSearch);
 
     const inputRef = useRef<HTMLInputElement>(null);
     const [query, setQuery] = useState("");

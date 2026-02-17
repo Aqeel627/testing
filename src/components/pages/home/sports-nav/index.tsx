@@ -7,7 +7,7 @@ import Icon from "@/icons/icons";
 
 type NavItem = { label: string; href: string; id: string };
 
-export default function SportsNave() {
+export default function SportsNav() {
   const { menuList, setSelectedEventTypeId } = useAppStore();
 
   const [activeTab, setActiveTab] = useState("Cricket");
@@ -123,7 +123,7 @@ export default function SportsNave() {
 
   return (
     <section>
-      <div className={`${styles["tabs-root"]} border-[1.5px] border-dashed border-[rgba(145,158,171,0.2)]`}>
+      <div className={`${styles["tabs-root"]} border-2 border-dashed border-[rgba(145,158,171,0.2)]`}>
         <div
           onClick={() => handleScrollClick("left")}
           className={`inline-flex items-center justify-center relative box-border bg-transparent outline-none border-0 m-0 p-0 cursor-pointer select-none font-sans w-10 shrink-0 ${showLeftArrow ? "opacity-80" : "opacity-0 pointer-events-none"}`}

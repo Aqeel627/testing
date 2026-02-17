@@ -7,7 +7,7 @@ import {
 } from "next/font/google";
 import "./globals.css";
 import { Metadata } from "next";
-import SearchModal from "@/components/search/SearchModal";
+import SearchModal from "@/components/modal/search/SearchModal";
 import { AuExchThemeProvider } from "@/components/common/theme-provider";
 
 export const metadata: Metadata = {

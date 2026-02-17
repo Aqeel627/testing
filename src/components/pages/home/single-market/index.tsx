@@ -2,8 +2,7 @@
 import { useAppStore } from "@/lib/store/store";
 import { useEffect } from "react";
 import Icon from "@/icons/icons";
-
-
+import Link from "next/link";
 
 export default function SingleaMarket() {
   const { allEventsList, selectedEventTypeId } = useAppStore();
@@ -55,7 +54,7 @@ export default function SingleaMarket() {
                 </div>
 
                 {/* Runner Names */}
-                <a href={`/event/${event.event?.id}`} className="flex flex-col w-full min-w-0 flex-auto no-underline">
+                <a href={`/market-details/${event.event?.id}/${event.eventType.id}`} className="flex flex-col w-full min-w-0 flex-auto no-underline">
 
                   {/* Team 1 */}
                   <div className="flex flex-row gap-1.5 overflow-hidden justify-between items-center">
@@ -91,7 +90,7 @@ export default function SingleaMarket() {
                 <div className="flex flex-row gap-3 justify-start items-center h-4 leading-4 contain-strict pointer-events-none overflow-hidden mt-0.5">
                   <div className="min-w-9.5">
                     <div className="flex gap-1.5">
-                      <div className="flex justify-center items-center">
+                      <div className="flex justify-center items-center animate-pulse">
                         <div className="w-[7px] h-[7px] bg-[#078dee] rounded-full"></div>
                       </div>
                       <p className="m-0 font-sans truncate whitespace-nowrap text-[10px] text-[#078dee] font-bold leading-[1rem]">
