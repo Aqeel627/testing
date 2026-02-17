@@ -81,11 +81,11 @@ export default function MarketDetails() {
                             <div className="flex w-1/2 gap-1 justify-end">
                                 <div className='flex-1 min-w-0 max-[464px]:hidden'></div>
                                 <div className='flex-1 min-w-0 max-[346px]:hidden'></div>
-                                <div className='flex items-center justify-center rounded-[2px] text-black select-none flex-1 min-w-0 text-[14px] font-bold leading-[18px] bg-[#0591cf] h-4'>Back</div>
+                                <div className='flex items-center justify-center pb-[1px] font-semibold rounded-[2px] text-black select-none flex-1 min-w-0 text-[14px] leading-[18px] bg-[#0591cf] h-4 '>Back</div>
                             </div>
                             {/* Lay Labels */}
                             <div className="flex w-1/2 gap-1 justify-start">
-                                <div className='flex items-center justify-center rounded-[2px] text-black select-none flex-1 min-w-0 text-[14px] font-bold leading-[18px] bg-[#d1686d] h-4'>Lay</div>
+                                <div className='flex  items-center  justify-center rounded-[2px] text-black select-none flex-1 min-w-0 text-[14px] font-semibold pb-[1px] leading-[18px] bg-[#d1686d] h-4'>Lay</div>
                                 <div className='flex-1 min-w-0 max-[346px]:hidden'></div>
                                 <div className='flex-1 min-w-0 max-[464px]:hidden'></div>
                             </div>
