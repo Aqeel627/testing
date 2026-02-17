@@ -1,6 +1,7 @@
 "use client";
 
 import Icon from "@/icons/icons";
+import Link from "next/link";
 
 export default function SingleaMarket() {
   return (
@@ -25,7 +26,7 @@ export default function SingleaMarket() {
               {/* <span>IPL</span> */}
             </div>
 
-            <a href="" className="flex flex-col w-full min-w-0 flex-auto no-underline">
+            <Link href={`/market-details/35247592/4`} className="flex flex-col w-full min-w-0 flex-auto no-underline">
               <div className="flex flex-row gap-1.5 overflow-hidden justify-between items-center">
                 <div className="flex flex-row gap-1.5">
                   <p className="m-0 font-sans truncate text-[14px] font-bold leading-[1.3rem]">India</p>
@@ -41,7 +42,7 @@ export default function SingleaMarket() {
                   <span className="text-[#68cdf9] text-[12px] bg-[#078dee29] min-w-12 px-4 h-4.5 inline-flex justify-center items-center rounded-[4px] font-bold">0/0</span>
                 </div>
               </div>
-            </a>
+            </Link>
 
 
             <div className="flex flex-row gap-3 justify-start items-center h-4 leading-4 contain-strict pointer-events-none overflow-hidden mt-0.5">
