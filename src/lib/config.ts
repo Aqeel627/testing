@@ -1,8 +1,8 @@
-// const BASE_URL = "";
-// export const BASE_URL_WS = "";
+export const BASE_URL = "";
+export const BASE_URL_WS = "";
 
-export const BASE_URL = "https://100exch.com";
-export const BASE_URL_WS = "https://100exch.com";
+// export const BASE_URL = "https://100exch.com";
+// export const BASE_URL_WS = "https://100exch.com";
 
 export const CONFIG = {
   SiteName: 'exchange',
