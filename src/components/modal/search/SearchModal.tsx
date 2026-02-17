@@ -22,6 +22,20 @@ export default function SearchModal() {
 
     /* -------------------- BODY SCROLL + FOCUS -------------------- */
     useEffect(() => {
+  const handleKeyDown = (e: KeyboardEvent) => {
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+      e.preventDefault();
+      toggleSearch(!isOpenSearch);   // 👈 better pattern
+    }
+  };
+
+  document.addEventListener("keydown", handleKeyDown);
+  return () => {
+    document.removeEventListener("keydown", handleKeyDown);
+  };
+}, [toggleSearch]);
+    // 
+    useEffect(() => {
         if (isOpenSearch) {
             requestAnimationFrame(() => {
                 inputRef.current?.focus();

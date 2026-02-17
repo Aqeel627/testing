@@ -1,8 +1,8 @@
 import axios from "axios";
-import { BASE_URL} from "./config";
+import { BASE_URL_API } from "./config";
 
 export const http = axios.create({
-  baseURL: BASE_URL,
+  baseURL: BASE_URL_API ,
   headers: {
     "x-Requested-With": "XMLHttpRequest",
     "Content-Type": "application/json",

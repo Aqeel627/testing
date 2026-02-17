@@ -40,7 +40,7 @@ export default function Footer() {
       <div className="mt-5">
         <div className="w-full flex flex-col  max-[900px]:rounded-t-[16px] rounded-t-xl bg-(--palette-background-paper) text-(--palette-text-primary) border  border-[rgba(145,158,171,0.2)] p-2 max-[900px]:p-4">
           {/* TOP SECTION */}
-          <div className="flex flex-col-reverse  max-[900px]:items-center min-[900px]:gap-[11px]  min-[900px]:flex-row">
+          <div className="flex flex-col-reverse mb-[7px]  max-[900px]:items-center min-[900px]:gap-[11px]  min-[900px]:flex-row">
             {/* LEFT BLOCK */}
             <div className="min-[900px]:w-62.5 w-full min-w-[250px]">
               <div className="md:mb-[3.5px] w-44  max-[899px]:mx-auto lg:mb-0  max-[900px]:flex max-[900px]:flex-col max-[900px]:justify-center">
@@ -142,7 +142,7 @@ export default function Footer() {
               </div>
 
               {/* DESCRIPTION */}
-              <div className=" border-t min-[900px]:pt-2 pt-4 border-dashed border-[rgba(145,158,171,0.2)]  text-[13px] leading-[20.9px] text-(--palette-text-secondary) dark:border-[rgba(145,158,171,0.2)] ">
+              <div className=" border-t min-[900px]:pt-2 pt-4 border-dashed border-[rgba(145,158,171,0.2)]  text-[13px] leading-[20px] text-(--palette-text-secondary) dark:border-[rgba(145,158,171,0.2)] ">
                 This website is operated by{" "}
                 <span className="text-[14px] text-[#098DEE]">Au Exch</span>,
                 registered under No. at{" "}
