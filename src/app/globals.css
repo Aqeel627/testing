@@ -1,6 +1,7 @@
 @import "tailwindcss";
 /* @custom-variant dark (&:where(.dark, .dark *)); */
 @custom-variant dark (&:is(.dark *));
+@import "nprogress/nprogress.css";
 
 :root {
   --background: #fff;
@@ -818,4 +819,21 @@ body {
     stroke-dasharray: 1px, 200px;
     stroke-dashoffset: -126px;
   }
+}
+#nprogress .bar {
+  background: #3aa0ff;
+  height: 3px;
+}
+#nprogress .peg {
+  box-shadow: 0 0 10px #3aa0ff, 0 0 5px #3aa0ff;
+}
+
+.css-4uzy5s {
+    background-size: 50%, 50%;
+    background-repeat: no-repeat;
+    backdrop-filter: blur(20px);
+    background-color: rgba(var(--palette-background-paperChannel) / 90%);
+    box-shadow: var(--customShadows-dropdown);
+    background-position: right top, left bottom;
+    
 }
