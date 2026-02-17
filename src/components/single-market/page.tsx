@@ -1,159 +1,227 @@
 "use client";
-
+import { useAppStore } from "@/lib/store/store";
+import { useEffect } from "react";
 import Icon from "@/icons/icons";
 
 export default function SingleaMarket() {
+  const { allEventsList, selectedEventTypeId } = useAppStore();
+
+  useEffect(() => {
+    console.log(allEventsList, "events all");
+  }, [allEventsList]);
+
+  const events: any[] = selectedEventTypeId
+    ? allEventsList?.[selectedEventTypeId] ?? []
+    : [];
+
+  if (!allEventsList) return <p className="text-white p-4">Loading...</p>;
+  if (!events.length) return <p className="text-white p-4">No events found.</p>;
+
   return (
     <ul className="mt-2">
-      <li className="w-full rounded-[2px] border border-dashed border-[rgba(145,158,171,0.16)] bg-[rgba(145,158,171,0.04)] text-white overflow-hidden">
+      {events.map((event: any) => {
+        const runner0 = event.runners?.[0];  // Team 1 → LEFT
+        const runner1 = event.runners?.[1];  // Team 2 → RIGHT
+        const runner2 = event.runners?.[2];  // Draw   → CENTER
+        const hasThreeRunners = event.runners?.length === 3;
+        const isCricket = event.eventType?.name?.toLowerCase() === "cricket";
 
-        {/* MAIN ROW */}
-        <div className="flex w-full flex-col min-[691px]:flex-row min-[1200px]:flex-col min-[1376px]:flex-row">
+        // ✅ RIGHT is always runner1 (Team 2), CENTER is always runner2 (Draw)
+        const rightRunner = runner1;
+        const rightRunnerName = event.runnersName?.[1]?.runnerName;
 
-          {/* LEFT CONTENT – 60% */}
-          <div className="w-full min-[691px]:w-[60%] min-[1200px]:w-full min-[1376px]:w-[60%] p-[5px]">
-            <div className="flex flex-row whitespace-nowrap items-center max-w-full min-h-[1.125rem] overflow-hidden -mt-1 mr-5 -mb-1 -ml-1 text-[9px] font-bold tracking-[0.7px] uppercase text-[#098DEE]">
-              <a href="" className="m-0 [font:inherit] [letter-spacing:inherit] text-[#078dee] no-underline relative rounded-[8px] py-1 px-0 inline-block">
-                <div className="rounded-1 px-1">Cricket</div>
-              </a>
-              {/* <span></span> */}
-              <span className="h-1 w-1 rounded-full bg-[rgb(99,115,129)]"></span>
+        return (
+          <li
+            key={event.marketId}
+            className="w-full rounded-[2px] border border-dashed border-[rgba(145,158,171,0.16)] bg-[rgba(145,158,171,0.04)] text-white overflow-hidden mb-2"
+          >
+            {/* MAIN ROW */}
+            <div className="flex w-full flex-col min-[691px]:flex-row min-[1200px]:flex-col min-[1376px]:flex-row">
 
-              <a href="" className="m-0 [font:inherit] [letter-spacing:inherit] text-[#078dee] no-underline relative rounded-[8px] py-1 px-0 inline-block">
-                <div className="rounded-1 px-1">IPL</div>
-              </a>
-              {/* <span>IPL</span> */}
-            </div>
+              {/* LEFT CONTENT – 60% */}
+              <div className="w-full min-[691px]:w-[60%] min-[1200px]:w-full min-[1376px]:w-[60%] p-[5px]">
 
-            <a href="" className="flex flex-col w-full min-w-0 flex-auto no-underline">
-              <div className="flex flex-row gap-1.5 overflow-hidden justify-between items-center">
-                <div className="flex flex-row gap-1.5">
-                  <p className="m-0 font-sans truncate text-[14px] font-bold leading-[1.3rem]">India</p>
+                {/* Sport + Competition */}
+                <div className="flex flex-row whitespace-nowrap items-center max-w-full min-h-[1.125rem] overflow-hidden -mt-1 mr-5 -mb-1 -ml-1 text-[9px] font-bold tracking-[0.7px] uppercase text-[#098DEE]">
+                  <a href="" className="m-0 [font:inherit] [letter-spacing:inherit] text-[#078dee] no-underline relative rounded-[8px] py-1 px-0 inline-block">
+                    <div className="rounded-1 px-1">{event.eventType?.name}</div>
+                  </a>
+                  <span className="h-1 w-1 rounded-full bg-[rgb(99,115,129)]"></span>
+                  <a href="" className="m-0 [font:inherit] [letter-spacing:inherit] text-[#078dee] no-underline relative rounded-[8px] py-1 px-0 inline-block">
+                    <div className="rounded-1 px-1">{event.competition?.name}</div>
+                  </a>
                 </div>
-              </div>
 
-              <div className="flex flex-row gap-1.5 overflow-hidden justify-between items-center">
-                <div className="flex flex-row gap-1.5">
-                  <p className="m-0 font-sans truncate text-[14px] font-bold leading-[1.3rem]">Pakistan</p>
-                  <Icon name="bat" className="w-5 h-5 text-[#078dee]" />
-                </div>
-                <div className="flex flex-row gap-1.5">
-                  <span className="text-[#68cdf9] text-[12px] bg-[#078dee29] min-w-12 px-4 h-4.5 inline-flex justify-center items-center rounded-[4px] font-bold">0/0</span>
-                </div>
-              </div>
-            </a>
+                {/* Runner Names — always show Team1 and Team2, never Draw */}
+                <a href={`/event/${event.event?.id}`} className="flex flex-col w-full min-w-0 flex-auto no-underline">
 
-
-            <div className="flex flex-row gap-3 justify-start items-center h-4 leading-4 contain-strict pointer-events-none overflow-hidden mt-0.5">
-              <div className="min-w-9.5">
-                <div className="flex gap-1.5">
-                  <div className="flex justify-center items-center">
-                    <div className="w-[7px] h-[7px] bg-[#078dee] rounded-full"></div>
+                  {/* Team 1 — runners[0] */}
+                  <div className="flex flex-row gap-1.5 overflow-hidden justify-between items-center">
+                    <div className="flex flex-row gap-1.5 items-center">
+                      <p className="m-0 font-sans truncate text-[14px] font-bold leading-[1.3rem]">
+                        {event.runnersName?.[0]?.runnerName}
+                      </p>
+                      {event.inplay && isCricket && runner0?.status === "ACTIVE" && (
+                        <Icon name="bat" className="w-5 h-5 text-[#078dee]" />
+                      )}
+                    </div>
                   </div>
-                  <p className="m-0 font-sans truncate whitespace-nowrap text-[10px] text-[#078dee] font-bold leading-[1rem]">2nd Inning</p>
+
+                  {/* Team 2 — runners[1] always, with score badge */}
+                  <div className="flex flex-row gap-1.5 overflow-hidden justify-between items-center">
+                    <div className="flex flex-row gap-1.5 items-center">
+                      <p className="m-0 font-sans truncate text-[14px] font-bold leading-[1.3rem]">
+                        {rightRunnerName}
+                      </p>
+                      {event.inplay && isCricket && rightRunner?.status === "ACTIVE" && (
+                        <Icon name="bat" className="w-5 h-5 text-[#078dee]" />
+                      )}
+                    </div>
+                    <div className="flex flex-row gap-1.5">
+                      <span className="text-[#68cdf9] text-[12px] bg-[#078dee29] min-w-12 px-4 h-4.5 inline-flex justify-center items-center rounded-[4px] font-bold">
+                        {event.score ?? "0/0"}
+                      </span>
+                    </div>
+                  </div>
+                </a>
+
+                {/* Meta row */}
+                <div className="flex flex-row gap-3 justify-start items-center h-4 leading-4 contain-strict pointer-events-none overflow-hidden mt-0.5">
+                  <div className="min-w-9.5">
+                    <div className="flex gap-1.5">
+                      <div className="flex justify-center items-center">
+                        <div className="w-[7px] h-[7px] bg-[#078dee] rounded-full"></div>
+                      </div>
+                      <p className="m-0 font-sans truncate whitespace-nowrap text-[10px] text-[#078dee] font-bold leading-[1rem]">
+                        {event.inplay
+                          ? "In-Play"
+                          : new Date(event.marketStartTime).toLocaleDateString("en-GB", {
+                              day: "2-digit",
+                              month: "2-digit",
+                              year: "numeric",
+                              hour: "2-digit",
+                              minute: "2-digit",
+                            })}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div>
+                    <p className="m-0 font-sans whitespace-nowrap truncate text-[10px] text-[#919eab] font-bold leading-[1rem]">
+                      {event.marketType}
+                    </p>
+                  </div>
+
+                  <div className="w-4 h-4 pb-0.5">
+                    <Icon name="watch" className="w-4 h-4" />
+                  </div>
+
+                  <div className="flex items-center gap-1 text-black">
+                    <div className="bg-[#FFAB00] h-3.5 w-3.5 inline-flex justify-center items-center rounded-[4px] text-[13px] max-w-full">
+                      <span className="text-[12px] font-semibold truncate overflow-hidden whitespace-nowrap">B</span>
+                    </div>
+                    <div className="bg-[#FFAB00] h-3.5 w-3.5 inline-flex justify-center items-center rounded-[4px] text-[13px] max-w-full">
+                      <span className="text-[12px] font-semibold truncate overflow-hidden whitespace-nowrap">F</span>
+                    </div>
+                  </div>
+
+                  <div>
+                    <p className="m-0 font-sans whitespace-nowrap text-[#919eab] text-[10px] font-bold uppercase leading-4 truncate overflow-hidden whitespace-nowrap">
+                      Traded:{" "}
+                      <span className="text-[10px] font-bold text-[#ffab00] leading-[1rem]">
+                        {event.totalMatched?.toLocaleString()}
+                      </span>
+                    </p>
+                  </div>
                 </div>
               </div>
 
-              <div>
-                <p className="m-0 font-sans whitespace-nowrap truncate text-[10px] text-[#919eab] font-bold leading-[1rem]">17 Markets</p>
-              </div>
-              <div className="w-4 h-4 pb-0.5">
-                <Icon name="watch" className="w-4 h-4" />
-              </div>
-              <div className="flex items-center gap-1 text-black">
-                <div className="bg-[#FFAB00] h-3.5 w-3.5 inline-flex justify-center items-center rounded-[4px] text-[13px] max-w-full">
-                  <span className="text-[12px] font-semibold truncate overflow-hidden whitespace-nowrap">B</span>
+              {/* RIGHT ODDS – 40% */}
+              <div className="flex flex-row gap-2 items-center whitespace-nowrap min-[1376px]:flex-[1_0_20rem] relative w-full min-[691px]:w-[40%] min-[1200px]:w-[100%] min-[1376px]:max-w-[40%] leading-[1.125rem] text-xs p-[5px] overflow-hidden">
+
+                {/* LEFT — Team 1 odds (runners[0]) */}
+                <div className="flex flex-col gap-0.5 w-[33.3%]">
+                  <span className="block h-[1.125rem] text-center truncate overflow-hidden">
+                    {event.runnersName?.[0]?.runnerName}
+                  </span>
+                  <div className="flex gap-1">
+                    <div className="bg-[rgba(0,178,255,0.7)] w-[50%] rounded-[2px] text-center h-[35px] relative pt-0.5 text-black cursor-pointer select-none">
+                      <span className="block whitespace-nowrap font-semibold text-[0.8rem] text-center">
+                        {runner0?.ex?.availableToBack?.[0]?.price ?? "-"}
+                      </span>
+                      <span className="block whitespace-nowrap font-semibold text-[0.7rem] text-center leading-[0.7rem]">
+                        {runner0?.ex?.availableToBack?.[0]?.size ?? ""}
+                      </span>
+                    </div>
+                    <div className="bg-[rgba(255,122,127,0.7)] w-[50%] rounded-[2px] text-center h-[35px] relative pt-0.5 text-black cursor-pointer select-none">
+                      <span className="block whitespace-nowrap font-semibold text-[0.8rem] text-center">
+                        {runner0?.ex?.availableToLay?.[0]?.price ?? "-"}
+                      </span>
+                      <span className="block whitespace-nowrap font-semibold text-[0.7rem] leading-[0.7rem] text-center">
+                        {runner0?.ex?.availableToLay?.[0]?.size ?? ""}
+                      </span>
+                    </div>
+                  </div>
                 </div>
-                <div className="bg-[#FFAB00] h-3.5 w-3.5 inline-flex justify-center items-center rounded-[4px] text-[13px] max-w-full">
-                  <span className="text-[12px] font-semibold truncate overflow-hidden whitespace-nowrap">F</span>
+
+                {/* CENTER — Draw odds (runners[2]) or disabled */}
+                <div className="flex flex-col gap-0.5 w-[33.3%]">
+                  <span className="block h-[1.125rem] text-center truncate overflow-hidden">
+                    {hasThreeRunners ? event.runnersName?.[2]?.runnerName : ""}
+                  </span>
+                  <div className="flex gap-1">
+                    <div className={`${hasThreeRunners ? "bg-[rgba(0,178,255,0.7)]" : "bg-[rgba(0,178,255,0.25)]"} w-[50%] rounded-[2px] text-center h-[35px] relative pt-0.5 text-black cursor-pointer select-none`}>
+                      <span className="block whitespace-nowrap font-semibold text-[0.8rem] text-center">
+                        {hasThreeRunners ? runner2?.ex?.availableToBack?.[0]?.price ?? "-" : ""}
+                      </span>
+                      <span className="block whitespace-nowrap font-semibold text-[0.8rem] text-center">
+                        {hasThreeRunners ? runner2?.ex?.availableToBack?.[0]?.size ?? "" : ""}
+                      </span>
+                    </div>
+                    <div className={`${hasThreeRunners ? "bg-[rgba(255,122,127,0.7)]" : "bg-[rgba(255,122,127,0.25)]"} w-[50%] rounded-[2px] text-center h-[35px] relative pt-0.5 text-black cursor-pointer select-none`}>
+                      <span className="block whitespace-nowrap font-semibold text-[0.8rem] text-center">
+                        {hasThreeRunners ? runner2?.ex?.availableToLay?.[0]?.price ?? "-" : ""}
+                      </span>
+                      <span className="block whitespace-nowrap font-semibold text-[0.8rem] text-center">
+                        {hasThreeRunners ? runner2?.ex?.availableToLay?.[0]?.size ?? "" : ""}
+                      </span>
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div>
-                <p className="m-0 font-sans whitespace-nowrap text-[#919eab] text-[10px] font-bold uppercase leading-4 truncate overflow-hidden whitespace-nowrap">
-                  Traded: <span className="text-[10px] font-bold text-[#ffab00] leading-[1rem]">36,03,68,443</span>
-                </p>
+
+                {/* RIGHT — Team 2 odds (runners[1]) */}
+                <div className="flex flex-col gap-0.5 w-[33.3%]">
+                  <span className="block h-[1.125rem] text-center truncate overflow-hidden">
+                    {rightRunnerName}
+                  </span>
+                  <div className="flex gap-1">
+                    <div className="bg-[rgba(0,178,255,0.7)] w-[50%] rounded-[2px] text-center h-[35px] relative pt-0.5 text-black cursor-pointer select-none">
+                      <span className="block whitespace-nowrap font-semibold text-[0.8rem] text-center">
+                        {rightRunner?.ex?.availableToBack?.[0]?.price ?? "-"}
+                      </span>
+                      <span className="block whitespace-nowrap font-semibold text-[0.7rem] text-center leading-[0.7rem]">
+                        {rightRunner?.ex?.availableToBack?.[0]?.size ?? ""}
+                      </span>
+                    </div>
+                    <div className="bg-[rgba(255,122,127,0.7)] w-[50%] rounded-[2px] text-center h-[35px] relative pt-0.5 text-black cursor-pointer select-none">
+                      <span className="block whitespace-nowrap font-semibold text-[0.8rem] text-center">
+                        {rightRunner?.ex?.availableToLay?.[0]?.price ?? "-"}
+                      </span>
+                      <span className="block whitespace-nowrap font-semibold text-[0.7rem] text-center leading-[0.7rem]">
+                        {rightRunner?.ex?.availableToLay?.[0]?.size ?? ""}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+
               </div>
             </div>
-          </div>
-
-          {/* RIGHT ODDS – 40% */}
-          <div className="flex flex-row gap-2 items-center whitespace-nowrap min-[1376px]:flex-[1_0_20rem] relative w-full min-[691px]:w-[40%] min-[1200px]:w-[100%] min-[1376px]:max-w-[40%] leading-[1.125rem] text-xs p-[5px] overflow-hidden">
-
-            {/* ODDS GRID */}
-
-            <div className="flex flex-col gap0.5 w-[33.3%]">
-              <span className=" block h-[1.125rem] text-center truncate overflow-hidden">India</span>
-              <div className="flex gap-1">
-                <div className="bg-[rgba(0,178,255,0.7)] w-[50%] rounded-[2px] text-center h-[35px] relative pt-0.5 text-black cursor-pointer select-none">
-                  <span className="block whitespace-nowrap font-semibold text-[0.8rem] text-center">
-                    1.4
-                  </span>
-                  <span className="block whitespace-nowrap font-semibold text-[0.7rem] text-center leading-[0.7rem]">
-                    2.9
-                  </span>
-                </div>
-                <div className="bg-[rgba(255,122,127,0.7)] w-[50%] rounded-[2px] text-center h-[35px] relative pt-0.5 text-black cursor-pointer select-none">
-                  <span className="block whitespace-nowrap font-semibold text-[0.8rem] text-center">
-                    1.4
-                  </span>
-                  <span className="block whitespace-nowrap font-semibold text-[0.7rem] leading-[0.7rem] text-center">
-                    2.9
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <div className="flex flex-col gap-0.5 w-[33.3%]">
-              <span className=" block h-[1.125rem] text-center truncate overflow-hidden"></span>
-              <div className="flex gap-1">
-                <div className="bg-[rgba(0,178,255,0.25)] w-[50%] rounded-[2px] text-center h-[35px] relative pt-0.5 text-black cursor-pointer select-none">
-                  <span className="block whitespace-nowrap font-semibold text-[0.8rem] text-center">
-                    
-                  </span>
-                  <span className="block whitespace-nowrap font-semibold text-[0.8rem] text-center">
-                    
-                  </span>
-                </div>
-                <div className="bg-[rgba(255,122,127,0.25)] w-[50%] rounded-[2px] text-center h-[35px] relative pt-0.5 text-black cursor-pointer select-none">
-                  <span className="block whitespace-nowrap font-semibold text-[0.8rem] text-center">
-                    
-                  </span>
-                  <span className="block whitespace-nowrap font-semibold text-[0.8rem] text-center">
-                    
-                  </span>
-                </div>
-              </div>
-            </div>
-
-            <div className="flex flex-col gap0.5 w-[33.3%]">
-              <span className=" block h-[1.125rem] text-center truncate overflow-hidden">Pakistan</span>
-              <div className="flex gap-1">
-                <div className="bg-[rgba(0,178,255,0.7)] w-[50%] rounded-[2px] text-center h-[35px] relative pt-0.5 text-black cursor-pointer select-none">
-                  <span className="block whitespace-nowrap font-semibold text-[0.8rem] text-center">
-                    1.4
-                  </span>
-                  <span className="block whitespace-nowrap font-semibold text-[0.7rem] text-center leading-[0.7rem]">
-                    2.9
-                  </span>
-                </div>
-                <div className="bg-[rgba(255,122,127,0.7)] w-[50%] rounded-[2px] text-center h-[35px] relative pt-0.5 text-black cursor-pointer select-none">
-                  <span className="block whitespace-nowrap font-semibold text-[0.8rem] text-center">
-                    1.4
-                  </span>
-                  <span className="block whitespace-nowrap font-semibold text-[0.7rem] text-center leading-[0.7rem]">
-                    2.9
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-      </li>
+          </li>
+        );
+      })}
     </ul>
   );
 }
-
 /* ================== BUTTON COMPONENTS ================== */
 
 function OddsBack({ price, size }: any) {
