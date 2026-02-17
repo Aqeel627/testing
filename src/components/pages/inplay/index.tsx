@@ -3,7 +3,6 @@
 import { useAppStore } from "@/lib/store/store";
 import InplaySportNav from "./tabs";
 import { useState } from "react";
-import { capitalize } from "@/lib/functions";
 import BreadCrumb from "@/components/common/bread-crumb";
 import InplayMarket from "./inplay-market";
 
