@@ -39,24 +39,24 @@ export default function Header({ onMenuClick }: HeaderProps) {
     localStorage.setItem("theme", isDark ? "dark" : "light");
   }, [isDark]);
 
-//   useEffect(() => {
-//   console.log("isLoggedIn:", isLoggedIn);
-// }, [isLoggedIn]);
+  //   useEffect(() => {
+  //   console.log("isLoggedIn:", isLoggedIn);
+  // }, [isLoggedIn]);
 
   const { accessToken } = useAuthStore();
 
-useEffect(() => {
-  if (accessToken) {
-    fetchData({
-      url: CONFIG.getUserBalance,
-      payload: {},
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-      setFn: setUserBalance,
-    });
-  }
-}, [accessToken]);
+  useEffect(() => {
+    if (accessToken) {
+      fetchData({
+        url: CONFIG.getUserBalance,
+        payload: {},
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+        setFn: setUserBalance,
+      });
+    }
+  }, [accessToken]);
 
 
   return (
@@ -86,18 +86,19 @@ useEffect(() => {
             <span className="relative top-[-0.5px]">Exchange</span>
           </Link>
 
+          <Link href="/live-casino" className="flex p-1 items-center text-[13px] text-white hover:text-white transition-colors group relative left-[2px] font-bold">
+            {/* Live Casino Icon */}
+            <span className=" group-hover:text-white transition-colors mr-[2px]">
+              <Icon name="casino" className="h-6 w-6" />
+            </span>
+            <span className="relative top-[-0.5px]">Casino</span>
+          </Link>
+
           <Link href="/casinos/q-tech/aviator" className="flex p-1 items-center text-[13px] font-medium text-white hover:text-white transition-colors relative left-[0.5px]">
             <span className=" group-hover:text-white transition-colors mr-[2px]">
               <Icon name="aviator" className="h-8 w-8" />
             </span>
-            <span className="font-bold text-white relative top-[-0.5px]">Aviator</span>
-          </Link>
-
-
-          <Link href="/casinos/q-tech/aviator" className="flex p-1 items-center text-[13px] font-medium text-white hover:text-white transition-colors relative left-[2px]">
-            <span className=" group-hover:text-white transition-colors mr-[2px]">
-              <Icon name="evolution" className="w-15 h-7" />
-            </span>
+            <span className="font-bold text-white relative top-[-0.5px]">Sportbook</span>
           </Link>
 
           <Link href="/slot" className="flex p-1 items-center justify-center text-[13px] font-bold text-white hover:text-white transition-colors w-[70px] relative left-[3px]">
@@ -105,17 +106,11 @@ useEffect(() => {
               <Icon name="slot" className="h-5 w-5" />
             </span>
             <span className="text-white font-bold relative top-[-0.5px]">
-              Slot
+              Fancty
             </span>
           </Link>
 
-          <Link href="/live-casino" className="flex p-1 items-center text-[13px] text-white hover:text-white transition-colors group relative left-[2px] font-bold">
-            {/* Live Casino Icon */}
-            <span className=" group-hover:text-white transition-colors mr-[2px]">
-              <Icon name="casino" className="h-6 w-6" />
-            </span>
-            <span className="relative top-[-0.5px]">Live Casino</span>
-          </Link>
+
         </nav>
 
         <div className="flex items-center gap-2 sm:gap-[10px]">
@@ -151,18 +146,21 @@ useEffect(() => {
             </span>
           </Link>
 
+          <Link href="/live-casino" className="flex py-1 pr-[4px] pl-[0.5px] items-center text-[13px] font-medium text-white hover:text-white transition-colors group whitespace-nowrap relative left-[3px] font-bold">
+            {/* Live Casino Icon */}
+            <span className=" group-hover:text-white transition-colors mr-[1.8px] ">
+              <Icon name="casino" className="h-6 w-6" />
+            </span>
+            <span className="relative !top-[-0.5px] font-bold">
+              Casino
+            </span>
+          </Link>
+
           <Link href="/casinos/q-tech/aviator" className="flex py-1 pr-[4px] pl-[3.8px] items-center text-[13px] font-medium text-white hover:text-white transition-colors whitespace-nowrap">
             <span className="mr-[2px] ">
               <Icon name="aviator" className="h-8 w-8" />
             </span>
-            <span className="font-bold text-white   relative !top-[-0.5px]">Aviator</span>
-          </Link>
-
-
-          <Link href="/casinos/q-tech/aviator" className="flex p-1 items-center text-[13px] font-medium text-white hover:text-white transition-colors whitespace-nowrap">
-            <span className="relative !left-[1px]">
-              <Icon name="evolution" className="w-15 h-7" />
-            </span>
+            <span className="font-bold text-white   relative !top-[-0.5px]">Sportbook</span>
           </Link>
 
           <Link href="/slot" className="flex py-1 pr-[4px] pl-[2.8px] items-center justify-center min-w-[70px] text-[13px] font-medium text-white hover:text-white transition-colors whitespace-nowrap relative !left-[4px]">
@@ -170,19 +168,11 @@ useEffect(() => {
               <Icon name="slot" className="h-5 w-5" />
             </span>
             <span className="text-white font-bold relative !top-[-0.5px]">
-              Slot
+              Fancty
             </span>
           </Link>
 
-          <Link href="/live-casino" className="flex py-1 pr-[4px] pl-[0.5px] items-center text-[13px] font-medium text-white hover:text-white transition-colors group whitespace-nowrap relative left-[3px] font-bold">
-            {/* Live Casino Icon */}
-            <span className=" group-hover:text-white transition-colors mr-[1.8px] ">
-              <Icon name="casino" className="h-6 w-6" />
-            </span>
-            <span className="relative !top-[-0.5px] font-bold">
-              Live Casino
-            </span>
-          </Link>
+          
         </nav>
       </div>
     </header>
