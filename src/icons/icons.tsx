@@ -239,11 +239,17 @@ export const icons = {
             </g>
         </svg>
     ),
-     bat: (
-        <svg  fill="none" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><rect width="21.457" height="30.913" x="398.579" y="87.236" transform="rotate(-45 409.305 102.692)" fill="currentColor" ></rect><rect width="21.457" height="30.913" x="423.651" y="62.164" transform="rotate(-45 434.378 77.62)" fill="currentColor" ></rect><rect width="21.457" height="30.913" x="448.723" y="37.092" transform="rotate(-45 459.452 52.549)" fill="currentColor" ></rect><polygon points="343.583 188.497 323.504 168.418 275.42 236.58 343.583 188.497" fill="currentColor" ></polygon><rect width="21.458" height="30.913" x="373.507" y="112.308" transform="rotate(-45 384.239 127.764)" fill="currentColor" ></rect><path d="M74.112,469.646h0a28.49,28.49,0,0,0,40.245,0L369.545,214.459l-15.916-15.916L250.374,271.382a7,7,0,0,1-9.755-9.756l72.839-103.254-15.916-15.916L42.354,397.643a28.491,28.491,0,0,0,0,40.245Z" fill="currentColor" ></path><rect width="21.457" height="30.913" x="348.435" y="137.38" transform="rotate(-45 359.167 152.836)" fill="currentColor" ></rect></svg>
+    bat: (
+        <svg fill="none" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><rect width="21.457" height="30.913" x="398.579" y="87.236" transform="rotate(-45 409.305 102.692)" fill="currentColor" ></rect><rect width="21.457" height="30.913" x="423.651" y="62.164" transform="rotate(-45 434.378 77.62)" fill="currentColor" ></rect><rect width="21.457" height="30.913" x="448.723" y="37.092" transform="rotate(-45 459.452 52.549)" fill="currentColor" ></rect><polygon points="343.583 188.497 323.504 168.418 275.42 236.58 343.583 188.497" fill="currentColor" ></polygon><rect width="21.458" height="30.913" x="373.507" y="112.308" transform="rotate(-45 384.239 127.764)" fill="currentColor" ></rect><path d="M74.112,469.646h0a28.49,28.49,0,0,0,40.245,0L369.545,214.459l-15.916-15.916L250.374,271.382a7,7,0,0,1-9.755-9.756l72.839-103.254-15.916-15.916L42.354,397.643a28.491,28.491,0,0,0,0,40.245Z" fill="currentColor" ></path><rect width="21.457" height="30.913" x="348.435" y="137.38" transform="rotate(-45 359.167 152.836)" fill="currentColor" ></rect></svg>
     ),
     watch: (
-        <svg xmlns="http://www.w3.org/2000/svg"  aria-hidden="true" role="img" id="_r_1s_" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M3 20h18V8H3zm6-10l7 4l-7 4z" opacity="0.3"></path><path fill="currentColor" d="M9 10v8l7-4zm12-4h-7.58l3.29-3.29L16 2l-4 4h-.03l-4-4l-.69.71L10.56 6H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2m0 14H3V8h18z"></path></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" id="_r_1s_" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M3 20h18V8H3zm6-10l7 4l-7 4z" opacity="0.3"></path><path fill="currentColor" d="M9 10v8l7-4zm12-4h-7.58l3.29-3.29L16 2l-4 4h-.03l-4-4l-.69.71L10.56 6H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2m0 14H3V8h18z"></path></svg>
+    ),
+    play: (
+        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" id="_r_24_" width="1em" height="1em" viewBox="0 0 512 512"><path fill="currentColor" d="m190.06 414l163.12-139.78a24 24 0 0 0 0-36.44L190.06 98c-15.57-13.34-39.62-2.28-39.62 18.22v279.6c0 20.5 24.05 31.56 39.62 18.18"></path></svg>
+    ),
+    arrowDown: (
+        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" id="_r_1e_" width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M12 16a1 1 0 0 1-.64-.23l-6-5a1 1 0 1 1 1.28-1.54L12 13.71l5.36-4.32a1 1 0 0 1 1.41.15a1 1 0 0 1-.14 1.46l-6 4.83A1 1 0 0 1 12 16"></path></svg>
     ),
     chevronDown:( 
         <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" aria-hidden="true" role="img" id="_r_6_" width="1em" height="1em" viewBox="0 0 24 24"><path  fill="currentColor"  d="M12 16a1 1 0 0 1-.64-.23l-6-5a1 1 0 1 1 1.28-1.54L12 13.71l5.36-4.32a1 1 0 0 1 1.41.15a1 1 0 0 1-.14 1.46l-6 4.83A1 1 0 0 1 12 16"></path></svg>
