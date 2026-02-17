@@ -91,7 +91,7 @@ export default function SingleaMarket() {
                 <div className="flex flex-row gap-3 justify-start items-center h-4 leading-4 contain-strict pointer-events-none overflow-hidden mt-0.5">
                   <div className="min-w-9.5">
                     <div className="flex gap-1.5">
-                      <div className="flex justify-center items-center">
+                      <div className="flex justify-center items-center animate-pulse">
                         <div className="w-[7px] h-[7px] bg-[#078dee] rounded-full"></div>
                       </div>
                       <p className="m-0 font-sans truncate whitespace-nowrap text-[10px] text-[#078dee] font-bold leading-[1rem]">
