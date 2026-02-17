@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, type FormEvent } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -8,6 +8,29 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [touched, setTouched] = useState({
+    username: false,
+    password: false,
+  });
+
+  const usernameError = touched.username && !username.trim();
+  const passwordError = touched.password && !password.trim();
+  const hasFormValues = !!username.trim() && !!password.trim();
+
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    setTouched({
+      username: true,
+      password: true,
+    });
+
+    if (!username.trim() || !password.trim()) {
+      return;
+    }
+
+    // TODO: call login API action/store here
+  };
 
   return (
     <section className="">
@@ -40,62 +63,174 @@ export default function LoginPage() {
         </div>
 
         {/* RIGHT SIDE */}
-        <div className="flex flex-col justify-center px-8 md:px-16 lg:px-24 text-white flex-1 basis-auto">
+        <div className="flex flex-col justify-center px-8 md:px-4 lg:px-4 text-white flex-1 basis-auto py-20">
           <div className="mx-4 mt-12 md:mx-auto md:w-md xl:w-105">
-            <form className="space-y-5">
+            <form className="space-y-5" onSubmit={handleSubmit} noValidate>
               {/* Heading */}
-              <h2 className="text-xl xl:text-[19px] font-semibold">
-                Sign in to AuExch
-              </h2>
-              <p className="text-sm  text-white">
-                Don’t have an account?{" "}
-                <Link href="/signup" className="">
-                  Get started
-                </Link>
-              </p>
-
-              {/* Username */}
-              <div className="relative">
-                <input
-                  type="text"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  placeholder=" "
-                  className="peer w-full rounded-[8px] border border-[#373E45] px-4 py-3 text-sm bg-[#11141a] text-white outline-none focus:border-[#078DEE]"
-                />
-                <label className="absolute left-3 top-3 text-sm text-[#637381] peer-placeholder-shown:top-3 peer-placeholder-shown:text-sm peer-focus:-top-2 peer-focus:text-xs peer-focus:text-white bg-[#1F252C] px-1 transition-all">
-                  Username *
-                </label>
+              <div className="flex flex-col mb-10 gap-3">
+                <h2 className="text-xl xl:text-[19px] font-semibold">
+                  Sign in to AuExch
+                </h2>
+                <p className="text-sm  text-white">
+                  Don’t have an account?{" "}
+                  <Link href="/signup" className="">
+                    Get started
+                  </Link>
+                </p>
               </div>
 
-              {/* Password */}
-              <div className="relative">
-                <input
-                  type={showPassword ? "text" : "password"}
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder=" "
-                  className="peer w-full rounded-[8px] border border-[#373E45] px-4 py-3 text-sm bg-[#11141a] text-white outline-none focus:border-[#078DEE]"
-                />
-                <label className="absolute left-3 top-3 text-sm text-[#637381] peer-placeholder-shown:top-3 peer-placeholder-shown:text-sm peer-focus:-top-2 peer-focus:text-xs peer-focus:text-white px-1 transition-all">
-                  Password *
-                </label>
+              <div className="flex flex-col gap-6">
+                <div className="inline-flex   flex-col relative min-w-0 align-top w-full m-0 p-0 border-0 border-[initial]">
+                  <label
+                    htmlFor="username"
+                    className="font-semibold text-base leading-normal text-(--palette-text-secondary) font-normal  leading-[1.57143] block text-ellipsis absolute origin-[left_top] z-[1] select-none pointer-events-auto max-w-[calc(133%-32px)] translate-x-3.5 translate-y-[-9px] whitespace-nowrap overflow-hidden p-0 scale-75 left-0 top-0"
+                  >
+                    Username
+                    <span className=""> *</span>
+                  </label>
+                  <div className="font-normal text-base leading-[1.4375em]  text-(--palette-text-primary) box-border cursor-text inline-flex items-center w-full relative rounded-lg group">
+                    <input
+                      type="text"
+                      placeholder="Username"
+                      name="username"
+                      value={username}
+                      onChange={(e) => setUsername(e.target.value)}
+                      onBlur={() =>
+                        setTouched((prev) => ({ ...prev, username: true }))
+                      }
+                      aria-invalid={usernameError}
+                      aria-describedby={
+                        usernameError ? "username-helper-text" : undefined
+                      }
+                      className="font-[inherit] placeholder:text-(--palette-text-primary) outline-0 leading-[inherit] tracking-[inherit] text-current box-content h-[1.4375em] block min-w-0 w-full text-[0.9375rem] m-0 px-3.5 py-[16.5px] border-0"
+                    />
+                    <fieldset
+                      className={`text-left absolute top-[-5px] pointer-events-none min-w-[0%] border overflow-hidden transition-[border-color] duration ease-in-out m-0 px-2 py-0 rounded-[inherit] border-solid bottom-0 inset-x-0 group-hover:border-(--palette-text-primary) group-focus-within:border-(--palette-text-primary) ${
+                        usernameError
+                          ? "border-(--palette-error-main)"
+                          : "border-[rgba(var(--palette-grey-500Channel)_/_20%)]"
+                      }`}
+                    >
+                      <legend className="w-auto overflow-hidden block h-[11px] text-[14px] invisible whitespace-nowrap max-w-full transition-[max-width] duration-100 ease-out delay-[50ms] p-0">
+                        <span>Username *</span>
+                      </legend>
+                    </fieldset>
+                  </div>
+                  {usernameError && (
+                    <div
+                      className="font-normal text-xs leading-normal text-left mt-2 mb-0 mx-3.5 text-(--palette-error-main)"
+                      id="username-helper-text"
+                    >
+                      Can not be empty
+                    </div>
+                  )}
+                </div>
 
-                {/* Toggle */}
-                <button
-                  type="button"
-                  onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-3 text-gray-400 hover:text-white"
-                >
-                  {showPassword ? "Hide" : "Show"}
-                </button>
+                <div className="inline-flex   flex-col relative min-w-0 align-top w-full m-0 p-0 border-0 border-[initial]">
+                  <label
+                    htmlFor="password"
+                    className="font-semibold text-base leading-normal text-(--palette-text-secondary) font-normal  leading-[1.57143] block text-ellipsis absolute origin-[left_top] z-[1] select-none pointer-events-auto max-w-[calc(133%-32px)] translate-x-3.5 translate-y-[-9px] whitespace-nowrap overflow-hidden p-0 scale-75 left-0 top-0"
+                  >
+                    Password
+                    <span className=""> *</span>
+                  </label>
+                  <div className="font-normal text-base leading-[1.4375em]  text-(--palette-text-primary) box-border cursor-text inline-flex items-center w-full relative rounded-lg group">
+                    <input
+                      type={showPassword ? "text" : "password"}
+                      placeholder="Password"
+                      name="password"
+                      id="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      onBlur={() =>
+                        setTouched((prev) => ({ ...prev, password: true }))
+                      }
+                      aria-invalid={passwordError}
+                      aria-describedby={
+                        passwordError ? "password-helper-text" : undefined
+                      }
+                      className="font-[inherit] placeholder:text-(--palette-text-primary) outline-0 leading-[inherit] tracking-[inherit] text-current box-content h-[1.4375em] block min-w-0 w-full text-[0.9375rem] m-0 px-3.5 py-[16.5px] border-0"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowPassword((prev) => !prev)}
+                      className="absolute top-1/2  -translate-y-1/2 right-0.5 text-(--palette-action-active)  cursor-pointer p-2 hover:bg-[rgba(145,158,171,0.08)] rounded-full flex justify-center items-center"
+                      aria-label={
+                        showPassword ? "Hide password" : "Show password"
+                      }
+                    >
+                      {showPassword ? (
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          xmlnsXlink="http://www.w3.org/1999/xlink"
+                          aria-hidden="true"
+                          role="img"
+                          className="h-5 w-5"
+                          id="_r_4_"
+                          width="1em"
+                          height="1em"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            fill="currentColor"
+                            d="M9.75 12a2.25 2.25 0 1 1 4.5 0a2.25 2.25 0 0 1-4.5 0"
+                          ></path>
+                          <path
+                            fill="currentColor"
+                            fill-rule="evenodd"
+                            d="M2 12c0 1.64.425 2.191 1.275 3.296C4.972 17.5 7.818 20 12 20s7.028-2.5 8.725-4.704C21.575 14.192 22 13.639 22 12c0-1.64-.425-2.191-1.275-3.296C19.028 6.5 16.182 4 12 4S4.972 6.5 3.275 8.704C2.425 9.81 2 10.361 2 12m10-3.75a3.75 3.75 0 1 0 0 7.5a3.75 3.75 0 0 0 0-7.5"
+                            clip-rule="evenodd"
+                          ></path>
+                        </svg>
+                      ) : (
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          xmlnsXlink="http://www.w3.org/1999/xlink"
+                          aria-hidden="true"
+                          role="img"
+                          className="h-5 w-5"
+                          id="_r_4_"
+                          width="1em"
+                          height="1em"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            fill="currentColor"
+                            fill-rule="evenodd"
+                            d="M1.606 6.08a1 1 0 0 1 1.313.526L2 7l.92-.394v-.001l.003.009l.021.045l.094.194c.086.172.219.424.4.729a13.4 13.4 0 0 0 1.67 2.237a12 12 0 0 0 .59.592C7.18 11.8 9.251 13 12 13a8.7 8.7 0 0 0 3.22-.602c1.227-.483 2.254-1.21 3.096-1.998a13 13 0 0 0 2.733-3.725l.027-.058l.005-.011a1 1 0 0 1 1.838.788L22 7l.92.394l-.003.005l-.004.008l-.011.026l-.04.087a14 14 0 0 1-.741 1.348a15.4 15.4 0 0 1-1.711 2.256l.797.797a1 1 0 0 1-1.414 1.415l-.84-.84a12 12 0 0 1-1.897 1.256l.782 1.202a1 1 0 1 1-1.676 1.091l-.986-1.514c-.679.208-1.404.355-2.176.424V16.5a1 1 0 0 1-2 0v-1.544c-.775-.07-1.5-.217-2.177-.425l-.985 1.514a1 1 0 0 1-1.676-1.09l.782-1.203c-.7-.37-1.332-.8-1.897-1.257l-.84.84a1 1 0 0 1-1.414-1.414l.797-.797a15.4 15.4 0 0 1-1.87-2.519a14 14 0 0 1-.591-1.107l-.033-.072l-.01-.021l-.002-.007l-.001-.002v-.001C1.08 7.395 1.08 7.394 2 7l-.919.395a1 1 0 0 1 .525-1.314"
+                            clip-rule="evenodd"
+                          ></path>
+                        </svg>
+                      )}
+                    </button>
+                    <fieldset
+                      className={`text-left absolute top-[-5px] pointer-events-none min-w-[0%] border overflow-hidden transition-[border-color] duration ease-in-out m-0 px-2 py-0 rounded-[inherit] border-solid bottom-0 inset-x-0 group-hover:border-(--palette-text-primary) group-focus-within:border-(--palette-text-primary) ${
+                        passwordError
+                          ? "border-(--palette-error-main)"
+                          : "border-[rgba(var(--palette-grey-500Channel)_/_20%)]"
+                      }`}
+                    >
+                      <legend className="w-auto overflow-hidden block h-[11px] text-[14px] invisible whitespace-nowrap max-w-full transition-[max-width] duration-100 ease-out delay-[50ms] p-0">
+                        <span>Password *</span>
+                      </legend>
+                    </fieldset>
+                  </div>
+                  {passwordError && (
+                    <div
+                      className="font-normal text-xs leading-normal text-left mt-2 mb-0 mx-3.5 text-(--palette-error-main)"
+                      id="password-helper-text"
+                    >
+                      Can not be empty
+                    </div>
+                  )}
+                </div>
               </div>
-
               {/* Login Button */}
               <button
-                disabled={!password}
-                className={`w-full rounded-[8px] py-3 text-sm font-semibold transition-all ${
-                  password
+                type="submit"
+                disabled={!hasFormValues}
+                className={`w-full rounded-lg p-[6px_12px] min-h-9 text-sm font-semibold transition-all ${
+                  hasFormValues
                     ? "bg-[#078DEE] text-white"
                     : "bg-[rgba(145,158,171,0.24)] text-[rgba(145,158,171,0.8)] cursor-not-allowed"
                 }`}
