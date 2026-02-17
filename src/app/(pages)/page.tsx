@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import SingleMarket from "@/components/sidebar";
 import Casino from "@/components/casino/page";
-import SingleaMarket from "@/components/single-market";
 import HomeSlider from "@/components/home-slider/page";
 import SportsNave from "@/components/sports-nave";
 
@@ -28,7 +27,7 @@ export default function Home() {
             <SportsNave />
           </div>
           <div className="mb-4">
-            <SingleaMarket />
+            <SingleMarket/>
           </div>
           <Casino />
         </div>
@@ -42,7 +41,7 @@ export default function Home() {
             <SportsNave />
           </div>
           <div className="mb-4">
-            <SingleaMarket />
+            <SingleMarket />
           </div>
           <Casino />
         </div>
