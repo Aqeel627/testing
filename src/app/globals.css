@@ -6,7 +6,7 @@
   --background: #fff;
   --foreground: #171717;
   --palette-common-black: #000000;
-  --text-primary-hover:black;
+  --text-primary-hover: black;
   --palette-common-white: #ffffff;
   --palette-common-blackChannel: 0 0 0;
   --palette-common-whiteChannel: 255 255 255;
@@ -15,7 +15,7 @@
   --palette-common-backgroundChannel: 255 255 255;
   --palette-common-onBackgroundChannel: 0 0 0;
   --palette-primary-lighter: #ccf4fe;
-  --palette-primary-light: #0351AB;
+  --palette-primary-light: #0351ab;
   --palette-primary-main: #078dee;
   --palette-primary-dark: #0351ab;
   --palette-primary-darker: #012972;
@@ -337,9 +337,9 @@
 .dark {
   --background: #141a21;
   --foreground: #ededed;
-  --text-primary-hover:white;
+  --text-primary-hover: white;
   --palette-primary-lighter: #ccf4fe;
-  --palette-primary-light: #68CDF9;
+  --palette-primary-light: #68cdf9;
   --palette-primary-main: #078dee;
   --palette-primary-dark: #0351ab;
   --palette-primary-darker: #012972;
@@ -781,4 +781,41 @@ body {
   transition:
     opacity 200ms cubic-bezier(0.4, 0, 0.2, 1),
     visibility 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.submitLoader {
+  animation: 1.4s linear 0s infinite normal none running submitLoader;
+}
+
+@keyframes submitLoader {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.circleAnimation {
+  stroke: currentcolor;
+
+  animation: 1.4s ease-in-out 0s infinite normal none running circleAnimation;
+}
+
+@keyframes circleAnimation {
+  0% {
+    stroke-dasharray: 1px, 200px;
+    stroke-dashoffset: 0;
+  }
+
+  50% {
+    stroke-dasharray: 100px, 200px;
+    stroke-dashoffset: -15px;
+  }
+
+  100% {
+    stroke-dasharray: 1px, 200px;
+    stroke-dashoffset: -126px;
+  }
 }

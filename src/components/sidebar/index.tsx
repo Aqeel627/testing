@@ -4,11 +4,12 @@ import { motion } from "framer-motion";
 import type { CSSProperties } from "react";
 import { type MouseEvent, useState } from "react";
 import styles from "./sidebar.module.css";
-import { useAppStore } from "@/lib/store/ui-store";
+import { useAppStore } from "@/lib/store/store";
 import Link from "next/link";
 import Icon from "@/icons/icons";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
+import { useUIStore } from "@/lib/store/ui-store";
 
 // Type definitions for better type safety
 interface ThirdItem {
@@ -53,12 +54,21 @@ interface QuickLinkItemProps {
   href: string;
   count: number;
   icon: React.ReactNode;
-  pathName:string
+  pathName: string;
 }
 
-const QuickLinkItem = ({ label, href, count, icon, pathName }: QuickLinkItemProps) => (
+const QuickLinkItem = ({
+  label,
+  href,
+  count,
+  icon,
+  pathName,
+}: QuickLinkItemProps) => (
   <li className={styles.item}>
-    <Link href={href} className={cn(styles.link,pathName===href&&styles.linkActive)}>
+    <Link
+      href={href}
+      className={cn(styles.link, pathName?.includes(href) && styles.linkActive)}
+    >
       <span className={styles.linkIconWrap}>
         <Icon
           name={icon}
@@ -251,7 +261,8 @@ export default function Sidebar({ config }: SidebarProps) {
   const [openTournamentKey, setOpenTournamentKey] = useState<string | null>(
     null,
   );
-  const toggleSearch = useAppStore((s) => s.toggleSearch);
+  const { inplayEvents } = useAppStore();
+  const toggleSearch = useUIStore((s) => s.toggleSearch);
 
   // Default config if none provided
   const defaultConfig: SidebarConfig = {
@@ -296,8 +307,8 @@ export default function Sidebar({ config }: SidebarProps) {
     quickLinks: [
       {
         label: "Inplay",
-        href: "/inplay/all",
-        count: 34,
+        href: "/inplay",
+        count: inplayEvents?.totalLength,
         icon: "inplay",
       },
       {
