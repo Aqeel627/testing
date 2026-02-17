@@ -1,40 +1,35 @@
 .loaderWrapper {
-  -webkit-box-flex: 1;
   flex-grow: 1;
   display: flex;
   flex-direction: column;
 }
 
 .cssContainer {
-  right: 0px;
-  bottom: 0px;
+  right: 0;
+  bottom: 0;
   z-index: 9998;
-  -webkit-box-flex: 1;
   flex-grow: 1;
   width: 100%;
   height: 100%;
   display: flex;
   position: fixed;
-  -webkit-box-align: center;
   align-items: center;
-  -webkit-box-pack: center;
   justify-content: center;
   background-color: var(--palette-background-default);
 }
 
 .loaderContainer {
-  -webkit-box-align: center;
   align-items: center;
   position: relative;
   display: inline-flex;
-
   justify-content: center;
   height: 187px;
   width: 187px;
 }
 
+/* Logo container */
 .loaderImageContainer {
-  margin: 0px;
+  margin: 0;
   font: inherit;
   letter-spacing: inherit;
   text-decoration: none;
@@ -52,16 +47,90 @@
   max-width: 100%;
 }
 
+/* Inner rotating ring */
 .loaderSpan {
   position: absolute;
   width: calc(100% - 20px);
   height: calc(100% - 20px);
-  border: solid 3px rgba(var(--palette-primary-darkChannel) / 24%);
+  border: solid 12px rgba(var(--palette-primary-darkChannel) / 24%);
+  border-radius: 25%;
+  transform-origin: 50% 50%;
+  will-change: transform, opacity;
+
+  /* start like your inline style */
+  --r: 111.375deg;
+
+  animation: ringA 1.2s ease-in-out infinite;
 }
 
+/* ✅ Outer ring = THIN + opposite rotate */
 .loaderBorder {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    border: solid 8px rgba(var(--palette-primary-darkChannel) / 24%);
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border: solid 4px rgba(var(--palette-primary-darkChannel) / 24%);
+  border-radius: 25%;
+  transform-origin: 50% 50%;
+  will-change: transform, opacity;
+
+  --r: 158.625deg;
+
+  animation: ringB 1.8s ease-in-out infinite;
+}
+
+/* ✅ Logo (same “reload vibe”) */
+.logoAnim {
+  will-change: transform, opacity;
+  animation:
+    logoIn 500ms ease-out 1,
+    logoPulse 1.6s ease-in-out infinite;
+  z-index: 2;
+}
+
+/* --- Keyframes (MUI-like) --- */
+@keyframes ringA {
+  0% {
+    transform: rotate(var(--r)) scale(0.9);
+  }
+  50% {
+    transform: rotate(calc(var(--r) + 180deg)) scale(1.25);
+  }
+  100% {
+    transform: rotate(calc(var(--r) + 360deg)) scale(0.9);
+  }
+}
+
+@keyframes ringB {
+  0% {
+    transform: rotate(var(--r)) scale(1.1);
+  }
+  50% {
+    transform: rotate(calc(var(--r) - 180deg)) scale(0.95);
+  }
+  100% {
+    transform: rotate(calc(var(--r) - 360deg)) scale(1.1);
+  }
+}
+
+@keyframes logoIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes logoPulse {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(0.98);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
 }

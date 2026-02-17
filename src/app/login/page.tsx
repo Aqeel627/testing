@@ -1,11 +1,12 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Loader from "@/components/Loader/loader";
 
 export default function LoginPage() {
+  const [isLoading, setIsLoading] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -17,6 +18,14 @@ export default function LoginPage() {
   const usernameError = touched.username && !username.trim();
   const passwordError = touched.password && !password.trim();
   const hasFormValues = !!username.trim() && !!password.trim();
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -32,6 +41,10 @@ export default function LoginPage() {
 
     // TODO: call login API action/store here
   };
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <section className="">
@@ -260,7 +273,6 @@ export default function LoginPage() {
           </div>
         </div>
       </div>
-      <Loader />
     </section>
   );
 }
