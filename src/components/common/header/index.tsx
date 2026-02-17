@@ -10,6 +10,8 @@ import { useAppStore } from "@/lib/store/store";
 import { fetchData } from "@/lib/functions";
 import { useAuthStore } from "@/lib/store/authStore";
 import { ThemeToggle } from "../theme-toggler";
+import { useTheme } from "next-themes";
+
 
 type HeaderProps = {
   onMenuClick?: () => void;
@@ -21,6 +23,8 @@ export default function Header({ onMenuClick }: HeaderProps) {
   const [showExposure, setShowExposure] = useState(true);
   const { userBalance, setUserBalance } = useAppStore();
   const { isLoggedIn } = useAuthStore();
+  const { resolvedTheme } = useTheme();
+
 
   //   useEffect(() => {
   //   console.log("isLoggedIn:", isLoggedIn);
@@ -59,7 +63,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
             className="font-[inherit]  no-underline shrink-0 text-transparent inline-flex h-[44px] w-[152px] cursor-pointer"
           >
             <Image
-              src="/brand_logo_dark.png"
+src={resolvedTheme === "light" ? "/brand_logo_light.png" : "/brand_logo_dark.png"}
               alt="AuExch Logo"
               fill
               className="object-contain relative! mx-1 "
