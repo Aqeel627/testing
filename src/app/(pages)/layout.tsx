@@ -59,6 +59,15 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
 
   const pathname = usePathname();
   const { checkLogin, isLoggedIn } = useAuthStore();
+
+  const handleAllEvents = (data: any) => {
+    setAllEventsList(data); // pehla kaam
+    console.log("Events Set",data);
+
+    // doosra function
+    const formatted = useAppStore.getState().getFormattedInplayEvents?.();
+    console.log("Formatted:", formatted);
+  };
   // API Calls
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -68,7 +77,7 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
       url: CONFIG.getAllEventsList,
       payload: { key: CONFIG.siteKey },
       cachedKey: "allEventsList",
-      setFn: setAllEventsList,
+      setFn: handleAllEvents,
       expireIn: CONFIG.getAllEventsListTime,
     });
 
