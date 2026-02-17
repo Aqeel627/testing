@@ -2,8 +2,7 @@
 import { useAppStore } from "@/lib/store/store";
 import { useEffect } from "react";
 import Icon from "@/icons/icons";
-
-
+import Link from "next/link";
 
 export default function SingleaMarket() {
   const { allEventsList, selectedEventTypeId } = useAppStore();
@@ -55,7 +54,7 @@ export default function SingleaMarket() {
                 </div>
 
                 {/* Runner Names */}
-                <a href={`/event/${event.event?.id}`} className="flex flex-col w-full min-w-0 flex-auto no-underline">
+                <a href={`/market-details/${event.event?.id}/${event.eventType.id}`} className="flex flex-col w-full min-w-0 flex-auto no-underline">
 
                   {/* Team 1 */}
                   <div className="flex flex-row gap-1.5 overflow-hidden justify-between items-center">
