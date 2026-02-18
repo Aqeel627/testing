@@ -258,9 +258,9 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
         <Header onMenuClick={() => setIsSidebarOpen((prev) => !prev)} />
       </div>
 
-      <div ref={containerRef} className="flex pt-[50px] h-full w-100% mt-5 ">
+      <div ref={containerRef} className="flex h-full w-100% ">
         <aside
-          className={`h-full no-scrollbar overflow-hidden transition-all duration-300 border-white/5 ease-in-out ${
+          className={`h-full pt-[50px] no-scrollbar overflow-hidden transition-all duration-300 border-white/5 ease-in-out ${
             isSidebarOpen ? "border-r " : "border-0"
           }`}
           style={{ width: `${leftWidth}px`, minWidth: `${leftWidth}px` }}
@@ -269,7 +269,7 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
         </aside>
 
         <main
-          className="h-full overflow-y-auto no-scrollbar pb-[30px] min-w-[450px] ps-3 pe-[6px] mt-[10px]"
+          className="h-full pt-[50px] overflow-y-auto no-scrollbar pb-[30px] min-w-[450px] ps-3 pe-[6px] mt-[10px]"
           style={
             mainWidth
               ? { width: `${mainWidth}px`, flex: `0 0 ${mainWidth}px` }
