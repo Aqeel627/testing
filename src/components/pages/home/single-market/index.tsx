@@ -3,6 +3,8 @@ import { useAppStore } from "@/lib/store/store";
 import { useEffect } from "react";
 import Icon from "@/icons/icons";
 import Link from "next/link";
+import style from "./singleMarket.module.css";
+import { shortNumber } from "@/lib/functions";
 
 export default function SingleMarket() {
   const { allEventsList, selectedEventTypeId } = useAppStore();
@@ -11,36 +13,6 @@ export default function SingleMarket() {
   useEffect(() => {
     console.log(allEventsList, "events all");
   }, [allEventsList]);
-
-  function shortNumber(value: number): string | null {
-    if (isNaN(value) || value === null) return null;
-    if (value === 0) return "0";
-
-    const abs = Math.abs(value);
-    const rounder = Math.pow(10, 1);
-    const isNegative = value < 0;
-    let key = "";
-    let formatted = abs;
-
-    const powers = [
-      { key: "Q", value: Math.pow(10, 15) },
-      { key: "T", value: Math.pow(10, 12) },
-      { key: "B", value: Math.pow(10, 9) },
-      { key: "M", value: Math.pow(10, 6) },
-      { key: "K", value: 1000 },
-    ];
-
-    for (let i = 0; i < powers.length; i++) {
-      const reduced = Math.round((abs / powers[i].value) * rounder) / rounder;
-      if (reduced >= 1) {
-        formatted = reduced;
-        key = powers[i].key;
-        break;
-      }
-    }
-
-    return `${isNegative ? "-" : ""}${formatted}${key}`;
-  }
 
   const events: any[] = selectedEventTypeId
     ? (allEventsList?.[selectedEventTypeId] ?? [])
@@ -98,7 +70,7 @@ export default function SingleMarket() {
                   {/* Team 1 */}
                   <div className="flex flex-row gap-1.5 overflow-hidden justify-between items-center">
                     <div className="flex flex-row gap-1.5 items-center">
-                      <p className="m-0 font-sans truncate text-[14px] font-bold leading-[1.3rem]">
+                      <p className="m-0 font-sans truncate text-[14px] font-bold leading-[1.3rem] text-[var(--palette-text-primary)]">
                         {event.runnersName?.[0]?.runnerName}
                       </p>
                       {event.inplay &&
@@ -112,7 +84,7 @@ export default function SingleMarket() {
                   {/* Team 2 */}
                   <div className="flex flex-row gap-1.5 overflow-hidden justify-between items-center">
                     <div className="flex flex-row gap-1.5 items-center">
-                      <p className="m-0 font-sans truncate text-[14px] font-bold leading-[1.3rem]">
+                      <p className="m-0 font-sans truncate text-[14px] font-bold leading-[1.3rem] text-[var(--palette-text-primary)]">
                         {rightRunnerName}
                       </p>
                       {event.inplay &&
@@ -133,23 +105,28 @@ export default function SingleMarket() {
                 <div className="flex flex-row gap-3 justify-start items-center h-4 leading-4 contain-strict pointer-events-none overflow-hidden mt-0.5">
                   <div className="min-w-9.5">
                     <div className="flex gap-1.5">
-                      <div className="flex justify-center items-center animate-pulse">
-                        <div className="w-[7px] h-[7px] bg-[#078dee] rounded-full"></div>
-                      </div>
-                      <p className="m-0 font-sans truncate whitespace-nowrap text-[10px] text-[#078dee] font-bold leading-[1rem]">
+                      {event.inplay && (
+                        <div className={`flex justify-center items-center ${style.animateLiveBlink}`}>
+                          <div className="w-[7px] h-[7px] bg-[#078dee] rounded-full"></div>
+                        </div>
+                      )}
+                      <p
+                        className={`m-0 font-sans truncate whitespace-nowrap text-[10px] font-bold leading-[1rem] ${event.inplay
+                          ? "text-[#078dee]"
+                          : "text-[var(--palette-grey-500)]"
+                          }`}
+                      >
                         {event.inplay
                           ? "In-Play"
-                          : new Date(event.marketStartTime).toLocaleDateString(
-                              "en-GB",
-                              {
-                                day: "2-digit",
-                                month: "2-digit",
-                                year: "numeric",
-                                hour: "2-digit",
-                                minute: "2-digit",
-                              },
-                            )}
+                          : (() => {
+                            const date = new Date(event.marketStartTime);
+                            const day = String(date.getDate()).padStart(2, "0");
+                            const month = String(date.getMonth() + 1).padStart(2, "0");
+                            const year = date.getFullYear();
+                            return `${day}-${month}-${year}`;
+                          })()}
                       </p>
+
                     </div>
                   </div>
 
@@ -265,8 +242,8 @@ export default function SingleMarket() {
                       <span className="block whitespace-nowrap font-semibold text-[0.8rem] text-center">
                         {hasThreeRunners
                           ? (shortNumber(
-                              runner2?.ex?.availableToBack?.[0]?.size,
-                            ) ?? "")
+                            runner2?.ex?.availableToBack?.[0]?.size,
+                          ) ?? "")
                           : ""}
                       </span>
                     </div>
@@ -291,8 +268,8 @@ export default function SingleMarket() {
                       <span className="block whitespace-nowrap font-semibold text-[0.8rem] text-center">
                         {hasThreeRunners
                           ? (shortNumber(
-                              runner2?.ex?.availableToLay?.[0]?.size,
-                            ) ?? "")
+                            runner2?.ex?.availableToLay?.[0]?.size,
+                          ) ?? "")
                           : ""}
                       </span>
                     </div>

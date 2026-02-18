@@ -213,7 +213,7 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
     return (
       <div className="w-full min-h-screen">
         <div className="w-full fixed top-0 z-50 css-before">
-          <Marque />
+          {/* <Marque /> */}
           {/* ✅ toggle via store */}
           <Header
             onMenuClick={() =>
@@ -254,13 +254,13 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
   return (
     <div className="w-full h-screen overflow-hidden">
       <div className="fixed top-0 left-0 w-full z-50">
-        <Marque />
+        {/* <Marque /> */}
         <Header onMenuClick={() => setIsSidebarOpen((prev) => !prev)} />
       </div>
 
-      <div ref={containerRef} className="flex pt-[50px] h-full w-100% mt-5 ">
+      <div ref={containerRef} className="flex h-full w-100% ">
         <aside
-          className={`h-full no-scrollbar overflow-hidden transition-all duration-300 border-white/5 ease-in-out ${
+          className={`h-full pt-[50px] no-scrollbar overflow-hidden transition-all duration-300 border-white/5 ease-in-out ${
             isSidebarOpen ? "border-r " : "border-0"
           }`}
           style={{ width: `${leftWidth}px`, minWidth: `${leftWidth}px` }}
@@ -269,7 +269,7 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
         </aside>
 
         <main
-          className="h-full overflow-y-auto no-scrollbar pb-[30px] min-w-[450px] ps-3 pe-[6px] mt-[10px]"
+          className="h-full pt-[50px] overflow-y-auto no-scrollbar pb-[30px] min-w-[450px] ps-3 pe-[6px] mt-[10px]"
           style={
             mainWidth
               ? { width: `${mainWidth}px`, flex: `0 0 ${mainWidth}px` }
@@ -280,7 +280,7 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
           <Footer />
         </main>
 
-        <div className="w-[0.279%] bg-[rgba(145,158,171,0.2)] --palette-text-primary ml-[6.5px] relative">
+        <div className="w-[0.279%] mt-[50px] bg-[rgba(145,158,171,0.2)] --palette-text-primary ml-[6.5px] relative">
           <svg
             onPointerDown={startDrag}
             onPointerMove={onDrag}
@@ -307,7 +307,7 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
           </svg>
         </div>
 
-        <aside className="flex-auto min-w-0 h-full overflow-y-auto no-scrollbar border-l border-white/5">
+        <aside className="flex-auto min-w-0 h-full overflow-y-auto no-scrollbar pt-[50px] border-l border-white/5">
           <BetSlip />
         </aside>
       </div>

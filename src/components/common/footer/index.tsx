@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Icon from "@/icons/icons";
 import { useState } from "react";
+import { CONFIG } from "@/lib/config";
 const languages = [
   { value: "en", label: "English" },
   { value: "hi", label: "हिंदी" },
@@ -60,7 +61,7 @@ export default function Footer() {
                   Protected connection and encrypted data.
                 </p>
 
-                <div className="flex flex-col">
+                {/* <div className="flex flex-col">
                   <span className="inline-flex max-[899px]:mb-[3px]    justify-center items-center h-[24px] rounded bg-[rgba(var(--palette-primary-mainChannel)_/_16%)]   text-[12px] font-bold leading-[19px] text-(--palette-primary-light)">
                     Payment Gateways
                   </span>
@@ -74,7 +75,7 @@ export default function Footer() {
                       className="h-5 w-5 max-[899px]:ml-[12px] ml-[5px]"
                     />
                   </div>
-                </div>
+                </div> */}
 
                 <div className="inline-block mt-2 relative min-[900px]:hidden mx-auto">
                   <button
@@ -213,7 +214,7 @@ export default function Footer() {
               "Betting Rules",
               "Dispute Resolution",
               "Fairness & RNG Testing Methods",
-              "Accounts, Payouts and Bonuses",
+              "Accounts",
               "Privacy Policy",
               "Self-Exclusion",
             ].map((item, i) => (
@@ -229,10 +230,13 @@ export default function Footer() {
           {/* COPYRIGHT */}
           <div className="mt-1 flex justify-center bg-[#919EAB29] py-1 max-[900px]:mt-[16px] text-xs font-bold text-(--palette-text-secondary)">
             <p className="flex gap-[2px]">
-              Copyright © 2026 &nbsp;
-              <span className="cursor-pointer text-[#098DEE] hover:underline relative left-[1px]">
+              Copyright © {new Date().getFullYear()} &nbsp;
+              <a
+                href={CONFIG.domain}
+                className="cursor-pointer text-[#098DEE] hover:underline relative left-[1px]"
+              >
                 AuExch.
-              </span>{" "}
+              </a>{" "}
               &nbsp; &nbsp; All rights reserved.
             </p>
           </div>

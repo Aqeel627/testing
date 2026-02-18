@@ -44,7 +44,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
   }, [accessToken]);
 
   return (
-    <header className="w-full   --palette-text-primary  sticky top-0 z-50 ">
+    <header className="w-full glass  --palette-text-primary  sticky top-0 z-50 ">
       <div className="max-w-[1600px] mx-auto px-2 h-12 flex items-center justify-between">
         {/* 👇 Left: Hamburger & Logo */}
         <div className="flex items-center gap-3 md:gap-4">
@@ -95,7 +95,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
             <span className="relative top-[-0.5px]">Casino</span>
           </Link>
 
-          <Link
+          {/* <Link
             href="/casinos/q-tech/aviator"
             className="flex p-1 items-center text-[13px] font-medium --palette-text-primary  hover:--palette-text-primary  transition-colors relative left-[0.5px] rounded-lg  hover:bg-[rgba(145,158,171,0.08)] "
           >
@@ -105,9 +105,9 @@ export default function Header({ onMenuClick }: HeaderProps) {
             <span className="font-bold --palette-text-primary  relative top-[-0.5px]">
               Sportbook
             </span>
-          </Link>
+          </Link> */}
 
-          <Link
+          {/* <Link
             href="/slot"
             className="flex p-1 items-center justify-center text-[13px] font-bold --palette-text-primary  hover:--palette-text-primary  transition-colors w-[70px] relative left-[3px] rounded-lg  hover:bg-[rgba(145,158,171,0.08)] "
           >
@@ -117,7 +117,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
             <span className="--palette-text-primary  font-bold relative top-[-0.5px]">
               Fancty
             </span>
-          </Link>
+          </Link> */}
         </nav>
 
         <div className="flex items-center gap-2 sm:gap-[6px]">
@@ -157,7 +157,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
             <span className="relative !top-[-0.5px] font-bold">Casino</span>
           </Link>
 
-          <Link
+          {/* <Link
             href="/slot"
             className="flex py-1 pr-[4px] pl-[2.8px] items-center justify-center min-w-[70px] text-[13px] font-medium --palette-text-primary  hover:--palette-text-primary  transition-colors whitespace-nowrap relative !left-[4px]"
           >
@@ -167,9 +167,9 @@ export default function Header({ onMenuClick }: HeaderProps) {
             <span className="--palette-text-primary  font-bold relative !top-[-0.5px]">
               Fancty
             </span>
-          </Link>
+          </Link> */}
 
-          <Link
+          {/* <Link
             href="/casinos/q-tech/aviator"
             className="flex py-1 pr-[4px] pl-[3.8px] items-center text-[13px] font-medium --palette-text-primary  hover:--palette-text-primary  transition-colors whitespace-nowrap"
           >
@@ -179,7 +179,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
             <span className="font-bold --palette-text-primary    relative !top-[-0.5px]">
               Sportbook
             </span>
-          </Link>
+          </Link> */}
         </nav>
       </div>
     </header>
