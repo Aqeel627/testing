@@ -15,6 +15,7 @@ import { useAppRateHighlighter } from "@/lib/highlaterMarket";
 
 // WebSocket service (assumed to exist)
 import { webSocketService } from "@/lib/websocket.service";
+import Icons from "@/icons/icons";
 
 interface RunnerName {
   selectionId: number;
@@ -105,7 +106,7 @@ export default function MarketDetails() {
   const [tournamentName, setTournamentName] = useState("");
   const [sportName, setSportName] = useState("");
   const [eventName, setEventName] = useState("");
-  const [marketTime, setMarketTime] = useState("")
+  const [marketTime, setMarketTime] = useState("");
 
   // Current market type for filtering - IMPORTANT: track current tab
   const [currentMarketType, setCurrentMarketType] = useState<string>("POPULAR");
@@ -373,7 +374,7 @@ export default function MarketDetails() {
     }
   };
 
-  function formatDate(dateString:any) {
+  function formatDate(dateString: any) {
     const date = new Date(dateString);
 
     // Get date components
@@ -963,6 +964,58 @@ export default function MarketDetails() {
                 </time>
               </div>
             </span>
+          </div>
+        </div>
+      </div>
+      <div className="w-full max-w-[620px] mt-2">
+        <div className="w-full bg-[#161616] text-white text-[11px]">
+          <div className="border border-white/10 rounded-lg px-3   relative">
+            <div className="w-full h-14 pt-2 flex items-center justify-between ">
+              {/* LEFT */}
+              <div className="min-w-[95px]">
+                <div className="text-[14px] font-semibold leading-none">
+                  India
+                </div>
+                <div className="text-[10px] text-white/60 mt-1">7.95 CRR</div>
+              </div>
+
+              {/* CENTER */}
+              <div className="flex-1 flex flex-col items-center text-center px-2">
+                {/* TOP PILL */}
+                <div className="text-[10px] bg-[#242424]  flex h-3.25 absolute border border-[rgba(255,255,255,0.12)] border-t-0 uppercase -translate-x-2/4 whitespace-nowrap pt-px pb-0 px-1 rounded-br-sm rounded-bl-sm border-solid left-2/4 top-0 text-white/80 leading-none">
+                  INN 1 <span>&nbsp;|&nbsp;</span> 7.1/20 OV
+                </div>
+
+                {/* SCORE */}
+                <div className="flex items-center gap-1 mt-[3px] leading-none">
+                  <span className="text-[16px] font-bold">57/2</span>
+                  <span className="text-[16px] text-white">: Yet to bat</span>
+                </div>
+
+                {/* DESCRIPTION */}
+                <div className="text-[10px] text-white mt-[2px] leading-none">
+                  India are 57 for 2 after 7.1 overs.
+                </div>
+              </div>
+
+              {/* RIGHT */}
+              <div className="min-w-[110px] text-right">
+                <div className="text-[14px] font-semibold leading-none">
+                  Netherlands
+                </div>
+              </div>
+            </div>
+
+            {/* CHEVRON */}
+            <div className="  w-full text-white/60 h-[20px] flex justify-center items-center">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 12 12"
+                className="w-3 fill-white"
+              >
+                <path d="M12 3.5c0-.1-.05-.2-.12-.28l-.6-.6c-.07-.07-.18-.12-.28-.12s-.2.05-.27.12L6 7.35 1.27 2.62A.42.42 0 0 0 1 2.5a.4.4 0 0 0-.28.12l-.6.6A.4.4 0 0 0 0 3.5c0 .1.05.2.12.27l5.6 5.61c.08.07.19.12.28.12s.2-.05.28-.12l5.6-5.6A.43.43 0 0 0 12 3.5z"></path>
+              </svg>
+            </div>
           </div>
         </div>
       </div>
