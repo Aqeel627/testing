@@ -102,7 +102,10 @@ export default function MarketDetails() {
   const [allMarkets, setAllMarkets] = useState<Market[]>([]);
   const [filteredMarkets, setFilteredMarkets] = useState<Market[]>([]);
   const [popularMarkets, setPopularMarkets] = useState<Market[]>([]);
+  const [tournamentName, setTournamentName] = useState("");
+  const [sportName, setSportName] = useState("");
   const [eventName, setEventName] = useState("");
+  const [marketTime, setMarketTime] = useState("")
 
   // Current market type for filtering - IMPORTANT: track current tab
   const [currentMarketType, setCurrentMarketType] = useState<string>("POPULAR");
@@ -183,7 +186,9 @@ export default function MarketDetails() {
       }
 
       if (!data) return;
-
+      setTournamentName(data.matchOddsData[0].competition.name);
+      setSportName(data.matchOddsData[0].eventType.name);
+      setMarketTime(data.matchOddsData[0].marketStartTime);
       const fancy = (data.fancyData || []) as Market[];
       const manual = (data.bookmakersData || []) as Market[];
       const betfair = (data.matchOddsData || []) as Market[];
@@ -367,6 +372,27 @@ export default function MarketDetails() {
       console.warn("getMarketList failed:", e);
     }
   };
+
+  function formatDate(dateString:any) {
+    const date = new Date(dateString);
+
+    // Get date components
+    const day = String(date.getUTCDate()).padStart(2, "0");
+    const month = String(date.getUTCMonth() + 1).padStart(2, "0");
+    const year = date.getUTCFullYear();
+
+    // Get time components
+    let hours = date.getUTCHours();
+    const minutes = String(date.getUTCMinutes()).padStart(2, "0");
+
+    // Convert to 12-hour format
+    const ampm = hours >= 12 ? "PM" : "AM";
+    hours = hours % 12;
+    hours = hours ? hours : 12; // 0 should be 12
+    const formattedHours = String(hours).padStart(2, "0");
+
+    return `${day}-${month}-${year} ${formattedHours}:${minutes}`;
+  }
 
   // Socket subscription function - FIXED: preserves current tab
   const subscribeForMarkets = (marketIds: string[]) => {
@@ -898,7 +924,16 @@ export default function MarketDetails() {
                   <Icon name="play" className="w-5 h-5" />
                 </span>
                 <a href="" className="inline-flex">
-                  Cricket
+                  {sportName || ""}
+                </a>
+              </span>
+
+              <span className="h-6 min-w-6 inline-flex justify-center items-center text-sm bg-[#078dee29] rounded-[6px] pl-[8px] pr-2 gap-2.5">
+                <span className="text-[#68CDF9]">
+                  <Icon name="play" className="w-5 h-5" />
+                </span>
+                <a href="" className="inline-flex">
+                  {tournamentName || "Tournament"}
                 </a>
               </span>
               <span className="h-6 min-w-6 inline-flex justify-center items-center text-sm bg-[#078dee29] rounded-[6px] pl-[8px] pr-2 gap-2.5">
@@ -919,12 +954,12 @@ export default function MarketDetails() {
         <div className="flex justify-start items-center relative no-underline w-full box-border text-left py-2 px-4 flex-wrap rounded-2">
           <div className="flex-auto min-w-0 m-0">
             <h5 className="text-[1rem] font-bold leading-[1.5] mb-[-2px]">
-              {eventName || "Market Details"}
+              {tournamentName || "Market Details"}
             </h5>
             <span className="text-[0.875rem] leading-[1.57143]">
               <div className="flex gap-2 items-center">
                 <time className="text-[0.785rem] font-semibold leading-[1.57143] text-[#919EAB]">
-                  Event: {eventId} | Sport: {sportId}
+                  {formatDate(marketTime)}
                 </time>
               </div>
             </span>
