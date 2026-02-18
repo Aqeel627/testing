@@ -12,7 +12,7 @@ export const useAppStore = create<any>()(
       menuList: null,
       exchangeNews: null,
       stakeValue: null,
-      selectedEventTypeId: null,
+      selectedEventTypeId: '4',
       selectedBet: null,
       inplayEvents: null,
 

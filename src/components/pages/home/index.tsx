@@ -12,7 +12,7 @@ export default function HomePage() {
           {/* <SportsNav /> */}
         </div>
         <div className="mb-4">
-          {/* <SingleMarket /> */}
+          <SingleMarket />
         </div>
         <Casino />
       </div>
