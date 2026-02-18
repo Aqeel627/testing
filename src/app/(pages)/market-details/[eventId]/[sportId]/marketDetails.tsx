@@ -10,6 +10,10 @@ import React, {
 import { useParams, useRouter } from "next/navigation";
 import { CONFIG } from "@/lib/config";
 import axios from "axios";
+import { useAppStore } from "@/lib/store/store";
+
+// WebSocket service (assumed to exist)
+import { webSocketService } from "@/lib/websocket.service";
 
 interface RunnerName {
   selectionId: number;
@@ -22,6 +26,7 @@ interface Market {
   popular: boolean;
   status: string;
   marketId: string;
+  exMarketId?: string;
   event?: { name: string };
   eventType?: { name?: string };
   marketName?: string;
@@ -78,6 +83,7 @@ const shortNumber = (value: any): string => {
 };
 
 export default function MarketDetails() {
+  const { setSelectedBet } = useAppStore();
   const params = useParams();
   const router = useRouter();
 
@@ -97,16 +103,22 @@ export default function MarketDetails() {
   const [popularMarkets, setPopularMarkets] = useState<Market[]>([]);
   const [eventName, setEventName] = useState("");
 
-  // Current market type for filtering
-  const [currentMarketType, setCurrentMarketType] = useState<string>("ALL");
+  // Current market type for filtering - IMPORTANT: track current tab
+  const [currentMarketType, setCurrentMarketType] = useState<string>("POPULAR");
+  const [currentMarketId, setCurrentMarketId] = useState<string>("");
+
   // Tabs + indicator
   const tabsListRef = useRef<HTMLDivElement>(null);
-  const [activeTab, setActiveTab] = useState<TabKey>("ALL");
+  const [activeTab, setActiveTab] = useState<TabKey>("POPULAR");
   const [indicatorStyle, setIndicatorStyle] = useState({
     left: 0,
     width: 0,
     opacity: 0,
   });
+
+  // Socket cleanup refs
+  const socketCleanupRef = useRef<(() => void) | null>(null);
+  const subscribedMarketIdsRef = useRef<string[]>([]);
 
   const buildRunnerNameMap = (market: any) => {
     const map: Record<number, string> = {};
@@ -114,6 +126,40 @@ export default function MarketDetails() {
       map[Number(r.selectionId)] = r.runnerName;
     });
     return map;
+  };
+
+  // Merge helper for odds update
+  const mergeSide = (prevSide: any[], incoming: any): any[] => {
+    const base: any[] = Array.isArray(prevSide) ? [...prevSide] : [];
+
+    const write = (i: number, val: any) => {
+      base[i] = {
+        price: val?.price ?? 0,
+        size: val?.size ?? 0,
+        totalMatched: val?.totalMatched ?? 0,
+        status: val?.status ?? base[i]?.status ?? "ACTIVE",
+      };
+    };
+
+    if (Array.isArray(incoming)) {
+      incoming.forEach((v, i) => v && write(i, v));
+    } else if (incoming && typeof incoming === "object") {
+      Object.keys(incoming).forEach((k) => {
+        const i = Number(k);
+        if (!Number.isNaN(i)) write(i, incoming[k]);
+      });
+    }
+
+    for (let i = 0; i < 3; i++) {
+      if (!base[i]) {
+        base[i] = {
+          price: 0,
+          size: 0,
+          status: incoming?.status ?? "ACTIVE",
+        };
+      }
+    }
+    return base;
   };
 
   const getMarketList = async () => {
@@ -172,8 +218,25 @@ export default function MarketDetails() {
         .sort((a: any, b: any) => a.sequence - b.sequence);
       setPopularMarkets(popular);
 
-      // Set default filtered markets to ALL
-      setFilteredMarkets(all.sort((a: any, b: any) => a.sequence - b.sequence));
+      // Set default filtered markets based on current tab
+      if (currentMarketType === "POPULAR") {
+        setFilteredMarkets(popular);
+      } else if (currentMarketType === "ALL") {
+        setFilteredMarkets(
+          all.sort((a: any, b: any) => a.sequence - b.sequence),
+        );
+      } else if (currentMarketId) {
+        const specific = all
+          .filter(
+            (market: any) =>
+              market.marketId === currentMarketId &&
+              market?.status !== "CLOSED",
+          )
+          .sort((a: any, b: any) => a.sequence - b.sequence);
+        setFilteredMarkets(specific);
+      } else {
+        setFilteredMarkets(popular);
+      }
 
       // event name best-effort
       if ((betfair as any)?.[0]?.event?.name)
@@ -181,7 +244,7 @@ export default function MarketDetails() {
       else if ((manual as any)?.[0]?.event?.name)
         setEventName((manual as any)[0].event.name);
 
-      // 🎯 No Market Found → fallback IndexedDB (kept same behavior as your earlier logic)
+      // 🎯 No Market Found → fallback IndexedDB
       if (all.length === 0) {
         const readAllFromStore = <T,>(
           dbName: string,
@@ -263,9 +326,25 @@ export default function MarketDetails() {
               .sort((a: any, b: any) => a.sequence - b.sequence);
             setPopularMarkets(popular);
 
-            setFilteredMarkets(
-              useMarkets.sort((a: any, b: any) => a.sequence - b.sequence),
-            );
+            // Set filtered based on current tab
+            if (currentMarketType === "POPULAR") {
+              setFilteredMarkets(popular);
+            } else if (currentMarketType === "ALL") {
+              setFilteredMarkets(
+                useMarkets.sort((a: any, b: any) => a.sequence - b.sequence),
+              );
+            } else if (currentMarketId) {
+              const specific = useMarkets
+                .filter(
+                  (market: any) =>
+                    market.marketId === currentMarketId &&
+                    market?.status !== "CLOSED",
+                )
+                .sort((a: any, b: any) => a.sequence - b.sequence);
+              setFilteredMarkets(specific);
+            } else {
+              setFilteredMarkets(popular);
+            }
 
             const bf = useMarkets.find(
               (m: any) =>
@@ -285,6 +364,151 @@ export default function MarketDetails() {
     }
   };
 
+  // Socket subscription function - FIXED: preserves current tab
+  const subscribeForMarkets = (marketIds: string[]) => {
+    const cleaned = Array.from(
+      new Set((marketIds || []).filter(Boolean).map(String)),
+    );
+
+    // Clean previous subscription
+    if (socketCleanupRef.current) {
+      socketCleanupRef.current();
+      socketCleanupRef.current = null;
+    }
+
+    if (cleaned.length === 0) return;
+
+    // Subscribe to new markets
+    webSocketService.subscribeMarket(cleaned, "market-details");
+
+    // Setup odds listener
+    const offOdds = webSocketService.onEvent<any>("odds", (raw) => {
+      try {
+        let payload: any = raw;
+        if (typeof raw === "string") payload = JSON.parse(raw);
+        else if (Array.isArray(raw) && raw.length >= 2) {
+          const maybe = raw[1];
+          payload = typeof maybe === "string" ? JSON.parse(maybe) : maybe;
+        }
+
+        const marketId = payload?.marketId;
+        if (!marketId) return;
+
+        const exMap: Record<string, any> = payload.ex || {};
+        const pt = payload?.pt || {};
+
+        // Update all relevant states - FIXED: preserves current tab
+        const updateMarketData = (prev: Market[]) =>
+          prev.map((m) => {
+            const id = m.exMarketId || m.marketId;
+            if (String(id) !== String(marketId)) return m;
+
+            const runners = (m.runners || []).map((r: any) => {
+              const key = String(r.selectionId);
+              let exEntry = exMap[key] ?? exMap[r.selectionId];
+
+              if (!exEntry) {
+                for (const k in exMap) {
+                  const v = exMap[k];
+                  if (v && String(v.selectionId) === key) {
+                    exEntry = v;
+                    break;
+                  }
+                }
+              }
+
+              if (!exEntry) return r;
+
+              const prevEx = r.ex || {};
+              return {
+                ...r,
+                ex: {
+                  ...prevEx,
+                  availableToBack: mergeSide(
+                    prevEx.availableToBack,
+                    exEntry.availableToBack,
+                  ),
+                  availableToLay: mergeSide(
+                    prevEx.availableToLay,
+                    exEntry.availableToLay,
+                  ),
+                },
+              };
+            });
+
+            return { ...m, runners };
+          });
+
+        // Update base states
+        setBetfairData(updateMarketData);
+        setAllMarkets(updateMarketData);
+        setPopularMarkets(updateMarketData);
+
+        // For filtered markets, only update the odds but keep the same market list
+        setFilteredMarkets((prevFiltered) => {
+          return prevFiltered.map((m) => {
+            const id = m.exMarketId || m.marketId;
+            if (String(id) !== String(marketId)) return m;
+
+            // Find updated market from allMarkets
+            const updatedMarket = allMarkets.find(
+              (am) => (am.exMarketId || am.marketId) === marketId,
+            );
+
+            if (updatedMarket) {
+              return { ...updatedMarket };
+            }
+
+            // If not found in allMarkets, update manually
+            const runners = (m.runners || []).map((r: any) => {
+              const key = String(r.selectionId);
+              let exEntry = exMap[key] ?? exMap[r.selectionId];
+
+              if (!exEntry) {
+                for (const k in exMap) {
+                  const v = exMap[k];
+                  if (v && String(v.selectionId) === key) {
+                    exEntry = v;
+                    break;
+                  }
+                }
+              }
+
+              if (!exEntry) return r;
+
+              const prevEx = r.ex || {};
+              return {
+                ...r,
+                ex: {
+                  ...prevEx,
+                  availableToBack: mergeSide(
+                    prevEx.availableToBack,
+                    exEntry.availableToBack,
+                  ),
+                  availableToLay: mergeSide(
+                    prevEx.availableToLay,
+                    exEntry.availableToLay,
+                  ),
+                },
+              };
+            });
+
+            return { ...m, runners };
+          });
+        });
+      } catch (e) {
+        console.error("Failed to apply odds update:", e);
+      }
+    });
+
+    // Store cleanup handler
+    subscribedMarketIdsRef.current = cleaned;
+    socketCleanupRef.current = () => {
+      webSocketService.unsubscribeMarket(cleaned);
+      offOdds();
+    };
+  };
+
   // Market type filtering function
   const setMarketType = (
     type: any,
@@ -293,7 +517,10 @@ export default function MarketDetails() {
     index: any,
     marketid: any,
   ) => {
+    // Save current tab state
+    setActiveTab(type);
     setCurrentMarketType(type);
+    setCurrentMarketId(marketid || "");
 
     if (event) {
       // Remove active class from all list items
@@ -305,7 +532,6 @@ export default function MarketDetails() {
         event.currentTarget.classList.add("active");
       }
 
-      // Scroll into view for mobile
       if (window.innerWidth < 900) {
         const listItem = document.getElementById(catType + index);
         if (listItem) {
@@ -320,32 +546,31 @@ export default function MarketDetails() {
 
     let filtered: Market[] = [];
 
-    if (type == "Popular") {
+    if (type == "POPULAR" || type == "Popular") {
       filtered = allMarkets
-        .filter((market: any) => {
-          if (market.popular && market?.status != "CLOSED") {
-            return market;
-          } else {
-            return null;
-          }
-        })
+        .filter((market: any) => market.popular && market?.status !== "CLOSED")
         .sort((a: any, b: any) => a.sequence - b.sequence);
-      setPopularMarkets(filtered);
     } else if (type == "ALL") {
-      filtered = allMarkets.sort((a: any, b: any) => a.sequence - b.sequence);
+      filtered = [...allMarkets].sort(
+        (a: any, b: any) => a.sequence - b.sequence,
+      );
     } else {
       filtered = allMarkets
-        .filter((market: any) => {
-          if (market.marketId == marketid && market?.status != "CLOSED") {
-            return market;
-          } else {
-            return null;
-          }
-        })
+        .filter(
+          (market: any) =>
+            market.marketId == marketid && market?.status !== "CLOSED",
+        )
         .sort((a: any, b: any) => a.sequence - b.sequence);
     }
 
     setFilteredMarkets(filtered);
+
+    // Subscribe to new filtered markets
+    const idsToSubscribe = filtered
+      .map((m) => m.exMarketId || m.marketId)
+      .filter(Boolean)
+      .map(String);
+    subscribeForMarkets(idsToSubscribe);
   };
 
   useEffect(() => {
@@ -354,22 +579,46 @@ export default function MarketDetails() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params.eventId, params.sportId]);
 
-  // Set default active tab to ALL
+  // Set default active tab to POPULAR when markets load - but only once
+  const initialLoadRef = useRef(true);
   useEffect(() => {
-    setActiveTab("POPULAR");
-    setCurrentMarketType("Popular");
+    if (allMarkets.length === 0) return;
 
-    // Popular markets filter bhi set karo
-    const popular = allMarkets
-      .filter((market: any) => market.popular && market?.status !== "CLOSED")
-      .sort((a: any, b: any) => a.sequence - b.sequence);
-    setFilteredMarkets(popular);
+    // Only set default on initial load, not on subsequent updates
+    if (initialLoadRef.current) {
+      initialLoadRef.current = false;
+
+      setActiveTab("POPULAR");
+      setCurrentMarketType("POPULAR");
+      setCurrentMarketId("");
+
+      const popular = allMarkets
+        .filter((market: any) => market.popular && market?.status !== "CLOSED")
+        .sort((a: any, b: any) => a.sequence - b.sequence);
+      setFilteredMarkets(popular);
+
+      // Subscribe to popular markets
+      const idsToSubscribe = popular
+        .map((m) => m.exMarketId || m.marketId)
+        .filter(Boolean)
+        .map(String);
+      subscribeForMarkets(idsToSubscribe);
+    }
   }, [allMarkets]);
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      if (socketCleanupRef.current) {
+        socketCleanupRef.current();
+        socketCleanupRef.current = null;
+      }
+    };
+  }, []);
 
   const navTabs: TabKey[] = useMemo(() => {
     const tabs: TabKey[] = ["ALL", "POPULAR"];
 
-    // Sirf popular market names ko additional tabs mein add karo
     popularMarkets.forEach((market) => {
       if (market.marketName && !tabs.includes(market.marketName)) {
         tabs.push(market.marketName);
@@ -400,7 +649,7 @@ export default function MarketDetails() {
       clearTimeout(t);
       window.removeEventListener("resize", updateIndicator);
     };
-  }, [updateIndicator]);
+  }, [updateIndicator, activeTab]);
 
   // ---------- UI helpers ----------
   const getMarketTitle = (m: any) =>
@@ -414,9 +663,7 @@ export default function MarketDetails() {
   };
 
   const getRunnersList = (m: any) => {
-    // prefer real runners for odds boxes
     if (Array.isArray(m?.runners) && m.runners.length) return m.runners;
-    // fallback: runnersName as pseudo runners
     if (Array.isArray(m?.runnersName) && m.runnersName.length) {
       return m.runnersName.map((r: any) => ({
         selectionId: r.selectionId,
@@ -492,7 +739,6 @@ export default function MarketDetails() {
               ? runner.ex.availableToLay
               : [];
 
-            // we want 3 levels; if API gives fewer, fill with zeros
             const back3 = [backs[0], backs[1], backs[2]].map((x) => ({
               odd: cleanPrice(x?.price),
               vol: shortNumber(x?.size),
@@ -543,7 +789,14 @@ export default function MarketDetails() {
                                   : "bg-[#0a77a8] hover:bg-[#68CDF9]"
                               } ${i === 2 ? "max-[464px]:hidden" : ""} ${i === 1 ? "max-[346px]:hidden" : ""}`}
                               onClick={() => {
-                                // console.log("BACK click", market.marketId, runner.selectionId, item.raw?.price);
+                                setSelectedBet({
+                                  type: "back",
+                                  odds: item.raw?.price,
+                                  teamName: runnerName,
+                                  eventName: market.event?.name || eventName,
+                                  marketType:
+                                    market.marketType || market.marketName,
+                                });
                               }}
                             >
                               <span className="text-[11px] sm:text-[13px] font-bold leading-[1.1] truncate">
@@ -578,7 +831,14 @@ export default function MarketDetails() {
                                   : "bg-[#a3555b] hover:bg-[#FFA4A7]"
                               } ${i === 2 ? "max-[464px]:hidden" : ""} ${i === 1 ? "max-[346px]:hidden" : ""}`}
                               onClick={() => {
-                                // console.log("LAY click", market.marketId, runner.selectionId, item.raw?.price);
+                                setSelectedBet({
+                                  type: "lay",
+                                  odds: item.raw?.price,
+                                  teamName: runnerName,
+                                  eventName: market.event?.name || eventName,
+                                  marketType:
+                                    market.marketType || market.marketName,
+                                });
                               }}
                             >
                               <span className="text-[11px] sm:text-[13px] font-bold leading-[1.1] truncate">
@@ -688,7 +948,6 @@ export default function MarketDetails() {
             <button
               data-tab="ALL"
               onClick={(e) => {
-                setActiveTab("ALL");
                 setMarketType("ALL", e, "All", 0, "");
               }}
               className={`inline-flex items-center justify-center bg-transparent border-none cursor-pointer text-[0.875rem] px-4 py-1.5 transition-colors duration-200 leading-[1.57143] relative z-10 top-[-1px] ${
@@ -704,8 +963,7 @@ export default function MarketDetails() {
             <button
               data-tab="POPULAR"
               onClick={(e) => {
-                setActiveTab("POPULAR");
-                setMarketType("Popular", e, "Popular", 1, "");
+                setMarketType("POPULAR", e, "Popular", 1, "");
               }}
               className={`inline-flex items-center justify-center bg-transparent border-none cursor-pointer text-[0.875rem] px-4 py-1.5 transition-colors duration-200 leading-[1.57143] relative z-10 top-[-1px] ${
                 activeTab === "POPULAR"
@@ -717,27 +975,26 @@ export default function MarketDetails() {
             </button>
 
             {/* Individual Popular Market Tabs */}
-            {popularMarkets.map((betfair, i) => (
+            {popularMarkets.map((market, i) => (
               <button
                 key={`popular-tab-${i}`}
-                data-tab={betfair?.marketName}
+                data-tab={market?.marketName}
                 onClick={(e) => {
-                  setActiveTab(betfair?.marketName as TabKey);
                   setMarketType(
-                    betfair?.marketName,
+                    market?.marketName,
                     e,
                     "betfair",
                     i,
-                    betfair?.marketId,
+                    market?.marketId,
                   );
                 }}
                 className={`inline-flex items-center justify-center bg-transparent border-none cursor-pointer text-[0.875rem] px-4 py-1.5 transition-colors duration-200 leading-[1.57143] relative z-10 top-[-1px] ${
-                  activeTab === betfair?.marketName
+                  activeTab === market?.marketName
                     ? "text-[#68CDF9] font-semibold"
                     : "text-[#919EAB] font-[500]"
                 }`}
               >
-                {betfair?.marketName}
+                {market?.marketName}
               </button>
             ))}
           </div>
