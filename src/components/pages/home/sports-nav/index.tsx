@@ -3,6 +3,8 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import styles from "./sportsPage.module.css";
 import { useAppStore } from "@/lib/store/store";
+import { useTheme } from "next-themes";
+import { cn } from "@/lib/utils";
 
 type NavItem = { label: string; href: string; id: string };
 
@@ -18,6 +20,7 @@ export default function SportsNav() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const tabsListRef = useRef<HTMLDivElement>(null);
   const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, top: 0, width: 0, height: 0, opacity: 0 });
+    const { theme } = useTheme();
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth < 1200);
@@ -98,7 +101,10 @@ export default function SportsNav() {
         <div
           className={`${styles["tabs-scroller"]} overflow-x-auto overflow-y-hidden`}
         >
-          <div role="tablist" className={styles["tabs-list"]} ref={tabsListRef}>
+          <div role="tablist" className={cn(styles["tabs-list"],"glass w-full h-full",theme === "light" &&
+      "backdrop-blur-[10px]! bg-linear-to-br! from-white/25! to-white/5! border-b! border-[rgb(205_192_192/0.4)]! shadow-[0_8px_32px_rgba(0,0,0,0.2)]!"
+  )} ref={tabsListRef}
+>
             <div
               className={`${styles["sliding-indicator"]} py-[14.5px]`}
               style={{
@@ -116,7 +122,13 @@ export default function SportsNav() {
                 role="tab"
                 data-tab={item.label}
                 aria-selected={activeTab === item.label}
-                className={`${styles["tab-btn"]} ${activeTab === item.label ? styles.active : ""}`}
+    className={cn(
+      styles["tab-btn"], 
+      activeTab === item.label && styles.active,
+      activeTab === item.label && "glass-active",
+      activeTab === item.label && theme === "light" &&
+        "backdrop-blur-[10px]! bg-linear-to-br! from-white/25! to-white/5! border-b! border-[rgb(205_192_192/0.4)]! shadow-[0_8px_32px_rgba(0,0,0,0.2)]!"
+    )}
                 onClick={() => {
                   setActiveTab(item.label);
                   setSelectedEventTypeId(item.id);  // ✅ set sport ID on click
