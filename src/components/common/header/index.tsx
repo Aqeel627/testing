@@ -60,6 +60,17 @@ export default function Header({ onMenuClick }: HeaderProps) {
     };
   }, []);
 
+  useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [isMenuOpen]);
+
   return (
     <header className="w-full glass  --palette-text-primary  sticky top-0 z-50 ">
       <div className="max-w-[1600px] mx-auto px-2 h-12 flex items-center justify-between">
@@ -155,7 +166,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
             </Link>
           )}
           {isLoggedIn && (
-            <div className="flex items-center gap-2 ref={menuRef}">
+            <div className="flex items-center gap-2" ref={menuRef}>
               <div onClick={() => setIsMenuOpen(!isMenuOpen)} className="relative inline-flex items-center justify-center rounded-[8px] p-[1px] overflow-hidden bg-transparent group cursor-pointer max-w-16">
                 <span className="absolute inset-0 m-auto w-full h-full rounded-[inherit] content-[''] pointer-events-none 
         [mask:linear-gradient(#fff_0_0)_content-box_xor,linear-gradient(#fff_0_0)] 
@@ -168,21 +179,23 @@ export default function Header({ onMenuClick }: HeaderProps) {
                 </span>
                 <button className="relative z-10 flex flex-col items-center justify-center px-4 py-1 bg-[#161C24] dark:bg-[#161C24] rounded-[7px] w-full h-full min-w-[64px]">
 
-                  <span className="text-[0.6rem] text-[#919EAB] font-semibold leading-[1] uppercase tracking-wide">
+                  <span className="text-[0.6rem] text-[#637381] font-semibold leading-[1] uppercase tracking-wide">
                     Pts
                   </span>
                   <span className="text-[12px] text-white font-bold leading-[1]">
-                    1
+                    {hideBalance ? "-" : "1"}
                   </span>
                 </button>
 
               </div>
 
               {isMenuOpen && (
-                <div className="absolute top-[80%] right-0 w-[250px]! bg-[#212B36] border border-gray-700/50 rounded-xl shadow-[0_8px_16px_rgba(0,0,0,0.5)] z-50 overflow-hidden flex flex-col">
+                <div className="absolute top-[16px] md:top-[38px] right-0 w-[250px] bg-[var(--background)] rounded-xl shadow-[0_0px_2px_rgba(0,0,0,0.5)] z-50 flex flex-col var(--palette-text-primary) overflow-hidden max-h-[calc(100vh-32px)] border border-[#919eab29]">
+
+                  <div className="absolute -top-10 -right-10 w-20 h-20 bg-[#078dee] blur-[60px] opacity-[0.50] pointer-events-none z-0 rounded-full"></div>
                   <div className="px-4 pt-4 pb-2">
-                    <h6 className="text-[0.875rem] font-semibold text-white truncate leading-[1.57143]">demo1</h6>
-                    <p className="text-[0.875rem] leading-[1.57143] text-[#919EAB] truncate">demo1</p>
+                    <h6 className="text-[0.875rem] font-semibold text-[var(--palette-text-primary)] truncate leading-[1.57143]">demo1</h6>
+                    <p className="text-[0.875rem] leading-[1.57143] text-[#637381] truncate">demo1</p>
                   </div>
 
                   <hr className="m-0 shrink-0 border-0 border-b border-dashed border-[#919eab33]" />
@@ -190,14 +203,14 @@ export default function Header({ onMenuClick }: HeaderProps) {
                   <div className="flex flex-col gap-2 px-4 pb-4 pt-2">
                     <div className="rounded-[16px] shadow-[0_1px_2px_0_rgb(0_0_0_/_16%)] border-[#919eab29] border-[1px]">
                       <div className="flex flex-col p-2 items-center cursor-pointer">
-                        <p className="text-[0.875rem] leading-[1.25] text-[#919EAB] font-bold uppercase">Exposure</p>
-                        <p className="text-[1rem] text-white font-semibold leading-[1.5]">0</p>
+                        <p className="text-[0.875rem] leading-[1.25] text-[#637381] font-[500] uppercase">Exposure</p>
+                        <p className="text-[1rem] text-[var(--palette-text-primary)] font-semibold leading-[1.5]">0</p>
                       </div>
                     </div>
                     <div className="rounded-[16px] shadow-[0_1px_2px_0_rgb(0_0_0_/_16%)] border-[#919eab29] border-[1px]">
                       <div className="flex flex-col p-2 items-center cursor-pointer">
-                        <p className="text-[0.875rem] leading-[1.25] text-[#919EAB] font-bold uppercase">Balance</p>
-                        <p className="text-[1rem] text-white font-semibold leading-[1.5]">{hideBalance ? "***" : "1"}</p>
+                        <p className="text-[0.875rem] leading-[1.25] text-[#637381] font-[500] uppercase">Balance</p>
+                        <p className="text-[1rem] text-[var(--palette-text-primary)] font-semibold leading-[1.5]">1</p>
                       </div>
                     </div>
                   </div>
@@ -213,11 +226,11 @@ export default function Header({ onMenuClick }: HeaderProps) {
                       { label: "Bet Buttons", href: "/account/settings/bet-buttons" },
                       { label: "Rules", href: "/exchange/betting-rules/sports-rules" },
                     ].map((item, index) => (
-                      <li key={index} className="mb-1 hover:bg-transparent no-underline h-12 min-[600px]:h-auto text-[0.875rem] leading-[1.57143px]">
+                      <li key={index} className="mb-1 hover:bg-[rgba(145,158,171,0.08)] rounded-[8px] no-underline h-12 min-[600px]:h-auto text-[0.875rem] leading-[1.57143px] ">
                         <Link
                           href={item.href}
                           onClick={() => setIsMenuOpen(false)}
-                          className="flex items-center w-full px-2 py-2 text-[0.875rem] leading-[1.57143px] text-white hover:bg-transparent transition-colors h-[34px]"
+                          className="flex items-center w-full px-2 py-2 text-[0.875rem] leading-[1.57143px] text-[#637381] hover:text-[var(--palette-text-primary)] hover:bg-transparent transition-colors h-[34px]"
                         >
                           <span className="ml-4">{item.label}</span>
                         </Link>
@@ -225,8 +238,8 @@ export default function Header({ onMenuClick }: HeaderProps) {
                     ))}
 
                     {/* Theme Option (Static Icon for now) */}
-                    <li className="mb-1 hover:bg-transparent no-underline h-12 min-[600px]:h-auto text-[0.875rem] leading-[1.57143px]">
-                      <div className="flex items-center justify-between w-full px-2 text-[14px] text-gray-300 hover:text-white hover:bg-white/5 transition-colors cursor-pointer">
+                    <li className="mb-1 no-underline h-12 min-[600px]:h-auto text-[0.875rem] leading-[1.57143px] hover:bg-[rgba(145,158,171,0.08)] rounded-[8px]">
+                      <div className="flex items-center justify-between w-full px-2 text-[14px] text-[#637381] hover:text-[var(--palette-text-primary)] hover:bg-white/5 transition-colors cursor-pointer">
                         <span className="ml-4">Theme</span>
                         {/* Placeholder Icon */}
                         <ThemeToggle />
@@ -234,8 +247,8 @@ export default function Header({ onMenuClick }: HeaderProps) {
                     </li>
 
                     {/* Hide Balance Toggle */}
-                    <li className="mb-1 hover:bg-transparent no-underline h-12 min-[600px]:h-[44px] text-[0.875rem] leading-[1.57143px] flex items-center">
-                      <div className="flex items-center justify-between w-full px-2 text-[14px] text-gray-300 hover:text-white hover:bg-white/5 transition-colors cursor-pointer"
+                    <li className="mb-1 no-underline h-12 min-[600px]:h-[44px] text-[0.875rem] leading-[1.57143px] flex items-center hover:bg-[rgba(145,158,171,0.08)] rounded-[8px]">
+                      <div className="flex items-center justify-between w-full px-2 text-[14px] text-[#637381] hover:text-[var(--palette-text-primary)] transition-colors cursor-pointer"
                         onClick={(e) => {
                           e.stopPropagation(); // Prevent menu from closing
                           setHideBalance(!hideBalance);
@@ -244,8 +257,8 @@ export default function Header({ onMenuClick }: HeaderProps) {
                         <span className="ml-4">Hide Balance</span>
                         {/* Custom Tailwind Switch */}
                         <span className="w-[58px] h-[38px] flex justify-end items-center">
-                          <div className={`relative w-[34px] h-5 mr-[10px] rounded-full transition-colors ${hideBalance ? 'bg-[#FF5630]' : 'bg-gray-600'}`}>
-                            <div className={`absolute top-[3px] left-[3px] bg-white w-3.5 h-3.5 rounded-full transition-transform ${hideBalance ? 'translate-x-4' : 'translate-x-0'}`}></div>
+                          <div className={`relative w-[34px] h-5 mr-[10px] rounded-full transition-colors ${hideBalance ? 'bg-[#078dee]' : 'bg-gray-600'}`}>
+                            <div className={`absolute top-[3px] left-[3px] bg-white w-3.5 h-3.5 rounded-full transition-transform ${hideBalance ? 'translate-x-[14px]' : 'translate-x-0'}`}></div>
                           </div>
                         </span>
                       </div>
@@ -255,13 +268,16 @@ export default function Header({ onMenuClick }: HeaderProps) {
                   <hr className="m-0 shrink-0 border-0 border-b border-dashed border-[#919eab33]" />
 
                   {/* Logout Button */}
-                  <div className="p-2">
+                  <div className="p-2 relative">
+                    {/* 👇 Ye optional background glow hai jo corner main red light dega (bilkul image jaisa) */}
+                    <div className="absolute -bottom-4 -left-4 w-20 h-20 bg-[#FF5630] blur-[30px] opacity-15 pointer-events-none"></div>
+
                     <button
                       onClick={() => {
                         setIsLoggedIn(false);
                         setIsMenuOpen(false);
                       }}
-                      className="w-full text-left px-2 py-2 text-[14px] font-bold text-[#FF5630] hover:bg-[#FF5630]/10 rounded-lg transition-colors"
+                      className="relative z-10 w-full text-left px-2 py-2 text-[14px] font-bold text-[#FF5630] hover:bg-[#FF5630]/10 rounded-lg transition-colors cursor-pointer "
                     >
                       Logout
                     </button>
