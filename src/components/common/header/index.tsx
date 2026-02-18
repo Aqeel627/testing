@@ -53,9 +53,9 @@ export default function Header({ onMenuClick }: HeaderProps) {
     const token = localStorage.getItem("accessToken");
 
     if (token) {
-      setIsLoggedIn(true); 
+      setIsLoggedIn(true);
     } else {
-      setIsLoggedIn(false); 
+      setIsLoggedIn(false);
     }
 
   }, []);
@@ -184,8 +184,8 @@ export default function Header({ onMenuClick }: HeaderProps) {
             </Link>
           )}
           {isLoggedIn && (
-            <div className="flex items-center gap-2" ref={menuRef}>
-              <div onClick={() => setIsMenuOpen(!isMenuOpen)} className="relative inline-flex items-center justify-center rounded-[8px] p-[1px] overflow-hidden bg-transparent group cursor-pointer max-w-16">
+            <div className="flex items-center gap-2 mr-1" ref={menuRef}>
+              <div onClick={() => setIsMenuOpen(!isMenuOpen)} className="relative inline-flex items-center justify-center h-[29px] rounded-[8px] p-[1px] overflow-hidden bg-transparent group cursor-pointer max-w-16">
                 <span className="absolute inset-0 m-auto w-full h-full rounded-[inherit] content-[''] pointer-events-none 
         [mask:linear-gradient(#fff_0_0)_content-box_xor,linear-gradient(#fff_0_0)] 
         -webkit-[mask:linear-gradient(#fff_0_0)_content-box_xor,linear-gradient(#fff_0_0)]">
@@ -195,9 +195,9 @@ export default function Header({ onMenuClick }: HeaderProps) {
                   <span className={`${styles.movingShape} ${styles.shapeGold}`}></span>
                   <span className={`${styles.movingShape} ${styles.shapeBlue}`}></span>
                 </span>
-                <button className="relative z-10 flex flex-col items-center justify-center px-4 py-1 bg-[#161C24] dark:bg-[#161C24] rounded-[7px] w-full h-full min-w-[64px]">
+                <button className="relative z-10 flex flex-col items-center justify-center px-4 py-1 bg-[#161C24] dark:bg-[#161C24] h-[28px] rounded-[7px] w-full h-full min-w-[62px]">
 
-                  <span className="text-[0.6rem] text-[#637381] font-semibold leading-[1] uppercase tracking-wide">
+                  <span className="text-[0.6rem] text-[#919EAB] font-semibold leading-[1] uppercase tracking-[1px]">
                     Pts
                   </span>
                   <span className="text-[12px] text-white font-bold leading-[1]">

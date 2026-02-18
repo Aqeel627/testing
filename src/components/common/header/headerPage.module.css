@@ -4,8 +4,8 @@
     position: absolute;
     /* Size thoda bada kiya hai taake border smoothly fill ho */
     width: 70px; 
-    height: 70px;
-    filter: blur(8px); /* Thoda zyada blur soft glow ke liye */
+    height: 60px;
+    filter: blur(0px); /* Thoda zyada blur soft glow ke liye */
     transform: translate(-50%, -50%);
     animation: borderTravel 6s linear infinite;
     z-index: 0;
@@ -13,13 +13,13 @@
 
 /* 👇 Pehla Color: Image wala Orange/Gold */
 .shapeGold {
-    background: radial-gradient(circle, #FF9D00 10%, transparent 70%);
+    background: radial-gradient(circle, #FF9D00 30%, transparent 70%);
 }
 
 /* 👇 Dusra Color: Image wala Cyan/Blue */
 .shapeBlue {
-    background: radial-gradient(circle, #00BFFF 10%, transparent 70%);
-    animation-delay: -3s; /* Ye exactly opposite side se ghoomega */
+    background: radial-gradient(circle, #00BFFF 30%, transparent 70%);
+    animation-delay: -3s; 
 }
 
 @keyframes borderTravel {
