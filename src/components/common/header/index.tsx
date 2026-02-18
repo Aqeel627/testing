@@ -37,13 +37,13 @@ export default function Header({ onMenuClick }: HeaderProps) {
   const { accessToken } = useAuthStore();
 
   useEffect(() => {
+    console.log("Access token:", accessToken);
+    console.log("URL:", CONFIG.getUserBalance);
     if (accessToken) {
       fetchData({
         url: CONFIG.getUserBalance,
         payload: {},
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
+        headers: { Authorization: `Bearer ${accessToken}` },
         setFn: setUserBalance,
       });
     }
@@ -51,10 +51,13 @@ export default function Header({ onMenuClick }: HeaderProps) {
 
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
+    console.log("Token from localStorage:", token);
 
     if (token) {
       setIsLoggedIn(true);
+      setIsLoggedIn(true);
     } else {
+      setIsLoggedIn(false);
       setIsLoggedIn(false);
     }
   }, []);
@@ -106,11 +109,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
             className="font-[inherit]  no-underline shrink-0 text-transparent inline-flex h-[44px] w-[152px] cursor-pointer"
           >
             <Image
-              src={
-                resolvedTheme === "light"
-                  ? "/brand_logo_light.png"
-                  : "/brand_logo_dark.png"
-              }
+              src={"/logo.png"}
               alt="AuExch Logo"
               fill
               className="object-contain relative! mx-1 "
@@ -124,7 +123,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
             className="flex p-1 items-center text-[13px] font-bold --palette-text-primary  hover:--palette-text-primary  transition-colors group rounded-lg  hover:bg-[rgba(145,158,171,0.08)] "
           >
             <span className=" group-hover:--palette-text-primary transition-colors mr-[4px] ">
-              <Icon name="exchange" className="h-4.5 w-4.5 " />
+              <Icon name="exchange" className="h-[19px] w-[19px] " />
             </span>
             <span className="relative top-[-0.5px]">Exchange</span>
           </Link>
@@ -191,13 +190,9 @@ export default function Header({ onMenuClick }: HeaderProps) {
             </div>
           )}
           {isLoggedIn && (
-            <div className="flex items-center gap-2" ref={menuRef}>
-              <div
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="relative inline-flex items-center justify-center rounded-[8px] p-[1px] overflow-hidden bg-transparent group cursor-pointer max-w-16"
-              >
-                <span
-                  className="absolute inset-0 m-auto w-full h-full rounded-[inherit] content-[''] pointer-events-none 
+            <div className="flex items-center gap-2 mr-1" ref={menuRef}>
+              <div onClick={() => setIsMenuOpen(!isMenuOpen)} className="relative inline-flex items-center justify-center h-[29px] rounded-[8px] p-[1px] overflow-hidden bg-transparent group cursor-pointer max-w-16">
+                <span className="absolute inset-0 m-auto w-full h-full rounded-[inherit] content-[''] pointer-events-none 
         [mask:linear-gradient(#fff_0_0)_content-box_xor,linear-gradient(#fff_0_0)] 
         -webkit-[mask:linear-gradient(#fff_0_0)_content-box_xor,linear-gradient(#fff_0_0)]"
                 >
@@ -211,8 +206,9 @@ export default function Header({ onMenuClick }: HeaderProps) {
                     className={`${styles.movingShape} ${styles.shapeBlue}`}
                   ></span>
                 </span>
-                <button className="relative z-10 flex flex-col items-center justify-center px-4 py-1 bg-[#161C24] dark:bg-[#161C24] rounded-[7px] w-full h-full min-w-[64px]">
-                  <span className="text-[0.6rem] text-[#637381] font-semibold leading-[1] uppercase tracking-wide">
+                <button className="relative z-10 flex flex-col items-center justify-center px-4 py-1 bg-[#161C24] dark:bg-[#161C24] h-[28px] rounded-[7px] w-full h-full min-w-[62px]">
+
+                  <span className="text-[0.6rem] text-[#919EAB] font-semibold leading-[1] uppercase tracking-[1px]">
                     Pts
                   </span>
                   <span className="text-[12px] text-white font-bold leading-[1]">
