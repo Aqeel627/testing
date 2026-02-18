@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Icon from "@/icons/icons";
 import { useState } from "react";
+import { CONFIG } from "@/lib/config";
 const languages = [
   { value: "en", label: "English" },
   { value: "hi", label: "हिंदी" },
@@ -229,10 +230,13 @@ export default function Footer() {
           {/* COPYRIGHT */}
           <div className="mt-1 flex justify-center bg-[#919EAB29] py-1 max-[900px]:mt-[16px] text-xs font-bold text-(--palette-text-secondary)">
             <p className="flex gap-[2px]">
-              Copyright © 2026 &nbsp;
-              <span className="cursor-pointer text-[#098DEE] hover:underline relative left-[1px]">
+              Copyright © {new Date().getFullYear()} &nbsp;
+              <a
+                href={CONFIG.domain}
+                className="cursor-pointer text-[#098DEE] hover:underline relative left-[1px]"
+              >
                 AuExch.
-              </span>{" "}
+              </a>{" "}
               &nbsp; &nbsp; All rights reserved.
             </p>
           </div>
