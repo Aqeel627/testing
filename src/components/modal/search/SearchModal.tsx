@@ -6,6 +6,7 @@ import styles from "./SearchModal.module.css";
 import { useUIStore } from "@/lib/store/ui-store";
 import { useAppStore } from "@/lib/store/store";
 import Icon from "@/icons/icons";
+import Link from "next/link";
 
 
 
@@ -95,6 +96,7 @@ export default function SearchModal() {
                         if (e.target === e.currentTarget) close();
                     }}
                 >
+                    <Dialog.Title> </Dialog.Title>
                     <div className={styles.paper}>
                         {/* ---------- HEADER ---------- */}
                         <div className={styles.header}>
@@ -121,15 +123,18 @@ export default function SearchModal() {
 
                         {/* ---------- LIST ---------- */}
                         {/* ---------- LIST ---------- */}
-                        <div className={styles.list}>
+                        <div className={styles.list}
+                          >
                             {filteredResults.length > 0 ? (
                                 filteredResults.map((match: any, index: number) => (
-                                    <div key={index} className={styles.item} onClick={close} tabIndex={0}>
+                                    <Link key={index} className={styles.item} 
+                                    onClick={close} tabIndex={0}
+                                       href={`/market-details/${match.event?.id}/${match.eventType?.id}`}>
                                         <div className={styles.textWrap}>
                                             <p className={styles.title}>{match?.eventType?.name} | {match?.marketType}</p>
                                             <p className={styles.sub}>{match?.event?.name}</p>
                                         </div>
-                                    </div>
+                                    </Link>
                                 ))
                             ) : (
                                 <div className={styles.notFound}>
