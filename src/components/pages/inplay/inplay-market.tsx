@@ -11,7 +11,7 @@ const InplayMarket = ({ events }: { events: any }) => {
   const { setSelectedBet } = useAppStore();
   return (
     <ul className="min-[900]:mt-6 mt-4">
-      {events.map((event: any) => {
+      {events?.map((event: any) => {
         const runner0 = event.runners?.[0]; // Team 1 → LEFT
         const runner1 = event.runners?.[1]; // Team 2 → RIGHT
         const runner2 = event.runners?.[2]; // Draw   → CENTER

@@ -242,7 +242,7 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
           <Sidebar />
         </aside>
 
-        <main className="pt-23 px-3 h-screen overflow-y-auto">
+        <main className="pt-23 px-3 h-screen">
           {children}
           <Footer />
           <div className="md:hidden h-25"></div>
