@@ -120,7 +120,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
           >
             <Image
               src={"/logo.png"}
-              alt="AuExch Logo"
+              alt="100exch Logo"
               fill
               className="object-contain relative! mx-1 "
             />
