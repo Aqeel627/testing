@@ -37,18 +37,17 @@ export default function Header({ onMenuClick }: HeaderProps) {
   const { accessToken } = useAuthStore();
 
   useEffect(() => {
-  console.log("Access token:", accessToken);
-  console.log("URL:", CONFIG.getUserBalance);
-  if (accessToken) {
-    fetchData({
-      url: CONFIG.getUserBalance,
-      payload: {},
-      headers: { Authorization: `Bearer ${accessToken}` },
-      setFn: setUserBalance,
-    });
-  }
-}, [accessToken]);
-
+    console.log("Access token:", accessToken);
+    console.log("URL:", CONFIG.getUserBalance);
+    if (accessToken) {
+      fetchData({
+        url: CONFIG.getUserBalance,
+        payload: {},
+        headers: { Authorization: `Bearer ${accessToken}` },
+        setFn: setUserBalance,
+      });
+    }
+  }, [accessToken]);
 
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
@@ -110,11 +109,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
             className="font-[inherit]  no-underline shrink-0 text-transparent inline-flex h-[44px] w-[152px] cursor-pointer"
           >
             <Image
-              src={
-                resolvedTheme === "light"
-                  ? "/brand_logo_light.png"
-                  : "/brand_logo_dark.png"
-              }
+              src={"/logo.png"}
               alt="AuExch Logo"
               fill
               className="object-contain relative! mx-1 "

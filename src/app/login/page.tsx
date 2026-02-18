@@ -60,7 +60,7 @@ export default function LoginPage() {
       <div className="flex justify-between items-center px-4 min-[600]:px-6 h-12">
         <Link href="/">
           <Image
-            src="/brand_logo_dark.png"
+            src="/logo.png"
             alt="AuExch Logo"
             width={152}
             height={1000}
@@ -90,7 +90,7 @@ export default function LoginPage() {
         >
           <h2 className="text-[32px] font-bold">Hi, Welcome back</h2>
           <Image
-            src="/brand_logo_dark.png"
+            src="/logo.png"
             alt="AuExch Logo"
             width={304}
             height={1000}
