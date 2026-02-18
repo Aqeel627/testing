@@ -229,6 +229,30 @@ export default function MarketDetails() {
       setSportsbookData(sportsbook);
       setAllMarkets(all);
 
+
+//  NEW LOGIC: Handle No Active Markets Found
+      if (all.length === 0) {
+//  this.toastService.showFromResponse(
+//             'error,  No Market Found, We couldn’t locate any active markets for your selection.'
+//           );
+       console.log('No Markets are active');
+
+        // // 2. Fetch fresh lists in background (mimicking your old project services)
+        // try {
+        //   const isRacing = sportId === '7' || sportId === '4339';
+        //   const endpoint = isRacing ? CONFIG.racingEventsList : CONFIG.getAllEventsList;
+          
+        //   // Using axios to refresh lists in background
+        //   axios.post(endpoint, { key: CONFIG.siteKey || "10" })
+        //     .catch(err => console.error("Background refresh failed", err));
+        // } catch (e) {
+        //   console.error("Service error:", e);
+        // }
+
+        // 3. Navigate to home and stop execution
+        router.push("/");
+        return;
+      }
       // Calculate popular markets
       const popular = all
         .filter((market: any) => market.popular && market?.status !== "CLOSED")
