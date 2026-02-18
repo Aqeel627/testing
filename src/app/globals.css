@@ -1026,3 +1026,131 @@ body {
     box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.35);
 
 }
+
+/* Spark animations for price updates - jab socket sy data update hota hai tu ye classes use hoti hain */
+
+.back-1.spark {
+  animation: sparkBack 0.5s ease;
+}
+
+@keyframes sparkBack {
+  0% {
+    background-color: #72bbef;
+    color: #1e1e1e;
+  }
+
+  50% {
+    background-color: #f8e71c;
+    color: #fff;
+  }
+
+  100% {
+    background-color: #72bbef;
+    color: #1e1e1e;
+  }
+}
+
+.back-2.spark {
+  animation: sparkBack_2 0.5s ease;
+}
+
+@keyframes sparkBack_2 {
+  0% {
+    background-color: #b7d5eb;
+    color: #1e1e1e;
+  }
+
+  50% {
+    background-color: #f8e71c;
+    color: #fff;
+  }
+
+  100% {
+    background-color: #b7d5eb;
+    color: #1e1e1e;
+  }
+}
+
+.back-3.spark {
+  animation: sparkBack_3 0.5s ease;
+}
+
+@keyframes sparkBack_3 {
+  0% {
+    background-color: #d7e8f4;
+    color: #1e1e1e;
+  }
+
+  50% {
+    background-color: #f8e71c;
+    color: #fff;
+  }
+
+  100% {
+    background-color: #d7e8f4;
+    color: #1e1e1e;
+  }
+}
+
+.lay-1.spark {
+  animation: sparkLay 0.5s ease;
+}
+
+@keyframes sparkLay {
+  0% {
+    background-color: #faa9ba;
+    color: #1e1e1e;
+  }
+
+  50% {
+    background-color: #26f1f8;
+    color: #fff;
+  }
+
+  100% {
+    background-color: #faa9ba;
+    color: #1e1e1e;
+  }
+}
+
+.lay-2.spark {
+  animation: sparkLay_2 0.5s ease;
+}
+
+@keyframes sparkLay_2 {
+  0% {
+    background-color: #efd3d9;
+    color: #1e1e1e;
+  }
+
+  50% {
+    background-color: #26f1f8;
+    color: #fff;
+  }
+
+  100% {
+    background-color: #efd3d9;
+    color: #1e1e1e;
+  }
+}
+
+.lay-3.spark {
+  animation: sparkLay_3 0.5s ease;
+}
+
+@keyframes sparkLay_3 {
+  0% {
+    background-color: #f6e6ea;
+    color: #1e1e1e;
+  }
+
+  50% {
+    background-color: #26f1f8;
+    color: #fff;
+  }
+
+  100% {
+    background-color: #f6e6ea;
+    color: #1e1e1e;
+  }
+}
