@@ -19,7 +19,7 @@ const BottomNavbar = () => {
   return (
     <div
       className={cn(
-        "md:hidden fixed border shadow-[0_8px_32px_rgba(0,0,0,0.2)]! bottom-5 left-1/2 -translate-x-1/2 px-2 py-2 gap-2 max-w-md flex justify-center items-center rounded-full glass h-15",
+        "md:hidden fixed border shadow-[0_8px_32px_rgba(0,0,0,0.2)]! bottom-5 left-1/2 -translate-x-1/2 px-2 py-2 gap-2 w-[95%] flex justify-center items-center rounded-full glass h-15",
         theme === "dark"
           ? "border-[rgba(255,255,255,0.3)]"
           : "border-[rgb(205,192,192,0.5)] bg-[linear-gradient(135deg,rgba(255,255,255,0.25),rgba(255,255,255,0.05))]! backdrop-blur-[20px]!",
