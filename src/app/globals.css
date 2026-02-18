@@ -320,6 +320,8 @@
   --customShadows-error: 0 8px 16px 0 rgba(255 86 48 / 24%);
   --nav-item-root-active-bg: rgba(7 141 238 / 8%);
   --nav-item-root-active-color: #078dee;
+
+  --IconButton-hoverBg: rgba(var(--palette-action-activeChannel) / calc(var(--palette-action-hoverOpacity)));
 }
 
 @theme inline {
@@ -628,6 +630,8 @@
   --opacity-switchTrack: 0.3;
   --nav-item-root-active-bg: rgba(7 141 238 / 8%);
   --nav-item-root-active-color: #68cdf9;
+
+  --IconButton-hoverBg: rgba(var(--palette-action-activeChannel) / calc(var(--palette-action-hoverOpacity)));
 }
 
 body {
