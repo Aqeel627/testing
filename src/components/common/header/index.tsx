@@ -78,8 +78,8 @@ export default function Header({ onMenuClick }: HeaderProps) {
             href="/"
             className="flex p-1 items-center text-[13px] font-bold --palette-text-primary  hover:--palette-text-primary  transition-colors group rounded-lg  hover:bg-[rgba(145,158,171,0.08)] "
           >
-            <span className=" group-hover:--palette-text-primary  transition-colors mr-[2px] ">
-              <Icon name="exchange" className="h-6 w-6" />
+            <span className=" group-hover:--palette-text-primary transition-colors mr-[4px] ">
+              <Icon name="exchange" className="h-4.5 w-4.5 " />
             </span>
             <span className="relative top-[-0.5px]">Exchange</span>
           </Link>
@@ -140,8 +140,8 @@ export default function Header({ onMenuClick }: HeaderProps) {
             href="/"
             className="flex py-1 pr-[4px] pl-1 items-center text-[13px] font-bold --palette-text-primary  hover:--palette-text-primary  transition-colors group whitespace-nowrap"
           >
-            <span className=" group-hover:--palette-text-primary  transition-colors mr-[2px] ml-[-1px]">
-              <Icon name="exchange" className="h-6 w-6" />
+             <span className=" group-hover:--palette-text-primary transition-colors mr-[4px] ">
+              <Icon name="exchange" className="h-4.5 w-4.5 " />
             </span>
             <span className="relative !top-[-0.5px] ml-[0.3px]">Exchange</span>
           </Link>

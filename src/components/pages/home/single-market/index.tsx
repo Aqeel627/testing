@@ -40,7 +40,7 @@ export default function SingleMarket() {
           >
             <div className="flex w-full flex-col min-[691px]:flex-row min-[1200px]:flex-col min-[1376px]:flex-row">
               {/* LEFT CONTENT – 60% */}
-              <div className="w-full min-[691px]:w-[60%] min-[1200px]:w-full min-[1376px]:w-[60%] p-[5px]">
+              <div className="w-full min-[691px]:w-[55%] min-[1200px]:w-full min-[1376px]:w-[55%] p-[5px]">
                 {/* Sport + Competition */}
                 <div className="flex flex-row whitespace-nowrap items-center max-w-full min-h-[1.125rem] overflow-hidden -mt-1 mr-5 -mb-1 -ml-1 text-[9px] font-bold tracking-[0.7px] uppercase text-[#098DEE]">
                   <a
@@ -70,7 +70,7 @@ export default function SingleMarket() {
                   {/* Team 1 */}
                   <div className="flex flex-row gap-1.5 overflow-hidden justify-between items-center">
                     <div className="flex flex-row gap-1.5 items-center">
-                      <p className="m-0 font-sans truncate text-[14px] font-bold leading-[1.3rem] text-[var(--palette-text-primary)]">
+                      <p className="m-0 font-sans truncate text-[13px] font-bold leading-[1.3rem] text-[var(--palette-text-primary)]">
                         {event.runnersName?.[0]?.runnerName}
                       </p>
                       {event.inplay &&
@@ -84,7 +84,7 @@ export default function SingleMarket() {
                   {/* Team 2 */}
                   <div className="flex flex-row gap-1.5 overflow-hidden justify-between items-center">
                     <div className="flex flex-row gap-1.5 items-center">
-                      <p className="m-0 font-sans truncate text-[14px] font-bold leading-[1.3rem] text-[var(--palette-text-primary)]">
+                      <p className="m-0 font-sans truncate text-[13px] font-bold leading-[1.3rem] text-[var(--palette-text-primary)]">
                         {rightRunnerName}
                       </p>
                       {event.inplay &&
@@ -165,15 +165,17 @@ export default function SingleMarket() {
               </div>
 
               {/* RIGHT ODDS – 40% */}
-              <div className="flex flex-row gap-2 items-center whitespace-nowrap min-[1376px]:flex-[1_0_20rem] relative w-full min-[691px]:w-[40%] min-[1200px]:w-[100%] min-[1376px]:max-w-[40%] leading-[1.125rem] text-xs p-[5px] overflow-hidden">
+              <div className="flex flex-row gap-2 items-center whitespace-nowrap min-[1376px]:flex-[1_0_20rem] relative w-full min-[691px]:w-[45%] min-[1200px]:w-[100%] min-[1376px]:max-w-[40%] leading-[1.125rem] text-xs p-[5px] overflow-hidden">
+
                 {/* LEFT — Team 1 odds */}
                 <div className="flex flex-col gap-0.5 w-[33.3%]">
                   <span className="block h-[1.125rem] text-center truncate overflow-hidden">
                     {event.runnersName?.[0]?.runnerName}
                   </span>
                   <div className="flex gap-1">
+                    {/* BACK BUTTON (LEFT) */}
                     <div
-                      className="bg-[rgba(0,178,255,0.7)] w-[50%] rounded-[2px] text-center h-[35px] relative pt-0.5 text-black cursor-pointer select-none"
+                      className=" w-[75%] h-[45px] rounded-[8px] border-[1px] border-[#034a69] bg-[#0c2137]/60 hover:bg-[#0c2137]/80 flex flex-col justify-center items-center cursor-pointer select-none transition-all"
                       onClick={() =>
                         setSelectedBet({
                           type: "back",
@@ -184,16 +186,17 @@ export default function SingleMarket() {
                         })
                       }
                     >
-                      <span className="block whitespace-nowrap font-semibold text-[0.8rem] text-center">
+                      <span className="block whitespace-nowrap font-bold text-[13px] text-[#03B2FF] leading-[1.1]">
                         {runner0?.ex?.availableToBack?.[0]?.price ?? "-"}
                       </span>
-                      <span className="block whitespace-nowrap font-semibold text-[0.7rem] text-center leading-[0.7rem]">
-                        {shortNumber(runner0?.ex?.availableToBack?.[0]?.size) ??
-                          ""}
+                      <span className="block whitespace-nowrap font-normal text-[10px] text-[#60a5fa] leading-[1]">
+                        {shortNumber(runner0?.ex?.availableToBack?.[0]?.size) ?? ""}
                       </span>
                     </div>
+
+                    {/* LAY BUTTON (LEFT) */}
                     <div
-                      className="bg-[rgba(255,122,127,0.7)] w-[50%] rounded-[2px] text-center h-[35px] relative pt-0.5 text-black cursor-pointer select-none"
+                      className="w-[75%] h-[45px] rounded-[8px] border-[1px] border-[#6a1a29] bg-[#2a0c13]/60 hover:bg-[#2a0c13]/80 flex flex-col justify-center items-center cursor-pointer select-none transition-all"
                       onClick={() =>
                         setSelectedBet({
                           type: "lay",
@@ -204,12 +207,11 @@ export default function SingleMarket() {
                         })
                       }
                     >
-                      <span className="block whitespace-nowrap font-semibold text-[0.8rem] text-center">
+                      <span className="block whitespace-nowrap font-bold text-[13px] text-[#FF7A7F] leading-[1.1]">
                         {runner0?.ex?.availableToLay?.[0]?.price ?? "-"}
                       </span>
-                      <span className="block whitespace-nowrap font-semibold text-[0.7rem] leading-[0.7rem] text-center">
-                        {shortNumber(runner0?.ex?.availableToLay?.[0]?.size) ??
-                          ""}
+                      <span className="block whitespace-nowrap font-normal text-[10px] text-[#e11d48] leading-[1]">
+                        {shortNumber(runner0?.ex?.availableToLay?.[0]?.size) ?? ""}
                       </span>
                     </div>
                   </div>
@@ -221,8 +223,12 @@ export default function SingleMarket() {
                     {hasThreeRunners ? event.runnersName?.[2]?.runnerName : ""}
                   </span>
                   <div className="flex gap-1">
+                    {/* BACK BUTTON (CENTER) */}
                     <div
-                      className={`${hasThreeRunners ? "bg-[rgba(0,178,255,0.7)]" : "bg-[rgba(0,178,255,0.25)]"} w-[50%] rounded-[2px] text-center h-[35px] relative pt-0.5 text-black cursor-pointer select-none`}
+                      className={`w-[75%] h-[45px] rounded-[8px] border-[1px] flex flex-col justify-center items-center select-none transition-all ${hasThreeRunners
+                          ? "border-[#034a69] bg-[#0c2137]/60 hover:bg-[#0c2137]/80 cursor-pointer"
+                          : "border-[#034a69]/40 bg-[#0c2137]/20 cursor-default"
+                        }`}
                       onClick={() =>
                         hasThreeRunners &&
                         setSelectedBet({
@@ -234,21 +240,20 @@ export default function SingleMarket() {
                         })
                       }
                     >
-                      <span className="block whitespace-nowrap font-semibold text-[0.8rem] text-center">
-                        {hasThreeRunners
-                          ? (runner2?.ex?.availableToBack?.[0]?.price ?? "-")
-                          : ""}
+                      <span className={`block whitespace-nowrap font-bold text-[13px] leading-[1.1] ${hasThreeRunners ? "text-blue-50" : "text-blue-50/50"}`}>
+                        {hasThreeRunners ? (runner2?.ex?.availableToBack?.[0]?.price ?? "-") : ""}
                       </span>
-                      <span className="block whitespace-nowrap font-semibold text-[0.8rem] text-center">
-                        {hasThreeRunners
-                          ? (shortNumber(
-                            runner2?.ex?.availableToBack?.[0]?.size,
-                          ) ?? "")
-                          : ""}
+                      <span className={`block whitespace-nowrap font-normal text-[10px] leading-[1] ${hasThreeRunners ? "text-[#03B2FF]" : "text-[#60a5fa]/50"}`}>
+                        {hasThreeRunners ? (shortNumber(runner2?.ex?.availableToBack?.[0]?.size) ?? "") : ""}
                       </span>
                     </div>
+
+                    {/* LAY BUTTON (CENTER) */}
                     <div
-                      className={`${hasThreeRunners ? "bg-[rgba(255,122,127,0.7)]" : "bg-[rgba(255,122,127,0.25)]"} w-[50%] rounded-[2px] text-center h-[35px] relative pt-0.5 text-black cursor-pointer select-none`}
+                      className={`w-[75%] h-[45px] rounded-[8px] border-[1px] flex flex-col justify-center items-center select-none transition-all ${hasThreeRunners
+                          ? "border-[#6a1a29] bg-[#2a0c13]/60 hover:bg-[#2a0c13]/80 cursor-pointer"
+                          : "border-[#6a1a29]/40 bg-[#2a0c13]/20 cursor-default"
+                        }`}
                       onClick={() =>
                         hasThreeRunners &&
                         setSelectedBet({
@@ -260,17 +265,11 @@ export default function SingleMarket() {
                         })
                       }
                     >
-                      <span className="block whitespace-nowrap font-semibold text-[0.8rem] text-center">
-                        {hasThreeRunners
-                          ? (runner2?.ex?.availableToLay?.[0]?.price ?? "-")
-                          : ""}
+                      <span className={`block whitespace-nowrap font-bold text-[13px] leading-[1.1] ${hasThreeRunners ? "text-[#FF7A7F]" : "text-[#FF7A7F]/50"}`}>
+                        {hasThreeRunners ? (runner2?.ex?.availableToLay?.[0]?.price ?? "-") : ""}
                       </span>
-                      <span className="block whitespace-nowrap font-semibold text-[0.8rem] text-center">
-                        {hasThreeRunners
-                          ? (shortNumber(
-                            runner2?.ex?.availableToLay?.[0]?.size,
-                          ) ?? "")
-                          : ""}
+                      <span className={`block whitespace-nowrap font-normal text-[10px] leading-[1] ${hasThreeRunners ? "text-[#e11d48]" : "text-[#e11d48]/50"}`}>
+                        {hasThreeRunners ? (shortNumber(runner2?.ex?.availableToLay?.[0]?.size) ?? "") : ""}
                       </span>
                     </div>
                   </div>
@@ -282,8 +281,9 @@ export default function SingleMarket() {
                     {rightRunnerName}
                   </span>
                   <div className="flex gap-1">
+                    {/* BACK BUTTON (RIGHT) */}
                     <div
-                      className="bg-[rgba(0,178,255,0.7)] w-[50%] rounded-[2px] text-center h-[35px] relative pt-0.5 text-black cursor-pointer select-none"
+                      className="w-[75%] h-[45px] rounded-[8px] border-[1px] border-[#034a69] bg-[#0c2137]/60 hover:bg-[#0c2137]/80 flex flex-col justify-center items-center cursor-pointer select-none transition-all"
                       onClick={() =>
                         setSelectedBet({
                           type: "back",
@@ -294,17 +294,17 @@ export default function SingleMarket() {
                         })
                       }
                     >
-                      <span className="block whitespace-nowrap font-semibold text-[0.8rem] text-center">
+                      <span className="block whitespace-nowrap font-bold text-[12px] text-[#03B2FF] leading-[1.1]">
                         {rightRunner?.ex?.availableToBack?.[0]?.price ?? "-"}
                       </span>
-                      <span className="block whitespace-nowrap font-semibold text-[0.7rem] text-center leading-[0.7rem]">
-                        {shortNumber(
-                          rightRunner?.ex?.availableToBack?.[0]?.size,
-                        ) ?? ""}
+                      <span className="block whitespace-nowrap font-normal text-[10px] text-[#03B2FF] leading-[1]">
+                        {shortNumber(rightRunner?.ex?.availableToBack?.[0]?.size) ?? ""}
                       </span>
                     </div>
+
+                    {/* LAY BUTTON (RIGHT) */}
                     <div
-                      className="bg-[rgba(255,122,127,0.7)] w-[50%] rounded-[2px] text-center h-[35px] relative pt-0.5 text-black cursor-pointer select-none"
+                      className="w-[75%] h-[45px] rounded-[8px] border-[1px] border-[#6a1a29] bg-[#2a0c13]/60 hover:bg-[#2a0c13]/80 flex flex-col justify-center items-center cursor-pointer select-none transition-all"
                       onClick={() =>
                         setSelectedBet({
                           type: "lay",
@@ -315,17 +315,16 @@ export default function SingleMarket() {
                         })
                       }
                     >
-                      <span className="block whitespace-nowrap font-semibold text-[0.8rem] text-center">
+                      <span className="block whitespace-nowrap font-bold text-[13px] text-[#FF7A7F] leading-[1.1]">
                         {rightRunner?.ex?.availableToLay?.[0]?.price ?? "-"}
                       </span>
-                      <span className="block whitespace-nowrap font-semibold text-[0.7rem] text-center leading-[0.7rem]">
-                        {shortNumber(
-                          rightRunner?.ex?.availableToLay?.[0]?.size,
-                        ) ?? ""}
+                      <span className="block whitespace-nowrap font-normal text-[10px] text-[#e11d48] leading-[1]">
+                        {shortNumber(rightRunner?.ex?.availableToLay?.[0]?.size) ?? ""}
                       </span>
                     </div>
                   </div>
                 </div>
+
               </div>
             </div>
           </li>
