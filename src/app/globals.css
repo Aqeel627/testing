@@ -321,7 +321,10 @@
   --nav-item-root-active-bg: rgba(7 141 238 / 8%);
   --nav-item-root-active-color: #078dee;
 
-  --IconButton-hoverBg: rgba(var(--palette-action-activeChannel) / calc(var(--palette-action-hoverOpacity)));
+  --IconButton-hoverBg: rgba(
+    var(--palette-action-activeChannel) /
+      calc(var(--palette-action-hoverOpacity))
+  );
 }
 
 @theme inline {
@@ -631,7 +634,10 @@
   --nav-item-root-active-bg: rgba(7 141 238 / 8%);
   --nav-item-root-active-color: #68cdf9;
 
-  --IconButton-hoverBg: rgba(var(--palette-action-activeChannel) / calc(var(--palette-action-hoverOpacity)));
+  --IconButton-hoverBg: rgba(
+    var(--palette-action-activeChannel) /
+      calc(var(--palette-action-hoverOpacity))
+  );
 }
 
 body {
@@ -646,6 +652,13 @@ body {
     "Helvetica Neue",
     Arial,
     sans-serif;
+}
+
+body:has(.drawer) {
+  overflow: hidden !important;
+  position: fixed;
+  width: 100%;
+  height: 100%;
 }
 
 .no-scrollbar::-webkit-scrollbar {
@@ -788,7 +801,7 @@ body {
   transition:
     opacity 200ms cubic-bezier(0.4, 0, 0.2, 1),
     visibility 200ms cubic-bezier(0.4, 0, 0.2, 1); */
-      opacity: 1;
+  opacity: 1;
   content: "";
   visibility: visible;
   position: absolute;
@@ -796,8 +809,8 @@ body {
   left: 0px;
   width: 100%;
   height: 100%;
-    z-index: -1;
-      backdrop-filter: blur(4px);
+  z-index: -1;
+  backdrop-filter: blur(4px);
   background: linear-gradient(
     145deg,
     rgba(255, 255, 255, 0.08),
@@ -807,7 +820,7 @@ body {
     0 8px 32px rgba(0, 0, 0, 0.35),
     inset 0 1px 0 rgba(255, 255, 255, 0.25),
     inset 0 -2px 6px rgba(255, 255, 255, 0.05);
-      transition:
+  transition:
     opacity 200ms cubic-bezier(0.4, 0, 0.2, 1),
     visibility 200ms cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -1016,15 +1029,16 @@ body {
   /* border: 1px solid rgba(255, 255, 255, 0.18); */
 }
 
-.glass-btn{
+.glass-btn {
   background: linear-gradient(
     145deg,
     rgba(255, 255, 255, 0.08),
     rgba(255, 255, 255, 0.02)
   );
-    backdrop-filter: blur(20px) saturate(160%);
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.35);
-
+  backdrop-filter: blur(20px) saturate(160%);
+  box-shadow:
+    0 6px 18px rgba(0, 0, 0, 0.45),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
 }
 
 /* Spark animations for price updates - jab socket sy data update hota hai tu ye classes use hoti hain */
@@ -1154,3 +1168,4 @@ body {
     color: #1e1e1e;
   }
 }
+
