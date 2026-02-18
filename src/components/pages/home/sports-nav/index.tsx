@@ -17,7 +17,7 @@ export default function SportsNav() {
   const navData = ["cricket", "soccer", "tennis"];
   const [isMobile, setIsMobile] = useState(false);
 
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  // const scrollContainerRef = useRef<HTMLDivElement>(null);
   const tabsListRef = useRef<HTMLDivElement>(null);
   const [indicatorStyle, setIndicatorStyle] = useState({
     left: 0,
@@ -98,28 +98,11 @@ export default function SportsNav() {
 
     if (!activeBtn) return;
 
-    // Update sliding indicator
-    setIndicatorStyle({
-      left: activeBtn.offsetLeft,
-      top: activeBtn.offsetTop,
-      width: activeBtn.offsetWidth,
-      height: activeBtn.offsetHeight,
-      opacity: 1,
-    });
-
-    // 🔥 FIX: Only horizontal scroll (no vertical jump)
-    if (scrollContainerRef.current) {
-      const container = scrollContainerRef.current;
-
-      const scrollLeft =
-        activeBtn.offsetLeft -
-        container.offsetWidth / 2 +
-        activeBtn.offsetWidth / 2;
-
-      container.scrollTo({
-        left: scrollLeft,
-        behavior: "smooth",
-      });
+      // activeBtn.scrollIntoView({
+      //   behavior: "smooth",
+      //   inline: "center",
+      //   block: "nearest",
+      // });
     }
   }, [activeTab]);
 
