@@ -37,25 +37,27 @@ export default function Header({ onMenuClick }: HeaderProps) {
   const { accessToken } = useAuthStore();
 
   useEffect(() => {
-    if (accessToken) {
-      fetchData({
-        url: CONFIG.getUserBalance,
-        payload: {},
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-        setFn: setUserBalance,
-      });
-    }
-  }, [accessToken]);
+  console.log("Access token:", accessToken);
+  console.log("URL:", CONFIG.getUserBalance);
+  if (accessToken) {
+    fetchData({
+      url: CONFIG.getUserBalance,
+      payload: {},
+      headers: { Authorization: `Bearer ${accessToken}` },
+      setFn: setUserBalance,
+    });
+  }
+}, [accessToken]);
+
 
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
+    console.log("Token from localStorage:", token);
 
     if (token) {
-      setIsLoggedIn(true); 
+      setIsLoggedIn(true);
     } else {
-      setIsLoggedIn(false); 
+      setIsLoggedIn(false);
     }
 
   }, []);
@@ -125,7 +127,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
             className="flex p-1 items-center text-[13px] font-bold --palette-text-primary  hover:--palette-text-primary  transition-colors group rounded-lg  hover:bg-[rgba(145,158,171,0.08)] "
           >
             <span className=" group-hover:--palette-text-primary transition-colors mr-[4px] ">
-              <Icon name="exchange" className="h-4.5 w-4.5 " />
+              <Icon name="exchange" className="h-[19px] w-[19px] " />
             </span>
             <span className="relative top-[-0.5px]">Exchange</span>
           </Link>
