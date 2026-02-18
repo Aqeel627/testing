@@ -1,9 +1,4 @@
-import dynamic from "next/dynamic";
-
-// Server Component:
-const MarketDetailsComp = dynamic(
-  () => import("@/components/pages/market-details"),
-);
+import MarketDetailsComp from "./marketDetails";
 
 export default function MarketDetailsComponent() {
   return (
