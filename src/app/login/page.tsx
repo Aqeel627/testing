@@ -6,8 +6,10 @@ import Link from "next/link";
 import Loader from "@/components/common/loader/loader";
 import { cn } from "@/lib/utils";
 import style from "./style.module.css";
+import { useTheme } from "next-themes";
 
 export default function LoginPage() {
+  const { theme } = useTheme();
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -65,16 +67,24 @@ export default function LoginPage() {
             className="object-contain h-13 min-[600]:mx-2 mx-1"
           />
         </Link>
-        <Link href="/" className="text-sm font-semibold  hover:underline">
+        {/* <Link href="/" className="text-sm font-semibold  hover:underline">
           Need help?
-        </Link>
+        </Link> */}
       </div>
       <div className="flex flex-col max-[900]:pt-12 pb-4 min-[900]:flex-row w-full flex-1 basis-auto min-[900]:h-[calc(100vh-48px)]">
         {/* LEFT SIDE */}
         <div
-          className="hidden min-[900]:flex flex-col gap-16 justify-center items-center w-120 h-full px-6 pt-18 pb-6 bg-no-repeat bg-cover bg-center"
+          className={cn(
+            "hidden min-[900]:flex flex-col rounded-none! gap-16 justify-center items-center w-120 h-full px-6 pt-18 pb-6 bg-no-repeat bg-cover bg-center",
+            theme === "dark"
+              ? "apple-glass apple-glass-dark "
+              : "apple-glass-light",
+          )}
           style={{
-            backgroundImage: `linear-gradient(0deg, rgba(20 26 33 / 92%), rgba(20 26 33 / 92%)), url('https://auexch.com/assets/background/background-3-blur.webp')`,
+            backgroundImage:
+              theme === "dark"
+                ? `linear-gradient(0deg, rgba(20 26 33 / 92%), rgba(20 26 33 / 92%)), url('https://auexch.com/assets/background/background-3-blur.webp')`
+                : "linear-gradient(0deg, rgba(244 246 248 / 92%), rgba(244 246 248 / 92%)), url('https://auexch.com/assets/background/background-3-blur.webp');",
           }}
         >
           <h2 className="text-[32px] font-bold">Hi, Welcome back</h2>
@@ -88,7 +98,14 @@ export default function LoginPage() {
         </div>
 
         {/* RIGHT SIDE */}
-        <div className="flex flex-col justify-center px-4 md:px-4 lg:px-4 text-white flex-1 basis-auto max-[900px]:pt-6 min-[900px]:py-20">
+        <div
+          className={cn(
+            "flex rounded-none! flex-col justify-center px-4 md:px-4 lg:px-4 flex-1 basis-auto max-[900px]:pt-6 min-[900px]:py-20",
+            theme === "dark"
+              ? "apple-glass apple-glass-dark "
+              : "apple-glass-light",
+          )}
+        >
           <div className="md:mx-auto md:w-md xl:w-105 max-w-105 max-[900px]:max-w-105 max-[900px]:mt-[1px]">
             <form className="space-y-5" onSubmit={handleSubmit} noValidate>
               {/* Heading */}
@@ -96,12 +113,12 @@ export default function LoginPage() {
                 <h2 className="text-xl xl:text-[19px] font-bold max-[600px]:text-[18px] max-[900px]:text-[19px]">
                   Sign in to AuExch
                 </h2>
-                <p className="text-sm  text-white">
+                {/* <p className="text-sm  text-white">
                   Don’t have an account?{" "}
                   <Link href="/signup" className="font-semibold">
                     Get started
                   </Link>
-                </p>
+                </p> */}
               </div>
 
               <div className="flex flex-col gap-6">
@@ -117,7 +134,12 @@ export default function LoginPage() {
                     Username
                     <span className=""> *</span>
                   </label>
-                  <div className="font-normal text-base leading-[1.4375em]  text-(--palette-text-primary) box-border cursor-text inline-flex items-center w-full relative rounded-lg group">
+                  <div
+                    className={cn(
+                      "font-normal text-base leading-[1.4375em]  text-(--palette-text-primary) box-border cursor-text inline-flex items-center w-full relative rounded-lg group",
+                      theme === "dark" ? "liquid-field" : "liquid-field-light",
+                    )}
+                  >
                     <input
                       type="text"
                       placeholder="Username"
@@ -167,7 +189,12 @@ export default function LoginPage() {
                     Password
                     <span className=""> *</span>
                   </label>
-                  <div className="font-normal text-base leading-[1.4375em]  text-(--palette-text-primary) box-border cursor-text inline-flex items-center w-full relative rounded-lg group">
+                  <div
+                    className={cn(
+                      "font-normal liquid-field text-base leading-[1.4375em]  text-(--palette-text-primary) box-border cursor-text inline-flex items-center w-full relative rounded-lg group",
+                      theme === "dark" ? "liquid-field" : "liquid-field-light",
+                    )}
+                  >
                     <input
                       type={showPassword ? "text" : "password"}
                       placeholder="Password"

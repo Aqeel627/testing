@@ -16,16 +16,13 @@ export default function InplaySportNav({
   activeTab: string;
   setActiveTab: (value: string) => void;
 }) {
-  const { menuList } = useAppStore();
+  const { menuList, inplayEvents } = useAppStore();
   const [navItems, setNavItems] = useState<NavItem[]>([]);
   const router = useRouter();
 
   const navData = ["cricket", "soccer", "tennis"];
-  const [showButtons, setShowButtons] = useState(false);
 
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const [showLeftArrow, setShowLeftArrow] = useState(false);
-  const [showRightArrow, setShowRightArrow] = useState(false);
   const tabsListRef = useRef<HTMLDivElement>(null);
 
   // First render ref to skip initial animation
@@ -43,15 +40,21 @@ export default function InplaySportNav({
   // ----- Build nav items from menuList -----
   useEffect(() => {
     const eventsType = menuList?.eventTypes;
-    if (!eventsType) {
+    if (!eventsType || !inplayEvents) {
       setNavItems([]);
       return;
     }
 
     const newItems: NavItem[] = eventsType
-      .filter((item: any) =>
-        navData.includes(item?.eventType?.name?.toLowerCase()),
-      )
+      .filter((item: any) => {
+        const name = item?.eventType?.name?.toLowerCase();
+        const id = item?.eventType?.id;
+
+        const hasNavMatch = navData.includes(name);
+        const hasEvents = inplayEvents[id]?.length > 0; // 👈 important
+
+        return hasNavMatch && hasEvents;
+      })
       .sort((a: any, b: any) => {
         const aIndex = navData.indexOf(a?.eventType?.name?.toLowerCase());
         const bIndex = navData.indexOf(b?.eventType?.name?.toLowerCase());
@@ -64,32 +67,7 @@ export default function InplaySportNav({
       }));
 
     setNavItems(newItems);
-  }, [menuList]);
-
-  // ----- Scroll arrows -----
-  const checkArrowsVisibility = useCallback(() => {
-    if (!scrollContainerRef.current) return;
-
-    const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
-
-    const hasOverflow = scrollWidth > clientWidth + 1;
-
-    if (!hasOverflow) {
-      // No overflow → hide both arrows
-      setShowLeftArrow(false);
-      setShowRightArrow(false);
-      setShowButtons(false);
-      return;
-    }
-
-    if (hasOverflow) {
-      setShowButtons(true);
-    }
-
-    // Overflow exists → decide based on scroll position
-    setShowLeftArrow(scrollLeft > 5);
-    setShowRightArrow(scrollLeft + clientWidth < scrollWidth - 5);
-  }, []);
+  }, [menuList, inplayEvents]); // 👈 dependency add karo
 
   // ----- Update indicator -----
   const updateIndicator = useCallback(() => {
@@ -127,7 +105,6 @@ export default function InplaySportNav({
   // ----- Effect to run after navItems or tab change -----
   useEffect(() => {
     const handle = () => {
-      checkArrowsVisibility();
       updateIndicator();
     };
 
@@ -138,46 +115,14 @@ export default function InplaySportNav({
     return () => {
       window.removeEventListener("resize", handle);
     };
-  }, [navItems, activeTab, checkArrowsVisibility, updateIndicator]);
-
-  useEffect(() => {
-    if (!scrollContainerRef.current) return;
-
-    const observer = new ResizeObserver(() => {
-      checkArrowsVisibility();
-    });
-
-    observer.observe(scrollContainerRef.current);
-
-    return () => observer.disconnect();
-  }, [checkArrowsVisibility]);
-
-  const handleScrollClick = (direction: "left" | "right") => {
-    if (!scrollContainerRef.current) return;
-    const scrollAmount = 200;
-    scrollContainerRef.current.scrollBy({
-      left: direction === "left" ? -scrollAmount : scrollAmount,
-      behavior: "smooth",
-    });
-  };
+  }, [navItems, activeTab, updateIndicator]);
 
   return (
     <div
       className={`${styles["tabs-root"]} border-3 min-[900]:mt-6 mt-3 border-dashed border-[rgba(145,158,171,0.2)]`}
     >
       <div
-        onClick={() => handleScrollClick("left")}
-        className={cn(
-          "inline-flex items-center justify-center relative box-border bg-transparent outline-none border-0 m-0 p-0 cursor-pointer select-none font-sans w-10 shrink-0",
-          showLeftArrow ? "opacity-80" : "opacity-0 pointer-events-none",
-          !showButtons && "hidden",
-        )}
-      >
-        <Icon name="leftArrow" className="w-5 h-5 text-white" />
-      </div>
-      <div
         ref={scrollContainerRef}
-        onScroll={checkArrowsVisibility}
         className={`${styles["tabs-scroller"]} overflow-x-auto overflow-y-hidden`}
       >
         <div role="tablist" className={styles["tabs-list"]} ref={tabsListRef}>
@@ -241,16 +186,6 @@ export default function InplaySportNav({
             </button>
           ))}
         </div>
-      </div>
-      <div
-        onClick={() => handleScrollClick("right")}
-        className={cn(
-          "inline-flex items-center justify-center relative box-border bg-transparent outline-none border-0 m-0 p-0 cursor-pointer select-none font-sans w-10 shrink-0",
-          showRightArrow ? "opacity-80" : "opacity-0 pointer-events-none",
-          !showButtons && "hidden",
-        )}
-      >
-        <Icon name="rightArrow" className="w-5 h-5 text-white" />
       </div>
     </div>
   );

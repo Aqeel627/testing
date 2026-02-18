@@ -179,3 +179,33 @@ export async function loginRequest({
     return { success: false };
   }
 }
+
+export function shortNumber(value: number): string | null {
+  if (isNaN(value) || value === null) return null;
+  if (value === 0) return "0";
+
+  const abs = Math.abs(value);
+  const rounder = Math.pow(10, 1);
+  const isNegative = value < 0;
+  let key = "";
+  let formatted = abs;
+
+  const powers = [
+    { key: "Q", value: Math.pow(10, 15) },
+    { key: "T", value: Math.pow(10, 12) },
+    { key: "B", value: Math.pow(10, 9) },
+    { key: "M", value: Math.pow(10, 6) },
+    { key: "K", value: 1000 },
+  ];
+
+  for (let i = 0; i < powers.length; i++) {
+    const reduced = Math.round((abs / powers[i].value) * rounder) / rounder;
+    if (reduced >= 1) {
+      formatted = reduced;
+      key = powers[i].key;
+      break;
+    }
+  }
+
+  return `${isNegative ? "-" : ""}${formatted}${key}`;
+}

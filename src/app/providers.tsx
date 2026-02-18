@@ -1,33 +1,27 @@
 "use client";
 
-import { useEffect } from "react";
-import NProgress from "nprogress";
-import { usePathname, useSearchParams } from "next/navigation";
-
-NProgress.configure({
-  minimum: 0.3,     
-  easing: "linear",
-  speed: 300,
-  trickle: false, 
-  showSpinner: false,
-});
+import { useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
+import NProgress from "@/lib/nprogress";
 
 export default function TopLoader() {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
+  const running = useRef(false);
 
   useEffect(() => {
-
-    NProgress.start();
-
-    NProgress.set(0.95);
+    if (!running.current) {
+      running.current = true;
+      NProgress.start();
+      NProgress.set(0.95);
+    }
 
     const timer = setTimeout(() => {
       NProgress.done(true);
-    }, 200);
+      running.current = false;
+    }, 180);
 
     return () => clearTimeout(timer);
-  }, [pathname, searchParams]);
+  }, [pathname]);
 
   return null;
 }

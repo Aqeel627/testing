@@ -1,7 +1,11 @@
 "use client";
 import Icon from "@/icons/icons";
+import { shortNumber } from "@/lib/functions";
 import { useAppStore } from "@/lib/store/store";
+import Link from "next/link";
+import style from "@/components/pages/home/single-market/singleMarket.module.css";
 import React from "react";
+import { cn } from "@/lib/utils";
 
 const InplayMarket = ({ events }: { events: any }) => {
   const { setSelectedBet } = useAppStore();
@@ -20,7 +24,7 @@ const InplayMarket = ({ events }: { events: any }) => {
         return (
           <li
             key={event.marketId}
-            className="w-full rounded-[2px] border border-dashed border-[rgba(145,158,171,0.16)] bg-[rgba(145,158,171,0.04)] text-white overflow-hidden mb-1.5"
+            className="w-full rounded-[2px] border border-dashed border-[rgba(145,158,171,0.16)] bg-[rgba(145,158,171,0.04)] overflow-hidden mb-1.5"
           >
             <div className="flex w-full flex-col min-[691px]:flex-row min-[1200px]:flex-col min-[1376px]:flex-row">
               {/* LEFT CONTENT – 60% */}
@@ -47,8 +51,8 @@ const InplayMarket = ({ events }: { events: any }) => {
                 </div>
 
                 {/* Runner Names */}
-                <a
-                  href={`/event/${event.event?.id}`}
+                <Link
+                  href={`/market-details/${event.event?.id}/${event?.eventType?.id}`}
                   className="flex flex-col w-full min-w-0 flex-auto no-underline"
                 >
                   {/* Team 1 */}
@@ -83,14 +87,19 @@ const InplayMarket = ({ events }: { events: any }) => {
                       </span>
                     </div>
                   </div>
-                </a>
+                </Link>
 
                 {/* Meta row */}
                 <div className="flex flex-row gap-3 justify-start items-center h-4 leading-4 contain-strict pointer-events-none overflow-hidden mt-0.5">
                   <div className="min-w-9.5">
                     <div className="flex gap-1.5">
-                      <div className="flex justify-center items-center">
-                        <div className="w-1.75 h-1.75 bg-[#078dee] rounded-full"></div>
+                      <div
+                        className={cn(
+                          style.animateLiveBlink,
+                          `flex justify-center items-center`,
+                        )}
+                      >
+                        <div className="w-[7px] h-[7px] bg-[#078dee] rounded-full"></div>
                       </div>
                       <p className="m-0 font-sans truncate whitespace-nowrap text-[10px] text-[#078dee] font-bold leading-4">
                         {event.inplay
@@ -167,7 +176,8 @@ const InplayMarket = ({ events }: { events: any }) => {
                         {runner0?.ex?.availableToBack?.[0]?.price ?? "-"}
                       </span>
                       <span className="block whitespace-nowrap font-semibold text-[0.7rem] text-center leading-[0.7rem]">
-                        {runner0?.ex?.availableToBack?.[0]?.size ?? ""}
+                        {shortNumber(runner0?.ex?.availableToBack?.[0]?.size) ??
+                          ""}
                       </span>
                     </div>
                     <div
@@ -186,7 +196,8 @@ const InplayMarket = ({ events }: { events: any }) => {
                         {runner0?.ex?.availableToLay?.[0]?.price ?? "-"}
                       </span>
                       <span className="block whitespace-nowrap font-semibold text-[0.7rem] leading-[0.7rem] text-center">
-                        {runner0?.ex?.availableToLay?.[0]?.size ?? ""}
+                        {shortNumber(runner0?.ex?.availableToLay?.[0]?.size) ??
+                          ""}
                       </span>
                     </div>
                   </div>
@@ -218,7 +229,9 @@ const InplayMarket = ({ events }: { events: any }) => {
                       </span>
                       <span className="block whitespace-nowrap font-semibold text-[0.8rem] text-center">
                         {hasThreeRunners
-                          ? (runner2?.ex?.availableToBack?.[0]?.size ?? "")
+                          ? (shortNumber(
+                              runner2?.ex?.availableToBack?.[0]?.size,
+                            ) ?? "")
                           : ""}
                       </span>
                     </div>
@@ -242,7 +255,9 @@ const InplayMarket = ({ events }: { events: any }) => {
                       </span>
                       <span className="block whitespace-nowrap font-semibold text-[0.8rem] text-center">
                         {hasThreeRunners
-                          ? (runner2?.ex?.availableToLay?.[0]?.size ?? "")
+                          ? (shortNumber(
+                              runner2?.ex?.availableToLay?.[0]?.size,
+                            ) ?? "")
                           : ""}
                       </span>
                     </div>
@@ -271,7 +286,9 @@ const InplayMarket = ({ events }: { events: any }) => {
                         {rightRunner?.ex?.availableToBack?.[0]?.price ?? "-"}
                       </span>
                       <span className="block whitespace-nowrap font-semibold text-[0.7rem] text-center leading-[0.7rem]">
-                        {rightRunner?.ex?.availableToBack?.[0]?.size ?? ""}
+                        {shortNumber(
+                          rightRunner?.ex?.availableToBack?.[0]?.size,
+                        ) ?? ""}
                       </span>
                     </div>
                     <div
@@ -290,7 +307,9 @@ const InplayMarket = ({ events }: { events: any }) => {
                         {rightRunner?.ex?.availableToLay?.[0]?.price ?? "-"}
                       </span>
                       <span className="block whitespace-nowrap font-semibold text-[0.7rem] text-center leading-[0.7rem]">
-                        {rightRunner?.ex?.availableToLay?.[0]?.size ?? ""}
+                        {shortNumber(
+                          rightRunner?.ex?.availableToLay?.[0]?.size,
+                        ) ?? ""}
                       </span>
                     </div>
                   </div>
