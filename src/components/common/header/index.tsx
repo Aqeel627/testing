@@ -132,8 +132,8 @@ export default function Header({ onMenuClick }: HeaderProps) {
             href="/"
             className="flex p-1 items-center text-[13px] font-bold --palette-text-primary  hover:--palette-text-primary  transition-colors group rounded-lg  hover:bg-[rgba(145,158,171,0.08)] "
           >
-            <span className=" group-hover:--palette-text-primary transition-colors mr-[4px] ">
-              <Icon name="exchange" className="h-[19px] w-[19px] " />
+            <span className=" group-hover:--palette-text-primary transition-colors mr-[4px]  border border-[#a5a7a9] rounded-full p-[2px]">
+              <Icon name="exchange" className="h-4 w-4 " />
             </span>
             <span className="relative top-[-0.5px]">Exchange</span>
           </Link>
