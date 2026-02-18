@@ -13,8 +13,8 @@ import NavigationLoader from "./navigation-loader";
 import { Suspense } from "react";
 
 export const metadata: Metadata = {
-  title: "Auexch",
-  description: "Explore Auexch",
+  title: "100exch",
+  description: "Explore 100exch",
 };
 export const viewport = {
   width: "device-width",
