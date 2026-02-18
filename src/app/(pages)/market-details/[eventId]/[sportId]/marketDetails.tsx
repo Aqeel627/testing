@@ -11,6 +11,7 @@ import { useParams, useRouter } from "next/navigation";
 import { CONFIG } from "@/lib/config";
 import axios from "axios";
 import { useAppStore } from "@/lib/store/store";
+import { useAppRateHighlighter } from "@/lib/highlaterMarket";
 
 // WebSocket service (assumed to exist)
 import { webSocketService } from "@/lib/websocket.service";
@@ -119,6 +120,9 @@ export default function MarketDetails() {
   // Socket cleanup refs
   const socketCleanupRef = useRef<(() => void) | null>(null);
   const subscribedMarketIdsRef = useRef<string[]>([]);
+
+  // Add highlighter hook
+  useAppRateHighlighter();
 
   const buildRunnerNameMap = (market: any) => {
     const map: Record<number, string> = {};
@@ -783,7 +787,8 @@ export default function MarketDetails() {
                         : back3.map((item, i) => (
                             <div
                               key={`back-${i}`}
-                              className={`flex flex-col items-center justify-center h-full rounded-[2px] flex-1 min-w-0 cursor-pointer text-black transition-colors ${
+                              data-app-rate-highlighter
+                              className={`back-${i + 1} flex flex-col items-center justify-center h-full rounded-[2px] flex-1 min-w-0 cursor-pointer text-black transition-colors ${
                                 i === 0
                                   ? "bg-[#0591cf] hover:bg-[#68CDF9]"
                                   : "bg-[#0a77a8] hover:bg-[#68CDF9]"
@@ -825,7 +830,8 @@ export default function MarketDetails() {
                         : lay3.map((item, i) => (
                             <div
                               key={`lay-${i}`}
-                              className={`flex flex-col items-center justify-center h-full rounded-[2px] flex-1 min-w-0 cursor-pointer text-black transition-colors ${
+                              data-app-rate-highlighter
+                              className={`lay-${i + 1} flex flex-col items-center justify-center h-full rounded-[2px] flex-1 min-w-0 cursor-pointer text-black transition-colors ${
                                 i === 0
                                   ? "bg-[#d1686d] hover:bg-[#FFA4A7]"
                                   : "bg-[#a3555b] hover:bg-[#FFA4A7]"
@@ -931,10 +937,10 @@ export default function MarketDetails() {
         <div className="relative flex items-center flex-1 overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
           <div
             ref={tabsListRef}
-            className="flex p-2 !pb-[6px] relative z-[1] w-full items-center relative"
+            className="flex p-2 !pb-[6px] relative z-[1] *:text-nowrap w-full items-center relative"
           >
             <div
-              className="absolute bg-[#141A21] rounded-[8px] transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] z-0 h-[32px]"
+              className="absolute bg-[#141A21] rounded-[8px]  transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] z-0 h-[32px]"
               style={{
                 left: `${indicatorStyle.left}px`,
                 top: "24px",
@@ -943,21 +949,6 @@ export default function MarketDetails() {
                 opacity: indicatorStyle.opacity,
               }}
             />
-
-            {/* ALL Tab */}
-            <button
-              data-tab="ALL"
-              onClick={(e) => {
-                setMarketType("ALL", e, "All", 0, "");
-              }}
-              className={`inline-flex items-center justify-center bg-transparent border-none cursor-pointer text-[0.875rem] px-4 py-1.5 transition-colors duration-200 leading-[1.57143] relative z-10 top-[-1px] ${
-                activeTab === "ALL"
-                  ? "text-[#68CDF9] font-semibold"
-                  : "text-[#919EAB] font-[500]"
-              }`}
-            >
-              ALL
-            </button>
 
             {/* POPULAR Tab */}
             <button
@@ -997,6 +988,21 @@ export default function MarketDetails() {
                 {market?.marketName}
               </button>
             ))}
+
+            {/* ALL Tab */}
+            <button
+              data-tab="ALL"
+              onClick={(e) => {
+                setMarketType("ALL", e, "All", 0, "");
+              }}
+              className={`inline-flex items-center justify-center bg-transparent border-none cursor-pointer text-[0.875rem] px-4 py-1.5 transition-colors duration-200 leading-[1.57143] relative z-10 top-[-1px] ${
+                activeTab === "ALL"
+                  ? "text-[#68CDF9] font-semibold"
+                  : "text-[#919EAB] font-[500]"
+              }`}
+            >
+              ALL Markets
+            </button>
           </div>
         </div>
       </div>
