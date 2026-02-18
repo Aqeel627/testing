@@ -77,8 +77,8 @@ export default function LoginPage() {
           className={cn(
             "hidden min-[900]:flex flex-col rounded-none! gap-16 justify-center items-center w-120 h-full px-6 pt-18 pb-6 bg-no-repeat bg-cover bg-center",
             theme === "dark"
-              ? "min-[900]:apple-glass min-[900]:apple-glass-dark "
-              : "min-[900]:apple-glass-light",
+              ? "apple-glass apple-glass-dark "
+              : "apple-glass-light",
           )}
           style={{
             backgroundImage:
