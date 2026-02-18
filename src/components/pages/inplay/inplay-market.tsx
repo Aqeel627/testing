@@ -3,7 +3,9 @@ import Icon from "@/icons/icons";
 import { shortNumber } from "@/lib/functions";
 import { useAppStore } from "@/lib/store/store";
 import Link from "next/link";
+import style from "@/components/pages/home/single-market/singleMarket.module.css";
 import React from "react";
+import { cn } from "@/lib/utils";
 
 const InplayMarket = ({ events }: { events: any }) => {
   const { setSelectedBet } = useAppStore();
@@ -91,8 +93,13 @@ const InplayMarket = ({ events }: { events: any }) => {
                 <div className="flex flex-row gap-3 justify-start items-center h-4 leading-4 contain-strict pointer-events-none overflow-hidden mt-0.5">
                   <div className="min-w-9.5">
                     <div className="flex gap-1.5">
-                      <div className="flex justify-center items-center">
-                        <div className="w-1.75 h-1.75 bg-[#078dee] rounded-full"></div>
+                      <div
+                        className={cn(
+                          style.animateLiveBlink,
+                          `flex justify-center items-center`,
+                        )}
+                      >
+                        <div className="w-[7px] h-[7px] bg-[#078dee] rounded-full"></div>
                       </div>
                       <p className="m-0 font-sans truncate whitespace-nowrap text-[10px] text-[#078dee] font-bold leading-4">
                         {event.inplay
