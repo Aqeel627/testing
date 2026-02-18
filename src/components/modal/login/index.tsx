@@ -7,11 +7,18 @@ import Loader from "@/components/common/loader/loader";
 import { cn } from "@/lib/utils";
 import style from "./style.module.css";
 import { useTheme } from "next-themes";
+import { useAuthStore } from "@/lib/useAuthStore";
+// import { useToast } from "@/app/(pages)/components/toast/toast-context";
+import { useRouter } from "next/navigation";
 import { useAppStore } from "@/lib/store/store";
 
 export default function LoginModal() {
   const { loginModal, setLoginModal } = useAppStore();
   const { theme } = useTheme();
+  const { login } = useAuthStore();
+  // const { showToast } = useToast();
+  const router = useRouter();
+
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -21,6 +28,7 @@ export default function LoginModal() {
     username: false,
     password: false,
   });
+  const [apiError, setApiError] = useState("");
 
   const usernameError = touched.username && !username.trim();
   const passwordError = touched.password && !password.trim();
@@ -34,7 +42,7 @@ export default function LoginModal() {
     return () => clearTimeout(timer);
   }, [loginModal]);
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (isSubmitting) return;
 
@@ -48,29 +56,58 @@ export default function LoginModal() {
     }
 
     setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
-    }, 1000);
-  };
+    setApiError("");
 
-  useEffect(() => {
-    if (loginModal) {
-      const scrollY = window.scrollY;
+    try {
+      const res = await login(username.trim().toLowerCase(), password);
 
-      document.body.style.position = "fixed";
-      document.body.style.top = `-${scrollY}px`;
-      document.body.style.width = "100%";
+      const ok =
+        res === true ||
+        (typeof res === "object" &&
+          res !== null &&
+          ((res as any).status === true || (res as any).success === true));
 
-      return () => {
-        const top = document.body.style.top;
-        document.body.style.position = "";
-        document.body.style.top = "";
-        document.body.style.width = "";
+      const rawMessage =
+        typeof res?.meta?.message === "string" ? res.meta.message : "";
 
-        window.scrollTo(0, parseInt(top || "0") * -1);
+      const parts = rawMessage
+        .split(/',\s*'/)
+        .map((p: any) => p.replace(/^'+|'+$/g, "").trim());
+
+      const msg = {
+        status: parts[0] || "",
+        title: parts[1] || "",
+        desc: parts[2] || "",
       };
+
+      if (ok) {
+        // showToast(msg.status, msg.title, msg.desc);
+        setLoginModal(false);
+
+        if (res?.data?.userDetail?.isLogin === 0) {
+          document.cookie = "forceChangePassword=true; path=/";
+          router.replace("/change-password");
+          return;
+        }
+      } else {
+        // showToast(msg.status, msg.title, msg.desc);
+        setApiError(msg.desc || "Invalid username or password");
+      }
+
+      setUsername("");
+      setPassword("");
+    } catch (error: any) {
+      const errorMsg =
+        error?.response?.data?.meta?.message ||
+        error?.response?.data?.message ||
+        error?.response?.data?.error ||
+        error?.message ||
+        "Login failed";
+      setApiError(errorMsg);
+    } finally {
+      setIsSubmitting(false);
     }
-  }, [loginModal]);
+  };
 
   if (loginModal && isLoading) {
     return <Loader />;
@@ -80,7 +117,7 @@ export default function LoginModal() {
     <>
       <section
         className={cn(
-          "fixed! rounded-none! border-0! inset-0! z-9999 drawer!",
+          "fixed! rounded-none! inset-0! z-9999 drawer!",
           theme === "dark"
             ? "apple-glass apple-glass-dark "
             : "apple-glass-light",
@@ -89,16 +126,17 @@ export default function LoginModal() {
         <div className="flex justify-between items-center px-4 min-[600]:px-6 h-12">
           <Link href="/" onClick={() => setLoginModal(false)}>
             <Image
-              src="/logo.png"
+              src={
+                theme === "light"
+                  ? "/brand_logo_light.png"
+                  : "/brand_logo_dark.png"
+              }
               alt="AuExch Logo"
               width={152}
               height={1000}
               className="object-contain h-13 min-[600]:mx-2 mx-1"
             />
           </Link>
-          {/* <Link href="/" className="text-sm font-semibold  hover:underline">
-          Need help?
-        </Link> */}
         </div>
         <div className="flex flex-col max-[900]:pt-12 pb-4 min-[900]:flex-row w-full flex-1 basis-auto min-[900]:h-[calc(100vh-10px)]">
           {/* LEFT SIDE */}
@@ -115,7 +153,11 @@ export default function LoginModal() {
           >
             <h2 className="text-[32px] font-bold">Hi, Welcome back</h2>
             <Image
-              src="/logo.png"
+              src={
+                theme === "light"
+                  ? "/brand_logo_light.png"
+                  : "/brand_logo_dark.png"
+              }
               alt="AuExch Logo"
               width={304}
               height={1000}
@@ -132,12 +174,6 @@ export default function LoginModal() {
                   <h2 className="text-xl xl:text-[19px] font-bold max-[600px]:text-[18px] max-[900px]:text-[19px]">
                     Sign in to AuExch
                   </h2>
-                  {/* <p className="text-sm  text-white">
-                  Don’t have an account?{" "}
-                  <Link href="/signup" className="font-semibold">
-                    Get started
-                  </Link>
-                </p> */}
                 </div>
 
                 <div className="flex flex-col gap-6">
@@ -212,7 +248,7 @@ export default function LoginModal() {
                     </label>
                     <div
                       className={cn(
-                        "font-normal text-base leading-[1.4375em]  text-(--palette-text-primary) box-border cursor-text inline-flex items-center w-full relative rounded-lg group",
+                        "font-normal liquid-field text-base leading-[1.4375em]  text-(--palette-text-primary) box-border cursor-text inline-flex items-center w-full relative rounded-lg group",
                         theme === "dark"
                           ? "liquid-field"
                           : "liquid-field-light",
@@ -312,28 +348,29 @@ export default function LoginModal() {
                     )}
                   </div>
 
-                  {/* toast error */}
-
-                  {/* <div className="text-(--palette-error-lighter) bg-(--palette-error-darker) shadow-(--Paper-shadow) bg-none font-normal text-sm leading-[1.57143] flex   px-4 py-1.5 rounded-lg">
-                  <div className="flex text-[22px] text-(--palette-error-light) opacity-100 mr-3 px-0 py-1.75">
-                    <svg
-                      className="select-none w-[1em] h-[1em] inline-block shrink-0 fill-current text-2xl transition-[fill] duration-300 ease-in-out"
-                      focusable="false"
-                      aria-hidden="true"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        fill="currentColor"
-                        fill-rule="evenodd"
-                        d="M7.843 3.802C9.872 2.601 10.886 2 12 2c1.114 0 2.128.6 4.157 1.802l.686.406c2.029 1.202 3.043 1.803 3.6 2.792c.557.99.557 2.19.557 4.594v.812c0 2.403 0 3.605-.557 4.594c-.557.99-1.571 1.59-3.6 2.791l-.686.407C14.128 21.399 13.114 22 12 22c-1.114 0-2.128-.6-4.157-1.802l-.686-.407c-2.029-1.2-3.043-1.802-3.6-2.791C3 16.01 3 14.81 3 12.406v-.812C3 9.19 3 7.989 3.557 7c.557-.99 1.571-1.59 3.6-2.792zM13 16a1 1 0 1 1-2 0a1 1 0 0 1 2 0m-1-9.75a.75.75 0 0 1 .75.75v6a.75.75 0 0 1-1.5 0V7a.75.75 0 0 1 .75-.75"
-                        clip-rule="evenodd"
-                      ></path>
-                    </svg>
-                  </div>
-                  <div className="min-w-0 overflow-auto px-0 py-2">
-                    detail: Invalid username or password
-                  </div>
-                </div> */}
+                  {/* API Error Toast */}
+                  {apiError && (
+                    <div className="text-(--palette-error-lighter) bg-(--palette-error-darker) shadow-(--Paper-shadow) bg-none font-normal text-sm leading-[1.57143] flex px-4 py-1.5 rounded-lg">
+                      <div className="flex text-[22px] text-(--palette-error-light) opacity-100 mr-3 px-0 py-1.75">
+                        <svg
+                          className="select-none w-[1em] h-[1em] inline-block shrink-0 fill-current text-2xl transition-[fill] duration-300 ease-in-out"
+                          focusable="false"
+                          aria-hidden="true"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            fill="currentColor"
+                            fillRule="evenodd"
+                            d="M7.843 3.802C9.872 2.601 10.886 2 12 2c1.114 0 2.128.6 4.157 1.802l.686.406c2.029 1.202 3.043 1.803 3.6 2.792c.557.99.557 2.19.557 4.594v.812c0 2.403 0 3.605-.557 4.594c-.557.99-1.571 1.59-3.6 2.791l-.686.407C14.128 21.399 13.114 22 12 22c-1.114 0-2.128-.6-4.157-1.802l-.686-.407c-2.029-1.2-3.043-1.802-3.6-2.791C3 16.01 3 14.81 3 12.406v-.812C3 9.19 3 7.989 3.557 7c.557-.99 1.571-1.59 3.6-2.792zM13 16a1 1 0 1 1-2 0a1 1 0 0 1 2 0m-1-9.75a.75.75 0 0 1 .75.75v6a.75.75 0 0 1-1.5 0V7a.75.75 0 0 1 .75-.75"
+                            clipRule="evenodd"
+                          ></path>
+                        </svg>
+                      </div>
+                      <div className="min-w-0 overflow-auto px-0 py-2">
+                        {apiError}
+                      </div>
+                    </div>
+                  )}
 
                   {/* Login Button */}
                   <button
@@ -361,7 +398,7 @@ export default function LoginModal() {
                                     cy="44"
                                     r="20.2"
                                     fill="none"
-                                    stroke-width="3.6"
+                                    strokeWidth="3.6"
                                   ></circle>
                                 </svg>
                               </span>
@@ -379,7 +416,7 @@ export default function LoginModal() {
                     href="/"
                     onClick={() => setLoginModal(false)}
                     className="w-full rounded-[8px] cursor-pointer shadow-(--customShadows-z8) hover:bg-(--palette-grey-400)
-  font-bold text-[15px] py-3.5 h-[48px] inline-flex justify-center items-center dark:bg-white bg-black text-white dark:text-[#212B36]"
+  font-bold text-[15px] py-3.5 h-[48px] inline-flex justify-center items-center bg-white text-[#212B36]"
                   >
                     <span className="max-[600px]:translate-y-[-0.5px]">
                       {" "}
