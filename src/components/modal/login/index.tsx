@@ -53,6 +53,25 @@ export default function LoginModal() {
     }, 1000);
   };
 
+  useEffect(() => {
+    if (loginModal) {
+      const scrollY = window.scrollY;
+
+      document.body.style.position = "fixed";
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.width = "100%";
+
+      return () => {
+        const top = document.body.style.top;
+        document.body.style.position = "";
+        document.body.style.top = "";
+        document.body.style.width = "";
+
+        window.scrollTo(0, parseInt(top || "0") * -1);
+      };
+    }
+  }, [loginModal]);
+
   if (loginModal && isLoading) {
     return <Loader />;
   }
@@ -61,7 +80,7 @@ export default function LoginModal() {
     <>
       <section
         className={cn(
-          "fixed! rounded-none! inset-0! z-9999 drawer!",
+          "fixed! rounded-none! border-0! inset-0! z-9999 drawer!",
           theme === "dark"
             ? "apple-glass apple-glass-dark "
             : "apple-glass-light",
@@ -70,11 +89,7 @@ export default function LoginModal() {
         <div className="flex justify-between items-center px-4 min-[600]:px-6 h-12">
           <Link href="/" onClick={() => setLoginModal(false)}>
             <Image
-              src={
-                theme === "light"
-                  ? "/brand_logo_light.png"
-                  : "/brand_logo_dark.png"
-              }
+              src="/logo.png"
               alt="AuExch Logo"
               width={152}
               height={1000}
@@ -100,11 +115,7 @@ export default function LoginModal() {
           >
             <h2 className="text-[32px] font-bold">Hi, Welcome back</h2>
             <Image
-              src={
-                theme === "light"
-                  ? "/brand_logo_light.png"
-                  : "/brand_logo_dark.png"
-              }
+              src="/logo.png"
               alt="AuExch Logo"
               width={304}
               height={1000}
@@ -201,7 +212,7 @@ export default function LoginModal() {
                     </label>
                     <div
                       className={cn(
-                        "font-normal liquid-field text-base leading-[1.4375em]  text-(--palette-text-primary) box-border cursor-text inline-flex items-center w-full relative rounded-lg group",
+                        "font-normal text-base leading-[1.4375em]  text-(--palette-text-primary) box-border cursor-text inline-flex items-center w-full relative rounded-lg group",
                         theme === "dark"
                           ? "liquid-field"
                           : "liquid-field-light",
@@ -368,7 +379,7 @@ export default function LoginModal() {
                     href="/"
                     onClick={() => setLoginModal(false)}
                     className="w-full rounded-[8px] cursor-pointer shadow-(--customShadows-z8) hover:bg-(--palette-grey-400)
-  font-bold text-[15px] py-3.5 h-[48px] inline-flex justify-center items-center bg-white text-[#212B36]"
+  font-bold text-[15px] py-3.5 h-[48px] inline-flex justify-center items-center dark:bg-white bg-black text-white dark:text-[#212B36]"
                   >
                     <span className="max-[600px]:translate-y-[-0.5px]">
                       {" "}
