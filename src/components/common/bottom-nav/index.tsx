@@ -17,17 +17,27 @@ const BottomNavbar = () => {
     { icon: "casino", link: "#" },
   ];
   return (
-    <div className="md:hidden fixed bottom-5 left-1/2 -translate-x-1/2 px-2 py-2 gap-2 max-w-md flex justify-center items-center rounded-full glass h-15">
+    <div
+      className={cn(
+        "md:hidden fixed border shadow-[0_8px_32px_rgba(0,0,0,0.2)]! bottom-5 left-1/2 -translate-x-1/2 px-2 py-2 gap-2 max-w-md flex justify-center items-center rounded-full glass h-15",
+        theme === "dark"
+          ? "border-[rgba(255,255,255,0.3)]"
+          : "border-[rgb(205,192,192,0.5)] bg-[linear-gradient(135deg,rgba(255,255,255,0.25),rgba(255,255,255,0.05))]! backdrop-blur-[20px]!",
+      )}
+    >
       {items?.map((item, idx) => (
         <Fragment key={idx}>
           {item?.link ? (
             <Link
               href={item.link}
               className={cn(
-                "h-12 w-12 flex justify-center items-center glass rounded-full",
+                "h-12 w-12 flex border border-[rgba(255,255,255,0.3)] justify-center items-center glass rounded-full",
                 pathName === item?.link
                   ? "bg-(--nav-item-root-active-bg)! text-(--nav-item-root-active-color)"
                   : "bg-(--IconButton-hoverBg)",
+                theme === "dark"
+                  ? "border-[rgba(255,255,255,0.3)]"
+                  : "border-[rgb(205,192,192,0.5)]",
               )}
             >
               <Icon name={item.icon} width={25} height={25} />
@@ -35,7 +45,12 @@ const BottomNavbar = () => {
           ) : (
             <div
               onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-              className="h-12 w-12 flex justify-center items-center glass rounded-full bg-(--IconButton-hoverBg)"
+              className={cn(
+                "h-12 w-12 border border-[rgba(255,255,255,0.3)] flex justify-center items-center glass rounded-full bg-(--IconButton-hoverBg)",
+                theme === "dark"
+                  ? "border-[rgba(255,255,255,0.3)]"
+                  : "border-[rgb(205,192,192,0.5)]",
+              )}
             >
               {theme === "dark" ? (
                 <Icon
