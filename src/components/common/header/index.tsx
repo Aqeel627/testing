@@ -26,6 +26,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const { resolvedTheme, theme } = useTheme();
 
+  const [userName, setUserName] = useState("");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const [hideBalance, setHideBalance] = useState(false);
@@ -37,26 +38,36 @@ export default function Header({ onMenuClick }: HeaderProps) {
   const { accessToken } = useAuthStore();
 
   useEffect(() => {
-  console.log("Access token:", accessToken);
-  console.log("URL:", CONFIG.getUserBalance);
-  if (accessToken) {
-    fetchData({
-      url: CONFIG.getUserBalance,
-      payload: {},
-      headers: { Authorization: `Bearer ${accessToken}` },
-      setFn: setUserBalance,
-    });
-  }
-}, [accessToken]);
+    console.log("Access token:", accessToken);
+    console.log("URL:", CONFIG.getUserBalance);
+    if (accessToken) {
+      fetchData({
+        url: CONFIG.getUserBalance,
+        payload: {},
+        headers: { Authorization: `Bearer ${accessToken}` },
+        setFn: setUserBalance,
+      });
+    }
+  }, [accessToken]);
 
+  useEffect(() => {
+    const userDetail = localStorage.getItem("userDetail");
+    if (userDetail) {
+      const parsed = JSON.parse(userDetail);
+      setUserName(parsed.userName || ""); // ✅ state update
+      console.log("User Name from localStorage:", parsed.userName);
+    }
+  }, []);
 
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
-    console.log("Token from localStorage:", token);
+    // console.log("Token from localStorage:", token);
 
     if (token) {
       setIsLoggedIn(true);
+      setIsLoggedIn(true);
     } else {
+      setIsLoggedIn(false);
       setIsLoggedIn(false);
     }
   }, []);
@@ -89,7 +100,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
       className={cn(
         "w-full glass  --palette-text-primary  sticky top-0 z-50",
         theme === "light" &&
-          "backdrop-blur-[10px]! bg-linear-to-br! from-white/25! to-white/5! border-b! border-[rgb(205_192_192/0.4)]! shadow-[0_8px_32px_rgba(0,0,0,0.2)]!",
+        "backdrop-blur-[10px]! bg-linear-to-br! from-white/25! to-white/5! border-b! border-[rgb(205_192_192/0.4)]! shadow-[0_8px_32px_rgba(0,0,0,0.2)]!",
       )}
     >
       <div className="max-w-[1600px] mx-auto px-2 h-12 flex items-center justify-between">
@@ -108,11 +119,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
             className="font-[inherit]  no-underline shrink-0 text-transparent inline-flex h-[44px] w-[152px] cursor-pointer"
           >
             <Image
-              src={
-                resolvedTheme === "light"
-                  ? "/brand_logo_light.png"
-                  : "/brand_logo_dark.png"
-              }
+              src={"/logo.png"}
               alt="AuExch Logo"
               fill
               className="object-contain relative! mx-1 "
@@ -193,13 +200,9 @@ export default function Header({ onMenuClick }: HeaderProps) {
             </div>
           )}
           {isLoggedIn && (
-            <div className="flex items-center gap-2" ref={menuRef}>
-              <div
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="relative inline-flex items-center justify-center rounded-[8px] p-[1px] overflow-hidden bg-transparent group cursor-pointer max-w-16"
-              >
-                <span
-                  className="absolute inset-0 m-auto w-full h-full rounded-[inherit] content-[''] pointer-events-none 
+            <div className="flex items-center gap-2 mr-1" ref={menuRef}>
+              <div onClick={() => setIsMenuOpen(!isMenuOpen)} className="relative inline-flex items-center justify-center h-[29px] rounded-[8px] p-[1px] overflow-hidden bg-transparent group cursor-pointer max-w-16">
+                <span className="absolute inset-0 m-auto w-full h-full rounded-[inherit] content-[''] pointer-events-none 
         [mask:linear-gradient(#fff_0_0)_content-box_xor,linear-gradient(#fff_0_0)] 
         -webkit-[mask:linear-gradient(#fff_0_0)_content-box_xor,linear-gradient(#fff_0_0)]"
                 >
@@ -213,8 +216,9 @@ export default function Header({ onMenuClick }: HeaderProps) {
                     className={`${styles.movingShape} ${styles.shapeBlue}`}
                   ></span>
                 </span>
-                <button className="relative z-10 flex flex-col items-center justify-center px-4 py-1 bg-[#161C24] dark:bg-[#161C24] rounded-[7px] w-full h-full min-w-[64px]">
-                  <span className="text-[0.6rem] text-[#637381] font-semibold leading-[1] uppercase tracking-wide">
+                <button className="relative z-10 flex flex-col items-center justify-center px-4 py-1 bg-[#161C24] dark:bg-[#161C24] h-[28px] rounded-[7px] w-full h-full min-w-[62px]">
+
+                  <span className="text-[0.6rem] text-[#919EAB] font-semibold leading-[1] uppercase tracking-[1px]">
                     Pts
                   </span>
                   <span className="text-[12px] text-white font-bold leading-[1]">
@@ -228,10 +232,10 @@ export default function Header({ onMenuClick }: HeaderProps) {
                   <div className="absolute -top-10 -right-10 w-20 h-20 bg-[#078dee] blur-[60px] opacity-[0.50] pointer-events-none z-0 rounded-full"></div>
                   <div className="px-4 pt-4 pb-2">
                     <h6 className="text-[0.875rem] font-semibold text-[var(--palette-text-primary)] truncate leading-[1.57143]">
-                      demo1
+                      {userName}
                     </h6>
                     <p className="text-[0.875rem] leading-[1.57143] text-[#637381] truncate">
-                      demo1
+                      {userName}
                     </p>
                   </div>
 
@@ -240,11 +244,12 @@ export default function Header({ onMenuClick }: HeaderProps) {
                   <div className="flex flex-col gap-2 px-4 pb-4 pt-2">
                     <div className="rounded-[16px] shadow-[0_1px_2px_0_rgb(0_0_0_/_16%)] border-[#919eab29] border-[1px]">
                       <div className="flex flex-col p-2 items-center cursor-pointer">
+
                         <p className="text-[0.875rem] leading-[1.25] text-[#637381] font-[500] uppercase">
                           Exposure
                         </p>
                         <p className="text-[1rem] text-[var(--palette-text-primary)] font-semibold leading-[1.5]">
-                          0
+                          {userBalance?.exposure}
                         </p>
                       </div>
                     </div>
@@ -254,7 +259,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
                           Balance
                         </p>
                         <p className="text-[1rem] text-[var(--palette-text-primary)] font-semibold leading-[1.5]">
-                          1
+                            {hideBalance ? "-" : ((userBalance?.bankBalance ?? 0) - (userBalance?.exposure ?? 0)).toFixed(2)}
                         </p>
                       </div>
                     </div>

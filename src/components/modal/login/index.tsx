@@ -7,11 +7,18 @@ import Loader from "@/components/common/loader/loader";
 import { cn } from "@/lib/utils";
 import style from "./style.module.css";
 import { useTheme } from "next-themes";
+import { useAuthStore } from "@/lib/useAuthStore";
+// import { useToast } from "@/app/(pages)/components/toast/toast-context";
+import { useRouter } from "next/navigation";
 import { useAppStore } from "@/lib/store/store";
 
 export default function LoginModal() {
   const { loginModal, setLoginModal } = useAppStore();
   const { theme } = useTheme();
+  const { login } = useAuthStore();
+  // const { showToast } = useToast();
+  const router = useRouter();
+
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -21,6 +28,7 @@ export default function LoginModal() {
     username: false,
     password: false,
   });
+  const [apiError, setApiError] = useState("");
 
   const usernameError = touched.username && !username.trim();
   const passwordError = touched.password && !password.trim();
@@ -34,7 +42,7 @@ export default function LoginModal() {
     return () => clearTimeout(timer);
   }, [loginModal]);
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (isSubmitting) return;
 
@@ -48,9 +56,57 @@ export default function LoginModal() {
     }
 
     setIsSubmitting(true);
-    setTimeout(() => {
+    setApiError("");
+
+    try {
+      const res = await login(username.trim().toLowerCase(), password);
+
+      const ok =
+        res === true ||
+        (typeof res === "object" &&
+          res !== null &&
+          ((res as any).status === true || (res as any).success === true));
+
+      const rawMessage =
+        typeof res?.meta?.message === "string" ? res.meta.message : "";
+
+      const parts = rawMessage
+        .split(/',\s*'/)
+        .map((p: any) => p.replace(/^'+|'+$/g, "").trim());
+
+      const msg = {
+        status: parts[0] || "",
+        title: parts[1] || "",
+        desc: parts[2] || "",
+      };
+
+      if (ok) {
+        // showToast(msg.status, msg.title, msg.desc);
+        setLoginModal(false);
+
+        if (res?.data?.userDetail?.isLogin === 0) {
+          document.cookie = "forceChangePassword=true; path=/";
+          router.replace("/change-password");
+          return;
+        }
+      } else {
+        // showToast(msg.status, msg.title, msg.desc);
+        setApiError(msg.desc || "Invalid username or password");
+      }
+
+      setUsername("");
+      setPassword("");
+    } catch (error: any) {
+      const errorMsg =
+        error?.response?.data?.meta?.message ||
+        error?.response?.data?.message ||
+        error?.response?.data?.error ||
+        error?.message ||
+        "Login failed";
+      setApiError(errorMsg);
+    } finally {
       setIsSubmitting(false);
-    }, 1000);
+    }
   };
 
   if (loginModal && isLoading) {
@@ -81,9 +137,6 @@ export default function LoginModal() {
               className="object-contain h-13 min-[600]:mx-2 mx-1"
             />
           </Link>
-          {/* <Link href="/" className="text-sm font-semibold  hover:underline">
-          Need help?
-        </Link> */}
         </div>
         <div className="flex flex-col max-[900]:pt-12 pb-4 min-[900]:flex-row w-full flex-1 basis-auto min-[900]:h-[calc(100vh-10px)]">
           {/* LEFT SIDE */}
@@ -121,12 +174,6 @@ export default function LoginModal() {
                   <h2 className="text-xl xl:text-[19px] font-bold max-[600px]:text-[18px] max-[900px]:text-[19px]">
                     Sign in to AuExch
                   </h2>
-                  {/* <p className="text-sm  text-white">
-                  Don’t have an account?{" "}
-                  <Link href="/signup" className="font-semibold">
-                    Get started
-                  </Link>
-                </p> */}
                 </div>
 
                 <div className="flex flex-col gap-6">
@@ -301,28 +348,29 @@ export default function LoginModal() {
                     )}
                   </div>
 
-                  {/* toast error */}
-
-                  {/* <div className="text-(--palette-error-lighter) bg-(--palette-error-darker) shadow-(--Paper-shadow) bg-none font-normal text-sm leading-[1.57143] flex   px-4 py-1.5 rounded-lg">
-                  <div className="flex text-[22px] text-(--palette-error-light) opacity-100 mr-3 px-0 py-1.75">
-                    <svg
-                      className="select-none w-[1em] h-[1em] inline-block shrink-0 fill-current text-2xl transition-[fill] duration-300 ease-in-out"
-                      focusable="false"
-                      aria-hidden="true"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        fill="currentColor"
-                        fill-rule="evenodd"
-                        d="M7.843 3.802C9.872 2.601 10.886 2 12 2c1.114 0 2.128.6 4.157 1.802l.686.406c2.029 1.202 3.043 1.803 3.6 2.792c.557.99.557 2.19.557 4.594v.812c0 2.403 0 3.605-.557 4.594c-.557.99-1.571 1.59-3.6 2.791l-.686.407C14.128 21.399 13.114 22 12 22c-1.114 0-2.128-.6-4.157-1.802l-.686-.407c-2.029-1.2-3.043-1.802-3.6-2.791C3 16.01 3 14.81 3 12.406v-.812C3 9.19 3 7.989 3.557 7c.557-.99 1.571-1.59 3.6-2.792zM13 16a1 1 0 1 1-2 0a1 1 0 0 1 2 0m-1-9.75a.75.75 0 0 1 .75.75v6a.75.75 0 0 1-1.5 0V7a.75.75 0 0 1 .75-.75"
-                        clip-rule="evenodd"
-                      ></path>
-                    </svg>
-                  </div>
-                  <div className="min-w-0 overflow-auto px-0 py-2">
-                    detail: Invalid username or password
-                  </div>
-                </div> */}
+                  {/* API Error Toast */}
+                  {apiError && (
+                    <div className="text-(--palette-error-lighter) bg-(--palette-error-darker) shadow-(--Paper-shadow) bg-none font-normal text-sm leading-[1.57143] flex px-4 py-1.5 rounded-lg">
+                      <div className="flex text-[22px] text-(--palette-error-light) opacity-100 mr-3 px-0 py-1.75">
+                        <svg
+                          className="select-none w-[1em] h-[1em] inline-block shrink-0 fill-current text-2xl transition-[fill] duration-300 ease-in-out"
+                          focusable="false"
+                          aria-hidden="true"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            fill="currentColor"
+                            fillRule="evenodd"
+                            d="M7.843 3.802C9.872 2.601 10.886 2 12 2c1.114 0 2.128.6 4.157 1.802l.686.406c2.029 1.202 3.043 1.803 3.6 2.792c.557.99.557 2.19.557 4.594v.812c0 2.403 0 3.605-.557 4.594c-.557.99-1.571 1.59-3.6 2.791l-.686.407C14.128 21.399 13.114 22 12 22c-1.114 0-2.128-.6-4.157-1.802l-.686-.407c-2.029-1.2-3.043-1.802-3.6-2.791C3 16.01 3 14.81 3 12.406v-.812C3 9.19 3 7.989 3.557 7c.557-.99 1.571-1.59 3.6-2.792zM13 16a1 1 0 1 1-2 0a1 1 0 0 1 2 0m-1-9.75a.75.75 0 0 1 .75.75v6a.75.75 0 0 1-1.5 0V7a.75.75 0 0 1 .75-.75"
+                            clipRule="evenodd"
+                          ></path>
+                        </svg>
+                      </div>
+                      <div className="min-w-0 overflow-auto px-0 py-2">
+                        {apiError}
+                      </div>
+                    </div>
+                  )}
 
                   {/* Login Button */}
                   <button
@@ -350,7 +398,7 @@ export default function LoginModal() {
                                     cy="44"
                                     r="20.2"
                                     fill="none"
-                                    stroke-width="3.6"
+                                    strokeWidth="3.6"
                                   ></circle>
                                 </svg>
                               </span>
