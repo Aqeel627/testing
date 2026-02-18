@@ -9,7 +9,7 @@ import "./globals.css";
 import { Metadata } from "next";
 import SearchModal from "@/components/modal/search/SearchModal";
 import { AuExchThemeProvider } from "@/components/common/theme-provider";
-import TopLoader from "./providers";
+import NavigationLoader from "./navigation-loader";
 import { Suspense } from "react";
 
 export const metadata: Metadata = {
@@ -84,7 +84,7 @@ export default function RootLayout({
         cz-shortcut-listen="true"
       >
         <Suspense>
-          <TopLoader />
+          <NavigationLoader />
           <AuExchThemeProvider>
             {children}
             <SearchModal />
