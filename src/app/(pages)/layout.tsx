@@ -213,7 +213,7 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
     return (
       <div className="w-full min-h-screen">
         <div className="w-full fixed top-0 z-50 css-before">
-          <Marque />
+          {/* <Marque /> */}
           {/* ✅ toggle via store */}
           <Header
             onMenuClick={() =>
@@ -254,7 +254,7 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
   return (
     <div className="w-full h-screen overflow-hidden">
       <div className="fixed top-0 left-0 w-full z-50">
-        <Marque />
+        {/* <Marque /> */}
         <Header onMenuClick={() => setIsSidebarOpen((prev) => !prev)} />
       </div>
 

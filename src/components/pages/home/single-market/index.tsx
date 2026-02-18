@@ -3,6 +3,8 @@ import { useAppStore } from "@/lib/store/store";
 import { useEffect } from "react";
 import Icon from "@/icons/icons";
 import Link from "next/link";
+import style from "./singleMarket.module.css";
+import { shortNumber } from "@/lib/functions";
 
 export default function SingleMarket() {
   const { allEventsList, selectedEventTypeId } = useAppStore();
@@ -11,36 +13,6 @@ export default function SingleMarket() {
   useEffect(() => {
     console.log(allEventsList, "events all");
   }, [allEventsList]);
-
-  function shortNumber(value: number): string | null {
-    if (isNaN(value) || value === null) return null;
-    if (value === 0) return "0";
-
-    const abs = Math.abs(value);
-    const rounder = Math.pow(10, 1);
-    const isNegative = value < 0;
-    let key = "";
-    let formatted = abs;
-
-    const powers = [
-      { key: "Q", value: Math.pow(10, 15) },
-      { key: "T", value: Math.pow(10, 12) },
-      { key: "B", value: Math.pow(10, 9) },
-      { key: "M", value: Math.pow(10, 6) },
-      { key: "K", value: 1000 },
-    ];
-
-    for (let i = 0; i < powers.length; i++) {
-      const reduced = Math.round((abs / powers[i].value) * rounder) / rounder;
-      if (reduced >= 1) {
-        formatted = reduced;
-        key = powers[i].key;
-        break;
-      }
-    }
-
-    return `${isNegative ? "-" : ""}${formatted}${key}`;
-  }
 
   const events: any[] = selectedEventTypeId
     ? (allEventsList?.[selectedEventTypeId] ?? [])
@@ -133,22 +105,19 @@ export default function SingleMarket() {
                 <div className="flex flex-row gap-3 justify-start items-center h-4 leading-4 contain-strict pointer-events-none overflow-hidden mt-0.5">
                   <div className="min-w-9.5">
                     <div className="flex gap-1.5">
-                      <div className="flex justify-center items-center animate-pulse">
+                      <div className={`flex justify-center items-center ${style.animateLiveBlink}`}>
                         <div className="w-[7px] h-[7px] bg-[#078dee] rounded-full"></div>
                       </div>
                       <p className="m-0 font-sans truncate whitespace-nowrap text-[10px] text-[#078dee] font-bold leading-[1rem]">
                         {event.inplay
                           ? "In-Play"
-                          : new Date(event.marketStartTime).toLocaleDateString(
-                              "en-GB",
-                              {
-                                day: "2-digit",
-                                month: "2-digit",
-                                year: "numeric",
-                                hour: "2-digit",
-                                minute: "2-digit",
-                              },
-                            )}
+                          : new Date(event.marketStartTime).toLocaleDateString("en-GB", {
+                            day: "2-digit",
+                            month: "2-digit",
+                            year: "numeric",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          })}
                       </p>
                     </div>
                   </div>

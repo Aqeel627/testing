@@ -3,7 +3,6 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import styles from "./sportsPage.module.css";
 import { useAppStore } from "@/lib/store/store";
-import Icon from "@/icons/icons";
 
 type NavItem = { label: string; href: string; id: string };
 
@@ -17,8 +16,6 @@ export default function SportsNav() {
   const [isMobile, setIsMobile] = useState(false);
 
   const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const [showLeftArrow, setShowLeftArrow] = useState(false);
-  const [showRightArrow, setShowRightArrow] = useState(true);
   const tabsListRef = useRef<HTMLDivElement>(null);
   const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, top: 0, width: 0, height: 0, opacity: 0 });
 
@@ -59,20 +56,6 @@ export default function SportsNav() {
 
   }, [menuList]);
 
-  const isActive = useCallback(
-    (href: string) => {
-      if (!href) return false;
-      return href === "/" ? window.location.pathname === "/" : window.location.pathname.startsWith(href);
-    },
-    []
-  );
-
-  const checkArrowsVisibility = useCallback(() => {
-    if (!scrollContainerRef.current) return;
-    const { scrollLeft, scrollWidth, clientWidth } = scrollContainerRef.current;
-    setShowLeftArrow(scrollLeft > 0);
-    setShowRightArrow(Math.ceil(scrollLeft + clientWidth) < scrollWidth);
-  }, []);
 
   const updateIndicator = useCallback(() => {
     if (!tabsListRef.current || !activeTab) return;
@@ -98,42 +81,21 @@ export default function SportsNav() {
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      checkArrowsVisibility();
       updateIndicator();
     }, 100);
 
-    window.addEventListener("resize", checkArrowsVisibility);
     window.addEventListener("resize", updateIndicator);
 
     return () => {
       clearTimeout(timeout);
-      window.removeEventListener("resize", checkArrowsVisibility);
       window.removeEventListener("resize", updateIndicator);
     };
-  }, [navItems, checkArrowsVisibility, updateIndicator]);
-
-  const handleScrollClick = (direction: "left" | "right") => {
-    if (!scrollContainerRef.current) return;
-    const scrollAmount = 200;
-    scrollContainerRef.current.scrollBy({
-      left: direction === "left" ? -scrollAmount : scrollAmount,
-      behavior: "smooth",
-    });
-  };
+  }, [navItems, updateIndicator]);
 
   return (
     <section>
       <div className={`${styles["tabs-root"]} border-2 border-dashed border-[rgba(145,158,171,0.2)]`}>
         <div
-          onClick={() => handleScrollClick("left")}
-          className={`inline-flex items-center justify-center relative box-border bg-transparent outline-none border-0 m-0 p-0 cursor-pointer select-none font-sans w-10 shrink-0 ${showLeftArrow ? "opacity-80" : "opacity-0 pointer-events-none"}`}
-        >
-          <Icon name="leftArrow" className="w-5 h-5 text-white" />
-        </div>
-
-        <div
-          ref={scrollContainerRef}
-          onScroll={checkArrowsVisibility}
           className={`${styles["tabs-scroller"]} overflow-x-auto overflow-y-hidden`}
         >
           <div role="tablist" className={styles["tabs-list"]} ref={tabsListRef}>
@@ -170,13 +132,6 @@ export default function SportsNav() {
               </button>
             ))}
           </div>
-        </div>
-
-        <div
-          onClick={() => handleScrollClick("right")}
-          className={`inline-flex items-center justify-center relative box-border bg-transparent outline-none border-0 m-0 p-0 cursor-pointer select-none font-sans w-10 shrink-0 ${showRightArrow ? "opacity-80" : "opacity-0 pointer-events-none"}`}
-        >
-          <Icon name="rightArrow" className="w-5 h-5 text-white" />
         </div>
       </div>
     </section>

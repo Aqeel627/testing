@@ -65,9 +65,9 @@ export default function LoginPage() {
             className="object-contain h-13 min-[600]:mx-2 mx-1"
           />
         </Link>
-        <Link href="/" className="text-sm font-semibold  hover:underline">
+        {/* <Link href="/" className="text-sm font-semibold  hover:underline">
           Need help?
-        </Link>
+        </Link> */}
       </div>
       <div className="flex flex-col max-[900]:pt-12 pb-4 min-[900]:flex-row w-full flex-1 basis-auto min-[900]:h-[calc(100vh-48px)]">
         {/* LEFT SIDE */}
@@ -96,12 +96,12 @@ export default function LoginPage() {
                 <h2 className="text-xl xl:text-[19px] font-bold max-[600px]:text-[18px] max-[900px]:text-[19px]">
                   Sign in to AuExch
                 </h2>
-                <p className="text-sm  text-white">
+                {/* <p className="text-sm  text-white">
                   Don’t have an account?{" "}
                   <Link href="/signup" className="font-semibold">
                     Get started
                   </Link>
-                </p>
+                </p> */}
               </div>
 
               <div className="flex flex-col gap-6">
