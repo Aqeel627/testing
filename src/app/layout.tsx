@@ -10,6 +10,7 @@ import { Metadata } from "next";
 import SearchModal from "@/components/modal/search/SearchModal";
 import { AuExchThemeProvider } from "@/components/common/theme-provider";
 import TopLoader from "./providers";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "Auexch",
@@ -82,11 +83,13 @@ export default function RootLayout({
         }}
         cz-shortcut-listen="true"
       >
-       <TopLoader />
-        <AuExchThemeProvider>
+        <Suspense>
+          <TopLoader />
+          <AuExchThemeProvider>
             {children}
             <SearchModal />
-        </AuExchThemeProvider>
+          </AuExchThemeProvider>
+        </Suspense>
       </body>
     </html>
   );

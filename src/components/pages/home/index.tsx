@@ -1,4 +1,4 @@
-import SingleaMarket from "@/components/pages/home/single-market";
+import SingleMarket from "@/components/pages/home/single-market";
 import SportsNav from "@/components/pages/home/sports-nav";
 import HomeSlider from "@/components/pages/home/home-slider";
 import Casino from "@/components/pages/live-casino";
@@ -12,7 +12,7 @@ export default function HomePage() {
           <SportsNav />
         </div>
         <div className="mb-4">
-          <SingleaMarket />
+          <SingleMarket />
         </div>
         <Casino />
       </div>

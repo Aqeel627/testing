@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 import { useUIStore } from "@/lib/store/ui-store";
 
-// Type definitions for better type safety
+// Type definitions
 interface ThirdItem {
   name: string;
   count: number;
@@ -43,18 +43,28 @@ interface SidebarConfig {
   }>;
 }
 
+interface ActiveState {
+  type: "quicklink" | "sport" | null;
+  qlLabel?: string;
+  sportIndex?: number;
+  tournamentIndex?: number;
+  thirdIndex?: number;
+}
+
 const DROPDOWN_TRANSITION = {
   height: { duration: 0.28, ease: [0.22, 1, 0.36, 1] as const },
   opacity: { duration: 0.2, ease: "easeOut" as const },
 };
 
-// Component for quick link items
 interface QuickLinkItemProps {
   label: string;
   href: string;
   count: number;
   icon: React.ReactNode;
   pathName: string;
+  isActive: boolean;
+  onActivate: () => void;
+  onClose: () => void;
 }
 
 const QuickLinkItem = ({
@@ -63,11 +73,21 @@ const QuickLinkItem = ({
   count,
   icon,
   pathName,
+  isActive,
+  onActivate,
+  onClose,
 }: QuickLinkItemProps) => (
   <li className={styles.item}>
     <Link
       href={href}
-      className={cn(styles.link, pathName?.includes(href) && styles.linkActive)}
+      className={cn(
+        styles.link,
+        (pathName?.includes(href) || isActive) && styles.linkActive,
+      )}
+      onClick={() => {
+        onActivate();
+        onClose();
+      }}
     >
       <span className={styles.linkIconWrap}>
         <Icon
@@ -86,23 +106,37 @@ const QuickLinkItem = ({
   </li>
 );
 
-// Component for third level items
+// ─── ThirdItemComponent ───────────────────────────────────────────────────────
 interface ThirdItemComponentProps {
   item: ThirdItem;
+  isActive: boolean;
+  onActivate: () => void;
 }
 
-const ThirdItemComponent = ({ item }: ThirdItemComponentProps) => (
+const ThirdItemComponent = ({
+  item,
+  isActive,
+  onActivate,
+}: ThirdItemComponentProps) => (
   <li className={styles.navItemLi}>
-    <a className={styles.navLink} href={item.href || "#"}>
+    <Link
+      href={item.href || "#"}
+      className={cn(styles.navLink, isActive && styles.activeSubItem)}
+      onClick={() => {
+        // ✅ FIX 1: removed e.preventDefault() — navigation now works
+        // onActivate already calls closeSidebar via handleThirdItemActivate
+        onActivate();
+      }}
+    >
       <span className={styles.thirdItemText}>{item.name}</span>
       <span className={styles.badgeWrap}>
         <span className={styles.badge}>{item.count}</span>
       </span>
-    </a>
+    </Link>
   </li>
 );
 
-// Component for tournament items (second level)
+// ─── TournamentItemComponent ──────────────────────────────────────────────────
 interface TournamentItemComponentProps {
   tournament: Tournament;
   sportIndex: number;
@@ -113,6 +147,9 @@ interface TournamentItemComponentProps {
     sportIndex: number,
     tournamentIndex: number,
   ) => void;
+  isTournamentActive: boolean;
+  activeThirdIndex: number | null;
+  onThirdItemActivate: (thirdIndex: number) => void;
 }
 
 const TournamentItemComponent = ({
@@ -121,19 +158,25 @@ const TournamentItemComponent = ({
   tournamentIndex,
   openTournamentKey,
   onTournamentClick,
+  isTournamentActive,
+  activeThirdIndex,
+  onThirdItemActivate,
 }: TournamentItemComponentProps) => {
   const tKey = `${sportIndex}-${tournamentIndex}`;
   const hasThirdItems = tournament.thirdItems.length > 0;
 
+  // ✅ FIX 2: pull closeSidebar here so leaf tournaments can close the sidebar
+  const closeSidebar = useUIStore((s) => s.closeSidebar);
+
   return (
     <li className={styles.navItemLi}>
-      <a
-        className={styles.navLink}
-        href={hasThirdItems ? "#" : tournament.href}
+      <Link
+        href={hasThirdItems ? "#" : tournament.href || "#"}
+        className={cn(styles.navLink, isTournamentActive && styles.activeSubItem)}
         onClick={
           hasThirdItems
             ? (e) => onTournamentClick(e, sportIndex, tournamentIndex)
-            : undefined
+            : () => closeSidebar() // ✅ FIX 2: leaf tournament closes sidebar on navigate
         }
       >
         <span className={styles.navItemText}>{tournament.name}</span>
@@ -146,9 +189,8 @@ const TournamentItemComponent = ({
             className={`${styles.navArrow} ${openTournamentKey === tKey ? styles.navArrowOpen : ""}`}
           />
         )}
-      </a>
+      </Link>
 
-      {/* Third Items Dropdown */}
       {hasThirdItems && (
         <motion.div
           className={`${styles.sportDropdown} pl-6`}
@@ -162,7 +204,12 @@ const TournamentItemComponent = ({
         >
           <ul className={styles.navItemWrapper}>
             {tournament.thirdItems.map((item, idx) => (
-              <ThirdItemComponent key={idx} item={item} />
+              <ThirdItemComponent
+                key={idx}
+                item={item}
+                isActive={isTournamentActive && activeThirdIndex === idx}
+                onActivate={() => onThirdItemActivate(idx)}
+              />
             ))}
           </ul>
         </motion.div>
@@ -171,7 +218,7 @@ const TournamentItemComponent = ({
   );
 };
 
-// Component for sport items (first level)
+// ─── SportItemComponent ───────────────────────────────────────────────────────
 interface SportItemComponentProps {
   sport: Sport;
   sportIndex: number;
@@ -183,6 +230,14 @@ interface SportItemComponentProps {
     sportIndex: number,
     tournamentIndex: number,
   ) => void;
+  isSportActive: boolean;
+  activeTournamentIndex: number | null;
+  activeThirdIndex: number | null;
+  onThirdItemActivate: (
+    sportIndex: number,
+    tournamentIndex: number,
+    thirdIndex: number,
+  ) => void;
 }
 
 const SportItemComponent = ({
@@ -192,25 +247,25 @@ const SportItemComponent = ({
   openTournamentKey,
   onSportClick,
   onTournamentClick,
+  isSportActive,
+  activeTournamentIndex,
+  activeThirdIndex,
+  onThirdItemActivate,
 }: SportItemComponentProps) => {
   const isOpen = openSportIndex === sportIndex;
 
   return (
-    <li className={styles.item} key={sport.name + sportIndex}>
-      <a
-        className={styles.link}
+    <li className={styles.item}>
+      <Link
         href={sport.href || "#"}
+        className={cn(styles.link, isSportActive && styles.linkActive)}
         onClick={(e) => onSportClick(e, sportIndex)}
       >
         <span className={styles.linkIconWrap}>
           <span
             className={styles.sportImage}
-            style={
-              {
-                "--sport-icon": `url(${sport.iconUrl})`,
-              } as CSSProperties
-            }
-          ></span>
+            style={{ "--sport-icon": `url(${sport.iconUrl})` } as CSSProperties}
+          />
         </span>
         <span className={styles.linkText}>{sport.name}</span>
         <span className={styles.badgeWrap}>
@@ -220,9 +275,8 @@ const SportItemComponent = ({
           name={"chevronRight"}
           className={`${styles.navArrow} ${isOpen ? styles.navArrowOpen : ""}`}
         />
-      </a>
+      </Link>
 
-      {/* Tournaments Dropdown */}
       <motion.div
         className={`${styles.sportDropdown} pl-6`}
         initial={false}
@@ -240,6 +294,15 @@ const SportItemComponent = ({
               tournamentIndex={tIndex}
               openTournamentKey={openTournamentKey}
               onTournamentClick={onTournamentClick}
+              isTournamentActive={isSportActive && activeTournamentIndex === tIndex}
+              activeThirdIndex={
+                isSportActive && activeTournamentIndex === tIndex
+                  ? activeThirdIndex
+                  : null
+              }
+              onThirdItemActivate={(thirdIndex) =>
+                onThirdItemActivate(sportIndex, tIndex, thirdIndex)
+              }
             />
           ))}
         </ul>
@@ -248,7 +311,7 @@ const SportItemComponent = ({
   );
 };
 
-// Main Sidebar Component
+// ─── Main Sidebar ─────────────────────────────────────────────────────────────
 interface SidebarProps {
   config?: SidebarConfig;
 }
@@ -258,13 +321,13 @@ export default function Sidebar({ config }: SidebarProps) {
   const [isQuickLinksOpen, setIsQuickLinksOpen] = useState(true);
   const [isSportsOpen, setIsSportsOpen] = useState(true);
   const [openSportIndex, setOpenSportIndex] = useState<number | null>(null);
-  const [openTournamentKey, setOpenTournamentKey] = useState<string | null>(
-    null,
-  );
+  const [openTournamentKey, setOpenTournamentKey] = useState<string | null>(null);
   const { inplayEvents } = useAppStore();
   const toggleSearch = useUIStore((s) => s.toggleSearch);
+  const closeSidebar = useUIStore((s) => s.closeSidebar);
 
-  // Default config if none provided
+  const [active, setActive] = useState<ActiveState>({ type: null });
+
   const defaultConfig: SidebarConfig = {
     sports: [
       {
@@ -275,9 +338,7 @@ export default function Sidebar({ config }: SidebarProps) {
           {
             name: "Ford Trophy",
             count: 1,
-            thirdItems: [
-              { name: "Central Stags v Canterbury Kings", count: 1 },
-            ],
+            thirdItems: [{ name: "Central Stags v Canterbury Kings", count: 1 }],
           },
           {
             name: "ICC Men's T20 World Cup",
@@ -333,8 +394,11 @@ export default function Sidebar({ config }: SidebarProps) {
     });
   };
 
-  const handleQuickLinksToggle = () => {
-    setIsQuickLinksOpen((prev) => !prev);
+  const handleQuickLinksToggle = () => setIsQuickLinksOpen((prev) => !prev);
+
+  const handleQuickLinkActivate = (label: string) => {
+    setActive({ type: "quicklink", qlLabel: label });
+    closeSidebar();
   };
 
   const handleSportClick = (
@@ -344,6 +408,8 @@ export default function Sidebar({ config }: SidebarProps) {
     event.preventDefault();
     setOpenTournamentKey(null);
     setOpenSportIndex((prev) => (prev === index ? null : index));
+    setActive({ type: "sport", sportIndex: index });
+    closeSidebar();
   };
 
   const handleTournamentClick = (
@@ -354,11 +420,36 @@ export default function Sidebar({ config }: SidebarProps) {
     event.preventDefault();
     const key = `${sportIndex}-${tournamentIndex}`;
     setOpenTournamentKey((prev) => (prev === key ? null : key));
+    setActive({ type: "sport", sportIndex, tournamentIndex });
+    closeSidebar();
   };
 
-  const handleSearchToggle = () => {
-    toggleSearch(true);
+  const handleThirdItemActivate = (
+    sportIndex: number,
+    tournamentIndex: number,
+    thirdIndex: number,
+  ) => {
+    setActive({ type: "sport", sportIndex, tournamentIndex, thirdIndex });
+    closeSidebar();
   };
+
+  const isQuickLinkActive = (label: string) =>
+    active.type === "quicklink" && active.qlLabel === label;
+
+  const isSportActive = (sportIndex: number) =>
+    active.type === "sport" && active.sportIndex === sportIndex;
+
+  const activeTournamentIndexFor = (sportIndex: number): number | null => {
+    if (active.type !== "sport" || active.sportIndex !== sportIndex) return null;
+    return active.tournamentIndex !== undefined ? active.tournamentIndex : null;
+  };
+
+  const activeThirdIndexFor = (sportIndex: number): number | null => {
+    if (active.type !== "sport" || active.sportIndex !== sportIndex) return null;
+    return active.thirdIndex !== undefined ? active.thirdIndex : null;
+  };
+
+  const handleSearchToggle = () => toggleSearch(true);
 
   const handleKeyDown = (e: React.KeyboardEvent, callback: () => void) => {
     if (e.key === "Enter" || e.key === " ") {
@@ -428,12 +519,15 @@ export default function Sidebar({ config }: SidebarProps) {
             <ul className={styles.subList}>
               {sidebarConfig.quickLinks.map((link) => (
                 <QuickLinkItem
+                  onClose={closeSidebar}
                   key={link.label}
                   label={link.label}
                   href={link.href}
                   count={link.count}
                   icon={link.icon}
                   pathName={pathName}
+                  isActive={isQuickLinkActive(link.label)}
+                  onActivate={() => handleQuickLinkActivate(link.label)}
                 />
               ))}
             </ul>
@@ -481,6 +575,10 @@ export default function Sidebar({ config }: SidebarProps) {
                   openTournamentKey={openTournamentKey}
                   onSportClick={handleSportClick}
                   onTournamentClick={handleTournamentClick}
+                  isSportActive={isSportActive(sportIndex)}
+                  activeTournamentIndex={activeTournamentIndexFor(sportIndex)}
+                  activeThirdIndex={activeThirdIndexFor(sportIndex)}
+                  onThirdItemActivate={handleThirdItemActivate}
                 />
               ))}
             </ul>

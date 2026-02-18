@@ -4,6 +4,8 @@ import { useEffect, useState, type FormEvent } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Loader from "@/components/common/loader/loader";
+import { cn } from "@/lib/utils";
+import style from "./style.module.css";
 
 export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(true);
@@ -138,7 +140,7 @@ export default function LoginPage() {
                           : "border-[rgba(var(--palette-grey-500Channel)_/_20%)] group-hover:border-(--palette-text-primary) group-focus-within:border-(--palette-text-primary)"
                       }`}
                     >
-                      <legend className="w-auto overflow-hidden block h-[11px] text-[14px] invisible whitespace-nowrap max-w-full transition-[max-width] duration-100 ease-out delay-[50ms] p-0">
+                      <legend className="w-18.75 overflow-hidden block h-[11px] text-[14px] invisible whitespace-nowrap max-w-full transition-[max-width] duration-100 ease-out delay-[50ms] p-0">
                         <span>Username *</span>
                       </legend>
                     </fieldset>
@@ -186,7 +188,10 @@ export default function LoginPage() {
                       type="button"
                       onMouseDown={(e) => e.preventDefault()}
                       onClick={() => setShowPassword((prev) => !prev)}
-                      className="absolute top-1/2  -translate-y-1/2 right-0.5 text-(--palette-action-active)  cursor-pointer p-2 hover:bg-[rgba(145,158,171,0.08)] rounded-full flex justify-center items-center"
+                      className={cn(
+                        style.btn,
+                        "top-1/2  -translate-y-1/2 right-0.5 text-(--palette-action-active)  cursor-pointer p-2 hover:bg-[rgba(145,158,171,0.08)] rounded-full flex justify-center items-center",
+                      )}
                       aria-label={
                         showPassword ? "Hide password" : "Show password"
                       }
@@ -242,7 +247,7 @@ export default function LoginPage() {
                           : "border-[rgba(var(--palette-grey-500Channel)_/_20%)] group-hover:border-(--palette-text-primary) group-focus-within:border-(--palette-text-primary)"
                       }`}
                     >
-                      <legend className="w-auto overflow-hidden block h-[11px] text-[14px] invisible whitespace-nowrap max-w-full transition-[max-width] duration-100 ease-out delay-[50ms] p-0">
+                      <legend className="w-18.25 overflow-hidden block h-[11px] text-[14px] invisible whitespace-nowrap max-w-full transition-[max-width] duration-100 ease-out delay-[50ms] p-0">
                         <span>Password *</span>
                       </legend>
                     </fieldset>
@@ -284,7 +289,7 @@ export default function LoginPage() {
                 <button
                   type="submit"
                   disabled={!hasFormValues || isSubmitting}
-                  className={`w-full rounded-lg relative p-[6px_12px] min-h-9 text-sm font-bold transition-all ${
+                  className={`w-full rounded-lg relative p-[6px_12px] min-h-9 text-sm font-bold ${
                     hasFormValues && !isSubmitting
                       ? "bg-[#078DEE] text-white hover:shadow-(--customShadows-primary) cursor-pointer hover:bg-(--palette-primary-dark)"
                       : "bg-[rgba(145,158,171,0.24)] text-[rgba(145,158,171,0.8)] cursor-not-allowed"
