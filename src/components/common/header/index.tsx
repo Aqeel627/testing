@@ -23,8 +23,8 @@ export default function Header({ onMenuClick }: HeaderProps) {
   const [showExposure, setShowExposure] = useState(true);
   const { userBalance, setUserBalance } = useAppStore();
   // const { isLoggedIn } = useAuthStore();
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
-  const { resolvedTheme } = useTheme();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { resolvedTheme, theme } = useTheme();
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -48,6 +48,17 @@ export default function Header({ onMenuClick }: HeaderProps) {
       });
     }
   }, [accessToken]);
+
+  useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+
+    if (token) {
+      setIsLoggedIn(true); 
+    } else {
+      setIsLoggedIn(false); 
+    }
+
+  }, []);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -77,7 +88,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
       className={cn(
         "w-full glass  --palette-text-primary  sticky top-0 z-50",
         theme === "light" &&
-          "backdrop-blur-[10px]! bg-linear-to-br! from-white/25! to-white/5! border-b! border-[rgb(205_192_192/0.4)]! shadow-[0_8px_32px_rgba(0,0,0,0.2)]!",
+        "backdrop-blur-[10px]! bg-linear-to-br! from-white/25! to-white/5! border-b! border-[rgb(205_192_192/0.4)]! shadow-[0_8px_32px_rgba(0,0,0,0.2)]!",
       )}
     >
       <div className="max-w-[1600px] mx-auto px-2 h-12 flex items-center justify-between">
@@ -306,7 +317,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
             href="/"
             className="flex py-1 pr-[4px] pl-1 items-center text-[13px] font-bold --palette-text-primary  hover:--palette-text-primary  transition-colors group whitespace-nowrap"
           >
-             <span className=" group-hover:--palette-text-primary transition-colors mr-[4px] ">
+            <span className=" group-hover:--palette-text-primary transition-colors mr-[4px] ">
               <Icon name="exchange" className="h-4.5 w-4.5 " />
             </span>
             <span className="relative !top-[-0.5px] ml-[0.3px]">Exchange</span>
