@@ -77,7 +77,16 @@ interface QuickLinkItemProps {
   onActivate: () => void;
   onClose: () => void;
 }
+// Sidebar component ke andar ye function add karein
+const handleRipple = (e: React.MouseEvent<HTMLElement>) => {
+  const rect = e.currentTarget.getBoundingClientRect();
+  const x = e.clientX - rect.left; // Mouse X position inside element
+  const y = e.clientY - rect.top;  // Mouse Y position inside element
 
+  // Ye dono values hum CSS variables (--x, --y) mein set kar rahe hain
+  e.currentTarget.style.setProperty("--x", `${x}px`);
+  e.currentTarget.style.setProperty("--y", `${y}px`);
+};
 const QuickLinkItem = ({
   label,
   href,
@@ -91,6 +100,7 @@ const QuickLinkItem = ({
   <li className={styles.item}>
     <Link
       href={href}
+      onMouseDown={handleRipple} 
       className={cn(
         styles.link,
         (pathName?.includes(href) || isActive) && styles.linkActive,
@@ -137,6 +147,7 @@ const ThirdItemComponent = ({
     <li className={styles.navItemLi}>
       <Link
         href={item.href || "#"}
+        onMouseDown={handleRipple} // <-- Ye line add karein
         className={cn(styles.navLink, isActive && styles.activeSubItem)}
         onClick={() => {
           onActivate();
@@ -189,6 +200,7 @@ const TournamentItemComponent = ({
       {/* Always use button-like behaviour — no href navigation for tournaments */}
       <a
         href="#"
+        onMouseDown={handleRipple} // <-- Ye line add karein
         className={cn(
           styles.navLink,
           isTournamentActive && styles.activeSubItem,
@@ -278,6 +290,7 @@ const SportItemComponent = ({
       {/* Always use href="#" — sport click only toggles dropdown, never navigates */}
       <a
         href="#"
+        onMouseDown={handleRipple} // <-- Ye line add karein
         className={cn(styles.link, isSportActive && styles.linkActive)}
         onClick={(e) => onSportClick(e, sportIndex)}
       >
