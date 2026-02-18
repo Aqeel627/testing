@@ -120,12 +120,12 @@ export default function Header({ onMenuClick }: HeaderProps) {
           </Link> */}
         </nav>
 
-        <div className="flex items-center gap-2 sm:gap-[6px]">
+        <div className="flex items-center gap-2 sm:gap-[6px] ">
           <ThemeToggle />
 
           <Link
             href="/login"
-            className="text-sm leading-[1.71429] [text-transform:unset] min-w-16 py-[5px] px-3 flex justify-center items-center text-sm border-1 border-[#919eab52] rounded-[8px] --palette-text-primary  rounded-lg  hover:bg-[rgba(145,158,171,0.08)]   font-bold transition-all duration-300 mr-1"
+            className="text-sm leading-[1.71429] glass-btn [text-transform:unset] min-w-16 py-[5px] px-3 flex justify-center items-center text-sm border-1 border-[#919eab52] rounded-[8px] --palette-text-primary  rounded-lg  hover:bg-[rgba(145,158,171,0.08)]   font-bold transition-all duration-300 mr-1"
           >
             Login
           </Link>
