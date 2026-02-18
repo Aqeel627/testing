@@ -280,7 +280,7 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
           <Footer />
         </main>
 
-        <div className="w-[0.279%] bg-[rgba(145,158,171,0.2)] --palette-text-primary ml-[6.5px] relative">
+        <div className="w-[0.279%] mt-[50px] bg-[rgba(145,158,171,0.2)] --palette-text-primary ml-[6.5px] relative">
           <svg
             onPointerDown={startDrag}
             onPointerMove={onDrag}
@@ -307,7 +307,7 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
           </svg>
         </div>
 
-        <aside className="flex-auto min-w-0 h-full overflow-y-auto no-scrollbar border-l border-white/5">
+        <aside className="flex-auto min-w-0 h-full overflow-y-auto no-scrollbar pt-[50px] border-l border-white/5">
           <BetSlip />
         </aside>
       </div>
