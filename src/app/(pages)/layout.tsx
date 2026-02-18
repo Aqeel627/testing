@@ -188,11 +188,9 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
     document.body.style.userSelect = "none";
     document.body.style.cursor = "col-resize";
   };
-  const mainRef = useRef<HTMLDivElement | null>(null);
 
   const onDrag = (e: React.PointerEvent) => {
     if (!draggingRef.current || isMobile) return;
-    const scrollTop = mainRef.current?.scrollTop || 0;
     const el = containerRef.current;
     if (!el) return;
 
@@ -205,11 +203,6 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
     const nextWidth = clamp(Math.floor(rawMain), minMain, maxMain);
     setMainWidth(nextWidth);
     localStorage.setItem(MAIN_WIDTH_STORAGE_KEY, String(nextWidth));
-    requestAnimationFrame(() => {
-      if (mainRef.current) {
-        mainRef.current.scrollTop = scrollTop;
-      }
-    });
   };
 
   const endDrag = () => {
@@ -257,7 +250,7 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
             <Sidebar />
           </aside>
 
-          <main ref={mainRef} className="pt-[80px] px-3 h-screen">
+          <main className="pt-[80px] px-3 h-screen">
             {children}
             <Footer />
             <div className="md:hidden h-25"></div>

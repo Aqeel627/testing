@@ -12,6 +12,7 @@ import { CONFIG } from "@/lib/config";
 import axios from "axios";
 import { useAppStore } from "@/lib/store/store";
 import { useAppRateHighlighter } from "@/lib/highlaterMarket";
+import { motion, AnimatePresence } from "framer-motion";
 
 // WebSocket service (assumed to exist)
 import { webSocketService } from "@/lib/websocket.service";
@@ -103,10 +104,13 @@ export default function MarketDetails() {
   const [allMarkets, setAllMarkets] = useState<Market[]>([]);
   const [filteredMarkets, setFilteredMarkets] = useState<Market[]>([]);
   const [popularMarkets, setPopularMarkets] = useState<Market[]>([]);
+  const [teamOne, setTeamOne] = useState("");
+  const [teamTwo, setTeamTwo] = useState("");
   const [tournamentName, setTournamentName] = useState("");
   const [sportName, setSportName] = useState("");
   const [eventName, setEventName] = useState("");
   const [marketTime, setMarketTime] = useState("");
+  const [isOpen, setIsOpen] = useState(false);
 
   // Current market type for filtering - IMPORTANT: track current tab
   const [currentMarketType, setCurrentMarketType] = useState<string>("POPULAR");
@@ -190,6 +194,9 @@ export default function MarketDetails() {
       setTournamentName(data.matchOddsData[0].competition.name);
       setSportName(data.matchOddsData[0].eventType.name);
       setMarketTime(data.matchOddsData[0].marketStartTime);
+      const matchOdds = data.matchOddsData?.[0];
+      setTeamOne(matchOdds.runnersName[0].runnerName);
+      setTeamTwo(matchOdds.runnersName[1].runnerName);
       const fancy = (data.fancyData || []) as Market[];
       const manual = (data.bookmakersData || []) as Market[];
       const betfair = (data.matchOddsData || []) as Market[];
@@ -974,7 +981,7 @@ export default function MarketDetails() {
               {/* LEFT */}
               <div className="min-w-[95px]">
                 <div className="text-[14px] font-semibold leading-none">
-                  India
+                  {teamOne}
                 </div>
                 <div className="text-[10px] text-white/60 mt-1">7.95 CRR</div>
               </div>
@@ -993,28 +1000,48 @@ export default function MarketDetails() {
                 </div>
 
                 {/* DESCRIPTION */}
-                <div className="text-[10px] text-white mt-[2px] leading-none">
+                {/* <div className="text-[10px] text-white mt-[2px] leading-none">
                   India are 57 for 2 after 7.1 overs.
-                </div>
+                </div> */}
               </div>
 
               {/* RIGHT */}
               <div className="min-w-[110px] text-right">
                 <div className="text-[14px] font-semibold leading-none">
-                  Netherlands
+                  {teamTwo}
                 </div>
               </div>
             </div>
 
+            <AnimatePresence initial={false}>
+              {isOpen && (
+                <motion.div
+                  key="dropdown"
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  transition={{ duration: 0.35, ease: "easeInOut" }}
+                  className="overflow-hidden"
+                >
+                  <div className="px-3 py-6 text-[11px] text-white/80"></div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
             {/* CHEVRON */}
-            <div className="  w-full text-white/60 h-[20px] flex justify-center items-center">
-              <svg
+            <div
+              onClick={() => setIsOpen((prev) => !prev)}
+              className="w-full text-white/60 h-[20px] flex justify-center items-center cursor-pointer select-none"
+            >
+              <motion.svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 12 12"
                 className="w-3 fill-white"
+                animate={{ rotate: isOpen ? 180 : 0 }}
+                transition={{ duration: 0.3 }}
               >
-                <path d="M12 3.5c0-.1-.05-.2-.12-.28l-.6-.6c-.07-.07-.18-.12-.28-.12s-.2.05-.27.12L6 7.35 1.27 2.62A.42.42 0 0 0 1 2.5a.4.4 0 0 0-.28.12l-.6.6A.4.4 0 0 0 0 3.5c0 .1.05.2.12.27l5.6 5.61c.08.07.19.12.28.12s.2-.05.28-.12l5.6-5.6A.43.43 0 0 0 12 3.5z"></path>
-              </svg>
+                <path d="M12 3.5c0-.1-.05-.2-.12-.28l-.6-.6c-.07-.07-.18-.12-.28-.12s-.2.05-.27.12L6 7.35 1.27 2.62A.42.42 0 0 0 1 2.5a.4.4 0 0 0-.28.12l-.6.6A.4.4 0 0 0 0 3.5c0 .1.05.2.12.27l5.6 5.61c.08.07.19.12.28.12s.2-.05.28-.12l5.6-5.6A.43.43 0 0 0 12 3.5z" />
+              </motion.svg>
             </div>
           </div>
         </div>
