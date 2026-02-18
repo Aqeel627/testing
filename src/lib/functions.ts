@@ -209,3 +209,25 @@ export function shortNumber(value: number): string | null {
 
   return `${isNegative ? "-" : ""}${formatted}${key}`;
 }
+
+export function safeParse(key: string) {
+    try {
+        const raw = localStorage.getItem(key);
+        if (!raw) return null;
+
+        const parsed = JSON.parse(raw);
+
+        // ensure it's actually an object (optional extra check)
+        if (parsed && typeof parsed === "object") {
+            return parsed;
+        }
+
+        console.warn("Invalid userDetail type:", parsed);
+        localStorage.removeItem(key);
+        return null;
+    } catch (err) {
+        console.warn("Invalid JSON in localStorage for", key);
+        localStorage.removeItem(key); // 🧹 auto-clean invalid data
+        return null;
+    }
+}
