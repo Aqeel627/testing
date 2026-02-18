@@ -14,7 +14,10 @@ export const useAppStore = create<any>()(
       stakeValue: null,
       selectedEventTypeId: null,
       selectedBet: null,
-      inplayEvents:null,
+      inplayEvents: null,
+
+      loginModal: false,
+      setLoginModal: (open:boolean) => set({ loginModal: open }),
 
       setCasinoEvents: (data: any) => set({ casinoEvents: data }),
       setExchangeTypeList: (data: any) => set({ exchangeTypeList: data }),

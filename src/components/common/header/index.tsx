@@ -21,7 +21,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
   // New state for checkbox toggles - default true
   const [showBalance, setShowBalance] = useState(true);
   const [showExposure, setShowExposure] = useState(true);
-  const { userBalance, setUserBalance } = useAppStore();
+  const { userBalance, setUserBalance, setLoginModal } = useAppStore();
   // const { isLoggedIn } = useAuthStore();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const { resolvedTheme, theme } = useTheme();
@@ -59,7 +59,6 @@ export default function Header({ onMenuClick }: HeaderProps) {
     } else {
       setIsLoggedIn(false);
     }
-
   }, []);
 
   useEffect(() => {
@@ -90,7 +89,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
       className={cn(
         "w-full glass  --palette-text-primary  sticky top-0 z-50",
         theme === "light" &&
-        "backdrop-blur-[10px]! bg-linear-to-br! from-white/25! to-white/5! border-b! border-[rgb(205_192_192/0.4)]! shadow-[0_8px_32px_rgba(0,0,0,0.2)]!",
+          "backdrop-blur-[10px]! bg-linear-to-br! from-white/25! to-white/5! border-b! border-[rgb(205_192_192/0.4)]! shadow-[0_8px_32px_rgba(0,0,0,0.2)]!",
       )}
     >
       <div className="max-w-[1600px] mx-auto px-2 h-12 flex items-center justify-between">
@@ -169,36 +168,52 @@ export default function Header({ onMenuClick }: HeaderProps) {
         </nav>
 
         <div className="flex items-center gap-2 sm:gap-[6px]">
-
           {isLoggedIn && (
-            <Link href="" className="inline-flex items-center justify-center relative box-border cursor-pointer select-none align-middle appearance-none font-sans font-bold leading-[1.71429] normal-case min-w-[64px] text-[0.8125rem] h-[30px] outline-none m-0 no-underline rounded-lg border border-solid py-[3px] px-1 min-[600px]:px-[8px] transition-all duration-[250ms] ease-[cubic-bezier(0.4,0,0.2,1)] bg-transparent text-[#078DEE] border-[#078dee7a] hover:bg-blue-600/5">
+            <Link
+              href=""
+              className="inline-flex items-center justify-center relative box-border cursor-pointer select-none align-middle appearance-none font-sans font-bold leading-[1.71429] normal-case min-w-[64px] text-[0.8125rem] h-[30px] outline-none m-0 no-underline rounded-lg border border-solid py-[3px] px-1 min-[600px]:px-[8px] transition-all duration-[250ms] ease-[cubic-bezier(0.4,0,0.2,1)] bg-transparent text-[#078DEE] border-[#078dee7a] hover:bg-blue-600/5"
+            >
               Bets
             </Link>
           )}
 
           <ThemeToggle />
           {!isLoggedIn && (
-            <Link
-              href="/login"
-              className="text-sm leading-[1.71429] [text-transform:unset] min-w-16 py-[5px] px-3 flex justify-center items-center text-sm border-1 border-[#919eab52] rounded-[8px] --palette-text-primary  rounded-lg  hover:bg-[rgba(145,158,171,0.08)]   font-bold transition-all duration-300 mr-1"
+            // <Link
+            //   href="/login"
+            //   className="text-sm leading-[1.71429] [text-transform:unset] min-w-16 py-[5px] px-3 flex justify-center items-center text-sm border-1 border-[#919eab52] rounded-[8px] --palette-text-primary  rounded-lg  hover:bg-[rgba(145,158,171,0.08)]   font-bold transition-all duration-300 mr-1"
+            // >
+            //   Login
+            // </Link>
+            <div
+              onClick={() => setLoginModal(true)}
+              className="text-sm leading-[1.71429] cursor-pointer [text-transform:unset] min-w-16 py-[5px] px-3 flex justify-center items-center text-sm border-1 border-[#919eab52] rounded-[8px] --palette-text-primary  rounded-lg  hover:bg-[rgba(145,158,171,0.08)]   font-bold transition-all duration-300 mr-1"
             >
               Login
-            </Link>
+            </div>
           )}
           {isLoggedIn && (
             <div className="flex items-center gap-2" ref={menuRef}>
-              <div onClick={() => setIsMenuOpen(!isMenuOpen)} className="relative inline-flex items-center justify-center rounded-[8px] p-[1px] overflow-hidden bg-transparent group cursor-pointer max-w-16">
-                <span className="absolute inset-0 m-auto w-full h-full rounded-[inherit] content-[''] pointer-events-none 
+              <div
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className="relative inline-flex items-center justify-center rounded-[8px] p-[1px] overflow-hidden bg-transparent group cursor-pointer max-w-16"
+              >
+                <span
+                  className="absolute inset-0 m-auto w-full h-full rounded-[inherit] content-[''] pointer-events-none 
         [mask:linear-gradient(#fff_0_0)_content-box_xor,linear-gradient(#fff_0_0)] 
-        -webkit-[mask:linear-gradient(#fff_0_0)_content-box_xor,linear-gradient(#fff_0_0)]">
+        -webkit-[mask:linear-gradient(#fff_0_0)_content-box_xor,linear-gradient(#fff_0_0)]"
+                >
                   <span className="absolute inset-0 bg-white/10 opacity-20"></span>
 
                   {/* 👇 Dono shapes with exact colors */}
-                  <span className={`${styles.movingShape} ${styles.shapeGold}`}></span>
-                  <span className={`${styles.movingShape} ${styles.shapeBlue}`}></span>
+                  <span
+                    className={`${styles.movingShape} ${styles.shapeGold}`}
+                  ></span>
+                  <span
+                    className={`${styles.movingShape} ${styles.shapeBlue}`}
+                  ></span>
                 </span>
                 <button className="relative z-10 flex flex-col items-center justify-center px-4 py-1 bg-[#161C24] dark:bg-[#161C24] rounded-[7px] w-full h-full min-w-[64px]">
-
                   <span className="text-[0.6rem] text-[#637381] font-semibold leading-[1] uppercase tracking-wide">
                     Pts
                   </span>
@@ -206,16 +221,18 @@ export default function Header({ onMenuClick }: HeaderProps) {
                     {hideBalance ? "-" : "1"}
                   </span>
                 </button>
-
               </div>
 
               {isMenuOpen && (
                 <div className="absolute top-[16px] md:top-[38px] right-0 w-[250px] bg-[var(--background)] rounded-xl shadow-[0_0px_2px_rgba(0,0,0,0.5)] z-50 flex flex-col var(--palette-text-primary) overflow-hidden max-h-[calc(100vh-32px)] border border-[#919eab29]">
-
                   <div className="absolute -top-10 -right-10 w-20 h-20 bg-[#078dee] blur-[60px] opacity-[0.50] pointer-events-none z-0 rounded-full"></div>
                   <div className="px-4 pt-4 pb-2">
-                    <h6 className="text-[0.875rem] font-semibold text-[var(--palette-text-primary)] truncate leading-[1.57143]">demo1</h6>
-                    <p className="text-[0.875rem] leading-[1.57143] text-[#637381] truncate">demo1</p>
+                    <h6 className="text-[0.875rem] font-semibold text-[var(--palette-text-primary)] truncate leading-[1.57143]">
+                      demo1
+                    </h6>
+                    <p className="text-[0.875rem] leading-[1.57143] text-[#637381] truncate">
+                      demo1
+                    </p>
                   </div>
 
                   <hr className="m-0 shrink-0 border-0 border-b border-dashed border-[#919eab33]" />
@@ -223,14 +240,22 @@ export default function Header({ onMenuClick }: HeaderProps) {
                   <div className="flex flex-col gap-2 px-4 pb-4 pt-2">
                     <div className="rounded-[16px] shadow-[0_1px_2px_0_rgb(0_0_0_/_16%)] border-[#919eab29] border-[1px]">
                       <div className="flex flex-col p-2 items-center cursor-pointer">
-                        <p className="text-[0.875rem] leading-[1.25] text-[#637381] font-[500] uppercase">Exposure</p>
-                        <p className="text-[1rem] text-[var(--palette-text-primary)] font-semibold leading-[1.5]">0</p>
+                        <p className="text-[0.875rem] leading-[1.25] text-[#637381] font-[500] uppercase">
+                          Exposure
+                        </p>
+                        <p className="text-[1rem] text-[var(--palette-text-primary)] font-semibold leading-[1.5]">
+                          0
+                        </p>
                       </div>
                     </div>
                     <div className="rounded-[16px] shadow-[0_1px_2px_0_rgb(0_0_0_/_16%)] border-[#919eab29] border-[1px]">
                       <div className="flex flex-col p-2 items-center cursor-pointer">
-                        <p className="text-[0.875rem] leading-[1.25] text-[#637381] font-[500] uppercase">Balance</p>
-                        <p className="text-[1rem] text-[var(--palette-text-primary)] font-semibold leading-[1.5]">1</p>
+                        <p className="text-[0.875rem] leading-[1.25] text-[#637381] font-[500] uppercase">
+                          Balance
+                        </p>
+                        <p className="text-[1rem] text-[var(--palette-text-primary)] font-semibold leading-[1.5]">
+                          1
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -243,10 +268,19 @@ export default function Header({ onMenuClick }: HeaderProps) {
                       { label: "Statement", href: "/account/statement" },
                       { label: "Settings", href: "/account/settings/login" },
                       { label: "Activity", href: "/account/activity" },
-                      { label: "Bet Buttons", href: "/account/settings/bet-buttons" },
-                      { label: "Rules", href: "/exchange/betting-rules/sports-rules" },
+                      {
+                        label: "Bet Buttons",
+                        href: "/account/settings/bet-buttons",
+                      },
+                      {
+                        label: "Rules",
+                        href: "/exchange/betting-rules/sports-rules",
+                      },
                     ].map((item, index) => (
-                      <li key={index} className="mb-1 hover:bg-[rgba(145,158,171,0.08)] rounded-[8px] no-underline h-12 min-[600px]:h-auto text-[0.875rem] leading-[1.57143px] ">
+                      <li
+                        key={index}
+                        className="mb-1 hover:bg-[rgba(145,158,171,0.08)] rounded-[8px] no-underline h-12 min-[600px]:h-auto text-[0.875rem] leading-[1.57143px] "
+                      >
                         <Link
                           href={item.href}
                           onClick={() => setIsMenuOpen(false)}
@@ -268,7 +302,8 @@ export default function Header({ onMenuClick }: HeaderProps) {
 
                     {/* Hide Balance Toggle */}
                     <li className="mb-1 no-underline h-12 min-[600px]:h-[44px] text-[0.875rem] leading-[1.57143px] flex items-center hover:bg-[rgba(145,158,171,0.08)] rounded-[8px]">
-                      <div className="flex items-center justify-between w-full px-2 text-[14px] text-[#637381] hover:text-[var(--palette-text-primary)] transition-colors cursor-pointer"
+                      <div
+                        className="flex items-center justify-between w-full px-2 text-[14px] text-[#637381] hover:text-[var(--palette-text-primary)] transition-colors cursor-pointer"
                         onClick={(e) => {
                           e.stopPropagation(); // Prevent menu from closing
                           setHideBalance(!hideBalance);
@@ -277,8 +312,12 @@ export default function Header({ onMenuClick }: HeaderProps) {
                         <span className="ml-4">Hide Balance</span>
                         {/* Custom Tailwind Switch */}
                         <span className="w-[58px] h-[38px] flex justify-end items-center">
-                          <div className={`relative w-[34px] h-5 mr-[10px] rounded-full transition-colors ${hideBalance ? 'bg-[#078dee]' : 'bg-gray-600'}`}>
-                            <div className={`absolute top-[3px] left-[3px] bg-white w-3.5 h-3.5 rounded-full transition-transform ${hideBalance ? 'translate-x-[14px]' : 'translate-x-0'}`}></div>
+                          <div
+                            className={`relative w-[34px] h-5 mr-[10px] rounded-full transition-colors ${hideBalance ? "bg-[#078dee]" : "bg-gray-600"}`}
+                          >
+                            <div
+                              className={`absolute top-[3px] left-[3px] bg-white w-3.5 h-3.5 rounded-full transition-transform ${hideBalance ? "translate-x-[14px]" : "translate-x-0"}`}
+                            ></div>
                           </div>
                         </span>
                       </div>
@@ -302,12 +341,10 @@ export default function Header({ onMenuClick }: HeaderProps) {
                       Logout
                     </button>
                   </div>
-
                 </div>
               )}
             </div>
           )}
-
         </div>
       </div>
 
