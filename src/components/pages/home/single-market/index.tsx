@@ -3,6 +3,7 @@ import { useAppStore } from "@/lib/store/store";
 import { useEffect } from "react";
 import Icon from "@/icons/icons";
 import Link from "next/link";
+import style from "./singleMarket.module.css";
 
 export default function SingleMarket() {
   const { allEventsList, selectedEventTypeId } = useAppStore();
@@ -133,22 +134,19 @@ export default function SingleMarket() {
                 <div className="flex flex-row gap-3 justify-start items-center h-4 leading-4 contain-strict pointer-events-none overflow-hidden mt-0.5">
                   <div className="min-w-9.5">
                     <div className="flex gap-1.5">
-                      <div className="flex justify-center items-center animate-pulse">
+                      <div className={`flex justify-center items-center ${style.animateLiveBlink}`}>
                         <div className="w-[7px] h-[7px] bg-[#078dee] rounded-full"></div>
                       </div>
                       <p className="m-0 font-sans truncate whitespace-nowrap text-[10px] text-[#078dee] font-bold leading-[1rem]">
                         {event.inplay
                           ? "In-Play"
-                          : new Date(event.marketStartTime).toLocaleDateString(
-                              "en-GB",
-                              {
-                                day: "2-digit",
-                                month: "2-digit",
-                                year: "numeric",
-                                hour: "2-digit",
-                                minute: "2-digit",
-                              },
-                            )}
+                          : new Date(event.marketStartTime).toLocaleDateString("en-GB", {
+                            day: "2-digit",
+                            month: "2-digit",
+                            year: "numeric",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          })}
                       </p>
                     </div>
                   </div>

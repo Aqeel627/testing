@@ -60,7 +60,7 @@ export default function Footer() {
                   Protected connection and encrypted data.
                 </p>
 
-                <div className="flex flex-col">
+                {/* <div className="flex flex-col">
                   <span className="inline-flex max-[899px]:mb-[3px]    justify-center items-center h-[24px] rounded bg-[rgba(var(--palette-primary-mainChannel)_/_16%)]   text-[12px] font-bold leading-[19px] text-(--palette-primary-light)">
                     Payment Gateways
                   </span>
@@ -74,7 +74,7 @@ export default function Footer() {
                       className="h-5 w-5 max-[899px]:ml-[12px] ml-[5px]"
                     />
                   </div>
-                </div>
+                </div> */}
 
                 <div className="inline-block mt-2 relative min-[900px]:hidden mx-auto">
                   <button
@@ -213,7 +213,7 @@ export default function Footer() {
               "Betting Rules",
               "Dispute Resolution",
               "Fairness & RNG Testing Methods",
-              "Accounts, Payouts and Bonuses",
+              "Accounts",
               "Privacy Policy",
               "Self-Exclusion",
             ].map((item, i) => (
