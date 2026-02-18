@@ -18,6 +18,7 @@ import { fetchData } from "@/lib/functions";
 import { CONFIG } from "@/lib/config";
 import BetSlip from "@/components/common/betslip";
 import { useUIStore } from "@/lib/store/ui-store"; // ✅ import store
+import BottomNavbar from "@/components/common/bottom-nav";
 
 const MAIN_WIDTH_STORAGE_KEY = "pages-layout-main-width";
 
@@ -212,7 +213,7 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
   if (isMobile) {
     return (
       <div className="w-full min-h-screen">
-        <div className="w-full fixed top-0 z-50 css-before">
+        <div className="w-full fixed top-0 z-50">
           {/* <Marque /> */}
           {/* ✅ toggle via store */}
           <Header
@@ -241,10 +242,13 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
           <Sidebar />
         </aside>
 
-        <main className="pt-28 px-3 h-screen overflow-y-auto">
+        <main className="pt-23 px-3 h-screen overflow-y-auto">
           {children}
           <Footer />
+          <div className="md:hidden h-25"></div>
         </main>
+
+        <BottomNavbar />
       </div>
     );
   }

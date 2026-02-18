@@ -11,6 +11,7 @@ import { fetchData } from "@/lib/functions";
 import { useAuthStore } from "@/lib/store/authStore";
 import { ThemeToggle } from "../theme-toggler";
 import { useTheme } from "next-themes";
+import { cn } from "@/lib/utils";
 
 type HeaderProps = {
   onMenuClick?: () => void;
@@ -72,7 +73,13 @@ export default function Header({ onMenuClick }: HeaderProps) {
   }, [isMenuOpen]);
 
   return (
-    <header className="w-full glass  --palette-text-primary  sticky top-0 z-50 ">
+    <header
+      className={cn(
+        "w-full glass  --palette-text-primary  sticky top-0 z-50",
+        theme === "light" &&
+          "backdrop-blur-[10px]! bg-linear-to-br! from-white/25! to-white/5! border-b! border-[rgb(205_192_192/0.4)]! shadow-[0_8px_32px_rgba(0,0,0,0.2)]!",
+      )}
+    >
       <div className="max-w-[1600px] mx-auto px-2 h-12 flex items-center justify-between">
         {/* 👇 Left: Hamburger & Logo */}
         <div className="flex items-center gap-3 md:gap-4">
@@ -106,8 +113,8 @@ export default function Header({ onMenuClick }: HeaderProps) {
             href="/"
             className="flex p-1 items-center text-[13px] font-bold --palette-text-primary  hover:--palette-text-primary  transition-colors group rounded-lg  hover:bg-[rgba(145,158,171,0.08)] "
           >
-            <span className=" group-hover:--palette-text-primary  transition-colors mr-[2px] ">
-              <Icon name="exchange" className="h-6 w-6" />
+            <span className=" group-hover:--palette-text-primary transition-colors mr-[4px] ">
+              <Icon name="exchange" className="h-4.5 w-4.5 " />
             </span>
             <span className="relative top-[-0.5px]">Exchange</span>
           </Link>
@@ -299,8 +306,8 @@ export default function Header({ onMenuClick }: HeaderProps) {
             href="/"
             className="flex py-1 pr-[4px] pl-1 items-center text-[13px] font-bold --palette-text-primary  hover:--palette-text-primary  transition-colors group whitespace-nowrap"
           >
-            <span className=" group-hover:--palette-text-primary  transition-colors mr-[2px] ml-[-1px]">
-              <Icon name="exchange" className="h-6 w-6" />
+             <span className=" group-hover:--palette-text-primary transition-colors mr-[4px] ">
+              <Icon name="exchange" className="h-4.5 w-4.5 " />
             </span>
             <span className="relative !top-[-0.5px] ml-[0.3px]">Exchange</span>
           </Link>

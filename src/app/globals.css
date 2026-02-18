@@ -320,6 +320,8 @@
   --customShadows-error: 0 8px 16px 0 rgba(255 86 48 / 24%);
   --nav-item-root-active-bg: rgba(7 141 238 / 8%);
   --nav-item-root-active-color: #078dee;
+
+  --IconButton-hoverBg: rgba(var(--palette-action-activeChannel) / calc(var(--palette-action-hoverOpacity)));
 }
 
 @theme inline {
@@ -628,6 +630,8 @@
   --opacity-switchTrack: 0.3;
   --nav-item-root-active-bg: rgba(7 141 238 / 8%);
   --nav-item-root-active-color: #68cdf9;
+
+  --IconButton-hoverBg: rgba(var(--palette-action-activeChannel) / calc(var(--palette-action-hoverOpacity)));
 }
 
 body {
@@ -770,7 +774,7 @@ body {
 }
 
 .css-before::before {
-  backdrop-filter: blur(6px);
+  /* backdrop-filter: blur(6px);
   background-color: rgba(var(--palette-background-defaultChannel) / 80%);
   opacity: 1;
   content: "";
@@ -782,6 +786,28 @@ body {
   height: 100%;
   z-index: -1;
   transition:
+    opacity 200ms cubic-bezier(0.4, 0, 0.2, 1),
+    visibility 200ms cubic-bezier(0.4, 0, 0.2, 1); */
+      opacity: 1;
+  content: "";
+  visibility: visible;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+    z-index: -1;
+      backdrop-filter: blur(4px);
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.08),
+    rgba(255, 255, 255, 0.02)
+  );
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25),
+    inset 0 -2px 6px rgba(255, 255, 255, 0.05);
+      transition:
     opacity 200ms cubic-bezier(0.4, 0, 0.2, 1),
     visibility 200ms cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -988,4 +1014,15 @@ body {
     inset 0 1px 0 rgba(255, 255, 255, 0.25),
     inset 0 -2px 6px rgba(255, 255, 255, 0.05);
   /* border: 1px solid rgba(255, 255, 255, 0.18); */
+}
+
+.glass-btn{
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.08),
+    rgba(255, 255, 255, 0.02)
+  );
+    backdrop-filter: blur(20px) saturate(160%);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+
 }

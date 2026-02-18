@@ -4,36 +4,41 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
 import styles from "./SearchModal.module.css";
 import { useUIStore } from "@/lib/store/ui-store";
+import { useAppStore } from "@/lib/store/store";
+import Icon from "@/icons/icons";
 
-type SearchItem = {
-    id: string;
-    title: string;
-    path: string;
-};
+
 
 export default function SearchModal() {
     const isOpenSearch = useUIStore((s) => s.isOpenSearch);
     const toggleSearch = useUIStore((s) => s.toggleSearch);
+    const { allEventsList, selectedEventTypeId } = useAppStore();
 
     const inputRef = useRef<HTMLInputElement>(null);
     const [query, setQuery] = useState("");
 
     const close = () => toggleSearch(false);
+    useEffect(() => {
+        // console.log(allEventsList, "events all in search modal");
+        // console.log("type:", typeof allEventsList);
+    }, [allEventsList]);
+
 
     /* -------------------- BODY SCROLL + FOCUS -------------------- */
     useEffect(() => {
-  const handleKeyDown = (e: KeyboardEvent) => {
-    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
-      e.preventDefault();
-      toggleSearch(!isOpenSearch);   // 👈 better pattern
-    }
-  };
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+                e.preventDefault();
+                toggleSearch(!isOpenSearch);   // 👈 better pattern
+            }
+        };
 
-  document.addEventListener("keydown", handleKeyDown);
-  return () => {
-    document.removeEventListener("keydown", handleKeyDown);
-  };
-}, [toggleSearch]);
+
+        document.addEventListener("keydown", handleKeyDown);
+        return () => {
+            document.removeEventListener("keydown", handleKeyDown);
+        };
+    }, [toggleSearch]);
     // 
     useEffect(() => {
         if (isOpenSearch) {
@@ -52,72 +57,26 @@ export default function SearchModal() {
     }, [isOpenSearch]);
 
     /* -------------------- DATA -------------------- */
-    const data: SearchItem[] = useMemo(
-        () => [
-            {
-                id: "1",
-                title: "ICC Men's T20 World Cup",
-                path: "/cricket/icc-men's-t20-world-cup/icc-mens-t20-world-cup",
-            },
-            {
-                id: "2",
-                title: "AFC Champions League",
-                path: "/soccer/afc-champions-league",
-            },
-            {
-                id: "3",
-                title: "Al Ahli v Al Ahli (UAE)",
-                path: "/soccer/afc-champions-league/al-ahli-v-al-ahli-uae",
-            },
-            {
-                id: "4",
-                title: "Al-Hilal v Al Wahda (Abu Dhabi)",
-                path: "/soccer/afc-champions-league/al-hilal-v-al-wahda-abu-dhabi",
-            },
-            {
-                id: "5",
-                title: "Alan Rubio v Tomic",
-                path: "/tennis/metepec-challenger-2026/alan-rubio-v-tomic",
-            },
-            {
-                id: "6",
-                title: "Albion FC v Cerro",
-                path: "/soccer/uruguayan-primera-division/albion-fc-v-cerro",
-            },
-            {
-                id: "7",
-                title: "Albion FC v Cerro",
-                path: "/soccer/uruguayan-primera-division/albion-fc-v-cerro",
-            },
-            {
-                id: "8",
-                title: "Albion FC v Cerro",
-                path: "/soccer/uruguayan-primera-division/albion-fc-v-cerro",
-            },
-            {
-                id: "9",
-                title: "Albion FC v Cerro",
-                path: "/soccer/uruguayan-primera-division/albion-fc-v-cerro",
-            },
-            {
-                id: "10",
-                title: "Albion FC v Cerro",
-                path: "/soccer/uruguayan-primera-division/albion-fc-v-cerro",
-            },
-        ],
-        []
-    );
 
-    const filtered = useMemo(() => {
-        const q = query.trim().toLowerCase();
-        if (!q) return data;
+    const filteredResults = useMemo(() => {
+        // Merge all arrays into a single array safely
+        const eventsArray: any[] = Object.values(allEventsList || {})
+            .filter(Array.isArray)   // only arrays
+            .flat();
 
-        return data.filter(
-            (x) =>
-                x.title.toLowerCase().includes(q) ||
-                x.path.toLowerCase().includes(q)
+        if (!query.trim()) return eventsArray;
+
+        const q = query.toLowerCase();
+
+        return eventsArray.filter((item) =>
+            item?.event?.name?.toLowerCase().includes(q) ||
+            item?.eventType?.name?.toLowerCase().includes(q) ||
+            item?.marketType?.toLowerCase().includes(q)
         );
-    }, [query, data]);
+    }, [query, allEventsList]);
+
+
+
 
     return (
         <Dialog.Root open={isOpenSearch} onOpenChange={toggleSearch}>
@@ -129,27 +88,17 @@ export default function SearchModal() {
                 <Dialog.Content
                     className={styles.content}
                     onOpenAutoFocus={(e) => e.preventDefault()}
-                     onInteractOutside={(e) => {
+                    onInteractOutside={(e) => {
                         e.preventDefault();
                     }}
                     onPointerDown={(e) => {
                         if (e.target === e.currentTarget) close();
-                    }} 
+                    }}
                 >
                     <div className={styles.paper}>
                         {/* ---------- HEADER ---------- */}
                         <div className={styles.header}>
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                aria-hidden="true"
-                                viewBox="0 0 24 24"
-                                className={styles.searchIcon}
-                            >
-                                <path
-                                    fill="currentColor"
-                                    d="m20.71 19.29l-3.4-3.39A7.92 7.92 0 0 0 19 11a8 8 0 1 0-8 8a7.92 7.92 0 0 0 4.9-1.69l3.39 3.4a1 1 0 0 0 1.42 0a1 1 0 0 0 0-1.42ZM5 11a6 6 0 1 1 6 6a6 6 0 0 1-6-6Z"
-                                />
-                            </svg>
+                            <Icon name="searchIcon" className={styles.searchIcon} />
 
                             <input
                                 ref={inputRef}
@@ -171,24 +120,28 @@ export default function SearchModal() {
                         <div className={styles.divider} />
 
                         {/* ---------- LIST ---------- */}
+                        {/* ---------- LIST ---------- */}
                         <div className={styles.list}>
-                            {filtered.map((item) => (
-                                <div
-                                    key={item.id}
-                                    className={styles.item}
-                                    tabIndex={0}
-                                    onClick={close}
-                                    onKeyDown={(e) => {
-                                        if (e.key === "Enter") close();
-                                    }}
-                                >
-                                    <div className={styles.textWrap}>
-                                        <p className={styles.title}>{item.title}</p>
-                                        <p className={styles.sub}>{item.path}</p>
+                            {filteredResults.length > 0 ? (
+                                filteredResults.map((match: any, index: number) => (
+                                    <div key={index} className={styles.item} onClick={close} tabIndex={0}>
+                                        <div className={styles.textWrap}>
+                                            <p className={styles.title}>{match?.eventType?.name} | {match?.marketType}</p>
+                                            <p className={styles.sub}>{match?.event?.name}</p>
+                                        </div>
                                     </div>
+                                ))
+                            ) : (
+                                <div className={styles.notFound}>
+                                    <h3 className={styles.notFoundTitle}>Not found</h3>
+                                    <p className={styles.notFoundText}>
+                                        No results found for <span >"{query}"</span>.<br />
+                                        Try checking for typos or using complete words.
+                                    </p>
                                 </div>
-                            ))}
+                            )}
                         </div>
+
                     </div>
                 </Dialog.Content>
             </Dialog.Portal>
