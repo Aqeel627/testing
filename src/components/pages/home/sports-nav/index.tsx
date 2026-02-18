@@ -17,7 +17,7 @@ export default function SportsNav() {
   const navData = ["cricket", "soccer", "tennis"];
   const [isMobile, setIsMobile] = useState(false);
 
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  // const scrollContainerRef = useRef<HTMLDivElement>(null);
   const tabsListRef = useRef<HTMLDivElement>(null);
   const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, top: 0, width: 0, height: 0, opacity: 0 });
     const { theme } = useTheme();
@@ -74,11 +74,11 @@ export default function SportsNav() {
         opacity: 1,
       });
 
-      activeBtn.scrollIntoView({
-        behavior: "smooth",
-        inline: "center",
-        block: "nearest",
-      });
+      // activeBtn.scrollIntoView({
+      //   behavior: "smooth",
+      //   inline: "center",
+      //   block: "nearest",
+      // });
     }
   }, [activeTab]);
 
