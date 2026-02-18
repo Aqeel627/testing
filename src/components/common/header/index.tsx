@@ -38,8 +38,8 @@ export default function Header({ onMenuClick }: HeaderProps) {
   const { accessToken } = useAuthStore();
 
   useEffect(() => {
-    // console.log("Access token:", accessToken);
-    // console.log("URL:", CONFIG.getUserBalance);
+    console.log("Access token:", accessToken);
+    console.log("URL:", CONFIG.getUserBalance);
     if (accessToken) {
       fetchData({
         url: CONFIG.getUserBalance,
@@ -49,9 +49,6 @@ export default function Header({ onMenuClick }: HeaderProps) {
       });
     }
   }, [accessToken]);
-
-
-
 
   useEffect(() => {
     const userDetail = localStorage.getItem("userDetail");
@@ -122,11 +119,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
             className="font-[inherit]  no-underline shrink-0 text-transparent inline-flex h-[44px] w-[152px] cursor-pointer"
           >
             <Image
-              src={
-                resolvedTheme === "light"
-                  ? "/brand_logo_light.png"
-                  : "/brand_logo_dark.png"
-              }
+              src={"/logo.png"}
               alt="AuExch Logo"
               fill
               className="object-contain relative! mx-1 "
@@ -251,7 +244,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
                   <div className="flex flex-col gap-2 px-4 pb-4 pt-2">
                     <div className="rounded-[16px] shadow-[0_1px_2px_0_rgb(0_0_0_/_16%)] border-[#919eab29] border-[1px]">
                       <div className="flex flex-col p-2 items-center cursor-pointer">
-                        
+
                         <p className="text-[0.875rem] leading-[1.25] text-[#637381] font-[500] uppercase">
                           Exposure
                         </p>
