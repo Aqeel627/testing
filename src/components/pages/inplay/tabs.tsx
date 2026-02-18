@@ -77,28 +77,41 @@ export default function InplaySportNav({
       `button[data-tab="${activeTab}"]`,
     ) as HTMLElement;
 
-    if (activeBtn) {
-      const isFirst = firstRender.current;
+    if (!activeBtn || !scrollContainerRef.current) return;
 
-      setIndicatorStyle({
-        left: activeBtn.offsetLeft,
-        top: activeBtn.offsetTop,
-        width: activeBtn.offsetWidth,
-        height: activeBtn.offsetHeight,
-        opacity: 1,
-        animate: !isFirst, // animation only if not first render
-      });
+    const container = scrollContainerRef.current;
+    const isFirst = firstRender.current;
 
-      activeBtn.scrollIntoView({
-        behavior: isFirst ? "auto" : "smooth",
-        inline: "center",
-        block: "nearest",
-      });
+    // ----- Indicator Position -----
+    setIndicatorStyle({
+      left: activeBtn.offsetLeft,
+      top: activeBtn.offsetTop,
+      width: activeBtn.offsetWidth,
+      height: activeBtn.offsetHeight,
+      opacity: 1,
+      animate: !isFirst,
+    });
 
-      // 👇 IMPORTANT: first render ke baad flag off karo
-      if (isFirst) {
-        firstRender.current = false;
-      }
+    // ----- PERFECT CENTER SCROLL -----
+    const containerWidth = container.clientWidth;
+    const scrollWidth = container.scrollWidth;
+
+    let targetScroll =
+      activeBtn.offsetLeft - containerWidth / 2 + activeBtn.offsetWidth / 2;
+
+    // prevent over scroll
+    targetScroll = Math.max(
+      0,
+      Math.min(targetScroll, scrollWidth - containerWidth),
+    );
+
+    container.scrollTo({
+      left: targetScroll,
+      behavior: isFirst ? "auto" : "smooth",
+    });
+
+    if (isFirst) {
+      firstRender.current = false;
     }
   }, [activeTab]);
 
@@ -128,9 +141,8 @@ export default function InplaySportNav({
         <div role="tablist" className={styles["tabs-list"]} ref={tabsListRef}>
           {/* Sliding Indicator */}
           <div
-            className={`${styles["sliding-indicator"]} py-3.5 ${
-              !indicatorStyle.animate ? styles["no-animation"] : ""
-            }`}
+            className={`${styles["sliding-indicator"]} py-3.5 ${!indicatorStyle.animate ? styles["no-animation"] : ""
+              }`}
             style={{
               left: `${indicatorStyle.left}px`,
               top: `${indicatorStyle.top}px`,
@@ -145,9 +157,8 @@ export default function InplaySportNav({
             role="tab"
             data-tab={"All"}
             aria-selected={activeTab === "All"}
-            className={`${styles["tab-btn"]} ${
-              activeTab === "All" ? styles.active : ""
-            }`}
+            className={`${styles["tab-btn"]} ${activeTab === "All" ? styles.active : ""
+              }`}
             onClick={() => {
               setActiveTab("All");
             }}
@@ -165,9 +176,8 @@ export default function InplaySportNav({
               role="tab"
               data-tab={item.label}
               aria-selected={activeTab === item.label}
-              className={`${styles["tab-btn"]} ${
-                activeTab === item.label ? styles.active : ""
-              }`}
+              className={`${styles["tab-btn"]} ${activeTab === item.label ? styles.active : ""
+                }`}
               onClick={() => {
                 setActiveTab(item.label);
               }}
@@ -175,9 +185,8 @@ export default function InplaySportNav({
               {item.label}
 
               <span
-                className={`${styles["tab-icon"]} ${
-                  styles[`icon-${item.label.toLowerCase().replace(/\s/g, "-")}`]
-                }`}
+                className={`${styles["tab-icon"]} ${styles[`icon-${item.label.toLowerCase().replace(/\s/g, "-")}`]
+                  }`}
               />
 
               {activeTab === item.label && (
