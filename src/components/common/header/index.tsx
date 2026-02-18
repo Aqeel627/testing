@@ -11,6 +11,7 @@ import { fetchData } from "@/lib/functions";
 import { useAuthStore } from "@/lib/store/authStore";
 import { ThemeToggle } from "../theme-toggler";
 import { useTheme } from "next-themes";
+import { cn } from "@/lib/utils";
 
 type HeaderProps = {
   onMenuClick?: () => void;
@@ -22,7 +23,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
   const [showExposure, setShowExposure] = useState(true);
   const { userBalance, setUserBalance } = useAppStore();
   const { isLoggedIn } = useAuthStore();
-  const { resolvedTheme } = useTheme();
+  const { resolvedTheme, theme } = useTheme();
 
   //   useEffect(() => {
   //   console.log("isLoggedIn:", isLoggedIn);
@@ -44,7 +45,13 @@ export default function Header({ onMenuClick }: HeaderProps) {
   }, [accessToken]);
 
   return (
-    <header className="w-full glass  --palette-text-primary  sticky top-0 z-50 ">
+    <header
+      className={cn(
+        "w-full glass  --palette-text-primary  sticky top-0 z-50",
+        theme === "light" &&
+          "backdrop-blur-[10px]! bg-linear-to-br! from-white/25! to-white/5! border-b! border-[rgb(205_192_192/0.4)]! shadow-[0_8px_32px_rgba(0,0,0,0.2)]!",
+      )}
+    >
       <div className="max-w-[1600px] mx-auto px-2 h-12 flex items-center justify-between">
         {/* 👇 Left: Hamburger & Logo */}
         <div className="flex items-center gap-3 md:gap-4">
@@ -120,12 +127,12 @@ export default function Header({ onMenuClick }: HeaderProps) {
           </Link> */}
         </nav>
 
-        <div className="flex items-center gap-2 sm:gap-[6px]">
+        <div className="flex items-center gap-2 sm:gap-[6px] ">
           <ThemeToggle />
 
           <Link
             href="/login"
-            className="text-sm leading-[1.71429] [text-transform:unset] min-w-16 py-[5px] px-3 flex justify-center items-center text-sm border-1 border-[#919eab52] rounded-[8px] --palette-text-primary  rounded-lg  hover:bg-[rgba(145,158,171,0.08)]   font-bold transition-all duration-300 mr-1"
+            className="text-sm leading-[1.71429] glass-btn [text-transform:unset] min-w-16 py-[5px] px-3 flex justify-center items-center text-sm border-1 border-[#919eab52] rounded-[8px] --palette-text-primary  rounded-lg  hover:bg-[rgba(145,158,171,0.08)]   font-bold transition-all duration-300 mr-1"
           >
             Login
           </Link>
