@@ -53,6 +53,8 @@ export default function SingleMarket() {
           ? "w-[75%]"
           : "w-[57.5px]";
         const oddsRowLabelWidthClass = isCompactLayout ? "" : "w-[119px] mx-auto";
+        const hasCenterBackPrice = !!runner2?.ex?.availableToBack?.[0]?.price;
+        const hasCenterLayPrice = !!runner2?.ex?.availableToLay?.[0]?.price;
 
         const rightRunner = runner1;
         const rightRunnerName = event.runnersName?.[1]?.runnerName;
@@ -235,7 +237,7 @@ export default function SingleMarket() {
                         })
                       }
                     >
-                      <span className="block whitespace-nowrap font-bold text-[13px] text-[#03B2FF] leading-[1.1]">
+                      <span className="block whitespace-nowrap font-bold text-[16px] text-[#03B2FF] leading-[1.1]">
                         {runner0?.ex?.availableToBack?.[0]?.price ?? "-"}
                       </span>
                       <span className="block whitespace-nowrap font-normal text-[10px] text-[#60a5fa] leading-[1]">
@@ -257,7 +259,7 @@ export default function SingleMarket() {
                         })
                       }
                     >
-                      <span className="block whitespace-nowrap font-bold text-[13px] text-[#FF7A7F] leading-[1.1]">
+                      <span className="block whitespace-nowrap font-bold text-[16px] text-[#FF7A7F] leading-[1.1]">
                         {runner0?.ex?.availableToLay?.[0]?.price ?? "-"}
                       </span>
                       <span className="block whitespace-nowrap font-normal text-[10px] text-[#FF7A7F] leading-[1]">
@@ -280,7 +282,9 @@ export default function SingleMarket() {
                     <div
                       className={`${oddsBoxWidthClass} h-[45px] rounded-[8px] border-[1px] flex flex-col justify-center items-center select-none transition-all ${
                         hasThreeRunners
-                          ? "border-blue-50 bg-[#0c2137]/60 hover:bg-[#0c2137]/80 cursor-pointer"
+                          ? hasCenterBackPrice
+                            ? "border-[#03B2FF] bg-[#0c2137]/60 hover:bg-[#0c2137]/80 cursor-pointer"
+                            : "border-blue-50 bg-[#0c2137]/60 hover:bg-[#0c2137]/80 cursor-pointer"
                           : "border-blue-50/50 bg-[#0c2137]/20 cursor-default"
                       }`}
                       onClick={() =>
@@ -295,14 +299,26 @@ export default function SingleMarket() {
                       }
                     >
                       <span
-                        className={`block whitespace-nowrap font-bold text-[13px] leading-[1.1] ${hasThreeRunners ? "text-blue-50" : "text-blue-50/50"}`}
+                        className={`block whitespace-nowrap font-bold text-[16px] leading-[1.1] ${
+                          hasThreeRunners
+                            ? hasCenterBackPrice
+                              ? "text-[#03B2FF]"
+                              : "text-blue-50"
+                            : "text-blue-50/50"
+                        }`}
                       >
                         {hasThreeRunners
                           ? (runner2?.ex?.availableToBack?.[0]?.price ?? "-")
                           : ""}
                       </span>
                       <span
-                        className={`block whitespace-nowrap font-normal text-[10px] leading-[1] ${hasThreeRunners ? "text-[#03B2FF]" : "text-[#60a5fa]/50"}`}
+                        className={`block whitespace-nowrap font-normal text-[10px] leading-[1] ${
+                          hasThreeRunners
+                            ? hasCenterBackPrice
+                              ? "text-[#60a5fa]"
+                              : "text-[#03B2FF]"
+                            : "text-[#60a5fa]/50"
+                        }`}
                       >
                         {hasThreeRunners
                           ? (shortNumber(
@@ -316,7 +332,9 @@ export default function SingleMarket() {
                     <div
                       className={`${oddsBoxWidthClass} h-[45px] rounded-[8px] border-[1px] flex flex-col justify-center items-center select-none transition-all ${
                         hasThreeRunners
-                          ? "border-[#FF7A7F] bg-[#2a0c13]/60 hover:bg-[#2a0c13]/80 cursor-pointer"
+                          ? hasCenterLayPrice
+                            ? "border-[#FF7A7F] bg-[#2a0c13]/60 hover:bg-[#2a0c13]/80 cursor-pointer"
+                            : "border-[#FF7A7F] bg-[#2a0c13]/60 hover:bg-[#2a0c13]/80 cursor-pointer"
                           : "border-[#FF7A7F]/50 bg-[#2a0c13]/20 cursor-default"
                       }`}
                       onClick={() =>
@@ -331,14 +349,26 @@ export default function SingleMarket() {
                       }
                     >
                       <span
-                        className={`block whitespace-nowrap font-bold text-[13px] leading-[1.1] ${hasThreeRunners ? "text-[#FF7A7F]" : "text-[#FF7A7F]/50"}`}
+                        className={`block whitespace-nowrap font-bold text-[13px] leading-[1.1] ${
+                          hasThreeRunners
+                            ? hasCenterLayPrice
+                              ? "text-[#FF7A7F]"
+                              : "text-[#FF7A7F]"
+                            : "text-[#FF7A7F]/50"
+                        }`}
                       >
                         {hasThreeRunners
                           ? (runner2?.ex?.availableToLay?.[0]?.price ?? "-")
                           : ""}
                       </span>
                       <span
-                        className={`block whitespace-nowrap font-normal text-[10px] leading-[1] ${hasThreeRunners ? "text-[#FF7A7F]" : "text-[#FF7A7F]/50"}`}
+                        className={`block whitespace-nowrap font-normal text-[10px] leading-[1] ${
+                          hasThreeRunners
+                            ? hasCenterLayPrice
+                              ? "text-[#FF7A7F]"
+                              : "text-[#FF7A7F]"
+                            : "text-[#FF7A7F]/50"
+                        }`}
                       >
                         {hasThreeRunners
                           ? (shortNumber(
@@ -371,7 +401,7 @@ export default function SingleMarket() {
                         })
                       }
                     >
-                      <span className="block whitespace-nowrap font-bold text-[13px] text-[#03B2FF] leading-[1.1]">
+                      <span className="block whitespace-nowrap font-bold text-[16px] text-[#03B2FF] leading-[1.1]">
                         {rightRunner?.ex?.availableToBack?.[0]?.price ?? "-"}
                       </span>
                       <span className="block whitespace-nowrap font-normal text-[10px] text-[#60a5fa] leading-[1]">
@@ -394,7 +424,7 @@ export default function SingleMarket() {
                         })
                       }
                     >
-                      <span className="block whitespace-nowrap font-bold text-[13px] text-[#FF7A7F] leading-[1.1]">
+                      <span className="block whitespace-nowrap font-bold text-[16px] text-[#FF7A7F] leading-[1.1]">
                         {rightRunner?.ex?.availableToLay?.[0]?.price ?? "-"}
                       </span>
                       <span className="block whitespace-nowrap font-normal text-[10px] text-[#FF7A7F] leading-[1]">
