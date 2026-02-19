@@ -191,15 +191,12 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
   };
   const mainRef = useRef<HTMLDivElement | null>(null);
 
-     const setMainWidthStore = useLayoutWidthStore(
-  (state) => state.setMainWidth
-);
+  const setMainWidthStore = useLayoutWidthStore((state) => state.setMainWidth);
   useEffect(() => {
-  if (mainWidth > 0 && !isMobile) {
-    setMainWidthStore(mainWidth);
-  }
-}, [mainWidth, isMobile]);
-
+    if (mainWidth > 0 && !isMobile) {
+      setMainWidthStore(mainWidth);
+    }
+  }, [mainWidth, isMobile]);
 
   const onDrag = (e: React.PointerEvent) => {
     if (!draggingRef.current || isMobile) return;
@@ -236,7 +233,7 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
         <div
           className={cn(
             "w-full min-h-screen",
-            loginModal && "overflow-hidden!",
+            (loginModal || isMobileSidebarOpen) && "overflow-hidden!",
           )}
         >
           <div className="w-full fixed top-0 z-50">
@@ -261,7 +258,7 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
           />
 
           <aside
-            className={`fixed top-0 sidebar-container left-0 z-[70] h-screen w-[288px] max-w-[85vw] bg-[var(--background)] overflow-y-auto no-scrollbar transition-transform duration-300 ease-in-out ${
+            className={`fixed drawer top-0 sidebar-container left-0 z-[70] h-screen w-[288px] max-w-[85vw] bg-[var(--background)] overflow-y-auto no-scrollbar transition-transform duration-300 ease-in-out ${
               isMobileSidebarOpen ? "translate-x-0" : "-translate-x-full"
             }`}
           >
