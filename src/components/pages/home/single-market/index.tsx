@@ -49,10 +49,10 @@ export default function SingleMarket() {
         const runner2 = event.runners?.[2]; // Draw   → CENTER
         const hasThreeRunners = event.runners?.length === 3;
         const isCricket = event.eventType?.name?.toLowerCase() === "cricket";
-        const oddsBoxWidthClass = isCompactLayout
-          ? "w-[75%]"
-          : "w-[57.5px]";
-        const oddsRowLabelWidthClass = isCompactLayout ? "" : "w-[119px] mx-auto";
+        const oddsBoxWidthClass = isCompactLayout ? "w-[75%]" : "w-[57.5px]";
+        const oddsRowLabelWidthClass = isCompactLayout
+          ? ""
+          : "w-[119px] mx-auto";
         const hasCenterBackPrice = !!runner2?.ex?.availableToBack?.[0]?.price;
         const hasCenterLayPrice = !!runner2?.ex?.availableToLay?.[0]?.price;
 
@@ -192,11 +192,10 @@ export default function SingleMarket() {
                     <Icon name="watch" className="w-4 h-4" />
                   </div>
 
-              
                   <div>
-                    <p className="m-0 font-sans whitespace-nowrap text-[#919eab] text-[10px] font-bold uppercase leading-4 truncate overflow-hidden">
+                    <p className="m-0 font-sans whitespace-nowrap dark:text-white text-black text-[10px] font-bold uppercase leading-4 truncate overflow-hidden">
                       Traded:{" "}
-                      <span className="text-[10px] font-bold dark:text-white text-black leading-[1rem]">
+                      <span className="text-[10px] font-bold  leading-[1rem]">
                         {/* 👇 Yahan direct value pass kardi hai, ab ye khud smoothly animate hoga */}
                         <AnimatedNumber
                           value={event.totalMatched}
@@ -226,7 +225,7 @@ export default function SingleMarket() {
                   <div className="flex gap-1">
                     {/* BACK BUTTON (LEFT) */}
                     <div
-                      className={`${oddsBoxWidthClass} h-[45px] rounded-[8px] border-[1px] border-[#03B2FF] bg-[#0c2137]/60 hover:bg-[#0c2137]/80 flex flex-col justify-center items-center cursor-pointer select-none transition-all`}
+                      className={`${oddsBoxWidthClass} h-[45px] rounded-[8px] dark:border-[1px] bg-[#48c5fc] dark:border-[#03B2FF] dark:bg-[#0c2137]/60 dark:hover:bg-[#0c2137]/80 flex flex-col justify-center items-center cursor-pointer select-none transition-all`}
                       onClick={() =>
                         setSelectedBet({
                           type: "back",
@@ -237,10 +236,10 @@ export default function SingleMarket() {
                         })
                       }
                     >
-                      <span className="block whitespace-nowrap font-bold text-[16px] text-[#03B2FF] leading-[1.1]">
+                      <span className="block whitespace-nowrap font-bold text-[16px] text-black dark:text-[#03B2FF] leading-[1.1]">
                         {runner0?.ex?.availableToBack?.[0]?.price ?? "-"}
                       </span>
-                      <span className="block whitespace-nowrap font-normal text-[10px] text-[#60a5fa] leading-[1]">
+                      <span className="block whitespace-nowrap font-normal text-[10px] text-black dark:text-[#60a5fa] leading-[1]">
                         {shortNumber(runner0?.ex?.availableToBack?.[0]?.size) ??
                           ""}
                       </span>
@@ -248,7 +247,7 @@ export default function SingleMarket() {
 
                     {/* LAY BUTTON (LEFT) */}
                     <div
-                      className={`${oddsBoxWidthClass} h-[45px] rounded-[8px] border-[1px] border-[#FF7A7F] bg-[#2a0c13]/60 hover:bg-[#2a0c13]/80 flex flex-col justify-center items-center cursor-pointer select-none transition-all`}
+                      className={`${oddsBoxWidthClass} h-[45px] rounded-[8px] dark:border-[1px] bg-[#fb9ea2] dark:border-[#FF7A7F] dark:bg-[#2a0c13]/60 dark:hover:bg-[#2a0c13]/80 flex flex-col justify-center items-center cursor-pointer select-none transition-all`}
                       onClick={() =>
                         setSelectedBet({
                           type: "lay",
@@ -259,10 +258,10 @@ export default function SingleMarket() {
                         })
                       }
                     >
-                      <span className="block whitespace-nowrap font-bold text-[16px] text-[#FF7A7F] leading-[1.1]">
+                      <span className="block whitespace-nowrap font-bold text-[16px] text-black dark:text-[#FF7A7F] leading-[1.1]">
                         {runner0?.ex?.availableToLay?.[0]?.price ?? "-"}
                       </span>
-                      <span className="block whitespace-nowrap font-normal text-[10px] text-[#FF7A7F] leading-[1]">
+                      <span className="block whitespace-nowrap font-normal text-[10px] text-black dark:text-[#FF7A7F] leading-[1]">
                         {shortNumber(runner0?.ex?.availableToLay?.[0]?.size) ??
                           ""}
                       </span>
@@ -283,9 +282,9 @@ export default function SingleMarket() {
                       className={`${oddsBoxWidthClass} h-[45px] rounded-[8px] border-[1px] flex flex-col justify-center items-center select-none transition-all ${
                         hasThreeRunners
                           ? hasCenterBackPrice
-                            ? "border-[#03B2FF] bg-[#0c2137]/60 hover:bg-[#0c2137]/80 cursor-pointer"
-                            : "border-blue-50 bg-[#0c2137]/60 hover:bg-[#0c2137]/80 cursor-pointer"
-                          : "border-blue-50/50 bg-[#0c2137]/20 cursor-default"
+                            ? "dark:border-[#03B2FF] bg-[#48c5fc] dark:bg-[#0c2137]/60 dark:hover:bg-[#0c2137]/80 cursor-pointer"
+                            : "dark:border-blue-50 dark:bg-[#0c2137]/60 dark:hover:bg-[#0c2137]/80 cursor-pointer"
+                          : "dark:border-blue-50/50 bg-[#b4e2f8] dark:bg-[#0c2137]/20 cursor-default"
                       }`}
                       onClick={() =>
                         hasThreeRunners &&
@@ -302,9 +301,9 @@ export default function SingleMarket() {
                         className={`block whitespace-nowrap font-bold text-[16px] leading-[1.1] ${
                           hasThreeRunners
                             ? hasCenterBackPrice
-                              ? "text-[#03B2FF]"
-                              : "text-blue-50"
-                            : "text-blue-50/50"
+                              ? "text-black dark:text-[#03B2FF]"
+                              : "text-black dark:text-blue-50"
+                            : "text-black dark:text-blue-50/50"
                         }`}
                       >
                         {hasThreeRunners
@@ -315,9 +314,9 @@ export default function SingleMarket() {
                         className={`block whitespace-nowrap font-normal text-[10px] leading-[1] ${
                           hasThreeRunners
                             ? hasCenterBackPrice
-                              ? "text-[#60a5fa]"
-                              : "text-[#03B2FF]"
-                            : "text-[#60a5fa]/50"
+                              ? "text-black dark:text-[#60a5fa]"
+                              : "text-black dark:text-[#03B2FF]"
+                            : "text-black dark:text-[#60a5fa]/50"
                         }`}
                       >
                         {hasThreeRunners
@@ -333,9 +332,9 @@ export default function SingleMarket() {
                       className={`${oddsBoxWidthClass} h-[45px] rounded-[8px] border-[1px] flex flex-col justify-center items-center select-none transition-all ${
                         hasThreeRunners
                           ? hasCenterLayPrice
-                            ? "border-[#FF7A7F] bg-[#2a0c13]/60 hover:bg-[#2a0c13]/80 cursor-pointer"
-                            : "border-[#FF7A7F] bg-[#2a0c13]/60 hover:bg-[#2a0c13]/80 cursor-pointer"
-                          : "border-[#FF7A7F]/50 bg-[#2a0c13]/20 cursor-default"
+                            ? "dark:border-[#FF7A7F] bg-[#fb9ea2] dark:bg-[#2a0c13]/60 dark:hover:bg-[#2a0c13]/80 cursor-pointer"
+                            : "dark:border-[#FF7A7F] bg-[#f4d4d8] dark:bg-[#2a0c13]/60 dark:hover:bg-[#2a0c13]/80 cursor-pointer"
+                          : "dark:border-[#FF7A7F]/50 bg-[#f4d4d8] dark:bg-[#2a0c13]/20 cursor-default"
                       }`}
                       onClick={() =>
                         hasThreeRunners &&
@@ -352,9 +351,9 @@ export default function SingleMarket() {
                         className={`block whitespace-nowrap font-bold text-[13px] leading-[1.1] ${
                           hasThreeRunners
                             ? hasCenterLayPrice
-                              ? "text-[#FF7A7F]"
-                              : "text-[#FF7A7F]"
-                            : "text-[#FF7A7F]/50"
+                              ? "text-black dark:text-[#FF7A7F]"
+                              : "text-black dark:text-[#FF7A7F]"
+                            : "text-black dark:text-[#FF7A7F]/50"
                         }`}
                       >
                         {hasThreeRunners
@@ -365,9 +364,9 @@ export default function SingleMarket() {
                         className={`block whitespace-nowrap font-normal text-[10px] leading-[1] ${
                           hasThreeRunners
                             ? hasCenterLayPrice
-                              ? "text-[#FF7A7F]"
-                              : "text-[#FF7A7F]"
-                            : "text-[#FF7A7F]/50"
+                              ? "text-black dark:text-[#FF7A7F]"
+                              : "text-black dark:text-[#FF7A7F]"
+                            : "text-black dark:text-[#FF7A7F]/50"
                         }`}
                       >
                         {hasThreeRunners
@@ -390,7 +389,7 @@ export default function SingleMarket() {
                   <div className="flex gap-1">
                     {/* BACK BUTTON (RIGHT) */}
                     <div
-                      className={`${oddsBoxWidthClass} h-[45px] rounded-[8px] border-[1px] border-[#03B2FF] bg-[#0c2137]/60 hover:bg-[#0c2137]/80 flex flex-col justify-center items-center cursor-pointer select-none transition-all`}
+                      className={`${oddsBoxWidthClass} h-[45px] rounded-[8px] dark:border-[1px] bg-[#48c5fc] dark:border-[#03B2FF] dark:bg-[#0c2137]/60 dark:hover:bg-[#0c2137]/80 flex flex-col justify-center items-center cursor-pointer select-none transition-all`}
                       onClick={() =>
                         setSelectedBet({
                           type: "back",
@@ -401,10 +400,10 @@ export default function SingleMarket() {
                         })
                       }
                     >
-                      <span className="block whitespace-nowrap font-bold text-[16px] text-[#03B2FF] leading-[1.1]">
+                      <span className="block whitespace-nowrap font-bold text-[16px] text-black dark:text-[#03B2FF] leading-[1.1]">
                         {rightRunner?.ex?.availableToBack?.[0]?.price ?? "-"}
                       </span>
-                      <span className="block whitespace-nowrap font-normal text-[10px] text-[#60a5fa] leading-[1]">
+                      <span className="block whitespace-nowrap font-normal text-[10px] text-black dark:text-[#60a5fa] leading-[1]">
                         {shortNumber(
                           rightRunner?.ex?.availableToBack?.[0]?.size,
                         ) ?? ""}
@@ -413,7 +412,7 @@ export default function SingleMarket() {
 
                     {/* LAY BUTTON (RIGHT) */}
                     <div
-                      className={`${oddsBoxWidthClass} h-[45px] rounded-[8px] border-[1px] border-[#FF7A7F] bg-[#2a0c13]/60 hover:bg-[#2a0c13]/80 flex flex-col justify-center items-center cursor-pointer select-none transition-all`}
+                      className={`${oddsBoxWidthClass} h-[45px] rounded-[8px] dark:border-[1px] bg-[#fb9ea2] dark:border-[#FF7A7F] dark:bg-[#2a0c13]/60 dark:hover:bg-[#2a0c13]/80 flex flex-col justify-center items-center cursor-pointer select-none transition-all`}
                       onClick={() =>
                         setSelectedBet({
                           type: "lay",
@@ -424,10 +423,10 @@ export default function SingleMarket() {
                         })
                       }
                     >
-                      <span className="block whitespace-nowrap font-bold text-[16px] text-[#FF7A7F] leading-[1.1]">
+                      <span className="block whitespace-nowrap font-bold text-[16px] text-black dark:text-[#FF7A7F] leading-[1.1]">
                         {rightRunner?.ex?.availableToLay?.[0]?.price ?? "-"}
                       </span>
-                      <span className="block whitespace-nowrap font-normal text-[10px] text-[#FF7A7F] leading-[1]">
+                      <span className="block whitespace-nowrap font-normal text-[10px] text-black dark:text-[#FF7A7F] leading-[1]">
                         {shortNumber(
                           rightRunner?.ex?.availableToLay?.[0]?.size,
                         ) ?? ""}
