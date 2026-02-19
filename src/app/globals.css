@@ -4,7 +4,7 @@
 @import "nprogress/nprogress.css";
 
 :root {
-  --background: #F4F6F8;
+  --background: #f4f6f8;
   --foreground: #171717;
   --palette-common-black: #000000;
   --text-primary-hover: black;
@@ -320,10 +320,9 @@
   --customShadows-error: 0 8px 16px 0 rgba(255 86 48 / 24%);
   --nav-item-root-active-bg: rgba(7 141 238 / 8%);
   --nav-item-root-active-color: #078dee;
-  --head-hover: #FFF;
+  --head-hover: #fff;
   --dropdownBg: #fff;
-  --dropdowntext: #919EAB;
-  
+  --dropdowntext: #919eab;
 
   --IconButton-hoverBg: rgba(
     var(--palette-action-activeChannel) /
@@ -637,9 +636,9 @@
   --opacity-switchTrack: 0.3;
   --nav-item-root-active-bg: rgba(7 141 238 / 8%);
   --nav-item-root-active-color: #68cdf9;
-  --head-hover: #1D242B;
+  --head-hover: #1d242b;
   --dropdownBg: #1c252e;
-  --dropdowntext: #919EAB;
+  --dropdowntext: #919eab;
 
   --IconButton-hoverBg: rgba(
     var(--palette-action-activeChannel) /
@@ -1176,7 +1175,7 @@ body:has(.drawer) {
   }
 }
 
-.glass-active{
+.glass-active {
   backdrop-filter: blur(4px);
   background: linear-gradient(
     145deg,
@@ -1190,7 +1189,6 @@ body:has(.drawer) {
   border-radius: 8px;
 }
 
-
 .skiptranslate {
   display: none !important;
   position: relative;
@@ -1202,12 +1200,93 @@ body:has(.drawer) {
 
 .arrow {
   position: absolute;
-  top: -6px; 
-  left: 50%; 
+  top: -6px;
+  left: 50%;
   transform: translateX(-50%);
   width: 0;
   height: 0;
   border-left: 6px solid transparent;
   border-right: 6px solid transparent;
-  border-bottom: 6px solid rgba(var(--palette-background-paperChannel)/90%); 
+  border-bottom: 6px solid rgba(var(--palette-background-paperChannel) / 90%);
+}
+
+.neon-underline {
+  --underline-width: 75%;
+  --side-color: #107fe7;
+  --middle-color: #68cdf9;
+
+  position: absolute;
+  width: 100%;
+  z-index: 999999;
+  height: auto;
+}
+
+/* shared alignment */
+.neon-glow,
+.neon-line {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 0;
+}
+
+/* ---------- IMPORTANT FIX ---------- */
+/* place glow ABOVE line */
+.neon-line {
+  top: 6px;
+}
+
+.neon-glow {
+  top: 3px; /* slightly above */
+  filter: blur(6px);
+}
+
+/* =========================
+   OUTER LINE
+========================= */
+.glow-main {
+  width: var(--underline-width);
+  height: 3px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--side-color),
+    transparent
+  );
+}
+
+.line-main {
+  width: var(--underline-width);
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--side-color),
+    transparent
+  );
+}
+
+/* =========================
+   CENTER HIGHLIGHT
+========================= */
+.glow-center {
+  width: calc(var(--underline-width) / 3);
+  height: 6px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--middle-color),
+    transparent
+  );
+}
+
+.line-center {
+  width: calc(var(--underline-width) / 3);
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    var(--middle-color),
+    transparent
+  );
 }

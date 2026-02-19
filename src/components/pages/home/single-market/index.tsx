@@ -190,15 +190,7 @@ export default function SingleMarket() {
                     <Icon name="watch" className="w-4 h-4" />
                   </div>
 
-                  <div>
-                    <p className="m-0 font-sans whitespace-nowrap text-[#919eab] text-[10px] font-bold uppercase leading-4 truncate overflow-hidden whitespace-nowrap">
-                      Traded:{" "}
-                      <span className="text-[10px] font-bold text-[#ffab00] leading-[1rem]">
-                        {event.totalMatched?.toLocaleString()}
-                      </span>
-                    </p>
-                  </div>
-
+              
                   <div>
                     <p className="m-0 font-sans whitespace-nowrap text-[#919eab] text-[10px] font-bold uppercase leading-4 truncate overflow-hidden">
                       Traded:{" "}
@@ -379,7 +371,7 @@ export default function SingleMarket() {
                         })
                       }
                     >
-                      <span className="block whitespace-nowrap font-bold text-[12px] text-[#03B2FF] leading-[1.1]">
+                      <span className="block whitespace-nowrap font-bold text-[13px] text-[#03B2FF] leading-[1.1]">
                         {rightRunner?.ex?.availableToBack?.[0]?.price ?? "-"}
                       </span>
                       <span className="block whitespace-nowrap font-normal text-[10px] text-[#60a5fa] leading-[1]">

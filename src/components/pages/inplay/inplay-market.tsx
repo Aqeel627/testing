@@ -100,34 +100,30 @@ const InplayMarket = ({ events }: { events: any }) => {
                           `flex justify-center items-center`,
                         )}
                       >
-                        <div className="w-[7px] h-[7px] bg-[#078dee] rounded-full"></div>
+                        <div className="w-[7px] h-[7px] bg-[#508d0e] rounded-full"></div>
                       </div>
                       <p className="m-0 font-sans truncate whitespace-nowrap text-[10px] text-[#078dee] font-bold leading-4">
                         {event.inplay
                           ? "In-Play"
                           : new Date(event.marketStartTime).toLocaleDateString(
-                            "en-GB",
-                            {
-                              day: "2-digit",
-                              month: "2-digit",
-                              year: "numeric",
-                              hour: "2-digit",
-                              minute: "2-digit",
-                            },
-                          )}
+                              "en-GB",
+                              {
+                                day: "2-digit",
+                                month: "2-digit",
+                                year: "numeric",
+                                hour: "2-digit",
+                                minute: "2-digit",
+                              },
+                            )}
                       </p>
                     </div>
                   </div>
 
-                  <div>
+                  {/* <div>
                     <p className="m-0 font-sans whitespace-nowrap truncate text-[10px] text-[#919eab] font-bold leading-4">
                       {event.marketType}
                     </p>
-                  </div>
-
-                  <div className="w-4 h-4 pb-0.5">
-                    <Icon name="watch" className="w-4 h-4" />
-                  </div>
+                  </div> */}
 
                   <div className="flex items-center gap-1 text-black">
                     <div className="bg-[#FFAB00] h-3.5 w-3.5 inline-flex justify-center items-center rounded-[4px] text-[13px] max-w-full">
@@ -142,11 +138,18 @@ const InplayMarket = ({ events }: { events: any }) => {
                     </div>
                   </div>
 
+                  <div className="w-4 h-4 pb-0.5">
+                    <Icon name="watch" className="w-4 h-4" />
+                  </div>
+
                   <div>
                     <p className="m-0 font-sans whitespace-nowrap text-[#919eab] text-[10px] font-bold uppercase leading-4 truncate overflow-hidden">
                       Traded:{" "}
                       <span className="text-[10px] font-bold text-[#ffab00] leading-4">
-                        <AnimatedNumber value={event.totalMatched} inplay={event.inplay} />
+                        <AnimatedNumber
+                          value={event.totalMatched}
+                          inplay={event.inplay}
+                        />
                       </span>
                     </p>
                   </div>
@@ -231,8 +234,8 @@ const InplayMarket = ({ events }: { events: any }) => {
                       <span className="block whitespace-nowrap font-semibold text-[0.8rem] text-center">
                         {hasThreeRunners
                           ? (shortNumber(
-                            runner2?.ex?.availableToBack?.[0]?.size,
-                          ) ?? "")
+                              runner2?.ex?.availableToBack?.[0]?.size,
+                            ) ?? "")
                           : ""}
                       </span>
                     </div>
@@ -257,8 +260,8 @@ const InplayMarket = ({ events }: { events: any }) => {
                       <span className="block whitespace-nowrap font-semibold text-[0.8rem] text-center">
                         {hasThreeRunners
                           ? (shortNumber(
-                            runner2?.ex?.availableToLay?.[0]?.size,
-                          ) ?? "")
+                              runner2?.ex?.availableToLay?.[0]?.size,
+                            ) ?? "")
                           : ""}
                       </span>
                     </div>
