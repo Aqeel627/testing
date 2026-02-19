@@ -122,7 +122,7 @@ export default function Footer() {
                 <span className="text-[14px] text-[#098DEE]">
                   ALSI-202510012-FI1
                 </span>
-                <span className="text-[14px] ">
+                <span>
                   . In order to register for this website, the user is required
                   to accept the General Terms and Conditions. In the event the
                   General Terms and Conditions are updated, existing users may
