@@ -233,7 +233,7 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
         <div
           className={cn(
             "w-full min-h-screen",
-            (loginModal || isMobileSidebarOpen) && "overflow-hidden!",
+            loginModal  && "overflow-hidden!",
           )}
         >
           <div className="w-full fixed top-0 z-50">
