@@ -131,12 +131,12 @@
   user-select: none;
 }
 
-.linkActive{
+.linkActive {
   background-color: var(--nav-item-root-active-bg);
   color: var(--nav-item-root-active-color) !important;
 }
 
-.linkActive:hover{
+.linkActive:hover {
   background-color: rgba(7 141 238 / 16%) !important;
 }
 
@@ -227,7 +227,6 @@
 .sportDropdown {
   overflow: hidden;
   will-change: height, opacity;
-
 }
 
 .navItemWrapper {
@@ -244,13 +243,31 @@
   width: 2px;
   content: "";
   position: absolute;
-  background-color: #282f37;
+  background-color: var(--nav-bullet-light-color);
   bottom: calc(36px - 2px - 12px / 2);
 }
 
 .navItemLi {
   /* margin-top: 4px; */
   display: inline-block;
+  position: relative;
+  overflow: visible;
+}
+
+.navItemLi::before {
+  left: 0px;
+
+  content: "";
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background-color: var(--nav-bullet-light-color);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2714%27 height=%2714%27 fill=%27none%27 viewBox=%270 0 14 14%27%3E%3Cpath d=%27M1 1v4a8 8 0 0 0 8 8h4%27 stroke=%27%23efefef%27 stroke-width=%272%27 stroke-linecap=%27round%27/%3E%3C/svg%3E")
+    50% 50% / 100% no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2714%27 height=%2714%27 fill=%27none%27 viewBox=%270 0 14 14%27%3E%3Cpath d=%27M1 1v4a8 8 0 0 0 8 8h4%27 stroke=%27%23efefef%27 stroke-width=%272%27 stroke-linecap=%27round%27/%3E%3C/svg%3E")
+    50% 50% / 100% no-repeat;
+  transform: translate(calc(12px * -1), calc(5px * 0.9));
+  pointer-events: none;
 }
 
 .navLink {
@@ -279,17 +296,7 @@
 }
 
 .navLink::before {
-  left: 0px;
-  content: "";
-  position: absolute;
-  width: 12px;
-  height: 12px;
-  background-color: #282f37;
-  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2714%27 height=%2714%27 fill=%27none%27 viewBox=%270 0 14 14%27%3E%3Cpath d=%27M1 1v4a8 8 0 0 0 8 8h4%27 stroke=%27%23efefef%27 stroke-width=%272%27 stroke-linecap=%27round%27/%3E%3C/svg%3E")
-    50% 50% / 100% no-repeat;
-  mask: url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2714%27 height=%2714%27 fill=%27none%27 viewBox=%270 0 14 14%27%3E%3Cpath d=%27M1 1v4a8 8 0 0 0 8 8h4%27 stroke=%27%23efefef%27 stroke-width=%272%27 stroke-linecap=%27round%27/%3E%3C/svg%3E")
-    50% 50% / 100% no-repeat;
-  transform: translate(calc(12px * -1), calc(12px * -0.4));
+  content: none;
 }
 
 .navItemText {
@@ -414,10 +421,9 @@
   display: inline-flex;
 }
 
-
 .activeSubItem {
-  background-color: rgba(255, 255, 255, 0.08); 
-  border-radius: 6px;                          
+  background-color: rgba(255, 255, 255, 0.08);
+  border-radius: 6px;
   font-weight: 500;
   color: --palette-text-primary;
   margin-top: 4px;
@@ -425,10 +431,8 @@
 }
 
 .activeSubItem:hover {
-  background-color: rgba(255, 255, 255, 0.12); 
+  background-color: rgba(255, 255, 255, 0.12);
 }
-
-
 
 .linkActive {
   position: relative;
@@ -438,27 +442,27 @@
 .link,
 .navLink {
   position: relative;
-  overflow: hidden; /* Taake ripple container se bahar na dikhe */
+  overflow: hidden;
 }
 .link::after,
 .navLink::after {
   content: "";
   position: absolute;
-  
+
   /* Mouse position variables from JS */
   left: var(--x, 50%);
   top: var(--y, 50%);
-  
+
   /* Circle size */
   width: 20px;
   height: 20px;
   background: rgba(145, 158, 171, 0.4);
   border-radius: 50%;
-  
+
   /* 1. Start State: Chota dot aur invisible */
   transform: translate(-50%, -50%) scale(0);
   opacity: 0;
-  
+
   /* Release hone par wapas chota hone ki animation (smooth exit) */
   pointer-events: none;
 }
@@ -469,9 +473,11 @@
   /* Expand hokar bada ho jaye */
   transform: translate(-50%, -50%) scale(20);
   opacity: 1;
-  
+
   /* Expansion ki speed yahan se control hogi (0.4s mein bada hoga) */
-  transition: transform 0.2s ease-out, opacity 0.1s ease-out;
+  transition:
+    transform 0.2s ease-out,
+    opacity 0.1s ease-out;
 }
 .linkActive .linkText {
   font-weight: 600;

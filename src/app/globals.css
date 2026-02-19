@@ -318,6 +318,7 @@
   --customShadows-error: 0 8px 16px 0 rgba(255 86 48 / 24%);
   --nav-item-root-active-bg: rgba(7 141 238 / 8%);
   --nav-item-root-active-color: #078dee;
+  --nav-bullet-light-color: #edeff2;
   --head-hover: #fff;
   --dropdownBg: #fff;
   --dropdowntext: #919eab;
@@ -446,6 +447,7 @@
   --palette-grey-A200: #eeeeee;
   --palette-grey-A400: #bdbdbd;
   --palette-grey-A700: #616161;
+  --nav-bullet-light-color: #282F37;
   --palette-divider: rgba(145 158 171 / 20%);
   --palette-text-primary: #ffffff;
   --palette-text-secondary: #919eab;

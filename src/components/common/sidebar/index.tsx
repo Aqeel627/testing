@@ -80,7 +80,7 @@ interface QuickLinkItemProps {
 const handleRipple = (e: React.MouseEvent<HTMLElement>) => {
   const rect = e.currentTarget.getBoundingClientRect();
   const x = e.clientX - rect.left; // Mouse X position inside element
-  const y = e.clientY - rect.top;  // Mouse Y position inside element
+  const y = e.clientY - rect.top; // Mouse Y position inside element
 
   // Ye dono values hum CSS variables (--x, --y) mein set kar rahe hain
   e.currentTarget.style.setProperty("--x", `${x}px`);
@@ -143,7 +143,7 @@ const ThirdItemComponent = ({
       <Link
         href={item.href || "#"}
         onMouseDown={handleRipple} // <-- Ye line add karein
-        className={cn(styles.navLink, isActive && styles.activeSubItem)}
+        className={`${styles.navLink}${isActive ? ` ${styles.activeSubItem}` : ""}`}
         onClick={() => {
           onActivate();
           closeSidebar(); // navigate to market-details → close sidebar
@@ -292,9 +292,7 @@ const SportItemComponent = ({
         <span className={styles.linkIconWrap}>
           <span
             className={styles.sportImage}
-            style={
-              { "--sport-icon": `url(${sport.iconUrl})` } as CSSProperties
-            }
+            style={{ "--sport-icon": `url(${sport.iconUrl})` } as CSSProperties}
           />
         </span>
         <span className={styles.linkText}>{sport.name}</span>
@@ -355,13 +353,14 @@ export default function Sidebar({ config }: SidebarProps) {
   const [isQuickLinksOpen, setIsQuickLinksOpen] = useState(true);
   const [isSportsOpen, setIsSportsOpen] = useState(true);
   const [openSportIndex, setOpenSportIndex] = useState<number | null>(null);
-  const [openTournamentKey, setOpenTournamentKey] = useState<string | null>(null);
+  const [openTournamentKey, setOpenTournamentKey] = useState<string | null>(
+    null,
+  );
   const { inplayEvents, menuList } = useAppStore();
   const toggleSearch = useUIStore((s) => s.toggleSearch);
   const closeSidebar = useUIStore((s) => s.closeSidebar);
 
   const [active, setActive] = useState<ActiveState>({ type: null });
-
 
   // 👇 NAYA EVENT LISTENER 👇
   useEffect(() => {
@@ -411,20 +410,32 @@ export default function Sidebar({ config }: SidebarProps) {
       if (!sportId || !compId || !eventId) return;
 
       if (!sportMap.has(sportId)) {
-        sportMap.set(sportId, { name: sportName, id: sportId, tournaments: new Map() });
+        sportMap.set(sportId, {
+          name: sportName,
+          id: sportId,
+          tournaments: new Map(),
+        });
       }
 
       const sport = sportMap.get(sportId)!;
 
       if (!sport.tournaments.has(compId)) {
-        sport.tournaments.set(compId, { name: compName, id: compId, events: [] });
+        sport.tournaments.set(compId, {
+          name: compName,
+          id: compId,
+          events: [],
+        });
       }
 
-      sport.tournaments.get(compId)!.events.push({ id: eventId, name: eventName });
+      sport.tournaments
+        .get(compId)!
+        .events.push({ id: eventId, name: eventName });
     });
 
     return Array.from(sportMap.values()).map((sport) => {
-      const tournaments: Tournament[] = Array.from(sport.tournaments.values()).map((comp) => ({
+      const tournaments: Tournament[] = Array.from(
+        sport.tournaments.values(),
+      ).map((comp) => ({
         name: comp.name,
         count: comp.events.length,
         // No competition-level href — tournaments only expand, never navigate
@@ -528,14 +539,15 @@ export default function Sidebar({ config }: SidebarProps) {
     return false;
   };
 
-
   const activeTournamentIndexFor = (sportIndex: number): number | null => {
-    if (active.type !== "sport" || active.sportIndex !== sportIndex) return null;
+    if (active.type !== "sport" || active.sportIndex !== sportIndex)
+      return null;
     return active.tournamentIndex !== undefined ? active.tournamentIndex : null;
   };
 
   const activeThirdIndexFor = (sportIndex: number): number | null => {
-    if (active.type !== "sport" || active.sportIndex !== sportIndex) return null;
+    if (active.type !== "sport" || active.sportIndex !== sportIndex)
+      return null;
     return active.thirdIndex !== undefined ? active.thirdIndex : null;
   };
 
