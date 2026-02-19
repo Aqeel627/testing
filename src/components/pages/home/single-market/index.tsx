@@ -166,15 +166,11 @@ export default function SingleMarket() {
                     </div>
                   </div>
 
-                  <div>
+                  {/* <div>
                     <p className="m-0 font-sans whitespace-nowrap truncate text-[10px] text-[#919eab] font-bold leading-[1rem]">
                       {event.marketType}
                     </p>
-                  </div>
-
-                  <div className="w-4 h-4 pb-0.5">
-                    <Icon name="watch" className="w-4 h-4" />
-                  </div>
+                  </div> */}
 
                   <div className="flex items-center gap-1 text-black">
                     <div className="bg-[#FFAB00] h-3.5 w-3.5 inline-flex justify-center items-center rounded-[4px] text-[13px] max-w-full">
@@ -187,6 +183,10 @@ export default function SingleMarket() {
                         F
                       </span>
                     </div>
+                  </div>
+
+                  <div className="w-4 h-4 pb-0.5">
+                    <Icon name="watch" className="w-4 h-4" />
                   </div>
 
                   <div>
