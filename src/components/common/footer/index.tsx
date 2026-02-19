@@ -41,9 +41,9 @@ export default function Footer() {
   return (
     <>
       <div className="mt-5">
-        <div className="w-full flex flex-col  max-[900px]:rounded-t-[16px] rounded-t-xl bg-(--palette-background-paper) text-(--palette-text-primary) border  border-[rgba(145,158,171,0.2)] p-2 max-[900px]:p-4">
+        <div className="w-full flex flex-col  max-[900px]:rounded-[16px] rounded-t-xl bg-(--palette-background-paper) text-(--palette-text-primary) border  border-[rgba(145,158,171,0.2)] p-2 max-[900px]:p-4 max-[900px]:pb-0 overflow-hidden">
           {/* TOP SECTION */}
-          <div className="flex flex-col-reverse mb-[7px]  max-[900px]:items-center min-[900px]:gap-[11px]  min-[900px]:flex-row">
+          <div className="flex flex-col-reverse mb-[7px]  max-[900px]:justify-center min-[900px]:gap-[11px]  min-[900px]:flex-row">
             {/* LEFT BLOCK */}
             <div className="min-[900px]:w-62.5 w-full min-w-[250px] flex items-center justify-center">
               <div className="md:mb-[3.5px] text-center w-44 mx-auto lg:mb-0  max-[900px]:flex max-[900px]:flex-col max-[900px]:justify-center">
@@ -86,9 +86,9 @@ export default function Footer() {
             </div>
 
             {/* RIGHT BLOCK */}
-            <div className="md:ml-1 lg:ml-[5px]  ">
+            <div className="md:ml-1 lg:ml-[5px] min-w-0 flex-1 ">
               {/* LINKS */}
-              <div className="footer-items max-[600px]:pb-4 min-[600px]:mb-2 flex justify-center gap-4  whitespace-nowrap text-center text-[14px] font-medium text-(--palette-text-secondary)  md:justify-start md:text-start">
+              <div className="footer-items max-[600px]:pb-4 min-[600px]:mb-2 flex overflow-hidden overflow-x-auto scrollbar-hide min-[453]:justify-center gap-4  whitespace-nowrap text-center text-[14px] font-medium text-(--palette-text-secondary)  md:justify-start md:text-start">
                 {[
                   { name: "About", href: "/about" },
                   { name: "Contact Us", href: "ContactUs" },
@@ -99,7 +99,7 @@ export default function Footer() {
                   <Link
                     key={i}
                     href={item.href}
-                    className={`cursor-pointer text-wrap max-[600]:text-[13px]  font-normal content-center hover:underline hover:text-(--palette-primary-main) ${
+                    className={`cursor-pointer max-[600]:text-[13px]  font-normal content-center hover:underline hover:text-(--palette-primary-main) ${
                       i !== 3 && ""
                     } md:px-2 lg:px-0`}
                   >
@@ -109,7 +109,7 @@ export default function Footer() {
               </div>
 
               {/* DESCRIPTION */}
-              <div className=" border-t min-[900px]:pt-2 pt-4 border-dashed border-[rgba(145,158,171,0.2)]  text-[13px] leading-[20px] text-(--palette-text-secondary) dark:border-[rgba(145,158,171,0.2)] ">
+              <div className=" border-t min-[900px]:pt-2 pt-4 border-dashed max-[900]:text-xs border-[rgba(145,158,171,0.2)]  text-[13px] leading-[20px] text-(--palette-text-secondary) dark:border-[rgba(145,158,171,0.2)] ">
                 This website is operated by{" "}
                 <span className="text-[14px] text-[#098DEE]">100Exch</span>,
                 registered under No. at{" "}
@@ -166,7 +166,7 @@ export default function Footer() {
           </div>
 
           {/* COPYRIGHT */}
-          <div className="mt-1 flex justify-center bg-[#919EAB29] py-1 max-[900px]:mt-[16px] text-xs font-bold text-(--palette-text-secondary)">
+          <div className="mt-1 max-[900]:-mx-4 flex justify-center bg-[#919EAB29] py-1 max-[900px]:mt-[16px] text-xs font-bold text-(--palette-text-secondary)">
             <p className="flex gap-[2px]">
               Copyright © {new Date().getFullYear()} &nbsp;
               <a
