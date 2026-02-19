@@ -88,25 +88,25 @@ export default function Header({ onMenuClick }: HeaderProps) {
             <Icon name="logo" className="h-6 w-6" />
           </button>
           {/* <div className="relative"> */}
-            {/* <div className="neon-underline min-[960]:bottom-[9px] bottom-[7px]">
+          {/* <div className="neon-underline min-[960]:bottom-[9px] bottom-[7px]">
               <span className="neon-glow glow-main"></span>
               <span className="neon-line line-main"></span>
 
               <span className="neon-glow glow-center"></span>
               <span className="neon-line line-center"></span>
             </div> */}
-            <Link
-              href="/"
-              onClick={() => window.dispatchEvent(new Event("reset-sidebar"))}
-              className="font-[inherit]  no-underline shrink-0 text-transparent inline-flex h-[44px] w-[152px] cursor-pointer"
-            >
-              <Image
-                src={"/logo.png"}
-                alt="100exch Logo"
-                fill
-                className="object-contain relative! mx-1 "
-              />
-            </Link>
+          <Link
+            href="/"
+            onClick={() => window.dispatchEvent(new Event("reset-sidebar"))}
+            className="font-[inherit]  no-underline shrink-0 text-transparent inline-flex h-[44px] w-[152px] cursor-pointer"
+          >
+            <Image
+              src={"/logo.png"}
+              alt="100exch Logo"
+              fill
+              className="object-contain relative! mx-1 "
+            />
+          </Link>
           {/* </div> */}
         </div>
 
@@ -129,7 +129,9 @@ export default function Header({ onMenuClick }: HeaderProps) {
             )} */}
             <span
               className={cn(
-                pathName === "/" ? "active text-[#4f90af]! border-[#4f90af]!":'border-[#a5a7a9]',
+                pathName === "/"
+                  ? "active text-[#4f90af]! border-[#4f90af]!"
+                  : "border-[#a5a7a9]",
                 " group-hover:--palette-text-primary transition-colors mr-[4px]  border rounded-full p-[2px]",
               )}
             >
@@ -397,7 +399,12 @@ export default function Header({ onMenuClick }: HeaderProps) {
                 <span className="neon-line line-center"></span>
               </div>
             )} */}
-            <span className=" group-hover:--palette-text-primary transition-colors mr-[4px] ">
+            <span
+              className={cn(
+                pathName === "/" && "text-[#4f90af]!",
+                " group-hover:--palette-text-primary transition-colors mr-[4px] ",
+              )}
+            >
               <Icon name="exchange" className="h-4.5 w-4.5 " />
             </span>
             <span className="relative !top-[-0.5px] ml-[0.3px]">Exchange</span>
