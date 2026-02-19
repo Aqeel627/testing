@@ -26,6 +26,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const { resolvedTheme, theme } = useTheme();
 
+  const [userName, setUserName] = useState("");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const [hideBalance, setHideBalance] = useState(false);
@@ -50,8 +51,17 @@ export default function Header({ onMenuClick }: HeaderProps) {
   }, [accessToken]);
 
   useEffect(() => {
+    const userDetail = localStorage.getItem("userDetail");
+    if (userDetail) {
+      const parsed = JSON.parse(userDetail);
+      setUserName(parsed.userName || ""); // ✅ state update
+      console.log("User Name from localStorage:", parsed.userName);
+    }
+  }, []);
+
+  useEffect(() => {
     const token = localStorage.getItem("accessToken");
-    console.log("Token from localStorage:", token);
+    // console.log("Token from localStorage:", token);
 
     if (token) {
       setIsLoggedIn(true);
@@ -90,7 +100,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
       className={cn(
         "w-full glass  --palette-text-primary  sticky top-0 z-50",
         theme === "light" &&
-          "backdrop-blur-[10px]! bg-linear-to-br! from-white/25! to-white/5! border-b! border-[rgb(205_192_192/0.4)]! shadow-[0_8px_32px_rgba(0,0,0,0.2)]!",
+        "backdrop-blur-[10px]! bg-linear-to-br! from-white/25! to-white/5! border-b! border-[rgb(205_192_192/0.4)]! shadow-[0_8px_32px_rgba(0,0,0,0.2)]!",
       )}
     >
       <div className="max-w-[1600px] mx-auto px-2 h-12 flex items-center justify-between">
@@ -110,7 +120,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
           >
             <Image
               src={"/logo.png"}
-              alt="AuExch Logo"
+              alt="100exch Logo"
               fill
               className="object-contain relative! mx-1 "
             />
@@ -122,8 +132,8 @@ export default function Header({ onMenuClick }: HeaderProps) {
             href="/"
             className="flex p-1 items-center text-[13px] font-bold --palette-text-primary  hover:--palette-text-primary  transition-colors group rounded-lg  hover:bg-[rgba(145,158,171,0.08)] "
           >
-            <span className=" group-hover:--palette-text-primary transition-colors mr-[4px] ">
-              <Icon name="exchange" className="h-[19px] w-[19px] " />
+            <span className=" group-hover:--palette-text-primary transition-colors mr-[4px]  border border-[#a5a7a9] rounded-full p-[2px]">
+              <Icon name="exchange" className="h-4 w-4 " />
             </span>
             <span className="relative top-[-0.5px]">Exchange</span>
           </Link>
@@ -222,10 +232,10 @@ export default function Header({ onMenuClick }: HeaderProps) {
                   <div className="absolute -top-10 -right-10 w-20 h-20 bg-[#078dee] blur-[60px] opacity-[0.50] pointer-events-none z-0 rounded-full"></div>
                   <div className="px-4 pt-4 pb-2">
                     <h6 className="text-[0.875rem] font-semibold text-[var(--palette-text-primary)] truncate leading-[1.57143]">
-                      demo1
+                      {userName}
                     </h6>
                     <p className="text-[0.875rem] leading-[1.57143] text-[#637381] truncate">
-                      demo1
+                      {userName}
                     </p>
                   </div>
 
@@ -234,11 +244,12 @@ export default function Header({ onMenuClick }: HeaderProps) {
                   <div className="flex flex-col gap-2 px-4 pb-4 pt-2">
                     <div className="rounded-[16px] shadow-[0_1px_2px_0_rgb(0_0_0_/_16%)] border-[#919eab29] border-[1px]">
                       <div className="flex flex-col p-2 items-center cursor-pointer">
+
                         <p className="text-[0.875rem] leading-[1.25] text-[#637381] font-[500] uppercase">
                           Exposure
                         </p>
                         <p className="text-[1rem] text-[var(--palette-text-primary)] font-semibold leading-[1.5]">
-                          0
+                          {userBalance?.exposure}
                         </p>
                       </div>
                     </div>
@@ -248,7 +259,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
                           Balance
                         </p>
                         <p className="text-[1rem] text-[var(--palette-text-primary)] font-semibold leading-[1.5]">
-                          1
+                            {hideBalance ? "-" : ((userBalance?.bankBalance ?? 0) - (userBalance?.exposure ?? 0)).toFixed(2)}
                         </p>
                       </div>
                     </div>

@@ -61,7 +61,7 @@ export default function LoginPage() {
         <Link href="/">
           <Image
             src="/logo.png"
-            alt="AuExch Logo"
+            alt="100exch Logo"
             width={152}
             height={1000}
             className="object-contain h-13 min-[600]:mx-2 mx-1"
@@ -91,7 +91,7 @@ export default function LoginPage() {
           <h2 className="text-[32px] font-bold">Hi, Welcome back</h2>
           <Image
             src="/logo.png"
-            alt="AuExch Logo"
+            alt="100exch Logo"
             width={304}
             height={1000}
             className="object-contain aspect-4/3"
@@ -112,7 +112,7 @@ export default function LoginPage() {
               {/* Heading */}
               <div className="flex flex-col mb-[41px] gap-3.5 max-[900px]:items-center">
                 <h2 className="text-xl xl:text-[19px] font-bold max-[600px]:text-[18px] max-[900px]:text-[19px]">
-                  Sign in to AuExch
+                  Sign in to 100exch
                 </h2>
                 {/* <p className="text-sm  text-white">
                   Don’t have an account?{" "}
