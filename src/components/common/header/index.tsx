@@ -71,7 +71,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
       className={cn(
         "w-full glass  --palette-text-primary  sticky top-0 z-50",
         theme === "light" &&
-          "backdrop-blur-[10px]! bg-linear-to-br! from-white/25! to-white/5! border-b! border-[rgb(205_192_192/0.4)]! shadow-[0_8px_32px_rgba(0,0,0,0.2)]!",
+        "backdrop-blur-[10px]! bg-linear-to-br! from-white/25! to-white/5! border-b! border-[rgb(205_192_192/0.4)]! shadow-[0_8px_32px_rgba(0,0,0,0.2)]!",
       )}
     >
       <div className="max-w-[1600px] mx-auto px-2 h-12 flex items-center justify-between">
@@ -235,9 +235,9 @@ export default function Header({ onMenuClick }: HeaderProps) {
                           {hideBalance
                             ? "-"
                             : (
-                                (userBalance?.bankBalance ?? 0) -
-                                (userBalance?.exposure ?? 0)
-                              ).toFixed(2)}
+                              (userBalance?.bankBalance ?? 0) -
+                              (userBalance?.exposure ?? 0)
+                            ).toFixed(2)}
                         </p>
                       </div>
                     </div>
@@ -315,10 +315,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
                     <div className="absolute -bottom-4 -left-4 w-20 h-20 bg-[#FF5630] blur-[30px] opacity-15 pointer-events-none"></div>
 
                     <button
-                      onClick={() => {
-                        logout();
-                        setIsMenuOpen(false);
-                      }}
+                      onClick={logout}
                       className="relative z-10 w-full text-left px-2 py-2 text-[14px] font-bold text-[#FF5630] hover:bg-[#FF5630]/10 rounded-lg transition-colors cursor-pointer "
                     >
                       Logout
