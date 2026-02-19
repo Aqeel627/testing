@@ -419,7 +419,7 @@ export default function LoginModal() {
                     <button
                       type="submit"
                       disabled={!hasFormValues || isSubmitting}
-                      className={`w-full rounded-lg relative p-[6px_12px] min-h-9 text-sm font-bold ${
+                      className={`w-full rounded-lg relative p-[6px_12px] min-h-9 text-sm font-bold h-[48px] ${
                         hasFormValues && !isSubmitting
                           ? "bg-[#078DEE] text-white hover:shadow-(--customShadows-primary) cursor-pointer hover:bg-(--palette-primary-dark)"
                           : "bg-[rgba(145,158,171,0.24)] text-[rgba(145,158,171,0.8)] cursor-not-allowed"
