@@ -149,7 +149,7 @@ export default function SportsNav() {
             role="tablist"
             className={cn(
               styles["tabs-list"],
-              "glass w-full h-full",
+              "w-full h-full",
               theme === "light" &&
                 "backdrop-blur-[10px]! bg-linear-to-br! from-white/25! to-white/5! border-b! border-[rgb(205_192_192/0.4)]! shadow-[0_8px_32px_rgba(0,0,0,0.2)]!",
             )}
