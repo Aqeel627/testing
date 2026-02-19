@@ -138,7 +138,7 @@ export default function SingleMarket() {
                         <div
                           className={`flex justify-center items-center ${style.animateLiveBlink}`}
                         >
-                          <div className="w-[7px] h-[7px] bg-[#078dee] rounded-full"></div>
+                          <div className="w-[7px] h-[7px] bg-[#508d0e] rounded-full"></div>
                         </div>
                       )}
                       <p
@@ -185,7 +185,7 @@ export default function SingleMarket() {
                     </div>
                   </div>
 
-                  <div className="w-4 h-4 pb-0.5">
+                  <div className="w-4 h-4 pb-0.5 text-(--palette-text-primary)">
                     <Icon name="watch" className="w-4 h-4" />
                   </div>
 
@@ -211,7 +211,7 @@ export default function SingleMarket() {
                 {/* LEFT — Team 1 odds */}
                 <div className="flex flex-col gap-0.5 w-[33.3%]">
                   <span
-                    className={`block h-[1.125rem] text-center truncate overflow-hidden ${oddsRowLabelWidthClass}`}
+                    className={`block h-[1.125rem] text-(--palette-text-primary) text-center truncate overflow-hidden ${oddsRowLabelWidthClass}`}
                   >
                     {event.runnersName?.[0]?.runnerName}
                   </span>
@@ -265,7 +265,7 @@ export default function SingleMarket() {
                 {/* CENTER — Draw or disabled */}
                 <div className="flex flex-col gap-0.5 w-[33.3%]">
                   <span
-                    className={`block h-[1.125rem] text-center truncate overflow-hidden ${oddsRowLabelWidthClass}`}
+                    className={`block h-[1.125rem] text-(--palette-text-primary) text-center truncate overflow-hidden ${oddsRowLabelWidthClass}`}
                   >
                     {hasThreeRunners ? event.runnersName?.[2]?.runnerName : ""}
                   </span>
@@ -347,7 +347,7 @@ export default function SingleMarket() {
                 {/* RIGHT — Team 2 odds */}
                 <div className="flex flex-col gap-0.5 w-[33.3%]">
                   <span
-                    className={`block h-[1.125rem] text-center truncate overflow-hidden ${oddsRowLabelWidthClass}`}
+                    className={`block h-[1.125rem] text-(--palette-text-primary) text-center truncate overflow-hidden ${oddsRowLabelWidthClass}`}
                   >
                     {rightRunnerName}
                   </span>
