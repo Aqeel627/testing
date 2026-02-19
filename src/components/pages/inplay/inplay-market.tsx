@@ -6,6 +6,7 @@ import Link from "next/link";
 import style from "@/components/pages/home/single-market/singleMarket.module.css";
 import React from "react";
 import { cn } from "@/lib/utils";
+import { AnimatedNumber } from "@/components/common/animatied-number";
 
 const InplayMarket = ({ events }: { events: any }) => {
   const { setSelectedBet } = useAppStore();
@@ -105,15 +106,15 @@ const InplayMarket = ({ events }: { events: any }) => {
                         {event.inplay
                           ? "In-Play"
                           : new Date(event.marketStartTime).toLocaleDateString(
-                              "en-GB",
-                              {
-                                day: "2-digit",
-                                month: "2-digit",
-                                year: "numeric",
-                                hour: "2-digit",
-                                minute: "2-digit",
-                              },
-                            )}
+                            "en-GB",
+                            {
+                              day: "2-digit",
+                              month: "2-digit",
+                              year: "numeric",
+                              hour: "2-digit",
+                              minute: "2-digit",
+                            },
+                          )}
                       </p>
                     </div>
                   </div>
@@ -145,7 +146,7 @@ const InplayMarket = ({ events }: { events: any }) => {
                     <p className="m-0 font-sans whitespace-nowrap text-[#919eab] text-[10px] font-bold uppercase leading-4 truncate overflow-hidden">
                       Traded:{" "}
                       <span className="text-[10px] font-bold text-[#ffab00] leading-4">
-                        {event.totalMatched?.toLocaleString()}
+                        <AnimatedNumber value={event.totalMatched} inplay={event.inplay} />
                       </span>
                     </p>
                   </div>
@@ -230,8 +231,8 @@ const InplayMarket = ({ events }: { events: any }) => {
                       <span className="block whitespace-nowrap font-semibold text-[0.8rem] text-center">
                         {hasThreeRunners
                           ? (shortNumber(
-                              runner2?.ex?.availableToBack?.[0]?.size,
-                            ) ?? "")
+                            runner2?.ex?.availableToBack?.[0]?.size,
+                          ) ?? "")
                           : ""}
                       </span>
                     </div>
@@ -256,8 +257,8 @@ const InplayMarket = ({ events }: { events: any }) => {
                       <span className="block whitespace-nowrap font-semibold text-[0.8rem] text-center">
                         {hasThreeRunners
                           ? (shortNumber(
-                              runner2?.ex?.availableToLay?.[0]?.size,
-                            ) ?? "")
+                            runner2?.ex?.availableToLay?.[0]?.size,
+                          ) ?? "")
                           : ""}
                       </span>
                     </div>

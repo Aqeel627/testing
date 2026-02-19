@@ -5,6 +5,7 @@ import Icon from "@/icons/icons";
 import Link from "next/link";
 import style from "./singleMarket.module.css";
 import { shortNumber } from "@/lib/functions";
+import { AnimatedNumber } from "@/components/common/animatied-number";
 
 export default function SingleMarket() {
   const { allEventsList, selectedEventTypeId } = useAppStore();
@@ -194,6 +195,19 @@ export default function SingleMarket() {
                       Traded:{" "}
                       <span className="text-[10px] font-bold text-[#ffab00] leading-[1rem]">
                         {event.totalMatched?.toLocaleString()}
+                      </span>
+                    </p>
+                  </div>
+
+                  <div>
+                    <p className="m-0 font-sans whitespace-nowrap text-[#919eab] text-[10px] font-bold uppercase leading-4 truncate overflow-hidden">
+                      Traded:{" "}
+                      <span className="text-[10px] font-bold text-[#ffab00] leading-[1rem]">
+                        {/* 👇 Yahan direct value pass kardi hai, ab ye khud smoothly animate hoga */}
+                        <AnimatedNumber
+                          value={event.totalMatched}
+                          inplay={event.inplay}
+                        />
                       </span>
                     </p>
                   </div>
