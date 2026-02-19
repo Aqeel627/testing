@@ -21,6 +21,7 @@ import { useUIStore } from "@/lib/store/ui-store"; // ✅ import store
 import BottomNavbar from "@/components/common/bottom-nav";
 import LoginModal from "@/components/modal/login";
 import { cn } from "@/lib/utils";
+import { useLayoutWidthStore } from "@/lib/store/layoutWidth.store";
 
 const MAIN_WIDTH_STORAGE_KEY = "pages-layout-main-width";
 
@@ -189,6 +190,16 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
     document.body.style.cursor = "col-resize";
   };
   const mainRef = useRef<HTMLDivElement | null>(null);
+
+     const setMainWidthStore = useLayoutWidthStore(
+  (state) => state.setMainWidth
+);
+  useEffect(() => {
+  if (mainWidth > 0 && !isMobile) {
+    setMainWidthStore(mainWidth);
+  }
+}, [mainWidth, isMobile]);
+
 
   const onDrag = (e: React.PointerEvent) => {
     if (!draggingRef.current || isMobile) return;

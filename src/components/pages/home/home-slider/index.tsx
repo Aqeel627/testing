@@ -1,195 +1,163 @@
-// "use client";
-// import { Swiper as SwiperComponent, SwiperSlide } from "swiper/react";
-// import { Autoplay, Navigation, Pagination } from "swiper/modules";
-// import "swiper/css";
-// import "swiper/css/navigation";
-// import "swiper/css/pagination";
-// import Image from "next/image";
-// import { useEffect, useState } from "react";
-// import { CONFIG } from "@/lib/config";
 
-// interface SliderItem {
-//   id: string;
-//   url: string;
-// }
-
-// // Fallback static sliders
-// const staticSliders: SliderItem[] = [
-//   { id: "static-1", url: "https://static.assetsdelivery.net/marketing-posters/DOLLAR365COM/1771190885016755.jpeg" },
-//   { id: "static-2", url: "https://static.assetsdelivery.net/marketing-posters/DOLLAR365COM/1770989232480743.jpeg" },
-//   { id: "static-3", url: "https://static.assetsdelivery.net/marketing-posters/DOLLAR365COM/1770989245911070.jpeg" },
-//   { id: "static-4", url: "https://static.assetsdelivery.net/marketing-posters/DOLLAR365COM/1758881377636214.jpeg" },
-//   { id: "static-5", url: "https://static.assetsdelivery.net/marketing-posters/DOLLAR365COM/1759080900908840.jpeg" },
-//   { id: "static-6", url: "https://static.assetsdelivery.net/marketing-posters/DOLLAR365COM/1770989265863471.jpeg" },
-// ];
-
-// const sliderWrapperStyles = `w-full relative rounded-[16px] overflow-hidden group 
-//   [&_.custom-pagination]:!absolute [&_.custom-pagination]:!top-[21px] [&_.custom-pagination]:!bottom-auto [&_.custom-pagination]:!left-[21px] [&_.custom-pagination]:!w-auto [&_.custom-pagination]:z-50 [&_.custom-pagination]:flex [&_.custom-pagination]:items-center [&_.custom-pagination]:gap-3 
-//   [&_.swiper-pagination-bullet]:!m-0 [&_.swiper-pagination-bullet]:!w-2 [&_.swiper-pagination-bullet]:!h-2 [&_.swiper-pagination-bullet]:!bg-[#40c4ff] [&_.swiper-pagination-bullet]:!opacity-[0.24] [&_.swiper-pagination-bullet]:rounded-full [&_.swiper-pagination-bullet]:transition-all [&_.swiper-pagination-bullet]:duration-300 
-//   [&_.swiper-pagination-bullet-active]:!bg-[#40c4ff] [&_.swiper-pagination-bullet-active]:!opacity-100 [&_.swiper-pagination-bullet-active]:!w-2 [&_.swiper-pagination-bullet-active]:!h-2`;
-
-// export default function HomeSlider() {
-//   const [mounted, setMounted] = useState(false);
-//   const [banners, setBanners] = useState<SliderItem[]>([]);
-
-//   useEffect(() => {
-//     setMounted(true);
-
-//     const fetchSliders = async () => {
-//       try {
-//         const res = await fetch(CONFIG.bannersList, {
-//           method: "POST",
-//           headers: { "Content-Type": "application/json" },
-//           body: JSON.stringify({
-//             layout: "desktop",
-//             type: "SLIDER"
-//           }),
-//         });
-//         const json = await res.json();
-//         const sliders: SliderItem[] = json?.data?.slider?.map((item: any) => ({
-//           id: item.id,
-//           url: item.url,
-//         })) || [];
-//         setBanners(sliders);
-//       } catch (err) {
-//         console.error("Failed to fetch sliders:", err);
-//       }
-//     };
-
-//     fetchSliders();
-//   }, []);
-
-//   if (!mounted) {
-//     return <div className="overflow-hidden aspect-[2/1] sm:aspect-[21/9] lg:aspect-[10/3]" />;
-//   }
-
-//   // Use API sliders if available, otherwise fallback to static
-//   const displaySliders = banners.length > 0 ? banners : staticSliders;
-
-//   return (
-//     <div className="w-full">
-//       <div className={sliderWrapperStyles}>
-//         <SwiperComponent
-//           modules={[Autoplay, Navigation, Pagination]}
-//           loop
-//           autoplay={{ delay: 3000, disableOnInteraction: false }}
-//           speed={800}  
-//           autoHeight={false}
-//         >
-//           {displaySliders.map((item, index) => (
-//             <SwiperSlide key={item.id || index}>
-//               <div className="w-full relative aspect-[3.26/1] sm:aspect-[21/9] lg:aspect-[9.629/3] max-h-[400px]">
-//                 <Image
-//                   src={item.url}
-//                   alt={`Slider ${index + 1}`}
-//                   fill
-//                   className="w-full h-full object-cover"
-//                   priority={index === 0}
-//                   unoptimized
-//                 />
-//               </div>
-//             </SwiperSlide>
-//           ))}
-//         </SwiperComponent>
-//       </div>
-//     </div>
-//   );
-// }
-
-
+// my working
 // "use client";
 
-// import React, { useRef } from "react";
+// import React from "react";
 // import Image from "next/image";
 // import Link from "next/link";
-// import styles from "./home-slider.module.css";
 // import { cn } from "@/lib/utils";
 
-// const slides = [
+// import { Swiper, SwiperSlide } from "swiper/react";
+// import { Autoplay } from "swiper/modules";
+// import "swiper/css";
+
+// interface SlideItem {
+//   src: string;
+//   href: string;
+// }
+
+// interface PairedSlide {
+//   top: SlideItem;
+//   bottom: SlideItem;
+// }
+
+// const slides: SlideItem[] = [
 //   { src: "/home-slider/slider-1.jpeg", href: "#" },
 //   { src: "/home-slider/slider-2.jpeg", href: "#" },
 //   { src: "/home-slider/slider-3.jpeg", href: "#" },
 //   { src: "/home-slider/slider-4.jpeg", href: "#" },
-//     { src: "/home-slider/slider-3.jpeg", href: "#" },
+//   { src: "/home-slider/slider-6.jpeg", href: "#" },
 //   { src: "/home-slider/slider-4.jpeg", href: "#" },
 // ];
 
+// const loopSlides: SlideItem[] = [...slides, ...slides, ...slides];
+
+// const pairedSlides: PairedSlide[] = [];
+// for (let i = 0; i < loopSlides.length; i += 2) {
+//   pairedSlides.push({
+//     top: loopSlides[i],
+//     bottom: loopSlides[i + 1] || loopSlides[0],
+//   });
+// }
+
+// // tilt (same direction)
+// const TILT_CLASS = "transform-gpu rotate-[2deg] origin-center";
+
 // export default function HomeSlider() {
-//   const trackRef = useRef<HTMLDivElement | null>(null);
-//   const state = useRef({ down: false, x: 0, left: 0 });
-
-//   const onPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
-//     const el = trackRef.current;
-//     if (!el) return;
-//     state.current.down = true;
-//     state.current.x = e.clientX;
-//     state.current.left = el.scrollLeft;
-//     el.setPointerCapture(e.pointerId);
-//   };
-
-//   const onPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
-//     const el = trackRef.current;
-//     if (!el || !state.current.down) return;
-//     e.preventDefault();
-//     const dx = e.clientX - state.current.x;
-//     el.scrollLeft = state.current.left - dx;
-//   };
-
-//   const stop = () => (state.current.down = false);
-
 //   return (
 //     <div className="w-full">
-//       <div className="relative mt-3">
-//         <div
-//           ref={trackRef}
-//           className={cn(
-//             styles.track,
-//             "cursor-grab active:cursor-grabbing select-none"
-//           )}
-//           onPointerDown={onPointerDown}
-//           onPointerMove={onPointerMove}
-//           onPointerUp={stop}
-//           onPointerCancel={stop}
-//           onPointerLeave={stop}
-//         >
-//           {slides.map((s, i) => (
-//             <div key={i} className={styles.slide}>
-//               <Link
-//                 href={s.href}
-//                 draggable={false}
-//                 className={cn(
-//                   "block w-full overflow-hidden rounded-[12px] bg-[#213743]",
-// "aspect-[5/5]"
-//                 )}
-//               >
-//                 <div className="relative h-full w-full">
-//                   <Image
-//                     src={s.src}
-//                     alt={`slide-${i + 1}`}
-//                     fill
-//                     priority={i === 0}
-//                     sizes="(max-width: 767px) 33vw, 25vw"
-//                     className="object-cover select-none"
-//                     draggable={false}
-//                   />
-//                 </div>
-//               </Link>
-//             </div>
-//           ))}
+//       {/* ✅ Desktop only: remove mt-3 + add py-1
+//           ✅ Mobile flow untouched: mt-3 remains on mobile */}
+//       <div className="relative mt-3 lg:mt-0 lg:py-1">
+//         {/* Mobile/Tablet: Single images (UNCHANGED) */}
+//         <div className="lg:hidden">
+//           <Swiper
+//             modules={[Autoplay]}
+//             loop={true}
+//             spaceBetween={12}
+//             speed={1200}
+//             grabCursor={true}
+//             slidesPerView={3}
+//             slidesPerGroup={1}
+//             autoplay={{
+//               delay: 1800,
+//               disableOnInteraction: false,
+//               pauseOnMouseEnter: false,
+//             }}
+//             className={cn("select-none cursor-grab active:cursor-grabbing")}
+//           >
+//             {loopSlides.map((s, i) => (
+//               <SwiperSlide key={i} className="h-auto">
+//                 <Link
+//                   href={s.href}
+//                   draggable={false}
+//                   className="block w-full overflow-hidden rounded-[12px] bg-[#213743] aspect-[5/5]"
+//                 >
+//                   <div className="relative h-full w-full">
+//                     <Image
+//                       src={s.src}
+//                       alt={`slide-${i}`}
+//                       fill
+//                       className="object-cover"
+//                       draggable={false}
+//                     />
+//                   </div>
+//                 </Link>
+//               </SwiperSlide>
+//             ))}
+//           </Swiper>
 //         </div>
 
-//         {/* right fade */}
-//         <div
-//           className="pointer-events-none absolute top-0 right-0 h-full w-10 md:w-14"
-//           style={{
-//             background:
-//               "linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(26,44,56,1) 85%)",
-//           }}
-//         />
+//         {/* Desktop: Paired images */}
+//         <div className="hidden lg:block">
+//           <Swiper
+//             modules={[Autoplay]}
+//             loop={true}
+//             spaceBetween={14}
+//             speed={1200}
+//             grabCursor={true}
+//             slidesPerView={4.3}
+//             slidesPerGroup={1}
+//             autoplay={{
+//               delay: 1800,
+//               disableOnInteraction: false,
+//               pauseOnMouseEnter: false,
+//             }}
+//             className={cn(
+//               "select-none cursor-grab active:cursor-grabbing",
+//               "!overflow-visible"
+//             )}
+//           >
+//             {pairedSlides.map((pair, i) => (
+//               <SwiperSlide key={i} className={cn("h-auto", "!overflow-visible")}>
+//                 {/* ✅ Desktop only tilt + center column */}
+//                 <div className={cn("flex flex-col gap-3 items-center", TILT_CLASS)}>
+//                   {/* ✅ Desktop only: EXACT 164x164 */}
+//                   <Link
+//                     href={pair.top.href}
+//                     draggable={false}
+//                     className="block w-[164px] h-[164px] overflow-hidden rounded-[12px] bg-[#213743]"
+//                   >
+//                     <div className="relative h-full w-full">
+//                       <Image
+//                         src={pair.top.src}
+//                         alt={`slide-top-${i}`}
+//                         fill
+//                         className="object-cover"
+//                         draggable={false}
+//                       />
+//                     </div>
+//                   </Link>
+
+//                   {/* ✅ Desktop only: EXACT 164x164 */}
+//                   <Link
+//                     href={pair.bottom.href}
+//                     draggable={false}
+//                     className="block w-[164px] h-[164px] overflow-hidden rounded-[12px] bg-[#213743]"
+//                   >
+//                     <div className="relative h-full w-full">
+//                       <Image
+//                         src={pair.bottom.src}
+//                         alt={`slide-bottom-${i}`}
+//                         fill
+//                         className="object-cover"
+//                         draggable={false}
+//                       />
+//                     </div>
+//                   </Link>
+//                 </div>
+//               </SwiperSlide>
+//             ))}
+//           </Swiper>
+//         </div>
+
+//         {/* Right fade */}
+//         <div className="pointer-events-none absolute top-0 right-0 h-full w-10 md:w-14 z-20" />
 //       </div>
 //     </div>
 //   );
 // }
+
 
 "use client";
 
@@ -198,69 +166,248 @@ import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 
-// Swiper
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import "swiper/css";
+import { useLayoutWidthStore } from "@/lib/store/layoutWidth.store";
 
-const slides = [
+interface SlideItem {
+  src: string;
+  href: string;
+}
+
+interface PairedSlide {
+  top: SlideItem;
+  bottom: SlideItem;
+}
+
+const slides: SlideItem[] = [
   { src: "/home-slider/slider-1.jpeg", href: "#" },
   { src: "/home-slider/slider-2.jpeg", href: "#" },
   { src: "/home-slider/slider-3.jpeg", href: "#" },
   { src: "/home-slider/slider-4.jpeg", href: "#" },
   { src: "/home-slider/slider-6.jpeg", href: "#" },
+  { src: "/home-slider/slider-4.jpeg", href: "#" },
 ];
-const loopSlides = [...slides, ...slides, ...slides];
+
+const loopSlides: SlideItem[] = [...slides, ...slides, ...slides];
+
+
+
+const pairedSlides: PairedSlide[] = [];
+for (let i = 0; i < loopSlides.length; i += 2) {
+  pairedSlides.push({
+    top: loopSlides[i],
+    bottom: loopSlides[i + 1] || loopSlides[0],
+  });
+}
+const DEFAULT_BREAKPOINTS = {
+  1024: { slidesPerView: 6.5, spaceBetween: 10 },
+  1060: { slidesPerView: 6.9, spaceBetween: 10 },
+  1100: { slidesPerView: 7.2, spaceBetween: 10 },
+  1170: { slidesPerView: 7.5, spaceBetween: 10 },
+  1200: { slidesPerView: 4.5, spaceBetween: 10 },
+  1280: { slidesPerView: 3, spaceBetween: 10 },
+  1366: { slidesPerView: 4.5, spaceBetween: 10 },
+  1440: { slidesPerView: 4.5, spaceBetween: 10 },
+  1536: { slidesPerView: 4.9, spaceBetween: 10 },
+  1600: { slidesPerView: 5.1, spaceBetween: 10 },
+  1920: { slidesPerView: 6.0, spaceBetween: 10 },
+};
+
+const getExpandedSlides = (mainWidth: number) => {
+  if (!mainWidth) return undefined;
+
+  if (mainWidth >= 1350) return { slides: 4.6, space: 16 };
+  if (mainWidth >= 1200) return { slides: 4.2, space: 14 };
+  if (mainWidth >= 1100) return { slides: 5.8, space: 12 };
+  if (mainWidth >= 1000) return { slides: 5.2, space: 10 };
+  if (mainWidth >= 900)  return { slides: 7, space: 4 };
+  if (mainWidth >= 860)  return { slides: 5.5, space: 4 };
+  if (mainWidth >= 820)  return { slides: 5, space: 6 };
+  return undefined;
+};
+
+// tilt (same direction)
+const TILT_CLASS = "transform-gpu rotate-[2deg] origin-center";
+
+// ✅ Desktop only: responsive square size (never exceeds 164, shrinks on smaller desktops)
+const DESKTOP_CARD_SIZE = "w-[clamp(140px,10vw,164px)] h-[clamp(140px,10vw,164px)]";
 
 export default function HomeSlider() {
+const mainWidth = useLayoutWidthStore((state) => state.mainWidth);
+
+console.log("CENTER WIDTH FROM STORE:", mainWidth);
+
+
+// const expandedSlides = getExpandedSlides(mainWidth);
+const getExpandedConfig = (mainWidth: number) => {
+  if (!mainWidth) return null;
+
+  if (mainWidth >= 1350) return { slidesPerView: 4.6, spaceBetween: 16 };
+  if (mainWidth >= 1200) return { slidesPerView: 4.2, spaceBetween: 14 };
+  if (mainWidth >= 1100) return { slidesPerView: 6.5, spaceBetween: 12 };
+  if (mainWidth >= 1000) return { slidesPerView: 6, spaceBetween: 10 };
+  if (mainWidth >= 900)  return { slidesPerView: 5.3, spaceBetween: 4 };
+  if (mainWidth >= 860)  return { slidesPerView: 5.5, spaceBetween: 4 };
+  if (mainWidth >= 820)  return { slidesPerView: 5, spaceBetween: 6 };
+
+  return null;
+};
+const expandedConfig = getExpandedConfig(mainWidth);
+
+
+console.log("mainWidth:", mainWidth, "expandedSlides:", expandedConfig);
+
   return (
     <div className="w-full">
-      <div className="relative mt-3">
-<Swiper
-  modules={[Autoplay]}
-  loop={true}
-  slidesPerView={3}
-  slidesPerGroup={1}
-  spaceBetween={12}
-  speed={900}
-  grabCursor
-  watchOverflow={false}
-  autoplay={{
-    delay: 1800,
-    disableOnInteraction: false,
-    pauseOnMouseEnter: false,
-  }}
-  className={cn("select-none cursor-grab active:cursor-grabbing")}
->
-  {loopSlides.map((s, i) => (
-    <SwiperSlide key={i} className="h-auto">
-      <Link
-        href={s.href}
-        draggable={false}
-        className="block w-full overflow-hidden rounded-[12px] bg-[#213743] aspect-[5/5]"
-      >
-        <div className="relative h-full w-full">
-          <Image
-            src={s.src}
-            alt={`slide-${i}`}
-            fill
-            className="object-cover"
-            draggable={false}
-          />
+      {/* desktop: remove mt-3 + add py-1 | mobile untouched */}
+      <div className="relative mt-3 lg:mt-0 lg:py-1">
+        {/* Mobile/Tablet: Single images (UNCHANGED) */}
+        <div className="lg:hidden">
+          <Swiper
+            modules={[Autoplay]}
+            loop={true}
+            spaceBetween={12}
+            speed={1200}
+            grabCursor={true}
+            slidesPerView={3}
+            slidesPerGroup={1}
+            autoplay={{
+              delay: 1800,
+              disableOnInteraction: false,
+              pauseOnMouseEnter: false,
+            }}
+            className={cn("select-none cursor-grab active:cursor-grabbing")}
+          >
+            {loopSlides.map((s, i) => (
+              <SwiperSlide key={i} className="h-auto">
+           <div className={cn("flex flex-col gap-3 items-center", TILT_CLASS)}>
+                <Link
+                  href={s.href}
+                  draggable={false}
+                  className="block w-full overflow-hidden rounded-[12px] bg-[#213743] aspect-[5/5]"
+                >
+                  <div className="relative h-full w-full">
+                    <Image
+                      src={s.src}
+                      alt={`slide-${i}`}
+                      fill
+                      className="object-cover"
+                      draggable={false}
+                    />
+                  </div>
+                </Link>
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
         </div>
-      </Link>
-    </SwiperSlide>
-  ))}
-</Swiper>
 
-        {/* right fade */}
-        <div
-          className="pointer-events-none absolute top-0 right-0 h-full w-10 md:w-14"
-          style={{
-            background:
-              "linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(26,44,56,1) 85%)",
-          }}
-        />
+        {/* Desktop: Paired images (RESPONSIVE, does not break on resize) */}
+        <div className="hidden lg:block">
+          <Swiper
+          key={mainWidth} 
+            onSwiper={(s) => {
+    console.log("INIT breakpoint:", s.currentBreakpoint);
+    console.log("slidesPerView:", s.params.slidesPerView, "spaceBetween:", s.params.spaceBetween);
+  }}
+  onBreakpoint={(s, bp) => {
+    console.log("BREAKPOINT:", bp);
+    console.log("slidesPerView:", s.params.slidesPerView, "spaceBetween:", s.params.spaceBetween);
+  }}
+  
+            modules={[Autoplay]}
+            loop={true}
+            // spaceBetween={16}
+            speed={1200}
+            grabCursor={true}
+            slidesPerGroup={1}
+{...(expandedConfig
+  ? {
+      slidesPerView: expandedConfig.slidesPerView,
+      spaceBetween: expandedConfig.spaceBetween,
+    }
+  : {
+      breakpoints: DEFAULT_BREAKPOINTS,
+      spaceBetween: 16, // default desktop space
+    })}
+
+            observer
+            observeParents
+            autoplay={{
+              delay: 1800,
+              disableOnInteraction: false,
+              pauseOnMouseEnter: false,
+            }}
+
+  //             breakpoints={{
+  //   1024: { slidesPerView: 6.5, spaceBetween: 10 },
+  //   1060: { slidesPerView: 6.9, spaceBetween: 10 },
+  //   1100: { slidesPerView: 7.2, spaceBetween: 10 },
+  //   1170: { slidesPerView: 7.5, spaceBetween: 10 },
+  //   1200: { slidesPerView: 4.5, spaceBetween: 10 },
+  //   1220: { slidesPerView: 4.5, spaceBetween: 10 },
+  //   1280: { slidesPerView: 3, spaceBetween: 10 },
+  //   1366: { slidesPerView: 3, spaceBetween: 10 },
+  //   1390: { slidesPerView: 4.5, spaceBetween: 10 },
+  //   1440: { slidesPerView: 4.5, spaceBetween: 10 }, // ✅ your perfect one
+  //   1536: { slidesPerView: 4.9, spaceBetween: 10 },
+  //   1600: { slidesPerView: 5.1, spaceBetween: 10 },
+  //   1920: { slidesPerView: 6.0, spaceBetween: 10 },
+  // }}
+            className={cn(
+              "select-none cursor-grab active:cursor-grabbing",
+            )}
+          >
+            {pairedSlides.map((pair, i) => (
+              <SwiperSlide key={i} className={cn("h-auto")}>
+                <div className={cn("flex flex-col gap-3 items-center", TILT_CLASS)}>
+                  <Link
+                    href={pair.top.href}
+                    draggable={false}
+                    className={cn(
+                      "block overflow-hidden rounded-[12px] bg-[#213743]",
+                      DESKTOP_CARD_SIZE
+                    )}
+                  >
+                    <div className="relative h-full w-full">
+                      <Image
+                        src={pair.top.src}
+                        alt={`slide-top-${i}`}
+                        fill
+                        className="object-cover"
+                        draggable={false}
+                      />
+                    </div>
+                  </Link>
+
+                  <Link
+                    href={pair.bottom.href}
+                    draggable={false}
+                    className={cn(
+                      "block overflow-hidden rounded-[12px] bg-[#213743]",
+                      DESKTOP_CARD_SIZE
+                    )}
+                  >
+                    <div className="relative h-full w-full">
+                      <Image
+                        src={pair.bottom.src}
+                        alt={`slide-bottom-${i}`}
+                        fill
+                        className="object-cover"
+                        draggable={false}
+                      />
+                    </div>
+                  </Link>
+                </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
+        </div>
+
+        {/* Right fade */}
+        <div className="pointer-events-none absolute top-0 right-0 h-full w-10 md:w-14 z-20" />
       </div>
     </div>
   );
