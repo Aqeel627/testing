@@ -175,10 +175,26 @@ export const icons = {
     </svg>
   ),
   exchange: (
-    <svg xmlns="http://www.w3.org/2000/svg"  version="1.1" id="_r_5f_" x="0px" y="0px" width="24px" height="24px" viewBox="-6 -6 24 24" enable-background="new -6 -6 24 24"  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      version="1.1"
+      id="_r_5f_"
+      x="0px"
+      y="0px"
+      width="24px"
+      height="24px"
+      viewBox="-6 -6 24 24"
+      enableBackground="new -6 -6 24 24"
+    >
       <g>
-        <polygon fill="#A5A7A9" points="17.51,7.822 17.51,10.924 5.55,10.924 5.55,17.128 -5.51,7.822  " />
-        <polygon fill="#A5A7A9" points="-5.51,4.178 -5.51,1.076 6.449,1.076 6.449,-5.128 17.51,4.178  " />
+        <polygon
+          fill="#A5A7A9"
+          points="17.51,7.822 17.51,10.924 5.55,10.924 5.55,17.128 -5.51,7.822  "
+        />
+        <polygon
+          fill="#A5A7A9"
+          points="-5.51,4.178 -5.51,1.076 6.449,1.076 6.449,-5.128 17.51,4.178  "
+        />
       </g>
     </svg>
   ),
@@ -559,6 +575,7 @@ export const icons = {
       width="1em"
       height="1em"
       viewBox="0 0 24 24"
+      fill="currentColor"
     >
       <path
         fill="currentColor"
@@ -769,7 +786,12 @@ export const icons = {
     </svg>
   ),
   house: (
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path fill="currentColor" d="M10.707 2.293a1 1 0 0 0-1.414 0l-7 7a1 1 0 0 0 1.414 1.414L4 10.414V17a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-6.586l.293.293a1 1 0 0 0 1.414-1.414z"></path></svg>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+      <path
+        fill="currentColor"
+        d="M10.707 2.293a1 1 0 0 0-1.414 0l-7 7a1 1 0 0 0 1.414 1.414L4 10.414V17a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v2a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-6.586l.293.293a1 1 0 0 0 1.414-1.414z"
+      ></path>
+    </svg>
   ),
   searchIcon: (
     <svg
@@ -781,6 +803,84 @@ export const icons = {
         fill="currentColor"
         d="m20.71 19.29l-3.4-3.39A7.92 7.92 0 0 0 19 11a8 8 0 1 0-8 8a7.92 7.92 0 0 0 4.9-1.69l3.39 3.4a1 1 0 0 0 1.42 0a1 1 0 0 0 0-1.42ZM5 11a6 6 0 1 1 6 6a6 6 0 0 1-6-6Z"
       />
+    </svg>
+  ),
+  notFound: (
+    <svg
+      focusable="false"
+      aria-hidden="true"
+      viewBox="0 0 480 360"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <defs>
+        {/* Blue Cloud Gradient Background */}
+        <linearGradient
+          id="_r_14_"
+          x1="19.496%"
+          x2="77.479%"
+          y1="71.822%"
+          y2="16.69%"
+        >
+          <stop offset="0%" stop-color="#0c3258"></stop>
+          <stop offset="100%" stop-color="#0c3258" stop-opacity="0"></stop>
+        </linearGradient>
+
+        {/* Light to Dark Blue for numbers (4 - 4) */}
+        <linearGradient
+          id="paint0_linear_1_119"
+          x1="78.3"
+          x2="78.3"
+          y1="187.77"
+          y2="305.935"
+          gradientUnits="userSpaceOnUse"
+        >
+          <stop stop-color="#3b82f6"></stop> {/* Light Blue */}
+          <stop offset="1" stop-color="#1e3a8a"></stop> {/* Dark Blue */}
+        </linearGradient>
+      </defs>
+
+      {/* Cloud Background Path */}
+      <path
+        fill="url(#_r_14_)"
+        fill-rule="nonzero"
+        d="M0 198.78c0 41.458 14.945 79.236 39.539 107.786 28.214 32.765 69.128 53.365 114.734 53.434a148.44 148.44 0 0056.495-11.036c9.051-3.699 19.182-3.274 27.948 1.107a75.779 75.779 0 0033.957 8.01c5.023 0 9.942-.494 14.7-1.433 13.58-2.67 25.94-8.99 36.09-17.94 6.378-5.627 14.547-8.456 22.897-8.446h.142c27.589 0 53.215-8.732 74.492-23.696 19.021-13.36 34.554-31.696 44.904-53.224C474.92 234.58 480 213.388 480 190.958c0-76.93-59.774-139.305-133.498-139.305-7.516 0-14.88.663-22.063 1.899C305.418 21.42 271.355 0 232.499 0a103.651 103.651 0 00-45.88 10.661c-13.24 6.487-25.011 15.705-34.64 26.939-32.698.544-62.931 11.69-87.676 30.291C25.351 97.155 0 144.882 0 198.781z"
+        opacity="0.6"
+      ></path>
+
+      {/* Character Image - URL is Important! Ensure this exists in your public folder */}
+      <image href="/svg-img.web" height="280" x="220" y="40"></image>
+
+      {/* Sun Glow */}
+      <path
+        fill="#FFAB00"
+        d="M111.1 141.2c58.7-1 58.6-88.3 0-89.2-58.6 1-58.6 88.3 0 89.2z"
+        opacity="0.12"
+      ></path>
+
+      {/* Sun Center */}
+      <path
+        fill="#FFD666"
+        d="M111.1 120c30.8-.5 30.8-46.3 0-46.8-30.8.5-30.8 46.3 0 46.8z"
+      ></path>
+
+      {/* 0 in 404 (Dark Navy Blue) */}
+      <path
+        fill="#021f59"
+        d="M244.9 182.5c82.3 1.4 82.2 123.8 0 125.2-82.3-1.5-82.3-123.8 0-125.2zm0 23.1c-51.8.9-51.8 77.9 0 78.8 51.8-.9 51.7-77.9 0-78.8z"
+      ></path>
+
+      {/* The 4s in 404 (Using the blue gradient) */}
+      <path
+        fill="url(#paint0_linear_1_119)"
+        d="M175 265.6c1-8.7-12.1-4.8-17-5.6v-66.6c0-4.5-1.5-5.6-5.6-5.6-5.3.3-13.8-1.4-17.1 4l-55 68.3c-2.7 3.3-1.8 8.8-2 12.8 0 4.1 1.5 5.6 5.6 5.6h54.7v21.7c-.9 7.9 9.1 5.2 13.7 5.6 4.1 0 5.6-1.5 5.6-5.6v-21.7c13.8-1.1 18.1 4.5 17.1-12.9zm-72.5-5.6l36-44.4V260h-36zm309.1 5.6c1-8.7-12.2-4.8-17.1-5.6v-66.6c0-4.5-1.5-5.6-5.6-5.6-5.3.3-13.7-1.4-17.1 4l-55 68.3c-2.7 3.3-1.9 8.8-2 12.8 0 4.1 1.5 5.6 5.6 5.6h54.7v21.7c-.9 7.9 9.1 5.2 13.7 5.6 4.1 0 5.6-1.5 5.6-5.6v-21.7c14.1-1.1 18.2 4.5 17.2-12.9zm-72.4-5.6l36-44.4V260h-36z"
+      ></path>
+
+      {/* Small floating clouds */}
+      <path
+        fill="#1d4ed8"
+        d="M425.6 118.2c0-5-4.6-9-9.6-8.2-2-3.7-6-6-10.2-5.9 4.3-21.4-30-21.4-25.7 0-8.7-.8-15.1 9.4-10.4 16.8 2.1 3.5 5.9 5.6 10 5.5h38.7v-.1c4.1-.4 7.2-3.9 7.2-8.1zM104.3 200c.1-4.2-4.1-7.8-8.2-7-1.7-3.2-5.1-5.1-8.8-5 3.8-18.4-25.8-18.4-22 0-7.4-.7-12.9 8.1-8.9 14.4 1.8 3 5.1 4.8 8.6 4.7h33.2v-.1c3.4-.4 6.1-3.4 6.1-7z"
+        opacity="0.3"
+      ></path>
     </svg>
   ),
 } as any;

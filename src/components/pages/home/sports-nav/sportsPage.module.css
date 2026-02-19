@@ -89,7 +89,7 @@
 .tab-icon {
   width: 24px;
   height: 24px;
-  margin-left: 8px;
+  margin-right: 8px;
   display: inline-flex;
   background-color: currentColor;
   mask-size: contain;

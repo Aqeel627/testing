@@ -8,7 +8,7 @@ import { useEffect, useRef, useState } from "react";
 import { CONFIG } from "@/lib/config";
 import { useAppStore } from "@/lib/store/store";
 import { fetchData } from "@/lib/functions";
-import { useAuthStore } from "@/lib/store/authStore";
+import { useAuthStore } from "@/lib/useAuthStore";
 import { ThemeToggle } from "../theme-toggler";
 import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
@@ -22,55 +22,26 @@ export default function Header({ onMenuClick }: HeaderProps) {
   const [showBalance, setShowBalance] = useState(true);
   const [showExposure, setShowExposure] = useState(true);
   const { userBalance, setUserBalance, setLoginModal } = useAppStore();
-  // const { isLoggedIn } = useAuthStore();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { token, isLoggedIn, logout } = useAuthStore();
   const { resolvedTheme, theme } = useTheme();
-
-  const [userName, setUserName] = useState("");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const [hideBalance, setHideBalance] = useState(false);
-
-  //   useEffect(() => {
-  //   console.log("isLoggedIn:", isLoggedIn);
-  // }, [isLoggedIn]);
-
-  const { accessToken } = useAuthStore();
+  const userName =
+    token && typeof window !== "undefined"
+      ? JSON.parse(localStorage.getItem("userDetail") || "null")?.userName || ""
+      : "";
 
   useEffect(() => {
-    console.log("Access token:", accessToken);
-    console.log("URL:", CONFIG.getUserBalance);
-    if (accessToken) {
+    if (token) {
       fetchData({
         url: CONFIG.getUserBalance,
         payload: {},
-        headers: { Authorization: `Bearer ${accessToken}` },
+        headers: { Authorization: `Bearer ${token}` },
         setFn: setUserBalance,
       });
     }
-  }, [accessToken]);
-
-  useEffect(() => {
-    const userDetail = localStorage.getItem("userDetail");
-    if (userDetail) {
-      const parsed = JSON.parse(userDetail);
-      setUserName(parsed.userName || ""); // ✅ state update
-      console.log("User Name from localStorage:", parsed.userName);
-    }
-  }, []);
-
-  useEffect(() => {
-    const token = localStorage.getItem("accessToken");
-    // console.log("Token from localStorage:", token);
-
-    if (token) {
-      setIsLoggedIn(true);
-      setIsLoggedIn(true);
-    } else {
-      setIsLoggedIn(false);
-      setIsLoggedIn(false);
-    }
-  }, []);
+  }, [token]);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -109,29 +80,46 @@ export default function Header({ onMenuClick }: HeaderProps) {
           <button
             type="button"
             onClick={onMenuClick}
-            className="text-[#637381]  dark:text-gray-400  transition-colors p-1 cursor-pointer rounded-full hover:scale-[1.04] hover:bg-[rgba(145,158,171,0.08)]"
+            className="text-(--palette-action-active) transition-colors p-1 cursor-pointer rounded-full hover:scale-[1.04] hover:bg-(--IconButton-hoverBg)"
             aria-label="Toggle sidebar"
           >
             <Icon name="logo" className="h-6 w-6" />
           </button>
-          <Link
-            href="/"
-            className="font-[inherit]  no-underline shrink-0 text-transparent inline-flex h-[44px] w-[152px] cursor-pointer"
-          >
-            <Image
-              src={"/logo.png"}
-              alt="100exch Logo"
-              fill
-              className="object-contain relative! mx-1 "
-            />
-          </Link>
+          <div className="relative">
+            <div className="neon-underline bottom-[9px]">
+              <span className="neon-glow glow-main"></span>
+              <span className="neon-line line-main"></span>
+
+              <span className="neon-glow glow-center"></span>
+              <span className="neon-line line-center"></span>
+            </div>
+            <Link
+              href="/"
+              onClick={() => window.dispatchEvent(new Event("reset-sidebar"))}
+              className="font-[inherit]  no-underline shrink-0 text-transparent inline-flex h-[44px] w-[152px] cursor-pointer"
+            >
+              <Image
+                src={"/logo.png"}
+                alt="100exch Logo"
+                fill
+                className="object-contain relative! mx-1 "
+              />
+            </Link>
+          </div>
         </div>
 
         <nav className="hidden min-[960px]:flex items-center gap-2 font-bold --palette-text-primary  relative left-[3px]">
           <Link
             href="/"
-            className="flex p-1 items-center text-[13px] font-bold --palette-text-primary  hover:--palette-text-primary  transition-colors group rounded-lg  hover:bg-[rgba(145,158,171,0.08)] "
+            className="active flex p-1 items-center text-[13px] font-bold --palette-text-primary  hover:--palette-text-primary  transition-colors group rounded-lg  hover:bg-[rgba(145,158,171,0.08)] "
           >
+            <div className="neon-underline none exch">
+              <span className="neon-glow glow-main"></span>
+              <span className="neon-line line-main"></span>
+
+              <span className="neon-glow glow-center"></span>
+              <span className="neon-line line-center"></span>
+            </div>
             <span className=" group-hover:--palette-text-primary transition-colors mr-[4px]  border border-[#a5a7a9] rounded-full p-[2px]">
               <Icon name="exchange" className="h-4 w-4 " />
             </span>
@@ -178,13 +166,15 @@ export default function Header({ onMenuClick }: HeaderProps) {
           {isLoggedIn && (
             <Link
               href=""
-              className="inline-flex items-center justify-center relative box-border cursor-pointer select-none align-middle appearance-none font-sans font-bold leading-[1.71429] normal-case min-w-[64px] text-[0.8125rem] h-[30px] outline-none m-0 no-underline rounded-lg border border-solid py-[3px] px-1 min-[600px]:px-[8px] transition-all duration-[250ms] ease-[cubic-bezier(0.4,0,0.2,1)] bg-transparent text-[#078DEE] border-[#078dee7a] hover:bg-blue-600/5"
+              className="inline-flex items-center justify-center relative box-border cursor-pointer select-none align-middle appearance-none font-sans font-bold leading-[1.71429] normal-case min-w-[64px] text-[0.8125rem] h-[30px] outline-none m-0 no-underline rounded-lg border border-solid py-[3px] px-1 min-[600px]:px-[8px] transition-all duration-[250ms] ease-[cubic-bezier(0.4,0,0.2,1)] bg-transparent hover:border-[1px] hover:border-[#078dee] text-[#078DEE] border-[#078dee7a] hover:bg-blue-600/5 hover:shadow-[0px_0px_0px_0.75px_currentColor]"
             >
               Bets
             </Link>
           )}
 
-          <ThemeToggle />
+          <span className="hidden min-[600px]:flex ">
+            <ThemeToggle />
+          </span>
           {!isLoggedIn && (
             // <Link
             //   href="/login"
@@ -194,15 +184,19 @@ export default function Header({ onMenuClick }: HeaderProps) {
             // </Link>
             <div
               onClick={() => setLoginModal(true)}
-              className="text-sm leading-[1.71429] cursor-pointer [text-transform:unset] min-w-16 py-[5px] px-3 flex justify-center items-center text-sm border-1 border-[#919eab52] rounded-[8px] --palette-text-primary  rounded-lg  hover:bg-[rgba(145,158,171,0.08)]   font-bold transition-all duration-300 mr-1"
+              className="text-sm leading-[1.71429] cursor-pointer [text-transform:unset] min-w-16 py-[5px] px-3 flex justify-center items-center text-sm border-1 border-[rgba(var(--palette-grey-500Channel)_/_32%)] rounded-[8px] --palette-text-primary  rounded-lg  hover:bg-[rgba(145,158,171,0.08)]   font-bold transition-all duration-300 mr-1"
             >
               Login
             </div>
           )}
           {isLoggedIn && (
             <div className="flex items-center gap-2 mr-1" ref={menuRef}>
-              <div onClick={() => setIsMenuOpen(!isMenuOpen)} className="relative inline-flex items-center justify-center h-[29px] rounded-[8px] p-[1px] overflow-hidden bg-transparent group cursor-pointer max-w-16">
-                <span className="absolute inset-0 m-auto w-full h-full rounded-[inherit] content-[''] pointer-events-none 
+              <div
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className="relative inline-flex items-center justify-center h-[29px] rounded-[8px] p-[1px] overflow-hidden bg-transparent group cursor-pointer max-w-16"
+              >
+                <span
+                  className="absolute inset-0 m-auto w-full h-full rounded-[inherit] content-[''] pointer-events-none 
         [mask:linear-gradient(#fff_0_0)_content-box_xor,linear-gradient(#fff_0_0)] 
         -webkit-[mask:linear-gradient(#fff_0_0)_content-box_xor,linear-gradient(#fff_0_0)]"
                 >
@@ -216,25 +210,24 @@ export default function Header({ onMenuClick }: HeaderProps) {
                     className={`${styles.movingShape} ${styles.shapeBlue}`}
                   ></span>
                 </span>
-                <button className="relative z-10 flex flex-col items-center justify-center px-4 py-1 bg-[#161C24] dark:bg-[#161C24] h-[28px] rounded-[7px] w-full h-full min-w-[62px]">
-
+                <button className="relative z-10 flex flex-col items-center justify-center px-4 py-1 bg-[var(--background)] hover:bg-[var(--head-hover)] h-[28px] rounded-[7px] w-full h-full min-w-[62px] cursor-pointer">
                   <span className="text-[0.6rem] text-[#919EAB] font-semibold leading-[1] uppercase tracking-[1px]">
                     Pts
                   </span>
-                  <span className="text-[12px] text-white font-bold leading-[1]">
+                  <span className="text-[12px] font-bold leading-[1] text-[var(--palette-text-primary)]">
                     {hideBalance ? "-" : "1"}
                   </span>
                 </button>
               </div>
 
               {isMenuOpen && (
-                <div className="absolute top-[16px] md:top-[38px] right-0 w-[250px] bg-[var(--background)] rounded-xl shadow-[0_0px_2px_rgba(0,0,0,0.5)] z-50 flex flex-col var(--palette-text-primary) overflow-hidden max-h-[calc(100vh-32px)] border border-[#919eab29]">
+                <div className="absolute top-[16px] md:top-[38px] right-0 w-[250px] bg-[var(--dropdownBg)] rounded-xl  z-50 flex flex-col var(--palette-text-primary) overflow-hidden overflow-y-auto max-h-[calc(100vh-32px)] border border-[#919eab29] scrollbar-hide">
                   <div className="absolute -top-10 -right-10 w-20 h-20 bg-[#078dee] blur-[60px] opacity-[0.50] pointer-events-none z-0 rounded-full"></div>
                   <div className="px-4 pt-4 pb-2">
                     <h6 className="text-[0.875rem] font-semibold text-[var(--palette-text-primary)] truncate leading-[1.57143]">
                       {userName}
                     </h6>
-                    <p className="text-[0.875rem] leading-[1.57143] text-[#637381] truncate">
+                    <p className="text-[0.875rem] leading-[1.57143] text-[var(--dropdowntext)] truncate">
                       {userName}
                     </p>
                   </div>
@@ -244,8 +237,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
                   <div className="flex flex-col gap-2 px-4 pb-4 pt-2">
                     <div className="rounded-[16px] shadow-[0_1px_2px_0_rgb(0_0_0_/_16%)] border-[#919eab29] border-[1px]">
                       <div className="flex flex-col p-2 items-center cursor-pointer">
-
-                        <p className="text-[0.875rem] leading-[1.25] text-[#637381] font-[500] uppercase">
+                        <p className="text-[0.875rem] leading-[1.25] text-[var(--dropdowntext)] font-[500] uppercase">
                           Exposure
                         </p>
                         <p className="text-[1rem] text-[var(--palette-text-primary)] font-semibold leading-[1.5]">
@@ -255,11 +247,16 @@ export default function Header({ onMenuClick }: HeaderProps) {
                     </div>
                     <div className="rounded-[16px] shadow-[0_1px_2px_0_rgb(0_0_0_/_16%)] border-[#919eab29] border-[1px]">
                       <div className="flex flex-col p-2 items-center cursor-pointer">
-                        <p className="text-[0.875rem] leading-[1.25] text-[#637381] font-[500] uppercase">
+                        <p className="text-[0.875rem] leading-[1.25] text-[var(--dropdowntext)] font-[500] uppercase">
                           Balance
                         </p>
                         <p className="text-[1rem] text-[var(--palette-text-primary)] font-semibold leading-[1.5]">
-                            {hideBalance ? "-" : ((userBalance?.bankBalance ?? 0) - (userBalance?.exposure ?? 0)).toFixed(2)}
+                          {hideBalance
+                            ? "-"
+                            : (
+                              (userBalance?.bankBalance ?? 0) -
+                              (userBalance?.exposure ?? 0)
+                            ).toFixed(2)}
                         </p>
                       </div>
                     </div>
@@ -289,7 +286,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
                         <Link
                           href={item.href}
                           onClick={() => setIsMenuOpen(false)}
-                          className="flex items-center w-full px-2 py-2 text-[0.875rem] leading-[1.57143px] text-[#637381] hover:text-[var(--palette-text-primary)] hover:bg-transparent transition-colors h-[34px]"
+                          className="flex items-center w-full px-2 py-2 text-[0.875rem] leading-[1.57143px] text-[var(--dropdowntext)] hover:text-[var(--palette-text-primary)] hover:bg-transparent transition-colors h-[34px]"
                         >
                           <span className="ml-4">{item.label}</span>
                         </Link>
@@ -298,17 +295,18 @@ export default function Header({ onMenuClick }: HeaderProps) {
 
                     {/* Theme Option (Static Icon for now) */}
                     <li className="mb-1 no-underline h-12 min-[600px]:h-auto text-[0.875rem] leading-[1.57143px] hover:bg-[rgba(145,158,171,0.08)] rounded-[8px]">
-                      <div className="flex items-center justify-between w-full px-2 text-[14px] text-[#637381] hover:text-[var(--palette-text-primary)] hover:bg-white/5 transition-colors cursor-pointer">
+                      <div className="flex items-center justify-between w-full px-2 text-[14px] text-[var(--dropdowntext)] hover:text-[var(--palette-text-primary)] hover:bg-white/5 transition-colors cursor-pointer">
                         <span className="ml-4">Theme</span>
-                        {/* Placeholder Icon */}
-                        <ThemeToggle />
+                        <span>
+                          <ThemeToggle />
+                        </span>
                       </div>
                     </li>
 
                     {/* Hide Balance Toggle */}
                     <li className="mb-1 no-underline h-12 min-[600px]:h-[44px] text-[0.875rem] leading-[1.57143px] flex items-center hover:bg-[rgba(145,158,171,0.08)] rounded-[8px]">
                       <div
-                        className="flex items-center justify-between w-full px-2 text-[14px] text-[#637381] hover:text-[var(--palette-text-primary)] transition-colors cursor-pointer"
+                        className="flex items-center justify-between w-full px-2 text-[14px] text-[var(--dropdowntext)] hover:text-[var(--palette-text-primary)] transition-colors cursor-pointer"
                         onClick={(e) => {
                           e.stopPropagation(); // Prevent menu from closing
                           setHideBalance(!hideBalance);
@@ -334,13 +332,10 @@ export default function Header({ onMenuClick }: HeaderProps) {
                   {/* Logout Button */}
                   <div className="p-2 relative">
                     {/* 👇 Ye optional background glow hai jo corner main red light dega (bilkul image jaisa) */}
-                    <div className="absolute -bottom-4 -left-4 w-20 h-20 bg-[#FF5630] blur-[30px] opacity-15 pointer-events-none"></div>
+                    <div className="absolute -bottom-4 hidden md:flex -left-4 w-20 h-20 bg-[#FF5630] blur-[30px] opacity-15 pointer-events-none"></div>
 
                     <button
-                      onClick={() => {
-                        setIsLoggedIn(false);
-                        setIsMenuOpen(false);
-                      }}
+                      onClick={logout}
                       className="relative z-10 w-full text-left px-2 py-2 text-[14px] font-bold text-[#FF5630] hover:bg-[#FF5630]/10 rounded-lg transition-colors cursor-pointer "
                     >
                       Logout

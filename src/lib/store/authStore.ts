@@ -4,12 +4,12 @@ import { CONFIG } from "../config";
 
 interface AuthState {
   isLoggedIn: boolean;
-  accessToken: string | null;
+  token: string | null;
   userDetail: any | null;
   error: string | null;
   showModal: boolean;
 
-  checkLogin: (accessToken: string | null) => void;
+  checkLogin: (token: string | null) => void;
   loginUser: (
     username: string,
     password: string,
@@ -22,13 +22,13 @@ interface AuthState {
 // 🔹 Get token from localStorage on load
 const getStoredToken = () => {
   if (typeof window !== "undefined") {
-    return localStorage.getItem("accessToken");
+    return localStorage.getItem("token");
   }
   return null;
 };
 
 export const useAuthStore = create<AuthState>((set, get) => ({
-  accessToken: getStoredToken(),
+  token: getStoredToken(),
   isLoggedIn: !!getStoredToken(),
   userDetail:
     typeof window !== "undefined"
@@ -40,10 +40,10 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   // ---------------------------------------------
   // CHECK LOGIN (manual token set)
   // ---------------------------------------------
-  checkLogin: (accessToken: string | null) => {
+  checkLogin: (token: string | null) => {
     set({
-      accessToken,
-      isLoggedIn: !!accessToken,
+      token,
+      isLoggedIn: !!token,
     });
   },
 
@@ -65,19 +65,19 @@ export const useAuthStore = create<AuthState>((set, get) => ({
     });
 
     // ✅ If login successful → update store
-    if (result?.success && result?.data?.accessToken) {
-      const token = result.data.accessToken;
+    if (result?.success && result?.data?.token) {
+      const token = result.data.token;
       const user = result.data.user || null;
 
       // Save to localStorage
       if (typeof window !== "undefined") {
-        localStorage.setItem("accessToken", token);
+        localStorage.setItem("token", token);
         localStorage.setItem("userDetail", JSON.stringify(user));
       }
 
       // Update Zustand store
       set({
-        accessToken: token,
+        token: token,
         isLoggedIn: true,
         userDetail: user,
         error: null,
@@ -106,7 +106,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
   // ---------------------------------------------
   logoutUser: () => {
     if (typeof window !== "undefined") {
-      localStorage.removeItem("accessToken"); // ✅ space removed
+      localStorage.removeItem("token"); // ✅ space removed
       localStorage.removeItem("userDetail");
       localStorage.removeItem("intCasino");
       localStorage.removeItem("newLogin");
@@ -114,7 +114,7 @@ export const useAuthStore = create<AuthState>((set, get) => ({
 
     set({
       isLoggedIn: false,
-      accessToken: null,
+      token: null,
       userDetail: null,
       error: null,
     });

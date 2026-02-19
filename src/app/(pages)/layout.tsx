@@ -261,7 +261,7 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
           />
 
           <aside
-            className={`fixed top-0 sidebar-container left-0 z-[70] h-screen w-[288px] max-w-[85vw] bg-[#141A21] overflow-y-auto no-scrollbar transition-transform duration-300 ease-in-out ${
+            className={`fixed top-0 sidebar-container left-0 z-[70] h-screen w-[288px] max-w-[85vw] bg-[var(--background)] overflow-y-auto no-scrollbar transition-transform duration-300 ease-in-out ${
               isMobileSidebarOpen ? "translate-x-0" : "-translate-x-full"
             }`}
           >

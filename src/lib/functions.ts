@@ -146,6 +146,7 @@ export async function loginRequest({
 
     if (result?.meta?.status_code === 200) {
       if (typeof window !== "undefined") {
+        // localStorage.setItem("token", result.data.token);
         localStorage.setItem("token", result.data.accessToken);
         localStorage.setItem("intCasino", result.data.intCasino);
         localStorage.setItem(
@@ -157,7 +158,7 @@ export async function loginRequest({
 
       setState?.({
         isLoggedIn: true,
-        accessToken: result.data.accessToken,
+        token: result.data.token,
         userDetail: result.data.userDetail,
         error: null,
         showModal: false,
@@ -168,7 +169,7 @@ export async function loginRequest({
 
     setState?.({
       isLoggedIn: false,
-      accessToken: null,
+      token: null,
       userDetail: null,
       error: result?.meta?.message,
     });

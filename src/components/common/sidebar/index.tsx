@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import type { CSSProperties } from "react";
-import { type MouseEvent, useMemo, useState } from "react";
+import { type MouseEvent, useEffect, useMemo, useState } from "react";
 import styles from "./sidebar.module.css";
 import { useAppStore } from "@/lib/store/store";
 import Link from "next/link";
@@ -72,7 +72,6 @@ interface QuickLinkItemProps {
   href: string;
   count: number;
   icon: React.ReactNode;
-  pathName: string;
   isActive: boolean;
   onActivate: () => void;
   onClose: () => void;
@@ -81,7 +80,7 @@ interface QuickLinkItemProps {
 const handleRipple = (e: React.MouseEvent<HTMLElement>) => {
   const rect = e.currentTarget.getBoundingClientRect();
   const x = e.clientX - rect.left; // Mouse X position inside element
-  const y = e.clientY - rect.top;  // Mouse Y position inside element
+  const y = e.clientY - rect.top; // Mouse Y position inside element
 
   // Ye dono values hum CSS variables (--x, --y) mein set kar rahe hain
   e.currentTarget.style.setProperty("--x", `${x}px`);
@@ -92,7 +91,6 @@ const QuickLinkItem = ({
   href,
   count,
   icon,
-  pathName,
   isActive,
   onActivate,
   onClose,
@@ -100,11 +98,8 @@ const QuickLinkItem = ({
   <li className={styles.item}>
     <Link
       href={href}
-      onMouseDown={handleRipple} 
-      className={cn(
-        styles.link,
-        (pathName?.includes(href) || isActive) && styles.linkActive,
-      )}
+      onMouseDown={handleRipple}
+      className={cn(styles.link, isActive && styles.linkActive)}
       onClick={() => {
         onActivate();
         onClose(); // close sidebar on quicklink navigation
@@ -148,7 +143,7 @@ const ThirdItemComponent = ({
       <Link
         href={item.href || "#"}
         onMouseDown={handleRipple} // <-- Ye line add karein
-        className={cn(styles.navLink, isActive && styles.activeSubItem)}
+        className={`${styles.navLink}${isActive ? ` ${styles.activeSubItem}` : ""}`}
         onClick={() => {
           onActivate();
           closeSidebar(); // navigate to market-details → close sidebar
@@ -297,9 +292,7 @@ const SportItemComponent = ({
         <span className={styles.linkIconWrap}>
           <span
             className={styles.sportImage}
-            style={
-              { "--sport-icon": `url(${sport.iconUrl})` } as CSSProperties
-            }
+            style={{ "--sport-icon": `url(${sport.iconUrl})` } as CSSProperties}
           />
         </span>
         <span className={styles.linkText}>{sport.name}</span>
@@ -360,14 +353,31 @@ export default function Sidebar({ config }: SidebarProps) {
   const [isQuickLinksOpen, setIsQuickLinksOpen] = useState(true);
   const [isSportsOpen, setIsSportsOpen] = useState(true);
   const [openSportIndex, setOpenSportIndex] = useState<number | null>(null);
-  const [openTournamentKey, setOpenTournamentKey] = useState<string | null>(null);
+  const [openTournamentKey, setOpenTournamentKey] = useState<string | null>(
+    null,
+  );
   const { inplayEvents, menuList } = useAppStore();
   const toggleSearch = useUIStore((s) => s.toggleSearch);
   const closeSidebar = useUIStore((s) => s.closeSidebar);
 
   const [active, setActive] = useState<ActiveState>({ type: null });
 
-  // ─── Build dynamic sports config from menuList ───
+  // 👇 NAYA EVENT LISTENER 👇
+  useEffect(() => {
+    const handleResetDropdowns = () => {
+      setOpenSportIndex(null);
+      setOpenTournamentKey(null);
+      setActive({ type: null });
+    };
+
+    // Jab bhi 'reset-sidebar' ka signal aayega, ye function chal jayega
+    window.addEventListener("reset-sidebar", handleResetDropdowns);
+
+    return () => {
+      window.removeEventListener("reset-sidebar", handleResetDropdowns);
+    };
+  }, []);
+  // 👆 ---------------------------------------------------- 👆
   const dynamicSportsConfig: Sport[] = useMemo(() => {
     if (!menuList) return [];
 
@@ -400,20 +410,32 @@ export default function Sidebar({ config }: SidebarProps) {
       if (!sportId || !compId || !eventId) return;
 
       if (!sportMap.has(sportId)) {
-        sportMap.set(sportId, { name: sportName, id: sportId, tournaments: new Map() });
+        sportMap.set(sportId, {
+          name: sportName,
+          id: sportId,
+          tournaments: new Map(),
+        });
       }
 
       const sport = sportMap.get(sportId)!;
 
       if (!sport.tournaments.has(compId)) {
-        sport.tournaments.set(compId, { name: compName, id: compId, events: [] });
+        sport.tournaments.set(compId, {
+          name: compName,
+          id: compId,
+          events: [],
+        });
       }
 
-      sport.tournaments.get(compId)!.events.push({ id: eventId, name: eventName });
+      sport.tournaments
+        .get(compId)!
+        .events.push({ id: eventId, name: eventName });
     });
 
     return Array.from(sportMap.values()).map((sport) => {
-      const tournaments: Tournament[] = Array.from(sport.tournaments.values()).map((comp) => ({
+      const tournaments: Tournament[] = Array.from(
+        sport.tournaments.values(),
+      ).map((comp) => ({
         name: comp.name,
         count: comp.events.length,
         // No competition-level href — tournaments only expand, never navigate
@@ -470,6 +492,11 @@ export default function Sidebar({ config }: SidebarProps) {
 
   const handleQuickLinkActivate = (label: string) => {
     setActive({ type: "quicklink", qlLabel: label });
+
+    // 👇 In 2 lines se agar koi sport ya tournament open hoga to wo close ho jayega
+    setOpenSportIndex(null);
+    setOpenTournamentKey(null);
+
     // closeSidebar is called inside QuickLinkItem's onClick
   };
 
@@ -505,22 +532,27 @@ export default function Sidebar({ config }: SidebarProps) {
     // ThirdItemComponent handles closeSidebar itself
   };
 
-  // ─── Active helpers ───
-  const isQuickLinkActive = (label: string) =>
-    active.type === "quicklink" && active.qlLabel === label;
-
-  const isSportActive = (sportIndex: number) =>
-    active.type === "sport" && active.sportIndex === sportIndex;
+  const isQuickLinkActive = (label: string, href: string) => {
+    if (active.type === "sport") return false;
+    if (active.type === "quicklink" && active.qlLabel === label) return true;
+    if (href !== "#" && pathName?.includes(href)) return true;
+    return false;
+  };
 
   const activeTournamentIndexFor = (sportIndex: number): number | null => {
-    if (active.type !== "sport" || active.sportIndex !== sportIndex) return null;
+    if (active.type !== "sport" || active.sportIndex !== sportIndex)
+      return null;
     return active.tournamentIndex !== undefined ? active.tournamentIndex : null;
   };
 
   const activeThirdIndexFor = (sportIndex: number): number | null => {
-    if (active.type !== "sport" || active.sportIndex !== sportIndex) return null;
+    if (active.type !== "sport" || active.sportIndex !== sportIndex)
+      return null;
     return active.thirdIndex !== undefined ? active.thirdIndex : null;
   };
+
+  const isSportActive = (sportIndex: number) =>
+    active.type === "sport" && active.sportIndex === sportIndex;
 
   const handleSearchToggle = () => toggleSearch(true);
 
@@ -536,14 +568,16 @@ export default function Sidebar({ config }: SidebarProps) {
       <ul className={styles.list}>
         {/* Mobile Search */}
         <div
-          className={`${styles.searchWrapper} lg:hidden!`}
+          className={`${styles.searchWrapper} lg:hidden! border-b -mx-4 border-[#919eab14]`}
           onClick={handleSearchToggle}
           role="button"
           tabIndex={0}
           onKeyDown={(e) => handleKeyDown(e, handleSearchToggle)}
         >
-          <div className={styles.searchBtn}>
-            <Icon name={"search"} className={styles.searchIcon} />
+          <div className="px-4">
+            <div className={styles.searchBtn}>
+              <Icon name={"search"} className={styles.searchIcon} />
+            </div>
           </div>
         </div>
 
@@ -598,8 +632,8 @@ export default function Sidebar({ config }: SidebarProps) {
                   href={link.href}
                   count={link.count}
                   icon={link.icon}
-                  pathName={pathName}
-                  isActive={isQuickLinkActive(link.label)}
+                  // pathName={pathName}
+                  isActive={isQuickLinkActive(link.label, link.href)}
                   onActivate={() => handleQuickLinkActivate(link.label)}
                 />
               ))}
