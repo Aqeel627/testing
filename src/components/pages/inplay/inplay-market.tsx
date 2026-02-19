@@ -143,9 +143,9 @@ const InplayMarket = ({ events }: { events: any }) => {
                   </div>
 
                   <div>
-                    <p className="m-0 font-sans whitespace-nowrap text-[#919eab] text-[10px] font-bold uppercase leading-4 truncate overflow-hidden">
+                    <p className="m-0 font-sans whitespace-nowrap dark:text-white text-black text-[10px] font-bold uppercase leading-4 truncate overflow-hidden">
                       Traded:{" "}
-                      <span className="text-[10px] font-bold dark:text-white text-black leading-4">
+                      <span className="text-[10px] font-bold leading-4">
                         <AnimatedNumber
                           value={event.totalMatched}
                           inplay={event.inplay}
