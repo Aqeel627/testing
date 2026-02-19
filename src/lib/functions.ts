@@ -146,7 +146,8 @@ export async function loginRequest({
 
     if (result?.meta?.status_code === 200) {
       if (typeof window !== "undefined") {
-        localStorage.setItem("token", result.data.token);
+        // localStorage.setItem("token", result.data.token);
+        localStorage.setItem("token", result.data.accessToken);
         localStorage.setItem("intCasino", result.data.intCasino);
         localStorage.setItem(
           "userDetail",
