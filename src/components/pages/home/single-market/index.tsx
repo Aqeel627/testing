@@ -1,6 +1,6 @@
 "use client";
 import { useAppStore } from "@/lib/store/store";
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import Icon from "@/icons/icons";
 import Link from "next/link";
 import style from "./singleMarket.module.css";
@@ -8,11 +8,30 @@ import { shortNumber } from "@/lib/functions";
 
 export default function SingleMarket() {
   const { allEventsList, selectedEventTypeId } = useAppStore();
-  const { selectedBet, setSelectedBet, clearSelectedBet } = useAppStore();
+  const { setSelectedBet } = useAppStore();
+  const wrapperRef = useRef<HTMLUListElement | null>(null);
+  const [isCompactLayout, setIsCompactLayout] = useState(false);
 
   useEffect(() => {
     console.log(allEventsList, "events all");
   }, [allEventsList]);
+
+  useEffect(() => {
+    const listEl = wrapperRef.current;
+    if (!listEl) return;
+    const targetEl = (listEl.closest("main") as HTMLElement | null) || listEl;
+
+    const updateLayoutMode = () => {
+      const renderedWidth = targetEl.getBoundingClientRect().width;
+      setIsCompactLayout(renderedWidth < 802);
+    };
+
+    updateLayoutMode();
+    const observer = new ResizeObserver(updateLayoutMode);
+    observer.observe(targetEl);
+
+    return () => observer.disconnect();
+  }, []);
 
   const events: any[] = selectedEventTypeId
     ? (allEventsList?.[selectedEventTypeId] ?? [])
@@ -22,7 +41,7 @@ export default function SingleMarket() {
   if (!events.length) return <p className="text-white p-4">No events found.</p>;
 
   return (
-    <ul className="mt-2">
+    <ul ref={wrapperRef} className="mt-2">
       {events.map((event: any) => {
         const runner0 = event.runners?.[0]; // Team 1 → LEFT
         const runner1 = event.runners?.[1]; // Team 2 → RIGHT
@@ -38,9 +57,15 @@ export default function SingleMarket() {
             key={event.marketId}
             className="w-full rounded-[2px] border border-dashed border-[rgba(145,158,171,0.16)] bg-[rgba(145,158,171,0.04)] text-white overflow-hidden mb-[6px]"
           >
-            <div className="flex w-full flex-col min-[691px]:flex-row min-[1200px]:flex-col min-[1376px]:flex-row">
+            <div
+              className={
+                isCompactLayout
+                  ? "flex w-full flex-col"
+                  : "flex w-full flex-col min-[691px]:flex-row min-[1200px]:flex-col min-[1376px]:flex-row"
+              }
+            >
               {/* LEFT CONTENT – 60% */}
-              <div className="w-full min-[691px]:w-[55%] min-[1200px]:w-full min-[1376px]:w-[55%] p-[5px]">
+              <div className="w-full  min-[1200px]:w-full  p-[5px]">
                 {/* Sport + Competition */}
                 <div className="flex flex-row whitespace-nowrap items-center max-w-full min-h-[1.125rem] overflow-hidden -mt-1 mr-5 -mb-1 -ml-1 text-[9px] font-bold tracking-[0.7px] uppercase text-[#098DEE]">
                   <a
@@ -165,7 +190,13 @@ export default function SingleMarket() {
               </div>
 
               {/* RIGHT ODDS – 40% */}
-              <div className="flex flex-row gap-2 items-center whitespace-nowrap min-[1376px]:flex-[1_0_20rem] relative w-full min-[691px]:w-[45%] min-[1200px]:w-[100%] min-[1376px]:max-w-[40%] leading-[1.125rem] text-xs p-[5px] overflow-hidden">
+              <div
+                className={
+                  isCompactLayout
+                    ? "flex flex-row gap-2 items-center whitespace-nowrap relative w-full min-w-0 leading-[1.125rem] text-xs p-[5px] overflow-hidden"
+                    : "flex flex-row gap-2 items-center whitespace-nowrap min-[1376px]:flex-[1_0_20rem] relative min-w-fit leading-[1.125rem] text-xs p-[5px] overflow-hidden"
+                }
+              >
 
                 {/* LEFT — Team 1 odds */}
                 <div className="flex flex-col gap-0.5 w-[33.3%]">
@@ -175,7 +206,7 @@ export default function SingleMarket() {
                   <div className="flex gap-1">
                     {/* BACK BUTTON (LEFT) */}
                     <div
-                      className=" w-[75%] h-[45px] rounded-[8px] border-[1px] border-[#034a69] bg-[#0c2137]/60 hover:bg-[#0c2137]/80 flex flex-col justify-center items-center cursor-pointer select-none transition-all"
+                      className=" w-[75%] h-[45px] min-w-[57.5px] rounded-[8px] border-[1px] border-[#034a69] bg-[#0c2137]/60 hover:bg-[#0c2137]/80 flex flex-col justify-center items-center cursor-pointer select-none transition-all"
                       onClick={() =>
                         setSelectedBet({
                           type: "back",
@@ -196,7 +227,7 @@ export default function SingleMarket() {
 
                     {/* LAY BUTTON (LEFT) */}
                     <div
-                      className="w-[75%] h-[45px] rounded-[8px] border-[1px] border-[#6a1a29] bg-[#2a0c13]/60 hover:bg-[#2a0c13]/80 flex flex-col justify-center items-center cursor-pointer select-none transition-all"
+                      className="w-[75%] h-[45px] min-w-[57.5px] rounded-[8px] border-[1px] border-[#6a1a29] bg-[#2a0c13]/60 hover:bg-[#2a0c13]/80 flex flex-col justify-center items-center cursor-pointer select-none transition-all"
                       onClick={() =>
                         setSelectedBet({
                           type: "lay",
@@ -225,7 +256,7 @@ export default function SingleMarket() {
                   <div className="flex gap-1">
                     {/* BACK BUTTON (CENTER) */}
                     <div
-                      className={`w-[75%] h-[45px] rounded-[8px] border-[1px] flex flex-col justify-center items-center select-none transition-all ${hasThreeRunners
+                      className={`w-[75%] h-[45px] min-w-[57.5px] rounded-[8px] border-[1px] flex flex-col justify-center items-center select-none transition-all ${hasThreeRunners
                           ? "border-[#034a69] bg-[#0c2137]/60 hover:bg-[#0c2137]/80 cursor-pointer"
                           : "border-[#034a69]/40 bg-[#0c2137]/20 cursor-default"
                         }`}
@@ -250,7 +281,7 @@ export default function SingleMarket() {
 
                     {/* LAY BUTTON (CENTER) */}
                     <div
-                      className={`w-[75%] h-[45px] rounded-[8px] border-[1px] flex flex-col justify-center items-center select-none transition-all ${hasThreeRunners
+                      className={`w-[75%] h-[45px] min-w-[57.5px] rounded-[8px] border-[1px] flex flex-col justify-center items-center select-none transition-all ${hasThreeRunners
                           ? "border-[#6a1a29] bg-[#2a0c13]/60 hover:bg-[#2a0c13]/80 cursor-pointer"
                           : "border-[#6a1a29]/40 bg-[#2a0c13]/20 cursor-default"
                         }`}
@@ -283,7 +314,7 @@ export default function SingleMarket() {
                   <div className="flex gap-1">
                     {/* BACK BUTTON (RIGHT) */}
                     <div
-                      className="w-[75%] h-[45px] rounded-[8px] border-[1px] border-[#034a69] bg-[#0c2137]/60 hover:bg-[#0c2137]/80 flex flex-col justify-center items-center cursor-pointer select-none transition-all"
+                      className="w-[75%] h-[45px] min-w-[57.5px] rounded-[8px] border-[1px] border-[#034a69] bg-[#0c2137]/60 hover:bg-[#0c2137]/80 flex flex-col justify-center items-center cursor-pointer select-none transition-all"
                       onClick={() =>
                         setSelectedBet({
                           type: "back",
@@ -304,7 +335,7 @@ export default function SingleMarket() {
 
                     {/* LAY BUTTON (RIGHT) */}
                     <div
-                      className="w-[75%] h-[45px] rounded-[8px] border-[1px] border-[#6a1a29] bg-[#2a0c13]/60 hover:bg-[#2a0c13]/80 flex flex-col justify-center items-center cursor-pointer select-none transition-all"
+                      className="w-[75%] h-[45px] min-w-[57.5px] rounded-[8px] border-[1px] border-[#6a1a29] bg-[#2a0c13]/60 hover:bg-[#2a0c13]/80 flex flex-col justify-center items-center cursor-pointer select-none transition-all"
                       onClick={() =>
                         setSelectedBet({
                           type: "lay",
