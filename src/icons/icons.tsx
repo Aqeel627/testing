@@ -188,11 +188,11 @@ export const icons = {
     >
       <g>
         <polygon
-          fill="#A5A7A9"
+          fill="currentColor"
           points="17.51,7.822 17.51,10.924 5.55,10.924 5.55,17.128 -5.51,7.822  "
         />
         <polygon
-          fill="#A5A7A9"
+          fill="currentColor"
           points="-5.51,4.178 -5.51,1.076 6.449,1.076 6.449,-5.128 17.51,4.178  "
         />
       </g>

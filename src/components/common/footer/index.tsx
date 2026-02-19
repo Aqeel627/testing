@@ -111,14 +111,16 @@ export default function Footer() {
               {/* DESCRIPTION */}
               <div className=" border-t min-[900px]:pt-2 pt-4 border-dashed max-[900]:text-xs border-[rgba(145,158,171,0.2)]  text-[13px] leading-[20px] text-(--palette-text-secondary) dark:border-[rgba(145,158,171,0.2)] ">
                 This website is operated by{" "}
-                <span className="text-[14px] text-[#098DEE]">100Exch</span>,
-                registered under No. at{" "}
                 <span className="text-[14px] text-[#098DEE]">
                   Rich Able Developments Limited
                 </span>
-                . This website is licensed and regulated by{" "}
-                <span className="text-[14px] text-[#098DEE]">Samoa</span>{" "}
-                eGaming, license No.{" "}
+                , registered under No. 92605 at{" "}
+                <span className="text-[14px] text-[#098DEE]">Samoa</span>.
+                website is licensed and regulated by{" "}
+                <span className="text-[14px] text-[#098DEE]">
+                  Anjouan eGaming
+                </span>{" "}
+                , license No.{" "}
                 <span className="text-[14px] text-[#098DEE]">
                   ALSI-202510012-FI1
                 </span>
