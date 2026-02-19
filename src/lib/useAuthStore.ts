@@ -92,6 +92,7 @@ export const useAuthStore = create<AuthState>()(
                     const token = result.data.token;
                     if (typeof window !== "undefined") {
                         localStorage.setItem("token", result.data.token);
+                        console.log(result)
                         localStorage.setItem(
                             "intCasino",
                             result.data.intCasino
