@@ -237,7 +237,7 @@ export default function SingleMarket() {
                         })
                       }
                     >
-                      <span className="block whitespace-nowrap font-bold text-[13px] text-[#03B2FF] leading-[1.1]">
+                      <span className="block whitespace-nowrap font-bold text-[16px] text-[#03B2FF] leading-[1.1]">
                         {runner0?.ex?.availableToBack?.[0]?.price ?? "-"}
                       </span>
                       <span className="block whitespace-nowrap font-normal text-[10px] text-[#60a5fa] leading-[1]">
@@ -259,7 +259,7 @@ export default function SingleMarket() {
                         })
                       }
                     >
-                      <span className="block whitespace-nowrap font-bold text-[13px] text-[#FF7A7F] leading-[1.1]">
+                      <span className="block whitespace-nowrap font-bold text-[16px] text-[#FF7A7F] leading-[1.1]">
                         {runner0?.ex?.availableToLay?.[0]?.price ?? "-"}
                       </span>
                       <span className="block whitespace-nowrap font-normal text-[10px] text-[#FF7A7F] leading-[1]">
@@ -299,7 +299,7 @@ export default function SingleMarket() {
                       }
                     >
                       <span
-                        className={`block whitespace-nowrap font-bold text-[13px] leading-[1.1] ${
+                        className={`block whitespace-nowrap font-bold text-[16px] leading-[1.1] ${
                           hasThreeRunners
                             ? hasCenterBackPrice
                               ? "text-[#03B2FF]"
@@ -401,7 +401,7 @@ export default function SingleMarket() {
                         })
                       }
                     >
-                      <span className="block whitespace-nowrap font-bold text-[13px] text-[#03B2FF] leading-[1.1]">
+                      <span className="block whitespace-nowrap font-bold text-[16px] text-[#03B2FF] leading-[1.1]">
                         {rightRunner?.ex?.availableToBack?.[0]?.price ?? "-"}
                       </span>
                       <span className="block whitespace-nowrap font-normal text-[10px] text-[#60a5fa] leading-[1]">
@@ -424,7 +424,7 @@ export default function SingleMarket() {
                         })
                       }
                     >
-                      <span className="block whitespace-nowrap font-bold text-[13px] text-[#FF7A7F] leading-[1.1]">
+                      <span className="block whitespace-nowrap font-bold text-[16px] text-[#FF7A7F] leading-[1.1]">
                         {rightRunner?.ex?.availableToLay?.[0]?.price ?? "-"}
                       </span>
                       <span className="block whitespace-nowrap font-normal text-[10px] text-[#FF7A7F] leading-[1]">

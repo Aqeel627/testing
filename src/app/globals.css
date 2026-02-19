@@ -1268,11 +1268,11 @@ body:has(.drawer) {
 .active .exch {
   display: block;
   bottom: 0px;
-  left: -30px;
+  left: 0px;
 }
 
 .active .casino {
   display: block;
   bottom: 0px;
-  left: -30px;
+  left: 0px;
 }
