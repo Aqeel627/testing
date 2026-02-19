@@ -145,7 +145,7 @@ const InplayMarket = ({ events }: { events: any }) => {
                   <div>
                     <p className="m-0 font-sans whitespace-nowrap text-[#919eab] text-[10px] font-bold uppercase leading-4 truncate overflow-hidden">
                       Traded:{" "}
-                      <span className="text-[10px] font-bold text-[#ffab00] leading-4">
+                      <span className="text-[10px] font-bold dark:text-white text-black leading-4">
                         <AnimatedNumber
                           value={event.totalMatched}
                           inplay={event.inplay}
@@ -160,7 +160,7 @@ const InplayMarket = ({ events }: { events: any }) => {
               <div className="flex flex-row gap-2 items-center whitespace-nowrap min-[1376px]:flex-[1_0_20rem] relative w-full min-[691px]:w-[40%] min-[1200px]:w-full min-[1376px]:max-w-[40%] leading-4.5 text-xs p-1.25 overflow-hidden">
                 {/* LEFT — Team 1 odds */}
                 <div className="flex flex-col gap-0.5 w-[33.3%]">
-                  <span className="block h-4.5 text-center truncate overflow-hidden">
+                  <span className="block h-4.5 text-center font-bold truncate overflow-hidden">
                     {event.runnersName?.[0]?.runnerName}
                   </span>
                   <div className="flex gap-1">
@@ -209,7 +209,7 @@ const InplayMarket = ({ events }: { events: any }) => {
 
                 {/* CENTER — Draw or disabled */}
                 <div className="flex flex-col gap-0.5 w-[33.3%]">
-                  <span className="block h-4.5 text-center truncate overflow-hidden">
+                  <span className="block h-4.5 text-center font-bold truncate overflow-hidden">
                     {hasThreeRunners ? event.runnersName?.[2]?.runnerName : ""}
                   </span>
                   <div className="flex gap-1">
@@ -270,7 +270,7 @@ const InplayMarket = ({ events }: { events: any }) => {
 
                 {/* RIGHT — Team 2 odds */}
                 <div className="flex flex-col gap-0.5 w-[33.3%]">
-                  <span className="block h-4.5 text-center truncate overflow-hidden">
+                  <span className="block h-4.5 text-center truncate font-bold overflow-hidden">
                     {rightRunnerName}
                   </span>
                   <div className="flex gap-1">
