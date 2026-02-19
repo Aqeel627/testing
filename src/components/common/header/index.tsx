@@ -38,8 +38,8 @@ export default function Header({ onMenuClick }: HeaderProps) {
   const { token } = useAuthStore();
 
   useEffect(() => {
-    console.log("token:", token);
-    // console.log("URL:", CONFIG.getUserBalance);
+    // console.log("token:", token);
+    console.log("URL12345678:", CONFIG.getUserBalance);
     if (token) {
       fetchData({
         url: CONFIG.getUserBalance,
