@@ -129,8 +129,8 @@ export default function Header({ onMenuClick }: HeaderProps) {
             )} */}
             <span
               className={cn(
-                pathName === "/" && "active text-[rgb(104,205,249)]!",
-                " group-hover:--palette-text-primary transition-colors mr-[4px]  border border-[#a5a7a9] rounded-full p-[2px]",
+                pathName === "/" ? "active text-[#4f90af]! border-[#4f90af]!":'border-[#a5a7a9]',
+                " group-hover:--palette-text-primary transition-colors mr-[4px]  border rounded-full p-[2px]",
               )}
             >
               <Icon
