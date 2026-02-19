@@ -178,7 +178,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
           {isLoggedIn && (
             <Link
               href=""
-              className="inline-flex items-center justify-center relative box-border cursor-pointer select-none align-middle appearance-none font-sans font-bold leading-[1.71429] normal-case min-w-[64px] text-[0.8125rem] h-[30px] outline-none m-0 no-underline rounded-lg border border-solid py-[3px] px-1 min-[600px]:px-[8px] transition-all duration-[250ms] ease-[cubic-bezier(0.4,0,0.2,1)] bg-transparent text-[#078DEE] border-[#078dee7a] hover:bg-blue-600/5"
+              className="inline-flex items-center justify-center relative box-border cursor-pointer select-none align-middle appearance-none font-sans font-bold leading-[1.71429] normal-case min-w-[64px] text-[0.8125rem] h-[30px] outline-none m-0 no-underline rounded-lg border border-solid py-[3px] px-1 min-[600px]:px-[8px] transition-all duration-[250ms] ease-[cubic-bezier(0.4,0,0.2,1)] bg-transparent hover:border-[1px] hover:border-[#078dee] text-[#078DEE] border-[#078dee7a] hover:bg-blue-600/5 hover:shadow-[0px_0px_0px_0.75px_currentColor]"
             >
               Bets
             </Link>
@@ -216,25 +216,25 @@ export default function Header({ onMenuClick }: HeaderProps) {
                     className={`${styles.movingShape} ${styles.shapeBlue}`}
                   ></span>
                 </span>
-                <button className="relative z-10 flex flex-col items-center justify-center px-4 py-1 bg-[#161C24] dark:bg-[#161C24] h-[28px] rounded-[7px] w-full h-full min-w-[62px]">
+                <button className="relative z-10 flex flex-col items-center justify-center px-4 py-1 bg-[var(--background)] hover:bg-[var(--head-hover)] h-[28px] rounded-[7px] w-full h-full min-w-[62px] cursor-pointer">
 
                   <span className="text-[0.6rem] text-[#919EAB] font-semibold leading-[1] uppercase tracking-[1px]">
                     Pts
                   </span>
-                  <span className="text-[12px] text-white font-bold leading-[1]">
+                  <span className="text-[12px] font-bold leading-[1] text-[var(--palette-text-primary)]">
                     {hideBalance ? "-" : "1"}
                   </span>
                 </button>
               </div>
 
               {isMenuOpen && (
-                <div className="absolute top-[16px] md:top-[38px] right-0 w-[250px] bg-[var(--background)] rounded-xl shadow-[0_0px_2px_rgba(0,0,0,0.5)] z-50 flex flex-col var(--palette-text-primary) overflow-hidden max-h-[calc(100vh-32px)] border border-[#919eab29]">
+                <div className="absolute top-[16px] md:top-[38px] right-0 w-[250px] bg-[var(--dropdownBg)] rounded-xl  z-50 flex flex-col var(--palette-text-primary) overflow-hidden max-h-[calc(100vh-32px)] border border-[#919eab29]">
                   <div className="absolute -top-10 -right-10 w-20 h-20 bg-[#078dee] blur-[60px] opacity-[0.50] pointer-events-none z-0 rounded-full"></div>
                   <div className="px-4 pt-4 pb-2">
                     <h6 className="text-[0.875rem] font-semibold text-[var(--palette-text-primary)] truncate leading-[1.57143]">
                       {userName}
                     </h6>
-                    <p className="text-[0.875rem] leading-[1.57143] text-[#637381] truncate">
+                    <p className="text-[0.875rem] leading-[1.57143] text-[var(--dropdowntext)] truncate">
                       {userName}
                     </p>
                   </div>
@@ -245,7 +245,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
                     <div className="rounded-[16px] shadow-[0_1px_2px_0_rgb(0_0_0_/_16%)] border-[#919eab29] border-[1px]">
                       <div className="flex flex-col p-2 items-center cursor-pointer">
 
-                        <p className="text-[0.875rem] leading-[1.25] text-[#637381] font-[500] uppercase">
+                        <p className="text-[0.875rem] leading-[1.25] text-[var(--dropdowntext)] font-[500] uppercase">
                           Exposure
                         </p>
                         <p className="text-[1rem] text-[var(--palette-text-primary)] font-semibold leading-[1.5]">
@@ -255,7 +255,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
                     </div>
                     <div className="rounded-[16px] shadow-[0_1px_2px_0_rgb(0_0_0_/_16%)] border-[#919eab29] border-[1px]">
                       <div className="flex flex-col p-2 items-center cursor-pointer">
-                        <p className="text-[0.875rem] leading-[1.25] text-[#637381] font-[500] uppercase">
+                        <p className="text-[0.875rem] leading-[1.25] text-[var(--dropdowntext)] font-[500] uppercase">
                           Balance
                         </p>
                         <p className="text-[1rem] text-[var(--palette-text-primary)] font-semibold leading-[1.5]">
@@ -289,7 +289,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
                         <Link
                           href={item.href}
                           onClick={() => setIsMenuOpen(false)}
-                          className="flex items-center w-full px-2 py-2 text-[0.875rem] leading-[1.57143px] text-[#637381] hover:text-[var(--palette-text-primary)] hover:bg-transparent transition-colors h-[34px]"
+                          className="flex items-center w-full px-2 py-2 text-[0.875rem] leading-[1.57143px] text-[var(--dropdowntext)] hover:text-[var(--palette-text-primary)] hover:bg-transparent transition-colors h-[34px]"
                         >
                           <span className="ml-4">{item.label}</span>
                         </Link>
@@ -298,7 +298,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
 
                     {/* Theme Option (Static Icon for now) */}
                     <li className="mb-1 no-underline h-12 min-[600px]:h-auto text-[0.875rem] leading-[1.57143px] hover:bg-[rgba(145,158,171,0.08)] rounded-[8px]">
-                      <div className="flex items-center justify-between w-full px-2 text-[14px] text-[#637381] hover:text-[var(--palette-text-primary)] hover:bg-white/5 transition-colors cursor-pointer">
+                      <div className="flex items-center justify-between w-full px-2 text-[14px] text-[var(--dropdowntext)] hover:text-[var(--palette-text-primary)] hover:bg-white/5 transition-colors cursor-pointer">
                         <span className="ml-4">Theme</span>
                         {/* Placeholder Icon */}
                         <ThemeToggle />
@@ -308,7 +308,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
                     {/* Hide Balance Toggle */}
                     <li className="mb-1 no-underline h-12 min-[600px]:h-[44px] text-[0.875rem] leading-[1.57143px] flex items-center hover:bg-[rgba(145,158,171,0.08)] rounded-[8px]">
                       <div
-                        className="flex items-center justify-between w-full px-2 text-[14px] text-[#637381] hover:text-[var(--palette-text-primary)] transition-colors cursor-pointer"
+                        className="flex items-center justify-between w-full px-2 text-[14px] text-[var(--dropdowntext)] hover:text-[var(--palette-text-primary)] transition-colors cursor-pointer"
                         onClick={(e) => {
                           e.stopPropagation(); // Prevent menu from closing
                           setHideBalance(!hideBalance);
