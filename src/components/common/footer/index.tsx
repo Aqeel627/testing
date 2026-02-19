@@ -4,6 +4,7 @@ import Image from "next/image";
 import Icon from "@/icons/icons";
 import { useState } from "react";
 import { CONFIG } from "@/lib/config";
+import Link from "next/link";
 const languages = [
   { value: "en", label: "English" },
   { value: "hi", label: "हिंदी" },
@@ -101,11 +102,10 @@ export default function Footer() {
                           <button
                             key={lang.value}
                             onClick={() => handleLanguageSelect(lang.label)}
-                            className={`w-full h-[48px] rounded-[6px] text-left text-white px-2 py-2 mb-1 text-[14px] transition ${
-                              selectedLanguage === lang.label
-                                ? "bg-[rgba(145,158,171,0.16)] text-white font-semibold"
-                                : "text-white hover:bg-[rgba(145,158,171,0.08)]"
-                            }`}
+                            className={`w-full h-[48px] rounded-[6px] text-left text-white px-2 py-2 mb-1 text-[14px] transition ${selectedLanguage === lang.label
+                              ? "bg-[rgba(145,158,171,0.16)] text-white font-semibold"
+                              : "text-white hover:bg-[rgba(145,158,171,0.08)]"
+                              }`}
                           >
                             <span className="relative top-[-1px]">
                               {lang.label}
@@ -124,21 +124,20 @@ export default function Footer() {
               {/* LINKS */}
               <div className="footer-items max-[600px]:pb-4 min-[600px]:mb-2 flex justify-center gap-4  whitespace-nowrap text-center text-[14px] font-medium text-(--palette-text-secondary)  md:justify-start md:text-start">
                 {[
-                  "About",
-                  "Contact Us",
-                  "Responsible Gambling",
-                  "AML",
-                  "KYC Policy",
+                  { name: "About", href: "/about" },
+                  { name: "Contact Us", href: "ContactUs" },
+                  { name: "Responsible Gambling", href: "RasGam" },
+                  { name: "AML", href: "AmlPolicy" },
+                  { name: "KYC Policy", href: "Kpolicy" },
                 ].map((item, i) => (
-                  <a
+                  <Link
                     key={i}
-                    href="#"
-                    className={`cursor-pointer text-wrap max-[600]:text-[13px]  font-normal content-center hover:underline hover:text-(--palette-primary-main) ${
-                      i !== 3 && ""
-                    } md:px-2 lg:px-0`}
+                    href={item.href}
+                    className={`cursor-pointer text-wrap max-[600]:text-[13px]  font-normal content-center hover:underline hover:text-(--palette-primary-main) ${i !== 3 && ""
+                      } md:px-2 lg:px-0`}
                   >
-                    {item}
-                  </a>
+                    {item.name}
+                  </Link>
                 ))}
               </div>
 
@@ -150,8 +149,8 @@ export default function Footer() {
                 <span className="text-[14px] text-[#098DEE]">Rich Able Developments Limited</span>.
                 This website is licensed and regulated by{" "}
                 <span className="text-[14px] text-[#098DEE]">Samoa</span>
-                 {" "}eGaming, license No.  {" "}
-                 <span className="text-[14px] text-[#098DEE]">ALSI-202510012-FI1</span>
+                {" "}eGaming, license No.  {" "}
+                <span className="text-[14px] text-[#098DEE]">ALSI-202510012-FI1</span>
                 <span className="text-[14px] ">
                   . In order to register for this website, the user is required
                   to accept the General Terms and Conditions. In the event the
@@ -192,11 +191,10 @@ export default function Footer() {
                         <button
                           key={lang.value}
                           onClick={() => handleLanguageSelect(lang.label)}
-                          className={`w-full rounded-[8px] text-left px-4 py-2 text-[14px] transition ${
-                            selectedLanguage === lang.label
-                              ? "bg-[rgba(145,158,171,0.16)]"
-                              : " hover:bg-[rgba(145,158,171,0.08)]"
-                          }`}
+                          className={`w-full rounded-[8px] text-left px-4 py-2 text-[14px] transition ${selectedLanguage === lang.label
+                            ? "bg-[rgba(145,158,171,0.16)]"
+                            : " hover:bg-[rgba(145,158,171,0.08)]"
+                            }`}
                         >
                           {lang.label}
                         </button>

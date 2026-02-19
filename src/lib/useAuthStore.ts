@@ -89,9 +89,10 @@ export const useAuthStore = create<AuthState>()(
                 // 5) SUCCESS ✔
                 // -----------------------------------------
                 if (result?.meta?.status_code === 200) {
-                    const token = result.data.accessToken;
+                    const token = result.data.token;
                     if (typeof window !== "undefined") {
-                        localStorage.setItem("token", result.data.accessToken);
+                        localStorage.setItem("token", result.data.token);
+                        console.log(result)
                         localStorage.setItem(
                             "intCasino",
                             result.data.intCasino
