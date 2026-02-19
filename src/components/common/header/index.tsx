@@ -85,24 +85,41 @@ export default function Header({ onMenuClick }: HeaderProps) {
           >
             <Icon name="logo" className="h-6 w-6" />
           </button>
-          <Link
-            href="/"
-            className="font-[inherit]  no-underline shrink-0 text-transparent inline-flex h-[44px] w-[152px] cursor-pointer"
-          >
-            <Image
-              src={"/logo.png"}
-              alt="100exch Logo"
-              fill
-              className="object-contain relative! mx-1 "
-            />
-          </Link>
+          <div className="relative">
+            <div className="neon-underline bottom-[9px]">
+              <span className="neon-glow glow-main"></span>
+              <span className="neon-line line-main"></span>
+
+              <span className="neon-glow glow-center"></span>
+              <span className="neon-line line-center"></span>
+            </div>
+            <Link
+              href="/"
+              onClick={() => window.dispatchEvent(new Event("reset-sidebar"))}
+              className="font-[inherit]  no-underline shrink-0 text-transparent inline-flex h-[44px] w-[152px] cursor-pointer"
+            >
+              <Image
+                src={"/logo.png"}
+                alt="100exch Logo"
+                fill
+                className="object-contain relative! mx-1 "
+              />
+            </Link>
+          </div>
         </div>
 
         <nav className="hidden min-[960px]:flex items-center gap-2 font-bold --palette-text-primary  relative left-[3px]">
           <Link
             href="/"
-            className="flex p-1 items-center text-[13px] font-bold --palette-text-primary  hover:--palette-text-primary  transition-colors group rounded-lg  hover:bg-[rgba(145,158,171,0.08)] "
+            className="active flex p-1 items-center text-[13px] font-bold --palette-text-primary  hover:--palette-text-primary  transition-colors group rounded-lg  hover:bg-[rgba(145,158,171,0.08)] "
           >
+            <div className="neon-underline none exch">
+              <span className="neon-glow glow-main"></span>
+              <span className="neon-line line-main"></span>
+
+              <span className="neon-glow glow-center"></span>
+              <span className="neon-line line-center"></span>
+            </div>
             <span className=" group-hover:--palette-text-primary transition-colors mr-[4px]  border border-[#a5a7a9] rounded-full p-[2px]">
               <Icon name="exchange" className="h-4 w-4 " />
             </span>
@@ -155,7 +172,9 @@ export default function Header({ onMenuClick }: HeaderProps) {
             </Link>
           )}
 
-          <span className="hidden min-[600px]:flex "><ThemeToggle /></span>
+          <span className="hidden min-[600px]:flex ">
+            <ThemeToggle />
+          </span>
           {!isLoggedIn && (
             // <Link
             //   href="/login"
@@ -165,7 +184,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
             // </Link>
             <div
               onClick={() => setLoginModal(true)}
-              className="text-sm leading-[1.71429] cursor-pointer [text-transform:unset] min-w-16 py-[5px] px-3 flex justify-center items-center text-sm border-1 border-[#919eab52] rounded-[8px] --palette-text-primary  rounded-lg  hover:bg-[rgba(145,158,171,0.08)]   font-bold transition-all duration-300 mr-1"
+              className="text-sm leading-[1.71429] cursor-pointer [text-transform:unset] min-w-16 py-[5px] px-3 flex justify-center items-center text-sm border-1 border-[rgba(var(--palette-grey-500Channel)_/_32%)] rounded-[8px] --palette-text-primary  rounded-lg  hover:bg-[rgba(145,158,171,0.08)]   font-bold transition-all duration-300 mr-1"
             >
               Login
             </div>
@@ -278,7 +297,9 @@ export default function Header({ onMenuClick }: HeaderProps) {
                     <li className="mb-1 no-underline h-12 min-[600px]:h-auto text-[0.875rem] leading-[1.57143px] hover:bg-[rgba(145,158,171,0.08)] rounded-[8px]">
                       <div className="flex items-center justify-between w-full px-2 text-[14px] text-[var(--dropdowntext)] hover:text-[var(--palette-text-primary)] hover:bg-white/5 transition-colors cursor-pointer">
                         <span className="ml-4">Theme</span>
-                        <span><ThemeToggle /></span>
+                        <span>
+                          <ThemeToggle />
+                        </span>
                       </div>
                     </li>
 
