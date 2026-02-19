@@ -87,38 +87,38 @@ export default function Header({ onMenuClick }: HeaderProps) {
           >
             <Icon name="logo" className="h-6 w-6" />
           </button>
-          <div className="relative">
-            <div className="neon-underline min-[960]:bottom-[9px] bottom-[7px]">
+          {/* <div className="relative"> */}
+          {/* <div className="neon-underline min-[960]:bottom-[9px] bottom-[7px]">
               <span className="neon-glow glow-main"></span>
               <span className="neon-line line-main"></span>
 
               <span className="neon-glow glow-center"></span>
               <span className="neon-line line-center"></span>
-            </div>
-            <Link
-              href="/"
-              onClick={() => window.dispatchEvent(new Event("reset-sidebar"))}
-              className="font-[inherit]  no-underline shrink-0 text-transparent inline-flex h-[44px] w-[152px] cursor-pointer"
-            >
-              <Image
-                src={"/logo.png"}
-                alt="100exch Logo"
-                fill
-                className="object-contain relative! mx-1 "
-              />
-            </Link>
-          </div>
+            </div> */}
+          <Link
+            href="/"
+            onClick={() => window.dispatchEvent(new Event("reset-sidebar"))}
+            className="font-[inherit]  no-underline shrink-0 text-transparent inline-flex h-[44px] w-[152px] cursor-pointer"
+          >
+            <Image
+              src={"/logo.png"}
+              alt="100exch Logo"
+              fill
+              className="object-contain relative! mx-1 "
+            />
+          </Link>
+          {/* </div> */}
         </div>
 
         <nav className="hidden min-[960px]:flex items-center gap-2 font-bold --palette-text-primary  relative left-[3px]">
           <Link
             href="/"
             className={cn(
-              pathName === "/" && "active",
+              pathName === "/" && "active text-[rgb(104,205,249)]!",
               "flex p-1 items-center relative text-[13px] font-bold --palette-text-primary  hover:--palette-text-primary  transition-colors group rounded-lg  hover:bg-[rgba(145,158,171,0.08)] ",
             )}
           >
-            {pathName === "/" && (
+            {/* {pathName === "/" && (
               <div className="neon-underline none exch">
                 <span className="neon-glow glow-main"></span>
                 <span className="neon-line line-main"></span>
@@ -126,9 +126,19 @@ export default function Header({ onMenuClick }: HeaderProps) {
                 <span className="neon-glow glow-center"></span>
                 <span className="neon-line line-center"></span>
               </div>
-            )}
-            <span className=" group-hover:--palette-text-primary transition-colors mr-[4px]  border border-[#a5a7a9] rounded-full p-[2px]">
-              <Icon name="exchange" className="h-4 w-4 " />
+            )} */}
+            <span
+              className={cn(
+                pathName === "/"
+                  ? "active text-[#4f90af]! border-[#4f90af]!"
+                  : "border-[#a5a7a9]",
+                " group-hover:--palette-text-primary transition-colors mr-[4px]  border rounded-full p-[2px]",
+              )}
+            >
+              <Icon
+                name="exchange"
+                className={cn("h-4 w-4", pathName !== "/" && "text-[#A5A7A9]!")}
+              />
             </span>
             <span className="relative top-[-0.5px]">Exchange</span>
           </Link>
@@ -136,11 +146,11 @@ export default function Header({ onMenuClick }: HeaderProps) {
           <Link
             href="/live-casino"
             className={cn(
-              pathName === "/live-casino" && "active",
+              pathName === "/live-casino" && "active text-[rgb(104,205,249)]!",
               "flex p-1 items-center text-[13px] --palette-text-primary  hover:--palette-text-primary  transition-colors group relative left-[2px] font-bold rounded-lg  hover:bg-[rgba(145,158,171,0.08)] ",
             )}
           >
-            {pathName === "/live-casino" && (
+            {/* {pathName === "/live-casino" && (
               <div className="neon-underline none casino">
                 <span className="neon-glow glow-main"></span>
                 <span className="neon-line line-main"></span>
@@ -148,9 +158,9 @@ export default function Header({ onMenuClick }: HeaderProps) {
                 <span className="neon-glow glow-center"></span>
                 <span className="neon-line line-center"></span>
               </div>
-            )}
+            )} */}
             {/* Live Casino Icon */}
-            <span className=" group-hover:--palette-text-primary  transition-colors mr-[2px]">
+            <span className=" group-hover:--palette-text-primar transition-colors mr-[2px]">
               <Icon name="casino" className="h-6 w-6" />
             </span>
             <span className="relative top-[-0.5px]">Casino</span>
@@ -374,20 +384,27 @@ export default function Header({ onMenuClick }: HeaderProps) {
           <Link
             href="/"
             className={cn(
-              pathName === "/" && "active",
+              pathName === "/" && "active text-[rgb(104,205,249)]!",
               "flex py-1 relative pr-[4px] pl-1 items-center text-[13px] font-bold --palette-text-primary  hover:--palette-text-primary  transition-colors group whitespace-nowrap",
             )}
           >
-            {pathName === "/" && (
-              <div className="neon-underline none exch bottom-[5px]!">
+            {/* {pathName === "/" && (
+              <div
+                className="neon-underline none exch bottom-[5px]!"
+              >
                 <span className="neon-glow glow-main"></span>
                 <span className="neon-line line-main"></span>
 
                 <span className="neon-glow glow-center"></span>
                 <span className="neon-line line-center"></span>
               </div>
-            )}
-            <span className=" group-hover:--palette-text-primary transition-colors mr-[4px] ">
+            )} */}
+            <span
+              className={cn(
+                pathName === "/" && "text-[#4f90af]!",
+                " group-hover:--palette-text-primary transition-colors mr-[4px] ",
+              )}
+            >
               <Icon name="exchange" className="h-4.5 w-4.5 " />
             </span>
             <span className="relative !top-[-0.5px] ml-[0.3px]">Exchange</span>
@@ -396,11 +413,11 @@ export default function Header({ onMenuClick }: HeaderProps) {
           <Link
             href="/live-casino"
             className={cn(
-              pathName === "/live-casino" && "active",
+              pathName === "/live-casino" && "active text-[rgb(104,205,249)]!",
               "flex py-1 pr-[4px] pl-[0.5px] items-center text-[13px] font-medium --palette-text-primary  hover:--palette-text-primary  transition-colors group whitespace-nowrap relative left-[3px] font-bold",
             )}
           >
-            {pathName === "/live-casino" && (
+            {/* {pathName === "/live-casino" && (
               <div className="neon-underline none casino bottom-[8px]!">
                 <span className="neon-glow glow-main"></span>
                 <span className="neon-line line-main"></span>
@@ -408,7 +425,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
                 <span className="neon-glow glow-center"></span>
                 <span className="neon-line line-center"></span>
               </div>
-            )}
+            )} */}
             {/* Live Casino Icon */}
             <span className=" group-hover:--palette-text-primary  transition-colors mr-[1.8px] ">
               <Icon name="casino" className="h-6 w-6" />
