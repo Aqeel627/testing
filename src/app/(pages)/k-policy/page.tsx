@@ -1,11 +1,11 @@
-import RasGam from "@/components/pages/Res-Gam";
+import KPolicy from "@/components/pages/kyc-policy";
 
-const  Kpolicy  = () => {
+const  KpolicyRoute  = () => {
   return (
     <>
-      <Kpolicy />
+      <KPolicy />
     </>
   );
 };
 
-export default Kpolicy;
+export default KpolicyRoute;
