@@ -38,7 +38,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
   const { token } = useAuthStore();
 
   useEffect(() => {
-    // console.log("token:", token);
+    console.log("token:", token);
     console.log("URL12345678:", CONFIG.getUserBalance);
     if (token) {
       fetchData({
@@ -61,7 +61,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
-    // console.log("Token from localStorage:", token);
+    console.log("Token from localStorage:", token);
 
     if (token) {
       setIsLoggedIn(true);

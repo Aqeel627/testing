@@ -1,9 +1,9 @@
 "use client";
 
 import { create } from "zustand";
-import { CONFIG } from "./config"; 
-import { CryptoService } from "./crypto-service"; 
-import { safeParse } from "./functions"; 
+import { CONFIG } from "./config";
+import { CryptoService } from "./crypto-service";
+import { safeParse } from "./functions";
 import { subscribeWithSelector } from "zustand/middleware";
 
 interface AuthState {
@@ -89,9 +89,14 @@ export const useAuthStore = create<AuthState>()(
                 // 5) SUCCESS ✔
                 // -----------------------------------------
                 if (result?.meta?.status_code === 200) {
-                    const token = result.data.token;
+                    const token =
+                        result?.data?.token ||
+                        result?.data?.accessToken ||
+                        result?.token ||
+                        null;
                     if (typeof window !== "undefined") {
-                        localStorage.setItem("token", result.data.token);
+                        // localStorage.setItem("token", result.data.token);
+                        localStorage.setItem("token", result.data.accessToken);
                         console.log(result)
                         localStorage.setItem(
                             "intCasino",
