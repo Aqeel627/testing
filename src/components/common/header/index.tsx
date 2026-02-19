@@ -8,7 +8,7 @@ import { useEffect, useRef, useState } from "react";
 import { CONFIG } from "@/lib/config";
 import { useAppStore } from "@/lib/store/store";
 import { fetchData } from "@/lib/functions";
-import { useAuthStore } from "@/lib/store/authStore";
+import { useAuthStore } from "@/lib/useAuthStore";
 import { ThemeToggle } from "../theme-toggler";
 import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
@@ -22,24 +22,17 @@ export default function Header({ onMenuClick }: HeaderProps) {
   const [showBalance, setShowBalance] = useState(true);
   const [showExposure, setShowExposure] = useState(true);
   const { userBalance, setUserBalance, setLoginModal } = useAppStore();
-  // const { isLoggedIn } = useAuthStore();
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { token, isLoggedIn, logout } = useAuthStore();
   const { resolvedTheme, theme } = useTheme();
-
-  const [userName, setUserName] = useState("");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const [hideBalance, setHideBalance] = useState(false);
-
-  //   useEffect(() => {
-  //   console.log("isLoggedIn:", isLoggedIn);
-  // }, [isLoggedIn]);
-
-  const { token } = useAuthStore();
+  const userName =
+    token && typeof window !== "undefined"
+      ? JSON.parse(localStorage.getItem("userDetail") || "null")?.userName || ""
+      : "";
 
   useEffect(() => {
-    console.log("token:", token);
-    console.log("URL12345678:", CONFIG.getUserBalance);
     if (token) {
       fetchData({
         url: CONFIG.getUserBalance,
@@ -49,28 +42,6 @@ export default function Header({ onMenuClick }: HeaderProps) {
       });
     }
   }, [token]);
-
-  useEffect(() => {
-    const userDetail = localStorage.getItem("userDetail");
-    if (userDetail) {
-      const parsed = JSON.parse(userDetail);
-      setUserName(parsed.userName || ""); // ✅ state update
-      // console.log("User Name from localStorage:", parsed.userName);
-    }
-  }, []);
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    console.log("Token from localStorage:", token);
-
-    if (token) {
-      setIsLoggedIn(true);
-      setIsLoggedIn(true);
-    } else {
-      setIsLoggedIn(false);
-      setIsLoggedIn(false);
-    }
-  }, []);
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
@@ -345,7 +316,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
 
                     <button
                       onClick={() => {
-                        setIsLoggedIn(false);
+                        logout();
                         setIsMenuOpen(false);
                       }}
                       className="relative z-10 w-full text-left px-2 py-2 text-[14px] font-bold text-[#FF5630] hover:bg-[#FF5630]/10 rounded-lg transition-colors cursor-pointer "

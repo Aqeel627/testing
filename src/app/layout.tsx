@@ -11,6 +11,7 @@ import SearchModal from "@/components/modal/search/SearchModal";
 import { AuExchThemeProvider } from "@/components/common/theme-provider";
 import NavigationLoader from "./navigation-loader";
 import { Suspense } from "react";
+import Script from "next/script";
 
 export const metadata: Metadata = {
   title: "100exch",
@@ -83,6 +84,13 @@ export default function RootLayout({
         }}
         cz-shortcut-listen="true"
       >
+        <Script src="/language/translateicon.js" strategy="afterInteractive" />
+        <Script src="/language/lang-config.js" strategy="beforeInteractive" />
+        <Script src="/language/translation.js" strategy="beforeInteractive" />
+        <Script
+          src="//translate.google.com/translate_a/element.js?cb=TranslateInit"
+          strategy="afterInteractive"
+        />
         <Suspense>
           <NavigationLoader />
           <AuExchThemeProvider>
