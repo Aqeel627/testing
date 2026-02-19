@@ -111,8 +111,15 @@ export default function Header({ onMenuClick }: HeaderProps) {
         <nav className="hidden min-[960px]:flex items-center gap-2 font-bold --palette-text-primary  relative left-[3px]">
           <Link
             href="/"
-            className="flex p-1 items-center text-[13px] font-bold --palette-text-primary  hover:--palette-text-primary  transition-colors group rounded-lg  hover:bg-[rgba(145,158,171,0.08)] "
+            className="active flex p-1 items-center text-[13px] font-bold --palette-text-primary  hover:--palette-text-primary  transition-colors group rounded-lg  hover:bg-[rgba(145,158,171,0.08)] "
           >
+            <div className="neon-underline none exch">
+              <span className="neon-glow glow-main"></span>
+              <span className="neon-line line-main"></span>
+
+              <span className="neon-glow glow-center"></span>
+              <span className="neon-line line-center"></span>
+            </div>
             <span className=" group-hover:--palette-text-primary transition-colors mr-[4px]  border border-[#a5a7a9] rounded-full p-[2px]">
               <Icon name="exchange" className="h-4 w-4 " />
             </span>
