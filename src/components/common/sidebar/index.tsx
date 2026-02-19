@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import type { CSSProperties } from "react";
-import { type MouseEvent, useMemo, useState } from "react";
+import { type MouseEvent, useEffect, useMemo, useState } from "react";
 import styles from "./sidebar.module.css";
 import { useAppStore } from "@/lib/store/store";
 import Link from "next/link";
@@ -72,7 +72,6 @@ interface QuickLinkItemProps {
   href: string;
   count: number;
   icon: React.ReactNode;
-  pathName: string;
   isActive: boolean;
   onActivate: () => void;
   onClose: () => void;
@@ -92,7 +91,6 @@ const QuickLinkItem = ({
   href,
   count,
   icon,
-  pathName,
   isActive,
   onActivate,
   onClose,
@@ -100,11 +98,8 @@ const QuickLinkItem = ({
   <li className={styles.item}>
     <Link
       href={href}
-      onMouseDown={handleRipple} 
-      className={cn(
-        styles.link,
-        (pathName?.includes(href) || isActive) && styles.linkActive,
-      )}
+      onMouseDown={handleRipple}
+      className={cn(styles.link, isActive && styles.linkActive)}
       onClick={() => {
         onActivate();
         onClose(); // close sidebar on quicklink navigation
@@ -367,7 +362,23 @@ export default function Sidebar({ config }: SidebarProps) {
 
   const [active, setActive] = useState<ActiveState>({ type: null });
 
-  // ─── Build dynamic sports config from menuList ───
+
+  // 👇 NAYA EVENT LISTENER 👇
+  useEffect(() => {
+    const handleResetDropdowns = () => {
+      setOpenSportIndex(null);
+      setOpenTournamentKey(null);
+      setActive({ type: null });
+    };
+
+    // Jab bhi 'reset-sidebar' ka signal aayega, ye function chal jayega
+    window.addEventListener("reset-sidebar", handleResetDropdowns);
+
+    return () => {
+      window.removeEventListener("reset-sidebar", handleResetDropdowns);
+    };
+  }, []);
+  // 👆 ---------------------------------------------------- 👆
   const dynamicSportsConfig: Sport[] = useMemo(() => {
     if (!menuList) return [];
 
@@ -470,6 +481,11 @@ export default function Sidebar({ config }: SidebarProps) {
 
   const handleQuickLinkActivate = (label: string) => {
     setActive({ type: "quicklink", qlLabel: label });
+
+    // 👇 In 2 lines se agar koi sport ya tournament open hoga to wo close ho jayega
+    setOpenSportIndex(null);
+    setOpenTournamentKey(null);
+
     // closeSidebar is called inside QuickLinkItem's onClick
   };
 
@@ -505,12 +521,13 @@ export default function Sidebar({ config }: SidebarProps) {
     // ThirdItemComponent handles closeSidebar itself
   };
 
-  // ─── Active helpers ───
-  const isQuickLinkActive = (label: string) =>
-    active.type === "quicklink" && active.qlLabel === label;
+  const isQuickLinkActive = (label: string, href: string) => {
+    if (active.type === "sport") return false;
+    if (active.type === "quicklink" && active.qlLabel === label) return true;
+    if (href !== "#" && pathName?.includes(href)) return true;
+    return false;
+  };
 
-  const isSportActive = (sportIndex: number) =>
-    active.type === "sport" && active.sportIndex === sportIndex;
 
   const activeTournamentIndexFor = (sportIndex: number): number | null => {
     if (active.type !== "sport" || active.sportIndex !== sportIndex) return null;
@@ -521,6 +538,9 @@ export default function Sidebar({ config }: SidebarProps) {
     if (active.type !== "sport" || active.sportIndex !== sportIndex) return null;
     return active.thirdIndex !== undefined ? active.thirdIndex : null;
   };
+
+  const isSportActive = (sportIndex: number) =>
+    active.type === "sport" && active.sportIndex === sportIndex;
 
   const handleSearchToggle = () => toggleSearch(true);
 
@@ -598,8 +618,8 @@ export default function Sidebar({ config }: SidebarProps) {
                   href={link.href}
                   count={link.count}
                   icon={link.icon}
-                  pathName={pathName}
-                  isActive={isQuickLinkActive(link.label)}
+                  // pathName={pathName}
+                  isActive={isQuickLinkActive(link.label, link.href)}
                   onActivate={() => handleQuickLinkActivate(link.label)}
                 />
               ))}

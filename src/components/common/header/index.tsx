@@ -87,6 +87,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
           </button>
           <Link
             href="/"
+            onClick={() => window.dispatchEvent(new Event("reset-sidebar"))}
             className="font-[inherit]  no-underline shrink-0 text-transparent inline-flex h-[44px] w-[152px] cursor-pointer"
           >
             <Image
