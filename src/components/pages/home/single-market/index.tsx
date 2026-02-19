@@ -139,7 +139,7 @@ export default function SingleMarket() {
                         <div
                           className={`flex justify-center items-center ${style.animateLiveBlink}`}
                         >
-                          <div className="w-[7px] h-[7px] bg-[#078dee] rounded-full"></div>
+                          <div className="w-[7px] h-[7px] bg-[#508d0e] rounded-full"></div>
                         </div>
                       )}
                       <p
@@ -167,15 +167,11 @@ export default function SingleMarket() {
                     </div>
                   </div>
 
-                  <div>
+                  {/* <div>
                     <p className="m-0 font-sans whitespace-nowrap truncate text-[10px] text-[#919eab] font-bold leading-[1rem]">
                       {event.marketType}
                     </p>
-                  </div>
-
-                  <div className="w-4 h-4 pb-0.5">
-                    <Icon name="watch" className="w-4 h-4" />
-                  </div>
+                  </div> */}
 
                   <div className="flex items-center gap-1 text-black">
                     <div className="bg-[#FFAB00] h-3.5 w-3.5 inline-flex justify-center items-center rounded-[4px] text-[13px] max-w-full">
@@ -190,21 +186,28 @@ export default function SingleMarket() {
                     </div>
                   </div>
 
-                  {/* <div>
+                  <div className="w-4 h-4 pb-0.5 text-(--palette-text-primary)">
+                    <Icon name="watch" className="w-4 h-4" />
+                  </div>
+
+                  <div>
                     <p className="m-0 font-sans whitespace-nowrap text-[#919eab] text-[10px] font-bold uppercase leading-4 truncate overflow-hidden whitespace-nowrap">
                       Traded:{" "}
                       <span className="text-[10px] font-bold text-[#ffab00] leading-[1rem]">
                         {event.totalMatched?.toLocaleString()}
                       </span>
                     </p>
-                  </div> */}
+                  </div>
 
                   <div>
                     <p className="m-0 font-sans whitespace-nowrap text-[#919eab] text-[10px] font-bold uppercase leading-4 truncate overflow-hidden">
                       Traded:{" "}
                       <span className="text-[10px] font-bold text-[#ffab00] leading-[1rem]">
                         {/* 👇 Yahan direct value pass kardi hai, ab ye khud smoothly animate hoga */}
-                        <AnimatedNumber value={event.totalMatched} inplay={event.inplay} />
+                        <AnimatedNumber
+                          value={event.totalMatched}
+                          inplay={event.inplay}
+                        />
                       </span>
                     </p>
                   </div>
@@ -222,7 +225,7 @@ export default function SingleMarket() {
                 {/* LEFT — Team 1 odds */}
                 <div className="flex flex-col gap-0.5 w-[33.3%]">
                   <span
-                    className={`block h-[1.125rem] text-center truncate overflow-hidden ${oddsRowLabelWidthClass}`}
+                    className={`block h-[1.125rem] text-(--palette-text-primary) text-center truncate overflow-hidden ${oddsRowLabelWidthClass}`}
                   >
                     {event.runnersName?.[0]?.runnerName}
                   </span>
@@ -276,7 +279,7 @@ export default function SingleMarket() {
                 {/* CENTER — Draw or disabled */}
                 <div className="flex flex-col gap-0.5 w-[33.3%]">
                   <span
-                    className={`block h-[1.125rem] text-center truncate overflow-hidden ${oddsRowLabelWidthClass}`}
+                    className={`block h-[1.125rem] text-(--palette-text-primary) text-center truncate overflow-hidden ${oddsRowLabelWidthClass}`}
                   >
                     {hasThreeRunners ? event.runnersName?.[2]?.runnerName : ""}
                   </span>
@@ -358,7 +361,7 @@ export default function SingleMarket() {
                 {/* RIGHT — Team 2 odds */}
                 <div className="flex flex-col gap-0.5 w-[33.3%]">
                   <span
-                    className={`block h-[1.125rem] text-center truncate overflow-hidden ${oddsRowLabelWidthClass}`}
+                    className={`block h-[1.125rem] text-(--palette-text-primary) text-center truncate overflow-hidden ${oddsRowLabelWidthClass}`}
                   >
                     {rightRunnerName}
                   </span>

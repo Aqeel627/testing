@@ -151,7 +151,7 @@ export default function SportsNav() {
               styles["tabs-list"],
               "glass w-full h-full",
               theme === "light" &&
-              "backdrop-blur-[10px]! bg-linear-to-br! from-white/25! to-white/5! border-b! border-[rgb(205_192_192/0.4)]! shadow-[0_8px_32px_rgba(0,0,0,0.2)]!",
+                "backdrop-blur-[10px]! bg-linear-to-br! from-white/25! to-white/5! border-b! border-[rgb(205_192_192/0.4)]! shadow-[0_8px_32px_rgba(0,0,0,0.2)]!",
             )}
             ref={tabsListRef}
           >
@@ -177,19 +177,19 @@ export default function SportsNav() {
                   activeTab === item.label && styles.active,
                   activeTab === item.label && "glass-active",
                   activeTab === item.label &&
-                  theme === "light" &&
-                  "backdrop-blur-[10px]! bg-linear-to-br! from-white/25! to-white/5! border-b! border-[rgb(205_192_192/0.4)]! shadow-[0_8px_32px_rgba(0,0,0,0.2)]!",
+                    theme === "light" &&
+                    "backdrop-blur-[10px]! bg-linear-to-br! from-white/25! to-white/5! border-b! border-[rgb(205_192_192/0.4)]! shadow-[0_8px_32px_rgba(0,0,0,0.2)]!",
                 )}
                 onClick={() => {
                   setActiveTab(item.label);
                   setSelectedEventTypeId(item.id); // ✅ set sport ID on click
                 }}
               >
-                {item.label}
-
                 <span
                   className={`${styles["tab-icon"]} ${styles[`icon-${item.label.toLowerCase().replace(/\s/g, "-")}`]}`}
                 />
+
+                {item.label}
 
                 {activeTab === item.label && (
                   <span className={styles["tab-indicator"]}></span>
