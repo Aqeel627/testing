@@ -1,10 +1,11 @@
+import AmlPolicy from "@/components/pages/aml-policy";
 
-const AmlPolicy = () => {
+const AmlPolicyRoute = () => {
   return (
     <>
-      <AmlPolicy />
+      <AmlPolicy/>
     </>
   );
 };
 
-export default AmlPolicy;
+export default AmlPolicyRoute;

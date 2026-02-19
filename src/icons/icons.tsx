@@ -175,7 +175,7 @@ export const icons = {
     </svg>
   ),
   exchange: (
-    <svg xmlns="http://www.w3.org/2000/svg"  version="1.1" id="_r_5f_" x="0px" y="0px" width="24px" height="24px" viewBox="-6 -6 24 24" enable-background="new -6 -6 24 24"  >
+    <svg xmlns="http://www.w3.org/2000/svg"  version="1.1" id="_r_5f_" x="0px" y="0px" width="24px" height="24px" viewBox="-6 -6 24 24" enableBackground="new -6 -6 24 24"  >
       <g>
         <polygon fill="#A5A7A9" points="17.51,7.822 17.51,10.924 5.55,10.924 5.55,17.128 -5.51,7.822  " />
         <polygon fill="#A5A7A9" points="-5.51,4.178 -5.51,1.076 6.449,1.076 6.449,-5.128 17.51,4.178  " />
