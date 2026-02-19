@@ -5,6 +5,7 @@ import Icon from "@/icons/icons";
 import { useState } from "react";
 import { CONFIG } from "@/lib/config";
 import Link from "next/link";
+import LanguageToggler from "../language-toggler";
 const languages = [
   { value: "en", label: "English" },
   { value: "hi", label: "हिंदी" },
@@ -45,13 +46,13 @@ export default function Footer() {
           <div className="flex flex-col-reverse mb-[7px]  max-[900px]:items-center min-[900px]:gap-[11px]  min-[900px]:flex-row">
             {/* LEFT BLOCK */}
             <div className="min-[900px]:w-62.5 w-full min-w-[250px] flex items-center justify-center">
-              <div className="md:mb-[3.5px] w-44  max-[899px]:mx-auto lg:mb-0  max-[900px]:flex max-[900px]:flex-col max-[900px]:justify-center">
+              <div className="md:mb-[3.5px] text-center w-44 mx-auto lg:mb-0  max-[900px]:flex max-[900px]:flex-col max-[900px]:justify-center">
                 <Image
                   src="/secure-ssl-3.webp"
                   alt="Secure"
                   width={106}
                   height={54}
-                  className="mb-[0px] lg:mb-0  "
+                  className="mb-[0px] lg:mb-0  mx-auto"
                 />
 
                 <p className="mt-[9px] text-[13px] mb-[1px] font-semibold leading-[19px] dark:text-[white] lg:mt-2">
@@ -79,42 +80,7 @@ export default function Footer() {
                 </div> */}
 
                 <div className="inline-block mt-2 relative min-[900px]:hidden mx-auto">
-                  <button
-                    type="button"
-                    onClick={handleLanguageClick}
-                    className="flex flex-col justify-between items-center px-3 py-0.75 pb-0.5 border bg-[rgba(145,158,171,0.08)] border-[rgba(145,158,171,0.2)] dark:border-gray-600 rounded-[8px] text-sm font-medium text-[#919EAB] dark:text-[#637381] transition hover:bg-[rgba(145,158,171,0.12)]"
-                  >
-                    <p className="text-[12px] relative top-[1px]">Language</p>
-                    <p className="text-[14px] text-white relative -top-[1px]">
-                      {selectedLanguage}
-                    </p>
-                  </button>
-
-                  {/* Dropdown Menu */}
-                  {isOpen && (
-                    <>
-                      <div
-                        className="fixed inset-0 z-40"
-                        onClick={handleClose}
-                      />
-                      <div className="absolute -left-[72px] mt-1 -bottom-15 p-[4px] z-50 min-w-[160px] rounded-lg bg-[#1C252E] -top-88 shadow-lg  h-[95vh]">
-                        {languages.map((lang) => (
-                          <button
-                            key={lang.value}
-                            onClick={() => handleLanguageSelect(lang.label)}
-                            className={`w-full h-[48px] rounded-[6px] text-left text-white px-2 py-2 mb-1 text-[14px] transition ${selectedLanguage === lang.label
-                              ? "bg-[rgba(145,158,171,0.16)] text-white font-semibold"
-                              : "text-white hover:bg-[rgba(145,158,171,0.08)]"
-                              }`}
-                          >
-                            <span className="relative top-[-1px]">
-                              {lang.label}
-                            </span>
-                          </button>
-                        ))}
-                      </div>
-                    </>
-                  )}
+                  <LanguageToggler />
                 </div>
               </div>
             </div>
@@ -133,8 +99,9 @@ export default function Footer() {
                   <Link
                     key={i}
                     href={item.href}
-                    className={`cursor-pointer text-wrap max-[600]:text-[13px]  font-normal content-center hover:underline hover:text-(--palette-primary-main) ${i !== 3 && ""
-                      } md:px-2 lg:px-0`}
+                    className={`cursor-pointer text-wrap max-[600]:text-[13px]  font-normal content-center hover:underline hover:text-(--palette-primary-main) ${
+                      i !== 3 && ""
+                    } md:px-2 lg:px-0`}
                   >
                     {item.name}
                   </Link>
@@ -146,11 +113,15 @@ export default function Footer() {
                 This website is operated by{" "}
                 <span className="text-[14px] text-[#098DEE]">100Exch</span>,
                 registered under No. at{" "}
-                <span className="text-[14px] text-[#098DEE]">Rich Able Developments Limited</span>.
-                This website is licensed and regulated by{" "}
-                <span className="text-[14px] text-[#098DEE]">Samoa</span>
-                {" "}eGaming, license No.  {" "}
-                <span className="text-[14px] text-[#098DEE]">ALSI-202510012-FI1</span>
+                <span className="text-[14px] text-[#098DEE]">
+                  Rich Able Developments Limited
+                </span>
+                . This website is licensed and regulated by{" "}
+                <span className="text-[14px] text-[#098DEE]">Samoa</span>{" "}
+                eGaming, license No.{" "}
+                <span className="text-[14px] text-[#098DEE]">
+                  ALSI-202510012-FI1
+                </span>
                 <span className="text-[14px] ">
                   . In order to register for this website, the user is required
                   to accept the General Terms and Conditions. In the event the
@@ -169,39 +140,7 @@ export default function Footer() {
                         </select>
                      </div> */}
               <div className="inline-block mt-2 relative max-[900px]:hidden">
-                <button
-                  type="button"
-                  onClick={handleLanguageClick}
-                  className="flex flex-col justify-between items-center px-3 py-0.5 border bg-transparent border-[rgba(145,158,171,0.2)] dark:border-gray-600 rounded-[8px] text-sm font-medium text-[#919EAB] dark:text-[#637381] transition hover:bg-[rgba(145,158,171,0.12)]"
-                >
-                  <p className="text-[12px] text-(--palette-text-secondary)">
-                    Language
-                  </p>
-                  <p className="text-[14px] text-(--palette-text-primary)">
-                    {selectedLanguage}
-                  </p>
-                </button>
-
-                {/* Dropdown Menu */}
-                {isOpen && (
-                  <>
-                    <div className="fixed inset-0 z-40" onClick={handleClose} />
-                    <div className="absolute left-0 mt-1 -bottom-15 p-[3px] z-50 min-w-[160px] rounded-lg bg-[rgba(var(--palette-background-paperChannel)_/_90%)]  text-(--palette-text-primary) css-4uzy5s">
-                      {languages.map((lang) => (
-                        <button
-                          key={lang.value}
-                          onClick={() => handleLanguageSelect(lang.label)}
-                          className={`w-full rounded-[8px] text-left px-4 py-2 text-[14px] transition ${selectedLanguage === lang.label
-                            ? "bg-[rgba(145,158,171,0.16)]"
-                            : " hover:bg-[rgba(145,158,171,0.08)]"
-                            }`}
-                        >
-                          {lang.label}
-                        </button>
-                      ))}
-                    </div>
-                  </>
-                )}
+                <LanguageToggler />
               </div>
             </div>
           </div>

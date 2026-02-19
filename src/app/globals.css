@@ -1189,3 +1189,25 @@ body:has(.drawer) {
     inset 0 -2px 6px rgba(255, 255, 255, 0.05);
   border-radius: 8px;
 }
+
+
+.skiptranslate {
+  display: none !important;
+  position: relative;
+}
+
+.VIpgJd-ZVi9od-aZ2wEe-wOHMyf {
+  display: none !important;
+}
+
+.arrow {
+  position: absolute;
+  top: -6px; 
+  left: 50%; 
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-bottom: 6px solid rgba(var(--palette-background-paperChannel)/90%); 
+}
