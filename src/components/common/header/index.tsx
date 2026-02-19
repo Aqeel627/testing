@@ -35,20 +35,20 @@ export default function Header({ onMenuClick }: HeaderProps) {
   //   console.log("isLoggedIn:", isLoggedIn);
   // }, [isLoggedIn]);
 
-  const { accessToken } = useAuthStore();
+  const { token } = useAuthStore();
 
   useEffect(() => {
-    console.log("Access token:", accessToken);
+    console.log("Access token:", token);
     console.log("URL:", CONFIG.getUserBalance);
-    if (accessToken) {
+    if (token) {
       fetchData({
         url: CONFIG.getUserBalance,
         payload: {},
-        headers: { Authorization: `Bearer ${accessToken}` },
+        headers: { Authorization: `Bearer ${token}` },
         setFn: setUserBalance,
       });
     }
-  }, [accessToken]);
+  }, [token]);
 
   useEffect(() => {
     const userDetail = localStorage.getItem("userDetail");
@@ -60,7 +60,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
   }, []);
 
   useEffect(() => {
-    const token = localStorage.getItem("accessToken");
+    const token = localStorage.getItem("token");
     // console.log("Token from localStorage:", token);
 
     if (token) {

@@ -4,6 +4,7 @@ import Image from "next/image";
 import Icon from "@/icons/icons";
 import { useState } from "react";
 import { CONFIG } from "@/lib/config";
+import Link from "next/link";
 const languages = [
   { value: "en", label: "English" },
   { value: "hi", label: "हिंदी" },
@@ -43,7 +44,7 @@ export default function Footer() {
           {/* TOP SECTION */}
           <div className="flex flex-col-reverse mb-[7px]  max-[900px]:items-center min-[900px]:gap-[11px]  min-[900px]:flex-row">
             {/* LEFT BLOCK */}
-            <div className="min-[900px]:w-62.5 w-full min-w-[250px]">
+            <div className="min-[900px]:w-62.5 w-full min-w-[250px] flex items-center justify-center">
               <div className="md:mb-[3.5px] w-44  max-[899px]:mx-auto lg:mb-0  max-[900px]:flex max-[900px]:flex-col max-[900px]:justify-center">
                 <Image
                   src="/secure-ssl-3.webp"
@@ -101,11 +102,10 @@ export default function Footer() {
                           <button
                             key={lang.value}
                             onClick={() => handleLanguageSelect(lang.label)}
-                            className={`w-full h-[48px] rounded-[6px] text-left text-white px-2 py-2 mb-1 text-[14px] transition ${
-                              selectedLanguage === lang.label
-                                ? "bg-[rgba(145,158,171,0.16)] text-white font-semibold"
-                                : "text-white hover:bg-[rgba(145,158,171,0.08)]"
-                            }`}
+                            className={`w-full h-[48px] rounded-[6px] text-left text-white px-2 py-2 mb-1 text-[14px] transition ${selectedLanguage === lang.label
+                              ? "bg-[rgba(145,158,171,0.16)] text-white font-semibold"
+                              : "text-white hover:bg-[rgba(145,158,171,0.08)]"
+                              }`}
                           >
                             <span className="relative top-[-1px]">
                               {lang.label}
@@ -124,33 +124,33 @@ export default function Footer() {
               {/* LINKS */}
               <div className="footer-items max-[600px]:pb-4 min-[600px]:mb-2 flex justify-center gap-4  whitespace-nowrap text-center text-[14px] font-medium text-(--palette-text-secondary)  md:justify-start md:text-start">
                 {[
-                  "About",
-                  "Contact Us",
-                  "Responsible Gambling",
-                  "AML",
-                  "KYC Policy",
+                  { name: "About", href: "/about" },
+                  { name: "Contact Us", href: "ContactUs" },
+                  { name: "Responsible Gambling", href: "RasGam" },
+                  { name: "AML", href: "AmlPolicy" },
+                  { name: "KYC Policy", href: "Kpolicy" },
                 ].map((item, i) => (
-                  <a
+                  <Link
                     key={i}
-                    href="#"
-                    className={`cursor-pointer text-wrap max-[600]:text-[13px]  font-normal content-center hover:underline hover:text-(--palette-primary-main) ${
-                      i !== 3 && ""
-                    } md:px-2 lg:px-0`}
+                    href={item.href}
+                    className={`cursor-pointer text-wrap max-[600]:text-[13px]  font-normal content-center hover:underline hover:text-(--palette-primary-main) ${i !== 3 && ""
+                      } md:px-2 lg:px-0`}
                   >
-                    {item}
-                  </a>
+                    {item.name}
+                  </Link>
                 ))}
               </div>
 
               {/* DESCRIPTION */}
               <div className=" border-t min-[900px]:pt-2 pt-4 border-dashed border-[rgba(145,158,171,0.2)]  text-[13px] leading-[20px] text-(--palette-text-secondary) dark:border-[rgba(145,158,171,0.2)] ">
                 This website is operated by{" "}
-                <span className="text-[14px] text-[#098DEE]">Au Exch</span>,
+                <span className="text-[14px] text-[#098DEE]">100Exch</span>,
                 registered under No. at{" "}
-                <span className="text-[14px] text-[#098DEE]">Curaçao</span>.
+                <span className="text-[14px] text-[#098DEE]">Rich Able Developments Limited</span>.
                 This website is licensed and regulated by{" "}
-                <span className="text-[14px] text-[#098DEE]">Curaçao</span>
-                ,eGaming, license No.{" "}
+                <span className="text-[14px] text-[#098DEE]">Samoa</span>
+                {" "}eGaming, license No.  {" "}
+                <span className="text-[14px] text-[#098DEE]">ALSI-202510012-FI1</span>
                 <span className="text-[14px] ">
                   . In order to register for this website, the user is required
                   to accept the General Terms and Conditions. In the event the
@@ -191,11 +191,10 @@ export default function Footer() {
                         <button
                           key={lang.value}
                           onClick={() => handleLanguageSelect(lang.label)}
-                          className={`w-full rounded-[8px] text-left px-4 py-2 text-[14px] transition ${
-                            selectedLanguage === lang.label
-                              ? "bg-[rgba(145,158,171,0.16)]"
-                              : " hover:bg-[rgba(145,158,171,0.08)]"
-                          }`}
+                          className={`w-full rounded-[8px] text-left px-4 py-2 text-[14px] transition ${selectedLanguage === lang.label
+                            ? "bg-[rgba(145,158,171,0.16)]"
+                            : " hover:bg-[rgba(145,158,171,0.08)]"
+                            }`}
                         >
                           {lang.label}
                         </button>

@@ -53,8 +53,8 @@ const SportPage = ({ params }: SportPageProps) => {
   }, [activeTab, sportEvents]);
 
   if (!allEventsList) return <p className="text-white p-4">Loading...</p>;
-  if (!sportEvents.length)
-    return ;
+  // if (!sportEvents.length)
+    // return ;
 
   return (
     <>
