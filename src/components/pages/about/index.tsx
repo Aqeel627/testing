@@ -13,7 +13,7 @@ export default function About() {
         <>
             <BreadCrumb title="About Us" showTitle={false} />
             <div className="w-full mx-auto flex flex-col flex-grow scroll-mt-[40px]">
-                {/* Main Title */}
+
                 <h1 className="text-2xl md:text-[24px] font-bold leading-normal">
                     About 100Exch
                 </h1>
@@ -24,7 +24,6 @@ export default function About() {
 
                 <div className="py-2"></div>
 
-                {/* Section Component Reusable Pattern */}
 
                 <Section
                     id="welcome"
@@ -131,9 +130,8 @@ export default function About() {
         </>
     );
 }
-/* -------------------------
-   Reusable Section Component
--------------------------- */
+
+//    Reusable Section Component
 
 function Section({
     id,

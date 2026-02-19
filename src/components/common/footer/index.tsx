@@ -91,7 +91,7 @@ export default function Footer() {
               <div className="footer-items max-[600px]:pb-4 min-[600px]:mb-2 flex overflow-hidden overflow-x-auto scrollbar-hide min-[453]:justify-center gap-4  whitespace-nowrap text-center text-[14px] font-medium text-(--palette-text-secondary)  md:justify-start md:text-start">
                 {[
                   { name: "About", href: "/about" },
-                  { name: "Contact Us", href: "/ContactUs" },
+                  { name: "Contact Us", href: "/contact-us" },
                   { name: "Responsible Gambling", href: "/RasGam" },
                   { name: "AML", href: "/AmlPolicy" },
                   { name: "KYC Policy", href: "/Kpolicy" },
