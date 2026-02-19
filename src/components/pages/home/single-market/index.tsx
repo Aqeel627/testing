@@ -196,7 +196,7 @@ export default function SingleMarket() {
                   <div>
                     <p className="m-0 font-sans whitespace-nowrap text-[#919eab] text-[10px] font-bold uppercase leading-4 truncate overflow-hidden">
                       Traded:{" "}
-                      <span className="text-[10px] font-bold text-[#ffab00] leading-[1rem]">
+                      <span className="text-[10px] font-bold dark:text-white text-black leading-[1rem]">
                         {/* 👇 Yahan direct value pass kardi hai, ab ye khud smoothly animate hoga */}
                         <AnimatedNumber
                           value={event.totalMatched}
@@ -219,7 +219,7 @@ export default function SingleMarket() {
                 {/* LEFT — Team 1 odds */}
                 <div className="flex flex-col gap-0.5 w-[33.3%]">
                   <span
-                    className={`block h-[1.125rem] text-(--palette-text-primary) text-center truncate overflow-hidden ${oddsRowLabelWidthClass}`}
+                    className={`block h-[1.125rem] text-(--palette-text-primary) font-bold text-center truncate overflow-hidden ${oddsRowLabelWidthClass}`}
                   >
                     {event.runnersName?.[0]?.runnerName}
                   </span>
@@ -273,7 +273,7 @@ export default function SingleMarket() {
                 {/* CENTER — Draw or disabled */}
                 <div className="flex flex-col gap-0.5 w-[33.3%]">
                   <span
-                    className={`block h-[1.125rem] text-(--palette-text-primary) text-center truncate overflow-hidden ${oddsRowLabelWidthClass}`}
+                    className={`block h-[1.125rem] text-(--palette-text-primary) font-bold text-center truncate overflow-hidden ${oddsRowLabelWidthClass}`}
                   >
                     {hasThreeRunners ? event.runnersName?.[2]?.runnerName : ""}
                   </span>
@@ -383,7 +383,7 @@ export default function SingleMarket() {
                 {/* RIGHT — Team 2 odds */}
                 <div className="flex flex-col gap-0.5 w-[33.3%]">
                   <span
-                    className={`block h-[1.125rem] text-(--palette-text-primary) text-center truncate overflow-hidden ${oddsRowLabelWidthClass}`}
+                    className={`block h-[1.125rem] font-bold text-(--palette-text-primary) text-center truncate overflow-hidden ${oddsRowLabelWidthClass}`}
                   >
                     {rightRunnerName}
                   </span>
