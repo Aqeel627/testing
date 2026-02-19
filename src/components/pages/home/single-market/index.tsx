@@ -194,9 +194,9 @@ export default function SingleMarket() {
 
               
                   <div>
-                    <p className="m-0 font-sans whitespace-nowrap text-[#919eab] text-[10px] font-bold uppercase leading-4 truncate overflow-hidden">
+                    <p className="m-0 font-sans whitespace-nowrap dark:text-white text-black text-[10px] font-bold uppercase leading-4 truncate overflow-hidden">
                       Traded:{" "}
-                      <span className="text-[10px] font-bold dark:text-white text-black leading-[1rem]">
+                      <span className="text-[10px] font-bold  leading-[1rem]">
                         {/* 👇 Yahan direct value pass kardi hai, ab ye khud smoothly animate hoga */}
                         <AnimatedNumber
                           value={event.totalMatched}
