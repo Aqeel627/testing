@@ -5,6 +5,7 @@ import Icon from "@/icons/icons";
 import Link from "next/link";
 import style from "./singleMarket.module.css";
 import { shortNumber } from "@/lib/functions";
+import { AnimatedNumber } from "@/components/common/animatied-number";
 
 export default function SingleMarket() {
   const { allEventsList, selectedEventTypeId } = useAppStore();
@@ -178,11 +179,21 @@ export default function SingleMarket() {
                     </div>
                   </div>
 
-                  <div>
+                  {/* <div>
                     <p className="m-0 font-sans whitespace-nowrap text-[#919eab] text-[10px] font-bold uppercase leading-4 truncate overflow-hidden whitespace-nowrap">
                       Traded:{" "}
                       <span className="text-[10px] font-bold text-[#ffab00] leading-[1rem]">
                         {event.totalMatched?.toLocaleString()}
+                      </span>
+                    </p>
+                  </div> */}
+
+                  <div>
+                    <p className="m-0 font-sans whitespace-nowrap text-[#919eab] text-[10px] font-bold uppercase leading-4 truncate overflow-hidden">
+                      Traded:{" "}
+                      <span className="text-[10px] font-bold text-[#ffab00] leading-[1rem]">
+                        {/* 👇 Yahan direct value pass kardi hai, ab ye khud smoothly animate hoga */}
+                        <AnimatedNumber value={event.totalMatched} inplay={event.inplay} />
                       </span>
                     </p>
                   </div>
@@ -257,8 +268,8 @@ export default function SingleMarket() {
                     {/* BACK BUTTON (CENTER) */}
                     <div
                       className={`w-[75%] h-[45px] min-w-[57.5px] rounded-[8px] border-[1px] flex flex-col justify-center items-center select-none transition-all ${hasThreeRunners
-                          ? "border-[#034a69] bg-[#0c2137]/60 hover:bg-[#0c2137]/80 cursor-pointer"
-                          : "border-[#034a69]/40 bg-[#0c2137]/20 cursor-default"
+                        ? "border-[#034a69] bg-[#0c2137]/60 hover:bg-[#0c2137]/80 cursor-pointer"
+                        : "border-[#034a69]/40 bg-[#0c2137]/20 cursor-default"
                         }`}
                       onClick={() =>
                         hasThreeRunners &&
@@ -282,8 +293,8 @@ export default function SingleMarket() {
                     {/* LAY BUTTON (CENTER) */}
                     <div
                       className={`w-[75%] h-[45px] min-w-[57.5px] rounded-[8px] border-[1px] flex flex-col justify-center items-center select-none transition-all ${hasThreeRunners
-                          ? "border-[#6a1a29] bg-[#2a0c13]/60 hover:bg-[#2a0c13]/80 cursor-pointer"
-                          : "border-[#6a1a29]/40 bg-[#2a0c13]/20 cursor-default"
+                        ? "border-[#6a1a29] bg-[#2a0c13]/60 hover:bg-[#2a0c13]/80 cursor-pointer"
+                        : "border-[#6a1a29]/40 bg-[#2a0c13]/20 cursor-default"
                         }`}
                       onClick={() =>
                         hasThreeRunners &&

@@ -184,7 +184,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
             </Link>
           )}
 
-          <ThemeToggle />
+          <span className="hidden min-[600px]:flex "><ThemeToggle /></span>
           {!isLoggedIn && (
             // <Link
             //   href="/login"
@@ -228,7 +228,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
               </div>
 
               {isMenuOpen && (
-                <div className="absolute top-[16px] md:top-[38px] right-0 w-[250px] bg-[var(--dropdownBg)] rounded-xl  z-50 flex flex-col var(--palette-text-primary) overflow-hidden max-h-[calc(100vh-32px)] border border-[#919eab29]">
+                <div className="absolute top-[16px] md:top-[38px] right-0 w-[250px] bg-[var(--dropdownBg)] rounded-xl  z-50 flex flex-col var(--palette-text-primary) overflow-hidden overflow-y-auto max-h-[calc(100vh-32px)] border border-[#919eab29] scrollbar-hide">
                   <div className="absolute -top-10 -right-10 w-20 h-20 bg-[#078dee] blur-[60px] opacity-[0.50] pointer-events-none z-0 rounded-full"></div>
                   <div className="px-4 pt-4 pb-2">
                     <h6 className="text-[0.875rem] font-semibold text-[var(--palette-text-primary)] truncate leading-[1.57143]">
@@ -259,7 +259,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
                           Balance
                         </p>
                         <p className="text-[1rem] text-[var(--palette-text-primary)] font-semibold leading-[1.5]">
-                            {hideBalance ? "-" : ((userBalance?.bankBalance ?? 0) - (userBalance?.exposure ?? 0)).toFixed(2)}
+                          {hideBalance ? "-" : ((userBalance?.bankBalance ?? 0) - (userBalance?.exposure ?? 0)).toFixed(2)}
                         </p>
                       </div>
                     </div>
@@ -300,8 +300,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
                     <li className="mb-1 no-underline h-12 min-[600px]:h-auto text-[0.875rem] leading-[1.57143px] hover:bg-[rgba(145,158,171,0.08)] rounded-[8px]">
                       <div className="flex items-center justify-between w-full px-2 text-[14px] text-[var(--dropdowntext)] hover:text-[var(--palette-text-primary)] hover:bg-white/5 transition-colors cursor-pointer">
                         <span className="ml-4">Theme</span>
-                        {/* Placeholder Icon */}
-                        <ThemeToggle />
+                        <span><ThemeToggle /></span>
                       </div>
                     </li>
 
@@ -334,7 +333,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
                   {/* Logout Button */}
                   <div className="p-2 relative">
                     {/* 👇 Ye optional background glow hai jo corner main red light dega (bilkul image jaisa) */}
-                    <div className="absolute -bottom-4 -left-4 w-20 h-20 bg-[#FF5630] blur-[30px] opacity-15 pointer-events-none"></div>
+                    <div className="absolute -bottom-4 hidden md:flex -left-4 w-20 h-20 bg-[#FF5630] blur-[30px] opacity-15 pointer-events-none"></div>
 
                     <button
                       onClick={() => {
