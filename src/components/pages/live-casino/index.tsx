@@ -60,7 +60,7 @@ export default function Casino() {
           <li key={index} className="w-full">
 
             <article
-              className="relative w-full aspect-[2/2.5] rounded-xl overflow-hidden shadow-2xl transition-transform duration-300 [transform:perspective(1000px)_rotateY(5deg)_skewX(-5deg)] border border-white/10 cursor-pointer group"
+              className="relative w-full aspect-[2/2.5] md:aspect-[2/2] min-h-[166.46px] min-[600px]:min-h-[auto] rounded-xl overflow-hidden shadow-2xl transition-transform duration-300 [transform:perspective(1000px)_rotateY(5deg)_skewX(-5deg)] border border-white/10 cursor-pointer group"
             >
               {/* Background Image */}
               <div
