@@ -38,8 +38,8 @@ export default function Header({ onMenuClick }: HeaderProps) {
   const { token } = useAuthStore();
 
   useEffect(() => {
-    console.log("Access token:", token);
-    console.log("URL:", CONFIG.getUserBalance);
+    console.log("token:", token);
+    // console.log("URL:", CONFIG.getUserBalance);
     if (token) {
       fetchData({
         url: CONFIG.getUserBalance,
@@ -55,7 +55,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
     if (userDetail) {
       const parsed = JSON.parse(userDetail);
       setUserName(parsed.userName || ""); // ✅ state update
-      console.log("User Name from localStorage:", parsed.userName);
+      // console.log("User Name from localStorage:", parsed.userName);
     }
   }, []);
 
