@@ -536,14 +536,16 @@ export default function Sidebar({ config }: SidebarProps) {
       <ul className={styles.list}>
         {/* Mobile Search */}
         <div
-          className={`${styles.searchWrapper} lg:hidden!`}
+          className={`${styles.searchWrapper} lg:hidden! border-b -mx-4 border-[#919eab14]`}
           onClick={handleSearchToggle}
           role="button"
           tabIndex={0}
           onKeyDown={(e) => handleKeyDown(e, handleSearchToggle)}
         >
-          <div className={styles.searchBtn}>
-            <Icon name={"search"} className={styles.searchIcon} />
+          <div className="px-4">
+            <div className={styles.searchBtn}>
+              <Icon name={"search"} className={styles.searchIcon} />
+            </div>
           </div>
         </div>
 

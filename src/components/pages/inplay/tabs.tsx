@@ -141,8 +141,9 @@ export default function InplaySportNav({
         <div role="tablist" className={styles["tabs-list"]} ref={tabsListRef}>
           {/* Sliding Indicator */}
           <div
-            className={`${styles["sliding-indicator"]} py-3.5 ${!indicatorStyle.animate ? styles["no-animation"] : ""
-              }`}
+            className={`${styles["sliding-indicator"]} py-3.5 ${
+              !indicatorStyle.animate ? styles["no-animation"] : ""
+            }`}
             style={{
               left: `${indicatorStyle.left}px`,
               top: `${indicatorStyle.top}px`,
@@ -157,8 +158,9 @@ export default function InplaySportNav({
             role="tab"
             data-tab={"All"}
             aria-selected={activeTab === "All"}
-            className={`${styles["tab-btn"]} ${activeTab === "All" ? styles.active : ""
-              }`}
+            className={`${styles["tab-btn"]} ${
+              activeTab === "All" ? styles.active : ""
+            }`}
             onClick={() => {
               setActiveTab("All");
             }}
@@ -176,18 +178,19 @@ export default function InplaySportNav({
               role="tab"
               data-tab={item.label}
               aria-selected={activeTab === item.label}
-              className={`${styles["tab-btn"]} ${activeTab === item.label ? styles.active : ""
-                }`}
+              className={`${styles["tab-btn"]} ${
+                activeTab === item.label ? styles.active : ""
+              }`}
               onClick={() => {
                 setActiveTab(item.label);
               }}
             >
-              {item.label}
-
               <span
-                className={`${styles["tab-icon"]} ${styles[`icon-${item.label.toLowerCase().replace(/\s/g, "-")}`]
-                  }`}
+                className={`${styles["tab-icon"]} ${
+                  styles[`icon-${item.label.toLowerCase().replace(/\s/g, "-")}`]
+                }`}
               />
+              {item.label}
 
               {activeTab === item.label && (
                 <span className={styles["tab-indicator"]}></span>
