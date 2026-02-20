@@ -22,6 +22,7 @@ import BottomNavbar from "@/components/common/bottom-nav";
 import LoginModal from "@/components/modal/login";
 import { cn } from "@/lib/utils";
 import { useLayoutWidthStore } from "@/lib/store/layoutWidth.store";
+import { useCacheStore } from "@/lib/store/cacheStore";
 
 const MAIN_WIDTH_STORAGE_KEY = "pages-layout-main-width";
 
@@ -72,9 +73,9 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
     setUserBalance,
     setStakeValue,
     setBannersList,
-    loginModal,
   } = useAppStore();
 
+  const { loginModal } = useCacheStore();
   const pathname = usePathname();
   const { checkLogin, isLoggedIn } = useAuthStore();
 
@@ -191,15 +192,12 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
   };
   const mainRef = useRef<HTMLDivElement | null>(null);
 
-     const setMainWidthStore = useLayoutWidthStore(
-  (state) => state.setMainWidth
-);
+  const setMainWidthStore = useLayoutWidthStore((state) => state.setMainWidth);
   useEffect(() => {
-  if (mainWidth > 0 && !isMobile) {
-    setMainWidthStore(mainWidth);
-  }
-}, [mainWidth, isMobile]);
-
+    if (mainWidth > 0 && !isMobile) {
+      setMainWidthStore(mainWidth);
+    }
+  }, [mainWidth, isMobile]);
 
   const onDrag = (e: React.PointerEvent) => {
     if (!draggingRef.current || isMobile) return;
@@ -236,7 +234,7 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
         <div
           className={cn(
             "w-full min-h-screen",
-            (loginModal||isMobileSidebarOpen) && "overflow-hidden!",
+            (loginModal || isMobileSidebarOpen) && "overflow-hidden!",
           )}
         >
           <div className="w-full fixed top-0 z-50">

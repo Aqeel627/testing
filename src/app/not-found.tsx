@@ -1,8 +1,8 @@
-import React from 'react'
+import NotFoundComponent from '@/components/common/not-found-component'
 
 const NotFound = () => {
   return (
-    <div className='text-white'>not-found</div>
+    <NotFoundComponent />
   )
 }
 

@@ -19,6 +19,7 @@ import { useLayoutWidthStore } from "@/lib/store/layoutWidth.store";
 import DCasinoTabs from "@/components/pages/live-casino/d-casino-tabs";
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
+import { useCacheStore } from "@/lib/store/cacheStore";
 
 const MAIN_WIDTH_STORAGE_KEY = "pages-layout-main-width";
 
@@ -68,7 +69,7 @@ export default function CasinoLayout({ children }: { children: ReactNode }) {
     return { minMain, maxMain, dividerPx, available };
   };
 
-  const { loginModal } = useAppStore();
+  const { loginModal } = useCacheStore();
 
   useEffect(() => {
     const handleResize = () => {

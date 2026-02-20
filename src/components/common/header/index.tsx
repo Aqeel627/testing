@@ -13,17 +13,19 @@ import { ThemeToggle } from "../theme-toggler";
 import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
+import { useCacheStore } from "@/lib/store/cacheStore";
 
 type HeaderProps = {
   onMenuClick?: () => void;
-  hideMenuBtn?:boolean
+  hideMenuBtn?: boolean;
 };
 
-export default function Header({ onMenuClick,hideMenuBtn }: HeaderProps) {
+export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
   // New state for checkbox toggles - default true
   const [showBalance, setShowBalance] = useState(true);
   const [showExposure, setShowExposure] = useState(true);
-  const { userBalance, setUserBalance, setLoginModal } = useAppStore();
+  const { userBalance, setUserBalance } = useAppStore();
+  const { setLoginModal } = useCacheStore();
   const { token, isLoggedIn, logout } = useAuthStore();
   const { resolvedTheme, theme } = useTheme();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -74,20 +76,22 @@ export default function Header({ onMenuClick,hideMenuBtn }: HeaderProps) {
       className={cn(
         "w-full glass  --palette-text-primary  sticky top-0 z-50",
         theme === "light" &&
-        "backdrop-blur-[10px]! bg-linear-to-br! from-white/25! to-white/5! border-b! border-[rgb(205_192_192/0.4)]! shadow-[0_8px_32px_rgba(0,0,0,0.2)]!",
+          "backdrop-blur-[10px]! bg-linear-to-br! from-white/25! to-white/5! border-b! border-[rgb(205_192_192/0.4)]! shadow-[0_8px_32px_rgba(0,0,0,0.2)]!",
       )}
     >
       <div className="max-w-[1600px] mx-auto px-2 h-12 flex items-center justify-between">
         {/* 👇 Left: Hamburger & Logo */}
         <div className="flex items-center gap-3 md:gap-4">
-          {!hideMenuBtn&&<button
-            type="button"
-            onClick={onMenuClick}
-            className="text-(--palette-action-active) transition-colors p-1 cursor-pointer rounded-full hover:scale-[1.04] hover:bg-(--IconButton-hoverBg)"
-            aria-label="Toggle sidebar"
-          >
-            <Icon name="logo" className="h-6 w-6" />
-          </button>}
+          {!hideMenuBtn && (
+            <button
+              type="button"
+              onClick={onMenuClick}
+              className="text-(--palette-action-active) transition-colors p-1 cursor-pointer rounded-full hover:scale-[1.04] hover:bg-(--IconButton-hoverBg)"
+              aria-label="Toggle sidebar"
+            >
+              <Icon name="logo" className="h-6 w-6" />
+            </button>
+          )}
           {/* <div className="relative"> */}
           {/* <div className="neon-underline min-[960]:bottom-[9px] bottom-[7px]">
               <span className="neon-glow glow-main"></span>
@@ -138,7 +142,10 @@ export default function Header({ onMenuClick,hideMenuBtn }: HeaderProps) {
             >
               <Icon
                 name="exchange"
-                className={cn("h-4 w-4", pathName === "/" && "text-(--primary-color)!")}
+                className={cn(
+                  "h-4 w-4",
+                  pathName === "/" && "text-(--primary-color)!",
+                )}
               />
             </span>
             <span className="relative top-[-0.5px]">Exchange</span>
@@ -161,8 +168,12 @@ export default function Header({ onMenuClick,hideMenuBtn }: HeaderProps) {
               </div>
             )} */}
             {/* Live Casino Icon */}
-            <span className={cn(
-              pathName === "/live-casino" && " text-(--primary-color)!", " group-hover:--palette-text-primar transition-colors mr-[2px]")}>
+            <span
+              className={cn(
+                pathName === "/live-casino" && " text-(--primary-color)!",
+                " group-hover:--palette-text-primar transition-colors mr-[2px]",
+              )}
+            >
               <Icon name="casino" className="h-6 w-6" />
             </span>
             <span className="relative top-[-0.5px]">Casino</span>
@@ -285,9 +296,9 @@ export default function Header({ onMenuClick,hideMenuBtn }: HeaderProps) {
                           {hideBalance
                             ? "-"
                             : (
-                              (userBalance?.bankBalance ?? 0) -
-                              (userBalance?.exposure ?? 0)
-                            ).toFixed(2)}
+                                (userBalance?.bankBalance ?? 0) -
+                                (userBalance?.exposure ?? 0)
+                              ).toFixed(2)}
                         </p>
                       </div>
                     </div>
@@ -429,8 +440,12 @@ export default function Header({ onMenuClick,hideMenuBtn }: HeaderProps) {
               </div>
             )} */}
             {/* Live Casino Icon */}
-            <span className={cn(
-              pathName === "/live-casino" && "active text-(--primary-color)", " group-hover:--palette-text-primary  transition-colors mr-[1.8px] ")}>
+            <span
+              className={cn(
+                pathName === "/live-casino" && "active text-(--primary-color)",
+                " group-hover:--palette-text-primary  transition-colors mr-[1.8px] ",
+              )}
+            >
               <Icon name="casino" className="h-6 w-6" />
             </span>
             <span className="relative !top-[-0.5px] font-bold">Casino</span>
