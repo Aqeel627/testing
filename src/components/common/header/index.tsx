@@ -16,9 +16,10 @@ import { usePathname } from "next/navigation";
 
 type HeaderProps = {
   onMenuClick?: () => void;
+  hideMenuBtn?:boolean
 };
 
-export default function Header({ onMenuClick }: HeaderProps) {
+export default function Header({ onMenuClick,hideMenuBtn }: HeaderProps) {
   // New state for checkbox toggles - default true
   const [showBalance, setShowBalance] = useState(true);
   const [showExposure, setShowExposure] = useState(true);
@@ -79,14 +80,14 @@ export default function Header({ onMenuClick }: HeaderProps) {
       <div className="max-w-[1600px] mx-auto px-2 h-12 flex items-center justify-between">
         {/* 👇 Left: Hamburger & Logo */}
         <div className="flex items-center gap-3 md:gap-4">
-          <button
+          {!hideMenuBtn&&<button
             type="button"
             onClick={onMenuClick}
             className="text-(--palette-action-active) transition-colors p-1 cursor-pointer rounded-full hover:scale-[1.04] hover:bg-(--IconButton-hoverBg)"
             aria-label="Toggle sidebar"
           >
             <Icon name="logo" className="h-6 w-6" />
-          </button>
+          </button>}
           {/* <div className="relative"> */}
           {/* <div className="neon-underline min-[960]:bottom-[9px] bottom-[7px]">
               <span className="neon-glow glow-main"></span>
