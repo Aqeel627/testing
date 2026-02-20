@@ -10,6 +10,13 @@
   --secondary-text-color: #919eab;
   --login-btn-hover: #0351ab;
 
+  /* casino tabs variables */
+  --casino-tab-active-bg: rgba(7, 141, 238, 0.08);
+  --casino-tab-nonactive-bg: rgba(7, 141, 238, 0.24);
+  --casino-tab-active-border: rgba(7, 141, 238, 0.3);
+  --casino-tab-nonactive-border: rgb(7, 141, 238);
+  --casino-tab-nonactive-text: rgb(145, 158, 171);
+
   --background: #f4f6f8;
   --foreground: #171717;
   --palette-common-black: #000000;
@@ -362,12 +369,12 @@
   --back-size-text-noprice: #000000;
   --back-size-text-disabled: #000000;
   /* lay variables */
+  --lay-bg: #fb9ea2;
   --lay-noprice-bg: #f4d4d8;
   --lay-noprice-border: transparent;
   --lay-disabled-bg: #f4d4d8;
   --lay-disabled-border: transparent;
   --lay-price-text: #000000;
-  --lay-bg: #fb9ea2;
   --lay-border: transparent;
   --lay-hover: #fb9ea2;
   --lay-price-text-disabled: #000000;
@@ -387,12 +394,6 @@
   --gth-btn-bg: #fff;
 
   /* back variables */
-  --back-price-text: #03b2ff;
-  --back-size-text: #60a5fa;
-  --back-price-text-noprice: rgba(239, 246, 255, 1); /* blue-50 */
-  --back-price-text-disabled: rgba(239, 246, 255, 0.5);
-  --back-size-text-noprice: #03b2ff;
-  --back-size-text-disabled: rgba(96, 165, 250, 0.5);
   --back-bg: rgba(12, 33, 55, 0.6);
   --back-border: #03b2ff;
   --back-hover: rgba(12, 33, 55, 0.8);
@@ -400,16 +401,22 @@
   --back-noprice-border: rgba(219, 234, 254, 1);
   --back-disabled-bg: rgba(12, 33, 55, 0.2);
   --back-disabled-border: rgba(219, 234, 254, 0.5);
+  --back-price-text: #03b2ff;
+  --back-size-text: #60a5fa;
+  --back-price-text-noprice: rgba(239, 246, 255, 1); /* blue-50 */
+  --back-price-text-disabled: rgba(239, 246, 255, 0.5);
+  --back-size-text-noprice: #03b2ff;
+  --back-size-text-disabled: rgba(96, 165, 250, 0.5);
   /* lay variables */
-  --lay-price-text: #ff7a7f;
-  --lay-price-text-disabled: rgba(255, 122, 127, 0.5);
   --lay-bg: rgba(42, 12, 19, 0.6);
-  --lay-border: #ff7a7f;
-  --lay-hover: rgba(42, 12, 19, 0.8);
   --lay-noprice-bg: rgba(42, 12, 19, 0.6);
   --lay-noprice-border: #ff7a7f;
   --lay-disabled-bg: rgba(42, 12, 19, 0.2);
   --lay-disabled-border: rgba(255, 122, 127, 0.5);
+  --lay-price-text: #ff7a7f;
+  --lay-border: #ff7a7f;
+  --lay-hover: rgba(42, 12, 19, 0.8);
+  --lay-price-text-disabled: rgba(255, 122, 127, 0.5);
   --lay-size-text: #ff7a7f;
   --lay-size-text-disabled: rgba(255, 122, 127, 0.5);
   --lay-price-text-noprice: #ff7a7f;
@@ -1302,7 +1309,7 @@ body:has(.drawer) {
 
 .neon-underline {
   --underline-width: 75%;
-  --side-color: var(--secondary-color);
+  --side-color: var(--primary-color);
   --middle-color: var(--primary-color);
 
   position: absolute;
