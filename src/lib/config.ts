@@ -21,6 +21,7 @@ export const CONFIG = {
   siteKey: "10",
 
   domain: "https://auexch.yourdesign.live",
+    miniCasinoIframeUrl: "https://minicasino.ludoexchange.com",
 
   inplayEvents: "AllInplayEvents",
   allSportsEvents: "allSportsEvents",
