@@ -16,18 +16,25 @@ export default function SingleMarket() {
   useEffect(() => {
     const listEl = wrapperRef.current;
     if (!listEl) return;
+
     const targetEl = (listEl.closest("main") as HTMLElement | null) || listEl;
 
     const updateLayoutMode = () => {
       const renderedWidth = targetEl.getBoundingClientRect().width;
-      setIsCompactLayout(renderedWidth < 767);
+      if (renderedWidth > 0) {
+        setIsCompactLayout(renderedWidth < 767);
+      }
     };
 
-    updateLayoutMode();
+    const raf = requestAnimationFrame(updateLayoutMode);
+
     const observer = new ResizeObserver(updateLayoutMode);
     observer.observe(targetEl);
 
-    return () => observer.disconnect();
+    return () => {
+      cancelAnimationFrame(raf);
+      observer.disconnect();
+    };
   }, []);
 
   const events: any[] = selectedEventTypeId
@@ -39,7 +46,7 @@ export default function SingleMarket() {
 
   return (
     <ul ref={wrapperRef} className="mt-2">
-      {events.map((event: any) => {
+      {events?.map((event: any) => {
         const runner0 = event.runners?.[0]; // Team 1 → LEFT
         const runner1 = event.runners?.[1]; // Team 2 → RIGHT
         const runner2 = event.runners?.[2]; // Draw   → CENTER
@@ -193,7 +200,7 @@ export default function SingleMarket() {
 
                   <div>
                     <p className="m-0 font-sans whitespace-nowrap text-[var(--secondary-text-color)] text-[10px] font-bold uppercase leading-4 truncate overflow-hidden">
-                      Traded{" "}:{" "}
+                      Traded :{" "}
                       <span className="text-[10px] font-bold text-[var(--primary-text-color)]  leading-[1rem]">
                         {/* 👇 Yahan direct value pass kardi hai, ab ye khud smoothly animate hoga */}
                         <AnimatedNumber
@@ -239,8 +246,7 @@ export default function SingleMarket() {
                         {" "}
                         {runner0?.ex?.availableToBack?.[0]?.price ?? "-"}
                       </span>
-                      <span className="block size whitespace-nowrap font-normal text-[var(--back-size-text)] leading-[1]"
-                      >
+                      <span className="block size whitespace-nowrap font-normal text-[var(--back-size-text)] leading-[1]">
                         {shortNumber(runner0?.ex?.availableToBack?.[0]?.size) ??
                           ""}
                       </span>
@@ -410,7 +416,7 @@ export default function SingleMarket() {
                     {/* LAY BUTTON (RIGHT) */}
                     <div
                       className={`${oddsBoxWidthClass} h-[45px] gap-[2px] rounded-[8px] border border-[var(--lay-border)] bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)] flex flex-col justify-center items-center cursor-pointer select-none transition-all`}
-                      onClick={() => 
+                      onClick={() =>
                         setSelectedBet({
                           type: "lay",
                           odds: rightRunner?.ex?.availableToLay?.[0]?.price,
