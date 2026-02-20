@@ -7,6 +7,8 @@
   --primary-color: #078dee;
   --secondary-color: #68cdf9;
 
+  --secondary-text-color:#919eab;
+
   --background: #f4f6f8;
   --foreground: #171717;
   --palette-common-black: #000000;
@@ -337,8 +339,7 @@
 .light {
   --primary-hover: rgba(145, 158, 171, 0.08);
   --dotted-line: rgba(145, 158, 171, 0.2);
-  --primary-txt-color: ;
-  --secondary-txt-color: ;
+  --primary-text-color: black;
 
   --sport-active-bg: rgba(7 141 238 / 8%);
 }
@@ -346,8 +347,7 @@
 .dark {
   --primary-hover: rgba(145, 158, 171, 0.08);
   --dotted-line: rgba(145, 158, 171, 0.2);
-  --primary-txt-color: ;
-  --secondary-txt-color: ;
+  --primary-text-color: white;
 
   --sport-active-bg: #141a21;
 
@@ -669,7 +669,7 @@
 
 body {
   background: var(--background);
-  color: var(--foreground);
+  color: var(--primary-text-color);
   font-family:
     Inter,
     -apple-system,
