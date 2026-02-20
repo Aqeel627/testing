@@ -181,8 +181,8 @@ const LanguageToggler = () => {
                   className={`text-sm w-full text-left relative bg-transparent cursor-pointer gap-2 font-semibold  transition p-3 rounded-none  
                            ${
                              language === lang.title
-                               ? "bg-[#2e3e49]!"
-                               : "hover:bg-[rgba(145,158,171,0.08)]"
+                               ? "bg-(--primary-color)! text-white"
+                               : "hover:bg-(--primary-hover)!"
                            }`}
                 >
                   {lang.title}
