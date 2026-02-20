@@ -14,6 +14,11 @@
   --lay-and-back-prize: 14px;
   --lay-and-back-size: 10px;
 
+  /* sidebar variables */
+  --sidebar-active-bg: rgba(7 141 238 / 8%);
+  --sidebar-active-hover-bg: rgba(7 141 238 / 16%);
+  --sidebar-badge-bg: rgba(7, 141, 238, 0.16);
+
   /* casino tabs variables */
   --casino-tab-active-bg: rgba(7, 141, 238, 0.08);
   --casino-tab-nonactive-bg: rgba(7, 141, 238, 0.24);
@@ -335,8 +340,6 @@
   --customShadows-success: 0 8px 16px 0 rgba(34 197 94 / 24%);
   --customShadows-warning: 0 8px 16px 0 rgba(255 171 0 / 24%);
   --customShadows-error: 0 8px 16px 0 rgba(255 86 48 / 24%);
-  --nav-item-root-active-bg: rgba(7 141 238 / 8%);
-  --nav-item-root-active-color: #078dee;
 
   --nav-bullet-light-color: #edeff2;
   --head-hover: #fff;
@@ -357,6 +360,9 @@
 
   /* login variables */
   --gth-btn-bg: #1c252e;
+
+  /* sidebar variables */
+  --sidebar-badge-text: #0351ab;
 
   /* back variables */
   --back-bg: #48c5fc;
@@ -399,6 +405,9 @@
 
   /* login variables */
   --gth-btn-bg: #fff;
+
+  /* sidebar variables */
+  --sidebar-badge-text: var(--secondary-color);
 
   /* back variables */
   --back-bg: rgba(12, 33, 55, 0.6);
@@ -725,8 +734,7 @@
   --opacity-inputUnderline: 0.7;
   --opacity-switchTrackDisabled: 0.2;
   --opacity-switchTrack: 0.3;
-  --nav-item-root-active-bg: rgba(7 141 238 / 8%);
-  --nav-item-root-active-color: #68cdf9;
+
   --head-hover: #1d242b;
   --dropdownBg: #1c252e;
   --dropdowntext: #919eab;
