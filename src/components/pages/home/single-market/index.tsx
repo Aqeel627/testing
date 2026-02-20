@@ -194,7 +194,7 @@ export default function SingleMarket() {
 
                   <div>
                     <p className="m-0 font-sans whitespace-nowrap text-[var(--secondary-text-color)] text-[10px] font-bold uppercase leading-4 truncate overflow-hidden">
-                      Traded:{" "}
+                      Traded{" "}:{" "}
                       <span className="text-[10px] font-bold text-[var(--primary-text-color)]  leading-[1rem]">
                         {/* 👇 Yahan direct value pass kardi hai, ab ye khud smoothly animate hoga */}
                         <AnimatedNumber
@@ -398,8 +398,6 @@ export default function SingleMarket() {
                       }
                     >
                       <span className="block whitespace-nowrap font-bold text-[16px] text-[var(--back-price-text)] leading-[1.1]">
-                        {" "}
-                        {runner0?.ex?.availableToBack?.[0]?.price ?? "-"}
                         {rightRunner?.ex?.availableToBack?.[0]?.price ?? "-"}
                       </span>
                       <span className="block whitespace-nowrap font-normal text-[10px] text-[var(--back-size-text)] leading-[1]">
