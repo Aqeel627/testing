@@ -57,7 +57,7 @@ export const CONFIG = {
   bannersListTime: 20,
 
   getAllEventsList: BASE_URL_APIX + "/api/navigation/allEventsList", //done
-  getAllEventsListTime: 20,
+  getAllEventsListTime: 1440,
   getCustomerSupport: BASE_URL + "/app/users/supports/getCustomerSupport", //done
   getCustomerSupportTime: 1440,
 
