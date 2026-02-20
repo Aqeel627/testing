@@ -6,10 +6,10 @@
 // const BASE_URL = "https://100exch.com";
 // const BASE_URL_APIX = "https://100exch.com";
 
-export const BASE_URL_API = '';
-export const BASE_URL_V1 = "";
-export const BASE_URL = "";
-export const BASE_URL_APIX = "";
+// export const BASE_URL_API = '';
+// export const BASE_URL_V1 = "";
+// export const BASE_URL = "";
+// export const BASE_URL_APIX = "";
 
 export const BASE_URL_WS = "";
 // export const BASE_URL_WS = "http://54.228.173.228:9007"
