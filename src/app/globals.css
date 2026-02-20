@@ -342,8 +342,10 @@
   --primary-hover: rgba(145, 158, 171, 0.08);
   --dotted-line: rgba(145, 158, 171, 0.2);
   --primary-text-color: black;
-
   --sport-active-bg: rgba(7 141 238 / 8%);
+
+  /* login variables */
+  --gth-btn-bg: #1c252e;
 
   /* back variables */
   --back-bg: #48c5fc;
@@ -369,14 +371,20 @@
   --lay-border: transparent;
   --lay-hover: #fb9ea2;
   --lay-price-text-disabled: #000000;
+  --lay-size-text: #000000;
+  --lay-size-text-disabled: #000000;
+  --lay-price-text-noprice: #000000;
+  --lay-size-text-noprice: #000000;
 }
 
 .dark {
   --primary-hover: rgba(145, 158, 171, 0.08);
   --dotted-line: rgba(145, 158, 171, 0.2);
   --primary-text-color: white;
-
   --sport-active-bg: #141a21;
+
+  /* login variables */
+  --gth-btn-bg: #fff;
 
   /* back variables */
   --back-price-text: #03b2ff;
@@ -402,6 +410,10 @@
   --lay-noprice-border: #ff7a7f;
   --lay-disabled-bg: rgba(42, 12, 19, 0.2);
   --lay-disabled-border: rgba(255, 122, 127, 0.5);
+  --lay-size-text: #ff7a7f;
+  --lay-size-text-disabled: rgba(255, 122, 127, 0.5);
+  --lay-price-text-noprice: #ff7a7f;
+  --lay-size-text-noprice: #ff7a7f;
 
   --background: #141a21;
   --foreground: #ededed;
