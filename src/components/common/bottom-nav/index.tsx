@@ -16,9 +16,9 @@ const BottomNavbar = () => {
   const pathName = usePathname();
   const { theme } = useTheme();
 
-  const { open } = useMiniCasinoStore(); 
   const { isLoggedIn } = useAuthStore();
 const { setLoginModal } = useCacheStore();
+const { isOpen, open, close } = useMiniCasinoStore();
 
   const items = [
     { icon: "house", link: "/" },
@@ -64,7 +64,11 @@ onClick={(e) => {
       return;
     }
 
-    open(); 
+    if (isOpen) {
+      close();
+    } else {
+      open();
+    }
   }
 }}
             className={cn(
