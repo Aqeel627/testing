@@ -34,7 +34,7 @@ const CenterRadialButton = () => {
   }, [open]);
 
   const rotations = [-60, -20, 20, 60];
-  const radialIcons = ["theme", "whatsapp", "instagram", "facebook"];
+  const radialIcons = ["theme", "whatsapp", "google", "facebook"];
 
   return (
     <div
@@ -45,8 +45,8 @@ const CenterRadialButton = () => {
         {/* GLASS SEMI CIRCLE BACKGROUND */}
         <div
           className={cn(
-            "absolute left-1/2 -translate-x-1/2 bottom-[64px] h-[125px] overflow-hidden transition-all duration-300",
-            "w-[74vw] max-[375px]:w-[71vw]",
+            "absolute left-1/2 -translate-x-1/2 bottom-[64px] h-[125px] max-[360px]:h-[16vh] max-[350px]:h-[15.5vh]  overflow-hidden transition-all duration-300",
+            "w-[74vw] max-[405px]:w-[73vw] max-[390px]:w-[72vw] max-[375px]:w-[71vw] min-[426px]:w-[325px]",
             open ? "opacity-100 scale-100 visible" : "opacity-0 scale-95 invisible"
           )}
         >
@@ -65,7 +65,7 @@ const CenterRadialButton = () => {
         {rotations.map((deg, i) => (
           <span
             key={i}
-            className="absolute left-1/2 bottom-0 w-[14vw] h-[14vw] pointer-events-auto transition-transform duration-500"
+            className="absolute left-1/2 bottom-0  pointer-events-auto transition-transform duration-500"
             style={{
               transform: open
                 ? `translateX(-50%) translateY(-22px) rotate(${deg}deg) translateY(-95px) rotate(${-deg}deg)`
@@ -79,7 +79,7 @@ const CenterRadialButton = () => {
                 type="button"
                 onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
                 className={cn(
-                  "w-[50px] h-[50px] rounded-full flex items-center justify-center glass backdrop-blur-[20px] border shadow-lg transition-opacity duration-300",
+                  "w-[50px] h-[50px] max-[355px]:w-[45px] max-[355px]:h-[45px] max-[330px]:h-[42px] rounded-full flex items-center justify-center glass backdrop-blur-[20px] border shadow-lg transition-opacity duration-300",
                   open ? "opacity-100" : "opacity-0",
                   theme === "dark"
                     ? "border-[rgba(255,255,255,0.25)]"
@@ -103,7 +103,7 @@ const CenterRadialButton = () => {
             ) : (
               <div
                 className={cn(
-                  "w-[50px] h-[50px] rounded-full flex items-center justify-center glass backdrop-blur-[20px] border shadow-lg transition-opacity duration-300",
+                  "w-[50px] h-[50px] max-[355px]:w-[45px] max-[355px]:h-[45px] rounded-full flex items-center justify-center glass backdrop-blur-[20px] border shadow-lg transition-opacity duration-300",
                   open ? "opacity-100" : "opacity-0",
                   theme === "dark"
                     ? "border-[rgba(255,255,255,0.25)]"
