@@ -3,13 +3,13 @@ import React, { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { useAppStore } from "@/lib/store/store";
 
-export default function Casino() {
+export default function Casino({ hideHeading }: { hideHeading?: boolean }) {
   const { casinoEvents } = useAppStore();
   const pathname = usePathname();
   const [activeIndex, setActiveIndex] = useState("1");
 
   useEffect(() => {
-    // console.log("casinoEvents", casinoEvents);
+    console.log("casinoEvents", casinoEvents);
   }, [casinoEvents]);
 
   const filteredItems = React.useMemo(() => {
@@ -25,35 +25,37 @@ export default function Casino() {
   return (
     <div className="w-full flex flex-col py-4 relative">
       {/* 🟢 PREMIUM LIVE CASINO HEADING SECTION 🟢 */}
-      <div className="relative flex items-center justify-center w-full mb-6 px-2 min-[600px]:px-4">
-        {/* Left Glowing Line & Dots */}
-        {/* flex-1 lagaya hai taake line auto-stretch ho */}
-        <div className="flex items-center justify-end gap-1.5 min-[500px]:gap-2 w-full max-w-[80px] min-[400px]:max-w-[150px] min-[700px]:max-w-[250px]">
-          <div className="h-[1px] w-full bg-gradient-to-r from-transparent to-[#078dee] shadow-[0_0_8px_#078dee]"></div>
-          <div
-            className="w-[4px] h-[4px] min-[500px]:w-[5px] min-[500px]:h-[5px] 
+      {!hideHeading && (
+        <div className="relative flex items-center justify-center w-full mb-6 px-2 min-[600px]:px-4">
+          {/* Left Glowing Line & Dots */}
+          {/* flex-1 lagaya hai taake line auto-stretch ho */}
+          <div className="flex items-center justify-end gap-1.5 min-[500px]:gap-2 w-full max-w-[80px] min-[400px]:max-w-[150px] min-[700px]:max-w-[250px]">
+            <div className="h-[1px] w-full bg-gradient-to-r from-transparent to-[#078dee] shadow-[0_0_8px_#078dee]"></div>
+            <div
+              className="w-[4px] h-[4px] min-[500px]:w-[5px] min-[500px]:h-[5px] 
                 bg-[#ffbbbb] 
                 dark:shadow-[0_0_6px_#ff3b3b,0_0_3px_#ff7f7f] 
                 "
-          ></div>
+            ></div>
 
-          <div className="w-[4px] h-[4px] min-[500px]:w-[5px] min-[500px]:h-[5px] rounded-full bg-[#078dee] shadow-[0_0_8px_#078dee]"></div>
+            <div className="w-[4px] h-[4px] min-[500px]:w-[5px] min-[500px]:h-[5px] rounded-full bg-[#078dee] shadow-[0_0_8px_#078dee]"></div>
+          </div>
+
+          {/* Heading Text */}
+          {/* tracking-[0.2em] se words ke darmiyan exact waisi spacing aayegi */}
+          <h2 className="mx-2 min-[500px]:mx-4 text-black dark:text-white text-[14px] min-[500px]:text-[17px] font-medium !font-extrabold tracking-[0.2em] uppercase whitespace-nowrap">
+            Live Casino
+          </h2>
+
+          {/* Right Glowing Line & Dots */}
+          <div className="flex items-center justify-start gap-1.5 min-[500px]:gap-2 w-full max-w-[80px] min-[400px]:max-w-[150px] min-[700px]:max-w-[250px]">
+            <div className="w-1 h-1 min-[500px]:w-[5px] min-[500px]:h-[5px] rounded-full bg-[#078dee] shadow-[0_0_8px_#078dee]"></div>
+            <div className="w-1.25 h-1.25 bg-[#ffbbbb] dark:shadow-[0_0_6px_#ff3b3b,0_0_3px_#ff7f7f]"></div>
+
+            <div className="h-[1px] w-full bg-gradient-to-l from-transparent to-[#078dee] shadow-[0_0_8px_#078dee]"></div>
+          </div>
         </div>
-
-        {/* Heading Text */}
-        {/* tracking-[0.2em] se words ke darmiyan exact waisi spacing aayegi */}
-        <h2 className="mx-2 min-[500px]:mx-4 text-black dark:text-white text-[14px] min-[500px]:text-[17px] font-medium !font-extrabold tracking-[0.2em] uppercase whitespace-nowrap">
-          Live Casino
-        </h2>
-
-        {/* Right Glowing Line & Dots */}
-        <div className="flex items-center justify-start gap-1.5 min-[500px]:gap-2 w-full max-w-[80px] min-[400px]:max-w-[150px] min-[700px]:max-w-[250px]">
-          <div className="w-1 h-1 min-[500px]:w-[5px] min-[500px]:h-[5px] rounded-full bg-[#078dee] shadow-[0_0_8px_#078dee]"></div>
-          <div className="w-1.25 h-1.25 bg-[#ffbbbb] dark:shadow-[0_0_6px_#ff3b3b,0_0_3px_#ff7f7f]"></div>
-
-          <div className="h-[1px] w-full bg-gradient-to-l from-transparent to-[#078dee] shadow-[0_0_8px_#078dee]"></div>
-        </div>
-      </div>
+      )}
       {/* 🔴 HEADING SECTION END 🔴 */}
 
       {/* 🟢 CARDS GRID SECTION 🟢 */}
