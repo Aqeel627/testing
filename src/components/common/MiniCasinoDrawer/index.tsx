@@ -13,6 +13,18 @@ export default function MiniCasinoDrawer() {
 
   const [iframeUrl, setIframeUrl] = useState<string | null>(null);
   const [iframeKey, setIframeKey] = useState(0);
+  const [isSafari, setIsSafari] = useState(false);
+
+useEffect(() => {
+  const userAgent = navigator.userAgent;
+
+  const safari =
+    userAgent.includes("Safari") &&
+    !userAgent.includes("Chrome") &&
+    !userAgent.includes("Chromium");
+
+  setIsSafari(safari);
+}, []);
 
   // 🔹 Build URL ONLY when opening
   useEffect(() => {
@@ -67,19 +79,21 @@ export default function MiniCasinoDrawer() {
       />
 
       {/* Bottom Sheet */}
-      <div
-        className={cn(
-          "fixed left-0 w-full h-[220px] z-50",
-          "bg-neutral-900 border-t border-neutral-700",
-          "transform transition-transform duration-500 ease-[cubic-bezier(.22,1,.36,1)]",
-          isOpen
-            ? "translate-y-0 drawer"
-            : "translate-y-[calc(100%+80px)]" // ✅ PERFECT FIX
-        )}
-        style={{
-          bottom: `${BOTTOM_NAV_HEIGHT}px`,
-        }}
-      >
+<div
+  className={cn(
+    "fixed left-0 w-full h-[220px] z-50",
+    "bg-neutral-900 border-t border-neutral-700",
+    "transform transition-transform duration-500 ease-[cubic-bezier(.22,1,.36,1)]",
+    isOpen
+      ? "translate-y-0 drawer"
+      : "translate-y-[calc(100%+80px)]" // ✅ PERFECT FIX
+  )}
+style={{
+  bottom: isSafari
+    ? `${BOTTOM_NAV_HEIGHT - 12}px`
+    : `${BOTTOM_NAV_HEIGHT}px`,
+}}
+>
         {/* iframe only when open */}
         {isOpen && iframeUrl && (
           <iframe
