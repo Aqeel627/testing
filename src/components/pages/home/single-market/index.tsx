@@ -148,7 +148,7 @@ export default function SingleMarket() {
                         className={`m-0 font-sans truncate whitespace-nowrap text-[10px] font-bold leading-[1rem] ${
                           event.inplay
                             ? "text-[#078dee]"
-                            : "text-[var(--palette-grey-500)]"
+                            : "text-[var(--secondary-text-color)]"
                         }`}
                       >
                         {event.inplay
@@ -193,9 +193,9 @@ export default function SingleMarket() {
                   </div>
 
                   <div>
-                    <p className="m-0 font-sans whitespace-nowrap dark:text-white text-black text-[10px] font-bold uppercase leading-4 truncate overflow-hidden">
+                    <p className="m-0 font-sans whitespace-nowrap text-[var(--secondary-text-color)] text-[10px] font-bold uppercase leading-4 truncate overflow-hidden">
                       Traded:{" "}
-                      <span className="text-[10px] font-bold  leading-[1rem]">
+                      <span className="text-[10px] font-bold text-[var(--primary-text-color)]  leading-[1rem]">
                         {/* 👇 Yahan direct value pass kardi hai, ab ye khud smoothly animate hoga */}
                         <AnimatedNumber
                           value={event.totalMatched}
