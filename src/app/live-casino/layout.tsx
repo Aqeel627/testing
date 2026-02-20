@@ -16,6 +16,9 @@ import BottomNavbar from "@/components/common/bottom-nav";
 import LoginModal from "@/components/modal/login";
 import { cn } from "@/lib/utils";
 import { useLayoutWidthStore } from "@/lib/store/layoutWidth.store";
+import DCasinoTabs from "@/components/pages/live-casino/d-casino-tabs";
+import { useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 
 const MAIN_WIDTH_STORAGE_KEY = "pages-layout-main-width";
 
@@ -26,9 +29,17 @@ export default function CasinoLayout({ children }: { children: ReactNode }) {
   const isMobileSidebarOpen = useUIStore((s) => s.isSidebarOpen);
   const openMobileSidebar = useUIStore((s) => s.openSidebar);
   const closeMobileSidebar = useUIStore((s) => s.closeSidebar);
-
+  const { casinoEvents } = useAppStore();
   const [hydratedWidth, setHydratedWidth] = useState(false);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const activeTab = searchParams.get("tab") ?? "Popular";
 
+  const dynamicTabs =
+    casinoEvents?.menu?.map((m: any) => ({
+      id: m.menuName,
+      name: m.menuName,
+    })) || [];
   const containerRef = useRef<HTMLDivElement | null>(null);
   const draggingRef = useRef(false);
 
@@ -183,9 +194,7 @@ export default function CasinoLayout({ children }: { children: ReactNode }) {
           <div className="w-full fixed top-0 z-50">
             {/* <Marque /> */}
             {/* ✅ toggle via store */}
-            <Header
-              hideMenuBtn
-            />
+            <Header hideMenuBtn />
           </div>
           <main ref={mainRef} className="pt-[80px] px-3 h-screen">
             {children}
@@ -207,7 +216,7 @@ export default function CasinoLayout({ children }: { children: ReactNode }) {
       <div className="w-full h-screen overflow-hidden">
         <div className="fixed top-0 left-0 w-full z-50">
           {/* <Marque /> */}
-          <Header hideMenuBtn/>
+          <Header hideMenuBtn />
         </div>
 
         <div ref={containerRef} className="flex h-full w-100% ">
@@ -217,7 +226,11 @@ export default function CasinoLayout({ children }: { children: ReactNode }) {
             }`}
             style={{ width: `${leftWidth}px`, minWidth: `${leftWidth}px` }}
           >
-            Tabs
+            <DCasinoTabs
+              tabs={dynamicTabs}
+              activeTab={activeTab}
+              onTabChange={(name: string) => router.push(`?tab=${name}`)} // ✅
+            />
           </aside>
 
           <main
