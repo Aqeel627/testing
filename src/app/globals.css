@@ -4,6 +4,28 @@
 @import "nprogress/nprogress.css";
 
 :root {
+  --primary-color: #078dee;
+  --secondary-color: #68cdf9;
+
+  --secondary-text-color: #919eab;
+  --login-btn-hover: #0351ab;
+
+  /* lay and back font-size */
+  --lay-and-back-prize: 14px;
+  --lay-and-back-size: 10px;
+
+  /* sidebar variables */
+  --sidebar-active-bg: rgba(7 141 238 / 8%);
+  --sidebar-active-hover-bg: rgba(7 141 238 / 16%);
+  --sidebar-badge-bg: rgba(7, 141, 238, 0.16);
+
+  /* casino tabs variables */
+  --casino-tab-active-bg: rgba(7, 141, 238, 0.08);
+  --casino-tab-nonactive-bg: rgba(7, 141, 238, 0.24);
+  --casino-tab-active-border: rgba(7, 141, 238, 0.3);
+  --casino-tab-nonactive-border: rgb(7, 141, 238);
+  --casino-tab-nonactive-text: rgb(145, 158, 171);
+
   --background: #f4f6f8;
   --foreground: #171717;
   --palette-common-black: #000000;
@@ -318,8 +340,7 @@
   --customShadows-success: 0 8px 16px 0 rgba(34 197 94 / 24%);
   --customShadows-warning: 0 8px 16px 0 rgba(255 171 0 / 24%);
   --customShadows-error: 0 8px 16px 0 rgba(255 86 48 / 24%);
-  --nav-item-root-active-bg: rgba(7 141 238 / 8%);
-  --nav-item-root-active-color: #078dee;
+
   --nav-bullet-light-color: #edeff2;
   --head-hover: #fff;
   --dropdownBg: #fff;
@@ -331,20 +352,97 @@
   );
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-  --font-inter:
-    var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
-    "Segoe UI Symbol";
-  --font-roboto-condensed: var(--font-roboto-condensed);
-  --font-roboto: var(--font-roboto);
+.light {
+  --primary-hover: rgba(145, 158, 171, 0.08);
+  --dotted-line: rgba(145, 158, 171, 0.2);
+  --primary-text-color: black;
+  --sport-active-bg: rgba(7 141 238 / 8%);
+
+  /* login variables */
+  --gth-btn-bg: #1c252e;
+
+  /* sidebar variables */
+  --sidebar-badge-text: #0351ab;
+
+  /* back variables */
+  --back-bg: #48c5fc;
+  --back-border: transparent;
+  --back-hover: #48c5fc;
+  --back-noprice-bg: #48c5fc;
+  --back-noprice-border: transparent;
+  --back-disabled-bg: #b4e2f8;
+  --back-disabled-border: transparent;
+  --back-price-text: #000000;
+  --back-size-text: #000000;
+  /* ---- */
+  --back-price-text-noprice: #000000;
+  --back-price-text-disabled: #000000;
+  --back-size-text-noprice: #000000;
+  --back-size-text-disabled: #000000;
+
+  /* lay variables */
+  --lay-bg: #fb9ea2;
+  --lay-border: transparent;
+  --lay-hover: #fb9ea2;
+  --lay-noprice-bg: #f4d4d8;
+  --lay-noprice-border: transparent;
+  --lay-disabled-bg: #f4d4d8;
+  --lay-disabled-border: transparent;
+  --lay-price-text: #000000;
+  --lay-size-text: #000000;
+  /* ---- */
+  --lay-price-text-noprice: #000000;
+  --lay-price-text-disabled: #000000;
+  --lay-size-text-noprice: #000000;
+  --lay-size-text-disabled: #000000;
 }
 
 .dark {
+  --primary-hover: rgba(145, 158, 171, 0.08);
+  --dotted-line: rgba(145, 158, 171, 0.2);
+  --primary-text-color: white;
+  --sport-active-bg: #141a21;
+
+  /* login variables */
+  --gth-btn-bg: #fff;
+
+  /* sidebar variables */
+  --sidebar-badge-text: var(--secondary-color);
+
+  /* back variables */
+  --back-bg: rgba(12, 33, 55, 0.6);
+  --back-border: #03b2ff;
+  --back-hover: rgba(12, 33, 55, 0.8);
+  --back-noprice-bg: rgba(12, 33, 55, 0.6);
+  --back-noprice-border: rgba(219, 234, 254, 1);
+  --back-disabled-bg: rgba(12, 33, 55, 0.2);
+  --back-disabled-border: rgba(219, 234, 254, 0.5);
+  --back-price-text: #03b2ff;
+  --back-size-text: #60a5fa;
+
+  /* ---- */
+  --back-price-text-disabled: rgba(239, 246, 255, 0.5);
+  --back-price-text-noprice: rgba(239, 246, 255, 1);
+  --back-size-text-noprice: #03b2ff;
+  --back-size-text-disabled: rgba(96, 165, 250, 0.5);
+
+  /* lay variables */
+  --lay-bg: rgba(42, 12, 19, 0.6);
+  --lay-border: #ff7a7f;
+  --lay-hover: rgba(42, 12, 19, 0.8);
+  --lay-noprice-bg: rgba(42, 12, 19, 0.6);
+  --lay-noprice-border: #ff7a7f;
+  --lay-disabled-bg: rgba(42, 12, 19, 0.2);
+  --lay-disabled-border: rgba(255, 122, 127, 0.5);
+  --lay-price-text: #ff7a7f;
+  --lay-size-text: #ff7a7f;
+
+  /* ---- */
+  --lay-price-text-disabled: rgba(255, 122, 127, 0.5);
+  --lay-price-text-noprice: #ff7a7f;
+  --lay-size-text-noprice: #ff7a7f;
+  --lay-size-text-disabled: rgba(255, 122, 127, 0.5);
+
   --background: #141a21;
   --foreground: #ededed;
   --text-primary-hover: white;
@@ -636,8 +734,7 @@
   --opacity-inputUnderline: 0.7;
   --opacity-switchTrackDisabled: 0.2;
   --opacity-switchTrack: 0.3;
-  --nav-item-root-active-bg: rgba(7 141 238 / 8%);
-  --nav-item-root-active-color: #68cdf9;
+
   --head-hover: #1d242b;
   --dropdownBg: #1c252e;
   --dropdowntext: #919eab;
@@ -648,9 +745,22 @@
   );
 }
 
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-inter:
+    var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol";
+  --font-roboto-condensed: var(--font-roboto-condensed);
+  --font-roboto: var(--font-roboto);
+}
+
 body {
   background: var(--background);
-  color: var(--foreground);
+  color: var(--primary-text-color);
   font-family:
     Inter,
     -apple-system,
@@ -1219,8 +1329,8 @@ body:has(.drawer) {
 
 .neon-underline {
   --underline-width: 75%;
-  --side-color: #107fe7;
-  --middle-color: #68cdf9;
+  --side-color: var(--primary-color);
+  --middle-color: var(--primary-color);
 
   position: absolute;
   width: 100%;
@@ -1299,6 +1409,45 @@ body:has(.drawer) {
   );
 }
 
+.glow-left {
+  width: calc(var(--underline-width) / 3);
+  height: 6px;
+  background: linear-gradient(to right, var(--middle-color), transparent);
+
+  left: calc(50% - (var(--underline-width) / 2));
+  transform: none;
+}
+
+.line-left {
+  width: calc(var(--underline-width) / 3);
+  height: 1px;
+  background: linear-gradient(to right, var(--middle-color), transparent);
+
+  left: calc(50% - (var(--underline-width) / 2));
+  transform: none;
+}
+
+/* =========================
+   RIGHT HIGHLIGHT
+========================= */
+.glow-right {
+  width: calc(var(--underline-width) / 3);
+  height: 6px;
+  background: linear-gradient(to right, transparent, var(--middle-color));
+
+  left: calc(50% + (var(--underline-width) / 2) - (var(--underline-width) / 3));
+  transform: none;
+}
+
+.line-right {
+  width: calc(var(--underline-width) / 3);
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--middle-color));
+
+  left: calc(50% + (var(--underline-width) / 2) - (var(--underline-width) / 3));
+  transform: none;
+}
+
 .active .exch {
   display: block;
   bottom: 0px;
@@ -1315,6 +1464,7 @@ body:has(.drawer) {
   bottom: 0px;
   left: 0px;
 }
+
 /* 🔒 iOS Safari layer stabilization fix */
 .sidebar-container a,
 .sidebar-container svg,
@@ -1323,7 +1473,16 @@ body:has(.drawer) {
   will-change: transform;
   backface-visibility: hidden;
 }
+
 .sidebar-container {
   contain: paint;
   isolation: isolate;
+}
+
+.size {
+  font-size: var(--lay-and-back-size);
+}
+
+.price {
+  font-size: var(--lay-and-back-prize);
 }

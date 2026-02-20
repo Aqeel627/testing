@@ -743,7 +743,7 @@ export default function MarketDetails() {
     const marketIsSusp = isSuspendedLike(market?.status);
 
     return (
-      <div className="border w-full border-dashed border-[#919eab29] rounded-[4px] overflow-hidden">
+      <div className="border w-full border-dashed border-(--dotted-line) rounded-[4px] overflow-hidden">
         {/* HEADER */}
         <div className="px-1 min-[900px]:px-2 bg-[#153045] border-b border-[#28323D] flex flex-col justify-center w-full font-bold h-8">
           <div className="relative flex flex-row items-center h-8 justify-between w-full">
@@ -815,7 +815,7 @@ export default function MarketDetails() {
             return (
               <li
                 key={`${market.marketId}-${runner.selectionId}-${index}`}
-                className="flex flex-col justify-start items-center relative w-full box-border text-left no-underline border-b border-dashed border-[#919eab29] bg-clip-padding hover:bg-[#1C252E] transition-colors"
+                className="flex flex-col justify-start items-center relative w-full box-border text-left no-underline border-b border-dashed border-(--dotted-line) bg-clip-padding hover:bg-[#1C252E] transition-colors"
               >
                 <div className="flex w-full flex-row flex-1 min-h-[50px] items-center justify-between py-1">
                   {/* Runner Name */}
@@ -982,7 +982,7 @@ export default function MarketDetails() {
       </div>
 
       {/* Title Block */}
-      <div className="text-white bg-[#919eab0a] w-full border-[1px] border-dashed border-[#919eab29] rounded-[16px] overflow-hidden max-[637px]:mt-[6px]">
+      <div className="text-white bg-[#919eab0a] w-full border-[1px] border-dashed border-(--dotted-line) rounded-[16px] overflow-hidden max-[637px]:mt-[6px]">
         <div className="flex justify-start items-center relative no-underline w-full box-border text-left py-2 px-4 flex-wrap rounded-2">
           <div className="flex-auto min-w-0 m-0">
             <h5 className="text-[1rem] font-bold leading-[1.5] mb-[-2px]">

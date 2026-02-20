@@ -13,16 +13,19 @@ import { ThemeToggle } from "../theme-toggler";
 import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
+import { useCacheStore } from "@/lib/store/cacheStore";
 
 type HeaderProps = {
   onMenuClick?: () => void;
+  hideMenuBtn?: boolean;
 };
 
-export default function Header({ onMenuClick }: HeaderProps) {
+export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
   // New state for checkbox toggles - default true
   const [showBalance, setShowBalance] = useState(true);
   const [showExposure, setShowExposure] = useState(true);
-  const { userBalance, setUserBalance, setLoginModal } = useAppStore();
+  const { userBalance, setUserBalance } = useAppStore();
+  const { setLoginModal } = useCacheStore();
   const { token, isLoggedIn, logout } = useAuthStore();
   const { resolvedTheme, theme } = useTheme();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -79,14 +82,16 @@ export default function Header({ onMenuClick }: HeaderProps) {
       <div className="max-w-[1600px] mx-auto px-2 h-12 flex items-center justify-between">
         {/* 👇 Left: Hamburger & Logo */}
         <div className="flex items-center gap-3 md:gap-4">
-          <button
-            type="button"
-            onClick={onMenuClick}
-            className="text-(--palette-action-active) transition-colors p-1 cursor-pointer rounded-full hover:scale-[1.04] hover:bg-(--IconButton-hoverBg)"
-            aria-label="Toggle sidebar"
-          >
-            <Icon name="logo" className="h-6 w-6" />
-          </button>
+          {!hideMenuBtn && (
+            <button
+              type="button"
+              onClick={onMenuClick}
+              className="text-(--palette-action-active) transition-colors p-1 cursor-pointer rounded-full hover:scale-[1.04] hover:bg-(--IconButton-hoverBg)"
+              aria-label="Toggle sidebar"
+            >
+              <Icon name="logo" className="h-6 w-6" />
+            </button>
+          )}
           {/* <div className="relative"> */}
           {/* <div className="neon-underline min-[960]:bottom-[9px] bottom-[7px]">
               <span className="neon-glow glow-main"></span>
@@ -114,8 +119,8 @@ export default function Header({ onMenuClick }: HeaderProps) {
           <Link
             href="/"
             className={cn(
-              pathName === "/" && "active text-[rgb(104,205,249)]!",
-              "flex p-1 items-center relative text-[13px] font-bold --palette-text-primary  hover:--palette-text-primary  transition-colors group rounded-lg  hover:bg-[rgba(145,158,171,0.08)] ",
+              pathName === "/" && "active text-(--primary-color)!",
+              "flex p-1 items-center relative text-[13px] font-bold --palette-text-primary  hover:--palette-text-primary  transition-colors group rounded-lg  hover:bg-(--primary-hover) ",
             )}
           >
             {/* {pathName === "/" && (
@@ -130,14 +135,17 @@ export default function Header({ onMenuClick }: HeaderProps) {
             <span
               className={cn(
                 pathName === "/"
-                  ? "active text-[#4f90af]! border-[#4f90af]!"
+                  ? "active text-(--primary-color)! border-(--primary-color)!"
                   : "border-[#a5a7a9]",
                 " group-hover:--palette-text-primary transition-colors mr-[4px]  border rounded-full p-[2px]",
               )}
             >
               <Icon
                 name="exchange"
-                className={cn("h-4 w-4", pathName !== "/" && "text-[#A5A7A9]!")}
+                className={cn(
+                  "h-4 w-4",
+                  pathName === "/" && "text-(--primary-color)!",
+                )}
               />
             </span>
             <span className="relative top-[-0.5px]">Exchange</span>
@@ -146,8 +154,8 @@ export default function Header({ onMenuClick }: HeaderProps) {
           <Link
             href="/live-casino"
             className={cn(
-              pathName === "/live-casino" && "active text-[rgb(104,205,249)]!",
-              "flex p-1 items-center text-[13px] --palette-text-primary  hover:--palette-text-primary  transition-colors group relative left-[2px] font-bold rounded-lg  hover:bg-[rgba(145,158,171,0.08)] ",
+              pathName === "/live-casino" && "active text-(--primary-color)!",
+              "flex p-1 items-center text-[13px] --palette-text-primary  hover:--palette-text-primary  transition-colors group relative left-[2px] font-bold rounded-lg  hover:bg-(--primary-hover) ",
             )}
           >
             {/* {pathName === "/live-casino" && (
@@ -160,7 +168,12 @@ export default function Header({ onMenuClick }: HeaderProps) {
               </div>
             )} */}
             {/* Live Casino Icon */}
-            <span className=" group-hover:--palette-text-primar transition-colors mr-[2px]">
+            <span
+              className={cn(
+                pathName === "/live-casino" && " text-(--primary-color)!",
+                " group-hover:--palette-text-primar transition-colors mr-[2px]",
+              )}
+            >
               <Icon name="casino" className="h-6 w-6" />
             </span>
             <span className="relative top-[-0.5px]">Casino</span>
@@ -261,7 +274,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
                     </p>
                   </div>
 
-                  <hr className="m-0 shrink-0 border-0 border-b border-dashed border-[#919eab33]" />
+                  <hr className="m-0 shrink-0 border-0 border-b border-dashed border-(--dotted-line)" />
 
                   <div className="flex flex-col gap-2 px-4 pb-4 pt-2">
                     <div className="rounded-[16px] shadow-[0_1px_2px_0_rgb(0_0_0_/_16%)] border-[#919eab29] border-[1px]">
@@ -291,7 +304,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
                     </div>
                   </div>
 
-                  <hr className="m-0 shrink-0 border-0 border-b border-dashed border-[#919eab33]" />
+                  <hr className="m-0 shrink-0 border-0 border-b border-dashed border-(--dotted-line)" />
 
                   {/* Links List */}
                   <ul className="my-2 px-2 flex flex-col">
@@ -356,7 +369,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
                     </li>
                   </ul>
 
-                  <hr className="m-0 shrink-0 border-0 border-b border-dashed border-[#919eab33]" />
+                  <hr className="m-0 shrink-0 border-0 border-b border-dashed border-(--dotted-line)" />
 
                   {/* Logout Button */}
                   <div className="p-2 relative">
@@ -378,14 +391,14 @@ export default function Header({ onMenuClick }: HeaderProps) {
       </div>
 
       <div className="flex min-[960px]:hidden border-b-1  border-[#919eab14] relative overflow-hidden px-3">
-        <hr className="m-0 shrink-0 border-0 border-t-[1px] border-dashed border-[#919eab33] absolute top-0 left-0 w-full z-[9]" />
+        <hr className="m-0 shrink-0 border-0 border-t-[1px] border-dashed border-(--dotted-line) absolute top-0 left-0 w-full z-[9]" />
 
         <nav className="flex items-center gap-[8.5px] w-full lg:gap-4 font-bold --palette-text-primary  overflow-x-auto overflow-y-hidden scrollbar-hide h-[30px]">
           <Link
             href="/"
             className={cn(
-              pathName === "/" && "active text-[rgb(104,205,249)]!",
-              "flex py-1 relative pr-[4px] pl-1 items-center text-[13px] font-bold --palette-text-primary  hover:--palette-text-primary  transition-colors group whitespace-nowrap",
+              pathName === "/" && "active text-(--primary-color)!",
+              "flex py-1 relative pr-[4px] pl-1 items-center text-[13px] font-bold --palette-text-primary hover:--palette-text-primary  transition-colors group whitespace-nowrap",
             )}
           >
             {/* {pathName === "/" && (
@@ -401,7 +414,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
             )} */}
             <span
               className={cn(
-                pathName === "/" && "text-[#4f90af]!",
+                pathName === "/" && "text-(--primary-color)!",
                 " group-hover:--palette-text-primary transition-colors mr-[4px] ",
               )}
             >
@@ -413,7 +426,7 @@ export default function Header({ onMenuClick }: HeaderProps) {
           <Link
             href="/live-casino"
             className={cn(
-              pathName === "/live-casino" && "active text-[rgb(104,205,249)]!",
+              pathName === "/live-casino" && "active text-(--primary-color)",
               "flex py-1 pr-[4px] pl-[0.5px] items-center text-[13px] font-medium --palette-text-primary  hover:--palette-text-primary  transition-colors group whitespace-nowrap relative left-[3px] font-bold",
             )}
           >
@@ -427,7 +440,12 @@ export default function Header({ onMenuClick }: HeaderProps) {
               </div>
             )} */}
             {/* Live Casino Icon */}
-            <span className=" group-hover:--palette-text-primary  transition-colors mr-[1.8px] ">
+            <span
+              className={cn(
+                pathName === "/live-casino" && "active text-(--primary-color)",
+                " group-hover:--palette-text-primary  transition-colors mr-[1.8px] ",
+              )}
+            >
               <Icon name="casino" className="h-6 w-6" />
             </span>
             <span className="relative !top-[-0.5px] font-bold">Casino</span>

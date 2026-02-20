@@ -139,7 +139,7 @@ export default function SportsNav() {
   return (
     <section>
       <div
-        className={`${styles["tabs-root"]} border-2 border-dashed border-[rgba(145,158,171,0.2)]`}
+        className={`${styles["tabs-root"]} border-2 border-dashed border-(--dotted-line)`}
       >
         <div
           ref={scrollContainerRef}
@@ -147,12 +147,7 @@ export default function SportsNav() {
         >
           <div
             role="tablist"
-            className={cn(
-              styles["tabs-list"],
-              "w-full h-full",
-              theme === "light" &&
-                "backdrop-blur-[10px]! bg-linear-to-br! from-white/25! to-white/5! border-b! border-[rgb(205_192_192/0.4)]! shadow-[0_8px_32px_rgba(0,0,0,0.2)]!",
-            )}
+            className={cn(styles["tabs-list"], "w-full h-full")}
             ref={tabsListRef}
           >
             <div
@@ -175,10 +170,6 @@ export default function SportsNav() {
                 className={cn(
                   styles["tab-btn"],
                   activeTab === item.label && styles.active,
-                  activeTab === item.label && "glass-active",
-                  activeTab === item.label &&
-                    theme === "light" &&
-                    "backdrop-blur-[10px]! bg-linear-to-br! from-white/25! to-white/5! border-b! border-[rgb(205_192_192/0.4)]! shadow-[0_8px_32px_rgba(0,0,0,0.2)]!",
                 )}
                 onClick={() => {
                   setActiveTab(item.label);

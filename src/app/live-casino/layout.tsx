@@ -7,35 +7,40 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import Marque from "@/components/common/marque";
 import Header from "@/components/common/header";
 import Footer from "@/components/common/footer";
 import Sidebar from "@/components/common/sidebar";
 import { useAppStore } from "@/lib/store/store";
-import { usePathname } from "next/navigation";
-import { useAuthStore } from "@/lib/store/authStore";
-import { fetchData } from "@/lib/functions";
-import { CONFIG } from "@/lib/config";
-import BetSlip from "@/components/common/betslip";
 import { useUIStore } from "@/lib/store/ui-store"; // ✅ import store
 import BottomNavbar from "@/components/common/bottom-nav";
 import LoginModal from "@/components/modal/login";
 import { cn } from "@/lib/utils";
 import { useLayoutWidthStore } from "@/lib/store/layoutWidth.store";
+import DCasinoTabs from "@/components/pages/live-casino/d-casino-tabs";
+import { useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useCacheStore } from "@/lib/store/cacheStore";
 
 const MAIN_WIDTH_STORAGE_KEY = "pages-layout-main-width";
 
-export default function PagesLayout({ children }: { children: ReactNode }) {
+export default function CasinoLayout({ children }: { children: ReactNode }) {
   const [isMobile, setIsMobile] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   const isMobileSidebarOpen = useUIStore((s) => s.isSidebarOpen);
   const openMobileSidebar = useUIStore((s) => s.openSidebar);
   const closeMobileSidebar = useUIStore((s) => s.closeSidebar);
-
+  const { casinoEvents } = useAppStore();
   const [hydratedWidth, setHydratedWidth] = useState(false);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const activeTab = searchParams.get("tab") ?? "Popular";
 
+  const dynamicTabs =
+    casinoEvents?.menu?.map((m: any) => ({
+      id: m.menuName,
+      name: m.menuName,
+    })) || [];
   const containerRef = useRef<HTMLDivElement | null>(null);
   const draggingRef = useRef(false);
 
@@ -64,57 +69,7 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
     return { minMain, maxMain, dividerPx, available };
   };
 
-  const {
-    setCasinoEvents,
-    setAllEventsList,
-    setExchangeTypeList,
-    setMenuList,
-    setExchangeNews,
-    setUserBalance,
-    setStakeValue,
-    setBannersList,
-  } = useAppStore();
-
   const { loginModal } = useCacheStore();
-  const pathname = usePathname();
-  const { checkLogin, isLoggedIn } = useAuthStore();
-
-  const handleAllEvents = (data: any) => {
-    setAllEventsList(data);
-    console.log("Events Set", data);
-
-    const formatted = useAppStore.getState().getFormattedInplayEvents?.();
-    console.log("Formatted:", formatted);
-  };
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    checkLogin(token || "");
-
-    fetchData({
-      url: CONFIG.getAllEventsList,
-      payload: { key: CONFIG.siteKey },
-      cachedKey: "allEventsList",
-      setFn: handleAllEvents,
-      expireIn: CONFIG.getAllEventsListTime,
-    });
-
-    fetchData({
-      url: CONFIG.getTopCasinoGame,
-      payload: { key: CONFIG.siteKey },
-      cachedKey: "casinoEvents",
-      setFn: setCasinoEvents,
-      expireIn: CONFIG.getTopCasinoGameTime,
-    });
-
-    fetchData({
-      url: CONFIG.menuList,
-      payload: { key: CONFIG.siteKey },
-      cachedKey: "menuList",
-      setFn: setMenuList,
-      expireIn: CONFIG.menuListTime,
-    });
-  }, []);
 
   useEffect(() => {
     const handleResize = () => {
@@ -240,32 +195,8 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
           <div className="w-full fixed top-0 z-50">
             {/* <Marque /> */}
             {/* ✅ toggle via store */}
-            <Header
-              onMenuClick={() =>
-                isMobileSidebarOpen ? closeMobileSidebar() : openMobileSidebar()
-              }
-            />
+            <Header hideMenuBtn />
           </div>
-
-          {/* ✅ backdrop closes via store */}
-          <div
-            className={`fixed inset-0 z-[60] bg-black/50 transition-opacity duration-300 ${
-              isMobileSidebarOpen
-                ? "opacity-100 pointer-events-auto"
-                : "opacity-0 pointer-events-none"
-            }`}
-            onClick={() => closeMobileSidebar()}
-            aria-hidden="true"
-          />
-
-          <aside
-            className={`fixed top-0 sidebar-container left-0 z-[70] h-screen w-[288px] max-w-[85vw] bg-[var(--background)] overflow-y-auto no-scrollbar transition-transform duration-300 ease-in-out ${
-              isMobileSidebarOpen ? "translate-x-0 drawer" : "-translate-x-full"
-            }`}
-          >
-            <Sidebar />
-          </aside>
-
           <main ref={mainRef} className="pt-[80px] px-3 h-screen">
             {children}
             <Footer />
@@ -286,7 +217,7 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
       <div className="w-full h-screen overflow-hidden">
         <div className="fixed top-0 left-0 w-full z-50">
           {/* <Marque /> */}
-          <Header onMenuClick={() => setIsSidebarOpen((prev) => !prev)} />
+          <Header hideMenuBtn />
         </div>
 
         <div ref={containerRef} className="flex h-full w-100% ">
@@ -296,7 +227,11 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
             }`}
             style={{ width: `${leftWidth}px`, minWidth: `${leftWidth}px` }}
           >
-            <Sidebar />
+            <DCasinoTabs
+              tabs={dynamicTabs}
+              activeTab={activeTab}
+              onTabChange={(name: string) => router.push(`?tab=${name}`)} // ✅
+            />
           </aside>
 
           <main
@@ -337,10 +272,6 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
               />
             </svg>
           </div>
-
-          <aside className="flex-auto min-w-0 h-full overflow-y-auto no-scrollbar pt-[50px] border-l border-white/5">
-            <BetSlip />
-          </aside>
         </div>
       </div>
       {loginModal && <LoginModal />}
