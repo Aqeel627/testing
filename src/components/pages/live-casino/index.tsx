@@ -1,26 +1,27 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useAppStore } from "@/lib/store/store";
 
 export default function Casino({ hideHeading }: { hideHeading?: boolean }) {
   const { casinoEvents } = useAppStore();
   const pathname = usePathname();
-  const [activeIndex, setActiveIndex] = useState("1");
+const searchParams = useSearchParams();
+const activeIndex = searchParams.get("tab") ?? "Popular";
 
   useEffect(() => {
     console.log("casinoEvents", casinoEvents);
   }, [casinoEvents]);
 
-  const filteredItems = React.useMemo(() => {
-    if (!casinoEvents?.lobby?.length) return [];
-    if (activeIndex === "1") {
-      return casinoEvents.lobby.filter((item: any) => item.popular);
-    }
-    return casinoEvents.lobby.filter(
-      (item: any) => item.menuId === activeIndex,
-    );
-  }, [casinoEvents, activeIndex]);
+const filteredItems = React.useMemo(() => {
+  if (!casinoEvents?.lobby?.length) return [];
+  if (activeIndex === "Popular") {
+    return casinoEvents.lobby.filter((item: any) => item.popular); // ✅
+  }
+  return casinoEvents.lobby.filter(
+    (item: any) => item.menuName === activeIndex, // ✅ name se match
+  );
+}, [casinoEvents, activeIndex]);
 
   return (
     <div className="w-full flex flex-col py-4 relative">
