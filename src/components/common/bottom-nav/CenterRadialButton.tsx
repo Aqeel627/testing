@@ -45,7 +45,7 @@ const CenterRadialButton = () => {
         {/* GLASS SEMI CIRCLE BACKGROUND */}
         <div
           className={cn(
-            "absolute left-1/2 -translate-x-1/2 bottom-[64px] h-[125px] max-[360px]:h-[16vh] max-[350px]:h-[15.5vh]  overflow-hidden transition-all duration-300",
+            "absolute left-1/2 -translate-x-1/2 bottom-[64px] h-[125px] max-[360px]:h-[118px]  overflow-hidden transition-all duration-300",
             "w-[74vw] max-[405px]:w-[73vw] max-[390px]:w-[72vw] max-[375px]:w-[71vw] min-[426px]:w-[325px]",
             open ? "opacity-100 scale-100 visible" : "opacity-0 scale-95 invisible"
           )}

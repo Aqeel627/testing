@@ -362,7 +362,7 @@ console.log("mainWidth:", mainWidth, "expandedSlides:", expandedConfig);
           >
             {pairedSlides.map((pair, i) => (
               <SwiperSlide key={i} className={cn("h-auto")}>
-                <div className={cn("flex flex-col gap-3 items-center", TILT_CLASS)}>
+                <div className={cn("flex flex-col gap-3 items-center")}>
                   <Link
                     href={pair.top.href}
                     draggable={false}
