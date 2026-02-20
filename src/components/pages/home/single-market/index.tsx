@@ -41,7 +41,7 @@ export default function SingleMarket() {
 
   return (
     <ul ref={wrapperRef} className="mt-2">
-      {events.map((event: any) => {
+      {events?.map((event: any) => {
         const runner0 = event.runners?.[0]; // Team 1 → LEFT
         const runner1 = event.runners?.[1]; // Team 2 → RIGHT
         const runner2 = event.runners?.[2]; // Draw   → CENTER
@@ -194,7 +194,7 @@ export default function SingleMarket() {
 
                   <div>
                     <p className="m-0 font-sans whitespace-nowrap text-[var(--secondary-text-color)] text-[10px] font-bold uppercase leading-4 truncate overflow-hidden">
-                      Traded{" "}:{" "}
+                      Traded :{" "}
                       <span className="text-[10px] font-bold text-[var(--primary-text-color)]  leading-[1rem]">
                         {/* 👇 Yahan direct value pass kardi hai, ab ye khud smoothly animate hoga */}
                         <AnimatedNumber
@@ -240,8 +240,7 @@ export default function SingleMarket() {
                         {" "}
                         {runner0?.ex?.availableToBack?.[0]?.price ?? "-"}
                       </span>
-                      <span className="block size whitespace-nowrap font-normal text-[var(--back-size-text)] leading-[1]"
-                      >
+                      <span className="block size whitespace-nowrap font-normal text-[var(--back-size-text)] leading-[1]">
                         {shortNumber(runner0?.ex?.availableToBack?.[0]?.size) ??
                           ""}
                       </span>
