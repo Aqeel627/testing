@@ -225,7 +225,7 @@ export default function SingleMarket() {
                   <div className="flex gap-1">
                     {/* BACK BUTTON (LEFT) */}
                     <div
-                      className={`${oddsBoxWidthClass} h-[45px] rounded-[8px] border border-[var(--back-border)] bg-[var(--back-bg)] hover:bg-[var(--back-hover)] flex flex-col justify-center items-center cursor-pointer select-none transition-all`}
+                      className={`${oddsBoxWidthClass} h-[45px] gap-[2px] rounded-[8px] border border-[var(--back-border)] bg-[var(--back-bg)] hover:bg-[var(--back-hover)] flex flex-col justify-center items-center cursor-pointer select-none transition-all`}
                       onClick={() =>
                         setSelectedBet({
                           type: "back",
@@ -248,7 +248,7 @@ export default function SingleMarket() {
 
                     {/* LAY BUTTON (LEFT) */}
                     <div
-                      className={`${oddsBoxWidthClass} h-[45px] rounded-[8px] border border-[var(--lay-border)] bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)] flex flex-col justify-center items-center cursor-pointer select-none transition-all`}
+                      className={`${oddsBoxWidthClass} h-[45px] gap-[2px] rounded-[8px] border border-[var(--lay-border)] bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)] flex flex-col justify-center items-center cursor-pointer select-none transition-all`}
                       onClick={() =>
                         setSelectedBet({
                           type: "lay",
@@ -280,7 +280,7 @@ export default function SingleMarket() {
                   <div className="flex gap-1">
                     {/* BACK BUTTON (CENTER) */}
                     <div
-                      className={`${oddsBoxWidthClass} h-[45px] rounded-[8px] border-[1px] flex flex-col justify-center items-center select-none transition-all ${
+                      className={`${oddsBoxWidthClass} h-[45px] gap-[2px]  rounded-[8px] border-[1px] flex flex-col justify-center items-center select-none transition-all ${
                         hasThreeRunners
                           ? hasCenterBackPrice
                             ? "border-[var(--back-border)] bg-[var(--back-bg)] hover:bg-[var(--back-hover)] cursor-pointer"
@@ -330,7 +330,7 @@ export default function SingleMarket() {
 
                     {/* LAY BUTTON (CENTER) */}
                     <div
-                      className={`${oddsBoxWidthClass} h-[45px] rounded-[8px] border-[1px] flex flex-col justify-center items-center select-none transition-all ${
+                      className={`${oddsBoxWidthClass} h-[45px] gap-[2px] rounded-[8px] border-[1px] flex flex-col justify-center items-center select-none transition-all ${
                         hasThreeRunners
                           ? hasCenterLayPrice
                             ? "border-[var(--lay-border)] bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)] cursor-pointer"
@@ -386,7 +386,7 @@ export default function SingleMarket() {
                   <div className="flex gap-1">
                     {/* BACK BUTTON (RIGHT) */}
                     <div
-                      className={`${oddsBoxWidthClass} h-[45px] rounded-[8px] border border-[var(--back-border)] bg-[var(--back-bg)] hover:bg-[var(--back-hover)] flex flex-col justify-center items-center cursor-pointer select-none transition-all`}
+                      className={`${oddsBoxWidthClass} h-[45px]  gap-[2px] rounded-[8px] border border-[var(--back-border)] bg-[var(--back-bg)] hover:bg-[var(--back-hover)] flex flex-col justify-center items-center cursor-pointer select-none transition-all`}
                       onClick={() =>
                         setSelectedBet({
                           type: "back",
@@ -411,8 +411,8 @@ export default function SingleMarket() {
 
                     {/* LAY BUTTON (RIGHT) */}
                     <div
-                      className={`${oddsBoxWidthClass} h-[45px] rounded-[8px] border border-[var(--lay-border)] bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)] flex flex-col justify-center items-center cursor-pointer select-none transition-all`}
-                      onClick={() =>
+                      className={`${oddsBoxWidthClass} h-[45px] gap-[2px] rounded-[8px] border border-[var(--lay-border)] bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)] flex flex-col justify-center items-center cursor-pointer select-none transition-all`}
+                      onClick={() => 
                         setSelectedBet({
                           type: "lay",
                           odds: rightRunner?.ex?.availableToLay?.[0]?.price,
