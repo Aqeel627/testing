@@ -100,6 +100,18 @@ export default function MiniCasinoDrawer() {
 
   const [iframeUrl, setIframeUrl] = useState<string | null>(null);
   const [iframeKey, setIframeKey] = useState(0);
+  const [isSafari, setIsSafari] = useState(false);
+
+useEffect(() => {
+  const userAgent = navigator.userAgent;
+
+  const safari =
+    userAgent.includes("Safari") &&
+    !userAgent.includes("Chrome") &&
+    !userAgent.includes("Chromium");
+
+  setIsSafari(safari);
+}, []);
 
   // 🔹 Build URL ONLY when opening
   useEffect(() => {
@@ -163,9 +175,11 @@ export default function MiniCasinoDrawer() {
       ? "translate-y-0"
       : "translate-y-[calc(100%+80px)]" // ✅ PERFECT FIX
   )}
-  style={{
-    bottom: `${BOTTOM_NAV_HEIGHT}px`,
-  }}
+style={{
+  bottom: isSafari
+    ? `${BOTTOM_NAV_HEIGHT - 12}px`
+    : `${BOTTOM_NAV_HEIGHT}px`,
+}}
 >
         {/* iframe only when open */}
         {isOpen && iframeUrl && (
