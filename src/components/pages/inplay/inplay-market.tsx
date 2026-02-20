@@ -16,22 +16,29 @@ const InplayMarket = ({ events }: { events: any }) => {
   useEffect(() => {
     const listEl = wrapperRef.current;
     if (!listEl) return;
+
     const targetEl = (listEl.closest("main") as HTMLElement | null) || listEl;
 
     const updateLayoutMode = () => {
       const renderedWidth = targetEl.getBoundingClientRect().width;
-      setIsCompactLayout(renderedWidth < 767);
+      if (renderedWidth > 0) {
+        setIsCompactLayout(renderedWidth < 767);
+      }
     };
 
-    updateLayoutMode();
+    const raf = requestAnimationFrame(updateLayoutMode);
+
     const observer = new ResizeObserver(updateLayoutMode);
     observer.observe(targetEl);
 
-    return () => observer.disconnect();
+    return () => {
+      cancelAnimationFrame(raf);
+      observer.disconnect();
+    };
   }, []);
   return (
     <ul ref={wrapperRef} className="min-[900]:mt-6 mt-4">
-      {events.map((event: any) => {
+      {events?.map((event: any) => {
         const runner0 = event.runners?.[0]; // Team 1 → LEFT
         const runner1 = event.runners?.[1]; // Team 2 → RIGHT
         const runner2 = event.runners?.[2]; // Draw   → CENTER
