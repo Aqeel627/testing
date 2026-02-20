@@ -4,6 +4,12 @@
 @import "nprogress/nprogress.css";
 
 :root {
+  --primary-color: #078dee;
+  --secondary-color: #68cdf9;
+
+  --secondary-text-color: #919eab;
+  --login-btn-hover: #0351ab;
+
   --background: #f4f6f8;
   --foreground: #171717;
   --palette-common-black: #000000;
@@ -320,6 +326,7 @@
   --customShadows-error: 0 8px 16px 0 rgba(255 86 48 / 24%);
   --nav-item-root-active-bg: rgba(7 141 238 / 8%);
   --nav-item-root-active-color: #078dee;
+
   --nav-bullet-light-color: #edeff2;
   --head-hover: #fff;
   --dropdownBg: #fff;
@@ -331,20 +338,71 @@
   );
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-  --font-inter:
-    var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
-    "Segoe UI Symbol";
-  --font-roboto-condensed: var(--font-roboto-condensed);
-  --font-roboto: var(--font-roboto);
+.light {
+  --primary-hover: rgba(145, 158, 171, 0.08);
+  --dotted-line: rgba(145, 158, 171, 0.2);
+  --primary-text-color: black;
+
+  --sport-active-bg: rgba(7 141 238 / 8%);
+
+  /* back variables */
+  --back-bg: #48c5fc;
+  --back-border: transparent;
+  --back-hover: #48c5fc;
+  --back-noprice-bg: #48c5fc;
+  --back-noprice-border: transparent;
+  --back-disabled-bg: #b4e2f8;
+  --back-disabled-border: transparent;
+  --back-price-text: #000000;
+  --back-size-text: #000000;
+  --back-price-text-noprice: #000000;
+  --back-price-text-disabled: #000000;
+  --back-size-text-noprice: #000000;
+  --back-size-text-disabled: #000000;
+  /* lay variables */
+  --lay-noprice-bg: #f4d4d8;
+  --lay-noprice-border: transparent;
+  --lay-disabled-bg: #f4d4d8;
+  --lay-disabled-border: transparent;
+  --lay-price-text: #000000;
+  --lay-bg: #fb9ea2;
+  --lay-border: transparent;
+  --lay-hover: #fb9ea2;
+  --lay-price-text-disabled: #000000;
 }
 
 .dark {
+  --primary-hover: rgba(145, 158, 171, 0.08);
+  --dotted-line: rgba(145, 158, 171, 0.2);
+  --primary-text-color: white;
+
+  --sport-active-bg: #141a21;
+
+  /* back variables */
+  --back-price-text: #03b2ff;
+  --back-size-text: #60a5fa;
+  --back-price-text-noprice: rgba(239, 246, 255, 1); /* blue-50 */
+  --back-price-text-disabled: rgba(239, 246, 255, 0.5);
+  --back-size-text-noprice: #03b2ff;
+  --back-size-text-disabled: rgba(96, 165, 250, 0.5);
+  --back-bg: rgba(12, 33, 55, 0.6);
+  --back-border: #03b2ff;
+  --back-hover: rgba(12, 33, 55, 0.8);
+  --back-noprice-bg: rgba(12, 33, 55, 0.6);
+  --back-noprice-border: rgba(219, 234, 254, 1);
+  --back-disabled-bg: rgba(12, 33, 55, 0.2);
+  --back-disabled-border: rgba(219, 234, 254, 0.5);
+  /* lay variables */
+  --lay-price-text: #ff7a7f;
+  --lay-price-text-disabled: rgba(255, 122, 127, 0.5);
+  --lay-bg: rgba(42, 12, 19, 0.6);
+  --lay-border: #ff7a7f;
+  --lay-hover: rgba(42, 12, 19, 0.8);
+  --lay-noprice-bg: rgba(42, 12, 19, 0.6);
+  --lay-noprice-border: #ff7a7f;
+  --lay-disabled-bg: rgba(42, 12, 19, 0.2);
+  --lay-disabled-border: rgba(255, 122, 127, 0.5);
+
   --background: #141a21;
   --foreground: #ededed;
   --text-primary-hover: white;
@@ -648,9 +706,22 @@
   );
 }
 
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-inter:
+    var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol";
+  --font-roboto-condensed: var(--font-roboto-condensed);
+  --font-roboto: var(--font-roboto);
+}
+
 body {
   background: var(--background);
-  color: var(--foreground);
+  color: var(--primary-text-color);
   font-family:
     Inter,
     -apple-system,
@@ -1315,6 +1386,7 @@ body:has(.drawer) {
   bottom: 0px;
   left: 0px;
 }
+
 /* 🔒 iOS Safari layer stabilization fix */
 .sidebar-container a,
 .sidebar-container svg,
@@ -1323,6 +1395,7 @@ body:has(.drawer) {
   will-change: transform;
   backface-visibility: hidden;
 }
+
 .sidebar-container {
   contain: paint;
   isolation: isolate;

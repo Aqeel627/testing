@@ -11,9 +11,10 @@ import { useAuthStore } from "@/lib/useAuthStore";
 // import { useToast } from "@/app/(pages)/components/toast/toast-context";
 import { useRouter } from "next/navigation";
 import { useAppStore } from "@/lib/store/store";
+import { useCacheStore } from "@/lib/store/cacheStore";
 
 export default function LoginModal() {
-  const { loginModal, setLoginModal } = useAppStore();
+  const { loginModal, setLoginModal } = useCacheStore();
   const { theme } = useTheme();
   const { login } = useAuthStore();
   // const { showToast } = useToast();
@@ -119,7 +120,9 @@ export default function LoginModal() {
     <section
       className={cn(
         "fixed! rounded-none! inset-0! z-9999 drawer!",
-        theme === "dark" ? "apple-glass apple-glass-dark " : "apple-glass-light",
+        theme === "dark"
+          ? "apple-glass apple-glass-dark "
+          : "apple-glass-light",
 
         // ✅ DESKTOP ONLY (does not touch mobile)
         "min-[900px]:p-12",
@@ -130,7 +133,6 @@ export default function LoginModal() {
       <div className="min-[900px]:mx-auto min-[900px]:max-w-[1120px] min-[900px]:min-h-[calc(100vh-96px)] min-[900px]:flex min-[900px]:flex-col">
         {/* HEADER (mobile only — unchanged visually on mobile) */}
         <div className="flex justify-between items-center px-4 min-[600]:px-6 h-12 min-[900px]:hidden">
-
           <Link
             href="/"
             onClick={() => setLoginModal(false)}
@@ -419,11 +421,17 @@ export default function LoginModal() {
                     <button
                       type="submit"
                       disabled={!hasFormValues || isSubmitting}
-                      className={`w-full rounded-lg relative p-[6px_12px] min-h-9 text-sm font-bold h-[48px] ${
-                        hasFormValues && !isSubmitting
-                          ? "bg-[#078DEE] text-white hover:shadow-(--customShadows-primary) cursor-pointer hover:bg-(--palette-primary-dark)"
-                          : "bg-[rgba(145,158,171,0.24)] text-[rgba(145,158,171,0.8)] cursor-not-allowed"
-                      }`}
+                      // className={`w-full rounded-lg relative p-[6px_12px] min-h-9 text-sm font-bold h-[48px] ${
+                      //   hasFormValues && !isSubmitting
+                      //     ? "bg-(--primary-color) text-white cursor-pointer hover:bg-(--login-btn-hover)"
+                      //     : "bg-[rgba(145,158,171,0.24)] text-(--secondary-text-color) cursor-not-allowed"
+                      // }`}
+                      className={cn(
+                        "w-full rounded-lg relative p-[6px_12px] min-h-9 text-sm font-bold h-[48px] bg-(--primary-color) text-white cursor-pointer disabled:cursor-not-allowed",
+                        hasFormValues &&
+                          !isSubmitting &&
+                          "hover:bg-(--login-btn-hover)",
+                      )}
                     >
                       {isSubmitting ? (
                         <span className="contents">

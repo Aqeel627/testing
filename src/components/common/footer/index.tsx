@@ -109,7 +109,7 @@ export default function Footer() {
               </div>
 
               {/* DESCRIPTION */}
-              <div className=" border-t min-[900px]:pt-2 pt-4 border-dashed max-[900]:text-xs border-[rgba(145,158,171,0.2)]  text-[13px] leading-[20px] text-(--palette-text-secondary) dark:border-[rgba(145,158,171,0.2)] ">
+              <div className=" border-t min-[900px]:pt-2 pt-4 border-dashed max-[900]:text-xs border-(--dotted-line)  text-[13px] leading-[20px] text-(--palette-text-secondary) dark:border-[rgba(145,158,171,0.2)] ">
                 This website is operated by{" "}
                 <span className="text-[14px] text-[#098DEE]">
                   Rich Able Developments Limited

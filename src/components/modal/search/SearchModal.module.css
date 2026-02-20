@@ -200,7 +200,7 @@
     bottom: -1px;
     left: 0px;
     right: 0px;
-    border-bottom: 1px dashed rgba(145, 158, 171, 0.22);
+    border-bottom: 1px dashed var(--dotted-line);
   }
 
   /* hover exactly as you gave */
@@ -213,7 +213,7 @@
   /* keyboard focus blue dashed box (like screenshot) */
   .item:focus-visible {
     border-radius: 8px;
-    outline: 2px dashed #078dee;
+    outline: 2px dashed var(--secondary-color);
     outline-offset: 2px;
   }
 

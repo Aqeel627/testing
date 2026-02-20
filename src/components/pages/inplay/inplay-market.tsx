@@ -25,7 +25,7 @@ const InplayMarket = ({ events }: { events: any }) => {
         return (
           <li
             key={event.marketId}
-            className="w-full rounded-[2px] border border-dashed border-[rgba(145,158,171,0.16)] bg-[rgba(145,158,171,0.04)] overflow-hidden mb-1.5"
+            className="w-full rounded-[2px] border border-dashed border-(--dotted-line) bg-[rgba(145,158,171,0.04)] overflow-hidden mb-1.5"
           >
             <div className="flex w-full flex-col min-[691px]:flex-row min-[1200px]:flex-col min-[1376px]:flex-row">
               {/* LEFT CONTENT – 60% */}
