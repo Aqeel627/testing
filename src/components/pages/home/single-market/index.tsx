@@ -14,10 +14,6 @@ export default function SingleMarket() {
   const [isCompactLayout, setIsCompactLayout] = useState(false);
 
   useEffect(() => {
-    console.log(allEventsList, "events all");
-  }, [allEventsList]);
-
-  useEffect(() => {
     const listEl = wrapperRef.current;
     if (!listEl) return;
     const targetEl = (listEl.closest("main") as HTMLElement | null) || listEl;
@@ -236,11 +232,12 @@ export default function SingleMarket() {
                         })
                       }
                     >
-                      <span className="block whitespace-nowrap font-bold text-[16px] text-[var(--back-price-text)] leading-[1.1]">
+                      <span className="block whitespace-nowrap font-bold price text-[var(--back-price-text)] leading-[1.1]">
                         {" "}
                         {runner0?.ex?.availableToBack?.[0]?.price ?? "-"}
                       </span>
-                      <span className="block whitespace-nowrap font-normal text-[10px] text-[var(--back-size-text)] leading-[1]">
+                      <span className="block size whitespace-nowrap font-normal text-[var(--back-size-text)] leading-[1]"
+                      >
                         {shortNumber(runner0?.ex?.availableToBack?.[0]?.size) ??
                           ""}
                       </span>
@@ -259,10 +256,10 @@ export default function SingleMarket() {
                         })
                       }
                     >
-                      <span className="block whitespace-nowrap font-bold text-[16px] text-[var(--lay-price-text)] leading-[1.1]">
+                      <span className="block whitespace-nowrap font-bold price text-[var(--lay-price-text)] leading-[1.1]">
                         {runner0?.ex?.availableToLay?.[0]?.price ?? "-"}
                       </span>
-                      <span className="block whitespace-nowrap font-normal text-[10px] text-[var(--lay-price-text)] leading-[1]">
+                      <span className="block size whitespace-nowrap font-normal text-[10px] text-[var(--lay-price-text)] leading-[1]">
                         {shortNumber(runner0?.ex?.availableToLay?.[0]?.size) ??
                           ""}
                       </span>
@@ -299,7 +296,7 @@ export default function SingleMarket() {
                       }
                     >
                       <span
-                        className={`block whitespace-nowrap font-bold text-[16px] leading-[1.1] ${
+                        className={`block whitespace-nowrap font-bold price leading-[1.1] ${
                           hasThreeRunners
                             ? hasCenterBackPrice
                               ? "text-[var(--back-price-text)]"
@@ -312,7 +309,7 @@ export default function SingleMarket() {
                           : ""}
                       </span>
                       <span
-                        className={`block whitespace-nowrap font-normal text-[10px] leading-[1] ${
+                        className={`block size whitespace-nowrap font-normal text-[10px] leading-[1] ${
                           hasThreeRunners
                             ? hasCenterBackPrice
                               ? "text-[var(--back-size-text)]"
@@ -349,7 +346,7 @@ export default function SingleMarket() {
                       }
                     >
                       <span
-                        className={`block whitespace-nowrap font-bold text-[16px] leading-[1.1] ${
+                        className={`block whitespace-nowrap font-bold price leading-[1.1] ${
                           hasThreeRunners
                             ? "text-[var(--lay-price-text)]"
                             : "text-[var(--lay-price-text-disabled)]"
@@ -360,7 +357,7 @@ export default function SingleMarket() {
                           : ""}
                       </span>
                       <span
-                        className={`block whitespace-nowrap font-normal text-[10px] leading-[1] ${
+                        className={`block size whitespace-nowrap font-normal text-[10px] leading-[1] ${
                           hasThreeRunners
                             ? "text-[var(--lay-price-text)]"
                             : "text-[var(--lay-price-text-disabled)]"
@@ -397,10 +394,10 @@ export default function SingleMarket() {
                         })
                       }
                     >
-                      <span className="block whitespace-nowrap font-bold text-[16px] text-[var(--back-price-text)] leading-[1.1]">
+                      <span className="block whitespace-nowrap font-bold price text-[var(--back-price-text)] leading-[1.1]">
                         {rightRunner?.ex?.availableToBack?.[0]?.price ?? "-"}
                       </span>
-                      <span className="block whitespace-nowrap font-normal text-[10px] text-[var(--back-size-text)] leading-[1]">
+                      <span className="block size whitespace-nowrap font-normal text-[10px] text-[var(--back-size-text)] leading-[1]">
                         {shortNumber(
                           rightRunner?.ex?.availableToBack?.[0]?.size,
                         ) ?? ""}
@@ -420,10 +417,10 @@ export default function SingleMarket() {
                         })
                       }
                     >
-                      <span className="block whitespace-nowrap font-bold text-[16px] text-[var(--lay-price-text)]  leading-[1.1]">
+                      <span className="block whitespace-nowrap font-bold price text-[var(--lay-price-text)]  leading-[1.1]">
                         {rightRunner?.ex?.availableToLay?.[0]?.price ?? "-"}
                       </span>
-                      <span className="block whitespace-nowrap font-normal text-[10px] text-[var(--lay-price-text)]  leading-[1]">
+                      <span className="block size whitespace-nowrap font-normal text-[10px] text-[var(--lay-price-text)]  leading-[1]">
                         {shortNumber(
                           rightRunner?.ex?.availableToLay?.[0]?.size,
                         ) ?? ""}
