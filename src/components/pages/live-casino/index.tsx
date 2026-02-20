@@ -30,8 +30,15 @@ export default function Casino({ hideHeading }: { hideHeading?: boolean }) {
         <div className="relative flex items-center justify-center w-full mb-6 px-2 min-[600px]:px-4">
           {/* Left Glowing Line & Dots */}
           {/* flex-1 lagaya hai taake line auto-stretch ho */}
-          <div className="flex items-center justify-end gap-1.5 min-[500px]:gap-2 w-full max-w-[80px] min-[400px]:max-w-[150px] min-[700px]:max-w-[250px]">
-            <div className="h-[1px] w-full bg-gradient-to-r from-transparent to-[#078dee] shadow-[0_0_8px_#078dee]"></div>
+          <div className="flex relative items-center justify-end gap-1.5 min-[500px]:gap-2 w-full max-w-[80px] min-[400px]:max-w-[150px] min-[700px]:max-w-[250px]">
+            <div className="neon-underline -top-1">
+              <span className="neon-glow glow-main"></span>
+              <span className="neon-line line-main"></span>
+
+              <span className="neon-glow glow-right"></span>
+              <span className="neon-line line-right"></span>
+            </div>
+            {/* <div className="h-[1px] w-full bg-gradient-to-r from-transparent to-[#078dee] shadow-[0_0_8px_#078dee]"></div> */}
             <div
               className="w-[4px] h-[4px] min-[500px]:w-[5px] min-[500px]:h-[5px] 
                 bg-[#ffbbbb] 
@@ -49,18 +56,24 @@ export default function Casino({ hideHeading }: { hideHeading?: boolean }) {
           </h2>
 
           {/* Right Glowing Line & Dots */}
-          <div className="flex items-center justify-start gap-1.5 min-[500px]:gap-2 w-full max-w-[80px] min-[400px]:max-w-[150px] min-[700px]:max-w-[250px]">
+          <div className="relative flex items-center justify-start gap-1.5 min-[500px]:gap-2 w-full max-w-[80px] min-[400px]:max-w-[150px] min-[700px]:max-w-[250px]">
             <div className="w-1 h-1 min-[500px]:w-[5px] min-[500px]:h-[5px] rounded-full bg-[#078dee] shadow-[0_0_8px_#078dee]"></div>
             <div className="w-1.25 h-1.25 bg-[#ffbbbb] dark:shadow-[0_0_6px_#ff3b3b,0_0_3px_#ff7f7f]"></div>
+            <div className="neon-underline -top-1">
+              <span className="neon-glow glow-main"></span>
+              <span className="neon-line line-main"></span>
 
-            <div className="h-[1px] w-full bg-gradient-to-l from-transparent to-[#078dee] shadow-[0_0_8px_#078dee]"></div>
+              <span className="neon-glow glow-left"></span>
+              <span className="neon-line line-left"></span>
+            </div>
+            {/* <div className="h-[1px] w-full bg-gradient-to-l from-transparent to-[#078dee] shadow-[0_0_8px_#078dee]"></div> */}
           </div>
         </div>
       )}
       {/* 🔴 HEADING SECTION END 🔴 */}
 
       {/* 🟢 CARDS GRID SECTION 🟢 */}
-      <ul className="grid grid-cols-3 gap-3 list-none px-2 m-0 max-[350px]:gap-2">
+      <ul className="grid grid-cols-3 gap-1 list-none px-2 m-0 max-[350px]:gap-2">
         {filteredItems?.map((item: any, index: number) => (
           <li key={index} className="w-full">
             <article className="relative w-full aspect-[2/2.5] max-md:min-h-37.5 min-h-41.5 rounded-xl overflow-hidden shadow-2xl transition-transform duration-300 [transform:perspective(1000px)_rotateY(5deg)_skewX(-5deg)] border border-white/10 cursor-pointer group">

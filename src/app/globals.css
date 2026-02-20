@@ -1302,8 +1302,8 @@ body:has(.drawer) {
 
 .neon-underline {
   --underline-width: 75%;
-  --side-color: #107fe7;
-  --middle-color: #68cdf9;
+  --side-color: var(--secondary-color);
+  --middle-color: var(--primary-color);
 
   position: absolute;
   width: 100%;
@@ -1380,6 +1380,45 @@ body:has(.drawer) {
     var(--middle-color),
     transparent
   );
+}
+
+.glow-left {
+  width: calc(var(--underline-width) / 3);
+  height: 6px;
+  background: linear-gradient(to right, var(--middle-color), transparent);
+
+  left: calc(50% - (var(--underline-width) / 2));
+  transform: none;
+}
+
+.line-left {
+  width: calc(var(--underline-width) / 3);
+  height: 1px;
+  background: linear-gradient(to right, var(--middle-color), transparent);
+
+  left: calc(50% - (var(--underline-width) / 2));
+  transform: none;
+}
+
+/* =========================
+   RIGHT HIGHLIGHT
+========================= */
+.glow-right {
+  width: calc(var(--underline-width) / 3);
+  height: 6px;
+  background: linear-gradient(to right, transparent, var(--middle-color));
+
+  left: calc(50% + (var(--underline-width) / 2) - (var(--underline-width) / 3));
+  transform: none;
+}
+
+.line-right {
+  width: calc(var(--underline-width) / 3);
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--middle-color));
+
+  left: calc(50% + (var(--underline-width) / 2) - (var(--underline-width) / 3));
+  transform: none;
 }
 
 .active .exch {
