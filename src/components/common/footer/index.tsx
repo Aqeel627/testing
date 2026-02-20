@@ -48,7 +48,7 @@ export default function Footer() {
             <div className="min-[900px]:w-62.5 w-full min-w-[250px] flex items-center justify-center">
               <div className="md:mb-[3.5px] text-center w-44 mx-auto lg:mb-0  max-[900px]:flex max-[900px]:flex-col max-[900px]:justify-center">
                 <Image
-                  src="/secure-ssl-3.webp"
+                  src="/footer-ic/secure.svg"
                   alt="Secure"
                   width={106}
                   height={54}
