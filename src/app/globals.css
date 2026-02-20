@@ -1315,3 +1315,15 @@ body:has(.drawer) {
   bottom: 0px;
   left: 0px;
 }
+/* 🔒 iOS Safari layer stabilization fix */
+.sidebar-container a,
+.sidebar-container svg,
+.sidebar-container .sportImage {
+  transform: translateZ(0);
+  will-change: transform;
+  backface-visibility: hidden;
+}
+.sidebar-container {
+  contain: paint;
+  isolation: isolate;
+}
