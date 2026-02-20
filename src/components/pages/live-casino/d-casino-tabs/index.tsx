@@ -8,69 +8,28 @@ interface DCasinoTabsProps {
 
 const DCasinoTabs = ({ tabs, activeTab, onTabChange }: DCasinoTabsProps) => {
   return (
-    <div className="casino-container">
-      <div className="casino-grid">
+    <div className="flex-1 overflow-y-auto overflow-x-hidden p-4">
+      <div className="grid grid-cols-2 gap-2">
         {tabs.map((tab) => (
           <div
             key={tab.id}
             onClick={() => onTabChange(tab.id)}
-            className={`casino-card ${activeTab === tab.id ? 'active' : 'inactive'}`}
+            className={`relative flex items-center justify-center cursor-pointer h-[80px] rounded-2xl p-4 border transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] ${
+              activeTab === tab.id
+                ? " bg-[var(--casino-tab-nonactive-bg)] border-[var(--casino-tab-nonactive-border)]  hover:bg-[var(--casino-tab-active-bg)]"
+                : "bg-[var(--casino-tab-active-bg)] text-[var(--casino-tab-nonactive-text)] border-[var(--casino-tab-active-border)]"
+            }`}
           >
-            <span className={`casino-label ${activeTab === tab.id ? 'label-active' : 'label-inactive'}`}>
+            <span
+              className={`text-[0.75rem] text-center w-full overflow-hidden line-clamp-2 ${
+                activeTab === tab.id ? "font-bold" : "font-normal"
+              }`}
+            >
               {tab.name}
             </span>
           </div>
         ))}
       </div>
-
-      <style jsx>{`
-        .casino-container {
-          flex: 1 1 0%;
-          overflow: hidden auto;
-          padding: 16px;
-        }
-        .casino-grid {
-          display: grid;
-          gap: 8px;
-          grid-template-columns: repeat(2, 1fr); /* Desktop design match */
-        }
-        .casino-card {
-          position: relative;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          cursor: pointer;
-          height: 80px;
-          border-radius: 16px;
-          padding: 16px;
-          border: 1px solid transparent;
-          transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        .inactive {
-          background-color: rgba(7, 141, 238, 0.08);
-          color: rgb(145, 158, 171);
-          border-color: rgba(7, 141, 238, 0.3);
-        }
-          .active {
-         background-color: rgba(7, 141, 238, 0.15);
-          border-color: rgba(7, 141, 238);
-        }
-        .casino-label {
-          font-family: 'Inter', sans-serif;
-          font-size: 0.75rem;
-          text-align: center;
-          width: 100%;
-          display: -webkit-box;
-          -webkit-line-clamp: 2;
-          -webkit-box-orient: vertical;
-          overflow: hidden;
-        }
-        .label-active { font-weight: 700; }
-        .label-inactive { font-weight: 400; }
-        .casino-card:hover:not(.active) {
-          background-color: rgba(7, 141, 238, 0.15);
-        }
-      `}</style>
     </div>
   );
 };

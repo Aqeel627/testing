@@ -88,28 +88,10 @@ export default function Footer() {
             {/* RIGHT BLOCK */}
             <div className="md:ml-1 lg:ml-[5px] min-w-0 flex-1 ">
               {/* LINKS */}
-              <div className="footer-items max-[600px]:pb-4 min-[600px]:mb-2 flex overflow-hidden overflow-x-auto scrollbar-hide min-[453]:justify-center gap-4  whitespace-nowrap text-center text-[14px] font-medium text-(--palette-text-secondary)  md:justify-start md:text-start">
-                {[
-                  { name: "About", href: "/about" },
-                  { name: "Contact Us", href: "/contact-us" },
-                  { name: "Responsible Gambling", href: "/RasGam" },
-                  { name: "AML", href: "/AmlPolicy" },
-                  { name: "KYC Policy", href: "/Kpolicy" },
-                ].map((item, i) => (
-                  <Link
-                    key={i}
-                    href={item.href}
-                    className={`cursor-pointer max-[600]:text-[13px]  font-normal content-center hover:underline hover:text-(--palette-primary-main) ${
-                      i !== 3 && ""
-                    } md:px-2 lg:px-0`}
-                  >
-                    {item.name}
-                  </Link>
-                ))}
-              </div>
+             
 
               {/* DESCRIPTION */}
-              <div className=" border-t min-[900px]:pt-2 pt-4 border-dashed max-[900]:text-xs border-(--dotted-line)  text-[13px] leading-[20px] text-(--palette-text-secondary) dark:border-[rgba(145,158,171,0.2)] ">
+              <div className="min-[900px]:pt-2   max-[900]:text-xs  text-[13px] leading-[20px] text-(--palette-text-secondary) dark:border-[rgba(145,158,171,0.2)] ">
                 This website is operated by{" "}
                 <span className="text-[14px] text-[#098DEE]">
                   Rich Able Developments Limited
@@ -148,24 +130,32 @@ export default function Footer() {
           </div>
 
           {/* POLICY LINKS */}
-          <div className="flex flex-wrap justify-center gap-x-2 max-[899px]:px-4 min-[900px]:gap-x-4  py-2 max-[900px]:mt-[16px] text-[12px] min-[900px]:text-[13px] font-medium text-(--palette-text-secondary) ">
-            {[
-              "Terms & Conditions",
-              "Betting Rules",
-              "Dispute Resolution",
-              "Fairness & RNG Testing Methods",
-              "Accounts",
-              "Privacy Policy",
-              "Self-Exclusion",
-            ].map((item, i) => (
-              <a
-                key={i}
-                className="hover:underline hover:text-[#098DEE] cursor-pointer py-1"
-              >
-                {item}
-              </a>
-            ))}
-          </div>
+         <div className="flex flex-wrap justify-center gap-x-2 max-[899px]:px-4 min-[900px]:gap-x-4 py-2 max-[900px]:mt-[16px] text-[12px] min-[900px]:text-[13px] font-medium text-[var(--palette-text-secondary)]">
+  {[
+    { name: "About", href: "/about" },
+    { name: "Contact Us", href: "/contact-us" },
+    { name: "Responsible Gambling", href: "#" },
+    { name: "AML", href: "#" },
+    { name: "KYC Policy", href: "#" },
+
+    // 👇 Now Terms section after these
+    { name: "Terms & Conditions", href: "#" },
+    { name: "Betting Rules", href: "#" },
+    { name: "Dispute Resolution", href: "#" },
+    { name: "Fairness & RNG Testing Methods", href: "#" },
+    { name: "Accounts", href: "#" },
+    { name: "Privacy Policy", href: "#" },
+    { name: "Self-Exclusion", href: "#" },
+  ].map((item, i) => (
+    <Link
+      key={i}
+      href={item.href}
+      className="hover:underline hover:text-[var(--palette-primary-main)] cursor-pointer py-1"
+    >
+      {item.name}
+    </Link>
+  ))}
+</div>
 
           {/* COPYRIGHT */}
           <div className="mt-1 max-[900]:-mx-4 flex justify-center bg-[#919EAB29] py-1 max-[900px]:mt-[16px] text-xs font-bold text-(--palette-text-secondary)">
