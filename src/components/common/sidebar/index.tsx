@@ -378,44 +378,32 @@ export default function Sidebar({ config }: SidebarProps) {
     };
   }, []);
   // 👆 ---------------------------------------------------- 👆
-  const dynamicSportsConfig: Sport[] = useMemo(() => {
+ const dynamicSportsConfig: Sport[] = useMemo(() => {
     if (!menuList) return [];
 
-    const { events = [] } = menuList;
+    // 1. Dono arrays nikaalein
+    const { eventTypes = [], events = [] } = menuList;
 
-    const sportMap = new Map<
-      string,
-      {
-        name: string;
-        id: string;
-        tournaments: Map<
-          string,
-          {
-            name: string;
-            id: string;
-            events: Array<{ id: string; name: string }>;
-          }
-        >;
-      }
-    >();
+    const sportMap = new Map<string, any>();
 
+    eventTypes.forEach((item: any) => {
+      const sId = item.eventType.id;
+      sportMap.set(sId, {
+        name: item.eventType.name,
+        id: sId,
+        tournaments: new Map(),
+      });
+    });
+
+    // 3. Ab events ko unke respective sports mein daalein
     events.forEach((event: any) => {
       const sportId = event?.eventType?.id || "";
-      const sportName = event?.eventType?.name || "";
       const compId = event?.competition?.id || "";
       const compName = event?.competition?.name || "";
       const eventId = event?.event?.id || "";
       const eventName = event?.event?.name || "";
 
-      if (!sportId || !compId || !eventId) return;
-
-      if (!sportMap.has(sportId)) {
-        sportMap.set(sportId, {
-          name: sportName,
-          id: sportId,
-          tournaments: new Map(),
-        });
-      }
+      if (!sportId || !compId || !eventId || !sportMap.has(sportId)) return;
 
       const sport = sportMap.get(sportId)!;
 
@@ -427,23 +415,21 @@ export default function Sidebar({ config }: SidebarProps) {
         });
       }
 
-      sport.tournaments
-        .get(compId)!
-        .events.push({ id: eventId, name: eventName });
+      sport.tournaments.get(compId)!.events.push({ id: eventId, name: eventName });
     });
 
+    // 4. Return formatted data (Insertion order will be preserved)
     return Array.from(sportMap.values()).map((sport) => {
       const tournaments: Tournament[] = Array.from(
-        sport.tournaments.values(),
-      ).map((comp) => ({
+        sport.tournaments.values()
+      ).map((comp: any) => ({
         name: comp.name,
         count: comp.events.length,
-        // No competition-level href — tournaments only expand, never navigate
         href: undefined,
-        thirdItems: comp.events.map((evt) => ({
+        thirdItems: comp.events.map((evt: any) => ({
           name: evt.name,
           count: 1,
-          href: `/market-details/${evt.id}/${sport.id}`, // only market-details navigates
+          href: `/market-details/${evt.id}/${sport.id}`,
         })),
       }));
 
@@ -452,10 +438,10 @@ export default function Sidebar({ config }: SidebarProps) {
         iconUrl: SPORT_ICONS[sport.id] || "/sidebar/ic_default.svg",
         count: tournaments.reduce((sum, t) => sum + t.count, 0),
         tournaments,
-        // No sport-level href — sports only expand, never navigate
         href: undefined,
       };
-    });
+    })
+    .filter((sport) => sport.count > 0);
   }, [menuList]);
 
   const sidebarConfig: SidebarConfig = config || {
