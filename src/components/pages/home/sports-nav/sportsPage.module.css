@@ -52,7 +52,7 @@
 .sliding-indicator {
   position: absolute;
   /* background-color: #141A21; */
-   background-color: var(--background);
+  background-color: var(--sport-active-bg);
   border-radius: 8px;
   /* Ye transition hi wo smooth sliding effect deti hai */
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -72,17 +72,17 @@
   font-weight: 600;
   /* min-height: 48px; */
   padding: 2px 16px;
-  color: #919EAB;
+  color: #919eab;
   font-family: Inter, sans-serif;
   transition: color 0.2s ease;
   line-height: 1.57143;
   position: relative; /* 👈 Zaroori */
-  z-index: 1; 
+  z-index: 1;
 }
 
 /* Active tab */
 .tab-btn.active {
-  color: rgb(104, 205, 249);
+  color: var(--primary-color) !important;
 }
 
 /* Icon */

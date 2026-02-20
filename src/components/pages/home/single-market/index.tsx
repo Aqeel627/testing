@@ -62,7 +62,7 @@ export default function SingleMarket() {
         return (
           <li
             key={event.marketId}
-            className="w-full rounded-[2px] border border-dashed border-[rgba(145,158,171,0.16)] bg-[rgba(145,158,171,0.04)] text-white overflow-hidden mb-[6px]"
+            className="w-full rounded-[2px] border border-dashed border-(--dotted-line) bg-[rgba(145,158,171,0.04)] text-white overflow-hidden mb-[6px]"
           >
             <div
               className={

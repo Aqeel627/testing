@@ -554,7 +554,7 @@ export default function Sidebar({ config }: SidebarProps) {
       <ul className={styles.list}>
         {/* Mobile Search */}
         <div
-          className={`${styles.searchWrapper} lg:hidden! border-b -mx-4 border-[#919eab14]`}
+          className={`${styles.searchWrapper} lg:hidden! border-dashed border-b -mx-4 border-(--dotted-line)`}
           onClick={handleSearchToggle}
           role="button"
           tabIndex={0}

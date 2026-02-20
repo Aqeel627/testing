@@ -263,7 +263,7 @@ export default function Header({ onMenuClick,hideMenuBtn }: HeaderProps) {
                     </p>
                   </div>
 
-                  <hr className="m-0 shrink-0 border-0 border-b border-dashed border-[#919eab33]" />
+                  <hr className="m-0 shrink-0 border-0 border-b border-dashed border-(--dotted-line)" />
 
                   <div className="flex flex-col gap-2 px-4 pb-4 pt-2">
                     <div className="rounded-[16px] shadow-[0_1px_2px_0_rgb(0_0_0_/_16%)] border-[#919eab29] border-[1px]">
@@ -293,7 +293,7 @@ export default function Header({ onMenuClick,hideMenuBtn }: HeaderProps) {
                     </div>
                   </div>
 
-                  <hr className="m-0 shrink-0 border-0 border-b border-dashed border-[#919eab33]" />
+                  <hr className="m-0 shrink-0 border-0 border-b border-dashed border-(--dotted-line)" />
 
                   {/* Links List */}
                   <ul className="my-2 px-2 flex flex-col">
@@ -358,7 +358,7 @@ export default function Header({ onMenuClick,hideMenuBtn }: HeaderProps) {
                     </li>
                   </ul>
 
-                  <hr className="m-0 shrink-0 border-0 border-b border-dashed border-[#919eab33]" />
+                  <hr className="m-0 shrink-0 border-0 border-b border-dashed border-(--dotted-line)" />
 
                   {/* Logout Button */}
                   <div className="p-2 relative">
@@ -380,7 +380,7 @@ export default function Header({ onMenuClick,hideMenuBtn }: HeaderProps) {
       </div>
 
       <div className="flex min-[960px]:hidden border-b-1  border-[#919eab14] relative overflow-hidden px-3">
-        <hr className="m-0 shrink-0 border-0 border-t-[1px] border-dashed border-[#919eab33] absolute top-0 left-0 w-full z-[9]" />
+        <hr className="m-0 shrink-0 border-0 border-t-[1px] border-dashed border-(--dotted-line) absolute top-0 left-0 w-full z-[9]" />
 
         <nav className="flex items-center gap-[8.5px] w-full lg:gap-4 font-bold --palette-text-primary  overflow-x-auto overflow-y-hidden scrollbar-hide h-[30px]">
           <Link
