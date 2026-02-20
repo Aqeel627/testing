@@ -109,7 +109,3 @@
   mask-image: url("/ic_tennis.svg");
 }
 
-/* Active tab */
-.tab-btn.active {
-  color: rgb(104, 205, 249);
-}

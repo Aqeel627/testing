@@ -6,22 +6,22 @@ import { useAppStore } from "@/lib/store/store";
 export default function Casino({ hideHeading }: { hideHeading?: boolean }) {
   const { casinoEvents } = useAppStore();
   const pathname = usePathname();
-const searchParams = useSearchParams();
-const activeIndex = searchParams.get("tab") ?? "Popular";
+  const searchParams = useSearchParams();
+  const activeIndex = searchParams.get("tab") ?? "Popular";
 
   useEffect(() => {
     console.log("casinoEvents", casinoEvents);
   }, [casinoEvents]);
 
-const filteredItems = React.useMemo(() => {
-  if (!casinoEvents?.lobby?.length) return [];
-  if (activeIndex === "Popular") {
-    return casinoEvents.lobby.filter((item: any) => item.popular); // ✅
-  }
-  return casinoEvents.lobby.filter(
-    (item: any) => item.menuName === activeIndex, // ✅ name se match
-  );
-}, [casinoEvents, activeIndex]);
+  const filteredItems = React.useMemo(() => {
+    if (!casinoEvents?.lobby?.length) return [];
+    if (activeIndex === "Popular") {
+      return casinoEvents.lobby.filter((item: any) => item.popular); // ✅
+    }
+    return casinoEvents.lobby.filter(
+      (item: any) => item.menuName === activeIndex, // ✅ name se match
+    );
+  }, [casinoEvents, activeIndex]);
 
   return (
     <div className="w-full flex flex-col py-4 relative">
