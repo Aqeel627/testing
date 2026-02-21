@@ -1,4 +1,5 @@
 import BreadCrumb from '@/components/common/bread-crumb'
+import DateFilter from '@/components/common/date-filter';
 import React from 'react'
 
 const StatementPage = () => {
@@ -7,6 +8,7 @@ const StatementPage = () => {
     return (
         <>
             <BreadCrumb title="statement"/>
+            <DateFilter/>
         </>
     )
 }
