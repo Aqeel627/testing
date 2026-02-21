@@ -52,7 +52,7 @@ const CenterRadialButton = () => {
         >
           <div
             className={cn(
-              "absolute left-1/2 top-0 w-full aspect-square -translate-x-1/2 rounded-full glass backdrop-blur-[25px] border",
+              "absolute left-1/2 top-0 w-full aspect-square -translate-x-1/2 rounded-full glass-radial  border",
               theme === "dark"
                 ? "border-[rgba(255,255,255,0.25)]"
                 : "border-[rgba(255,255,255,0.4)]"
