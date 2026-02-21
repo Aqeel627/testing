@@ -26,10 +26,16 @@ export default function BetSlipUI() {
   // Close forms when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
-      if (stakeFormRef.current && !stakeFormRef.current.contains(event.target as Node)) {
+      if (
+        stakeFormRef.current &&
+        !stakeFormRef.current.contains(event.target as Node)
+      ) {
         setShowStakeForm(false);
       }
-      if (liabilityFormRef.current && !liabilityFormRef.current.contains(event.target as Node)) {
+      if (
+        liabilityFormRef.current &&
+        !liabilityFormRef.current.contains(event.target as Node)
+      ) {
         setShowLiabilityForm(false);
       }
     };
@@ -40,7 +46,8 @@ export default function BetSlipUI() {
   }, [showStakeForm, showLiabilityForm]);
 
   const incOdds = () => setOdds((p) => Number((p + 0.01).toFixed(2)));
-  const decOdds = () => setOdds((p) => Number(Math.max(1.01, p - 0.01).toFixed(2)));
+  const decOdds = () =>
+    setOdds((p) => Number(Math.max(1.01, p - 0.01).toFixed(2)));
 
   const quick = [100, 200, 500, 5000, 10000, 25000, 50000, 100000];
 
@@ -60,11 +67,10 @@ export default function BetSlipUI() {
   };
 
   const pathname = usePathname();
-useEffect(() => {
-  clearSelectedBet();
-  setStake("");
-}, [pathname]);
-
+  useEffect(() => {
+    clearSelectedBet();
+    setStake("");
+  }, [pathname]);
 
   if (!selectedBet) return null;
 
@@ -73,7 +79,6 @@ useEffect(() => {
   return (
     <section className="block relative w-full">
       <div className="max-h-[355px] overflow-auto">
-
         {/* Header */}
         <header className="bg-[#1A2C38] text-white p-2">
           <h2 className="font-bold text-left text-[12px] m-0 p-0 leading-[1]">
@@ -92,11 +97,16 @@ useEffect(() => {
                 <span className="text-center w-16 max-h-[16px]">
                   <span
                     className="text-[#2789ce] cursor-pointer hover:underline"
-                    onClick={() => { setShowLiabilityForm(false); setShowStakeForm(true); }}
+                    onClick={() => {
+                      setShowLiabilityForm(false);
+                      setShowStakeForm(true);
+                    }}
                   >
                     Stake
                   </span>
-                  <span className="w-[13px] h-[13px] cursor-help pl-[1px] text-[#2789ce]">[ ? ]</span>
+                  <span className="w-[13px] h-[13px] cursor-help pl-[1px] text-[#2789ce]">
+                    [ ? ]
+                  </span>
                 </span>
                 <span className="text-center w-16 max-h-[16px]">Profit</span>
               </div>
@@ -109,10 +119,16 @@ useEffect(() => {
                   <div className="flex items-center">
                     <button
                       type="button"
-                      onClick={() => { clearSelectedBet(); setStake(""); }}
+                      onClick={() => {
+                        clearSelectedBet();
+                        setStake("");
+                      }}
                       className="rounded-[2px] text-[#303030] inline-flex w-3 h-3 p-0 hover:bg-[#e0e0e0] items-center justify-center mx-1 cursor-pointer"
                     >
-                      <svg className="w-[6.5px] h-[6.5px] fill-[#303030]" viewBox="0 0 100 100">
+                      <svg
+                        className="w-[6.5px] h-[6.5px] fill-[#303030]"
+                        viewBox="0 0 100 100"
+                      >
                         <path d="M100,12.5L87.5,0L50,37.5L12.5,0L0,12.5L37.5,50L0,87.5L12.5,100L50,62.5L87.5,100L100,87.5L62.5,50L100,12.5z" />
                       </svg>
                     </button>
@@ -121,7 +137,9 @@ useEffect(() => {
                     </span>
                   </div>
                   {/* Event / market info */}
-                  <span className="text-[10px] text-[#555] pr-1">{selectedBet.marketType}</span>
+                  <span className="text-[10px] text-[#555] pr-1">
+                    {selectedBet.marketType}
+                  </span>
                 </section>
 
                 <div className="flex items-center min-w-[187px] max-h-fit">
@@ -136,8 +154,20 @@ useEffect(() => {
                         onChange={(e) => setOdds(Number(e.target.value || 0))}
                       />
                       <div className="absolute top-0 right-[2px] h-full flex flex-col justify-around p-[1px_0]">
-                        <button type="button" onClick={incOdds} className="w-2 h-[7px] p-0 border-0 bg-transparent cursor-pointer text-[8px] leading-none">▲</button>
-                        <button type="button" onClick={decOdds} className="w-2 h-[7px] p-0 border-0 bg-transparent cursor-pointer text-[8px] leading-none">▼</button>
+                        <button
+                          type="button"
+                          onClick={incOdds}
+                          className="w-2 h-[7px] p-0 border-0 bg-transparent cursor-pointer text-[8px] leading-none"
+                        >
+                          ▲
+                        </button>
+                        <button
+                          type="button"
+                          onClick={decOdds}
+                          className="w-2 h-[7px] p-0 border-0 bg-transparent cursor-pointer text-[8px] leading-none"
+                        >
+                          ▼
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -148,7 +178,11 @@ useEffect(() => {
                       name="betsStake"
                       type="number"
                       value={stake}
-                      onChange={(e) => setStake(e.target.value === "" ? "" : Number(e.target.value))}
+                      onChange={(e) =>
+                        setStake(
+                          e.target.value === "" ? "" : Number(e.target.value),
+                        )
+                      }
                     />
                   </div>
                   {/* Profit display */}
@@ -167,16 +201,24 @@ useEffect(() => {
             <div className="bg-[#dbefff] px-1 pb-1">
               <div className="grid grid-cols-4 gap-1 pt-1">
                 {quick.slice(0, 4).map((v) => (
-                  <button key={v} type="button" onClick={() => setStake(v)}
-                    className="w-full rounded-[2px] border border-[rgba(145,158,171,0.32)] bg-white py-[4px] text-center text-[11px] font-bold text-[#303030] hover:bg-[#e0e0e0]">
+                  <button
+                    key={v}
+                    type="button"
+                    onClick={() => setStake(v)}
+                    className="w-full rounded-[2px] border border-[rgba(145,158,171,0.32)] bg-white py-[4px] text-center text-[11px] font-bold text-[#303030] hover:bg-[#e0e0e0]"
+                  >
                     {v}
                   </button>
                 ))}
               </div>
               <div className="grid grid-cols-4 gap-1 pt-1">
                 {quick.slice(4, 8).map((v) => (
-                  <button key={v} type="button" onClick={() => setStake(v)}
-                    className="w-full rounded-[2px] border border-[rgba(145,158,171,0.32)] bg-white py-[4px] text-center text-[11px] font-bold text-[#303030] hover:bg-[#e0e0e0]">
+                  <button
+                    key={v}
+                    type="button"
+                    onClick={() => setStake(v)}
+                    className="w-full rounded-[2px] border border-[rgba(145,158,171,0.32)] bg-white py-[4px] text-center text-[11px] font-bold text-[#303030] hover:bg-[#e0e0e0]"
+                  >
                     {v}
                   </button>
                 ))}
@@ -192,9 +234,21 @@ useEffect(() => {
             <header className="bg-[#fac9d4] p-1 flex justify-between items-center text-[11px] relative">
               <span className="leading-[16px]">Lay (Bet Against)</span>
               <div className="flex relative">
-                <span className="text-center w-16 leading-[16px]">Backer's odds</span>
-                <span className="text-center w-16 leading-[16px]">Backer's stake</span>
-                <div className="flex flex-col items-center mr-[10px] relative">
+                <span className="text-center w-16 leading-[16px]">
+                  Backer's odds
+                </span>
+                <span className="text-center w-16 leading-[16px]">
+                  Backer's stake
+                </span>
+                <div className="relative left-8">
+                  <span className="text-[11px] mr-12  leading-[16px] cursor-help">
+                    {"["}
+                    <span className="items-end text-[#2889ce]">?</span>
+                    {"]"}
+                  </span>
+                </div>
+
+                {/* <div className="flex flex-col items-center mr-[10px] relative">
                   <label className="cursor-pointer max-h-[16px] text-[#2789ce] text-[12px]">
                     <input type="radio" name="lay-option" className="mr-[2px] w-[11px] h-[10px]" value="LIABILITY" defaultChecked />
                     <span className="text-[#2789ce] cursor-pointer hover:underline"
@@ -213,7 +267,6 @@ useEffect(() => {
                     {"["}<span className="text-[#2889ce]">?</span>{"]"}
                   </span>
 
-                  {/* Liability Form dropdown */}
                   {showLiabilityForm && (
                     <div className="absolute top-full right-0 mt-1 z-50">
                       <div ref={liabilityFormRef} className="bg-[#fff9d8] border border-[#7d97a8] p-2 h-[52.5px] w-max">
@@ -239,7 +292,7 @@ useEffect(() => {
                       </div>
                     </div>
                   )}
-                </div>
+                </div> */}
               </div>
             </header>
 
@@ -250,10 +303,16 @@ useEffect(() => {
                   <div className="flex items-center">
                     <button
                       type="button"
-                      onClick={() => { clearSelectedBet(); setStake(""); }}
+                      onClick={() => {
+                        clearSelectedBet();
+                        setStake("");
+                      }}
                       className="rounded-[2px] text-[#303030] inline-flex w-3 h-3 p-0 hover:bg-[#e0e0e0] items-center justify-center mx-1 cursor-pointer"
                     >
-                      <svg className="w-[6.5px] h-[6.5px] fill-[#303030]" viewBox="0 0 100 100">
+                      <svg
+                        className="w-[6.5px] h-[6.5px] fill-[#303030]"
+                        viewBox="0 0 100 100"
+                      >
                         <path d="M100,12.5L87.5,0L50,37.5L12.5,0L0,12.5L37.5,50L0,87.5L12.5,100L50,62.5L87.5,100L100,87.5L62.5,50L100,12.5z" />
                       </svg>
                     </button>
@@ -261,26 +320,14 @@ useEffect(() => {
                       {selectedBet.teamName ?? "Name-Pending"}
                     </span>
                   </div>
-                  <span className="text-[10px] text-[#555] pr-1">{selectedBet.marketType}</span>
+                  <span className="text-[10px] text-[#555] pr-1">
+                    {selectedBet.marketType}
+                  </span>
                 </section>
 
                 <div className="flex items-center min-w-[187px] max-h-fit">
                   {/* Odds control */}
-                  <div className="w-[64px]">
-                    <div className="relative max-h-[21.5px] flex items-center">
-                      <input
-                        className="p-[2px_14px_2px_0] border border-[#dcdcdc] text-center w-full text-[11px] outline-none max-h-[21.5px] bg-[rgb(255,122,127)]"
-                        value={odds}
-                        name="betsOdds"
-                        type="number"
-                        onChange={(e) => setOdds(Number(e.target.value || 0))}
-                      />
-                      <div className="absolute top-0 right-[2px] h-full flex flex-col justify-around p-[1px_0]">
-                        <button type="button" onClick={incOdds} className="w-2 h-[7px] p-0 border-0 bg-transparent cursor-pointer text-[8px] leading-none">▲</button>
-                        <button type="button" onClick={decOdds} className="w-2 h-[7px] p-0 border-0 bg-transparent cursor-pointer text-[8px] leading-none">▼</button>
-                      </div>
-                    </div>
-                  </div>
+
                   {/* Stake input */}
                   <div className="w-[64px] ml-2 max-h-[21.5px] flex items-center">
                     <input
@@ -288,11 +335,17 @@ useEffect(() => {
                       name="betsStake"
                       type="number"
                       value={stake}
-                      onChange={(e) => setStake(e.target.value === "" ? "" : Number(e.target.value))}
+                      onChange={(e) =>
+                        setStake(
+                          e.target.value === "" ? "" : Number(e.target.value),
+                        )
+                      }
                     />
                   </div>
                   {/* Liability display */}
-                  <span className="ml-2 text-[11px]">£{liability.toFixed(2)}</span>
+                  <span className="ml-2 text-[11px]">
+                    £{liability.toFixed(2)}
+                  </span>
                 </div>
               </div>
             </section>
@@ -307,16 +360,24 @@ useEffect(() => {
             <div className="bg-[#FFE9EE] px-1 pb-1">
               <div className="grid grid-cols-4 gap-1 pt-1">
                 {quick.slice(0, 4).map((v) => (
-                  <button key={v} type="button" onClick={() => setStake(v)}
-                    className="w-full rounded-[2px] border border-[rgba(145,158,171,0.32)] bg-white py-[4px] text-center text-[11px] font-bold text-[#303030] hover:bg-[#e0e0e0]">
+                  <button
+                    key={v}
+                    type="button"
+                    onClick={() => setStake(v)}
+                    className="w-full rounded-[2px] border border-[rgba(145,158,171,0.32)] bg-white py-[4px] text-center text-[11px] font-bold text-[#303030] hover:bg-[#e0e0e0]"
+                  >
                     {v}
                   </button>
                 ))}
               </div>
               <div className="grid grid-cols-4 gap-1 pt-1">
                 {quick.slice(4, 8).map((v) => (
-                  <button key={v} type="button" onClick={() => setStake(v)}
-                    className="w-full rounded-[2px] border border-[rgba(145,158,171,0.32)] bg-white py-[4px] text-center text-[11px] font-bold text-[#303030] hover:bg-[#e0e0e0]">
+                  <button
+                    key={v}
+                    type="button"
+                    onClick={() => setStake(v)}
+                    className="w-full rounded-[2px] border border-[rgba(145,158,171,0.32)] bg-white py-[4px] text-center text-[11px] font-bold text-[#303030] hover:bg-[#e0e0e0]"
+                  >
                     {v}
                   </button>
                 ))}
@@ -362,7 +423,10 @@ useEffect(() => {
           <div className="flex">
             <button
               type="button"
-              onClick={() => { clearSelectedBet(); setStake(""); }}
+              onClick={() => {
+                clearSelectedBet();
+                setStake("");
+              }}
               className="bg-[#122D38] rounded-[2px] text-[#fff] inline-block p-[6px_12px] text-[13px] font-bold cursor-pointer hover:bg-[#e0e0e0] hover:text-[#000]"
             >
               Cancel all selections
@@ -393,9 +457,17 @@ useEffect(() => {
       {/* Stake Form Modal (for back bets) */}
       {showStakeForm && (
         <div className="absolute top-[47px] left-[225px] right-0 z-50">
-          <div ref={stakeFormRef} className="bg-[#fff9d8] border border-[#7d97a8] p-2 h-[52.5px] mx-auto w-max">
-            <form onSubmit={handleStakeFormSubmit} className="h-full flex flex-col justify-between">
-              <p className="text-[#273a47] mb-[3px] text-[11px] text-left m-0 p-0 leading-[1]">Total Stake</p>
+          <div
+            ref={stakeFormRef}
+            className="bg-[#fff9d8] border border-[#7d97a8] p-2 h-[52.5px] mx-auto w-max"
+          >
+            <form
+              onSubmit={handleStakeFormSubmit}
+              className="h-full flex flex-col justify-between"
+            >
+              <p className="text-[#273a47] mb-[3px] text-[11px] text-left m-0 p-0 leading-[1]">
+                Total Stake
+              </p>
               <div className="flex items-center gap-1">
                 <label className="inline-flex items-center leading-[19px]">
                   <span className="mr-1 text-[#273a47] text-[13px]">GBP</span>
@@ -408,7 +480,10 @@ useEffect(() => {
                     onChange={(e) => setTotalStakeAmount(e.target.value)}
                   />
                 </label>
-                <button type="submit" className="text-[11px] text-[#273a47] text-center leading-[16px] h-[18px] px-[10px] bg-[#cbcbcb] border-b border-[#94a8b3] rounded-[2px] cursor-pointer hover:bg-[#b0b0b0]">
+                <button
+                  type="submit"
+                  className="text-[11px] text-[#273a47] text-center leading-[16px] h-[18px] px-[10px] bg-[#cbcbcb] border-b border-[#94a8b3] rounded-[2px] cursor-pointer hover:bg-[#b0b0b0]"
+                >
                   OK
                 </button>
               </div>

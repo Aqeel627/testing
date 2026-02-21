@@ -1,0 +1,26 @@
+.loaderBar {
+  position: relative;
+  width: 60%;
+  height: 4px;
+  margin: 40px auto;
+  background-color: var(--market-loader-bg);
+  border-radius: 9999px;
+  overflow: hidden;
+}
+
+.loaderBar::before {
+  content: "";
+  position: absolute;
+  height: 100%;
+  width: 40%;
+  left: -40%;
+  background-color: var(--primary-text-color); /* moving white */
+  border-radius: 9999px;
+  animation: slide 1s linear infinite;
+}
+
+@keyframes slide {
+  100% {
+    left: 100%;
+  }
+}
