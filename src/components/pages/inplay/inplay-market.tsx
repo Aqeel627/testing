@@ -6,7 +6,7 @@ import style from "@/components/pages/home/single-market/singleMarket.module.css
 import { AnimatedNumber } from "@/components/common/animatied-number";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import MBetSlip from "@/components/common/MBetSlip"; 
+import MBetSlip from "@/components/common/MBetSlip";
 import { useEffect, useRef } from "react";
 
 const InplayMarket = ({
@@ -16,21 +16,21 @@ const InplayMarket = ({
   events: any;
   className?: string;
 }) => {
-const { allEventsList, selectedEventTypeId, setSelectedBet, selectedBet } = useAppStore();
-const betslipRef = useRef<HTMLDivElement | null>(null);
+  const { allEventsList, selectedEventTypeId, setSelectedBet, selectedBet } = useAppStore();
+  const betslipRef = useRef<HTMLDivElement | null>(null);
 
-useEffect(() => {
-  if (selectedBet?.eventName && betslipRef.current) {
-    requestAnimationFrame(() => {
-      const el = betslipRef.current!;
-      const elementPosition = el.getBoundingClientRect().top + window.scrollY;
-      const offset = window.innerHeight / 2 - el.offsetHeight / 2;
-      let position = elementPosition - offset;
-      if (position < 0) position = 0;
-      window.scrollTo({ top: position, behavior: "smooth" });
-    });
-  }
-}, [selectedBet?.eventName, selectedBet?.teamName]);
+  useEffect(() => {
+    if (selectedBet?.eventName && betslipRef.current) {
+      requestAnimationFrame(() => {
+        const el = betslipRef.current!;
+        const elementPosition = el.getBoundingClientRect().top + window.scrollY;
+        const offset = window.innerHeight / 2 - el.offsetHeight / 2;
+        let position = elementPosition - offset;
+        if (position < 0) position = 0;
+        window.scrollTo({ top: position, behavior: "smooth" });
+      });
+    }
+  }, [selectedBet?.eventName, selectedBet?.teamName]);
 
 
   return (
@@ -51,7 +51,7 @@ useEffect(() => {
 
         const rightRunner = runner1;
         const rightRunnerName = event.runnersName?.[1]?.runnerName;
-        const isBetOnThisEvent = selectedBet?.eventName === event.event?.name; 
+        const isBetOnThisEvent = selectedBet?.eventName === event.event?.name;
 
 
         return (
@@ -140,27 +140,27 @@ useEffect(() => {
                         {event.inplay
                           ? "In-Play"
                           : (() => {
-                              const date = new Date(event.marketStartTime);
-                              return `${String(date.getDate()).padStart(2, "0")}-${String(date.getMonth() + 1).padStart(2, "0")}-${date.getFullYear()}`;
-                            })()}
+                            const date = new Date(event.marketStartTime);
+                            return `${String(date.getDate()).padStart(2, "0")}-${String(date.getMonth() + 1).padStart(2, "0")}-${date.getFullYear()}`;
+                          })()}
                       </p>
                     </div>
                   </div>
 
                   <div className="flex items-center gap-1 text-black">
-                    {/* <Icon name={"bookMark"} width={20} height={20} />
+                    <Icon name={"bookMark"} width={20} height={20} />
                     <Icon name={"fancy"} width={20} height={20} />
-                    <Icon name={"sportsbook"} width={20} height={20} /> */}
-                    <div className="bg-[#FFAB00] h-3.5 w-3.5 inline-flex justify-center items-center rounded-[4px] text-[13px] max-w-full">
+                    <Icon name={"sportsbook"} width={20} height={20} />
+                    {/* <div className="bg-[#FFAB00] h-3.5 w-3.5 inline-flex justify-center items-center rounded-[4px] text-[13px] max-w-full">
                       <span className="text-[12px] font-semibold truncate overflow-hidden whitespace-nowrap">
                         B
                       </span>
-                    </div>
-                    <div className="bg-[#FFAB00] h-3.5 w-3.5 inline-flex justify-center items-center rounded-[4px] text-[13px] max-w-full">
+                    </div> */}
+                    {/* <div className="bg-[#FFAB00] h-3.5 w-3.5 inline-flex justify-center items-center rounded-[4px] text-[13px] max-w-full">
                       <span className="text-[12px] font-semibold truncate overflow-hidden whitespace-nowrap">
                         F
                       </span>
-                    </div>
+                    </div> */}
                   </div>
 
                   <div className="w-4 h-4 pb-0.5 text-(--palette-text-primary)">
@@ -247,13 +247,12 @@ useEffect(() => {
                   <div className="flex gap-1">
                     {/* BACK BUTTON (CENTER) */}
                     <div
-                      className={`${oddsBoxWidthClass} h-[45px] gap-[2px] rounded-[8px] border-[1px] flex flex-col justify-center items-center select-none transition-all ${
-                        hasThreeRunners
-                          ? hasCenterBackPrice
-                            ? "border-[var(--back-border)] bg-[var(--back-bg)] hover:bg-[var(--back-hover)] cursor-pointer"
-                            : "border-[var(--back-noprice-border)] bg-[var(--back-noprice-bg)] hover:bg-[var(--back-hover)] cursor-pointer"
-                          : "border-[var(--back-disabled-border)] bg-[var(--back-disabled-bg)] cursor-default"
-                      }`}
+                      className={`${oddsBoxWidthClass} h-[45px] gap-[2px] rounded-[8px] border-[1px] flex flex-col justify-center items-center select-none transition-all ${hasThreeRunners
+                        ? hasCenterBackPrice
+                          ? "border-[var(--back-border)] bg-[var(--back-bg)] hover:bg-[var(--back-hover)] cursor-pointer"
+                          : "border-[var(--back-noprice-border)] bg-[var(--back-noprice-bg)] hover:bg-[var(--back-hover)] cursor-pointer"
+                        : "border-[var(--back-disabled-border)] bg-[var(--back-disabled-bg)] cursor-default"
+                        }`}
                       onClick={() =>
                         hasThreeRunners &&
                         setSelectedBet({
@@ -277,21 +276,20 @@ useEffect(() => {
                       >
                         {hasThreeRunners
                           ? (shortNumber(
-                              runner2?.ex?.availableToBack?.[0]?.size,
-                            ) ?? "")
+                            runner2?.ex?.availableToBack?.[0]?.size,
+                          ) ?? "")
                           : ""}
                       </span>
                     </div>
 
                     {/* LAY BUTTON (CENTER) */}
                     <div
-                      className={`${oddsBoxWidthClass} h-[45px] gap-[2px] rounded-[8px] border-[1px] flex flex-col justify-center items-center select-none transition-all ${
-                        hasThreeRunners
-                          ? hasCenterLayPrice
-                            ? "border-[var(--lay-border)] bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)] cursor-pointer"
-                            : "border-[var(--lay-noprice-border)] bg-[var(--lay-noprice-bg)] hover:bg-[var(--lay-hover)] cursor-pointer"
-                          : "border-[var(--lay-disabled-border)] bg-[var(--lay-disabled-bg)] cursor-default"
-                      }`}
+                      className={`${oddsBoxWidthClass} h-[45px] gap-[2px] rounded-[8px] border-[1px] flex flex-col justify-center items-center select-none transition-all ${hasThreeRunners
+                        ? hasCenterLayPrice
+                          ? "border-[var(--lay-border)] bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)] cursor-pointer"
+                          : "border-[var(--lay-noprice-border)] bg-[var(--lay-noprice-bg)] hover:bg-[var(--lay-hover)] cursor-pointer"
+                        : "border-[var(--lay-disabled-border)] bg-[var(--lay-disabled-bg)] cursor-default"
+                        }`}
                       onClick={() =>
                         hasThreeRunners &&
                         setSelectedBet({
@@ -315,8 +313,8 @@ useEffect(() => {
                       >
                         {hasThreeRunners
                           ? (shortNumber(
-                              runner2?.ex?.availableToLay?.[0]?.size,
-                            ) ?? "")
+                            runner2?.ex?.availableToLay?.[0]?.size,
+                          ) ?? "")
                           : ""}
                       </span>
                     </div>
@@ -380,11 +378,11 @@ useEffect(() => {
                 </div>
               </div>
             </div>
-                    {isBetOnThisEvent && (
-  <div ref={betslipRef} className="block lg:hidden">
-    <MBetSlip />
-  </div>
-)}
+            {isBetOnThisEvent && (
+              <div ref={betslipRef} className="block lg:hidden">
+                <MBetSlip />
+              </div>
+            )}
           </li>
         );
       })}
