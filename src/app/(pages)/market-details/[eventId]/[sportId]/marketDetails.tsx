@@ -91,7 +91,7 @@ const shortNumber = (value: any): string => {
 };
 
 export default function MarketDetails() {
-  const { setSelectedBet, menuList } = useAppStore();
+  const { setSelectedBet, menuList,selectedBet } = useAppStore();
   const params = useParams();
   const router = useRouter();
   const eventId = String(params.eventId ?? "");
@@ -147,7 +147,21 @@ export default function MarketDetails() {
 
 
 
-
+useEffect(() => {
+  if (!selectedBet?.selectionId) return;
+  setTimeout(() => {
+    const el = document.getElementById(
+      `betslip-${selectedBet.selectionId}-${selectedBet.marketType}`
+    );
+    if (el) {
+      const elementPosition = el.getBoundingClientRect().top + window.scrollY;
+      const offset = window.innerHeight / 2 - el.offsetHeight / 2;
+      let position = elementPosition - offset;
+      if (position < 0) position = 0;
+      window.scrollTo({ top: position, behavior: "smooth" });
+    }
+  }, 50);
+}, [selectedBet?.selectionId, selectedBet?.marketType]);
   // Socket cleanup refs
   const socketCleanupRef = useRef<(() => void) | null>(null);
   const subscribedMarketIdsRef = useRef<string[]>([]);
@@ -803,7 +817,9 @@ export default function MarketDetails() {
     const limits = getLimits(market);
     const data = market;
     const marketIsSusp = isSuspendedLike(market?.status);
-
+const isBetOnThisMarket =
+  selectedBet?.eventName === (market.event?.name || eventName) &&
+  selectedBet?.marketType === (market.marketType || market.marketName);
 
     return (
       <div className="border w-full border-dashed border-(--dotted-line) rounded-[4px] overflow-hidden">
@@ -1003,8 +1019,16 @@ export default function MarketDetails() {
                     )}
                   </div>
                 </div>
-   
+             <div id={`betslip-${runner.selectionId}-${market.marketType || market.marketName}`}>
+  {selectedBet?.selectionId === runner.selectionId &&
+    selectedBet?.marketType === (market.marketType || market.marketName) && (
+    <div className="block lg:hidden">
+      <MBetSlip />
+    </div>
+  )}
+</div>
               </li>
+              
             );
           })}
 
