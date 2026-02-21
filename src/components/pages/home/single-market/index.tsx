@@ -455,14 +455,28 @@ import Icon from "@/icons/icons";
 import style from "./singleMarket.module.css";
 import { shortNumber } from "@/lib/functions";
 import { AnimatedNumber } from "@/components/common/animatied-number";
+import MBetSlip from "@/components/common/MBetSlip"; 
+import { useEffect, useRef } from "react";
 
 export default function SingleMarket() {
-  const { allEventsList, selectedEventTypeId, setSelectedBet } = useAppStore();
-
+const { allEventsList, selectedEventTypeId, setSelectedBet, selectedBet } = useAppStore();
   const events: any[] = selectedEventTypeId
     ? (allEventsList?.[selectedEventTypeId] ?? [])
     : [];
+const betslipRef = useRef<HTMLDivElement | null>(null);
 
+useEffect(() => {
+  if (selectedBet?.eventName && betslipRef.current) {
+    requestAnimationFrame(() => {
+      const el = betslipRef.current!;
+      const elementPosition = el.getBoundingClientRect().top + window.scrollY;
+      const offset = window.innerHeight / 2 - el.offsetHeight / 2;
+      let position = elementPosition - offset;
+      if (position < 0) position = 0;
+      window.scrollTo({ top: position, behavior: "smooth" });
+    });
+  }
+}, [selectedBet?.eventName, selectedBet?.teamName]);
   if (!allEventsList) return <p className="text-white p-4">Loading...</p>;
   if (!events.length) return <p className="text-white p-4">No events found.</p>;
 
@@ -476,14 +490,16 @@ export default function SingleMarket() {
         const isCricket = event.eventType?.name?.toLowerCase() === "cricket";
 
         // JS State ki jagah Tailwind Breakpoints use kiye hain
-        const oddsBoxWidthClass = "w-[75%] md:w-[57.5px]";
-        const oddsRowLabelWidthClass = "md:w-[119px] md:mx-auto";
+        const oddsBoxWidthClass = "w-[75%] @min-[700]:w-[57.5px]";
+        const oddsRowLabelWidthClass = "@md:w-[119px] @md:mx-auto";
 
         const hasCenterBackPrice = !!runner2?.ex?.availableToBack?.[0]?.price;
         const hasCenterLayPrice = !!runner2?.ex?.availableToLay?.[0]?.price;
 
         const rightRunner = runner1;
         const rightRunnerName = event.runnersName?.[1]?.runnerName;
+        const isBetOnThisEvent = selectedBet?.eventName === event.event?.name;
+
 
         return (
           <li
@@ -491,9 +507,9 @@ export default function SingleMarket() {
             className="w-full rounded-[2px] border border-dashed border-(--dotted-line) bg-[rgba(145,158,171,0.04)] text-white overflow-hidden mb-[6px]"
           >
             {/* Main Wrapper - Conditionals removed, Tailwind handles responsiveness */}
-            <div className="flex w-full flex-col min-[691px]:flex-row min-[1200px]:flex-col min-[1376px]:flex-row">
+            <div className="flex w-full flex-col  @min-[700]:flex-row">
               {/* LEFT CONTENT */}
-              <div className="w-full min-[1200px]:w-full p-[5px]">
+              <div className="w-full p-[5px]">
                 {/* Sport + Competition */}
                 <div className="flex flex-row whitespace-nowrap items-center max-w-full min-h-[1.125rem] overflow-hidden -mt-1 mr-5 -mb-1 -ml-1 text-[9px] font-bold tracking-[0.7px] uppercase text-[#098DEE]">
                   <a
@@ -613,7 +629,7 @@ export default function SingleMarket() {
               </div>
 
               {/* RIGHT ODDS */}
-              <div className="flex flex-row gap-2 items-center whitespace-nowrap relative w-full md:min-w-fit leading-[1.125rem] text-xs p-[5px] overflow-hidden min-[1376px]:flex-[1_0_20rem]">
+              <div className="flex flex-row gap-2 items-center whitespace-nowrap relative w-full @md:min-w-fit leading-[1.125rem] text-xs p-[5px] overflow-hidden @min-[700px]:flex-[1_0_20rem]">
                 {/* LEFT — Team 1 odds */}
                 <div className="flex flex-col gap-0.5 w-[33.3%]">
                   <span
@@ -811,6 +827,11 @@ export default function SingleMarket() {
                 </div>
               </div>
             </div>
+          {isBetOnThisEvent && (
+  <div ref={betslipRef} className="block lg:hidden">
+    <MBetSlip />
+  </div>
+)}
           </li>
         );
       })}

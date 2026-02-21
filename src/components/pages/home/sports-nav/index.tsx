@@ -8,8 +8,12 @@ import { cn } from "@/lib/utils";
 
 type NavItem = { label: string; href: string; id: string };
 
-export default function SportsNav() {
-  const { menuList, setSelectedEventTypeId } = useAppStore();
+export default function SportsNav({
+  setSelectedEvent,
+}: {
+  setSelectedEvent: (value: string) => void;
+}) {
+  const { menuList } = useAppStore();
 
   const [activeTab, setActiveTab] = useState("Cricket");
   const [navItems, setNavItems] = useState<NavItem[]>([]);
@@ -64,7 +68,7 @@ export default function SportsNav() {
 
     if (defaultTab) {
       setActiveTab(defaultTab.label);
-      setSelectedEventTypeId(defaultTab.id); // ✅ set default sport ID
+      setSelectedEvent(defaultTab.id); // ✅ set default sport ID
     }
   }, [menuList]);
 
@@ -173,7 +177,7 @@ export default function SportsNav() {
                 )}
                 onClick={() => {
                   setActiveTab(item.label);
-                  setSelectedEventTypeId(item.id); // ✅ set sport ID on click
+                  setSelectedEvent(item.id); // ✅ set sport ID on click
                 }}
               >
                 <span

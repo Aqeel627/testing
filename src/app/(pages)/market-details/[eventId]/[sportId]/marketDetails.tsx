@@ -13,6 +13,7 @@ import axios from "axios";
 import { useAppStore } from "@/lib/store/store";
 import { useAppRateHighlighter } from "@/lib/highlaterMarket";
 import { motion, AnimatePresence } from "framer-motion";
+import MBetSlip from "@/components/common/MBetSlip"; 
 
 // WebSocket service (assumed to exist)
 import { webSocketService } from "@/lib/websocket.service";
@@ -86,10 +87,9 @@ const shortNumber = (value: any): string => {
 };
 
 export default function MarketDetails() {
-  const { setSelectedBet } = useAppStore();
+const { setSelectedBet, selectedBet } = useAppStore();
   const params = useParams();
   const router = useRouter();
-
   const eventId = String(params.eventId ?? "");
   const sportId = String(params.sportId ?? params.marketId ?? "");
 
@@ -124,6 +124,24 @@ export default function MarketDetails() {
     width: 0,
     opacity: 0,
   });
+
+
+useEffect(() => {
+  if (!selectedBet?.selectionId) return;
+  setTimeout(() => {
+    const el = document.getElementById(
+      `betslip-${selectedBet.selectionId}-${selectedBet.marketType}`
+    );
+    if (el) {
+      const elementPosition = el.getBoundingClientRect().top + window.scrollY;
+      const offset = window.innerHeight / 2 - el.offsetHeight / 2;
+      let position = elementPosition - offset;
+      if (position < 0) position = 0;
+      window.scrollTo({ top: position, behavior: "smooth" });
+    }
+  }, 50);
+}, [selectedBet?.selectionId, selectedBet?.marketType]);
+
 
   // Socket cleanup refs
   const socketCleanupRef = useRef<(() => void) | null>(null);
@@ -741,6 +759,9 @@ export default function MarketDetails() {
     const limits = getLimits(market);
 
     const marketIsSusp = isSuspendedLike(market?.status);
+const isBetOnThisMarket =
+  selectedBet?.eventName === (market.event?.name || eventName) &&
+  selectedBet?.marketType === (market.marketType || market.marketName);
 
     return (
       <div className="border w-full border-dashed border-(--dotted-line) rounded-[4px] overflow-hidden">
@@ -852,14 +873,14 @@ export default function MarketDetails() {
                                   : "bg-[#0a77a8] hover:bg-[#68CDF9]"
                               } ${i === 2 ? "max-[464px]:hidden" : ""} ${i === 1 ? "max-[346px]:hidden" : ""}`}
                               onClick={() => {
-                                setSelectedBet({
-                                  type: "back",
-                                  odds: item.raw?.price,
-                                  teamName: runnerName,
-                                  eventName: market.event?.name || eventName,
-                                  marketType:
-                                    market.marketType || market.marketName,
-                                });
+                               setSelectedBet({
+  type: "back",
+  odds: item.raw?.price,
+  teamName: runnerName,
+  eventName: market.event?.name || eventName,
+  marketType: market.marketType || market.marketName,
+  selectionId: runner.selectionId,
+});
                               }}
                             >
                               <span className="text-[11px] sm:text-[13px] font-bold leading-[1.1] truncate">
@@ -902,6 +923,7 @@ export default function MarketDetails() {
                                   eventName: market.event?.name || eventName,
                                   marketType:
                                     market.marketType || market.marketName,
+                                    selectionId: runner.selectionId,
                                 });
                               }}
                             >
@@ -925,6 +947,14 @@ export default function MarketDetails() {
                     )}
                   </div>
                 </div>
+               <div id={`betslip-${runner.selectionId}-${market.marketType || market.marketName}`}>
+  {selectedBet?.selectionId === runner.selectionId &&
+    selectedBet?.marketType === (market.marketType || market.marketName) && (
+    <div className="block lg:hidden">
+      <MBetSlip />
+    </div>
+  )}
+</div>
               </li>
             );
           })}

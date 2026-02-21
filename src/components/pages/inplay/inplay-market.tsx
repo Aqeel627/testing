@@ -2,72 +2,67 @@
 import Icon from "@/icons/icons";
 import { shortNumber } from "@/lib/functions";
 import { useAppStore } from "@/lib/store/store";
-import Link from "next/link";
 import style from "@/components/pages/home/single-market/singleMarket.module.css";
-import React, { useEffect, useRef, useState } from "react";
-import { cn } from "@/lib/utils";
 import { AnimatedNumber } from "@/components/common/animatied-number";
+import { cn } from "@/lib/utils";
+import Link from "next/link";
+import MBetSlip from "@/components/common/MBetSlip"; 
+import { useEffect, useRef } from "react";
 
-const InplayMarket = ({ events }: { events: any }) => {
-  const { setSelectedBet } = useAppStore();
-  const wrapperRef = useRef<HTMLUListElement | null>(null);
-  const [isCompactLayout, setIsCompactLayout] = useState(false);
+const InplayMarket = ({
+  events,
+  className,
+}: {
+  events: any;
+  className?: string;
+}) => {
+const { allEventsList, selectedEventTypeId, setSelectedBet, selectedBet } = useAppStore();
+const betslipRef = useRef<HTMLDivElement | null>(null);
 
-  useEffect(() => {
-    const listEl = wrapperRef.current;
-    if (!listEl) return;
+useEffect(() => {
+  if (selectedBet?.eventName && betslipRef.current) {
+    requestAnimationFrame(() => {
+      const el = betslipRef.current!;
+      const elementPosition = el.getBoundingClientRect().top + window.scrollY;
+      const offset = window.innerHeight / 2 - el.offsetHeight / 2;
+      let position = elementPosition - offset;
+      if (position < 0) position = 0;
+      window.scrollTo({ top: position, behavior: "smooth" });
+    });
+  }
+}, [selectedBet?.eventName, selectedBet?.teamName]);
 
-    const targetEl = (listEl.closest("main") as HTMLElement | null) || listEl;
 
-    const updateLayoutMode = () => {
-      const renderedWidth = targetEl.getBoundingClientRect().width;
-      if (renderedWidth > 0) {
-        setIsCompactLayout(renderedWidth < 767);
-      }
-    };
-
-    const raf = requestAnimationFrame(updateLayoutMode);
-
-    const observer = new ResizeObserver(updateLayoutMode);
-    observer.observe(targetEl);
-
-    return () => {
-      cancelAnimationFrame(raf);
-      observer.disconnect();
-    };
-  }, []);
   return (
-    <ul ref={wrapperRef} className="min-[900]:mt-6 mt-4">
+    <ul className={cn("min-[900]:mt-6 mt-4", className)}>
       {events?.map((event: any) => {
         const runner0 = event.runners?.[0]; // Team 1 → LEFT
         const runner1 = event.runners?.[1]; // Team 2 → RIGHT
-        const runner2 = event.runners?.[2]; // Draw   → CENTER
+        const runner2 = event.runners?.[2]; // Draw  → CENTER
         const hasThreeRunners = event.runners?.length === 3;
         const isCricket = event.eventType?.name?.toLowerCase() === "cricket";
-        const oddsBoxWidthClass = isCompactLayout ? "w-[75%]" : "w-[57.5px]";
-        const oddsRowLabelWidthClass = isCompactLayout
-          ? ""
-          : "w-[119px] mx-auto";
+
+        // JS State ki jagah Tailwind Breakpoints use kiye hain
+        const oddsBoxWidthClass = "w-[75%] @min-[700]:w-[57.5px]";
+        const oddsRowLabelWidthClass = "@md:w-[119px] @md:mx-auto";
+
         const hasCenterBackPrice = !!runner2?.ex?.availableToBack?.[0]?.price;
         const hasCenterLayPrice = !!runner2?.ex?.availableToLay?.[0]?.price;
 
         const rightRunner = runner1;
         const rightRunnerName = event.runnersName?.[1]?.runnerName;
+        const isBetOnThisEvent = selectedBet?.eventName === event.event?.name; 
+
 
         return (
           <li
             key={event.marketId}
             className="w-full rounded-[2px] border border-dashed border-(--dotted-line) bg-[rgba(145,158,171,0.04)] text-white overflow-hidden mb-[6px]"
           >
-            <div
-              className={
-                isCompactLayout
-                  ? "flex w-full flex-col"
-                  : "flex w-full flex-col min-[691px]:flex-row min-[1200px]:flex-col min-[1376px]:flex-row"
-              }
-            >
-              {/* LEFT CONTENT – 60% */}
-              <div className="w-full  min-[1200px]:w-full  p-[5px]">
+            {/* Main Wrapper - Conditionals removed, Tailwind handles responsiveness */}
+            <div className="flex w-full flex-col  @min-[700]:flex-row">
+              {/* LEFT CONTENT */}
+              <div className="w-full p-[5px]">
                 {/* Sport + Competition */}
                 <div className="flex flex-row whitespace-nowrap items-center max-w-full min-h-[1.125rem] overflow-hidden -mt-1 mr-5 -mb-1 -ml-1 text-[9px] font-bold tracking-[0.7px] uppercase text-[#098DEE]">
                   <a
@@ -90,7 +85,7 @@ const InplayMarket = ({ events }: { events: any }) => {
                 </div>
 
                 {/* Runner Names */}
-                <a
+                <Link
                   href={`/market-details/${event.event?.id}/${event.eventType.id}`}
                   className="flex flex-col w-full min-w-0 flex-auto no-underline"
                 >
@@ -126,7 +121,7 @@ const InplayMarket = ({ events }: { events: any }) => {
                       </span>
                     </div>
                   </div>
-                </a>
+                </Link>
 
                 {/* Meta row */}
                 <div className="flex flex-row gap-3 justify-start items-center h-4 leading-4 contain-strict pointer-events-none overflow-hidden mt-0.5">
@@ -140,37 +135,22 @@ const InplayMarket = ({ events }: { events: any }) => {
                         </div>
                       )}
                       <p
-                        className={`m-0 font-sans truncate whitespace-nowrap text-[10px] font-bold leading-[1rem] ${
-                          event.inplay
-                            ? "text-[#078dee]"
-                            : "text-[var(--secondary-text-color)]"
-                        }`}
+                        className={`m-0 font-sans truncate whitespace-nowrap text-[10px] font-bold leading-[1rem] ${event.inplay ? "text-[#078dee]" : "text-[var(--secondary-text-color)]"}`}
                       >
                         {event.inplay
                           ? "In-Play"
                           : (() => {
                               const date = new Date(event.marketStartTime);
-                              const day = String(date.getDate()).padStart(
-                                2,
-                                "0",
-                              );
-                              const month = String(
-                                date.getMonth() + 1,
-                              ).padStart(2, "0");
-                              const year = date.getFullYear();
-                              return `${day}-${month}-${year}`;
+                              return `${String(date.getDate()).padStart(2, "0")}-${String(date.getMonth() + 1).padStart(2, "0")}-${date.getFullYear()}`;
                             })()}
                       </p>
                     </div>
                   </div>
 
-                  {/* <div>
-                    <p className="m-0 font-sans whitespace-nowrap truncate text-[10px] text-[#919eab] font-bold leading-[1rem]">
-                      {event.marketType}
-                    </p>
-                  </div> */}
-
                   <div className="flex items-center gap-1 text-black">
+                    {/* <Icon name={"bookMark"} width={20} height={20} />
+                    <Icon name={"fancy"} width={20} height={20} />
+                    <Icon name={"sportsbook"} width={20} height={20} /> */}
                     <div className="bg-[#FFAB00] h-3.5 w-3.5 inline-flex justify-center items-center rounded-[4px] text-[13px] max-w-full">
                       <span className="text-[12px] font-semibold truncate overflow-hidden whitespace-nowrap">
                         B
@@ -190,8 +170,7 @@ const InplayMarket = ({ events }: { events: any }) => {
                   <div>
                     <p className="m-0 font-sans whitespace-nowrap text-[var(--secondary-text-color)] text-[10px] font-bold uppercase leading-4 truncate overflow-hidden">
                       Traded :{" "}
-                      <span className="text-[10px] font-bold text-[var(--primary-text-color)]  leading-[1rem]">
-                        {/* 👇 Yahan direct value pass kardi hai, ab ye khud smoothly animate hoga */}
+                      <span className="text-[10px] font-bold text-[var(--primary-text-color)] leading-[1rem]">
                         <AnimatedNumber
                           value={event.totalMatched}
                           inplay={event.inplay}
@@ -202,14 +181,8 @@ const InplayMarket = ({ events }: { events: any }) => {
                 </div>
               </div>
 
-              {/* RIGHT ODDS – 40% */}
-              <div
-                className={
-                  isCompactLayout
-                    ? "flex flex-row gap-2 items-center whitespace-nowrap relative w-full min-w-0 leading-[1.125rem] text-xs p-[5px] overflow-hidden"
-                    : "flex flex-row gap-2 items-center whitespace-nowrap min-[1376px]:flex-[1_0_20rem] relative min-w-fit leading-[1.125rem] text-xs p-[5px] overflow-hidden"
-                }
-              >
+              {/* RIGHT ODDS */}
+              <div className="flex flex-row gap-2 items-center whitespace-nowrap relative w-full @md:min-w-fit leading-[1.125rem] text-xs p-[5px] overflow-hidden @min-[700px]:flex-[1_0_20rem]">
                 {/* LEFT — Team 1 odds */}
                 <div className="flex flex-col gap-0.5 w-[33.3%]">
                   <span
@@ -232,7 +205,6 @@ const InplayMarket = ({ events }: { events: any }) => {
                       }
                     >
                       <span className="block whitespace-nowrap font-bold price text-[var(--back-price-text)] leading-[1.1]">
-                        {" "}
                         {runner0?.ex?.availableToBack?.[0]?.price ?? "-"}
                       </span>
                       <span className="block size whitespace-nowrap font-normal text-[var(--back-size-text)] leading-[1]">
@@ -275,7 +247,7 @@ const InplayMarket = ({ events }: { events: any }) => {
                   <div className="flex gap-1">
                     {/* BACK BUTTON (CENTER) */}
                     <div
-                      className={`${oddsBoxWidthClass} h-[45px] gap-[2px]  rounded-[8px] border-[1px] flex flex-col justify-center items-center select-none transition-all ${
+                      className={`${oddsBoxWidthClass} h-[45px] gap-[2px] rounded-[8px] border-[1px] flex flex-col justify-center items-center select-none transition-all ${
                         hasThreeRunners
                           ? hasCenterBackPrice
                             ? "border-[var(--back-border)] bg-[var(--back-bg)] hover:bg-[var(--back-hover)] cursor-pointer"
@@ -294,26 +266,14 @@ const InplayMarket = ({ events }: { events: any }) => {
                       }
                     >
                       <span
-                        className={`block whitespace-nowrap font-bold price leading-[1.1] ${
-                          hasThreeRunners
-                            ? hasCenterBackPrice
-                              ? "text-[var(--back-price-text)]"
-                              : "text-[var(--back-price-text-noprice)]"
-                            : "text-[var(--back-price-text-disabled)]"
-                        }`}
+                        className={`block whitespace-nowrap font-bold price leading-[1.1] ${hasThreeRunners ? (hasCenterBackPrice ? "text-[var(--back-price-text)]" : "text-[var(--back-price-text-noprice)]") : "text-[var(--back-price-text-disabled)]"}`}
                       >
                         {hasThreeRunners
                           ? (runner2?.ex?.availableToBack?.[0]?.price ?? "-")
                           : ""}
                       </span>
                       <span
-                        className={`block size whitespace-nowrap font-normal text-[10px] leading-[1] ${
-                          hasThreeRunners
-                            ? hasCenterBackPrice
-                              ? "text-[var(--back-size-text)]"
-                              : "text-[var(--back-size-text-noprice)]"
-                            : "text-[var(--back-size-text-disabled)]"
-                        }`}
+                        className={`block size whitespace-nowrap font-normal text-[10px] leading-[1] ${hasThreeRunners ? (hasCenterBackPrice ? "text-[var(--back-size-text)]" : "text-[var(--back-size-text-noprice)]") : "text-[var(--back-size-text-disabled)]"}`}
                       >
                         {hasThreeRunners
                           ? (shortNumber(
@@ -344,22 +304,14 @@ const InplayMarket = ({ events }: { events: any }) => {
                       }
                     >
                       <span
-                        className={`block whitespace-nowrap font-bold price leading-[1.1] ${
-                          hasThreeRunners
-                            ? "text-[var(--lay-price-text)]"
-                            : "text-[var(--lay-price-text-disabled)]"
-                        }`}
+                        className={`block whitespace-nowrap font-bold price leading-[1.1] ${hasThreeRunners ? "text-[var(--lay-price-text)]" : "text-[var(--lay-price-text-disabled)]"}`}
                       >
                         {hasThreeRunners
                           ? (runner2?.ex?.availableToLay?.[0]?.price ?? "-")
                           : ""}
                       </span>
                       <span
-                        className={`block size whitespace-nowrap font-normal text-[10px] leading-[1] ${
-                          hasThreeRunners
-                            ? "text-[var(--lay-price-text)]"
-                            : "text-[var(--lay-price-text-disabled)]"
-                        }`}
+                        className={`block size whitespace-nowrap font-normal text-[10px] leading-[1] ${hasThreeRunners ? "text-[var(--lay-price-text)]" : "text-[var(--lay-price-text-disabled)]"}`}
                       >
                         {hasThreeRunners
                           ? (shortNumber(
@@ -381,7 +333,7 @@ const InplayMarket = ({ events }: { events: any }) => {
                   <div className="flex gap-1">
                     {/* BACK BUTTON (RIGHT) */}
                     <div
-                      className={`${oddsBoxWidthClass} h-[45px]  gap-[2px] rounded-[8px] border border-[var(--back-border)] bg-[var(--back-bg)] hover:bg-[var(--back-hover)] flex flex-col justify-center items-center cursor-pointer select-none transition-all`}
+                      className={`${oddsBoxWidthClass} h-[45px] gap-[2px] rounded-[8px] border border-[var(--back-border)] bg-[var(--back-bg)] hover:bg-[var(--back-hover)] flex flex-col justify-center items-center cursor-pointer select-none transition-all`}
                       onClick={() =>
                         setSelectedBet({
                           type: "back",
@@ -415,10 +367,10 @@ const InplayMarket = ({ events }: { events: any }) => {
                         })
                       }
                     >
-                      <span className="block whitespace-nowrap font-bold price text-[var(--lay-price-text)]  leading-[1.1]">
+                      <span className="block whitespace-nowrap font-bold price text-[var(--lay-price-text)] leading-[1.1]">
                         {rightRunner?.ex?.availableToLay?.[0]?.price ?? "-"}
                       </span>
-                      <span className="block size whitespace-nowrap font-normal text-[10px] text-[var(--lay-price-text)]  leading-[1]">
+                      <span className="block size whitespace-nowrap font-normal text-[10px] text-[var(--lay-price-text)] leading-[1]">
                         {shortNumber(
                           rightRunner?.ex?.availableToLay?.[0]?.size,
                         ) ?? ""}
@@ -428,6 +380,11 @@ const InplayMarket = ({ events }: { events: any }) => {
                 </div>
               </div>
             </div>
+                    {isBetOnThisEvent && (
+  <div ref={betslipRef} className="block lg:hidden">
+    <MBetSlip />
+  </div>
+)}
           </li>
         );
       })}
