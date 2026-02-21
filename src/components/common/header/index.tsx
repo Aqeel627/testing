@@ -118,6 +118,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
         <nav className="hidden min-[960px]:flex items-center gap-2 font-bold --palette-text-primary  relative left-[3px]">
           <Link
             href="/"
+            onClick={() => window.dispatchEvent(new Event("reset-sidebar"))}
             className={cn(
               pathName === "/" && "active text-(--primary-color)!",
               "flex p-1 items-center relative text-[13px] font-bold --palette-text-primary  hover:--palette-text-primary  transition-colors group rounded-lg  hover:bg-(--primary-hover) ",
