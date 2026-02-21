@@ -23,6 +23,7 @@ import { cn } from "@/lib/utils";
 import { useLayoutWidthStore } from "@/lib/store/layoutWidth.store";
 import { useCacheStore } from "@/lib/store/cacheStore";
 import { useAuthStore } from "@/lib/useAuthStore";
+import BetsTable from "@/components/common/betstable";
 
 const MAIN_WIDTH_STORAGE_KEY = "pages-layout-main-width";
 
@@ -340,6 +341,7 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
 
           <aside className="flex-auto min-w-0 h-full overflow-y-auto no-scrollbar pt-[50px] border-l border-white/5">
             <BetSlip />
+            <BetsTable />
           </aside>
         </div>
       </div>
