@@ -1224,20 +1224,32 @@ export default function MarketDetails() {
                 </div>
               </span>
             </div>
-            <div>
+            <div className="flex items-center gap-2">
               <Icon
                 name="watch"
                 className="w-5 h-5"
                 onClick={toggleStreaming}
               />
+              <Icon name="scoreIcon" className="w-5 h-5 mt-1" />
             </div>
-            {liveStreaming && (
-              <VideoSimple
-                key={`stream-${eventId}-${streamCounter}`}
-                eventId={eventId}
-              />
-            )}
           </div>
+          <AnimatePresence initial={false}>
+            {liveStreaming && (
+              <motion.div
+                key="live-stream-panel"
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: "auto", opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.28, ease: "easeInOut" }}
+                className="overflow-hidden w-full min-h-[30px]"
+              >
+                <VideoSimple
+                  key={`stream-${eventId}-${streamCounter}`}
+                  eventId={eventId}
+                />
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
 
@@ -1316,77 +1328,84 @@ export default function MarketDetails() {
         </div>
       </div>
 
-      <div
-        onClick={() => setIsMarketSectionOpen((prev) => !prev)}
-        className="px-1 mt-2 min-[900px]:px-2 rounded-md bg-[#153045] border-b border-[#28323D] flex flex-col justify-center w-full font-bold h-8 relative cursor-pointer"
-      >
-        <div className="relative flex flex-row items-center h-8 justify-between w-full">
-          <div className="text-[14px] text-[#68CDF9] font-[500] leading-[14px] flex-1 flex-[1_1_6rem] min-w-0 whitespace-nowrap truncate relative top-[1px]">
-            {"Odds"}
+      {(activeTab === "ALL" || activeTab === "POPULAR") && (
+        <div
+          onClick={() => setIsMarketSectionOpen((prev) => !prev)}
+          className="px-1 mt-2 min-[900px]:px-2 rounded-md bg-[#153045] border-b border-[#28323D] flex flex-col justify-center w-full font-bold h-8 relative cursor-pointer"
+        >
+          <div className="relative flex flex-row items-center h-8 justify-between w-full">
+            <div className="text-[14px] text-[#68CDF9] font-[500] leading-[14px] flex-1 flex-[1_1_6rem] min-w-0 whitespace-nowrap truncate relative top-[1px]">
+              {"Odds"}
+            </div>
+            <span
+              className={`transition-transform duration-300 ${isMarketSectionOpen ? "rotate-0" : "rotate-90"}`}
+            >
+              <Icon
+                name="downArrow"
+                className="text-(--palette-primary-light)"
+              />
+            </span>
           </div>
-          <span
-            className={`transition-transform duration-300 ${isMarketSectionOpen ? "rotate-0" : "rotate-90"}`}
-          >
-            <Icon name="downArrow" className="text-(--palette-primary-light)" />
-          </span>
         </div>
-      </div>
+      )}
 
       {/* Display markets based on active tab */}
-      <AnimatePresence initial={false}>
-        {isMarketSectionOpen && (
-          <motion.div
-            key="market-section"
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="overflow-hidden"
-          >
-            <div className="w-full flex flex-wrap gap-x-2 gap-y-2 mt-1">
-              {activeTab === "ALL" &&
-                allMarkets.length > 0 &&
-                allMarkets
-                  .sort(
-                    (a: any, b: any) =>
-                      Number(a.sequence || 0) - Number(b.sequence || 0),
-                  )
-                  .map((m: any) => (
-                    <React.Fragment key={String(m.exMarketId ?? m.marketId)}>
-                      {renderMarketTable(m)}
-                    </React.Fragment>
-                  ))}
+      {activeTab === "ALL" || activeTab === "POPULAR" ? (
+        <AnimatePresence initial={false}>
+          {isMarketSectionOpen && (
+            <motion.div
+              key="market-section"
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
+              className="overflow-hidden"
+            >
+              <div className="w-full flex flex-wrap gap-x-2 gap-y-2 mt-1">
+                {activeTab === "ALL" &&
+                  allMarkets.length > 0 &&
+                  allMarkets
+                    .sort(
+                      (a: any, b: any) =>
+                        Number(a.sequence || 0) - Number(b.sequence || 0),
+                    )
+                    .map((m: any) => (
+                      <React.Fragment key={String(m.exMarketId ?? m.marketId)}>
+                        {renderMarketTable(m)}
+                      </React.Fragment>
+                    ))}
 
-              {activeTab === "POPULAR" &&
-                popularMarkets.length > 0 &&
-                popularMarkets
-                  .sort(
-                    (a: any, b: any) =>
-                      Number(a.sequence || 0) - Number(b.sequence || 0),
-                  )
-                  .map((m: any) => (
-                    <React.Fragment key={String(m.exMarketId ?? m.marketId)}>
-                      {renderMarketTable(m)}
-                    </React.Fragment>
-                  ))}
-
-              {activeTab !== "ALL" &&
-                activeTab !== "POPULAR" &&
-                filteredMarkets.length > 0 &&
-                filteredMarkets
-                  .sort(
-                    (a: any, b: any) =>
-                      Number(a.sequence || 0) - Number(b.sequence || 0),
-                  )
-                  .map((m: any) => (
-                    <React.Fragment key={String(m.exMarketId ?? m.marketId)}>
-                      {renderMarketTable(m)}
-                    </React.Fragment>
-                  ))}
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+                {activeTab === "POPULAR" &&
+                  popularMarkets.length > 0 &&
+                  popularMarkets
+                    .sort(
+                      (a: any, b: any) =>
+                        Number(a.sequence || 0) - Number(b.sequence || 0),
+                    )
+                    .map((m: any) => (
+                      <React.Fragment key={String(m.exMarketId ?? m.marketId)}>
+                        {renderMarketTable(m)}
+                      </React.Fragment>
+                    ))}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      ) : (
+        <div className="w-full flex flex-wrap gap-x-2 gap-y-2 mt-1">
+          {filteredMarkets.length > 0 &&
+            filteredMarkets
+              .sort(
+                (a: any, b: any) =>
+                  Number(a.sequence || 0) - Number(b.sequence || 0),
+              )
+              .map((m: any) => (
+                <React.Fragment key={String(m.exMarketId ?? m.marketId)}>
+                  {renderMarketTable(m)}
+                </React.Fragment>
+              ))}
+        </div>
+      )}
 
       {/* If empty */}
       {!allMarkets.length && (
