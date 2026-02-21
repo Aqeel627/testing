@@ -455,14 +455,28 @@ import Icon from "@/icons/icons";
 import style from "./singleMarket.module.css";
 import { shortNumber } from "@/lib/functions";
 import { AnimatedNumber } from "@/components/common/animatied-number";
+import MBetSlip from "@/components/common/MBetSlip"; 
+import { useEffect, useRef } from "react";
 
 export default function SingleMarket() {
-  const { allEventsList, selectedEventTypeId, setSelectedBet } = useAppStore();
-
+const { allEventsList, selectedEventTypeId, setSelectedBet, selectedBet } = useAppStore();
   const events: any[] = selectedEventTypeId
     ? (allEventsList?.[selectedEventTypeId] ?? [])
     : [];
+const betslipRef = useRef<HTMLDivElement | null>(null);
 
+useEffect(() => {
+  if (selectedBet?.eventName && betslipRef.current) {
+    requestAnimationFrame(() => {
+      const el = betslipRef.current!;
+      const elementPosition = el.getBoundingClientRect().top + window.scrollY;
+      const offset = window.innerHeight / 2 - el.offsetHeight / 2;
+      let position = elementPosition - offset;
+      if (position < 0) position = 0;
+      window.scrollTo({ top: position, behavior: "smooth" });
+    });
+  }
+}, [selectedBet?.eventName, selectedBet?.teamName]);
   if (!allEventsList) return <p className="text-white p-4">Loading...</p>;
   if (!events.length) return <p className="text-white p-4">No events found.</p>;
 
@@ -484,6 +498,8 @@ export default function SingleMarket() {
 
         const rightRunner = runner1;
         const rightRunnerName = event.runnersName?.[1]?.runnerName;
+        const isBetOnThisEvent = selectedBet?.eventName === event.event?.name;
+
 
         return (
           <li
@@ -811,6 +827,11 @@ export default function SingleMarket() {
                 </div>
               </div>
             </div>
+          {isBetOnThisEvent && (
+  <div ref={betslipRef} className="block lg:hidden">
+    <MBetSlip />
+  </div>
+)}
           </li>
         );
       })}

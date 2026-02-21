@@ -9,10 +9,11 @@ import "./globals.css";
 import { Metadata } from "next";
 import SearchModal from "@/components/modal/search/SearchModal";
 import { AuExchThemeProvider } from "@/components/common/theme-provider";
-import NavigationLoader from "./navigation-loader";
 import { Suspense } from "react";
 import Script from "next/script";
 import MiniCasinoDrawer from "@/components/common/MiniCasinoDrawer";
+import GlobalApisCall from "@/lib/providers/global-apis";
+import NavigationLoader from "@/lib/providers/navigation-loader";
 
 export const metadata: Metadata = {
   title: "100exch",
@@ -94,6 +95,7 @@ export default function RootLayout({
         />
         <Suspense>
           <NavigationLoader />
+          <GlobalApisCall />
           <AuExchThemeProvider>
             {children}
             <MiniCasinoDrawer />

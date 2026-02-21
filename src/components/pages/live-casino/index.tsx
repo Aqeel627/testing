@@ -73,7 +73,7 @@ export default function Casino({ hideHeading }: { hideHeading?: boolean }) {
       {/* 🔴 HEADING SECTION END 🔴 */}
 
       {/* 🟢 CARDS GRID SECTION 🟢 */}
-      <ul className="grid grid-cols-3 gap-1 list-none px-2 m-0 max-[350px]:gap-2">
+      <ul className="grid grid-cols-3 md:grid-cols-4 gap-1 list-none px-2 m-0 max-[350px]:gap-2">
         {filteredItems?.map((item: any, index: number) => (
           <li key={index} className="w-full">
             <article className="relative w-full aspect-[2/2.5] max-md:min-h-37.5 min-h-41.5 rounded-xl overflow-hidden shadow-2xl transition-transform duration-300 [transform:perspective(1000px)_rotateY(5deg)_skewX(-5deg)] border border-white/10 cursor-pointer group">
@@ -86,15 +86,19 @@ export default function Casino({ hideHeading }: { hideHeading?: boolean }) {
               />
 
               {/* Black Gradient */}
-              <div className="absolute inset-0 bg-linear-to-t from-black/95 via-black/40 to-transparent"></div>
+              {/* <div className="absolute inset-0 bg-linear-to-t from-black/95 via-black/40 to-transparent"></div> */}
 
               {/* Content Container */}
               <div className="absolute bottom-0 left-0 w-full p-2 flex flex-col items-center justify-end h-full">
-                <h3 className="text-white max-md:text-[10px] text-sm font-bold uppercase text-center mb-1 tracking-wide drop-shadow-md">
+                  <div className="absolute bottom-0 left-0 w-full h-16 
+    bg-gradient-to-t from-black/90 via-black/50 to-transparent 
+    pointer-events-none">
+  </div>
+                <h3 className="text-white z-10 max-md:text-[10px] text-sm font-bold uppercase text-center mb-1 tracking-wide drop-shadow-md">
                   {item.eventName || item.dealer || "TEEN PATTI"}
                 </h3>
-                <div className="flex items-center justify-center gap-1 w-full">
-                  <span className="bg-transparent text-[#22c55e] border border-[#22c55e] text-[9px] max-[350px]:text-[7px] font-bold px-1.5 py-0.5 rounded uppercase shadow-[0_0_5px_rgba(34,197,94,0.4)]">
+                <div className="flex items-center z-10 justify-center gap-1 w-full">
+                  <span className="bg-transparent text-[#22c55e] border border-[#22c55e82] text-[9px] max-[350px]:text-[7px] font-bold px-1.5 py-0.5 rounded uppercase shadow-[0_0_5px_rgba(34,197,94,0.4)]">
                     LIVE
                   </span>
                   <span className="bg-black/60 text-white text-[9px] font-semibold px-1.5 py-0.5  max-[350px]:text-[7px] rounded border border-white/20 whitespace-nowrap">
