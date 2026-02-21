@@ -13,10 +13,15 @@ import axios from "axios";
 import { useAppStore } from "@/lib/store/store";
 import { useAppRateHighlighter } from "@/lib/highlaterMarket";
 import { motion, AnimatePresence } from "framer-motion";
+import MBetSlip from "@/components/common/MBetSlip";
 
 // WebSocket service (assumed to exist)
 import { webSocketService } from "@/lib/websocket.service";
 import Icons from "@/icons/icons";
+import SingleMarket from "@/components/pages/home/single-market";
+import RuleModal from "@/components/modal/role/Role";
+import { log } from "console";
+import { VideoSimple } from "@/components/video-simple/VideoSimple";
 
 interface RunnerName {
   selectionId: number;
@@ -86,10 +91,9 @@ const shortNumber = (value: any): string => {
 };
 
 export default function MarketDetails() {
-  const { setSelectedBet } = useAppStore();
+  const { setSelectedBet, menuList, selectedBet } = useAppStore();
   const params = useParams();
   const router = useRouter();
-
   const eventId = String(params.eventId ?? "");
   const sportId = String(params.sportId ?? params.marketId ?? "");
 
@@ -99,6 +103,8 @@ export default function MarketDetails() {
   >({});
   const [fancyInfo, setFancyInfo] = useState<Market[]>([]);
   const [manualData, setManualData] = useState<Market[]>([]);
+  const [liveStreaming, setLiveStreaming] = useState(false);
+  const [isScorePanelOpen, setIsScorePanelOpen] = useState(false);
   const [betfairData, setBetfairData] = useState<Market[]>([]);
   const [sportsbookData, setSportsbookData] = useState<Market[]>([]);
   const [allMarkets, setAllMarkets] = useState<Market[]>([]);
@@ -110,7 +116,27 @@ export default function MarketDetails() {
   const [sportName, setSportName] = useState("");
   const [eventName, setEventName] = useState("");
   const [marketTime, setMarketTime] = useState("");
+  const [ruleContent, setRuleContent] = useState<any>(null);
   const [isOpen, setIsOpen] = useState(false);
+  const [competition, setCompetition] = useState([]);
+  const [openRules, setOpenRules] = useState(false);
+  const [isEventTypeOpen, setIsEventTypeOpen] = useState(false);
+  const [isCompetitionOpen, setIsCompetitionOpen] = useState(false);
+  const [streamCounter, setStreamCounter] = useState(0);
+  const marketData = {
+    title: "Tied Match",
+    min: 5,
+    max: 10000,
+    backPrice: "2.36",
+    layPrice: "2.42",
+  };
+  const [selectedEventType, setSelectedEventType] = useState<string>(
+    sportName || "",
+  );
+  const [selectedCompetition, setSelectedCompetition] = useState<string>("");
+
+  const eventTypeRef = useRef<HTMLSpanElement | null>(null);
+  const competitionRef = useRef<HTMLSpanElement | null>(null);
 
   // Current market type for filtering - IMPORTANT: track current tab
   const [currentMarketType, setCurrentMarketType] = useState<string>("POPULAR");
@@ -119,12 +145,28 @@ export default function MarketDetails() {
   // Tabs + indicator
   const tabsListRef = useRef<HTMLDivElement>(null);
   const [activeTab, setActiveTab] = useState<TabKey>("POPULAR");
+  const [isMarketSectionOpen, setIsMarketSectionOpen] = useState(true);
   const [indicatorStyle, setIndicatorStyle] = useState({
     left: 0,
     width: 0,
     opacity: 0,
   });
 
+  useEffect(() => {
+    if (!selectedBet?.selectionId) return;
+    setTimeout(() => {
+      const el = document.getElementById(
+        `betslip-${selectedBet.selectionId}-${selectedBet.marketType}`,
+      );
+      if (el) {
+        const elementPosition = el.getBoundingClientRect().top + window.scrollY;
+        const offset = window.innerHeight / 2 - el.offsetHeight / 2;
+        let position = elementPosition - offset;
+        if (position < 0) position = 0;
+        window.scrollTo({ top: position, behavior: "smooth" });
+      }
+    }, 50);
+  }, [selectedBet?.selectionId, selectedBet?.marketType]);
   // Socket cleanup refs
   const socketCleanupRef = useRef<(() => void) | null>(null);
   const subscribedMarketIdsRef = useRef<string[]>([]);
@@ -229,19 +271,18 @@ export default function MarketDetails() {
       setSportsbookData(sportsbook);
       setAllMarkets(all);
 
-
-//  NEW LOGIC: Handle No Active Markets Found
+      //  NEW LOGIC: Handle No Active Markets Found
       if (all.length === 0) {
-//  this.toastService.showFromResponse(
-//             'error,  No Market Found, We couldn’t locate any active markets for your selection.'
-//           );
-       console.log('No Markets are active');
+        //  this.toastService.showFromResponse(
+        //             'error,  No Market Found, We couldn’t locate any active markets for your selection.'
+        //           );
+        console.log("No Markets are active");
 
         // // 2. Fetch fresh lists in background (mimicking your old project services)
         // try {
         //   const isRacing = sportId === '7' || sportId === '4339';
         //   const endpoint = isRacing ? CONFIG.racingEventsList : CONFIG.getAllEventsList;
-          
+
         //   // Using axios to refresh lists in background
         //   axios.post(endpoint, { key: CONFIG.siteKey || "10" })
         //     .catch(err => console.error("Background refresh failed", err));
@@ -736,245 +777,431 @@ export default function MarketDetails() {
     return [];
   };
 
+  function filterCompetitions(eventTypeId: any) {
+    const filtered =
+      menuList?.competitions?.filter(
+        (item: any) => String(item.eventType.id) === String(eventTypeId),
+      ) ?? [];
+
+    setCompetition(filtered);
+
+    // open competitions after selecting event type
+    setIsEventTypeOpen(false);
+    // setIsCompetitionOpen(false);
+
+    return filtered;
+  }
+
+  useEffect(() => {
+    const result = filterCompetitions(sportId);
+  }, [menuList, sportId]);
+
+  useEffect(() => {
+    const onDocClick = (e: MouseEvent) => {
+      const t = e.target as Node;
+
+      const inEventType = eventTypeRef.current?.contains(t);
+      const inCompetition = competitionRef.current?.contains(t);
+
+      if (!inEventType) setIsEventTypeOpen(false);
+      if (!inCompetition) setIsCompetitionOpen(false);
+    };
+
+    document.addEventListener("mousedown", onDocClick);
+    return () => document.removeEventListener("mousedown", onDocClick);
+  }, []);
+
+  function setOpenRulesModal(rule: any) {
+    console.log("rule", rule);
+    setOpenRules(true);
+    setRuleContent(rule);
+  }
+
   const renderMarketTable = (market: any) => {
     const runners = getRunnersList(market);
     const limits = getLimits(market);
-
+    const data = market;
     const marketIsSusp = isSuspendedLike(market?.status);
+    const isBetOnThisMarket =
+      selectedBet?.eventName === (market.event?.name || eventName) &&
+      selectedBet?.marketType === (market.marketType || market.marketName);
 
     return (
-      <div className="border w-full border-dashed border-(--dotted-line) rounded-[4px] overflow-hidden">
-        {/* HEADER */}
-        <div className="px-1 min-[900px]:px-2 bg-[#153045] border-b border-[#28323D] flex flex-col justify-center w-full font-bold h-8">
-          <div className="relative flex flex-row items-center h-8 justify-between w-full">
-            <div className="text-[14px] text-[#68CDF9] font-[500] leading-[14px] flex-1 flex-[1_1_6rem] min-w-0 whitespace-nowrap truncate relative top-[1px]">
-              {getMarketTitle(market)}
+      <>
+        <div className="border w-full border-dashed border-(--dotted-line) rounded-[4px] overflow-hidden">
+          {/* HEADER */}
+          <div className="px-1 min-[900px]:px-2 bg-[#153045] border-b border-[#28323D] flex flex-col justify-center w-full font-bold h-8 relative">
+            <div className="absolute z-10 cursor-pointer right-2 top-1/2 -translate-y-[50%]">
+              <Icon
+                name="info"
+                onClick={() => setOpenRulesModal(data.description.rules)}
+              />
+              <RuleModal
+                open={openRules}
+                onOpenChange={setOpenRules}
+                text={ruleContent}
+              />
             </div>
-
-            <div className="relative flex flex-col items-end max-w-[360px] w-full flex-[5_0_94px]">
-              <div className="flex items-center text-[13px] font-normal leading-[18px] text-[#68CDF9] pt-[1px]">
-                {limits ? (
-                  <>
-                    <p>Min: {limits.min}</p>&nbsp;
-                    <p className="!font-[400] text-[10px]">|</p>&nbsp;
-                    <p>Max: {Intl.NumberFormat("en-US").format(limits.max)}</p>
-                  </>
-                ) : (
-                  <p className="opacity-70"> </p>
-                )}
+            <div className="relative flex flex-row items-center h-8 justify-between w-full">
+              <div className="text-[14px] text-[#68CDF9] font-[500] leading-[14px] flex-1 flex-[1_1_6rem] min-w-0 whitespace-nowrap truncate relative top-[1px]">
+                {getMarketTitle(market)}
               </div>
 
-              <div className="flex gap-1 w-full justify-end h-[20px] relative top-[-1px]">
-                <div className="flex w-1/2 gap-1 justify-end">
-                  <div className="flex-1 min-w-0 max-[464px]:hidden" />
-                  <div className="flex-1 min-w-0 max-[346px]:hidden" />
-                  <div className="flex items-center justify-center pb-[1px] font-semibold rounded-[2px] text-black select-none flex-1 min-w-0 text-[14px] leading-[18px] bg-[#0591cf] h-4">
-                    Back
-                  </div>
+              <div className="relative flex flex-col items-end max-w-[360px] w-full flex-[5_0_94px]">
+                <div className="flex items-center text-[13px] font-normal leading-[18px] text-[#68CDF9] pt-[1px]">
+                  {limits ? (
+                    <>
+                      <p className="invisible">Min: {limits.min}</p>&nbsp;
+                      <p className="!font-[400] invisible  text-[10px]">|</p>
+                      &nbsp;
+                      <p className="invisible">
+                        Max: {Intl.NumberFormat("en-US").format(limits.max)}
+                      </p>
+                    </>
+                  ) : (
+                    <p className="opacity-70"> </p>
+                  )}
                 </div>
 
-                <div className="flex w-1/2 gap-1 justify-start">
-                  <div className="flex items-center justify-center rounded-[2px] text-black select-none flex-1 min-w-0 text-[14px] font-semibold pb-[1px] leading-[18px] bg-[#d1686d] h-4">
-                    Lay
+                <div className="flex gap-1 w-full justify-end h-[20px] relative top-[-1px]">
+                  <div className="flex w-1/2 gap-1 justify-end">
+                    <div className="flex-1 min-w-0 max-[464px]:hidden" />
+                    <div className="flex-1 min-w-0 max-[346px]:hidden" />
+                    <div className="flex items-center justify-center pb-[1px] font-semibold rounded-[2px] text-black select-none flex-1 min-w-0 text-[14px] leading-[18px] bg-[#0591cf] h-4">
+                      Back
+                    </div>
                   </div>
-                  <div className="flex-1 min-w-0 max-[346px]:hidden" />
-                  <div className="flex-1 min-w-0 max-[464px]:hidden" />
+
+                  <div className="flex w-1/2 gap-1 justify-start">
+                    <div className="flex items-center justify-center rounded-[2px] text-black select-none flex-1 min-w-0 text-[14px] font-semibold pb-[1px] leading-[18px] bg-[#d1686d] h-4">
+                      Lay
+                    </div>
+                    <div className="flex-1 min-w-0 max-[346px]:hidden" />
+                    <div className="flex-1 min-w-0 max-[464px]:hidden" />
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
 
-        {/* BODY */}
-        <ul className="relative list-none m-0 p-0 px-1 min-[900px]:px-2 bg-[#191e26]">
-          {runners.map((runner: any, index: number) => {
-            const runnerName =
-              market?.runnerNameMap?.[Number(runner.selectionId)] ||
-              String(runner.selectionId);
+          {/* BODY */}
+          <ul className="relative list-none m-0 p-0 px-1 min-[900px]:px-2 bg-[#191e26]">
+            {runners.map((runner: any, index: number) => {
+              const runnerName =
+                market?.runnerNameMap?.[Number(runner.selectionId)] ||
+                String(runner.selectionId);
 
-            const runnerSusp = marketIsSusp || isSuspendedLike(runner?.status);
+              const runnerSusp =
+                marketIsSusp || isSuspendedLike(runner?.status);
 
-            const backs = Array.isArray(runner?.ex?.availableToBack)
-              ? runner.ex.availableToBack
-              : [];
-            const lays = Array.isArray(runner?.ex?.availableToLay)
-              ? runner.ex.availableToLay
-              : [];
+              const backs = Array.isArray(runner?.ex?.availableToBack)
+                ? runner.ex.availableToBack
+                : [];
+              const lays = Array.isArray(runner?.ex?.availableToLay)
+                ? runner.ex.availableToLay
+                : [];
 
-            const back3 = [backs[0], backs[1], backs[2]].map((x) => ({
-              odd: cleanPrice(x?.price),
-              vol: shortNumber(x?.size),
-              raw: x,
-            }));
-            const lay3 = [lays[0], lays[1], lays[2]].map((x) => ({
-              odd: cleanPrice(x?.price),
-              vol: shortNumber(x?.size),
-              raw: x,
-            }));
+              const back3 = [backs[0], backs[1], backs[2]].map((x) => ({
+                odd: cleanPrice(x?.price),
+                vol: shortNumber(x?.size),
+                raw: x,
+              }));
+              const lay3 = [lays[0], lays[1], lays[2]].map((x) => ({
+                odd: cleanPrice(x?.price),
+                vol: shortNumber(x?.size),
+                raw: x,
+              }));
 
-            return (
-              <li
-                key={`${market.marketId}-${runner.selectionId}-${index}`}
-                className="flex flex-col justify-start items-center relative w-full box-border text-left no-underline border-b border-dashed border-(--dotted-line) bg-clip-padding hover:bg-[#1C252E] transition-colors"
-              >
-                <div className="flex w-full flex-row flex-1 min-h-[50px] items-center justify-between py-1">
-                  {/* Runner Name */}
-                  <div className="font-[500] text-[14px] leading-[1] flex-[1_1_6rem] min-w-0 pr-2">
-                    <span
-                      className={`text-white ${runnerSusp ? "" : "cursor-pointer"}`}
-                    >
-                      {runnerName}
-                    </span>
-                  </div>
-
-                  {/* Odds Boxes */}
-                  <div className="relative flex gap-1 max-w-[360px] h-[35px] w-full flex-[5_0_94px]">
-                    {/* BACK (blue) */}
-                    <div
-                      className={`flex flex-row-reverse w-1/2 gap-1 overflow-hidden ${runnerSusp ? "bg-black" : ""}`}
-                    >
-                      {runnerSusp
-                        ? [0, 1, 2].map((_, i) => (
-                            <div
-                              key={`back-susp-${i}`}
-                              className={`flex flex-col h-full rounded-[2px] flex-1 min-w-0 bg-[#041117] ${
-                                i === 2 ? "max-[464px]:hidden" : ""
-                              } ${i === 1 ? "max-[346px]:hidden" : ""}`}
-                            />
-                          ))
-                        : back3.map((item, i) => (
-                            <div
-                              key={`back-${i}`}
-                              data-app-rate-highlighter
-                              className={`back-${i + 1} flex flex-col items-center justify-center h-full rounded-[2px] flex-1 min-w-0 cursor-pointer text-black transition-colors ${
-                                i === 0
-                                  ? "bg-[#0591cf] hover:bg-[#68CDF9]"
-                                  : "bg-[#0a77a8] hover:bg-[#68CDF9]"
-                              } ${i === 2 ? "max-[464px]:hidden" : ""} ${i === 1 ? "max-[346px]:hidden" : ""}`}
-                              onClick={() => {
-                                setSelectedBet({
-                                  type: "back",
-                                  odds: item.raw?.price,
-                                  teamName: runnerName,
-                                  eventName: market.event?.name || eventName,
-                                  marketType:
-                                    market.marketType || market.marketName,
-                                });
-                              }}
-                            >
-                              <span className="text-[11px] sm:text-[13px] font-bold leading-[1.1] truncate">
-                                {item.odd}
-                              </span>
-                              <span className="text-[9px] sm:text-[10px] font-normal leading-[1] truncate">
-                                {item.vol}
-                              </span>
-                            </div>
-                          ))}
+              return (
+                <li
+                  key={`${market.marketId}-${runner.selectionId}-${index}`}
+                  className="flex flex-col justify-start items-center relative w-full box-border text-left no-underline border-b border-dashed border-(--dotted-line) bg-clip-padding hover:bg-[#1C252E] transition-colors"
+                >
+                  <div className="flex w-full flex-row flex-1 min-h-[50px] items-center justify-between py-1">
+                    {/* Runner Name */}
+                    <div className="font-[500] text-[14px] leading-[1] flex-[1_1_6rem] min-w-0 pr-2">
+                      <span
+                        className={`text-white ${runnerSusp ? "" : "cursor-pointer"}`}
+                      >
+                        {runnerName}
+                      </span>
                     </div>
 
-                    {/* LAY (red/pink) */}
-                    <div
-                      className={`flex w-1/2 gap-1 overflow-hidden ${runnerSusp ? "bg-black" : ""}`}
-                    >
-                      {runnerSusp
-                        ? [0, 1, 2].map((_, i) => (
-                            <div
-                              key={`lay-susp-${i}`}
-                              className={`flex flex-col h-full rounded-[2px] flex-1 min-w-0 bg-[#140d0f] ${
-                                i === 2 ? "max-[464px]:hidden" : ""
-                              } ${i === 1 ? "max-[346px]:hidden" : ""}`}
-                            />
-                          ))
-                        : lay3.map((item, i) => (
-                            <div
-                              key={`lay-${i}`}
-                              data-app-rate-highlighter
-                              className={`lay-${i + 1} flex flex-col items-center justify-center h-full rounded-[2px] flex-1 min-w-0 cursor-pointer text-black transition-colors ${
-                                i === 0
-                                  ? "bg-[#d1686d] hover:bg-[#FFA4A7]"
-                                  : "bg-[#a3555b] hover:bg-[#FFA4A7]"
-                              } ${i === 2 ? "max-[464px]:hidden" : ""} ${i === 1 ? "max-[346px]:hidden" : ""}`}
-                              onClick={() => {
-                                setSelectedBet({
-                                  type: "lay",
-                                  odds: item.raw?.price,
-                                  teamName: runnerName,
-                                  eventName: market.event?.name || eventName,
-                                  marketType:
-                                    market.marketType || market.marketName,
-                                });
-                              }}
-                            >
-                              <span className="text-[11px] sm:text-[13px] font-bold leading-[1.1] truncate">
-                                {item.odd}
-                              </span>
-                              <span className="text-[9px] sm:text-[10px] font-normal leading-[1] truncate">
-                                {item.vol}
-                              </span>
-                            </div>
-                          ))}
-                    </div>
+                    {/* Odds Boxes */}
+                    <div className="relative flex gap-1 max-w-[360px] h-[35px] w-full flex-[5_0_94px]">
+                      {/* BACK (blue) */}
+                      <div
+                        className={`flex flex-row-reverse w-1/2 gap-1 overflow-hidden ${runnerSusp ? "bg-black" : ""}`}
+                      >
+                        {runnerSusp
+                          ? [0, 1, 2].map((_, i) => (
+                              <div
+                                key={`back-susp-${i}`}
+                                className={`flex flex-col h-full rounded-[2px] flex-1 min-w-0 bg-[#041117] ${
+                                  i === 2 ? "max-[464px]:hidden" : ""
+                                } ${i === 1 ? "max-[346px]:hidden" : ""}`}
+                              />
+                            ))
+                          : back3.map((item, i) => (
+                              <div
+                                key={`back-${i}`}
+                                data-app-rate-highlighter
+                                className={`back-${i + 1} flex flex-col items-center justify-center h-full rounded-[2px] flex-1 min-w-0 cursor-pointer text-black transition-colors ${
+                                  i === 0
+                                    ? "bg-[#0591cf] hover:bg-[#68CDF9]"
+                                    : "bg-[#0a77a8] hover:bg-[#68CDF9]"
+                                } ${i === 2 ? "max-[464px]:hidden" : ""} ${i === 1 ? "max-[346px]:hidden" : ""}`}
+                                onClick={() => {
+                                 if (!item.raw?.price || item.raw.price === 0) return; 
 
-                    {/* OVERLAY */}
-                    {runnerSusp && (
-                      <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
-                        <p className="m-0 text-[#FF8C4B] text-[16px] font-[500] leading-[1.5] tracking-wide">
-                          SUSPENDED
-                        </p>
+                                  setSelectedBet({
+                                    type: "back",
+                                    odds: item.raw?.price,
+                                    teamName: runnerName,
+                                    eventName: market.event?.name || eventName,
+                                    marketType:
+                                      market.marketType || market.marketName,
+                                    selectionId: runner.selectionId,
+                                  });
+                                }}
+                              >
+                                <span className="text-[11px] sm:text-[13px] font-bold leading-[1.1] truncate">
+                                  {item.odd}
+                                </span>
+                                <span className="text-[9px] sm:text-[10px] font-normal leading-[1] truncate">
+                                  {item.vol}
+                                </span>
+                              </div>
+                            ))}
                       </div>
-                    )}
-                  </div>
-                </div>
-              </li>
-            );
-          })}
 
-          {!runners.length && (
-            <li className="py-4 text-center text-[#919EAB] text-sm">
-              No runners found
-            </li>
-          )}
-        </ul>
-      </div>
+                      {/* LAY (red/pink) */}
+                      <div
+                        className={`flex w-1/2 gap-1 overflow-hidden ${runnerSusp ? "bg-black" : ""}`}
+                      >
+                        {runnerSusp
+                          ? [0, 1, 2].map((_, i) => (
+                              <div
+                                key={`lay-susp-${i}`}
+                                className={`flex flex-col h-full rounded-[2px] flex-1 min-w-0 bg-[#140d0f] ${
+                                  i === 2 ? "max-[464px]:hidden" : ""
+                                } ${i === 1 ? "max-[346px]:hidden" : ""}`}
+                              />
+                            ))
+                          : lay3.map((item, i) => (
+                              <div
+                                key={`lay-${i}`}
+                                data-app-rate-highlighter
+                                className={`lay-${i + 1} flex flex-col items-center justify-center h-full rounded-[2px] flex-1 min-w-0 cursor-pointer text-black transition-colors ${
+                                  i === 0
+                                    ? "bg-[#d1686d] hover:bg-[#FFA4A7]"
+                                    : "bg-[#a3555b] hover:bg-[#FFA4A7]"
+                                } ${i === 2 ? "max-[464px]:hidden" : ""} ${i === 1 ? "max-[346px]:hidden" : ""}`}
+                                onClick={() => {
+                                       if (!item.raw?.price || item.raw.price === 0) return; 
+
+                                  setSelectedBet({
+                                    type: "lay",
+                                    odds: item.raw?.price,
+                                    teamName: runnerName,
+                                    eventName: market.event?.name || eventName,
+                                    marketType:
+                                      market.marketType || market.marketName,
+                                    selectionId: runner.selectionId,
+                                  });
+                                }}
+                              >
+                                <span className="text-[11px] sm:text-[13px] font-bold leading-[1.1] truncate">
+                                  {item.odd}
+                                </span>
+                                <span className="text-[9px] sm:text-[10px] font-normal leading-[1] truncate">
+                                  {item.vol}
+                                </span>
+                              </div>
+                            ))}
+                      </div>
+
+                      {/* OVERLAY */}
+                      {runnerSusp && (
+                        <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
+                          <p className="m-0 text-[#FF8C4B] text-[16px] font-[500] leading-[1.5] tracking-wide">
+                            SUSPENDED
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  <div
+                    id={`betslip-${runner.selectionId}-${market.marketType || market.marketName}`}
+                  >
+                    {selectedBet?.selectionId === runner.selectionId &&
+                      selectedBet?.marketType ===
+                        (market.marketType || market.marketName) && (
+                        <div className="block lg:hidden">
+                          <MBetSlip />
+                        </div>
+                      )}
+                  </div>
+                </li>
+              );
+            })}
+
+            {!runners.length && (
+              <li className="py-4 text-center text-[#919EAB] text-sm">
+                No runners found
+              </li>
+            )}
+          </ul>
+        </div>
+      </>
     );
+  };
+
+  function navigateToMarket(path: any) {
+    router.push(`/sport/${path}`);
+  }
+
+  function navigateToMarketComp(sportName: any, id: string) {
+    router.push(`/sport/${sportName}/${id}`);
+  }
+
+  const toggleStreaming = () => {
+    setLiveStreaming((prev) => {
+      if (!prev) {
+        setStreamCounter((c) => c + 1);
+      }
+      return !prev;
+    });
   };
 
   return (
     <div className="w-full mx-auto box-border flex flex-auto flex-col pt-2 pb-2">
       {/* Breadcrumbs */}
       <div className="mb-2 min-[900px]:mb-[16px]">
-        <div className="flex flex-wrap items-center gap-1.5 min-[900px]:gap-2.5 max-w-full overflow-hidden">
+        <div className="flex flex-wrap items-center gap-1.5 min-[900px]:gap-2.5 max-w-full ">
           <div className="grow">
             <div className=" flex flex-wrap gap-2 min-[900px]:gap-4">
-              <span className="h-6 min-w-6 inline-flex justify-center items-center text-sm bg-[#078dee29] rounded-[6px] px-1.5 gap-2.5">
+              {/* <span className="h-6 min-w-6 inline-flex justify-center items-center text-sm bg-[#078dee29] rounded-[6px] px-1.5 gap-2.5">
                 <a href="" className="inline-flex">
                   Home
                 </a>
-              </span>
-              <span className="h-6 min-w-6 inline-flex justify-center items-center text-sm bg-[#078dee29] rounded-[6px] pl-[8px] pr-2 gap-2.5">
-                <span className="text-[#68CDF9]">
+              </span> */}
+              <span
+                ref={eventTypeRef}
+                className="h-6 min-w-6 inline-flex justify-center items-center overflow-visible text-sm bg-[#078dee29] rounded-[6px] pl-[8px] pr-2 gap-2.5 relative"
+              >
+                {/* ICON CLICK TOGGLE */}
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setIsEventTypeOpen((v) => !v);
+                    setIsCompetitionOpen(false);
+                  }}
+                  className="text-[#68CDF9] inline-flex"
+                >
                   <Icon name="play" className="w-5 h-5" />
-                </span>
+                </button>
+
+                {/* ORIGINAL TEXT */}
                 <a href="" className="inline-flex">
-                  {sportName || ""}
+                  {selectedEventType || sportName || ""}
                 </a>
+
+                {/* ORIGINAL DROPDOWN DESIGN */}
+               {isEventTypeOpen && (
+                  <ul className="absolute left-2 p-1 top-full mt-0 -ml-1 max-h-[200px] glass rounded-sm shadow-lg bg-[rgba(var(--palette-background-paperChannel)/90%)] backdrop-blur-[2px]! text-(--palette-text-primary) z-40 overflow-y-auto no-scrollbar">
+                    {menuList?.eventTypes?.map((item: any) => (
+                      <li key={item.eventType.id}>
+                        <button
+                          type="button"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            setSelectedEventType(item.eventType.name);
+                            filterCompetitions(item.eventType.id);
+                            setIsEventTypeOpen(false);
+                            navigateToMarket(item.eventType.name);
+                          }}
+                          className={`text-sm w-full text-nowrap text-left relative bg-transparent cursor-pointer gap-2 font-semibold transition px-2 py-1.5 rounded-[6px] ${
+                            (selectedEventType &&
+                              selectedEventType === item.eventType.name) ||
+                            (!selectedEventType &&
+                              sportName === item.eventType.name)
+                              ? "bg-[rgba(255,255,255,0.25)]! text-(--palette-primary-main)"
+                              : "hover:bg-[rgba(255,255,255,0.25)]"
+                          }`}
+                        >
+                          {item.eventType.name}
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </span>
 
-              <span className="h-6 min-w-6 inline-flex justify-center items-center text-sm bg-[#078dee29] rounded-[6px] pl-[8px] pr-2 gap-2.5">
-                <span className="text-[#68CDF9]">
+              <span
+                ref={competitionRef}
+                className="h-6 min-w-6 inline-flex justify-center relative items-center text-sm bg-[#078dee29] rounded-[6px] pl-[8px] pr-2 gap-2.5"
+              >
+                {/* ✅ ICON CLICK TOGGLE (same look) */}
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setIsCompetitionOpen((v) => !v);
+                    setIsEventTypeOpen(false);
+                  }}
+                  className="text-[#68CDF9] inline-flex"
+                >
                   <Icon name="play" className="w-5 h-5" />
-                </span>
+                </button>
+
                 <a href="" className="inline-flex">
-                  {tournamentName || "Tournament"}
+                  {selectedCompetition || tournamentName || "Tournament"}
                 </a>
-              </span>
-              <span className="h-6 min-w-6 inline-flex justify-center items-center text-sm bg-[#078dee29] rounded-[6px] pl-[8px] pr-2 gap-2.5">
-                <span className="text-[#68CDF9]">
-                  <Icon name="play" className="w-5 h-5" />
-                </span>
-                <a href="" className="inline-flex">
-                  {eventName || "Event"}
-                </a>
+
+                {/* ✅ ORIGINAL DROPDOWN DESIGN */}
+              {isCompetitionOpen && (
+                  <ul className="absolute p-1 left-2 top-full glass mt-0 -ml-1 max-h-[200px] rounded-sm shadow-lg bg-[rgba(var(--palette-background-paperChannel)/90%)] text-(--palette-text-primary) backdrop-blur-[2px]! z-40 overflow-y-auto no-scrollbar">
+                    {Array.isArray(competition) && competition.length > 0 ? (
+                      competition.map((item: any) => (
+                        <li key={item.competition.id}>
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              setSelectedCompetition(item.competition.name);
+                              setIsCompetitionOpen(false);
+                              navigateToMarketComp(
+                                item.eventType.name,
+                                item.competition.id,
+                              );
+                            }}
+                            className={`text-sm w-full text-nowrap text-left relative bg-transparent cursor-pointer gap-2 font-semibold transition px-2 py-1.5 rounded-[6px] ${
+                              (selectedCompetition &&
+                                selectedCompetition ===
+                                  item.competition.name) ||
+                              (!selectedCompetition &&
+                                tournamentName === item.competition.name)
+                                ? "bg-[rgba(255,255,255,0.25)]! text-(--palette-primary-main)"
+                                : "hover:bg-[rgba(255,255,255,0.25)]"
+                            }`}
+                          >
+                            {item.competition.name}
+                          </button>
+                        </li>
+                      ))
+                    ) : (
+                      <li className="p-3 text-xs opacity-70">
+                        No competitions
+                      </li>
+                    )}
+                  </ul>
+                )}
               </span>
             </div>
           </div>
@@ -983,91 +1210,67 @@ export default function MarketDetails() {
 
       {/* Title Block */}
       <div className="text-white bg-[#919eab0a] w-full border-[1px] border-dashed border-(--dotted-line) rounded-[16px] overflow-hidden max-[637px]:mt-[6px]">
-        <div className="flex justify-start items-center relative no-underline w-full box-border text-left py-2 px-4 flex-wrap rounded-2">
-          <div className="flex-auto min-w-0 m-0">
-            <h5 className="text-[1rem] font-bold leading-[1.5] mb-[-2px]">
-              {tournamentName || "Market Details"}
-            </h5>
-            <span className="text-[0.875rem] leading-[1.57143]">
-              <div className="flex gap-2 items-center">
-                <time className="text-[0.785rem] font-semibold leading-[1.57143] text-[#919EAB]">
-                  {formatDate(marketTime)}
-                </time>
-              </div>
-            </span>
-          </div>
-        </div>
-      </div>
-      <div className="w-full max-w-[620px] mt-2">
-        <div className="w-full bg-[#161616] text-white text-[11px]">
-          <div className="border border-white/10 rounded-lg px-3   relative">
-            <div className="w-full h-14 pt-2 flex items-center justify-between ">
-              {/* LEFT */}
-              <div className="min-w-[95px]">
-                <div className="text-[14px] font-semibold leading-none">
-                  {teamOne}
+        <div className="relative no-underline w-full box-border text-left py-2 px-4 flex-wrap rounded-2">
+          <div className="flex justify-between items-center w-full">
+            <div className="flex-auto min-w-0 m-0">
+              <span className="h-6 min-w-6 inline-flex justify-center items-center text-sm bg-[#078dee29] rounded-[6px] pl-[8px] pr-2 gap-2.5">
+                <span className="text-[#68CDF9]">
+                  <Icon name="play" className="w-5 h-5" />
+                </span>
+                <a href="" className="inline-flex">
+                  {eventName || "Event"}
+                </a>
+              </span>
+              <span className="text-[0.875rem] leading-[1.57143]">
+                <div className="flex gap-2 items-center">
+                  <time className="text-[0.785rem] font-semibold leading-[1.57143] text-[#919EAB]">
+                    {formatDate(marketTime)}
+                  </time>
                 </div>
-                <div className="text-[10px] text-white/60 mt-1">7.95 CRR</div>
-              </div>
-
-              {/* CENTER */}
-              <div className="flex-1 flex flex-col items-center text-center px-2">
-                {/* TOP PILL */}
-                <div className="text-[10px] bg-[#242424]  flex h-3.25 absolute border border-[rgba(255,255,255,0.12)] border-t-0 uppercase -translate-x-2/4 whitespace-nowrap pt-px pb-0 px-1 rounded-br-sm rounded-bl-sm border-solid left-2/4 top-0 text-white/80 leading-none">
-                  INN 1 <span>&nbsp;|&nbsp;</span> 7.1/20 OV
-                </div>
-
-                {/* SCORE */}
-                <div className="flex items-center gap-1 mt-[3px] leading-none">
-                  <span className="text-[16px] font-bold">57/2</span>
-                  <span className="text-[16px] text-white">: Yet to bat</span>
-                </div>
-
-                {/* DESCRIPTION */}
-                {/* <div className="text-[10px] text-white mt-[2px] leading-none">
-                  India are 57 for 2 after 7.1 overs.
-                </div> */}
-              </div>
-
-              {/* RIGHT */}
-              <div className="min-w-[110px] text-right">
-                <div className="text-[14px] font-semibold leading-none">
-                  {teamTwo}
-                </div>
-              </div>
+              </span>
             </div>
-
-            <AnimatePresence initial={false}>
-              {isOpen && (
-                <motion.div
-                  key="dropdown"
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: "auto", opacity: 1 }}
-                  exit={{ height: 0, opacity: 0 }}
-                  transition={{ duration: 0.35, ease: "easeInOut" }}
-                  className="overflow-hidden"
-                >
-                  <div className="px-3 py-6 text-[11px] text-white/80"></div>
-                </motion.div>
-              )}
-            </AnimatePresence>
-
-            {/* CHEVRON */}
-            <div
-              onClick={() => setIsOpen((prev) => !prev)}
-              className="w-full text-white/60 h-[20px] flex justify-center items-center cursor-pointer select-none"
-            >
-              <motion.svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 12 12"
-                className="w-3 fill-white"
-                animate={{ rotate: isOpen ? 180 : 0 }}
-                transition={{ duration: 0.3 }}
+            <div className="flex items-center gap-2">
+              <Icon
+                name="scoreIcon"
+                className="w-5 h-5 mt-1 cursor-pointer"
+                onClick={() => setIsScorePanelOpen((prev) => !prev)}
+              />
+              <Icon
+                name="watch"
+                className="w-5 h-5 cursor-pointer"
+                onClick={toggleStreaming}
+              />
+            </div>
+          </div>
+          <AnimatePresence initial={false}>
+            {liveStreaming && (
+              <motion.div
+                key="live-stream-panel"
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: "auto", opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.28, ease: "easeInOut" }}
+                className="overflow-hidden w-full"
               >
-                <path d="M12 3.5c0-.1-.05-.2-.12-.28l-.6-.6c-.07-.07-.18-.12-.28-.12s-.2.05-.27.12L6 7.35 1.27 2.62A.42.42 0 0 0 1 2.5a.4.4 0 0 0-.28.12l-.6.6A.4.4 0 0 0 0 3.5c0 .1.05.2.12.27l5.6 5.61c.08.07.19.12.28.12s.2-.05.28-.12l5.6-5.6A.43.43 0 0 0 12 3.5z" />
-              </motion.svg>
-            </div>
-          </div>
+                <VideoSimple
+                  key={`stream-${eventId}-${streamCounter}`}
+                  eventId={eventId}
+                />
+              </motion.div>
+            )}
+          </AnimatePresence>
+          <AnimatePresence initial={false}>
+            {isScorePanelOpen && (
+              <motion.div
+                key="score-panel"
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: 30, opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.28, ease: "easeInOut" }}
+                className="overflow-hidden w-full"
+              />
+            )}
+          </AnimatePresence>
         </div>
       </div>
 
@@ -1146,48 +1349,84 @@ export default function MarketDetails() {
         </div>
       </div>
 
+      {(activeTab === "ALL" || activeTab === "POPULAR") && (
+        <div
+          onClick={() => setIsMarketSectionOpen((prev) => !prev)}
+          className="px-1 mt-2 min-[900px]:px-2 rounded-md bg-[#153045] border-b border-[#28323D] flex flex-col justify-center w-full font-bold h-8 relative cursor-pointer"
+        >
+          <div className="relative flex flex-row items-center h-8 justify-between w-full">
+            <div className="text-[14px] text-[#68CDF9] font-[500] leading-[14px] flex-1 flex-[1_1_6rem] min-w-0 whitespace-nowrap truncate relative top-[1px]">
+              {"Odds"}
+            </div>
+            <span
+              className={`transition-transform duration-300 ${isMarketSectionOpen ? "rotate-0" : "rotate-90"}`}
+            >
+              <Icon
+                name="downArrow"
+                className="text-(--palette-primary-light)"
+              />
+            </span>
+          </div>
+        </div>
+      )}
+
       {/* Display markets based on active tab */}
-      <div className="w-full flex flex-wrap gap-x-2 gap-y-2 mt-2">
-        {activeTab === "ALL" &&
-          allMarkets.length > 0 &&
-          allMarkets
-            .sort(
-              (a: any, b: any) =>
-                Number(a.sequence || 0) - Number(b.sequence || 0),
-            )
-            .map((m: any) => (
-              <React.Fragment key={String(m.exMarketId ?? m.marketId)}>
-                {renderMarketTable(m)}
-              </React.Fragment>
-            ))}
+      {activeTab === "ALL" || activeTab === "POPULAR" ? (
+        <AnimatePresence initial={false}>
+          {isMarketSectionOpen && (
+            <motion.div
+              key="market-section"
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
+              className="overflow-hidden"
+            >
+              <div className="w-full flex flex-wrap gap-x-2 gap-y-2 mt-1">
+                {activeTab === "ALL" &&
+                  allMarkets.length > 0 &&
+                  allMarkets
+                    .sort(
+                      (a: any, b: any) =>
+                        Number(a.sequence || 0) - Number(b.sequence || 0),
+                    )
+                    .map((m: any) => (
+                      <React.Fragment key={String(m.exMarketId ?? m.marketId)}>
+                        {renderMarketTable(m)}
+                      </React.Fragment>
+                    ))}
 
-        {activeTab === "POPULAR" &&
-          popularMarkets.length > 0 &&
-          popularMarkets
-            .sort(
-              (a: any, b: any) =>
-                Number(a.sequence || 0) - Number(b.sequence || 0),
-            )
-            .map((m: any) => (
-              <React.Fragment key={String(m.exMarketId ?? m.marketId)}>
-                {renderMarketTable(m)}
-              </React.Fragment>
-            ))}
-
-        {activeTab !== "ALL" &&
-          activeTab !== "POPULAR" &&
-          filteredMarkets.length > 0 &&
-          filteredMarkets
-            .sort(
-              (a: any, b: any) =>
-                Number(a.sequence || 0) - Number(b.sequence || 0),
-            )
-            .map((m: any) => (
-              <React.Fragment key={String(m.exMarketId ?? m.marketId)}>
-                {renderMarketTable(m)}
-              </React.Fragment>
-            ))}
-      </div>
+                {activeTab === "POPULAR" &&
+                  popularMarkets.length > 0 &&
+                  popularMarkets
+                    .sort(
+                      (a: any, b: any) =>
+                        Number(a.sequence || 0) - Number(b.sequence || 0),
+                    )
+                    .map((m: any) => (
+                      <React.Fragment key={String(m.exMarketId ?? m.marketId)}>
+                        {renderMarketTable(m)}
+                      </React.Fragment>
+                    ))}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      ) : (
+        <div className="w-full flex flex-wrap gap-x-2 gap-y-2 mt-1">
+          {filteredMarkets.length > 0 &&
+            filteredMarkets
+              .sort(
+                (a: any, b: any) =>
+                  Number(a.sequence || 0) - Number(b.sequence || 0),
+              )
+              .map((m: any) => (
+                <React.Fragment key={String(m.exMarketId ?? m.marketId)}>
+                  {renderMarketTable(m)}
+                </React.Fragment>
+              ))}
+        </div>
+      )}
 
       {/* If empty */}
       {!allMarkets.length && (

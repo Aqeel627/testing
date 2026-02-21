@@ -6,6 +6,8 @@
 // const BASE_URL = "https://100exch.com";
 // const BASE_URL_APIX = "https://100exch.com";
 
+export const BASE_URL_NewApi = "https://auexch.yourdesign.live";
+
 export const BASE_URL_API = '';
 export const BASE_URL_V1 = "";
 export const BASE_URL = "";
@@ -20,8 +22,13 @@ export const CONFIG = {
   SiteName: "exchange",
   siteKey: "10",
 
+  // new api's start
+  events: BASE_URL_NewApi + "/app/v1/events",
+  eventsTime: 20,
+  // new api's end
+
   domain: "https://auexch.yourdesign.live",
-    miniCasinoIframeUrl: "https://minicasino.ludoexchange.com",
+  miniCasinoIframeUrl: "https://minicasino.ludoexchange.com",
 
   inplayEvents: "AllInplayEvents",
   allSportsEvents: "allSportsEvents",
