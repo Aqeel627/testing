@@ -134,18 +134,18 @@ export default function Footer() {
   {[
     { name: "About", href: "/about" },
     { name: "Contact Us", href: "/contact-us" },
-    { name: "Responsible Gambling", href: "#" },
-    { name: "AML", href: "#" },
-    { name: "KYC Policy", href: "#" },
+    { name: "Responsible Gambling", href: "/responsible-gambling" },
+    { name: "AML", href: "/aml-policy" },
+    { name: "KYC Policy", href: "/kyc-policy" },
 
     // 👇 Now Terms section after these
-    { name: "Terms & Conditions", href: "#" },
-    { name: "Betting Rules", href: "#" },
-    { name: "Dispute Resolution", href: "#" },
-    { name: "Fairness & RNG Testing Methods", href: "#" },
-    { name: "Accounts", href: "#" },
-    { name: "Privacy Policy", href: "#" },
-    { name: "Self-Exclusion", href: "#" },
+    { name: "Terms & Conditions", href: "/terms-and-conditions" },
+    { name: "Betting Rules", href: "betting-rules" },
+    { name: "Dispute Resolution", href: "/dispute-resolution" },
+    { name: "Fairness & RNG Testing Methods", href: "/fairness-and-rng" },
+    { name: "Accounts", href: "/apb" },
+    { name: "Privacy Policy", href: "/privacy-policy" },
+    { name: "Self-Exclusion", href: "/self-exclusion" },
   ].map((item, i) => (
     <Link
       key={i}
