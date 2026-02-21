@@ -13,7 +13,6 @@ import Footer from "@/components/common/footer";
 import Sidebar from "@/components/common/sidebar";
 import { useAppStore } from "@/lib/store/store";
 import { usePathname } from "next/navigation";
-import { useAuthStore } from "@/lib/store/authStore";
 import { fetchData } from "@/lib/functions";
 import { CONFIG } from "@/lib/config";
 import BetSlip from "@/components/common/betslip";
@@ -23,6 +22,7 @@ import LoginModal from "@/components/modal/login";
 import { cn } from "@/lib/utils";
 import { useLayoutWidthStore } from "@/lib/store/layoutWidth.store";
 import { useCacheStore } from "@/lib/store/cacheStore";
+import { useAuthStore } from "@/lib/useAuthStore";
 
 const MAIN_WIDTH_STORAGE_KEY = "pages-layout-main-width";
 
