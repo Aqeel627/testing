@@ -13,7 +13,7 @@ import axios from "axios";
 import { useAppStore } from "@/lib/store/store";
 import { useAppRateHighlighter } from "@/lib/highlaterMarket";
 import { motion, AnimatePresence } from "framer-motion";
-import MBetSlip from "@/components/common/MBetSlip"; 
+import MBetSlip from "@/components/common/MBetSlip";
 
 // WebSocket service (assumed to exist)
 import { webSocketService } from "@/lib/websocket.service";
@@ -91,7 +91,7 @@ const shortNumber = (value: any): string => {
 };
 
 export default function MarketDetails() {
-  const { setSelectedBet, menuList,selectedBet } = useAppStore();
+  const { setSelectedBet, menuList, selectedBet } = useAppStore();
   const params = useParams();
   const router = useRouter();
   const eventId = String(params.eventId ?? "");
@@ -104,6 +104,7 @@ export default function MarketDetails() {
   const [fancyInfo, setFancyInfo] = useState<Market[]>([]);
   const [manualData, setManualData] = useState<Market[]>([]);
   const [liveStreaming, setLiveStreaming] = useState(false);
+  const [isScorePanelOpen, setIsScorePanelOpen] = useState(false);
   const [betfairData, setBetfairData] = useState<Market[]>([]);
   const [sportsbookData, setSportsbookData] = useState<Market[]>([]);
   const [allMarkets, setAllMarkets] = useState<Market[]>([]);
@@ -122,7 +123,13 @@ export default function MarketDetails() {
   const [isEventTypeOpen, setIsEventTypeOpen] = useState(false);
   const [isCompetitionOpen, setIsCompetitionOpen] = useState(false);
   const [streamCounter, setStreamCounter] = useState(0);
-
+  const marketData = {
+    title: "Tied Match",
+    min: 5,
+    max: 10000,
+    backPrice: "2.36",
+    layPrice: "2.42",
+  };
   const [selectedEventType, setSelectedEventType] = useState<string>(
     sportName || "",
   );
@@ -138,30 +145,28 @@ export default function MarketDetails() {
   // Tabs + indicator
   const tabsListRef = useRef<HTMLDivElement>(null);
   const [activeTab, setActiveTab] = useState<TabKey>("POPULAR");
+  const [isMarketSectionOpen, setIsMarketSectionOpen] = useState(true);
   const [indicatorStyle, setIndicatorStyle] = useState({
     left: 0,
     width: 0,
     opacity: 0,
   });
 
-
-
-
-useEffect(() => {
-  if (!selectedBet?.selectionId) return;
-  setTimeout(() => {
-    const el = document.getElementById(
-      `betslip-${selectedBet.selectionId}-${selectedBet.marketType}`
-    );
-    if (el) {
-      const elementPosition = el.getBoundingClientRect().top + window.scrollY;
-      const offset = window.innerHeight / 2 - el.offsetHeight / 2;
-      let position = elementPosition - offset;
-      if (position < 0) position = 0;
-      window.scrollTo({ top: position, behavior: "smooth" });
-    }
-  }, 50);
-}, [selectedBet?.selectionId, selectedBet?.marketType]);
+  useEffect(() => {
+    if (!selectedBet?.selectionId) return;
+    setTimeout(() => {
+      const el = document.getElementById(
+        `betslip-${selectedBet.selectionId}-${selectedBet.marketType}`,
+      );
+      if (el) {
+        const elementPosition = el.getBoundingClientRect().top + window.scrollY;
+        const offset = window.innerHeight / 2 - el.offsetHeight / 2;
+        let position = elementPosition - offset;
+        if (position < 0) position = 0;
+        window.scrollTo({ top: position, behavior: "smooth" });
+      }
+    }, 50);
+  }, [selectedBet?.selectionId, selectedBet?.marketType]);
   // Socket cleanup refs
   const socketCleanupRef = useRef<(() => void) | null>(null);
   const subscribedMarketIdsRef = useRef<string[]>([]);
@@ -817,232 +822,238 @@ useEffect(() => {
     const limits = getLimits(market);
     const data = market;
     const marketIsSusp = isSuspendedLike(market?.status);
-const isBetOnThisMarket =
-  selectedBet?.eventName === (market.event?.name || eventName) &&
-  selectedBet?.marketType === (market.marketType || market.marketName);
+    const isBetOnThisMarket =
+      selectedBet?.eventName === (market.event?.name || eventName) &&
+      selectedBet?.marketType === (market.marketType || market.marketName);
 
     return (
-      <div className="border w-full border-dashed border-(--dotted-line) rounded-[4px] overflow-hidden">
-        {/* HEADER */}
-        <div className="px-1 min-[900px]:px-2 bg-[#153045] border-b border-[#28323D] flex flex-col justify-center w-full font-bold h-8 relative">
-          <div className="absolute z-10 cursor-pointer right-2 top-1/2 -translate-y-[50%]">
-            <Icon
-              name="info"
-              onClick={() => setOpenRulesModal(data.description.rules)}
-            />
-            <RuleModal
-              open={openRules}
-              onOpenChange={setOpenRules}
-              text={ruleContent}
-            />
-          </div>
-          <div className="relative flex flex-row items-center h-8 justify-between w-full">
-            <div className="text-[14px] text-[#68CDF9] font-[500] leading-[14px] flex-1 flex-[1_1_6rem] min-w-0 whitespace-nowrap truncate relative top-[1px]">
-              {getMarketTitle(market)}
+      <>
+        <div className="border w-full border-dashed border-(--dotted-line) rounded-[4px] overflow-hidden">
+          {/* HEADER */}
+          <div className="px-1 min-[900px]:px-2 bg-[#153045] border-b border-[#28323D] flex flex-col justify-center w-full font-bold h-8 relative">
+            <div className="absolute z-10 cursor-pointer right-2 top-1/2 -translate-y-[50%]">
+              <Icon
+                name="info"
+                onClick={() => setOpenRulesModal(data.description.rules)}
+              />
+              <RuleModal
+                open={openRules}
+                onOpenChange={setOpenRules}
+                text={ruleContent}
+              />
             </div>
-
-            <div className="relative flex flex-col items-end max-w-[360px] w-full flex-[5_0_94px]">
-              <div className="flex items-center text-[13px] font-normal leading-[18px] text-[#68CDF9] pt-[1px]">
-                {limits ? (
-                  <>
-                    <p className="invisible">Min: {limits.min}</p>&nbsp;
-                    <p className="!font-[400] invisible  text-[10px]">|</p>
-                    &nbsp;
-                    <p className="invisible">
-                      Max: {Intl.NumberFormat("en-US").format(limits.max)}
-                    </p>
-                  </>
-                ) : (
-                  <p className="opacity-70"> </p>
-                )}
+            <div className="relative flex flex-row items-center h-8 justify-between w-full">
+              <div className="text-[14px] text-[#68CDF9] font-[500] leading-[14px] flex-1 flex-[1_1_6rem] min-w-0 whitespace-nowrap truncate relative top-[1px]">
+                {getMarketTitle(market)}
               </div>
 
-              <div className="flex gap-1 w-full justify-end h-[20px] relative top-[-1px]">
-                <div className="flex w-1/2 gap-1 justify-end">
-                  <div className="flex-1 min-w-0 max-[464px]:hidden" />
-                  <div className="flex-1 min-w-0 max-[346px]:hidden" />
-                  <div className="flex items-center justify-center pb-[1px] font-semibold rounded-[2px] text-black select-none flex-1 min-w-0 text-[14px] leading-[18px] bg-[#0591cf] h-4">
-                    Back
-                  </div>
+              <div className="relative flex flex-col items-end max-w-[360px] w-full flex-[5_0_94px]">
+                <div className="flex items-center text-[13px] font-normal leading-[18px] text-[#68CDF9] pt-[1px]">
+                  {limits ? (
+                    <>
+                      <p className="invisible">Min: {limits.min}</p>&nbsp;
+                      <p className="!font-[400] invisible  text-[10px]">|</p>
+                      &nbsp;
+                      <p className="invisible">
+                        Max: {Intl.NumberFormat("en-US").format(limits.max)}
+                      </p>
+                    </>
+                  ) : (
+                    <p className="opacity-70"> </p>
+                  )}
                 </div>
 
-                <div className="flex w-1/2 gap-1 justify-start">
-                  <div className="flex items-center justify-center rounded-[2px] text-black select-none flex-1 min-w-0 text-[14px] font-semibold pb-[1px] leading-[18px] bg-[#d1686d] h-4">
-                    Lay
+                <div className="flex gap-1 w-full justify-end h-[20px] relative top-[-1px]">
+                  <div className="flex w-1/2 gap-1 justify-end">
+                    <div className="flex-1 min-w-0 max-[464px]:hidden" />
+                    <div className="flex-1 min-w-0 max-[346px]:hidden" />
+                    <div className="flex items-center justify-center pb-[1px] font-semibold rounded-[2px] text-black select-none flex-1 min-w-0 text-[14px] leading-[18px] bg-[#0591cf] h-4">
+                      Back
+                    </div>
                   </div>
-                  <div className="flex-1 min-w-0 max-[346px]:hidden" />
-                  <div className="flex-1 min-w-0 max-[464px]:hidden" />
+
+                  <div className="flex w-1/2 gap-1 justify-start">
+                    <div className="flex items-center justify-center rounded-[2px] text-black select-none flex-1 min-w-0 text-[14px] font-semibold pb-[1px] leading-[18px] bg-[#d1686d] h-4">
+                      Lay
+                    </div>
+                    <div className="flex-1 min-w-0 max-[346px]:hidden" />
+                    <div className="flex-1 min-w-0 max-[464px]:hidden" />
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
 
-        {/* BODY */}
-        <ul className="relative list-none m-0 p-0 px-1 min-[900px]:px-2 bg-[#191e26]">
-          {runners.map((runner: any, index: number) => {
-            const runnerName =
-              market?.runnerNameMap?.[Number(runner.selectionId)] ||
-              String(runner.selectionId);
+          {/* BODY */}
+          <ul className="relative list-none m-0 p-0 px-1 min-[900px]:px-2 bg-[#191e26]">
+            {runners.map((runner: any, index: number) => {
+              const runnerName =
+                market?.runnerNameMap?.[Number(runner.selectionId)] ||
+                String(runner.selectionId);
 
-            const runnerSusp = marketIsSusp || isSuspendedLike(runner?.status);
+              const runnerSusp =
+                marketIsSusp || isSuspendedLike(runner?.status);
 
-            const backs = Array.isArray(runner?.ex?.availableToBack)
-              ? runner.ex.availableToBack
-              : [];
-            const lays = Array.isArray(runner?.ex?.availableToLay)
-              ? runner.ex.availableToLay
-              : [];
+              const backs = Array.isArray(runner?.ex?.availableToBack)
+                ? runner.ex.availableToBack
+                : [];
+              const lays = Array.isArray(runner?.ex?.availableToLay)
+                ? runner.ex.availableToLay
+                : [];
 
-            const back3 = [backs[0], backs[1], backs[2]].map((x) => ({
-              odd: cleanPrice(x?.price),
-              vol: shortNumber(x?.size),
-              raw: x,
-            }));
-            const lay3 = [lays[0], lays[1], lays[2]].map((x) => ({
-              odd: cleanPrice(x?.price),
-              vol: shortNumber(x?.size),
-              raw: x,
-            }));
+              const back3 = [backs[0], backs[1], backs[2]].map((x) => ({
+                odd: cleanPrice(x?.price),
+                vol: shortNumber(x?.size),
+                raw: x,
+              }));
+              const lay3 = [lays[0], lays[1], lays[2]].map((x) => ({
+                odd: cleanPrice(x?.price),
+                vol: shortNumber(x?.size),
+                raw: x,
+              }));
 
-            return (
-              <li
-                key={`${market.marketId}-${runner.selectionId}-${index}`}
-                className="flex flex-col justify-start items-center relative w-full box-border text-left no-underline border-b border-dashed border-(--dotted-line) bg-clip-padding hover:bg-[#1C252E] transition-colors"
-              >
-                <div className="flex w-full flex-row flex-1 min-h-[50px] items-center justify-between py-1">
-                  {/* Runner Name */}
-                  <div className="font-[500] text-[14px] leading-[1] flex-[1_1_6rem] min-w-0 pr-2">
-                    <span
-                      className={`text-white ${runnerSusp ? "" : "cursor-pointer"}`}
-                    >
-                      {runnerName}
-                    </span>
-                  </div>
-
-                  {/* Odds Boxes */}
-                  <div className="relative flex gap-1 max-w-[360px] h-[35px] w-full flex-[5_0_94px]">
-                    {/* BACK (blue) */}
-                    <div
-                      className={`flex flex-row-reverse w-1/2 gap-1 overflow-hidden ${runnerSusp ? "bg-black" : ""}`}
-                    >
-                      {runnerSusp
-                        ? [0, 1, 2].map((_, i) => (
-                            <div
-                              key={`back-susp-${i}`}
-                              className={`flex flex-col h-full rounded-[2px] flex-1 min-w-0 bg-[#041117] ${
-                                i === 2 ? "max-[464px]:hidden" : ""
-                              } ${i === 1 ? "max-[346px]:hidden" : ""}`}
-                            />
-                          ))
-                        : back3.map((item, i) => (
-                            <div
-                              key={`back-${i}`}
-                              data-app-rate-highlighter
-                              className={`back-${i + 1} flex flex-col items-center justify-center h-full rounded-[2px] flex-1 min-w-0 cursor-pointer text-black transition-colors ${
-                                i === 0
-                                  ? "bg-[#0591cf] hover:bg-[#68CDF9]"
-                                  : "bg-[#0a77a8] hover:bg-[#68CDF9]"
-                              } ${i === 2 ? "max-[464px]:hidden" : ""} ${i === 1 ? "max-[346px]:hidden" : ""}`}
-                              onClick={() => {
-                                  if (!item.raw?.price || item.raw.price === 0) return; 
-
-                               setSelectedBet({
-  type: "back",
-  odds: item.raw?.price,
-  teamName: runnerName,
-  eventName: market.event?.name || eventName,
-  marketType: market.marketType || market.marketName,
-  selectionId: runner.selectionId,
-});
-                              }}
-                            >
-                              <span className="text-[11px] sm:text-[13px] font-bold leading-[1.1] truncate">
-                                {item.odd}
-                              </span>
-                              <span className="text-[9px] sm:text-[10px] font-normal leading-[1] truncate">
-                                {item.vol}
-                              </span>
-                            </div>
-                          ))}
+              return (
+                <li
+                  key={`${market.marketId}-${runner.selectionId}-${index}`}
+                  className="flex flex-col justify-start items-center relative w-full box-border text-left no-underline border-b border-dashed border-(--dotted-line) bg-clip-padding hover:bg-[#1C252E] transition-colors"
+                >
+                  <div className="flex w-full flex-row flex-1 min-h-[50px] items-center justify-between py-1">
+                    {/* Runner Name */}
+                    <div className="font-[500] text-[14px] leading-[1] flex-[1_1_6rem] min-w-0 pr-2">
+                      <span
+                        className={`text-white ${runnerSusp ? "" : "cursor-pointer"}`}
+                      >
+                        {runnerName}
+                      </span>
                     </div>
 
-                    {/* LAY (red/pink) */}
-                    <div
-                      className={`flex w-1/2 gap-1 overflow-hidden ${runnerSusp ? "bg-black" : ""}`}
-                    >
-                      {runnerSusp
-                        ? [0, 1, 2].map((_, i) => (
-                            <div
-                              key={`lay-susp-${i}`}
-                              className={`flex flex-col h-full rounded-[2px] flex-1 min-w-0 bg-[#140d0f] ${
-                                i === 2 ? "max-[464px]:hidden" : ""
-                              } ${i === 1 ? "max-[346px]:hidden" : ""}`}
-                            />
-                          ))
-                        : lay3.map((item, i) => (
-                            <div
-                              key={`lay-${i}`}
-                              data-app-rate-highlighter
-                              className={`lay-${i + 1} flex flex-col items-center justify-center h-full rounded-[2px] flex-1 min-w-0 cursor-pointer text-black transition-colors ${
-                                i === 0
-                                  ? "bg-[#d1686d] hover:bg-[#FFA4A7]"
-                                  : "bg-[#a3555b] hover:bg-[#FFA4A7]"
-                              } ${i === 2 ? "max-[464px]:hidden" : ""} ${i === 1 ? "max-[346px]:hidden" : ""}`}
-                              onClick={() => {
-                                  if (!item.raw?.price || item.raw.price === 0) return; 
+                    {/* Odds Boxes */}
+                    <div className="relative flex gap-1 max-w-[360px] h-[35px] w-full flex-[5_0_94px]">
+                      {/* BACK (blue) */}
+                      <div
+                        className={`flex flex-row-reverse w-1/2 gap-1 overflow-hidden ${runnerSusp ? "bg-black" : ""}`}
+                      >
+                        {runnerSusp
+                          ? [0, 1, 2].map((_, i) => (
+                              <div
+                                key={`back-susp-${i}`}
+                                className={`flex flex-col h-full rounded-[2px] flex-1 min-w-0 bg-[#041117] ${
+                                  i === 2 ? "max-[464px]:hidden" : ""
+                                } ${i === 1 ? "max-[346px]:hidden" : ""}`}
+                              />
+                            ))
+                          : back3.map((item, i) => (
+                              <div
+                                key={`back-${i}`}
+                                data-app-rate-highlighter
+                                className={`back-${i + 1} flex flex-col items-center justify-center h-full rounded-[2px] flex-1 min-w-0 cursor-pointer text-black transition-colors ${
+                                  i === 0
+                                    ? "bg-[#0591cf] hover:bg-[#68CDF9]"
+                                    : "bg-[#0a77a8] hover:bg-[#68CDF9]"
+                                } ${i === 2 ? "max-[464px]:hidden" : ""} ${i === 1 ? "max-[346px]:hidden" : ""}`}
+                                onClick={() => {
+                                 if (!item.raw?.price || item.raw.price === 0) return; 
 
-                                setSelectedBet({
-                                  type: "lay",
-                                  odds: item.raw?.price,
-                                  teamName: runnerName,
-                                  eventName: market.event?.name || eventName,
-                                  marketType:
-                                    market.marketType || market.marketName,
+                                  setSelectedBet({
+                                    type: "back",
+                                    odds: item.raw?.price,
+                                    teamName: runnerName,
+                                    eventName: market.event?.name || eventName,
+                                    marketType:
+                                      market.marketType || market.marketName,
                                     selectionId: runner.selectionId,
-                                });
-                              }}
-                            >
-                              <span className="text-[11px] sm:text-[13px] font-bold leading-[1.1] truncate">
-                                {item.odd}
-                              </span>
-                              <span className="text-[9px] sm:text-[10px] font-normal leading-[1] truncate">
-                                {item.vol}
-                              </span>
-                            </div>
-                          ))}
-                    </div>
-
-                    {/* OVERLAY */}
-                    {runnerSusp && (
-                      <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
-                        <p className="m-0 text-[#FF8C4B] text-[16px] font-[500] leading-[1.5] tracking-wide">
-                          SUSPENDED
-                        </p>
+                                  });
+                                }}
+                              >
+                                <span className="text-[11px] sm:text-[13px] font-bold leading-[1.1] truncate">
+                                  {item.odd}
+                                </span>
+                                <span className="text-[9px] sm:text-[10px] font-normal leading-[1] truncate">
+                                  {item.vol}
+                                </span>
+                              </div>
+                            ))}
                       </div>
-                    )}
-                  </div>
-                </div>
-             <div id={`betslip-${runner.selectionId}-${market.marketType || market.marketName}`}>
-  {selectedBet?.selectionId === runner.selectionId &&
-    selectedBet?.marketType === (market.marketType || market.marketName) && (
-    <div className="block lg:hidden">
-      <MBetSlip />
-    </div>
-  )}
-</div>
-              </li>
-              
-            );
-          })}
 
-          {!runners.length && (
-            <li className="py-4 text-center text-[#919EAB] text-sm">
-              No runners found
-            </li>
-          )}
-        </ul>
-      </div>
+                      {/* LAY (red/pink) */}
+                      <div
+                        className={`flex w-1/2 gap-1 overflow-hidden ${runnerSusp ? "bg-black" : ""}`}
+                      >
+                        {runnerSusp
+                          ? [0, 1, 2].map((_, i) => (
+                              <div
+                                key={`lay-susp-${i}`}
+                                className={`flex flex-col h-full rounded-[2px] flex-1 min-w-0 bg-[#140d0f] ${
+                                  i === 2 ? "max-[464px]:hidden" : ""
+                                } ${i === 1 ? "max-[346px]:hidden" : ""}`}
+                              />
+                            ))
+                          : lay3.map((item, i) => (
+                              <div
+                                key={`lay-${i}`}
+                                data-app-rate-highlighter
+                                className={`lay-${i + 1} flex flex-col items-center justify-center h-full rounded-[2px] flex-1 min-w-0 cursor-pointer text-black transition-colors ${
+                                  i === 0
+                                    ? "bg-[#d1686d] hover:bg-[#FFA4A7]"
+                                    : "bg-[#a3555b] hover:bg-[#FFA4A7]"
+                                } ${i === 2 ? "max-[464px]:hidden" : ""} ${i === 1 ? "max-[346px]:hidden" : ""}`}
+                                onClick={() => {
+                                       if (!item.raw?.price || item.raw.price === 0) return; 
+
+                                  setSelectedBet({
+                                    type: "lay",
+                                    odds: item.raw?.price,
+                                    teamName: runnerName,
+                                    eventName: market.event?.name || eventName,
+                                    marketType:
+                                      market.marketType || market.marketName,
+                                    selectionId: runner.selectionId,
+                                  });
+                                }}
+                              >
+                                <span className="text-[11px] sm:text-[13px] font-bold leading-[1.1] truncate">
+                                  {item.odd}
+                                </span>
+                                <span className="text-[9px] sm:text-[10px] font-normal leading-[1] truncate">
+                                  {item.vol}
+                                </span>
+                              </div>
+                            ))}
+                      </div>
+
+                      {/* OVERLAY */}
+                      {runnerSusp && (
+                        <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
+                          <p className="m-0 text-[#FF8C4B] text-[16px] font-[500] leading-[1.5] tracking-wide">
+                            SUSPENDED
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  <div
+                    id={`betslip-${runner.selectionId}-${market.marketType || market.marketName}`}
+                  >
+                    {selectedBet?.selectionId === runner.selectionId &&
+                      selectedBet?.marketType ===
+                        (market.marketType || market.marketName) && (
+                        <div className="block lg:hidden">
+                          <MBetSlip />
+                        </div>
+                      )}
+                  </div>
+                </li>
+              );
+            })}
+
+            {!runners.length && (
+              <li className="py-4 text-center text-[#919EAB] text-sm">
+                No runners found
+              </li>
+            )}
+          </ul>
+        </div>
+      </>
     );
   };
 
@@ -1053,8 +1064,6 @@ const isBetOnThisMarket =
   function navigateToMarketComp(sportName: any, id: string) {
     router.push(`/sport/${sportName}/${id}`);
   }
-
- 
 
   const toggleStreaming = () => {
     setLiveStreaming((prev) => {
@@ -1220,20 +1229,48 @@ const isBetOnThisMarket =
                 </div>
               </span>
             </div>
-            <div>
+            <div className="flex items-center gap-2">
+              <Icon
+                name="scoreIcon"
+                className="w-5 h-5 mt-1 cursor-pointer"
+                onClick={() => setIsScorePanelOpen((prev) => !prev)}
+              />
               <Icon
                 name="watch"
-                className="w-5 h-5"
+                className="w-5 h-5 cursor-pointer"
                 onClick={toggleStreaming}
               />
             </div>
+          </div>
+          <AnimatePresence initial={false}>
             {liveStreaming && (
-              <VideoSimple
-                key={`stream-${eventId}-${streamCounter}`}
-                eventId={eventId}
+              <motion.div
+                key="live-stream-panel"
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: "auto", opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.28, ease: "easeInOut" }}
+                className="overflow-hidden w-full"
+              >
+                <VideoSimple
+                  key={`stream-${eventId}-${streamCounter}`}
+                  eventId={eventId}
+                />
+              </motion.div>
+            )}
+          </AnimatePresence>
+          <AnimatePresence initial={false}>
+            {isScorePanelOpen && (
+              <motion.div
+                key="score-panel"
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: 30, opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.28, ease: "easeInOut" }}
+                className="overflow-hidden w-full"
               />
             )}
-          </div>
+          </AnimatePresence>
         </div>
       </div>
 
@@ -1312,48 +1349,84 @@ const isBetOnThisMarket =
         </div>
       </div>
 
+      {(activeTab === "ALL" || activeTab === "POPULAR") && (
+        <div
+          onClick={() => setIsMarketSectionOpen((prev) => !prev)}
+          className="px-1 mt-2 min-[900px]:px-2 rounded-md bg-[#153045] border-b border-[#28323D] flex flex-col justify-center w-full font-bold h-8 relative cursor-pointer"
+        >
+          <div className="relative flex flex-row items-center h-8 justify-between w-full">
+            <div className="text-[14px] text-[#68CDF9] font-[500] leading-[14px] flex-1 flex-[1_1_6rem] min-w-0 whitespace-nowrap truncate relative top-[1px]">
+              {"Odds"}
+            </div>
+            <span
+              className={`transition-transform duration-300 ${isMarketSectionOpen ? "rotate-0" : "rotate-90"}`}
+            >
+              <Icon
+                name="downArrow"
+                className="text-(--palette-primary-light)"
+              />
+            </span>
+          </div>
+        </div>
+      )}
+
       {/* Display markets based on active tab */}
-      <div className="w-full flex flex-wrap gap-x-2 gap-y-2 mt-2">
-        {activeTab === "ALL" &&
-          allMarkets.length > 0 &&
-          allMarkets
-            .sort(
-              (a: any, b: any) =>
-                Number(a.sequence || 0) - Number(b.sequence || 0),
-            )
-            .map((m: any) => (
-              <React.Fragment key={String(m.exMarketId ?? m.marketId)}>
-                {renderMarketTable(m)}
-              </React.Fragment>
-            ))}
+      {activeTab === "ALL" || activeTab === "POPULAR" ? (
+        <AnimatePresence initial={false}>
+          {isMarketSectionOpen && (
+            <motion.div
+              key="market-section"
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
+              className="overflow-hidden"
+            >
+              <div className="w-full flex flex-wrap gap-x-2 gap-y-2 mt-1">
+                {activeTab === "ALL" &&
+                  allMarkets.length > 0 &&
+                  allMarkets
+                    .sort(
+                      (a: any, b: any) =>
+                        Number(a.sequence || 0) - Number(b.sequence || 0),
+                    )
+                    .map((m: any) => (
+                      <React.Fragment key={String(m.exMarketId ?? m.marketId)}>
+                        {renderMarketTable(m)}
+                      </React.Fragment>
+                    ))}
 
-        {activeTab === "POPULAR" &&
-          popularMarkets.length > 0 &&
-          popularMarkets
-            .sort(
-              (a: any, b: any) =>
-                Number(a.sequence || 0) - Number(b.sequence || 0),
-            )
-            .map((m: any) => (
-              <React.Fragment key={String(m.exMarketId ?? m.marketId)}>
-                {renderMarketTable(m)}
-              </React.Fragment>
-            ))}
-
-        {activeTab !== "ALL" &&
-          activeTab !== "POPULAR" &&
-          filteredMarkets.length > 0 &&
-          filteredMarkets
-            .sort(
-              (a: any, b: any) =>
-                Number(a.sequence || 0) - Number(b.sequence || 0),
-            )
-            .map((m: any) => (
-              <React.Fragment key={String(m.exMarketId ?? m.marketId)}>
-                {renderMarketTable(m)}
-              </React.Fragment>
-            ))}
-      </div>
+                {activeTab === "POPULAR" &&
+                  popularMarkets.length > 0 &&
+                  popularMarkets
+                    .sort(
+                      (a: any, b: any) =>
+                        Number(a.sequence || 0) - Number(b.sequence || 0),
+                    )
+                    .map((m: any) => (
+                      <React.Fragment key={String(m.exMarketId ?? m.marketId)}>
+                        {renderMarketTable(m)}
+                      </React.Fragment>
+                    ))}
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      ) : (
+        <div className="w-full flex flex-wrap gap-x-2 gap-y-2 mt-1">
+          {filteredMarkets.length > 0 &&
+            filteredMarkets
+              .sort(
+                (a: any, b: any) =>
+                  Number(a.sequence || 0) - Number(b.sequence || 0),
+              )
+              .map((m: any) => (
+                <React.Fragment key={String(m.exMarketId ?? m.marketId)}>
+                  {renderMarketTable(m)}
+                </React.Fragment>
+              ))}
+        </div>
+      )}
 
       {/* If empty */}
       {!allMarkets.length && (

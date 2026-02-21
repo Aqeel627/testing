@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { CONFIG } from "@/lib/config";
 import { fetchData } from "@/lib/functions";
 import { useAppStore } from "@/lib/store/store";
@@ -6,11 +6,7 @@ import { useAuthStore } from "@/lib/useAuthStore";
 import React, { useEffect } from "react";
 
 const GlobalApisCall = () => {
-  const {
-    setCasinoEvents,
-    setAllEventsList,
-    setMenuList,
-  } = useAppStore();
+  const { setCasinoEvents, setAllEventsList, setMenuList } = useAppStore();
   const { checkLogin } = useAuthStore();
   const handleAllEvents = (data: any) => {
     setAllEventsList(data);
@@ -45,6 +41,15 @@ const GlobalApisCall = () => {
       cachedKey: "menuList",
       setFn: setMenuList,
       expireIn: CONFIG.menuListTime,
+    });
+    fetchData({
+      url: CONFIG.events,
+      payload: { key: CONFIG.siteKey },
+      cachedKey: "events",
+      setFn: (data: any) => {
+        console.log(data);
+      },
+      expireIn: CONFIG.eventsTime,
     });
   }, []);
   return null;

@@ -8,19 +8,26 @@ export default function ContactUs() {
     <>
       <BreadCrumb title="Contact Us" showTitle={false} />
 
-      <div className="container mx-auto px-4 mt-9">
-        <div id="happy-to-help" className="mb-8">
-          <h2 className="text-base font-[18px] font-extrabold mb-2 text-[#9E9EFF] underline mb-2"><a >We’re here to help!</a></h2>
+      <div className="container mx-auto px-4 mt-9 flex flex-col gap-8">
+
+        {/* Section: Happy to Help */}
+        <div id="happy-to-help">
+          <h2 className="text-base font-[18px] font-extrabold mb-2 text-[#9E9EFF] underline">
+            <a href="#happy-to-help" className="cursor-pointer">We’re here to help!</a>
+          </h2>
           <p className="text-base">
-            At&nbsp;  100Exch, we value our customers and are committed to providing excellent support.
+            At 100Exch, we value our customers and are committed to providing excellent support.
             Whether you have a question, need assistance, or simply want to provide feedback, we’re just a message away.
             You can reach us through the following platforms:
           </p>
         </div>
 
-        <div id="contact-options" className="mb-8">
-          <h2 className="text-base font-[18px] font-extrabold mb-2 text-[#9E9EFF] underline"><a  >Contact Options:</a></h2>
-          <ul className="   space-y-4">
+        {/* Section: Contact Options */}
+        <div id="contact-options">
+          <h2 className="text-base font-[18px] font-extrabold mb-2 text-[#9E9EFF] underline">
+            <a href="#contact-options" className="cursor-pointer">Contact Options:</a>
+          </h2>
+          <ul className="space-y-4 pl-4 list-disc">
             <li>
               <p className="font-medium">WhatsApp:</p>
               <p>Connect with us on WhatsApp for instant support.</p>
@@ -40,32 +47,40 @@ export default function ContactUs() {
           </ul>
         </div>
 
-        <div id="customer-support" className="mb-8">
-          <h2 className="text-base font-normal mb-2"><a className="text-[#9E9EFF] underline"  >Customer Support</a></h2>
+        {/* Section: Customer Support */}
+        <div id="customer-support">
+          <h2 className="text-base font-normal mb-2">
+            <a href="#customer-support" className="text-[#9E9EFF] underline cursor-pointer">Customer Support</a>
+          </h2>
           <p className="text-base">
             Our dedicated customer support team is available 24/7 to assist you with any inquiries.
             Whether it’s about your account, a game, or any other service-related question, we’re here to ensure you have a seamless experience.
           </p>
         </div>
 
-        <div id="email-support" className="mb-8">
-          <h2 className="text-base font-normal mb-2"><a className="text-[#9E9EFF] underline"  >Email Support:</a></h2>
+        {/* Section: Email Support */}
+        <div id="email-support">
+          <h2 className="text-base font-normal mb-2">
+            <a href="#email-support" className="text-[#9E9EFF] underline cursor-pointer">Email Support:</a>
+          </h2>
           <p className="text-base">
-            If you prefer email, you can reach us at&nbsp;<a className="text-[#9E9EFF] underline"></a>.
+            If you prefer email, you can reach us at&nbsp;
+            <a href="mailto:support@100exch.com" className="text-[#9E9EFF] underline cursor-pointer"></a>.
           </p>
         </div>
 
-        <div id="feedback" className="mb-8">
-          <h2 className="text-base font-normal mb-2"><a className="text-[#9E9EFF] underline"  >Feedback</a></h2>
+        {/* Section: Feedback */}
+        <div id="feedback">
+          <h2 className="text-base font-normal mb-2">
+            <a href="#feedback" className="text-[#9E9EFF] underline cursor-pointer">Feedback</a>
+          </h2>
           <p className="text-base">
             We continuously strive to improve our services, and your feedback plays a crucial role in that process.
             Please feel free to share your thoughts, suggestions, or any concerns you may have.
           </p>
         </div>
+
       </div>
-
-
     </>
   );
 }
-
