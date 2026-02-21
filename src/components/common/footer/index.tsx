@@ -122,12 +122,11 @@ export default function Footer() {
                            <option>Urdu</option>
                         </select>
                      </div> */}
-              
-            </div>
-          </div>
-          <div className="flex justify-center mt-2 max-[900px]:hidden">
+              <div className="flex justify-center mt-2 max-[900px]:hidden">
                 <LanguageToggler />
               </div>
+            </div>
+          </div>
 
           {/* POLICY LINKS */}
           <div className="flex flex-wrap justify-center gap-x-2 max-[899px]:px-4 min-[900px]:gap-x-4 py-2 max-[900px]:mt-[16px] text-[12px] min-[900px]:text-[13px] font-medium text-[var(--palette-text-secondary)]">
