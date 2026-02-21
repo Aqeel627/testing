@@ -13,6 +13,7 @@ import axios from "axios";
 import { useAppStore } from "@/lib/store/store";
 import { useAppRateHighlighter } from "@/lib/highlaterMarket";
 import { motion, AnimatePresence } from "framer-motion";
+import MBetSlip from "@/components/common/MBetSlip"; 
 
 // WebSocket service (assumed to exist)
 import { webSocketService } from "@/lib/websocket.service";
@@ -93,7 +94,6 @@ export default function MarketDetails() {
   const { setSelectedBet, menuList } = useAppStore();
   const params = useParams();
   const router = useRouter();
-
   const eventId = String(params.eventId ?? "");
   const sportId = String(params.sportId ?? params.marketId ?? "");
 
@@ -143,6 +143,10 @@ export default function MarketDetails() {
     width: 0,
     opacity: 0,
   });
+
+
+
+
 
   // Socket cleanup refs
   const socketCleanupRef = useRef<(() => void) | null>(null);
@@ -800,6 +804,7 @@ export default function MarketDetails() {
     const data = market;
     const marketIsSusp = isSuspendedLike(market?.status);
 
+
     return (
       <div className="border w-full border-dashed border-(--dotted-line) rounded-[4px] overflow-hidden">
         {/* HEADER */}
@@ -924,14 +929,14 @@ export default function MarketDetails() {
                                   : "bg-[#0a77a8] hover:bg-[#68CDF9]"
                               } ${i === 2 ? "max-[464px]:hidden" : ""} ${i === 1 ? "max-[346px]:hidden" : ""}`}
                               onClick={() => {
-                                setSelectedBet({
-                                  type: "back",
-                                  odds: item.raw?.price,
-                                  teamName: runnerName,
-                                  eventName: market.event?.name || eventName,
-                                  marketType:
-                                    market.marketType || market.marketName,
-                                });
+                               setSelectedBet({
+  type: "back",
+  odds: item.raw?.price,
+  teamName: runnerName,
+  eventName: market.event?.name || eventName,
+  marketType: market.marketType || market.marketName,
+  selectionId: runner.selectionId,
+});
                               }}
                             >
                               <span className="text-[11px] sm:text-[13px] font-bold leading-[1.1] truncate">
@@ -974,6 +979,7 @@ export default function MarketDetails() {
                                   eventName: market.event?.name || eventName,
                                   marketType:
                                     market.marketType || market.marketName,
+                                    selectionId: runner.selectionId,
                                 });
                               }}
                             >
@@ -997,6 +1003,7 @@ export default function MarketDetails() {
                     )}
                   </div>
                 </div>
+   
               </li>
             );
           })}
