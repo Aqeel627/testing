@@ -13,7 +13,7 @@ const SPORT_IDS: Record<string, string> = {
 interface CompetitionPageProps {
   params: Promise<{
     sport: string;
-    competition: string;
+    competition: string; // now this will be competition.id
   }>;
 }
 
@@ -23,28 +23,31 @@ const CompetitionPage = ({ params }: CompetitionPageProps) => {
 
   const sportId = SPORT_IDS[sport.toLowerCase()];
   const sportName = sport.charAt(0).toUpperCase() + sport.slice(1);
-  const competitionSlug = decodeURIComponent(competition);
+
+  // Treat competition param as ID
+  const competitionId = decodeURIComponent(competition);
 
   const sportEvents: any[] = useMemo(() => {
     if (!sportId || !allEventsList) return [];
     return allEventsList[sportId] ?? [];
   }, [allEventsList, sportId]);
 
+  // ✅ Filter by competition.id instead of name
   const competitionEvents = useMemo(() => {
     return sportEvents.filter((event: any) => {
-      const compName = event?.competition?.name ?? "";
-      const slug = compName.toLowerCase().replace(/\s+/g, "-");
-      return slug === competitionSlug;
+      return String(event?.competition?.id) === String(competitionId);
     });
-  }, [sportEvents, competitionSlug]);
+  }, [sportEvents, competitionId]);
 
-  const displayName =
-    competitionEvents[0]?.competition?.name ||
-    decodeURIComponent(competition).replace(/-/g, " ").replace(/\b\w/g, (c) => c.toUpperCase());
+  // Get competition display name from first matched event
+  const displayName = competitionEvents[0]?.competition?.name || "Competition";
 
   if (!allEventsList) return <p className="text-white p-4">Loading...</p>;
+
   if (!competitionEvents.length)
-    return <p className="text-white p-4">No events found for {displayName}.</p>;
+    return (
+      <p className="text-white p-4">No events found for this competition.</p>
+    );
 
   return (
     <>
