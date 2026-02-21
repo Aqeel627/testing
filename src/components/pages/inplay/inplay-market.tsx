@@ -6,6 +6,8 @@ import style from "@/components/pages/home/single-market/singleMarket.module.css
 import { AnimatedNumber } from "@/components/common/animatied-number";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import MBetSlip from "@/components/common/MBetSlip"; 
+import { useEffect, useRef } from "react";
 
 const InplayMarket = ({
   events,
@@ -14,7 +16,23 @@ const InplayMarket = ({
   events: any;
   className?: string;
 }) => {
-  const { setSelectedBet } = useAppStore();
+const { allEventsList, selectedEventTypeId, setSelectedBet, selectedBet } = useAppStore();
+const betslipRef = useRef<HTMLDivElement | null>(null);
+
+useEffect(() => {
+  if (selectedBet?.eventName && betslipRef.current) {
+    requestAnimationFrame(() => {
+      const el = betslipRef.current!;
+      const elementPosition = el.getBoundingClientRect().top + window.scrollY;
+      const offset = window.innerHeight / 2 - el.offsetHeight / 2;
+      let position = elementPosition - offset;
+      if (position < 0) position = 0;
+      window.scrollTo({ top: position, behavior: "smooth" });
+    });
+  }
+}, [selectedBet?.eventName, selectedBet?.teamName]);
+
+
   return (
     <ul className={cn("min-[900]:mt-6 mt-4", className)}>
       {events?.map((event: any) => {
@@ -33,6 +51,8 @@ const InplayMarket = ({
 
         const rightRunner = runner1;
         const rightRunnerName = event.runnersName?.[1]?.runnerName;
+        const isBetOnThisEvent = selectedBet?.eventName === event.event?.name; 
+
 
         return (
           <li
@@ -360,6 +380,11 @@ const InplayMarket = ({
                 </div>
               </div>
             </div>
+                    {isBetOnThisEvent && (
+  <div ref={betslipRef} className="block lg:hidden">
+    <MBetSlip />
+  </div>
+)}
           </li>
         );
       })}
