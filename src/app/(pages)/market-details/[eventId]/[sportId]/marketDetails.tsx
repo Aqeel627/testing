@@ -1110,8 +1110,8 @@ export default function MarketDetails() {
                 </a>
 
                 {/* ORIGINAL DROPDOWN DESIGN */}
-                {isEventTypeOpen && (
-                  <ul className="absolute left-2 p-1 top-full mt-0 -ml-1 h-[120px] rounded-sm shadow-lg bg-[rgba(var(--palette-background-paperChannel)/90%)] text-(--palette-text-primary) z-[9999] overflow-y-auto no-scrollbar">
+               {isEventTypeOpen && (
+                  <ul className="absolute left-2 p-1 top-full mt-0 -ml-1 max-h-[200px] glass rounded-sm shadow-lg bg-[rgba(var(--palette-background-paperChannel)/90%)] backdrop-blur-[2px]! text-(--palette-text-primary) z-40 overflow-y-auto no-scrollbar">
                     {menuList?.eventTypes?.map((item: any) => (
                       <li key={item.eventType.id}>
                         <button
@@ -1129,8 +1129,8 @@ export default function MarketDetails() {
                               selectedEventType === item.eventType.name) ||
                             (!selectedEventType &&
                               sportName === item.eventType.name)
-                              ? "bg-[#2e3e49]! text-(--palette-primary-main)"
-                              : "hover:bg-[rgba(145,158,171,0.08)]"
+                              ? "bg-[rgba(255,255,255,0.25)]! text-(--palette-primary-main)"
+                              : "hover:bg-[rgba(255,255,255,0.25)]"
                           }`}
                         >
                           {item.eventType.name}
@@ -1164,8 +1164,8 @@ export default function MarketDetails() {
                 </a>
 
                 {/* ✅ ORIGINAL DROPDOWN DESIGN */}
-                {isCompetitionOpen && (
-                  <ul className="absolute p-1 left-2 top-full mt-0 -ml-1 h-[120px] rounded-sm shadow-lg bg-[rgba(var(--palette-background-paperChannel)/90%)] text-(--palette-text-primary) z-[9999] overflow-y-auto no-scrollbar">
+              {isCompetitionOpen && (
+                  <ul className="absolute p-1 left-2 top-full glass mt-0 -ml-1 max-h-[200px] rounded-sm shadow-lg bg-[rgba(var(--palette-background-paperChannel)/90%)] text-(--palette-text-primary) backdrop-blur-[2px]! z-40 overflow-y-auto no-scrollbar">
                     {Array.isArray(competition) && competition.length > 0 ? (
                       competition.map((item: any) => (
                         <li key={item.competition.id}>
@@ -1187,8 +1187,8 @@ export default function MarketDetails() {
                                   item.competition.name) ||
                               (!selectedCompetition &&
                                 tournamentName === item.competition.name)
-                                ? "bg-[#2e3e49]! text-(--palette-primary-main)"
-                                : "hover:bg-[rgba(145,158,171,0.08)]"
+                                ? "bg-[rgba(255,255,255,0.25)]! text-(--palette-primary-main)"
+                                : "hover:bg-[rgba(255,255,255,0.25)]"
                             }`}
                           >
                             {item.competition.name}
