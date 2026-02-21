@@ -238,8 +238,8 @@ export default function MBetSlip() {
                     disabled={stake === 0}
                     className={`px-1 max-[576px]:mt-[10px] ml-[10px] w-[calc(50%_-_5px)] h-[29px] font-bold ${
                       stake === 0
-                        ? "bg-[#1475e1] opacity-80 text-white cursor-not-allowed"
-                        : "bg-[#1475e1] text-white hover:bg-[#105EB4]"
+                        ? "bg-[var(--primary-color)] opacity-80 text-white cursor-not-allowed"
+                        : "bg-[var(--primary-color)] text-white hover:bg-[#105EB4]"
                     }`}
                   >
                     <span>Place bet</span>
