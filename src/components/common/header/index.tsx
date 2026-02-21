@@ -74,9 +74,9 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
   return (
     <header
       className={cn(
-        "w-full glass  --palette-text-primary  sticky top-0 z-50",
+        "w-full glass  --palette-text-primary  sticky top-0 z-[9999999]",
         theme === "light" &&
-          "backdrop-blur-[10px]! bg-linear-to-br! from-white/25! to-white/5! border-b! border-[rgb(205_192_192/0.4)]! shadow-[0_8px_32px_rgba(0,0,0,0.2)]!",
+        "backdrop-blur-[10px]! bg-linear-to-br! from-white/25! to-white/5! border-b! border-[rgb(205_192_192/0.4)]! shadow-[0_8px_32px_rgba(0,0,0,0.2)]!",
       )}
     >
       <div className="max-w-[1600px] mx-auto px-2 h-12 flex items-center justify-between">
@@ -263,7 +263,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
               </div>
 
               {isMenuOpen && (
-                <div className="absolute top-[16px] md:top-[38px] right-0 w-[250px] bg-[var(--dropdownBg)] rounded-xl  z-50 flex flex-col var(--palette-text-primary) overflow-hidden overflow-y-auto max-h-[calc(100vh-32px)] border border-[#919eab29] scrollbar-hide">
+                <div className="absolute top-0 md:top-[16px] md:top-[38px] right-0 md:right-[10px] w-[250px] bg-[var(--dropdownBg)] rounded-xl  z-[9999999] flex flex-col var(--palette-text-primary) overflow-hidden overflow-y-auto max-h-[calc(100vh-32px)] border border-[#919eab29] scrollbar-hide">
                   <div className="absolute -top-10 -right-10 w-20 h-20 bg-[#078dee] blur-[60px] opacity-[0.50] pointer-events-none z-0 rounded-full"></div>
                   <div className="px-4 pt-4 pb-2">
                     <h6 className="text-[0.875rem] font-semibold text-[var(--palette-text-primary)] truncate leading-[1.57143]">
@@ -277,28 +277,28 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                   <hr className="m-0 shrink-0 border-0 border-b border-dashed border-(--dotted-line)" />
 
                   <div className="flex flex-col gap-2 px-4 pb-4 pt-2">
-                    <div className="rounded-[16px] shadow-[0_1px_2px_0_rgb(0_0_0_/_16%)] border-[#919eab29] border-[1px]">
+                    <div className="rounded-[16px] shadow-[0_1px_2px_0_rgb(0_0_0_/_16%)] border-(--dropdown-balance-border) border-[1px]">
                       <div className="flex flex-col p-2 items-center cursor-pointer">
-                        <p className="text-[0.875rem] leading-[1.25] text-[var(--dropdowntext)] font-[500] uppercase">
+                        <p className="text-[0.875rem] leading-[1.25] text-(--secondary-text-color) font-[500] uppercase">
                           Exposure
                         </p>
-                        <p className="text-[1rem] text-[var(--palette-text-primary)] font-semibold leading-[1.5]">
-                          {userBalance?.exposure}
+                        <p className="text-[1rem] font-semibold leading-[1.5]">
+                          {userBalance?.exposure ?? 0}
                         </p>
                       </div>
                     </div>
-                    <div className="rounded-[16px] shadow-[0_1px_2px_0_rgb(0_0_0_/_16%)] border-[#919eab29] border-[1px]">
+                    <div className="rounded-[16px] shadow-[0_1px_2px_0_rgb(0_0_0_/_16%)] border-(--dropdown-balance-border) border-[1px]">
                       <div className="flex flex-col p-2 items-center cursor-pointer">
-                        <p className="text-[0.875rem] leading-[1.25] text-[var(--dropdowntext)] font-[500] uppercase">
+                        <p className="text-[0.875rem] leading-[1.25] text-(--secondary-text-color) font-[500] uppercase">
                           Balance
                         </p>
-                        <p className="text-[1rem] text-[var(--palette-text-primary)] font-semibold leading-[1.5]">
+                        <p className="text-[1rem] font-semibold leading-[1.5]">
                           {hideBalance
                             ? "-"
                             : (
-                                (userBalance?.bankBalance ?? 0) -
-                                (userBalance?.exposure ?? 0)
-                              ).toFixed(2)}
+                              (userBalance?.bankBalance ?? 0) -
+                              (userBalance?.exposure ?? 0)
+                            ).toFixed(2)}
                         </p>
                       </div>
                     </div>
@@ -378,7 +378,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
 
                     <button
                       onClick={logout}
-                      className="relative z-10 w-full text-left px-2 py-2 text-[14px] font-bold text-[#FF5630] hover:bg-[#FF5630]/10 rounded-lg transition-colors cursor-pointer "
+                      className="relative z-10 w-full text-left px-2 py-2 text-[14px] font-bold text-(--dropdown-logout-color) hover:bg-(--dropdown-logout-bg-hover) rounded-lg transition-colors cursor-pointer "
                     >
                       Logout
                     </button>
