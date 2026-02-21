@@ -159,9 +159,9 @@ const InplayMarket = ({
                         {event.inplay
                           ? "In-Play"
                           : (() => {
-                            const date = new Date(event.marketStartTime);
-                            return `${String(date.getDate()).padStart(2, "0")}-${String(date.getMonth() + 1).padStart(2, "0")}-${date.getFullYear()}`;
-                          })()}
+                              const date = new Date(event.marketStartTime);
+                              return `${String(date.getDate()).padStart(2, "0")}-${String(date.getMonth() + 1).padStart(2, "0")}-${date.getFullYear()}`;
+                            })()}
                       </p>
                     </div>
                   </div>
@@ -213,15 +213,18 @@ const InplayMarket = ({
                     {/* BACK BUTTON (LEFT) */}
                     <div
                       className={`${oddsBoxWidthClass} h-[45px] gap-[2px] rounded-[8px] border border-[var(--back-border)] bg-[var(--back-bg)] hover:bg-[var(--back-hover)] flex flex-col justify-center items-center cursor-pointer select-none transition-all`}
-                      onClick={() =>
+                      onClick={() => {
+                        const price = runner0?.ex?.availableToBack?.[0]?.price;
+                        const size = runner0?.ex?.availableToBack?.[0]?.size;
+                        if (!price || !size) return;
                         setSelectedBet({
                           type: "back",
-                          odds: runner0?.ex?.availableToBack?.[0]?.price,
+                          odds: price,
                           teamName: event.runnersName?.[0]?.runnerName,
                           eventName: event.event?.name,
                           marketType: event.marketType,
-                        })
-                      }
+                        });
+                      }}
                     >
                       <span className="block whitespace-nowrap font-bold price text-[var(--back-price-text)] leading-[1.1]">
                         {runner0?.ex?.availableToBack?.[0]?.price ?? "-"}
@@ -235,15 +238,18 @@ const InplayMarket = ({
                     {/* LAY BUTTON (LEFT) */}
                     <div
                       className={`${oddsBoxWidthClass} h-[45px] gap-[2px] rounded-[8px] border border-[var(--lay-border)] bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)] flex flex-col justify-center items-center cursor-pointer select-none transition-all`}
-                      onClick={() =>
+                      onClick={() => {
+                        const price = runner0?.ex?.availableToLay?.[0]?.price;
+                        const size = runner0?.ex?.availableToLay?.[0]?.size;
+                        if (!price || !size) return;
                         setSelectedBet({
                           type: "lay",
-                          odds: runner0?.ex?.availableToLay?.[0]?.price,
+                          odds: price,
                           teamName: event.runnersName?.[0]?.runnerName,
                           eventName: event.event?.name,
                           marketType: event.marketType,
-                        })
-                      }
+                        });
+                      }}
                     >
                       <span className="block whitespace-nowrap font-bold price text-[var(--lay-price-text)] leading-[1.1]">
                         {runner0?.ex?.availableToLay?.[0]?.price ?? "-"}
@@ -266,22 +272,26 @@ const InplayMarket = ({
                   <div className="flex gap-1">
                     {/* BACK BUTTON (CENTER) */}
                     <div
-                      className={`${oddsBoxWidthClass} h-[45px] gap-[2px] rounded-[8px] border-[1px] flex flex-col justify-center items-center select-none transition-all ${hasThreeRunners
-                        ? hasCenterBackPrice
-                          ? "border-[var(--back-border)] bg-[var(--back-bg)] hover:bg-[var(--back-hover)] cursor-pointer"
-                          : "border-[var(--back-noprice-border)] bg-[var(--back-noprice-bg)] hover:bg-[var(--back-hover)] cursor-pointer"
-                        : "border-[var(--back-disabled-border)] bg-[var(--back-disabled-bg)] cursor-default"
-                        }`}
-                      onClick={() =>
-                        hasThreeRunners &&
+                      className={`${oddsBoxWidthClass} h-[45px] gap-[2px] rounded-[8px] border-[1px] flex flex-col justify-center items-center select-none transition-all ${
+                        hasThreeRunners
+                          ? hasCenterBackPrice
+                            ? "border-[var(--back-border)] bg-[var(--back-bg)] hover:bg-[var(--back-hover)] cursor-pointer"
+                            : "border-[var(--back-noprice-border)] bg-[var(--back-noprice-bg)] hover:bg-[var(--back-hover)] cursor-pointer"
+                          : "border-[var(--back-disabled-border)] bg-[var(--back-disabled-bg)] cursor-default"
+                      }`}
+                      onClick={() => {
+                        if (!hasThreeRunners) return;
+                        const price = runner2?.ex?.availableToBack?.[0]?.price;
+                        const size = runner2?.ex?.availableToBack?.[0]?.size;
+                        if (!price || !size) return;
                         setSelectedBet({
                           type: "back",
-                          odds: runner2?.ex?.availableToBack?.[0]?.price,
+                          odds: price,
                           teamName: event.runnersName?.[2]?.runnerName,
                           eventName: event.event?.name,
                           marketType: event.marketType,
-                        })
-                      }
+                        });
+                      }}
                     >
                       <span
                         className={`block whitespace-nowrap font-bold price leading-[1.1] ${hasThreeRunners ? (hasCenterBackPrice ? "text-[var(--back-price-text)]" : "text-[var(--back-price-text-noprice)]") : "text-[var(--back-price-text-disabled)]"}`}
@@ -295,30 +305,34 @@ const InplayMarket = ({
                       >
                         {hasThreeRunners
                           ? (shortNumber(
-                            runner2?.ex?.availableToBack?.[0]?.size,
-                          ) ?? "")
+                              runner2?.ex?.availableToBack?.[0]?.size,
+                            ) ?? "")
                           : ""}
                       </span>
                     </div>
 
                     {/* LAY BUTTON (CENTER) */}
                     <div
-                      className={`${oddsBoxWidthClass} h-[45px] gap-[2px] rounded-[8px] border-[1px] flex flex-col justify-center items-center select-none transition-all ${hasThreeRunners
-                        ? hasCenterLayPrice
-                          ? "border-[var(--lay-border)] bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)] cursor-pointer"
-                          : "border-[var(--lay-noprice-border)] bg-[var(--lay-noprice-bg)] hover:bg-[var(--lay-hover)] cursor-pointer"
-                        : "border-[var(--lay-disabled-border)] bg-[var(--lay-disabled-bg)] cursor-default"
-                        }`}
-                      onClick={() =>
-                        hasThreeRunners &&
+                      className={`${oddsBoxWidthClass} h-[45px] gap-[2px] rounded-[8px] border-[1px] flex flex-col justify-center items-center select-none transition-all ${
+                        hasThreeRunners
+                          ? hasCenterLayPrice
+                            ? "border-[var(--lay-border)] bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)] cursor-pointer"
+                            : "border-[var(--lay-noprice-border)] bg-[var(--lay-noprice-bg)] hover:bg-[var(--lay-hover)] cursor-pointer"
+                          : "border-[var(--lay-disabled-border)] bg-[var(--lay-disabled-bg)] cursor-default"
+                      }`}
+                      onClick={() => {
+                        if (!hasThreeRunners) return;
+                        const price = runner2?.ex?.availableToLay?.[0]?.price;
+                        const size = runner2?.ex?.availableToLay?.[0]?.size;
+                        if (!price || !size) return;
                         setSelectedBet({
                           type: "lay",
-                          odds: runner2?.ex?.availableToLay?.[0]?.price,
+                          odds: price,
                           teamName: event.runnersName?.[2]?.runnerName,
                           eventName: event.event?.name,
                           marketType: event.marketType,
-                        })
-                      }
+                        });
+                      }}
                     >
                       <span
                         className={`block whitespace-nowrap font-bold price leading-[1.1] ${hasThreeRunners ? "text-[var(--lay-price-text)]" : "text-[var(--lay-price-text-disabled)]"}`}
@@ -332,8 +346,8 @@ const InplayMarket = ({
                       >
                         {hasThreeRunners
                           ? (shortNumber(
-                            runner2?.ex?.availableToLay?.[0]?.size,
-                          ) ?? "")
+                              runner2?.ex?.availableToLay?.[0]?.size,
+                            ) ?? "")
                           : ""}
                       </span>
                     </div>
@@ -351,15 +365,20 @@ const InplayMarket = ({
                     {/* BACK BUTTON (RIGHT) */}
                     <div
                       className={`${oddsBoxWidthClass} h-[45px] gap-[2px] rounded-[8px] border border-[var(--back-border)] bg-[var(--back-bg)] hover:bg-[var(--back-hover)] flex flex-col justify-center items-center cursor-pointer select-none transition-all`}
-                      onClick={() =>
+                      onClick={() => {
+                        const price =
+                          rightRunner?.ex?.availableToBack?.[0]?.price;
+                        const size =
+                          rightRunner?.ex?.availableToBack?.[0]?.size;
+                        if (!price || !size) return;
                         setSelectedBet({
                           type: "back",
-                          odds: rightRunner?.ex?.availableToBack?.[0]?.price,
+                          odds: price,
                           teamName: rightRunnerName,
                           eventName: event.event?.name,
                           marketType: event.marketType,
-                        })
-                      }
+                        });
+                      }}
                     >
                       <span className="block whitespace-nowrap font-bold price text-[var(--back-price-text)] leading-[1.1]">
                         {rightRunner?.ex?.availableToBack?.[0]?.price ?? "-"}
@@ -374,15 +393,19 @@ const InplayMarket = ({
                     {/* LAY BUTTON (RIGHT) */}
                     <div
                       className={`${oddsBoxWidthClass} h-[45px] gap-[2px] rounded-[8px] border border-[var(--lay-border)] bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)] flex flex-col justify-center items-center cursor-pointer select-none transition-all`}
-                      onClick={() =>
+                      onClick={() => {
+                        const price =
+                          rightRunner?.ex?.availableToLay?.[0]?.price;
+                        const size = rightRunner?.ex?.availableToLay?.[0]?.size;
+                        if (!price || !size) return;
                         setSelectedBet({
                           type: "lay",
-                          odds: rightRunner?.ex?.availableToLay?.[0]?.price,
+                          odds: price,
                           teamName: rightRunnerName,
                           eventName: event.event?.name,
                           marketType: event.marketType,
-                        })
-                      }
+                        });
+                      }}
                     >
                       <span className="block whitespace-nowrap font-bold price text-[var(--lay-price-text)] leading-[1.1]">
                         {rightRunner?.ex?.availableToLay?.[0]?.price ?? "-"}
