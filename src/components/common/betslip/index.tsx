@@ -1,6 +1,7 @@
 "use client";
 import { useAppStore } from "@/lib/store/store";
 import React, { useState, useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
 
 export default function BetSlipUI() {
   const [odds, setOdds] = useState<number>(0);
@@ -57,6 +58,13 @@ export default function BetSlipUI() {
     setStake(Number(totalLiabilityAmount) || "");
     setShowLiabilityForm(false);
   };
+
+  const pathname = usePathname();
+useEffect(() => {
+  clearSelectedBet();
+  setStake("");
+}, [pathname]);
+
 
   if (!selectedBet) return null;
 
