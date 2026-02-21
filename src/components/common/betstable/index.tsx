@@ -196,16 +196,13 @@ export default function BetsTable() {
               } : {}),
             }}
           >
-            {/* ✅ No truncate — full label */}
             <span style={{ whiteSpace: "nowrap" }}>{col.label}</span>
 
-            {/* ✅ Sort icon — always show when active, hover when not */}
             <svg
               className="w-[18px] h-[18px] flex-shrink-0 transition-opacity duration-200"
               style={{
                 opacity: isActive ? 1 : (hoveredCol === col.label ? 1 : 0),
                 color: isActive ? "#fff" : "var(--palette-text-disabled)",
-                // ✅ Flip SVG for DESC
                 transform: isDesc ? "scaleY(-1)" : "none",
               }}
               viewBox="0 0 24 24"
@@ -236,7 +233,7 @@ export default function BetsTable() {
               onMouseDown={(e) => onResizeStart(e, col.label)}
               onClick={(e) => e.stopPropagation()}
               className="absolute right-0 top-0 h-full flex items-center justify-center z-10"
-              style={{ width: "8px", cursor: "col-resize" }}
+              style={{  cursor: "col-resize" }}
             >
               <div style={{ width: "1px", height: "100%", backgroundColor: hoveredCol === col.label ? "rgba(145,158,171,0.5)" : "rgba(145,158,171,0.2)" }} />
             </div>
@@ -328,7 +325,7 @@ export default function BetsTable() {
                   {renderColumns(true)}
                 </div>
               </div>
-              <div className="flex-1 flex items-center justify-center text-[var(--text-primary)] text-[0.875rem]">
+              <div className="flex-1 flex items-center justify-center text-[var(--palette-text-secondary)] text-[0.875rem]">
                 No rows
               </div>
             </div>
