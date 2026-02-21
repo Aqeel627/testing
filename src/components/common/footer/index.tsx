@@ -88,7 +88,6 @@ export default function Footer() {
             {/* RIGHT BLOCK */}
             <div className="md:ml-1 lg:ml-[5px] min-w-0 flex-1 ">
               {/* LINKS */}
-             
 
               {/* DESCRIPTION */}
               <div className="min-[900px]:pt-2   max-[900]:text-xs  text-[13px] leading-[20px] text-(--palette-text-secondary) dark:border-[rgba(145,158,171,0.2)] ">
@@ -123,39 +122,42 @@ export default function Footer() {
                            <option>Urdu</option>
                         </select>
                      </div> */}
-              <div className="inline-block mt-2 relative max-[900px]:hidden">
+              <div className="flex justify-center mt-2 max-[900px]:hidden">
                 <LanguageToggler />
               </div>
             </div>
           </div>
 
           {/* POLICY LINKS */}
-         <div className="flex flex-wrap justify-center gap-x-2 max-[899px]:px-4 min-[900px]:gap-x-4 py-2 max-[900px]:mt-[16px] text-[12px] min-[900px]:text-[13px] font-medium text-[var(--palette-text-secondary)]">
-  {[
-    { name: "About", href: "/about" },
-    { name: "Contact Us", href: "/contact-us" },
-    { name: "Responsible Gambling", href: "/responsible-gambling" },
-    { name: "AML", href: "/aml-policy" },
-    { name: "KYC Policy", href: "/kyc-policy" },
+          <div className="flex flex-wrap justify-center gap-x-2 max-[899px]:px-4 min-[900px]:gap-x-4 py-2 max-[900px]:mt-[16px] text-[12px] min-[900px]:text-[13px] font-medium text-[var(--palette-text-secondary)]">
+            {[
+              { name: "About", href: "/about" },
+              { name: "Contact Us", href: "/contact-us" },
+              { name: "Responsible Gambling", href: "/responsible-gambling" },
+              { name: "AML", href: "/aml-policy" },
+              { name: "KYC Policy", href: "/kyc-policy" },
 
-    // 👇 Now Terms section after these
-    { name: "Terms & Conditions", href: "/terms-and-conditions" },
-    { name: "Betting Rules", href: "betting-rules" },
-    { name: "Dispute Resolution", href: "/dispute-resolution" },
-    { name: "Fairness & RNG Testing Methods", href: "/fairness-and-rng" },
-    { name: "Accounts", href: "/apb" },
-    { name: "Privacy Policy", href: "/privacy-policy" },
-    { name: "Self-Exclusion", href: "/self-exclusion" },
-  ].map((item, i) => (
-    <Link
-      key={i}
-      href={item.href}
-      className="hover:underline hover:text-[var(--palette-primary-main)] cursor-pointer py-1"
-    >
-      {item.name}
-    </Link>
-  ))}
-</div>
+              // 👇 Now Terms section after these
+              { name: "Terms & Conditions", href: "/terms-and-conditions" },
+              { name: "Betting Rules", href: "betting-rules" },
+              { name: "Dispute Resolution", href: "/dispute-resolution" },
+              {
+                name: "Fairness & RNG Testing Methods",
+                href: "/fairness-and-rng",
+              },
+              { name: "Accounts", href: "/apb" },
+              { name: "Privacy Policy", href: "/privacy-policy" },
+              { name: "Self-Exclusion", href: "/self-exclusion" },
+            ].map((item, i) => (
+              <Link
+                key={i}
+                href={item.href}
+                className="hover:underline hover:text-[var(--palette-primary-main)] cursor-pointer py-1"
+              >
+                {item.name}
+              </Link>
+            ))}
+          </div>
 
           {/* COPYRIGHT */}
           <div className="mt-1 max-[900]:-mx-4 flex justify-center bg-[#919EAB29] py-1 max-[900px]:mt-[16px] text-xs font-bold text-(--palette-text-secondary)">
