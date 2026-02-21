@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/container-queries";
 /* @custom-variant dark (&:where(.dark, .dark *)); */
 @custom-variant dark (&:is(.dark *));
 @import "nprogress/nprogress.css";
@@ -1150,6 +1151,37 @@ body:has(.drawer) {
     inset 0 1px 0 rgba(255, 255, 255, 0.25),
     inset 0 -2px 6px rgba(255, 255, 255, 0.05);
   /* border: 1px solid rgba(255, 255, 255, 0.18); */
+}
+.glass-blur {
+    background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.08),
+    rgba(255, 255, 255, 0.02)
+  );
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25),
+    inset 0 -2px 6px rgba(255, 255, 255, 0.05);
+}
+
+.glass-blur:before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  backdrop-filter: blur(2px);
+  border-radius: inherit;
+}
+.glass-radial{
+    backdrop-filter: blur(2px);
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.08),
+    rgba(255, 255, 255, 0.02)
+  );
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.35),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25),
+    inset 0 -2px 6px rgba(255, 255, 255, 0.05);
 }
 
 .glass-btn {
