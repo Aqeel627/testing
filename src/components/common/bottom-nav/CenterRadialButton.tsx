@@ -335,11 +335,12 @@ const CenterRadialButton = () => {
             `translateX(calc(${xPerc425[i]}% + 0px)) translateY(${y425[i]}px) rotate(${deg}deg) translateY(-${r425}px) rotate(${-deg}deg)`
             : // <425px: border gap == icon gap == (10..20px)
             `translateX(calc(-50% + ${small.dx}px)) translateY(${small.baseY}px) rotate(${small.angles[i]}deg) translateY(-${small.rCenter}px) rotate(${-small.angles[i]}deg)`;
-
+const iconClass = `icon-${radialIcons[i]}`;
           return (
             <span
               key={i}
-              className="absolute left-1/2 bottom-0 pointer-events-auto transition-transform duration-500"
+              // className="absolute left-1/2 bottom-0 pointer-events-auto transition-transform duration-500"
+              className={`absolute left-1/2 bottom-0 pointer-events-auto transition-transform duration-500 radial-icon ${iconClass}`}
               style={{
                 transform: open ? transformOpen : `translateX(-50%) translateY(-22px)`,
                 transitionDelay: open ? `${i * 0.08}s` : "0s",
