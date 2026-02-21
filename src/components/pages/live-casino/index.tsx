@@ -98,9 +98,12 @@ export default function Casino({ hideHeading }: { hideHeading?: boolean }) {
                   {item.eventName || item.dealer || "TEEN PATTI"}
                 </h3>
                 <div className="flex items-center z-10 justify-center gap-1 w-full">
-                  <span className="bg-transparent text-[#22c55e] border border-[#22c55e82] text-[9px] max-[350px]:text-[7px] font-bold px-1.5 py-0.5 rounded uppercase shadow-[0_0_5px_rgba(34,197,94,0.4)]">
+                  {/* <span className="bg-transparent text-[#22c55e] border border-[#22c55e82] text-[9px] max-[350px]:text-[7px] font-bold px-1.5 py-0.5 rounded uppercase shadow-[0_0_5px_rgba(34,197,94,0.4)]">
                     LIVE
-                  </span>
+                  </span> */}
+                  <span className="bg-transparent text-[#22c55e] border border-[#22c55e82] text-[9px] max-[350px]:text-[7px] font-bold px-1.5 py-0.5 rounded uppercase shadow-[0_0_5px_rgba(34,197,94,0.4)] relative live-neon">
+  LIVE
+</span>
                   <span className="bg-black/60 text-white text-[9px] font-semibold px-1.5 py-0.5  max-[350px]:text-[7px] rounded border border-white/20 whitespace-nowrap">
                     {item.range || "10 - 500K"}
                   </span>

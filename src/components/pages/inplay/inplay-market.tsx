@@ -148,9 +148,9 @@ const InplayMarket = ({
                   </div>
 
                   <div className="flex items-center gap-1 text-black">
-                    <Icon name={"bookMark"} width={20} height={20} />
-                    <Icon name={"fancy"} width={20} height={20} />
-                    <Icon name={"sportsbook"} width={20} height={20} />
+                    <Icon name={"bookMark"} className="h-[14px] w-[14px]" />
+                    <Icon name={"fancy"} className="h-[14px] w-[14px]" />
+                    <Icon name={"sportsbook"} className="h-[14px] w-[14px]" />
                     {/* <div className="bg-[#FFAB00] h-3.5 w-3.5 inline-flex justify-center items-center rounded-[4px] text-[13px] max-w-full">
                       <span className="text-[12px] font-semibold truncate overflow-hidden whitespace-nowrap">
                         B
