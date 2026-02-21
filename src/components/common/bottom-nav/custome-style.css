@@ -5,10 +5,73 @@
     }
 }
 
-@media (min-width: 425px) {
+@media only screen and  (min-width: 424px) {
     .c333 {
         position: relative;
         left: -2px;
         top: 2px;
+    }
+}
+@media only screen and (min-width:400px) and (max-width:410px){
+    .icon-theme button{
+top: -6px;
+left: 6px;
+}
+.icon-facebook div{
+    position: relative;
+    top: -6px;
+    right: 6px;
+}
+.icon-whatsapp div{
+    position: relative;
+    left: 3px;
+}
+.icon-google div{
+    position: relative;
+    right: 3px;
+}
+}
+
+@media only screen and (min-width:411px) and (max-width:418px){
+    .icon-facebook div{
+        position: relative;
+    bottom: 10px;
+    right: 8px;
+    }
+    .icon-theme button{
+            bottom: 10px;
+    left: 10px;
+    }
+    .icon-whatsapp div{
+        left: 4px;
+    position: relative;
+    bottom: 2px;
+    }
+    .icon-google div{
+        position: relative;
+        bottom: 2px;
+        right: 3px;
+    }
+}
+
+@media only screen and (min-width:419px) and (max-width:424px){
+    .icon-facebook div{
+        position: relative;
+    bottom: 14px;
+    right: 8px;
+    }
+    .icon-theme button{
+            top: -14px;
+    left: 10px;
+    }
+    .icon-whatsapp div{
+        left: 6px;
+    position: relative;
+    bottom: 2px;
+    }
+    .icon-google div{
+        position: relative;
+        bottom: 2px;
+        right: 5px;
     }
 }
