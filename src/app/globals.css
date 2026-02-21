@@ -357,6 +357,9 @@
   /* login variables */
   --gth-btn-bg: #1c252e;
 
+  /* market loader */
+  --market-loader-bg:#c1c4c8;
+
   /* exposure btns border  */
   --dropdown-balance-border: #919eab29;
 
@@ -413,6 +416,9 @@
 
   /* exposure btns border  */
   --dropdown-balance-border: #919eab29;
+
+  /* market loader */
+  --market-loader-bg:#4a5255;
 
   /* pts logout text color  */
   --dropdown-logout-color: #FF5630;
