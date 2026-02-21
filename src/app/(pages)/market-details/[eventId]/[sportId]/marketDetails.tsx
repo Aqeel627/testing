@@ -104,6 +104,7 @@ export default function MarketDetails() {
   const [fancyInfo, setFancyInfo] = useState<Market[]>([]);
   const [manualData, setManualData] = useState<Market[]>([]);
   const [liveStreaming, setLiveStreaming] = useState(false);
+  const [isScorePanelOpen, setIsScorePanelOpen] = useState(false);
   const [betfairData, setBetfairData] = useState<Market[]>([]);
   const [sportsbookData, setSportsbookData] = useState<Market[]>([]);
   const [allMarkets, setAllMarkets] = useState<Market[]>([]);
@@ -1226,11 +1227,15 @@ export default function MarketDetails() {
             </div>
             <div className="flex items-center gap-2">
               <Icon
+                name="scoreIcon"
+                className="w-5 h-5 mt-1 cursor-pointer"
+                onClick={() => setIsScorePanelOpen((prev) => !prev)}
+              />
+              <Icon
                 name="watch"
-                className="w-5 h-5"
+                className="w-5 h-5 cursor-pointer"
                 onClick={toggleStreaming}
               />
-              <Icon name="scoreIcon" className="w-5 h-5 mt-1" />
             </div>
           </div>
           <AnimatePresence initial={false}>
@@ -1241,13 +1246,25 @@ export default function MarketDetails() {
                 animate={{ height: "auto", opacity: 1 }}
                 exit={{ height: 0, opacity: 0 }}
                 transition={{ duration: 0.28, ease: "easeInOut" }}
-                className="overflow-hidden w-full min-h-[30px]"
+                className="overflow-hidden w-full"
               >
                 <VideoSimple
                   key={`stream-${eventId}-${streamCounter}`}
                   eventId={eventId}
                 />
               </motion.div>
+            )}
+          </AnimatePresence>
+          <AnimatePresence initial={false}>
+            {isScorePanelOpen && (
+              <motion.div
+                key="score-panel"
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: 30, opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.28, ease: "easeInOut" }}
+                className="overflow-hidden w-full"
+              />
             )}
           </AnimatePresence>
         </div>
