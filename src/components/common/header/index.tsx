@@ -310,7 +310,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                   <ul className="my-2 px-2 flex flex-col">
                     {[
                       { label: "Statement", href: "/account/statement" },
-                      { label: "Settings", href: "/account/settings/login" },
+                      { label: "Settings", href: "/settings" },
                       { label: "Activity", href: "/account/activity" },
                       {
                         label: "Bet Buttons",
