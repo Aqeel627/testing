@@ -172,15 +172,6 @@ export default function Footer() {
           </div>
         </div>
       </div>
-
-      {/* SMALL SCREEN FIX */}
-      <style jsx global>{`
-        @media (max-width: 374px) {
-          .footer-items {
-            font-size: 10px !important;
-          }
-        }
-      `}</style>
     </>
   );
 }

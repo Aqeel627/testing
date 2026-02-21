@@ -2,17 +2,21 @@
 import Icon from "@/icons/icons";
 import { shortNumber } from "@/lib/functions";
 import { useAppStore } from "@/lib/store/store";
-import Link from "next/link";
 import style from "@/components/pages/home/single-market/singleMarket.module.css";
-import React, { useEffect, useRef, useState } from "react";
-import { cn } from "@/lib/utils";
 import { AnimatedNumber } from "@/components/common/animatied-number";
+import { cn } from "@/lib/utils";
+import Link from "next/link";
 
-const InplayMarket = ({ events }: { events: any }) => {
+const InplayMarket = ({
+  events,
+  className,
+}: {
+  events: any;
+  className?: string;
+}) => {
   const { setSelectedBet } = useAppStore();
-  const wrapperRef = useRef<HTMLUListElement | null>(null);
   return (
-    <ul ref={wrapperRef} className="min-[900]:mt-6 mt-4">
+    <ul className={cn("min-[900]:mt-6 mt-4", className)}>
       {events?.map((event: any) => {
         const runner0 = event.runners?.[0]; // Team 1 → LEFT
         const runner1 = event.runners?.[1]; // Team 2 → RIGHT
@@ -61,7 +65,7 @@ const InplayMarket = ({ events }: { events: any }) => {
                 </div>
 
                 {/* Runner Names */}
-                <a
+                <Link
                   href={`/market-details/${event.event?.id}/${event.eventType.id}`}
                   className="flex flex-col w-full min-w-0 flex-auto no-underline"
                 >
@@ -97,7 +101,7 @@ const InplayMarket = ({ events }: { events: any }) => {
                       </span>
                     </div>
                   </div>
-                </a>
+                </Link>
 
                 {/* Meta row */}
                 <div className="flex flex-row gap-3 justify-start items-center h-4 leading-4 contain-strict pointer-events-none overflow-hidden mt-0.5">

@@ -1,11 +1,6 @@
 "use client";
 
-import {
-  useEffect,
-  useLayoutEffect,
-  useState,
-  type ReactNode,
-} from "react";
+import { useEffect, useLayoutEffect, useState, type ReactNode } from "react";
 import Header from "@/components/common/header";
 import Footer from "@/components/common/footer";
 import Sidebar from "@/components/common/sidebar";
@@ -29,66 +24,13 @@ import BetsTable from "@/components/common/betstable";
 const MAIN_WIDTH_STORAGE_KEY = "pages-layout-main-width";
 
 export default function PagesLayout({ children }: { children: ReactNode }) {
+  const { loginModal } = useCacheStore();
+  const { isLoggedIn } = useAuthStore();
   const [isMobile, setIsMobile] = useState<boolean | null>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-
   const isMobileSidebarOpen = useUIStore((s) => s.isSidebarOpen);
   const openMobileSidebar = useUIStore((s) => s.openSidebar);
   const closeMobileSidebar = useUIStore((s) => s.closeSidebar);
-
-  const LEFT_WIDTH_OPEN = 300;
-  const DIVIDER_WIDTH = 0.279;
-
-  const {
-    setCasinoEvents,
-    setAllEventsList,
-    setExchangeTypeList,
-    setMenuList,
-    setExchangeNews,
-    setUserBalance,
-    setStakeValue,
-    setBannersList,
-  } = useAppStore();
-
-  const { loginModal } = useCacheStore();
-  const { checkLogin, isLoggedIn } = useAuthStore();
-
-  const handleAllEvents = (data: any) => {
-    setAllEventsList(data);
-    console.log("Events Set", data);
-
-    const formatted = useAppStore.getState().getFormattedInplayEvents?.();
-    console.log("Formatted:", formatted);
-  };
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    checkLogin(token || "");
-
-    fetchData({
-      url: CONFIG.getAllEventsList,
-      payload: { key: CONFIG.siteKey },
-      cachedKey: "allEventsList",
-      setFn: handleAllEvents,
-      expireIn: CONFIG.getAllEventsListTime,
-    });
-
-    fetchData({
-      url: CONFIG.getTopCasinoGame,
-      payload: { key: CONFIG.siteKey },
-      cachedKey: "casinoEvents",
-      setFn: setCasinoEvents,
-      expireIn: CONFIG.getTopCasinoGameTime,
-    });
-
-    fetchData({
-      url: CONFIG.menuList,
-      payload: { key: CONFIG.siteKey },
-      cachedKey: "menuList",
-      setFn: setMenuList,
-      expireIn: CONFIG.menuListTime,
-    });
-  }, []);
 
   useLayoutEffect(() => {
     const checkDevice = () => {
@@ -178,7 +120,7 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
               </aside>
 
               <ResizablePanel
-                minSize={450} 
+                minSize={450}
                 defaultSize="70%"
                 className="h-full pt-[50px] overflow-y-auto no-scrollbar pb-[30px] min-w-[450px] ps-3 pe-[6px] mt-[10px]"
               >
@@ -197,7 +139,7 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
                 className="flex-auto min-w-0 h-full overflow-y-auto no-scrollbar pt-[50px] border-l border-white/5"
               >
                 <BetSlip />
-{isLoggedIn && <BetsTable />}
+                {isLoggedIn && <BetsTable />}
               </ResizablePanel>
             </ResizablePanelGroup>
           </div>
