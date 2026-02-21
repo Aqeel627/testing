@@ -945,6 +945,8 @@ const isBetOnThisMarket =
                                   : "bg-[#0a77a8] hover:bg-[#68CDF9]"
                               } ${i === 2 ? "max-[464px]:hidden" : ""} ${i === 1 ? "max-[346px]:hidden" : ""}`}
                               onClick={() => {
+                                  if (!item.raw?.price || item.raw.price === 0) return; 
+
                                setSelectedBet({
   type: "back",
   odds: item.raw?.price,
@@ -988,6 +990,8 @@ const isBetOnThisMarket =
                                   : "bg-[#a3555b] hover:bg-[#FFA4A7]"
                               } ${i === 2 ? "max-[464px]:hidden" : ""} ${i === 1 ? "max-[346px]:hidden" : ""}`}
                               onClick={() => {
+                                  if (!item.raw?.price || item.raw.price === 0) return; 
+
                                 setSelectedBet({
                                   type: "lay",
                                   odds: item.raw?.price,
