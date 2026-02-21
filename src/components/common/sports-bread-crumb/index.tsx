@@ -66,9 +66,7 @@ const SportsBreadCrumb = ({ title, subtitle }: BreadCrumbProps) => {
               )}
 
               {isLast ? (
-                <span className="text-[11px] font-bold text-white bg-[rgba(145,158,171,0.16)] px-2.5 py-0.5 rounded-[4px]">
-                  {crumb.label}
-                </span>
+                <></>
               ) : (
                 <Link
                   href={crumb.href}

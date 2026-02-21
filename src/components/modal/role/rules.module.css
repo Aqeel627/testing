@@ -1,0 +1,164 @@
+/* same overlay theme */
+.overlay {
+  position: fixed;
+  inset: 0;
+  -webkit-tap-highlight-color: transparent;
+  background-color: rgba(0, 0, 0, 0.3) !important;
+  opacity: 1;
+  transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 250;
+}
+
+.overlay[data-state="closed"] {
+  opacity: 0;
+}
+
+/* same content wrapper behavior */
+.content {
+  position: fixed;
+  inset: 0;
+  z-index: 251;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 16px;
+}
+
+@media (min-width: 1024px) {
+  .content {
+    align-items: flex-start;
+    padding-top: 90px;
+    padding-left: 32px;
+    padding-right: 32px;
+    padding-bottom: 32px;
+  }
+}
+
+/* dark paper like SearchModal */
+.paper {
+  background-color: #1c252e;
+  color: #ffffff;
+  width: min(860px, calc(100vw - 32px));
+  height: min(560px, calc(100vh - 64px));
+  max-height: calc(100vh - 64px);
+  border-radius: 16px;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.28);
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+}
+
+/* Title area like screenshot (big + bold) */
+.header {
+  padding: 22px 22px 10px;
+}
+
+.title {
+  margin: 0;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  font-size: 28px;
+  line-height: 1.2;
+}
+
+/* scrollable rules text */
+.body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 14px 22px 0;
+}
+
+.text {
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.92);
+  white-space: pre-wrap;
+}
+
+/* footer with centered OK button */
+.footer {
+  padding: 12px 22px 12px;
+  border-top: 1px solid rgba(145, 158, 171, 0.18);
+  display: flex;
+  justify-content: center;
+}
+
+.body {
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 14px 22px 0;
+}
+
+/* wrapper for your injected html */
+.html {
+  font-size: 16px;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+/* make links match your theme */
+.html a {
+  color: #078dee;
+  text-decoration: underline;
+}
+.html a:hover {
+  opacity: 0.9;
+}
+
+.okBtn {
+  cursor: pointer;
+  user-select: none;
+  border: 1px solid rgba(145, 158, 171, 0.55);
+  background: rgba(145, 158, 171, 0.1);
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 16px;
+  height: 40px;
+  width: 200px;
+  border-radius: 10px;
+  transition:
+    background-color 150ms cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.okBtn:hover {
+  border-color: #078dee;
+  background: rgba(7, 141, 238, 0.12);
+}
+
+.okBtn:focus-visible {
+  outline: 2px dashed #078dee;
+  outline-offset: 3px;
+}
+
+/* optional scrollbar styling like your list */
+.body::-webkit-scrollbar {
+  width: 10px;
+}
+.body::-webkit-scrollbar-track {
+  background: transparent;
+}
+.body::-webkit-scrollbar-thumb {
+  background: rgba(145, 158, 171, 0.25);
+  border-radius: 10px;
+  border: 3px solid transparent;
+  background-clip: content-box;
+}
+.body {
+  scrollbar-color: rgba(145, 158, 171, 0.25) transparent;
+}
+
+/* mobile tweaks */
+@media (max-width: 639px) {
+  .title {
+    font-size: 22px;
+  }
+  .text {
+    font-size: 16px;
+  }
+}
