@@ -1,9 +1,9 @@
-import RasGam from "@/components/pages/Res-Gam";
+import RasGamRoute from "@/components/pages/Res-Gam";
 
 const  ResRoute = () => {
   return (
     <>
-      <RasGam />
+      <RasGamRoute />
     </>
   );
 };

@@ -3,16 +3,13 @@
 import {
   useEffect,
   useLayoutEffect,
-  useRef,
   useState,
   type ReactNode,
 } from "react";
-import Marque from "@/components/common/marque";
 import Header from "@/components/common/header";
 import Footer from "@/components/common/footer";
 import Sidebar from "@/components/common/sidebar";
 import { useAppStore } from "@/lib/store/store";
-import { usePathname } from "next/navigation";
 import { fetchData } from "@/lib/functions";
 import { CONFIG } from "@/lib/config";
 import BetSlip from "@/components/common/betslip";
@@ -20,50 +17,26 @@ import { useUIStore } from "@/lib/store/ui-store"; // ✅ import store
 import BottomNavbar from "@/components/common/bottom-nav";
 import LoginModal from "@/components/modal/login";
 import { cn } from "@/lib/utils";
-import { useLayoutWidthStore } from "@/lib/store/layoutWidth.store";
 import { useCacheStore } from "@/lib/store/cacheStore";
 import { useAuthStore } from "@/lib/useAuthStore";
-import BetsTable from "@/components/common/betstable";
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "@/components/common/resizeable";
 
 const MAIN_WIDTH_STORAGE_KEY = "pages-layout-main-width";
 
 export default function PagesLayout({ children }: { children: ReactNode }) {
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState<boolean | null>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   const isMobileSidebarOpen = useUIStore((s) => s.isSidebarOpen);
   const openMobileSidebar = useUIStore((s) => s.openSidebar);
   const closeMobileSidebar = useUIStore((s) => s.closeSidebar);
 
-  const [hydratedWidth, setHydratedWidth] = useState(false);
-
-  const containerRef = useRef<HTMLDivElement | null>(null);
-  const draggingRef = useRef(false);
-
   const LEFT_WIDTH_OPEN = 300;
   const DIVIDER_WIDTH = 0.279;
-
-  const [mainWidth, setMainWidth] = useState<number>(0);
-
-  const leftWidth = isSidebarOpen ? LEFT_WIDTH_OPEN : 0;
-  const fallbackMainWidth = `calc(100% - ${leftWidth + 398}px)`;
-
-  const clamp = (v: number, min: number, max: number) =>
-    Math.max(min, Math.min(max, v));
-
-  const getContainerWidth = () => containerRef.current?.clientWidth ?? 0;
-
-  const computeLimits = () => {
-    const total = getContainerWidth();
-    const dividerPx = Math.max(3, Math.floor((DIVIDER_WIDTH / 100) * total));
-    const available = Math.max(0, total - leftWidth - dividerPx);
-
-    const rightMin = 0;
-    const minMain = 450;
-    const maxMain = Math.max(minMain, available - rightMin);
-
-    return { minMain, maxMain, dividerPx, available };
-  };
 
   const {
     setCasinoEvents,
@@ -77,7 +50,6 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
   } = useAppStore();
 
   const { loginModal } = useCacheStore();
-  const pathname = usePathname();
   const { checkLogin, isLoggedIn } = useAuthStore();
 
   const handleAllEvents = (data: any) => {
@@ -117,117 +89,18 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
     });
   }, []);
 
-  useEffect(() => {
-    const handleResize = () => {
-      const nextIsMobile = window.innerWidth < 1200;
-      setIsMobile(nextIsMobile);
-      // ✅ close mobile sidebar via store when switching to desktop
-      if (!nextIsMobile) closeMobileSidebar();
-    };
-    handleResize();
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
-
   useLayoutEffect(() => {
-    if (typeof window === "undefined") return;
+    const checkDevice = () => {
+      setIsMobile(window.innerWidth < 1200);
+    };
 
-    if (window.innerWidth < 1200) {
-      setHydratedWidth(true);
-      return;
-    }
+    checkDevice(); // 👈 run before paint
+    window.addEventListener("resize", checkDevice);
 
-    const savedWidth = localStorage.getItem(MAIN_WIDTH_STORAGE_KEY);
-    const parsedWidth = Number(savedWidth);
-
-    if (!Number.isNaN(parsedWidth) && parsedWidth > 0) {
-      setMainWidth(Math.floor(parsedWidth));
-    }
-
-    setHydratedWidth(true);
+    return () => window.removeEventListener("resize", checkDevice);
   }, []);
 
-  useEffect(() => {
-    if (isMobile) return;
-
-    let raf = 0;
-
-    const syncWhenReady = () => {
-      const total = getContainerWidth();
-      if (!total) {
-        raf = window.requestAnimationFrame(syncWhenReady);
-        return;
-      }
-
-      const { minMain, maxMain, available } = computeLimits();
-      if (!available) return;
-
-      setMainWidth((prev) => {
-        if (prev > 0) return clamp(Math.floor(prev), minMain, maxMain);
-
-        const initial = Math.floor(available - 398);
-        return clamp(initial, minMain, maxMain);
-      });
-    };
-
-    raf = window.requestAnimationFrame(syncWhenReady);
-    window.addEventListener("resize", syncWhenReady);
-
-    return () => {
-      window.cancelAnimationFrame(raf);
-      window.removeEventListener("resize", syncWhenReady);
-    };
-  }, [isMobile, isSidebarOpen]);
-
-  useEffect(() => {
-    if (isMobile || !mainWidth) return;
-    localStorage.setItem(MAIN_WIDTH_STORAGE_KEY, String(mainWidth));
-  }, [mainWidth, isMobile]);
-
-  const startDrag = (e: React.PointerEvent) => {
-    if (isMobile) return;
-    draggingRef.current = true;
-    (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
-    document.body.style.userSelect = "none";
-    document.body.style.cursor = "col-resize";
-  };
-  const mainRef = useRef<HTMLDivElement | null>(null);
-
-  const setMainWidthStore = useLayoutWidthStore((state) => state.setMainWidth);
-  useEffect(() => {
-    if (mainWidth > 0 && !isMobile) {
-      setMainWidthStore(mainWidth);
-    }
-  }, [mainWidth, isMobile]);
-
-  const onDrag = (e: React.PointerEvent) => {
-    if (!draggingRef.current || isMobile) return;
-    const scrollTop = mainRef.current?.scrollTop || 0;
-    const el = containerRef.current;
-    if (!el) return;
-
-    const rect = el.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-
-    const { minMain, maxMain, dividerPx } = computeLimits();
-
-    const rawMain = x - leftWidth - dividerPx / 2;
-    const nextWidth = clamp(Math.floor(rawMain), minMain, maxMain);
-    setMainWidth(nextWidth);
-    localStorage.setItem(MAIN_WIDTH_STORAGE_KEY, String(nextWidth));
-    requestAnimationFrame(() => {
-      if (mainRef.current) {
-        mainRef.current.scrollTop = scrollTop;
-      }
-    });
-  };
-
-  const endDrag = () => {
-    if (!draggingRef.current) return;
-    draggingRef.current = false;
-    document.body.style.userSelect = "";
-    document.body.style.cursor = "";
-  };
+  if (isMobile === null) return null;
 
   if (isMobile) {
     return (
@@ -267,7 +140,7 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
             <Sidebar />
           </aside>
 
-          <main ref={mainRef} className="pt-[80px] px-3 h-screen">
+          <main className="pt-[80px] px-3 h-screen">
             {children}
             <Footer />
             <div className="md:hidden h-25"></div>
@@ -278,74 +151,57 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
         {loginModal && <LoginModal />}
       </>
     );
-  }
-
-  if (!hydratedWidth) return null;
-
-  return (
-    <>
-      <div className="w-full h-screen overflow-hidden">
-        <div className="fixed top-0 left-0 w-full z-50">
-          {/* <Marque /> */}
-          <Header onMenuClick={() => setIsSidebarOpen((prev) => !prev)} />
-        </div>
-
-        <div ref={containerRef} className="flex h-full w-100% ">
-          <aside
-            className={`h-full pt-[50px] no-scrollbar overflow-hidden transition-all duration-300 border-white/5 ease-in-out ${
-              isSidebarOpen ? "border-r " : "border-0"
-            }`}
-            style={{ width: `${leftWidth}px`, minWidth: `${leftWidth}px` }}
-          >
-            <Sidebar />
-          </aside>
-
-          <main
-            className="h-full pt-[50px] overflow-y-auto no-scrollbar pb-[30px] min-w-[450px] ps-3 pe-[6px] mt-[10px]"
-            style={
-              mainWidth
-                ? { width: `${mainWidth}px`, flex: `0 0 ${mainWidth}px` }
-                : { width: fallbackMainWidth, flex: `0 0 ${fallbackMainWidth}` }
-            }
-          >
-            {children}
-            <Footer />
-          </main>
-
-          <div className="w-[0.279%] mt-[50px] bg-[rgba(145,158,171,0.2)] --palette-text-primary ml-[6.5px] relative">
-            <svg
-              onPointerDown={startDrag}
-              onPointerMove={onDrag}
-              onPointerUp={endDrag}
-              onPointerCancel={endDrag}
-              onLostPointerCapture={endDrag}
-              style={{ touchAction: "none", cursor: "col-resize" }}
-              xmlns="http://www.w3.org/2000/svg"
-              xmlnsXlink="http://www.w3.org/1999/xlink"
-              aria-hidden="true"
-              role="img"
-              id="_r_94_"
-              width="1em"
-              height="1em"
-              viewBox="0 0 24 24"
-              className="absolute translate-[-50%] left-[60%] top-[44.1%] h-5 w-5"
-            >
-              <path
-                fill="currentColor"
-                fillRule="evenodd"
-                clipRule="evenodd"
-                d="M11.0625 5.505C11.0625 4.5375 10.2225 3.75 9.1875 3.75C8.1525 3.75 7.3125 4.5375 7.3125 5.505C7.3125 6.474 8.1525 7.26 9.1875 7.26C10.2225 7.26 11.0625 6.474 11.0625 5.505ZM11.0625 18.495C11.0625 17.526 10.2225 16.74 9.1875 16.74C8.1525 16.74 7.3125 17.526 7.3125 18.495C7.3125 19.464 8.1525 20.25 9.1875 20.25C10.2225 20.25 11.0625 19.4625 11.0625 18.495ZM9.1875 10.245C10.2225 10.245 11.0625 11.0325 11.0625 12C11.0625 12.9675 10.2225 13.755 9.1875 13.755C8.1525 13.755 7.3125 12.9675 7.3125 12C7.3125 11.0325 8.1525 10.245 9.1875 10.245ZM16.6875 5.505C16.6875 4.5375 15.8475 3.75 14.8125 3.75C13.7775 3.75 12.9375 4.5375 12.9375 5.505C12.9375 6.474 13.7775 7.26 14.8125 7.26C15.8475 7.26 16.6875 6.474 16.6875 5.505ZM14.8125 16.74C15.8475 16.74 16.6875 17.526 16.6875 18.495C16.6875 19.464 15.8475 20.25 14.8125 20.25C13.7775 20.25 12.9375 19.4625 12.9375 18.495C12.9375 17.526 13.7775 16.74 14.8125 16.74ZM16.6875 12C16.6875 11.0325 15.8475 10.245 14.8125 10.245C13.7775 10.245 12.9375 11.0325 12.9375 12C12.9375 12.9675 13.7775 13.755 14.8125 13.755C15.8475 13.755 16.6875 12.9675 16.6875 12Z"
-              />
-            </svg>
+  } else {
+    return (
+      <>
+        <div className="w-full h-screen overflow-hidden">
+          <div className="fixed top-0 left-0 w-full z-50">
+            {/* <Marque /> */}
+            <Header onMenuClick={() => setIsSidebarOpen((prev) => !prev)} />
           </div>
 
-          <aside className="flex-auto min-w-0 h-full overflow-y-auto no-scrollbar pt-[50px] border-l border-white/5">
-            <BetSlip />
-            <BetsTable />
-          </aside>
+          <div className="flex h-full w-100% ">
+            <ResizablePanelGroup
+              orientation="horizontal"
+              className="min-w-112.5!"
+            >
+              <aside
+                className={cn(
+                  "h-full pt-[50px] no-scrollbar overflow-hidden transition-all duration-300 border-white/5 ease-in-out",
+                  isSidebarOpen
+                    ? "border-r min-w-75 w-75"
+                    : "border-0 w-0 min-w-0",
+                )}
+              >
+                <Sidebar />
+              </aside>
+
+              <ResizablePanel
+                minSize={450} 
+                defaultSize="70%"
+                className="h-full pt-[50px] overflow-y-auto no-scrollbar pb-[30px] min-w-[450px] ps-3 pe-[6px] mt-[10px]"
+              >
+                <div className="@container w-full">
+                  {children}
+                  <Footer />
+                </div>
+              </ResizablePanel>
+              <ResizableHandle
+                withHandle
+                className="ml-[6.5px] bg-[rgba(145,158,171,0.2)] w-1 mt-[50px]"
+              />
+
+              <ResizablePanel
+                defaultSize="30%"
+                className="flex-auto min-w-0 h-full overflow-y-auto no-scrollbar pt-[50px] border-l border-white/5"
+              >
+                <BetSlip />
+              </ResizablePanel>
+            </ResizablePanelGroup>
+          </div>
         </div>
-      </div>
-      {loginModal && <LoginModal />}
-    </>
-  );
+        {loginModal && <LoginModal />}
+      </>
+    );
+  }
 }
