@@ -24,6 +24,7 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/common/resizeable";
+import BetsTable from "@/components/common/betstable";
 
 const MAIN_WIDTH_STORAGE_KEY = "pages-layout-main-width";
 
@@ -196,6 +197,7 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
                 className="flex-auto min-w-0 h-full overflow-y-auto no-scrollbar pt-[50px] border-l border-white/5"
               >
                 <BetSlip />
+{isLoggedIn && <BetsTable />}
               </ResizablePanel>
             </ResizablePanelGroup>
           </div>
