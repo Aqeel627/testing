@@ -163,7 +163,7 @@ const CenterRadialButton = () => {
 
   // your fixed 425px transforms (DO NOT TOUCH)
   const rotations = [-60, -20, 20, 60] as const;
-  const radialIcons = ["theme", "whatsapp", "google", "facebook"] as const;
+  const radialIcons = ["theme", "whatsapp", "google", "powerOff"] as const;
 
   const xPerc425 = [-65, -57, -50, -35] as const;
   const y425 = [-32.75, -25.75, -25.75, -31.75] as const;
@@ -361,15 +361,7 @@ const CenterRadialButton = () => {
                   {theme === "dark" ? (
                     <Icon name="moon" width={22} height={22} />
                   ) : (
-                    <img
-                      src="/sun.svg"
-                      alt="sun"
-                      className="w-[22px] h-[22px]"
-                      style={{
-                        filter:
-                          "invert(67%) sepia(9%) saturate(354%) hue-rotate(174deg) brightness(70%) contrast(87%)",
-                      }}
-                    />
+                    <Icon name="moonOutline" width={22} height={22} />
                   )}
                 </button>
               ) : (
