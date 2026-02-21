@@ -56,10 +56,10 @@ export default function Casino({ hideHeading }: { hideHeading?: boolean }) {
           </h2>
 
           {/* Right Glowing Line & Dots */}
-          <div className="relative flex items-center justify-start gap-2 w-full">
+          <div className="relative flex items-center justify-start gap-2 w-full z-0">
             <div className="w-1 h-1 min-[500px]:w-[5px] min-[500px]:h-[5px] rounded-full bg-[#078dee] shadow-[0_0_8px_#078dee]"></div>
             <div className="w-1.25 h-1.25 bg-[#ffbbbb] dark:shadow-[0_0_6px_#ff3b3b,0_0_3px_#ff7f7f]"></div>
-            <div className="neon-underline -top-1 -left-1 max-md:left-1 max-sm:left-3">
+            <div className="neon-underline -top-1 -left-1 max-md:left-1 max-sm:left-3 z-0">
               {/* <span className="neon-glow glow-main"></span> */}
               <span className="neon-line line-main"></span>
 
