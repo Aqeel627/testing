@@ -3,7 +3,6 @@
 import {
   useEffect,
   useLayoutEffect,
-  useRef,
   useState,
   type ReactNode,
 } from "react";
@@ -25,7 +24,6 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/common/resizeable";
-import Loader from "@/components/common/loader/loader";
 
 const MAIN_WIDTH_STORAGE_KEY = "pages-layout-main-width";
 
@@ -102,7 +100,7 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
     return () => window.removeEventListener("resize", checkDevice);
   }, []);
 
-  if (isMobile === null) return <Loader />;
+  if (isMobile === null) return null;
 
   if (isMobile) {
     return (
