@@ -164,11 +164,11 @@ const CenterRadialButton = () => {
   }, [vw]);
 
   const handleIconAction = (iconName: string) => {
-    if (iconName === "whatsapp") {
+    if (iconName === "themeSetting") {
       router.push("/theme")
     }
-    else if (iconName === "google") {
-      console.log("Google clicked");
+    else if (iconName === "stake") {
+      console.log("stake clicked");
     }
     else if (iconName === "powerOff") {
       console.log("PowerOff clicked");

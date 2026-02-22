@@ -8,7 +8,7 @@ export default function Footer() {
   return (
     <>
       <div className="mt-5">
-        <div className="w-full flex flex-col  max-[900px]:rounded-[16px] rounded-t-xl bg-(--palette-background-paper) text-(--palette-text-primary) border  border-[rgba(145,158,171,0.2)] p-2 max-[900px]:p-4 max-[900px]:pb-0 overflow-hidden">
+        <div className="w-full flex flex-col  max-[900px]:rounded-[16px] rounded-xl bg-(--palette-background-paper) text-(--palette-text-primary) border  border-[rgba(145,158,171,0.2)] p-2 max-[900px]:p-4 max-[900px]:pb-0 overflow-hidden">
           {/* TOP SECTION */}
           <div className="flex flex-col-reverse mb-[7px]  max-[900px]:justify-center min-[900px]:gap-[11px]  min-[900px]:flex-row">
             {/* LEFT BLOCK */}
