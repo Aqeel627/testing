@@ -1508,3 +1508,39 @@ body:has(.drawer) {
 .price {
   font-size: var(--lay-and-back-prize);
 }
+.live-neon{
+  --neon: #078dee;          /* your primary color */
+  position: relative;
+  isolation: isolate;        /* keeps ::after behind but not outside parent stacking */
+  z-index: 0;
+}
+
+/* sharp neon border + glow */
+.live-neon::before{
+  content:"";
+  position:absolute;
+  inset:-1px;                /* slightly outside your existing border */
+  border-radius:inherit;
+  pointer-events:none;
+
+  border:1px solid color-mix(in srgb, #22c55e 65%, transparent);
+}
+
+/* soft “light sweep” like the line in your image */
+.live-neon::after{
+  content:"";
+  position:absolute;
+  inset:-6px;
+  border-radius:inherit;
+  pointer-events:none;
+  z-index:-1;
+
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    color-mix(in srgb, #22c55e 85%, transparent) 50%,
+    transparent 100%
+  );
+  filter: blur(10px);
+  opacity: .55;
+}

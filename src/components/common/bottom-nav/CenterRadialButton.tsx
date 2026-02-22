@@ -1,5 +1,3 @@
-
-
 // "use client";
 // import { useEffect, useRef, useState } from "react";
 // import Icon from "@/icons/icons";
@@ -146,6 +144,7 @@ import { useEffect, useRef, useState } from "react";
 import Icon from "@/icons/icons";
 import { cn } from "@/lib/utils";
 import { useTheme } from "next-themes";
+import "./custome-style.css"
 
 const clamp = (v: number, a: number, b: number) => Math.max(a, Math.min(b, v));
 const rad2deg = (r: number) => (r * 180) / Math.PI;
@@ -164,7 +163,7 @@ const CenterRadialButton = () => {
 
   // your fixed 425px transforms (DO NOT TOUCH)
   const rotations = [-60, -20, 20, 60] as const;
-  const radialIcons = ["theme", "whatsapp", "google", "facebook"] as const;
+  const radialIcons = ["theme", "whatsapp", "google", "powerOff"] as const;
 
   const xPerc425 = [-65, -57, -50, -35] as const;
   const y425 = [-32.75, -25.75, -25.75, -31.75] as const;
@@ -333,14 +332,15 @@ const CenterRadialButton = () => {
         {rotations.map((deg, i) => {
           const transformOpen = useFixed425To767
             ? // EXACT 425px values (no change from 425 to 767)
-              `translateX(calc(${xPerc425[i]}% + 0px)) translateY(${y425[i]}px) rotate(${deg}deg) translateY(-${r425}px) rotate(${-deg}deg)`
+            `translateX(calc(${xPerc425[i]}% + 0px)) translateY(${y425[i]}px) rotate(${deg}deg) translateY(-${r425}px) rotate(${-deg}deg)`
             : // <425px: border gap == icon gap == (10..20px)
-              `translateX(calc(-50% + ${small.dx}px)) translateY(${small.baseY}px) rotate(${small.angles[i]}deg) translateY(-${small.rCenter}px) rotate(${-small.angles[i]}deg)`;
-
+            `translateX(calc(-50% + ${small.dx}px)) translateY(${small.baseY}px) rotate(${small.angles[i]}deg) translateY(-${small.rCenter}px) rotate(${-small.angles[i]}deg)`;
+const iconClass = `icon-${radialIcons[i]}`;
           return (
             <span
               key={i}
-              className="absolute left-1/2 bottom-0 pointer-events-auto transition-transform duration-500"
+              // className="absolute left-1/2 bottom-0 pointer-events-auto transition-transform duration-500"
+              className={`absolute left-1/2 bottom-0 pointer-events-auto transition-transform duration-500 radial-icon ${iconClass}`}
               style={{
                 transform: open ? transformOpen : `translateX(-50%) translateY(-22px)`,
                 transitionDelay: open ? `${i * 0.08}s` : "0s",
@@ -352,7 +352,7 @@ const CenterRadialButton = () => {
                   type="button"
                   onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
                   className={cn(
-                    "w-[50px] h-[50px] max-[355px]:w-[45px] max-[355px]:h-[45px] max-[330px]:h-[42px] rounded-full flex items-center justify-center glass backdrop-blur-[20px] border shadow-lg transition-opacity duration-300",
+                    "c333 w-[50px] h-[50px] max-[355px]:w-[45px] max-[355px]:h-[45px] max-[330px]:h-[42px] rounded-full flex items-center justify-center glass backdrop-blur-[20px] border shadow-lg transition-opacity duration-300",
                     open ? "opacity-100" : "opacity-0",
                     theme === "dark"
                       ? "border-[rgba(255,255,255,0.25)]"
@@ -362,15 +362,7 @@ const CenterRadialButton = () => {
                   {theme === "dark" ? (
                     <Icon name="moon" width={22} height={22} />
                   ) : (
-                    <img
-                      src="/sun.svg"
-                      alt="sun"
-                      className="w-[22px] h-[22px]"
-                      style={{
-                        filter:
-                          "invert(67%) sepia(9%) saturate(354%) hue-rotate(174deg) brightness(70%) contrast(87%)",
-                      }}
-                    />
+                    <Icon name="moonOutline" width={22} height={22} />
                   )}
                 </button>
               ) : (
