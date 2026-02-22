@@ -1,6 +1,6 @@
-import Batting from "@/components/pages/Batting";
+import Batting from "@/components/pages/batting";
 
-const  BattingRoute  = () => {
+const BattingRoute = () => {
   return (
     <>
       <Batting />

@@ -1,4 +1,6 @@
-import NotFoundComponent from '@/components/common/not-found-component'
+import dynamic from 'next/dynamic';
+const NotFoundComponent = dynamic(() => import("@/components/common/not-found-component"));
+
 
 const NotFound = () => {
   return (

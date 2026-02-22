@@ -1,6 +1,7 @@
-import Activity from "@/components/pages/activity";
+import dynamic from "next/dynamic";
+const Activity = dynamic(() => import("@/components/pages/activity"));
 
-const  activityRoute = () => {
+const ActivityRoute = () => {
   return (
     <>
       <Activity />
@@ -8,4 +9,4 @@ const  activityRoute = () => {
   );
 };
 
-export default activityRoute;
+export default ActivityRoute;

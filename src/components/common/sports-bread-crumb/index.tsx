@@ -1,9 +1,9 @@
 "use client";
-import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
-import Icon from "@/icons/icons";
 import { useAppStore } from "@/lib/store/store";
+import dynamic from "next/dynamic";
+const Icon = dynamic(() => import("@/icons/icons"));
 
 interface BreadCrumbProps {
   /** Override the page title shown above the crumbs. Defaults to last segment. */

@@ -2,7 +2,7 @@
 
 import React, { useEffect, useMemo, useRef } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
-import styles from "./rules.module.css";
+import styles from "./style.module.css";
 
 type RuleModalProps = {
   open: boolean;

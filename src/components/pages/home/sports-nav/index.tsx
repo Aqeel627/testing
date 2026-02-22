@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef, useMemo, useTransition } from "react";
-import styles from "./sportsPage.module.css";
+import styles from "./style.module.css";
 import { useAppStore } from "@/lib/store/store";
 import { cn } from "@/lib/utils";
 

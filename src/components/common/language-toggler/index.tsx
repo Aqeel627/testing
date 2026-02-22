@@ -1,6 +1,5 @@
 "use client";
-import Icon from "@/icons/icons";
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { parseCookies, setCookie } from "nookies";
 
 const COOKIE_NAME = "googtrans";
