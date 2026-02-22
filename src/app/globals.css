@@ -33,7 +33,7 @@
 
   --background: #f4f6f8;
   --foreground: #171717;
-  --palette-common-black: #000000;
+  /* --palette-common-black: #000000; */
   --text-primary-hover: black;
   --palette-common-white: #ffffff;
   /* --palette-common-blackChannel: 0 0 0; */
@@ -71,31 +71,31 @@
   --palette-error-main: #ff5630;
   --palette-error-dark: #b71d18;
   --palette-error-darker: #7a0916;
-  --palette-error-contrastText: #ffffff;
-  --palette-error-lighterChannel: 255 233 213;
-  --palette-error-lightChannel: 255 172 130;
-  --palette-error-mainChannel: 255 86 48;
-  --palette-error-darkChannel: 183 29 24;
-  --palette-error-darkerChannel: 122 9 22;
-  --palette-error-contrastTextChannel: 255 255 255;
-  --palette-warning-lighter: #fff5cc;
-  --palette-warning-light: #ffd666;
-  --palette-warning-main: #ffab00;
-  --palette-warning-dark: #b76e00;
-  --palette-warning-darker: #7a4100;
-  --palette-warning-contrastText: #1c252e;
-  --palette-warning-lighterChannel: 255 245 204;
-  --palette-warning-lightChannel: 255 214 102;
-  --palette-warning-mainChannel: 255 171 0;
-  --palette-warning-darkChannel: 183 110 0;
-  --palette-warning-darkerChannel: 122 65 0;
-  --palette-warning-contrastTextChannel: 28 37 46;
+  /* --palette-error-contrastText: #ffffff; */
+  /* --palette-error-lighterChannel: 255 233 213; */
+  /* --palette-error-lightChannel: 255 172 130; */
+  /* --palette-error-mainChannel: 255 86 48; */
+  /* --palette-error-darkChannel: 183 29 24; */
+  /* --palette-error-darkerChannel: 122 9 22; */
+  /* --palette-error-contrastTextChannel: 255 255 255; */
+  /* --palette-warning-lighter: #fff5cc; */
+  /* --palette-warning-light: #ffd666; */
+  /* --palette-warning-main: #ffab00; */
+  /* --palette-warning-dark: #b76e00; */
+  /* --palette-warning-darker: #7a4100; */
+  /* --palette-warning-contrastText: #1c252e; */
+  /* --palette-warning-lighterChannel: 255 245 204; */
+  /* --palette-warning-lightChannel: 255 214 102; */
+  /* --palette-warning-mainChannel: 255 171 0; */
+  /* --palette-warning-darkChannel: 183 110 0; */
+  /* --palette-warning-darkerChannel: 122 65 0; */
+  /* --palette-warning-contrastTextChannel: 28 37 46; */
   /* --palette-info-lighter: #cafdf5; */
-  --palette-info-light: #61f3f3;
-  --palette-info-main: #00b8d9;
-  --palette-info-dark: #006c9c;
-  --palette-info-darker: #003768;
-  --palette-info-contrastText: #ffffff;
+  /* --palette-info-light: #61f3f3; */
+  /* --palette-info-main: #00b8d9; */
+  /* --palette-info-dark: #006c9c; */
+  /* --palette-info-darker: #003768; */
+  /* --palette-info-contrastText: #ffffff; */
   /* --palette-info-lighterChannel: 202 253 245; */
   /* --palette-info-lightChannel: 97 243 243; */
   /* --palette-info-mainChannel: 0 184 217; */
@@ -103,11 +103,11 @@
   /* --palette-info-darkerChannel: 0 55 104; */
   /* --palette-info-contrastTextChannel: 255 255 255; */
   /* --palette-success-lighter: #d3fcd2; */
-  --palette-success-light: #77ed8b;
-  --palette-success-main: #22c55e;
-  --palette-success-dark: #118d57;
-  --palette-success-darker: #065e49;
-  --palette-success-contrastText: #ffffff;
+  /* --palette-success-light: #77ed8b; */
+  /* --palette-success-main: #22c55e; */
+  /* --palette-success-dark: #118d57; */
+  /* --palette-success-darker: #065e49; */
+  /* --palette-success-contrastText: #ffffff; */
   /* --palette-success-lighterChannel: 211 252 210; */
   /* --palette-success-lightChannel: 119 237 139; */
   /* --palette-success-mainChannel: 34 197 94; */
@@ -127,12 +127,12 @@
   /* --palette-grey-A100: #f5f5f5; */
   /* --palette-grey-A200: #eeeeee; */
   /* --palette-grey-A400: #bdbdbd; */
-  --palette-grey-A700: #616161;
+  /* --palette-grey-A700: #616161; */
   --palette-grey-50Channel: 252 253 253;
-  --palette-grey-100Channel: 249 250 251;
+  /* --palette-grey-100Channel: 249 250 251; */
   /* --palette-grey-200Channel: 244 246 248; */
   /* --palette-grey-300Channel: 223 227 232; */
-  --palette-grey-400Channel: 196 205 213;
+  /* --palette-grey-400Channel: 196 205 213; */
   --palette-grey-500Channel: 145 158 171;
   /* --palette-grey-600Channel: 99 115 129; */
   /* --palette-grey-700Channel: 69 79 91; */
@@ -523,11 +523,11 @@
   /* --palette-secondary-darkerChannel: 39 9 122; */
   /* --palette-secondary-contrastTextChannel: 255 255 255; */
   /* --palette-info-lighter: #cafdf5; */
-  --palette-info-light: #61f3f3;
+  /* --palette-info-light: #61f3f3; */
   --palette-info-main: #00b8d9;
-  --palette-info-dark: #006c9c;
-  --palette-info-darker: #003768;
-  --palette-info-contrastText: #ffffff;
+  /* --palette-info-dark: #006c9c; */
+  /* --palette-info-darker: #003768; */
+  /* --palette-info-contrastText: #ffffff; */
   /* --palette-info-lighterChannel: 202 253 245; */
   /* --palette-info-lightChannel: 97 243 243; */
   /* --palette-info-mainChannel: 0 184 217; */
@@ -535,44 +535,44 @@
   /* --palette-info-darkerChannel: 0 55 104; */
   /* --palette-info-contrastTextChannel: 255 255 255; */
   /* --palette-success-lighter: #d3fcd2; */
-  --palette-success-light: #77ed8b;
-  --palette-success-main: #22c55e;
-  --palette-success-dark: #118d57;
-  --palette-success-darker: #065e49;
-  --palette-success-contrastText: #ffffff;
+  /* --palette-success-light: #77ed8b; */
+  /* --palette-success-main: #22c55e; */
+  /* --palette-success-dark: #118d57; */
+  /* --palette-success-darker: #065e49; */
+  /* --palette-success-contrastText: #ffffff; */
   /* --palette-success-lighterChannel: 211 252 210; */
   /* --palette-success-lightChannel: 119 237 139; */
   /* --palette-success-mainChannel: 34 197 94; */
   /* --palette-success-darkChannel: 17 141 87; */
   /* --palette-success-darkerChannel: 6 94 73; */
   /* --palette-success-contrastTextChannel: 255 255 255; */
-  --palette-warning-lighter: #fff5cc;
-  --palette-warning-light: #ffd666;
-  --palette-warning-main: #ffab00;
-  --palette-warning-dark: #b76e00;
-  --palette-warning-darker: #7a4100;
-  --palette-warning-contrastText: #1c252e;
-  --palette-warning-lighterChannel: 255 245 204;
-  --palette-warning-lightChannel: 255 214 102;
-  --palette-warning-mainChannel: 255 171 0;
-  --palette-warning-darkChannel: 183 110 0;
-  --palette-warning-darkerChannel: 122 65 0;
-  --palette-warning-contrastTextChannel: 28 37 46;
+  /* --palette-warning-lighter: #fff5cc; */
+  /* --palette-warning-light: #ffd666; */
+  /* --palette-warning-main: #ffab00; */
+  /* --palette-warning-dark: #b76e00; */
+  /* --palette-warning-darker: #7a4100; */
+  /* --palette-warning-contrastText: #1c252e; */
+  /* --palette-warning-lighterChannel: 255 245 204; */
+  /* --palette-warning-lightChannel: 255 214 102; */
+  /* --palette-warning-mainChannel: 255 171 0; */
+  /* --palette-warning-darkChannel: 183 110 0; */
+  /* --palette-warning-darkerChannel: 122 65 0; */
+  /* --palette-warning-contrastTextChannel: 28 37 46; */
   --palette-error-lighter: #ffe9d5;
   --palette-error-light: #ffac82;
   --palette-error-main: #ff5630;
   --palette-error-dark: #b71d18;
   --palette-error-darker: #7a0916;
-  --palette-error-contrastText: #ffffff;
-  --palette-error-lighterChannel: 255 233 213;
-  --palette-error-lightChannel: 255 172 130;
-  --palette-error-mainChannel: 255 86 48;
-  --palette-error-darkChannel: 183 29 24;
-  --palette-error-darkerChannel: 122 9 22;
-  --palette-error-contrastTextChannel: 255 255 255;
-  --palette-common-black: #000000;
+  /* --palette-error-contrastText: #ffffff; */
+  /* --palette-error-lighterChannel: 255 233 213; */
+  /* --palette-error-lightChannel: 255 172 130; */
+  /* --palette-error-mainChannel: 255 86 48; */
+  /* --palette-error-darkChannel: 183 29 24; */
+  /* --palette-error-darkerChannel: 122 9 22; */
+  /* --palette-error-contrastTextChannel: 255 255 255; */
+  /* --palette-common-black: #000000; */
   --palette-common-white: #ffffff;
-  --palette-common-blackChannel: 0 0 0;
+  /* --palette-common-blackChannel: 0 0 0; */
   /* --palette-common-whiteChannel: 255 255 255; */
   --palette-common-background: #000;
   --palette-common-onBackground: #fff;
@@ -589,10 +589,10 @@
   /* --palette-grey-800: #1c252e; */
   /* --palette-grey-900: #141a21; */
   --palette-grey-50Channel: 252 253 253;
-  --palette-grey-100Channel: 249 250 251;
+  /* --palette-grey-100Channel: 249 250 251; */
   /* --palette-grey-200Channel: 244 246 248; */
   /* --palette-grey-300Channel: 223 227 232; */
-  --palette-grey-400Channel: 196 205 213;
+  /* --palette-grey-400Channel: 196 205 213; */
   --palette-grey-500Channel: 145 158 171;
   /* --palette-grey-600Channel: 99 115 129; */
   --palette-grey-700Channel: 69 79 91;
@@ -601,7 +601,7 @@
   /* --palette-grey-A100: #f5f5f5; */
   /* --palette-grey-A200: #eeeeee; */
   /* --palette-grey-A400: #bdbdbd; */
-  --palette-grey-A700: #616161;
+  /* --palette-grey-A700: #616161; */
   --nav-bullet-light-color: #282f37;
   /* --palette-divider: rgba(145 158 171 / 20%); */
   --palette-text-primary: #ffffff;
