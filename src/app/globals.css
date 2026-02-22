@@ -366,6 +366,9 @@
   /* pts logout text color  */
   --dropdown-logout-color: #FF5630;
 
+
+  --market-name-text: black;
+
   /* pts hover bg */
   --dropdown-logout-bg-hover: #FF56301A;
 
@@ -422,6 +425,8 @@
 
   /* pts logout text color  */
   --dropdown-logout-color: #FF5630;
+
+  --market-name-text: #68CDF9;
 
   /* pts hover bg */
   --dropdown-logout-bg-hover: #FF56301A;
@@ -771,6 +776,7 @@
     "Segoe UI Symbol";
   --font-roboto-condensed: var(--font-roboto-condensed);
   --font-roboto: var(--font-roboto);
+  --color-market-name: var(--market-name-text);
 }
 
 body {
