@@ -1099,7 +1099,7 @@ export default function MarketDetails() {
                     setIsEventTypeOpen((v) => !v);
                     setIsCompetitionOpen(false);
                   }}
-                  className="text-[#68CDF9] inline-flex"
+                  className="text-market-name inline-flex"
                 >
                   <Icon name="play" className="w-5 h-5" />
                 </button>
@@ -1154,7 +1154,7 @@ export default function MarketDetails() {
                     setIsCompetitionOpen((v) => !v);
                     setIsEventTypeOpen(false);
                   }}
-                  className="text-[#68CDF9] inline-flex"
+                  className="text-market-name inline-flex"
                 >
                   <Icon name="play" className="w-5 h-5" />
                 </button>
@@ -1214,10 +1214,10 @@ export default function MarketDetails() {
           <div className="flex justify-between items-center w-full">
             <div className="flex-auto min-w-0 m-0">
               <span className="h-6 min-w-6 inline-flex justify-center items-center text-sm bg-[#078dee29] rounded-[6px] pl-[8px] pr-2 gap-2.5">
-                <span className="text-[#68CDF9]">
+                <span className="text-market-name">
                   <Icon name="play" className="w-5 h-5" />
                 </span>
-                <a href="" className="inline-flex">
+                <a href="" className="inline-flex text-(--primary-text-color)">
                   {eventName || "Event"}
                 </a>
               </span>
@@ -1232,12 +1232,12 @@ export default function MarketDetails() {
             <div className="flex items-center gap-2">
               <Icon
                 name="scoreIcon"
-                className="w-5 h-5 mt-1 cursor-pointer"
+                className="w-5 h-5 mt-1 cursor-pointer text-(--primary-text-color)"
                 onClick={() => setIsScorePanelOpen((prev) => !prev)}
               />
               <Icon
                 name="watch"
-                className="w-5 h-5 cursor-pointer"
+                className="w-5 h-5 cursor-pointer text-(--primary-text-color)"
                 onClick={toggleStreaming}
               />
             </div>
