@@ -56,7 +56,7 @@ export default function LoginPage() {
   }
 
   return (
-    <section className="">
+    <section className="drawer">
       <div className="flex justify-between items-center px-4 min-[600]:px-6 h-12">
         <Link href="/">
           <Image
