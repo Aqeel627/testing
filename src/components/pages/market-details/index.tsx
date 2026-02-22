@@ -1,5 +1,4 @@
 "use client";
-import Icon from "@/icons/icons";
 import React, {
   useState,
   useEffect,
@@ -16,13 +15,13 @@ import { motion, AnimatePresence } from "framer-motion";
 
 // WebSocket service (assumed to exist)
 import { webSocketService } from "@/lib/websocket.service";
-import Icons from "@/icons/icons";
-import SingleMarket from "@/components/pages/home/single-market";
-import RuleModal from "@/components/modal/role";
-import { log } from "console";
 import { VideoSimple } from "@/components/video-simple/VideoSimple";
-import MarketLoader from "@/components/common/market-loader";
-import MBetSlip from "@/components/common/m-bet-slip";
+import dynamic from "next/dynamic";
+
+const RuleModal = dynamic(() => import("@/components/modal/role"));
+const MarketLoader = dynamic(() => import("@/components/common/market-loader"));
+const MBetSlip = dynamic(() => import("@/components/common/m-betslip"));
+const Icon = dynamic(() => import("@/icons/icons"));
 
 interface RunnerName {
   selectionId: number;

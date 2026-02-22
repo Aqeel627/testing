@@ -1,7 +1,5 @@
-"use client";
-
-import BreadCrumb from "@/components/common/bread-crumb";
-import React from "react";
+import dynamic from "next/dynamic";
+const BreadCrumb = dynamic(() => import("@/components/common/bread-crumb"));
 
 export default function ContactUs() {
   return (

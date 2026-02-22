@@ -1,11 +1,9 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef } from "react";
-import styles from "@/components/pages/home/sports-nav/sportsPage.module.css";
+import styles from "@/components/pages/home/sports-nav/style.module.css";
 import { useAppStore } from "@/lib/store/store";
 import { useRouter } from "next/navigation";
-import Icon from "@/icons/icons";
-import { cn } from "@/lib/utils";
 
 type NavItem = { label: string; href: string; id: string };
 

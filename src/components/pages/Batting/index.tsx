@@ -1,5 +1,6 @@
 "use client";
-import BreadCrumb from '@/components/common/bread-crumb'
+import dynamic from "next/dynamic";
+const BreadCrumb = dynamic(() => import("@/components/common/bread-crumb"));
 import React, { useState } from 'react'
 
 const BettingRoute = () => {

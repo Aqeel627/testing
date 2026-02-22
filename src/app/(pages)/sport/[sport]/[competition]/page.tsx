@@ -2,7 +2,7 @@
 import { useAppStore } from "@/lib/store/store";
 import { useMemo, use } from "react";
 import dynamic from "next/dynamic";
-const InplayMarket = dynamic(() => import("@/components/pages/inplay/inplay-market"));
+const SingleMarket = dynamic(() => import("@/components/common/single-market"));
 const SportsBreadCrumb = dynamic(() => import("@/components/common/sports-bread-crumb"));
 
 const SPORT_IDS: Record<string, string> = {
@@ -53,7 +53,7 @@ const CompetitionPage = ({ params }: CompetitionPageProps) => {
   return (
     <>
       <SportsBreadCrumb title={sportName} subtitle={displayName} />
-      <InplayMarket events={competitionEvents} />
+      <SingleMarket events={competitionEvents} />
     </>
   );
 };
