@@ -455,7 +455,7 @@ import Icon from "@/icons/icons";
 import style from "./singleMarket.module.css";
 import { shortNumber } from "@/lib/functions";
 import { AnimatedNumber } from "@/components/common/animatied-number";
-import MBetSlip from "@/components/common/MBetSlip"; 
+import MBetSlip from "@/components/common/m-betslip"; 
 import { useEffect, useRef } from "react";
 
 export default function SingleMarket() {

@@ -1,43 +1,10 @@
-"use client";
-
 import Image from "next/image";
-import Icon from "@/icons/icons";
-import { useState } from "react";
 import { CONFIG } from "@/lib/config";
 import Link from "next/link";
-import LanguageToggler from "../language-toggler";
-const languages = [
-  { value: "en", label: "English" },
-  { value: "hi", label: "हिंदी" },
-  { value: "bn", label: "বাংলা" },
-  { value: "kn", label: "ಕನ್ನಡ" },
-  { value: "ml", label: "മലയാളം" },
-  { value: "mr", label: "मराठी" },
-  { value: "ne", label: "नेपाली" },
-  { value: "pa", label: "ਪੰਜਾਬੀ" },
-  { value: "ta", label: "தமிழ்" },
-  { value: "te", label: "తెలుగు" },
-  { value: "ur", label: "اردو" },
-  { value: "ru", label: "Русский" },
-];
+import dynamic from "next/dynamic";
+const LanguageToggler = dynamic(() => import("@/components/common/language-toggler"));
+
 export default function Footer() {
-  const [selectedLanguage, setSelectedLanguage] = useState("English");
-  const [isOpen, setIsOpen] = useState(false);
-  const [anchorEl, setAnchorEl] = useState(null);
-
-  const handleLanguageClick = (event: any) => {
-    setAnchorEl(event.currentTarget);
-    setIsOpen(true);
-  };
-
-  const handleLanguageSelect = (language: any) => {
-    setSelectedLanguage(language);
-    setIsOpen(false);
-  };
-
-  const handleClose = () => {
-    setIsOpen(false);
-  };
   return (
     <>
       <div className="mt-5">

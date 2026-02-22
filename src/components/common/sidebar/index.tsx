@@ -6,10 +6,11 @@ import { type MouseEvent, useEffect, useMemo, useState } from "react";
 import styles from "./sidebar.module.css";
 import { useAppStore } from "@/lib/store/store";
 import Link from "next/link";
-import Icon from "@/icons/icons";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 import { useUIStore } from "@/lib/store/ui-store";
+import dynamic from "next/dynamic";
+const Icon = dynamic(() => import("@/icons/icons"));
 
 // ─────────────────────────────────────────────
 // Types

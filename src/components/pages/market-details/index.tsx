@@ -13,13 +13,13 @@ import axios from "axios";
 import { useAppStore } from "@/lib/store/store";
 import { useAppRateHighlighter } from "@/lib/highlaterMarket";
 import { motion, AnimatePresence } from "framer-motion";
-import MBetSlip from "@/components/common/MBetSlip";
+import MBetSlip from "@/components/common/m-betslip";
 
 // WebSocket service (assumed to exist)
 import { webSocketService } from "@/lib/websocket.service";
 import Icons from "@/icons/icons";
 import SingleMarket from "@/components/pages/home/single-market";
-import RuleModal from "@/components/modal/role/Role";
+import RuleModal from "@/components/modal/role";
 import { log } from "console";
 import { VideoSimple } from "@/components/video-simple/VideoSimple";
 import MarketLoader from "@/components/common/market-loader";

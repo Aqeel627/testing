@@ -3,7 +3,6 @@
 import Link from "next/link";
 import Image from "next/image";
 import styles from "./headerPage.module.css";
-import Icon from "@/icons/icons";
 import { useEffect, useRef, useState } from "react";
 import { CONFIG } from "@/lib/config";
 import { useAppStore } from "@/lib/store/store";
@@ -14,6 +13,8 @@ import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 import { useCacheStore } from "@/lib/store/cacheStore";
+import dynamic from "next/dynamic";
+const Icon = dynamic(() => import("@/icons/icons"));
 
 type HeaderProps = {
   onMenuClick?: () => void;
