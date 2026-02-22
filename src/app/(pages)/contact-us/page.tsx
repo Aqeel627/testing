@@ -1,4 +1,5 @@
-import ContactUs from "@/components/pages/contact-us";
+import dynamic from "next/dynamic";
+const ContactUs = dynamic(() => import("@/components/pages/contact-us"));
 
 const ContactRoute = () => {
   return (

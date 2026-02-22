@@ -1,4 +1,5 @@
-import About from "@/components/pages/about";
+import dynamic from "next/dynamic";
+const About = dynamic(() => import("@/components/pages/about"));
 
 const AboutRoute = () => {
   return (

@@ -1,4 +1,5 @@
-import TermCondition from "@/components/pages/TermCondition";
+import dynamic from "next/dynamic";
+const TermCondition = dynamic(() => import("@/components/pages/TermCondition"));
 
 const  TermConditionRoute  = () => {
   return (

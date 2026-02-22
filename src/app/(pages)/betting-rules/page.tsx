@@ -1,6 +1,7 @@
-import Batting from "@/components/pages/Batting";
+import dynamic from "next/dynamic";
+const Batting = dynamic(() => import("@/components/pages/Batting"));
 
-const  BattingRoute  = () => {
+const BattingRoute = () => {
   return (
     <>
       <Batting />
