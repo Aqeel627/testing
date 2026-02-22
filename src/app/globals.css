@@ -422,6 +422,36 @@
   --lay-price-text-disabled: #000000;
   --lay-size-text-noprice: #000000;
   --lay-size-text-disabled: #000000;
+
+
+   --bs-text:               #1c252e;
+  --bs-label:              rgba(0, 0, 0, 0.50);
+  --bs-event-name:         rgba(0, 0, 0, 0.50);
+  --bs-profit-label:       rgba(0, 0, 0, 0.55);
+  --bs-input-bg:           rgba(0, 0, 0, 0.05);
+  --bs-odds-border:        rgba(0, 0, 0, 0.15);
+  --bs-circle-btn-bg:      rgba(0, 0, 0, 0.07);
+  --bs-circle-btn-hover:   rgba(0, 0, 0, 0.13);
+  --bs-quick-pill-bg:      rgba(0, 0, 0, 0.04);
+  --bs-quick-pill-border:  rgba(0, 0, 0, 0.15);
+  --bs-quick-pill-hover-bg:     rgba(0, 0, 0, 0.09);
+  --bs-quick-pill-hover-border: rgba(0, 0, 0, 0.25);
+  --bs-cancel-bg:          rgba(0, 0, 0, 0.07);
+  --bs-cancel-hover:       rgba(0, 0, 0, 0.13);
+
+  /* back accent (blue — same in both themes) */
+  --bs-back-accent:        #007aff;
+  --bs-back-accent-bg10:   rgba(0, 122, 255, 0.10);
+  --bs-back-accent-bg15:   rgba(0, 122, 255, 0.15);
+  --bs-back-accent-rgb:    0, 122, 255;
+
+  /* lay accent (pink — same in both themes) */
+  --bs-lay-accent:         #ff2d55;
+  --bs-lay-accent-bg10:    rgba(255, 45, 85, 0.10);
+  --bs-lay-accent-bg15:    rgba(255, 45, 85, 0.15);
+  --bs-lay-accent-rgb:     255, 45, 85;
+    --back-selected: #007aff;  
+  --lay-selected:  #ff2d55;  
 }
 
 .dark {
@@ -494,6 +524,37 @@
   --lay-price-text-noprice: #ff7a7f;
   --lay-size-text-noprice: #ff7a7f;
   --lay-size-text-disabled: rgba(255, 122, 127, 0.5);
+  /* neutral / structural */
+  --bs-text:               #ffffff;
+  --bs-label:              rgba(255, 255, 255, 0.55);
+  --bs-event-name:         rgba(255, 255, 255, 0.55);
+  --bs-profit-label:       rgba(255, 255, 255, 0.60);
+  --bs-input-bg:           rgba(0, 0, 0, 0.30);
+  --bs-odds-border:        rgba(255, 255, 255, 0.15);
+  --bs-circle-btn-bg:      rgba(255, 255, 255, 0.10);
+  --bs-circle-btn-hover:   rgba(255, 255, 255, 0.20);
+  --bs-quick-pill-bg:      rgba(255, 255, 255, 0.05);
+  --bs-quick-pill-border:  rgba(255, 255, 255, 0.15);
+  --bs-quick-pill-hover-bg:     rgba(255, 255, 255, 0.14);
+  --bs-quick-pill-hover-border: rgba(255, 255, 255, 0.30);
+  --bs-cancel-bg:          rgba(255, 255, 255, 0.10);
+  --bs-cancel-hover:       rgba(255, 255, 255, 0.18);
+
+  /* back accent (blue — same in both themes) */
+  --bs-back-accent:        #007aff;
+  --bs-back-accent-bg10:   rgba(0, 122, 255, 0.10);
+  --bs-back-accent-bg15:   rgba(0, 122, 255, 0.15);
+  --bs-back-accent-rgb:    0, 122, 255;
+
+  --bs-lay-accent:         #ff2d55;
+  --bs-lay-accent-bg10:    rgba(255, 45, 85, 0.10);
+  --bs-lay-accent-bg15:    rgba(255, 45, 85, 0.15);
+  --bs-lay-accent-rgb:     255, 45, 85;
+
+
+
+    --back-selected: #007aff;   /* solid blue fill — dark theme */
+  --lay-selected:  #ff2d55;   
 
   --background: #141a21;
   --foreground: #ededed;

@@ -75,10 +75,16 @@ const SingleMarket = ({
         const rightRunnerName = event.runnersName?.[1]?.runnerName;
         const isBetOnThisEvent = selectedBet?.eventName === event.event?.name;
 
+        const selectedTeam = selectedBet?.teamName;
+        const selectedType = selectedBet?.type;
+        const isThisSelected = (runnerName: string, betType: "back" | "lay") =>
+          isBetOnThisEvent &&
+          selectedTeam === runnerName &&
+          selectedType === betType;
         return (
           <li
             key={event.marketId}
-            className="w-full rounded-[2px] border border-dashed border-(--dotted-line) bg-[rgba(145,158,171,0.04)] text-white overflow-hidden mb-[6px]"
+            className="w-full rounded-[2px] border border-dashed border-(--dotted-line) bg-[rgba(145,158,171,0.04)] text-white! overflow-hidden mb-[6px]"
           >
             {/* Main Wrapper - Conditionals removed, Tailwind handles responsiveness */}
             <div className="flex w-full flex-col  @min-[700]:flex-row">
@@ -203,7 +209,7 @@ const SingleMarket = ({
               </div>
 
               {/* RIGHT ODDS */}
-              <div className="flex flex-row gap-2 items-center whitespace-nowrap relative w-full @md:min-w-fit leading-[1.125rem] text-xs p-[5px] overflow-hidden @min-[700px]:flex-[1_0_20rem]">
+            <div className="flex flex-row gap-2 items-center whitespace-nowrap relative w-full @md:min-w-fit leading-[1.125rem] text-xs p-[5px] overflow-hidden @min-[700px]:flex-[1_0_20rem]">
                 {/* LEFT — Team 1 odds */}
                 <div className="flex flex-col gap-0.5 w-[33.3%]">
                   <span
@@ -214,7 +220,7 @@ const SingleMarket = ({
                   <div className="flex gap-1">
                     {/* BACK BUTTON (LEFT) */}
                     <div
-                      className={`${oddsBoxWidthClass} h-[45px] gap-[2px] rounded-[8px] border border-[var(--back-border)] bg-[var(--back-bg)] hover:bg-[var(--back-hover)] flex flex-col justify-center items-center cursor-pointer select-none transition-all`}
+                      className={`${oddsBoxWidthClass} h-[45px] gap-[2px] rounded-[8px] border border-[var(--back-border)] ${isThisSelected(event.runnersName?.[0]?.runnerName, "back") ? "bg-[var(--back-selected)]" : "bg-[var(--back-bg)]"} hover:bg-[var(--back-hover)] flex flex-col justify-center items-center cursor-pointer select-none transition-all`}
                       onClick={() => {
                         const price = runner0?.ex?.availableToBack?.[0]?.price;
                         const size = runner0?.ex?.availableToBack?.[0]?.size;
@@ -228,18 +234,17 @@ const SingleMarket = ({
                         });
                       }}
                     >
-                      <span className="block whitespace-nowrap font-bold price text-[var(--back-price-text)] leading-[1.1]">
+                      <span className={`block whitespace-nowrap font-bold price leading-[1.1] ${isThisSelected(event.runnersName?.[0]?.runnerName, "back") ? "text-[var(--back-price-text)] dark:text-white" : "text-[var(--back-price-text)]"}`}>
                         {runner0?.ex?.availableToBack?.[0]?.price ?? "-"}
                       </span>
-                      <span className="block size whitespace-nowrap font-normal text-[var(--back-size-text)] leading-[1]">
-                        {shortNumber(runner0?.ex?.availableToBack?.[0]?.size) ??
-                          ""}
+                      <span className={`block size whitespace-nowrap font-normal leading-[1] ${isThisSelected(event.runnersName?.[0]?.runnerName, "back") ? "text-[var(--back-size-text)] dark:text-white" : "text-[var(--back-size-text)]"}`}>
+                        {shortNumber(runner0?.ex?.availableToBack?.[0]?.size) ?? ""}
                       </span>
                     </div>
 
                     {/* LAY BUTTON (LEFT) */}
                     <div
-                      className={`${oddsBoxWidthClass} h-[45px] gap-[2px] rounded-[8px] border border-[var(--lay-border)] bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)] flex flex-col justify-center items-center cursor-pointer select-none transition-all`}
+                      className={`${oddsBoxWidthClass} h-[45px] gap-[2px] rounded-[8px] border border-[var(--lay-border)] ${isThisSelected(event.runnersName?.[0]?.runnerName, "lay") ? "bg-[var(--lay-selected)]" : "bg-[var(--lay-bg)]"} hover:bg-[var(--lay-hover)] flex flex-col justify-center items-center cursor-pointer select-none transition-all`}
                       onClick={() => {
                         const price = runner0?.ex?.availableToLay?.[0]?.price;
                         const size = runner0?.ex?.availableToLay?.[0]?.size;
@@ -253,12 +258,11 @@ const SingleMarket = ({
                         });
                       }}
                     >
-                      <span className="block whitespace-nowrap font-bold price text-[var(--lay-price-text)] leading-[1.1]">
+                      <span className={`block whitespace-nowrap font-bold price leading-[1.1] ${isThisSelected(event.runnersName?.[0]?.runnerName, "lay") ? "text-[var(--lay-price-text)] dark:text-white" : "text-[var(--lay-price-text)]"}`}>
                         {runner0?.ex?.availableToLay?.[0]?.price ?? "-"}
                       </span>
-                      <span className="block size whitespace-nowrap font-normal text-[10px] text-[var(--lay-price-text)] leading-[1]">
-                        {shortNumber(runner0?.ex?.availableToLay?.[0]?.size) ??
-                          ""}
+                      <span className={`block size whitespace-nowrap font-normal text-[10px] leading-[1] ${isThisSelected(event.runnersName?.[0]?.runnerName, "lay") ? "text-[var(--lay-price-text)] dark:text-white" : "text-[var(--lay-price-text)]"}`}>
+                        {shortNumber(runner0?.ex?.availableToLay?.[0]?.size) ?? ""}
                       </span>
                     </div>
                   </div>
@@ -277,8 +281,8 @@ const SingleMarket = ({
                       className={`${oddsBoxWidthClass} h-[45px] gap-[2px] rounded-[8px] border-[1px] flex flex-col justify-center items-center select-none transition-all ${
                         hasThreeRunners
                           ? hasCenterBackPrice
-                            ? "border-[var(--back-border)] bg-[var(--back-bg)] hover:bg-[var(--back-hover)] cursor-pointer"
-                            : "border-[var(--back-noprice-border)] bg-[var(--back-noprice-bg)] hover:bg-[var(--back-hover)] cursor-pointer"
+                            ? `border-[var(--back-border)] ${isThisSelected(event.runnersName?.[2]?.runnerName, "back") ? "bg-[var(--back-selected)]" : "bg-[var(--back-bg)]"} hover:bg-[var(--back-hover)] cursor-pointer`
+                            : `border-[var(--back-noprice-border)] ${isThisSelected(event.runnersName?.[2]?.runnerName, "back") ? "bg-[var(--back-selected)]" : "bg-[var(--back-noprice-bg)]"} hover:bg-[var(--back-hover)] cursor-pointer`
                           : "border-[var(--back-disabled-border)] bg-[var(--back-disabled-bg)] cursor-default"
                       }`}
                       onClick={() => {
@@ -296,20 +300,30 @@ const SingleMarket = ({
                       }}
                     >
                       <span
-                        className={`block whitespace-nowrap font-bold price leading-[1.1] ${hasThreeRunners ? (hasCenterBackPrice ? "text-[var(--back-price-text)]" : "text-[var(--back-price-text-noprice)]") : "text-[var(--back-price-text-disabled)]"}`}
+                        className={`block whitespace-nowrap font-bold price leading-[1.1] ${
+                          isThisSelected(event.runnersName?.[2]?.runnerName, "back")
+                            ? "text-[var(--back-price-text)] dark:text-white"
+                            : hasThreeRunners
+                              ? hasCenterBackPrice
+                                ? "text-[var(--back-price-text)]"
+                                : "text-[var(--back-price-text-noprice)]"
+                              : "text-[var(--back-price-text-disabled)]"
+                        }`}
                       >
-                        {hasThreeRunners
-                          ? (runner2?.ex?.availableToBack?.[0]?.price ?? "-")
-                          : ""}
+                        {hasThreeRunners ? (runner2?.ex?.availableToBack?.[0]?.price ?? "-") : ""}
                       </span>
                       <span
-                        className={`block size whitespace-nowrap font-normal text-[10px] leading-[1] ${hasThreeRunners ? (hasCenterBackPrice ? "text-[var(--back-size-text)]" : "text-[var(--back-size-text-noprice)]") : "text-[var(--back-size-text-disabled)]"}`}
+                        className={`block size whitespace-nowrap font-normal text-[10px] leading-[1] ${
+                          isThisSelected(event.runnersName?.[2]?.runnerName, "back")
+                            ? "text-[var(--back-size-text)] dark:text-white"
+                            : hasThreeRunners
+                              ? hasCenterBackPrice
+                                ? "text-[var(--back-size-text)]"
+                                : "text-[var(--back-size-text-noprice)]"
+                              : "text-[var(--back-size-text-disabled)]"
+                        }`}
                       >
-                        {hasThreeRunners
-                          ? (shortNumber(
-                              runner2?.ex?.availableToBack?.[0]?.size,
-                            ) ?? "")
-                          : ""}
+                        {hasThreeRunners ? (shortNumber(runner2?.ex?.availableToBack?.[0]?.size) ?? "") : ""}
                       </span>
                     </div>
 
@@ -318,8 +332,8 @@ const SingleMarket = ({
                       className={`${oddsBoxWidthClass} h-[45px] gap-[2px] rounded-[8px] border-[1px] flex flex-col justify-center items-center select-none transition-all ${
                         hasThreeRunners
                           ? hasCenterLayPrice
-                            ? "border-[var(--lay-border)] bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)] cursor-pointer"
-                            : "border-[var(--lay-noprice-border)] bg-[var(--lay-noprice-bg)] hover:bg-[var(--lay-hover)] cursor-pointer"
+                            ? `border-[var(--lay-border)] ${isThisSelected(event.runnersName?.[2]?.runnerName, "lay") ? "bg-[var(--lay-selected)]" : "bg-[var(--lay-bg)]"} hover:bg-[var(--lay-hover)] cursor-pointer`
+                            : `border-[var(--lay-noprice-border)] ${isThisSelected(event.runnersName?.[2]?.runnerName, "lay") ? "bg-[var(--lay-selected)]" : "bg-[var(--lay-noprice-bg)]"} hover:bg-[var(--lay-hover)] cursor-pointer`
                           : "border-[var(--lay-disabled-border)] bg-[var(--lay-disabled-bg)] cursor-default"
                       }`}
                       onClick={() => {
@@ -337,20 +351,26 @@ const SingleMarket = ({
                       }}
                     >
                       <span
-                        className={`block whitespace-nowrap font-bold price leading-[1.1] ${hasThreeRunners ? "text-[var(--lay-price-text)]" : "text-[var(--lay-price-text-disabled)]"}`}
+                        className={`block whitespace-nowrap font-bold price leading-[1.1] ${
+                          isThisSelected(event.runnersName?.[2]?.runnerName, "lay")
+                            ? "text-[var(--lay-price-text)] dark:text-white"
+                            : hasThreeRunners
+                              ? "text-[var(--lay-price-text)]"
+                              : "text-[var(--lay-price-text-disabled)]"
+                        }`}
                       >
-                        {hasThreeRunners
-                          ? (runner2?.ex?.availableToLay?.[0]?.price ?? "-")
-                          : ""}
+                        {hasThreeRunners ? (runner2?.ex?.availableToLay?.[0]?.price ?? "-") : ""}
                       </span>
                       <span
-                        className={`block size whitespace-nowrap font-normal text-[10px] leading-[1] ${hasThreeRunners ? "text-[var(--lay-price-text)]" : "text-[var(--lay-price-text-disabled)]"}`}
+                        className={`block size whitespace-nowrap font-normal text-[10px] leading-[1] ${
+                          isThisSelected(event.runnersName?.[2]?.runnerName, "lay")
+                            ? "text-[var(--lay-price-text)] dark:text-white"
+                            : hasThreeRunners
+                              ? "text-[var(--lay-price-text)]"
+                              : "text-[var(--lay-price-text-disabled)]"
+                        }`}
                       >
-                        {hasThreeRunners
-                          ? (shortNumber(
-                              runner2?.ex?.availableToLay?.[0]?.size,
-                            ) ?? "")
-                          : ""}
+                        {hasThreeRunners ? (shortNumber(runner2?.ex?.availableToLay?.[0]?.size) ?? "") : ""}
                       </span>
                     </div>
                   </div>
@@ -366,12 +386,10 @@ const SingleMarket = ({
                   <div className="flex gap-1">
                     {/* BACK BUTTON (RIGHT) */}
                     <div
-                      className={`${oddsBoxWidthClass} h-[45px] gap-[2px] rounded-[8px] border border-[var(--back-border)] bg-[var(--back-bg)] hover:bg-[var(--back-hover)] flex flex-col justify-center items-center cursor-pointer select-none transition-all`}
+                      className={`${oddsBoxWidthClass} h-[45px] gap-[2px] rounded-[8px] border border-[var(--back-border)] ${isThisSelected(rightRunnerName, "back") ? "bg-[var(--back-selected)]" : "bg-[var(--back-bg)]"} hover:bg-[var(--back-hover)] flex flex-col justify-center items-center cursor-pointer select-none transition-all`}
                       onClick={() => {
-                        const price =
-                          rightRunner?.ex?.availableToBack?.[0]?.price;
-                        const size =
-                          rightRunner?.ex?.availableToBack?.[0]?.size;
+                        const price = rightRunner?.ex?.availableToBack?.[0]?.price;
+                        const size = rightRunner?.ex?.availableToBack?.[0]?.size;
                         if (!price || !size) return;
                         setSelectedBet({
                           type: "back",
@@ -382,22 +400,19 @@ const SingleMarket = ({
                         });
                       }}
                     >
-                      <span className="block whitespace-nowrap font-bold price text-[var(--back-price-text)] leading-[1.1]">
+                      <span className={`block whitespace-nowrap font-bold price leading-[1.1] ${isThisSelected(rightRunnerName, "back") ? "text-[var(--back-price-text)] dark:text-white" : "text-[var(--back-price-text)]"}`}>
                         {rightRunner?.ex?.availableToBack?.[0]?.price ?? "-"}
                       </span>
-                      <span className="block size whitespace-nowrap font-normal text-[10px] text-[var(--back-size-text)] leading-[1]">
-                        {shortNumber(
-                          rightRunner?.ex?.availableToBack?.[0]?.size,
-                        ) ?? ""}
+                      <span className={`block size whitespace-nowrap font-normal text-[10px] leading-[1] ${isThisSelected(rightRunnerName, "back") ? "text-[var(--back-size-text)] dark:text-white" : "text-[var(--back-size-text)]"}`}>
+                        {shortNumber(rightRunner?.ex?.availableToBack?.[0]?.size) ?? ""}
                       </span>
                     </div>
 
                     {/* LAY BUTTON (RIGHT) */}
                     <div
-                      className={`${oddsBoxWidthClass} h-[45px] gap-[2px] rounded-[8px] border border-[var(--lay-border)] bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)] flex flex-col justify-center items-center cursor-pointer select-none transition-all`}
+                      className={`${oddsBoxWidthClass} h-[45px] gap-[2px] rounded-[8px] border border-[var(--lay-border)] ${isThisSelected(rightRunnerName, "lay") ? "bg-[var(--lay-selected)]" : "bg-[var(--lay-bg)]"} hover:bg-[var(--lay-hover)] flex flex-col justify-center items-center cursor-pointer select-none transition-all`}
                       onClick={() => {
-                        const price =
-                          rightRunner?.ex?.availableToLay?.[0]?.price;
+                        const price = rightRunner?.ex?.availableToLay?.[0]?.price;
                         const size = rightRunner?.ex?.availableToLay?.[0]?.size;
                         if (!price || !size) return;
                         setSelectedBet({
@@ -409,13 +424,11 @@ const SingleMarket = ({
                         });
                       }}
                     >
-                      <span className="block whitespace-nowrap font-bold price text-[var(--lay-price-text)] leading-[1.1]">
+                      <span className={`block whitespace-nowrap font-bold price leading-[1.1] ${isThisSelected(rightRunnerName, "lay") ? "text-[var(--lay-price-text)] dark:text-white" : "text-[var(--lay-price-text)]"}`}>
                         {rightRunner?.ex?.availableToLay?.[0]?.price ?? "-"}
                       </span>
-                      <span className="block size whitespace-nowrap font-normal text-[10px] text-[var(--lay-price-text)] leading-[1]">
-                        {shortNumber(
-                          rightRunner?.ex?.availableToLay?.[0]?.size,
-                        ) ?? ""}
+                      <span className={`block size whitespace-nowrap font-normal text-[10px] leading-[1] ${isThisSelected(rightRunnerName, "lay") ? "text-[var(--lay-price-text)] dark:text-white" : "text-[var(--lay-price-text)]"}`}>
+                        {shortNumber(rightRunner?.ex?.availableToLay?.[0]?.size) ?? ""}
                       </span>
                     </div>
                   </div>
