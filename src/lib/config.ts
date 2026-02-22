@@ -24,7 +24,7 @@ export const CONFIG = {
 
   // new api's start
   events: BASE_URL_NewApi + "/app/v1/events",
-  eventsTime: 20,
+  eventsTime: 300,
   // new api's end
 
   domain: "https://auexch.yourdesign.live",

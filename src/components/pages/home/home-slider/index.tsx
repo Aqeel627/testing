@@ -7,6 +7,8 @@ import { cn } from "@/lib/utils";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import "swiper/css";
+import { useAppStore } from "@/lib/store/store";
+import { useEffect } from "react";
 
 interface SlideItem {
   src: string;
@@ -16,25 +18,6 @@ interface SlideItem {
 interface PairedSlide {
   top: SlideItem;
   bottom: SlideItem;
-}
-
-const slides: SlideItem[] = [
-  { src: "/home-slider/slider-1.jpeg", href: "#" },
-  { src: "/home-slider/slider-2.jpeg", href: "#" },
-  { src: "/home-slider/slider-3.jpeg", href: "#" },
-  { src: "/home-slider/slider-4.jpeg", href: "#" },
-  { src: "/home-slider/slider-6.jpeg", href: "#" },
-  { src: "/home-slider/slider-4.jpeg", href: "#" },
-];
-
-const loopSlides: SlideItem[] = [...slides, ...slides, ...slides];
-
-const pairedSlides: PairedSlide[] = [];
-for (let i = 0; i < loopSlides.length; i += 2) {
-  pairedSlides.push({
-    top: loopSlides[i],
-    bottom: loopSlides[i + 1] || loopSlides[0],
-  });
 }
 
 // tilt (same direction)
@@ -73,6 +56,20 @@ const CENTER_BREAKPOINTS: Record<number, { slidesPerView: number; spaceBetween: 
 
 
 export default function HomeSlider() {
+  const { ourBanners } = useAppStore();
+
+  const pairedSlides: any[] = [];
+  for (let i = 0; i < ourBanners?.length; i += 2) {
+    pairedSlides.push({
+      top: ourBanners[i],
+      bottom: ourBanners[i + 1] || ourBanners[0],
+    });
+  }
+
+  useEffect(() => {
+    console.log(ourBanners, 'ourBanners');
+  }, [ourBanners])
+
   return (
     <div className="w-full">
       {/* match your layout rule: desktop starts at 1200 */}
@@ -94,24 +91,24 @@ export default function HomeSlider() {
             }}
             className={cn("select-none cursor-grab active:cursor-grabbing")}
           >
-            {loopSlides.map((s, i) => (
+            {ourBanners?.map((s: any, i: any) => (
               <SwiperSlide key={i} className="h-auto">
                 <div className="flex flex-col gap-3 items-center">
-                  <Link
-                    href={s.href}
+                  <a
+                    href={s?.link}
                     draggable={false}
                     className="block w-full overflow-hidden rounded-[12px] bg-[#213743] aspect-[5/5]"
                   >
                     <div className="relative h-full w-full">
                       <Image
-                        src={s.src}
+                        src={'/' + s?.image}
                         alt={`slide-${i}`}
                         fill
                         className="object-cover"
                         draggable={false}
                       />
                     </div>
-                  </Link>
+                  </a>
                 </div>
               </SwiperSlide>
             ))}
@@ -144,11 +141,11 @@ export default function HomeSlider() {
             }}
             className={cn("select-none cursor-grab active:cursor-grabbing")}
           >
-            {pairedSlides.map((pair, i) => (
+            {pairedSlides?.map((pair, i) => (
               <SwiperSlide key={i} className="h-auto">
                 <div className={cn("flex flex-col gap-3 items-center",)}>
-                  <Link
-                    href={pair.top.href}
+                  <a
+                    href={pair?.top?.link}
                     draggable={false}
                     className={cn(
                       "block overflow-hidden rounded-[12px] bg-[#213743]",
@@ -157,17 +154,17 @@ export default function HomeSlider() {
                   >
                     <div className="relative h-full w-full">
                       <Image
-                        src={pair.top.src}
+                        src={"/" + pair?.top?.image}
                         alt={`slide-top-${i}`}
                         fill
                         className="object-cover"
                         draggable={false}
                       />
                     </div>
-                  </Link>
+                  </a>
 
-                  <Link
-                    href={pair.bottom.href}
+                  <a
+                    href={pair?.bottom?.link}
                     draggable={false}
                     className={cn(
                       "block overflow-hidden rounded-[12px] bg-[#213743]",
@@ -176,14 +173,14 @@ export default function HomeSlider() {
                   >
                     <div className="relative h-full w-full">
                       <Image
-                        src={pair.bottom.src}
+                        src={"/" + pair?.bottom?.image}
                         alt={`slide-bottom-${i}`}
                         fill
                         className="object-cover"
                         draggable={false}
                       />
                     </div>
-                  </Link>
+                  </a>
                 </div>
               </SwiperSlide>
             ))}
