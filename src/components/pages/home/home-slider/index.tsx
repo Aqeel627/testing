@@ -76,7 +76,7 @@ const CENTER_BREAKPOINTS: Record<number, { slidesPerView: number; spaceBetween: 
 
 export default function HomeSlider() {
   const { ourBanners } = useAppStore();
-  
+
   useEffect(() => {
     console.log(ourBanners, 'ourBanners');
   }, [ourBanners])
@@ -102,24 +102,24 @@ export default function HomeSlider() {
             }}
             className={cn("select-none cursor-grab active:cursor-grabbing")}
           >
-            {loopSlides.map((s, i) => (
+            {ourBanners.map((s: any, i: any) => (
               <SwiperSlide key={i} className="h-auto">
                 <div className="flex flex-col gap-3 items-center">
-                  <Link
-                    href={s.href}
+                  <a
+                    href={s.link}
                     draggable={false}
                     className="block w-full overflow-hidden rounded-[12px] bg-[#213743] aspect-[5/5]"
                   >
                     <div className="relative h-full w-full">
                       <Image
-                        src={s.src}
+                        src={'/' + s.image}
                         alt={`slide-${i}`}
                         fill
                         className="object-cover"
                         draggable={false}
                       />
                     </div>
-                  </Link>
+                  </a>
                 </div>
               </SwiperSlide>
             ))}
