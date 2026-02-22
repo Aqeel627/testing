@@ -1,8 +1,9 @@
 "use client";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useMemo } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Icon from "@/icons/icons";
+import { useAppStore } from "@/lib/store/store";
 
 interface BreadCrumbProps {
   /** Override the page title shown above the crumbs. Defaults to last segment. */
@@ -17,8 +18,24 @@ function slugToLabel(slug: string): string {
     .replace(/\b\w/g, (c) => c.toUpperCase());
 }
 
+function toSportSlug(name: string): string {
+  return String(name || "")
+    .trim()
+    .toLowerCase()
+    .replace(/\s+/g, "-");
+}
+
 const SportsBreadCrumb = ({ title, subtitle }: BreadCrumbProps) => {
   const pathname = usePathname();
+  const router = useRouter();
+  const { menuList } = useAppStore();
+  const eventTypeRef = useRef<HTMLSpanElement | null>(null);
+  const competitionRef = useRef<HTMLSpanElement | null>(null);
+  const [isEventTypeOpen, setIsEventTypeOpen] = useState(false);
+  const [isCompetitionOpen, setIsCompetitionOpen] = useState(false);
+  const [competition, setCompetition] = useState<any[]>([]);
+  const [selectedEventType, setSelectedEventType] = useState("");
+  const [selectedCompetition, setSelectedCompetition] = useState("");
 
   // Build crumb trail from pathname segments
   const crumbs = useMemo(() => {
@@ -37,6 +54,57 @@ const SportsBreadCrumb = ({ title, subtitle }: BreadCrumbProps) => {
 
   const lastCrumb = crumbs[crumbs.length - 1];
   const pageTitle = title ?? lastCrumb?.label ?? "";
+  const pathSegments = useMemo(
+    () => pathname.split("/").filter(Boolean),
+    [pathname],
+  );
+  const sportSlug = pathSegments[1] || "";
+  const defaultSportName = title || slugToLabel(sportSlug);
+
+  function filterCompetitions(eventTypeId: string | number) {
+    const filtered =
+      menuList?.competitions?.filter(
+        (item: any) => String(item?.eventType?.id) === String(eventTypeId),
+      ) ?? [];
+    setCompetition(filtered);
+    return filtered;
+  }
+
+  useEffect(() => {
+    if (!menuList?.eventTypes?.length) return;
+
+    const selectedEvent = menuList.eventTypes.find(
+      (item: any) =>
+        String(item?.eventType?.name || "").toLowerCase() ===
+        String(defaultSportName || "").toLowerCase(),
+    );
+
+    if (!selectedEvent) return;
+
+    setSelectedEventType(selectedEvent.eventType.name);
+    filterCompetitions(selectedEvent.eventType.id);
+  }, [menuList, defaultSportName]);
+
+  useEffect(() => {
+    const onDocClick = (e: MouseEvent) => {
+      const t = e.target as Node;
+      const inEventType = eventTypeRef.current?.contains(t);
+      const inCompetition = competitionRef.current?.contains(t);
+      if (!inEventType) setIsEventTypeOpen(false);
+      if (!inCompetition) setIsCompetitionOpen(false);
+    };
+
+    document.addEventListener("mousedown", onDocClick);
+    return () => document.removeEventListener("mousedown", onDocClick);
+  }, []);
+
+  const navigateToMarket = (sportName: string) => {
+    router.push(`/sport/${toSportSlug(sportName)}`);
+  };
+
+  const navigateToMarketComp = (sportName: string, id: string | number) => {
+    router.push(`/sport/${toSportSlug(sportName)}/${id}`);
+  };
 
   return (
     <div className="px-2 pt-4 pb-2">
@@ -52,33 +120,118 @@ const SportsBreadCrumb = ({ title, subtitle }: BreadCrumbProps) => {
         </p>
       )}
 
-      {/* Crumb trail */}
-      <nav className="flex flex-row flex-wrap items-center gap-1 mt-1.5">
-        {crumbs.map((crumb, i) => {
-          const isLast = i === crumbs.length - 1;
-          return (
-            <div key={crumb.href} className="flex items-center gap-1">
-              {/* Separator arrow (skip before Home) */}
-              {i > 0 && (
-                <span className="text-[#637381]">
-                  <Icon name="arrow-right" className="w-3 h-3" />
-                </span>
-              )}
+      <div className="flex flex-wrap gap-2 min-[900px]:gap-4 mt-1.5">
+        <span
+          ref={eventTypeRef}
+          className="h-6 min-w-6 inline-flex justify-center items-center overflow-visible text-sm bg-[#078dee29] rounded-[6px] pl-[8px] pr-2 gap-2.5 relative"
+        >
+          <button
+            type="button"
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              setIsEventTypeOpen((v) => !v);
+              setIsCompetitionOpen(false);
+            }}
+            className="text-[#68CDF9] inline-flex"
+          >
+            <Icon name="play" className="w-5 h-5" />
+          </button>
 
-              {isLast ? (
-                <></>
-              ) : (
-                <Link
-                  href={crumb.href}
-                  className="text-[11px] font-bold text-[#919eab] bg-[rgba(145,158,171,0.08)] px-2.5 py-0.5 rounded-[4px] no-underline hover:text-white hover:bg-[rgba(145,158,171,0.16)] transition-colors"
-                >
-                  {crumb.label}
-                </Link>
-              )}
-            </div>
-          );
-        })}
-      </nav>
+          <a href="" className="inline-flex">
+            {selectedEventType || defaultSportName || ""}
+          </a>
+
+          {isEventTypeOpen && (
+            <ul className="absolute left-2 p-1 top-full mt-0 -ml-1 max-h-50 glass backdrop-blur-[2px]!  rounded-sm shadow-lg bg-[rgba(var(--palette-background-paperChannel)/90%)] text-(--palette-text-primary) z-40 overflow-y-auto no-scrollbar">
+              {menuList?.eventTypes?.map((item: any) => (
+                <li key={item.eventType.id}>
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      setSelectedEventType(item.eventType.name);
+                      setSelectedCompetition("");
+                      filterCompetitions(item.eventType.id);
+                      setIsEventTypeOpen(false);
+                      navigateToMarket(item.eventType.name);
+                    }}
+                    className={`text-sm w-full text-nowrap text-left relative bg-transparent cursor-pointer gap-2 font-semibold transition px-2 py-1.5 rounded-[6px] ${
+                      (selectedEventType &&
+                        selectedEventType === item.eventType.name) ||
+                      (!selectedEventType &&
+                        defaultSportName === item.eventType.name)
+                        ? "bg-[rgba(255,255,255,0.25)]! text-(--palette-primary-main)"
+                        : "hover:bg-[rgba(255,255,255,0.25)]"
+                    }`}
+                  >
+                    {item.eventType.name}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+        </span>
+
+        <span
+          ref={competitionRef}
+          className="h-6 min-w-6 inline-flex justify-center relative items-center text-sm bg-[#078dee29] rounded-[6px] pl-[8px] pr-2 gap-2.5"
+        >
+            <button
+              type="button"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setIsCompetitionOpen((v) => !v);
+                setIsEventTypeOpen(false);
+              }}
+              className="text-[#68CDF9] inline-flex"
+            >
+              <Icon name="play" className="w-5 h-5" />
+            </button>
+
+            <a href="" className="inline-flex">
+              {selectedCompetition || subtitle || "Tournament"}
+            </a>
+
+            {isCompetitionOpen && (
+              <ul className="absolute p-1 left-2 top-full mt-0 -ml-1 max-h-50 glass backdrop-blur-[2px]! rounded-sm shadow-lg bg-[rgba(var(--palette-background-paperChannel)/90%)] text-(--palette-text-primary) z-40 overflow-y-auto no-scrollbar">
+                {Array.isArray(competition) && competition.length > 0 ? (
+                  competition.map((item: any) => (
+                    <li key={item.competition.id}>
+                      <button
+                        type="button"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          setSelectedCompetition(item.competition.name);
+                          setIsCompetitionOpen(false);
+                          navigateToMarketComp(
+                            item.eventType.name,
+                            item.competition.id,
+                          );
+                        }}
+                        className={`text-sm w-full text-nowrap text-left relative bg-transparent cursor-pointer gap-2 font-semibold transition px-2 py-1.5 rounded-[6px] ${
+                          (selectedCompetition &&
+                            selectedCompetition === item.competition.name) ||
+                          (!selectedCompetition &&
+                            subtitle === item.competition.name)
+                            ? "bg-[rgba(255,255,255,0.25)]! text-(--palette-primary-main)"
+                            : "hover:bg-[rgba(255,255,255,0.25)]"
+                        }`}
+                      >
+                        {item.competition.name}
+                      </button>
+                    </li>
+                  ))
+                ) : (
+                  <li className="p-3 text-xs opacity-70">No competitions</li>
+                )}
+              </ul>
+            )}
+        </span>
+      </div>
     </div>
   );
 };
