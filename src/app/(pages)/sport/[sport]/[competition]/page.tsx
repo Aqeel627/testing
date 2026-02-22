@@ -1,8 +1,9 @@
 "use client";
 import { useAppStore } from "@/lib/store/store";
-import InplayMarket from "@/components/pages/inplay/inplay-market";
 import { useMemo, use } from "react";
-import SportsBreadCrumb from "@/components/common/sports-bread-crumb";
+import dynamic from "next/dynamic";
+const InplayMarket = dynamic(() => import("@/components/pages/inplay/inplay-market"));
+const SportsBreadCrumb = dynamic(() => import("@/components/common/sports-bread-crumb"));
 
 const SPORT_IDS: Record<string, string> = {
   cricket: "4",

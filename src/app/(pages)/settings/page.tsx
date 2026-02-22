@@ -1,5 +1,5 @@
-import SettingComponent from '@/components/pages/setting'
-import React from 'react'
+import dynamic from "next/dynamic";
+const SettingComponent = dynamic(() => import("@/components/pages/setting"));
 
 export default function page() {
   return (
