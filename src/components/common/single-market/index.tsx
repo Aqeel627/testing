@@ -8,6 +8,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import MarketLoader from "../market-loader";
+import { EventTimer } from "./event-timer";
 
 const Icon = dynamic(() => import("@/icons/icons"));
 const MBetSlip = dynamic(() => import("@/components/common/m-betslip"));
@@ -158,12 +159,11 @@ const SingleMarket = ({
                       <p
                         className={`m-0 font-sans truncate whitespace-nowrap text-[10px] font-bold leading-[1rem] ${event.inplay ? "text-[#078dee]" : "text-[var(--secondary-text-color)]"}`}
                       >
-                        {event.inplay
-                          ? "In-Play"
-                          : (() => {
-                              const date = new Date(event.marketStartTime);
-                              return `${String(date.getDate()).padStart(2, "0")}-${String(date.getMonth() + 1).padStart(2, "0")}-${date.getFullYear()}`;
-                            })()}
+                        {event.inplay ? (
+                          "In-Play"
+                        ) : (
+                          <EventTimer startTime={event?.marketStartTime} />
+                        )}
                       </p>
                     </div>
                   </div>
