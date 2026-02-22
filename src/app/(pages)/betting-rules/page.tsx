@@ -1,5 +1,4 @@
-import dynamic from "next/dynamic";
-const Batting = dynamic(() => import("@/components/pages/Batting"));
+import Batting from "@/components/pages/batting";
 
 const BattingRoute = () => {
   return (

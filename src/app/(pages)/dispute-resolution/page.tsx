@@ -1,5 +1,4 @@
-import dynamic from "next/dynamic";
-const DisResolution = dynamic(() => import("@/components/pages/DisResolution"));
+import DisResolution from "@/components/pages/dis-resolution";
 
 const  DisResolutionRoute  = () => {
   return (

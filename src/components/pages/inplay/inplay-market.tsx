@@ -6,7 +6,7 @@ import style from "@/components/pages/home/single-market/singleMarket.module.css
 import { AnimatedNumber } from "@/components/common/animatied-number";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import MBetSlip from "@/components/common/m-betslip";
+import MBetSlip from "@/components/common/m-bet-slip";
 import { useEffect, useRef, useState } from "react";
 import MarketLoader from "@/components/common/market-loader";
 

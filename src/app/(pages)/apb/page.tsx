@@ -1,5 +1,4 @@
-import dynamic from "next/dynamic";
-const Accounts = dynamic(() => import("@/components/pages/Accounts"));
+import Accounts from "@/components/pages/accounts";
 
 const AccountsRoute = () => {
   return (

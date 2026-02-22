@@ -1,5 +1,4 @@
-import dynamic from "next/dynamic";
-const StatementPage = dynamic(() => import("@/components/pages/Statement"));
+import StatementPage from "@/components/pages/statement";
 
 const   statementoute = () => {
   return (
