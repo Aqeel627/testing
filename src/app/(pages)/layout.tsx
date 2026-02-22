@@ -11,6 +11,7 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/common/resizeable";
+import ChangePassword from "../change-password/page";
 const Header = dynamic(() => import("@/components/common/header"));
 const Footer = dynamic(() => import("@/components/common/footer"));
 const Sidebar = dynamic(() => import("@/components/common/sidebar"));
@@ -90,6 +91,7 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
           <BottomNavbar />
         </div>
         {loginModal && <LoginModal />}
+        {/* <ChangePassword /> */}
       </>
     );
   } else {
@@ -143,6 +145,7 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
           </div>
         </div>
         {loginModal && <LoginModal />}
+        {/* <ChangePassword /> */}
       </>
     );
   }
