@@ -17,9 +17,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import { webSocketService } from "@/lib/websocket.service";
 import { VideoSimple } from "@/components/video-simple/VideoSimple";
 import dynamic from "next/dynamic";
+import MarketLoader from "@/components/common/market-loader";
+import RuleModal from "@/components/modal/role";
 
-const RuleModal = dynamic(() => import("@/components/modal/role"));
-const MarketLoader = dynamic(() => import("@/components/common/market-loader"));
 const MBetSlip = dynamic(() => import("@/components/common/m-betslip"));
 const Icon = dynamic(() => import("@/icons/icons"));
 

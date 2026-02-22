@@ -2,6 +2,7 @@
 import { useAppStore } from "@/lib/store/store";
 import { useMemo, useState, useTransition } from "react";
 import dynamic from "next/dynamic";
+import MarketLoader from "@/components/common/market-loader";
 
 const SportsNav = dynamic(() => import("@/components/pages/home/sports-nav"));
 const HomeSlider = dynamic(() => import("@/components/pages/home/home-slider"));
@@ -9,7 +10,6 @@ const Casino = dynamic(() => import("@/components/pages/live-casino"));
 const SingleMarket = dynamic(
   () => import("@/components/common/single-market"),
 );
-const MarketLoader = dynamic(() => import("@/components/common/market-loader"));
 
 export default function HomePage() {
   const { allEventsList } = useAppStore();
