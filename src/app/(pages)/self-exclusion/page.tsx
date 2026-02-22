@@ -1,5 +1,4 @@
-import dynamic from "next/dynamic";
-const ExclusionPage = dynamic(() => import("@/components/pages/Exclusion"));
+import ExclusionPage from "@/components/pages/exclusion";
 
 const  ExclusionRoute = () => {
   return (
