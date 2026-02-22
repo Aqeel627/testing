@@ -7,10 +7,10 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
+import MarketLoader from "../market-loader";
 
 const Icon = dynamic(() => import("@/icons/icons"));
 const MBetSlip = dynamic(() => import("@/components/common/m-betslip"));
-const MarketLoader = dynamic(() => import("@/components/common/market-loader"));
 
 const SingleMarket = ({
   events,
