@@ -834,11 +834,12 @@ export default function MarketDetails() {
       <>
         <div className="border w-full border-dashed border-(--dotted-line) rounded-[4px] overflow-hidden">
           {/* HEADER */}
-          <div className="px-1 min-[900px]:px-2 bg-[#153045] border-b border-[#28323D] flex flex-col justify-center w-full font-bold h-8 relative">
+          <div className="px-1 min-[900px]:px-2 bg-(--market-header-bg) flex flex-col justify-center w-full font-bold h-8 relative">
             <div className="absolute z-10 cursor-pointer right-2 top-1/2 -translate-y-[50%]">
               <Icon
                 name="info"
                 onClick={() => setOpenRulesModal(data.description.rules)}
+                className="text-(--accordion-text)"
               />
               <RuleModal
                 open={openRules}
@@ -847,12 +848,12 @@ export default function MarketDetails() {
               />
             </div>
             <div className="relative flex flex-row items-center h-8 justify-between w-full">
-              <div className="text-[14px] text-[#68CDF9] font-[500] leading-[14px] flex-1 flex-[1_1_6rem] min-w-0 whitespace-nowrap truncate relative top-[1px]">
+              <div className="text-[14px] text-(--accordion-text) font-[500] leading-[14px] flex-1 flex-[1_1_6rem] min-w-0 whitespace-nowrap truncate relative top-[1px]">
                 {getMarketTitle(market)}
               </div>
 
               <div className="relative flex flex-col items-end max-w-[360px] w-full flex-[5_0_94px]">
-                <div className="flex items-center text-[13px] font-normal leading-[18px] text-[#68CDF9] pt-[1px]">
+                <div className="flex items-center text-[13px] font-normal leading-[18px] text-(--accordion-text) pt-[1px]">
                   {limits ? (
                     <>
                       <p className="invisible">Min: {limits.min}</p>&nbsp;
@@ -871,13 +872,13 @@ export default function MarketDetails() {
                   <div className="flex w-1/2 gap-1 justify-end">
                     <div className="flex-1 min-w-0 max-[464px]:hidden" />
                     <div className="flex-1 min-w-0 max-[346px]:hidden" />
-                    <div className="flex items-center justify-center pb-[1px] font-semibold rounded-[2px] text-black select-none flex-1 min-w-0 text-[14px] leading-[18px] bg-[#0591cf] h-4 1111">
+                    <div className="flex items-center justify-center pb-[1px] font-semibold rounded-[2px] text-black select-none flex-1 min-w-0 text-[14px] leading-[18px] bg-(--market-header-back-bg) h-4 1111">
                       Back
                     </div>
                   </div>
 
                   <div className="flex w-1/2 gap-1 justify-start">
-                    <div className="flex items-center justify-center rounded-[2px] text-black select-none flex-1 min-w-0 text-[14px] font-semibold pb-[1px] leading-[18px] bg-[#d1686d] h-4">
+                    <div className="flex items-center justify-center rounded-[2px] text-black select-none flex-1 min-w-0 text-[14px] font-semibold pb-[1px] leading-[18px] bg-(--market-header-lay-bg) h-4">
                       Lay
                     </div>
                     <div className="flex-1 min-w-0 max-[346px]:hidden" />
@@ -889,7 +890,7 @@ export default function MarketDetails() {
           </div>
 
           {/* BODY */}
-          <ul className="relative list-none m-0 p-0 px-1 min-[900px]:px-2 bg-[#191e26]">
+          <ul className="relative list-none m-0 p-0 px-1 min-[900px]:px-2 bg-(--market-bg)">
             {runners.map((runner: any, index: number) => {
               const runnerName =
                 market?.runnerNameMap?.[Number(runner.selectionId)] ||
@@ -919,13 +920,13 @@ export default function MarketDetails() {
               return (
                 <li
                   key={`${market.marketId}-${runner.selectionId}-${index}`}
-                  className="flex flex-col justify-start items-center relative w-full box-border text-left no-underline border-b border-dashed border-(--dotted-line) bg-clip-padding hover:bg-[#1C252E] transition-colors"
+                  className="flex flex-col justify-start items-center relative w-full box-border text-left no-underline border-b border-dashed border-(--dotted-line) bg-clip-padding transition-colors"
                 >
                   <div className="flex w-full flex-row flex-1 min-h-[50px] items-center justify-between py-1">
                     {/* Runner Name */}
                     <div className="font-[500] text-[14px] leading-[1] flex-[1_1_6rem] min-w-0 pr-2">
                       <span
-                        className={`text-white ${runnerSusp ? "" : "cursor-pointer"}`}
+                        className={`${runnerSusp ? "" : "cursor-pointer"}`}
                       >
                         {runnerName}
                       </span>
@@ -953,8 +954,8 @@ export default function MarketDetails() {
                                 className={`back-${i + 1} flex flex-col items-center justify-center w-[75%] @min-[700]:w-[57.5px] h-[45px] rounded-[8px] border border-[var(--back-border)] bg-[var(--back-bg)]
 hover:bg-[var(--back-hover)] flex-1 min-w-0 cursor-pointer text-black transition-colors ${
                                   i === 0
-                                    ? "bg-[#0591cf] hover:bg-[#68CDF9]"
-                                    : "bg-[#0a77a8] hover:bg-[#68CDF9]"
+                                    ? "bg-[#0591cf] hover:bg-(--secondary-color)"
+                                    : "bg-[#0a77a8] hover:bg-(--secondary-color)"
                                 } ${i === 2 ? "max-[464px]:hidden" : ""} ${i === 1 ? "max-[346px]:hidden" : ""}`}
                                 onClick={() => {
                                   if (!item.raw?.price || item.raw.price === 0)
@@ -1096,7 +1097,7 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)]  flex-1 min-w-0 cursor-pointer te
               </span> */}
               <span
                 ref={eventTypeRef}
-                className="h-6 min-w-6 inline-flex justify-center items-center overflow-visible text-sm bg-[#078dee29] rounded-[6px] pl-[8px] pr-2 gap-2.5 relative"
+                className="h-6 min-w-6 inline-flex justify-center items-center overflow-visible text-sm bg-(--sidebar-badge-bg) rounded-[6px] pl-[8px] pr-2 gap-2.5 relative"
               >
                 {/* ICON CLICK TOGGLE */}
                 <button
@@ -1107,7 +1108,7 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)]  flex-1 min-w-0 cursor-pointer te
                     setIsEventTypeOpen((v) => !v);
                     setIsCompetitionOpen(false);
                   }}
-                  className="text-market-name inline-flex"
+                  className="inline-flex cursor-pointer text-(--arrow-color)!"
                 >
                   <Icon name="play" className="w-5 h-5" />
                 </button>
@@ -1151,7 +1152,7 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)]  flex-1 min-w-0 cursor-pointer te
 
               <span
                 ref={competitionRef}
-                className="h-6 min-w-6 inline-flex justify-center relative items-center text-sm bg-[#078dee29] rounded-[6px] pl-[8px] pr-2 gap-2.5"
+                className="h-6 min-w-6 inline-flex justify-center relative items-center text-sm bg-(--sidebar-badge-bg) rounded-[6px] pl-[8px] pr-2 gap-2.5"
               >
                 {/* ✅ ICON CLICK TOGGLE (same look) */}
                 <button
@@ -1162,7 +1163,7 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)]  flex-1 min-w-0 cursor-pointer te
                     setIsCompetitionOpen((v) => !v);
                     setIsEventTypeOpen(false);
                   }}
-                  className="text-market-name inline-flex"
+                  className="text-market-name inline-flex cursor-pointer text-(--arrow-color)!"
                 >
                   <Icon name="play" className="w-5 h-5" />
                 </button>
@@ -1217,21 +1218,21 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)]  flex-1 min-w-0 cursor-pointer te
       </div>
 
       {/* Title Block */}
-      <div className="text-white bg-[#919eab0a] w-full border-[1px] border-dashed border-(--dotted-line) rounded-[16px] overflow-hidden max-[637px]:mt-[6px]">
+      <div className="bg-(--primary-hover) w-full border-[1px] border-dashed border-(--dotted-line) rounded-[16px] overflow-hidden max-[637px]:mt-[6px]">
         <div className="relative no-underline w-full box-border text-left py-2 px-4 flex-wrap rounded-2">
           <div className="flex justify-between items-center w-full">
             <div className="flex-auto min-w-0 m-0">
-              <span className="h-6 min-w-6 inline-flex justify-center items-center text-sm bg-[#078dee29] rounded-[6px] pl-[8px] pr-2 gap-2.5">
+              <span className="h-6 min-w-6 inline-flex justify-center items-center text-sm bg-(--sidebar-badge-bg) rounded-[6px] pl-[8px] pr-2 gap-2.5">
                 <span className="text-market-name">
-                  <Icon name="play" className="w-5 h-5" />
+                  <Icon name="play" className="w-5 h-5 text-(--arrow-color)!" />
                 </span>
-                <a href="" className="inline-flex text-(--primary-text-color)">
+                <a href="" className="inline-flex">
                   {eventName || "Event"}
                 </a>
               </span>
               <span className="text-[0.875rem] leading-[1.57143]">
                 <div className="flex gap-2 items-center">
-                  <time className="text-[0.785rem] font-semibold leading-[1.57143] text-[#919EAB]">
+                  <time className="text-[0.785rem] font-semibold leading-[1.57143] text-(--secondary-text-color)">
                     {formatDate(marketTime)}
                   </time>
                 </div>
@@ -1287,14 +1288,14 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)]  flex-1 min-w-0 cursor-pointer te
       ) : (
         <>
           {/* Tabs */}
-          <div className="mt-1 min-[900px]:mt-2 flex bg-[#28323D] rounded-[8px] min-h-[48px] overflow-hidden w-full max-w-full">
+          <div className="mt-1 min-[900px]:mt-2 flex dark:bg-[#28323D] rounded-[8px] min-h-[48px] overflow-hidden w-full max-w-full">
             <div className="relative flex items-center flex-1 overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
               <div
                 ref={tabsListRef}
                 className="flex p-2 !pb-[6px] relative z-[1] *:text-nowrap w-full items-center relative"
               >
                 <div
-                  className="absolute bg-[#141A21] rounded-[8px]  transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] z-0 h-[32px]"
+                  className="absolute bg-(--tab-active-bg) rounded-[8px]  transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] z-0 h-[32px]"
                   style={{
                     left: `${indicatorStyle.left}px`,
                     top: "24px",
@@ -1312,8 +1313,8 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)]  flex-1 min-w-0 cursor-pointer te
                   }}
                   className={`inline-flex items-center justify-center bg-transparent border-none cursor-pointer text-[0.875rem] px-4 py-1.5 transition-colors duration-200 leading-[1.57143] relative z-10 top-[-1px] ${
                     activeTab === "POPULAR"
-                      ? "text-[#68CDF9] font-semibold"
-                      : "text-[#919EAB] font-[500]"
+                      ? "text-(--tab-active-text) font-semibold"
+                      : "text-(--tab-default-text) font-medium"
                   }`}
                 >
                   POPULAR
@@ -1333,10 +1334,10 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)]  flex-1 min-w-0 cursor-pointer te
                         market?.marketId,
                       );
                     }}
-                    className={`inline-flex items-center justify-center bg-transparent border-none cursor-pointer text-[0.875rem] px-4 py-1.5 transition-colors duration-200 leading-[1.57143] relative z-10 top-[-1px] ${
+                    className={`inline-flex uppercase items-center justify-center bg-transparent border-none cursor-pointer text-[0.875rem] px-4 py-1.5 transition-colors duration-200 leading-[1.57143] relative z-10 top-[-1px] ${
                       activeTab === market?.marketName
-                        ? "text-[#68CDF9] font-semibold"
-                        : "text-[#919EAB] font-[500]"
+                        ? "text-(--tab-active-text) font-semibold"
+                        : "text-(--tab-default-text) font-medium"
                     }`}
                   >
                     {market?.marketName}
@@ -1351,8 +1352,8 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)]  flex-1 min-w-0 cursor-pointer te
                   }}
                   className={`inline-flex items-center justify-center bg-transparent border-none cursor-pointer text-[0.875rem] px-4 py-1.5 transition-colors duration-200 leading-[1.57143] relative z-10 top-[-1px] ${
                     activeTab === "ALL"
-                      ? "text-[#68CDF9] font-semibold"
-                      : "text-[#919EAB] font-[500]"
+                      ? "text-(--tab-active-text) font-semibold"
+                      : "text-(--tab-default-text) font-medium"
                   }`}
                 >
                   ALL Markets
@@ -1364,18 +1365,20 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)]  flex-1 min-w-0 cursor-pointer te
           {(activeTab === "ALL" || activeTab === "POPULAR") && (
             <div
               onClick={() => setIsMarketSectionOpen((prev) => !prev)}
-              className="px-1 mt-2 min-[900px]:px-2 rounded-md bg-[#153045] border-b border-[#28323D] flex flex-col justify-center w-full font-bold h-8 relative cursor-pointer"
+              className="px-1 mt-2 min-[900px]:px-2 rounded-md bg-(--accordion-bg) flex flex-col justify-center w-full font-bold h-8 relative cursor-pointer"
             >
               <div className="relative flex flex-row items-center h-8 justify-between w-full">
-                <div className="text-[14px] text-[#68CDF9] font-[500] leading-[14px] flex-1 flex-[1_1_6rem] min-w-0 whitespace-nowrap truncate relative top-[1px]">
+                <div className="text-[14px] text-(--accordion-text) font-[500] leading-[14px] flex-1 flex-[1_1_6rem] min-w-0 whitespace-nowrap truncate relative top-[1px]">
                   {"Odds"}
                 </div>
                 <span
-                  className={`transition-transform duration-300 ${isMarketSectionOpen ? "rotate-0" : "rotate-90"}`}
+                  className={`transition-transform duration-300 ${isMarketSectionOpen ? "rotate-90" : "rotate-0"}`}
                 >
                   <Icon
                     name="downArrow"
-                    className="text-(--palette-primary-light)"
+                    width={20}
+                    height={20}
+                    className="text-(--accordion-text)"
                   />
                 </span>
               </div>
