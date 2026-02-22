@@ -2,7 +2,7 @@
 import React, { useEffect } from "react";
 import { useAppStore } from "@/lib/store/store";
 
-export default function casinoGames({ hideHeading }: { hideHeading?: boolean }) {
+export default function CasinoGames({ hideHeading }: { hideHeading?: boolean }) {
   const { ourCasinoGames } = useAppStore();
 
 
