@@ -1,6 +1,7 @@
-import KPolicy from "@/components/pages/kyc-policy";
+import dynamic from "next/dynamic";
+const KPolicy = dynamic(() => import("@/components/pages/kyc-policy"));
 
-const  KpolicyRoute  = () => {
+const KpolicyRoute = () => {
   return (
     <>
       <KPolicy />

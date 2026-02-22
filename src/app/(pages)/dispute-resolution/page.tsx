@@ -1,4 +1,4 @@
-import DisResolution from "@/components/pages/DisResolution";
+import DisResolution from "@/components/pages/dis-resolution";
 
 const  DisResolutionRoute  = () => {
   return (

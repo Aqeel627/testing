@@ -1,16 +1,18 @@
 "use client";
-import Icon from "@/icons/icons";
 import { shortNumber } from "@/lib/functions";
 import { useAppStore } from "@/lib/store/store";
-import style from "@/components/pages/home/single-market/singleMarket.module.css";
+import style from "@/components/common/single-market/style.module.css";
 import { AnimatedNumber } from "@/components/common/animatied-number";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import MBetSlip from "@/components/common/MBetSlip";
 import { useEffect, useRef, useState } from "react";
-import MarketLoader from "@/components/common/market-loader";
+import dynamic from "next/dynamic";
+import MarketLoader from "../market-loader";
 
-const InplayMarket = ({
+const Icon = dynamic(() => import("@/icons/icons"));
+const MBetSlip = dynamic(() => import("@/components/common/m-betslip"));
+
+const SingleMarket = ({
   events,
   className,
 }: {
@@ -432,4 +434,4 @@ const InplayMarket = ({
   );
 };
 
-export default InplayMarket;
+export default SingleMarket;

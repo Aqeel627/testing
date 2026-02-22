@@ -1,9 +1,9 @@
 "use client";
 import { useAppStore } from "@/lib/store/store";
 import { useState, useMemo, use } from "react";
-import BreadCrumb from "@/components/common/bread-crumb";
-import InplayMarket from "@/components/pages/inplay/inplay-market";
-import SportsBreadCrumb from "@/components/common/sports-bread-crumb";
+import dynamic from "next/dynamic";
+const SingleMarket = dynamic(() => import("@/components/common/single-market"));
+const SportsBreadCrumb = dynamic(() => import("@/components/common/sports-bread-crumb"));
 
 // Sport ID mapping — matches allEventsList keys
 const SPORT_IDS: Record<string, string> = {
@@ -59,7 +59,7 @@ const SportPage = ({ params }: SportPageProps) => {
   return (
     <>
       <SportsBreadCrumb title={sportName} />
-      <InplayMarket events={filteredEvents} />
+      <SingleMarket events={filteredEvents} />
     </>
   );
 };

@@ -1,9 +1,11 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import Icon from "@/icons/icons";
 import { cn } from "@/lib/utils";
 import { useTheme } from "next-themes";
 import "./custome-style.css"
+import dynamic from "next/dynamic";
+const Icon = dynamic(() => import("@/icons/icons"));
+
 
 const clamp = (v: number, a: number, b: number) => Math.max(a, Math.min(b, v));
 const rad2deg = (r: number) => (r * 180) / Math.PI;

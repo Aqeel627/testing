@@ -3,15 +3,16 @@
 import { useEffect, useState, type FormEvent } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import Loader from "@/components/common/loader/loader";
 import { cn } from "@/lib/utils";
 import style from "./style.module.css";
 import { useTheme } from "next-themes";
 import { useAuthStore } from "@/lib/useAuthStore";
 // import { useToast } from "@/app/(pages)/components/toast/toast-context";
 import { useRouter } from "next/navigation";
-import { useAppStore } from "@/lib/store/store";
 import { useCacheStore } from "@/lib/store/cacheStore";
+import dynamic from "next/dynamic";
+
+const Loader = dynamic(() => import("@/components/common/loader/loader"));
 
 export default function LoginModal() {
   const { loginModal, setLoginModal } = useCacheStore();

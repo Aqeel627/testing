@@ -2,13 +2,12 @@
 
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
-import styles from "./SearchModal.module.css";
+import styles from "./style.module.css";
 import { useUIStore } from "@/lib/store/ui-store";
 import { useAppStore } from "@/lib/store/store";
-import Icon from "@/icons/icons";
 import Link from "next/link";
-
-
+import dynamic from "next/dynamic";
+const Icon = dynamic(() => import("@/icons/icons"));
 
 export default function SearchModal() {
     const isOpenSearch = useUIStore((s) => s.isOpenSearch);

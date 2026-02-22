@@ -1,14 +1,15 @@
 "use client";
 import { useAuthStore } from "@/lib/useAuthStore";
-import Icon from "@/icons/icons";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { useTheme } from "next-themes";
 import React, { Fragment, useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import CenterRadialButton from "@/components/common/bottom-nav/CenterRadialButton";
 import { useMiniCasinoStore } from "@/lib/store/miniCasinoStore";
 import { useCacheStore } from "@/lib/store/cacheStore";
+import dynamic from "next/dynamic";
+const Icon = dynamic(() => import("@/icons/icons"));
+const CenterRadialButton = dynamic(() => import("@/components/common/bottom-nav/center-radial-btn"));
 
 const BottomNavbar = () => {
   const [isSafari, setIsSafari] = useState(false);

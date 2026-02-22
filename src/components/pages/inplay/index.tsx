@@ -1,10 +1,12 @@
 "use client";
 
 import { useAppStore } from "@/lib/store/store";
-import InplaySportNav from "./tabs";
 import { useState } from "react";
-import BreadCrumb from "@/components/common/bread-crumb";
-import InplayMarket from "./inplay-market";
+import dynamic from "next/dynamic";
+
+const SingleMarket = dynamic(() => import("@/components/common/single-market"));
+const BreadCrumb = dynamic(() => import("@/components/common/bread-crumb"));
+const InplaySportNav = dynamic(() => import("./tabs"));
 
 const InplayPage = () => {
   const { inplayEvents } = useAppStore();
@@ -15,7 +17,7 @@ const InplayPage = () => {
     <>
       <BreadCrumb title="Inplay" />
       <InplaySportNav activeTab={activeTab} setActiveTab={setActiveTab} />
-      <InplayMarket
+      <SingleMarket
         events={
           activeTab === "All"
             ? inplayEvents?.all

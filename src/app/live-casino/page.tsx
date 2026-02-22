@@ -1,7 +1,9 @@
 "use client";
-import Casino from "@/components/pages/live-casino";
-import MCasinoTabs from "@/components/pages/live-casino/m-casino-tabs";
 import { useAppStore } from "@/lib/store/store";
+import dynamic from "next/dynamic";
+const MCasinoTabs = dynamic(() => import("@/components/pages/live-casino/m-casino-tabs"));
+const Casino = dynamic(() => import("@/components/pages/live-casino"));
+
 
 const LiveCasinoRoute = () => {
   const { casinoEvents } = useAppStore(); // ✅

@@ -1,6 +1,6 @@
-import BreadCrumb from '@/components/common/bread-crumb'
-import DateFilter from '@/components/common/date-filter';
-import React from 'react'
+import dynamic from "next/dynamic";
+const BreadCrumb = dynamic(() => import("@/components/common/bread-crumb"));
+const DateFilter = dynamic(() => import("@/components/common/date-filter"));
 
 const StatementPage = () => {
     const today = new Date();
