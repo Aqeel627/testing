@@ -1,4 +1,4 @@
-import Fairness from "@/components/pages/Fairness";
+import Fairness from "@/components/pages/fairness";
 
 const  FairnessRoute  = () => {
   return (

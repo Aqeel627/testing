@@ -11,7 +11,7 @@ import SearchModal from "@/components/modal/search/SearchModal";
 import { AuExchThemeProvider } from "@/components/common/theme-provider";
 import { Suspense } from "react";
 import Script from "next/script";
-import MiniCasinoDrawer from "@/components/common/MiniCasinoDrawer";
+import MiniCasinoDrawer from "@/components/common/mini-casino-drawer";
 import GlobalApisCall from "@/lib/providers/global-apis";
 import NavigationLoader from "@/lib/providers/navigation-loader";
 

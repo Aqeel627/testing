@@ -16,7 +16,7 @@ import axios from "axios";
 import { useAppStore } from "@/lib/store/store";
 import { useAppRateHighlighter } from "@/lib/highlaterMarket";
 import { motion, AnimatePresence } from "framer-motion";
-import MBetSlip from "@/components/common/MBetSlip";
+import MBetSlip from "@/components/common/m-bet-slip";
 
 // WebSocket service (assumed to exist)
 import { webSocketService } from "@/lib/websocket.service";
