@@ -16,7 +16,6 @@
   --lay-and-back-size: 10px;
 
 /* market variables */
-  --tab-default-text:#637381;
   --accordion-bg: rgba(7, 141, 238, 0.16);
 
   
@@ -368,6 +367,7 @@
   --accordion-text: #0351ab;
   --tab-active-bg:#fff;
   --tab-active-text:var(--primary-color);
+  --tab-default-text:#637381;
   --market-header-bg:rgba(7, 141, 238, 0.16);
   --market-header-back-bg:#99d5f1;
   --market-header-lay-bg:#f3b9bf;
@@ -435,6 +435,7 @@
   --accordion-text: var(--secondary-color);
   --tab-active-bg:#141a21;
   --tab-active-text:var(--secondary-color);
+  --tab-default-text:var(--secondary-text-color);
   --market-header-bg:#163147;
   --market-header-back-bg:#0591cf;
   --market-header-lay-bg:#d1686d;
