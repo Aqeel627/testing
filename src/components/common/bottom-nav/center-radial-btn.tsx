@@ -4,6 +4,7 @@ import { cn } from "@/lib/utils";
 import { useTheme } from "next-themes";
 import "./custome-style.css"
 import dynamic from "next/dynamic";
+import { useRouter } from "next/navigation";
 const Icon = dynamic(() => import("@/icons/icons"));
 
 
@@ -19,12 +20,13 @@ const CenterRadialButton = () => {
   const rootRef = useRef<HTMLDivElement>(null);
   const arcCircleRef = useRef<HTMLDivElement>(null);
   const sampleIconRef = useRef<HTMLButtonElement>(null);
+  const router = useRouter();
 
   const [vw, setVw] = useState<number>(0);
 
   // your fixed 425px transforms (DO NOT TOUCH)
   const rotations = [-60, -20, 20, 60] as const;
-  const radialIcons = ["theme", "whatsapp", "google", "powerOff"] as const;
+  const radialIcons = ["theme", "stake", "themeSetting", "powerOff"] as const;
 
   const xPerc425 = [-65, -57, -50, -35] as const;
   const y425 = [-32.75, -25.75, -25.75, -31.75] as const;
@@ -161,6 +163,18 @@ const CenterRadialButton = () => {
     };
   }, [vw]);
 
+  const handleIconAction = (iconName: string) => {
+    if (iconName === "whatsapp") {
+      router.push("/theme")
+    }
+    else if (iconName === "google") {
+      console.log("Google clicked");
+    }
+    else if (iconName === "powerOff") {
+      console.log("PowerOff clicked");
+    }
+  };
+
   const useFixed425To767 = vw >= 425 && vw <= 767;
 
   return (
@@ -197,7 +211,13 @@ const CenterRadialButton = () => {
             `translateX(calc(${xPerc425[i]}% + 0px)) translateY(${y425[i]}px) rotate(${deg}deg) translateY(-${r425}px) rotate(${-deg}deg)`
             : // <425px: border gap == icon gap == (10..20px)
             `translateX(calc(-50% + ${small.dx}px)) translateY(${small.baseY}px) rotate(${small.angles[i]}deg) translateY(-${small.rCenter}px) rotate(${-small.angles[i]}deg)`;
-const iconClass = `icon-${radialIcons[i]}`;
+const iconName =
+  radialIcons[i] === "stake"
+    ? theme === "light"
+      ? "stakeLight"
+      : "stakeDark"
+    : radialIcons[i];
+    const iconClass = `icon-${iconName}`;
           return (
             <span
               key={i}
@@ -229,6 +249,7 @@ const iconClass = `icon-${radialIcons[i]}`;
                 </button>
               ) : (
                 <div
+                onClick={() => handleIconAction(radialIcons[i])}
                   className={cn(
                     "w-[50px] h-[50px] max-[355px]:w-[45px] max-[355px]:h-[45px] rounded-full flex items-center justify-center btn-glass backdrop-blur-[20px] border shadow-lg transition-opacity duration-300",
                     open ? "opacity-100" : "opacity-0",
@@ -237,7 +258,7 @@ const iconClass = `icon-${radialIcons[i]}`;
                       : "border-[rgba(255,255,255,0.4)]"
                   )}
                 >
-                  <Icon name={radialIcons[i]} width={22} height={22} />
+                  <Icon name={iconName} width={22} height={22} />
                 </div>
               )}
             </span>

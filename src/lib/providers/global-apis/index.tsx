@@ -6,7 +6,7 @@ import { useAuthStore } from "@/lib/useAuthStore";
 import React, { useEffect } from "react";
 
 const GlobalApisCall = () => {
-  const { setCasinoEvents, setAllEventsList, setMenuList } = useAppStore();
+  const { setCasinoEvents, setAllEventsList, setMenuList, setOurBanners, setOurCasinoGames, setOurEvents, } = useAppStore();
   const { checkLogin } = useAuthStore();
   const handleAllEvents = (data: any) => {
     setAllEventsList(data);
@@ -47,7 +47,10 @@ const GlobalApisCall = () => {
       payload: { key: CONFIG.siteKey },
       cachedKey: "events",
       setFn: (data: any) => {
-        console.log(data);
+        const { banners, casinoGames, events } = data ?? [];
+        setOurBanners(banners);
+        setOurCasinoGames(casinoGames);
+        setOurEvents(events);
       },
       expireIn: CONFIG.eventsTime,
     });
