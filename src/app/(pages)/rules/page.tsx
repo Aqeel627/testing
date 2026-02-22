@@ -1,4 +1,5 @@
-import RulesPage from "@/components/pages/rules";
+import dynamic from "next/dynamic";
+const RulesPage = dynamic(() => import("@/components/pages/rules"));
 
 const  RulesRoute = () => {
   return (

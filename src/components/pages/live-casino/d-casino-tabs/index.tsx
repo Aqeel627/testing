@@ -1,5 +1,3 @@
-import React from 'react';
-
 interface DCasinoTabsProps {
   tabs: any[];
   activeTab: string;

@@ -1,11 +1,10 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import { usePathname, useSearchParams } from "next/navigation";
+import React, { useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import { useAppStore } from "@/lib/store/store";
 
 export default function Casino({ hideHeading }: { hideHeading?: boolean }) {
   const { casinoEvents } = useAppStore();
-  const pathname = usePathname();
   const searchParams = useSearchParams();
   const activeIndex = searchParams.get("tab") ?? "Popular";
 

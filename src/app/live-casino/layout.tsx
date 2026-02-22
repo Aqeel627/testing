@@ -1,31 +1,27 @@
 "use client";
 
 import {
-  useEffect,
   useLayoutEffect,
-  useRef,
   useState,
   type ReactNode,
 } from "react";
-import Header from "@/components/common/header";
-import Footer from "@/components/common/footer";
-import Sidebar from "@/components/common/sidebar";
 import { useAppStore } from "@/lib/store/store";
-import { useUIStore } from "@/lib/store/ui-store"; // ✅ import store
-import BottomNavbar from "@/components/common/bottom-nav";
-import LoginModal from "@/components/modal/login";
 import { cn } from "@/lib/utils";
-import { useLayoutWidthStore } from "@/lib/store/layoutWidth.store";
-import DCasinoTabs from "@/components/pages/live-casino/d-casino-tabs";
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 import { useCacheStore } from "@/lib/store/cacheStore";
-import BetSlip from "@/components/common/betslip";
 import {
   ResizableHandle,
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/common/resizeable";
+import dynamic from "next/dynamic";
+const BetSlip = dynamic(() => import("@/components/common/betslip"));
+const DCasinoTabs = dynamic(() => import("@/components/pages/live-casino/d-casino-tabs"));
+const BottomNavbar = dynamic(() => import("@/components/common/bottom-nav"));
+const LoginModal = dynamic(() => import("@/components/modal/login"));
+const Header = dynamic(() => import("@/components/common/header"));
+const Footer = dynamic(() => import("@/components/common/footer"));
 
 const MAIN_WIDTH_STORAGE_KEY = "pages-layout-main-width";
 

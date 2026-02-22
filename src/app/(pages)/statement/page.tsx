@@ -1,4 +1,4 @@
-import StatementPage from "@/components/pages/Statement";
+import StatementPage from "@/components/pages/statement";
 
 const   statementoute = () => {
   return (

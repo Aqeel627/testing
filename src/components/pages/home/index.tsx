@@ -1,12 +1,15 @@
 "use client";
-import SingleMarket from "@/components/pages/home/single-market";
-import SportsNav from "@/components/pages/home/sports-nav";
-import HomeSlider from "@/components/pages/home/home-slider";
-import Casino from "@/components/pages/live-casino";
 import { useAppStore } from "@/lib/store/store";
-import InplayMarket from "../inplay/inplay-market";
 import { useMemo, useState, useTransition } from "react";
+import dynamic from "next/dynamic";
 import MarketLoader from "@/components/common/market-loader";
+
+const SportsNav = dynamic(() => import("@/components/pages/home/sports-nav"));
+const HomeSlider = dynamic(() => import("@/components/pages/home/home-slider"));
+const Casino = dynamic(() => import("@/components/pages/live-casino"));
+const SingleMarket = dynamic(
+  () => import("@/components/common/single-market"),
+);
 
 export default function HomePage() {
   const { allEventsList } = useAppStore();
@@ -38,9 +41,9 @@ export default function HomePage() {
       <div className="mb-4">
         {/* Optional: Show a loading state while transitioning */}
         {isPending ? (
-          <MarketLoader/>
+          <MarketLoader />
         ) : (
-          <InplayMarket events={marketEvents} className="mt-2!" />
+          <SingleMarket events={marketEvents} className="mt-2!" />
         )}
       </div>
 

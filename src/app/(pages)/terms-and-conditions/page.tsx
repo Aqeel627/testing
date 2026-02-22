@@ -1,4 +1,4 @@
-import TermCondition from "@/components/pages/TermCondition";
+import TermCondition from "@/components/pages/term-condition";
 
 const  TermConditionRoute  = () => {
   return (

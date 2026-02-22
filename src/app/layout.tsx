@@ -7,13 +7,14 @@ import {
 } from "next/font/google";
 import "./globals.css";
 import { Metadata } from "next";
-import SearchModal from "@/components/modal/search/SearchModal";
 import { AuExchThemeProvider } from "@/components/common/theme-provider";
 import { Suspense } from "react";
 import Script from "next/script";
-import MiniCasinoDrawer from "@/components/common/MiniCasinoDrawer";
-import GlobalApisCall from "@/lib/providers/global-apis";
-import NavigationLoader from "@/lib/providers/navigation-loader";
+import dynamic from "next/dynamic";
+const MiniCasinoDrawer = dynamic(() => import("@/components/common/mini-casino-drawer"));
+const GlobalApisCall = dynamic(() => import("@/lib/providers/global-apis"));
+const NavigationLoader = dynamic(() => import("@/lib/providers/navigation-loader"));
+const SearchModal = dynamic(() => import("@/components/modal/search"));
 
 export const metadata: Metadata = {
   title: "100exch",

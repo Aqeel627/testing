@@ -1,16 +1,8 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useState, type ReactNode } from "react";
-import Header from "@/components/common/header";
-import Footer from "@/components/common/footer";
-import Sidebar from "@/components/common/sidebar";
-import { useAppStore } from "@/lib/store/store";
-import { fetchData } from "@/lib/functions";
-import { CONFIG } from "@/lib/config";
-import BetSlip from "@/components/common/betslip";
-import { useUIStore } from "@/lib/store/ui-store"; // ✅ import store
-import BottomNavbar from "@/components/common/bottom-nav";
-import LoginModal from "@/components/modal/login";
+import { useLayoutEffect, useState, type ReactNode } from "react";
+import dynamic from "next/dynamic";
+import { useUIStore } from "@/lib/store/ui-store";
 import { cn } from "@/lib/utils";
 import { useCacheStore } from "@/lib/store/cacheStore";
 import { useAuthStore } from "@/lib/useAuthStore";
@@ -19,7 +11,13 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/common/resizeable";
-import BetsTable from "@/components/common/betstable";
+const Header = dynamic(() => import("@/components/common/header"));
+const Footer = dynamic(() => import("@/components/common/footer"));
+const Sidebar = dynamic(() => import("@/components/common/sidebar"));
+const BetSlip = dynamic(() => import("@/components/common/betslip"));
+const BottomNavbar = dynamic(() => import("@/components/common/bottom-nav"));
+const LoginModal = dynamic(() => import("@/components/modal/login"));
+const BetsTable = dynamic(() => import("@/components/common/betstable"));
 
 const MAIN_WIDTH_STORAGE_KEY = "pages-layout-main-width";
 

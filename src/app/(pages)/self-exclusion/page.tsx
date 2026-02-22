@@ -1,4 +1,4 @@
-import ExclusionPage from "@/components/pages/Exclusion";
+import ExclusionPage from "@/components/pages/exclusion";
 
 const  ExclusionRoute = () => {
   return (
