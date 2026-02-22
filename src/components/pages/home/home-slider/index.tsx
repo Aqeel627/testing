@@ -7,6 +7,8 @@ import { cn } from "@/lib/utils";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay } from "swiper/modules";
 import "swiper/css";
+import { useAppStore } from "@/lib/store/store";
+import { useEffect } from "react";
 
 interface SlideItem {
   src: string;
@@ -73,6 +75,12 @@ const CENTER_BREAKPOINTS: Record<number, { slidesPerView: number; spaceBetween: 
 
 
 export default function HomeSlider() {
+  const { ourBanners } = useAppStore();
+  
+  useEffect(() => {
+    console.log(ourBanners, 'ourBanners');
+  }, [ourBanners])
+
   return (
     <div className="w-full">
       {/* match your layout rule: desktop starts at 1200 */}
