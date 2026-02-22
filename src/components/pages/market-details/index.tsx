@@ -918,6 +918,9 @@ export default function MarketDetails() {
               }));
 
               return (
+                <React.Fragment
+                                  key={`${market.marketId}-${runner.selectionId}-${index}`}
+>
                 <li
                   key={`${market.marketId}-${runner.selectionId}-${index}`}
                   className="flex flex-col justify-start items-center relative w-full box-border text-left no-underline border-b border-dashed border-(--dotted-line) bg-clip-padding transition-colors"
@@ -1040,7 +1043,9 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)]  flex-1 min-w-0 cursor-pointer te
                       )}
                     </div>
                   </div>
-                  <div
+              
+                </li>
+                   <div
                     id={`betslip-${runner.selectionId}-${market.marketType || market.marketName}`}
                   >
                     {selectedBet?.selectionId === runner.selectionId &&
@@ -1051,7 +1056,7 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)]  flex-1 min-w-0 cursor-pointer te
                         </div>
                       )}
                   </div>
-                </li>
+                  </React.Fragment>
               );
             })}
 
