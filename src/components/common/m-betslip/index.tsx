@@ -286,7 +286,7 @@ export default function MBetSlip() {
                 setStake(0);
                 setQuickValue(0);
               }}
-              className="bs-cancel-btn flex-1 py-3 rounded-full font-bold text-[14px] border-none cursor-pointer transition-colors"
+              className="bs-cancel-btn flex-1 py-2 rounded-full font-bold text-[14px] border-none cursor-pointer transition-colors"
               style={{
                 background: "var(--bs-cancel-bg)",
                 color: "var(--bs-text)",
@@ -297,7 +297,7 @@ export default function MBetSlip() {
         <button
   type="button"
   disabled={stake === 0}
-  className="flex-1 py-3 rounded-full text-white font-bold text-[14px] border-none transition-all"
+  className="flex-1 py-2 rounded-full text-white font-bold text-[14px] border-none transition-all"
   style={{
     background: stake === 0
       ? isBack
