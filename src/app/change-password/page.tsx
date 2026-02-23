@@ -184,7 +184,7 @@ export default function ChangePassword() {
                       onClick={() => setShowOldPassword((prev) => !prev)}
                       className={cn(
                         style.btn,
-                        "top-1/2 -translate-y-1/2 right-1 text-(--palette-action-active) cursor-pointer p-2 hover:bg-[rgba(145,158,171,0.08)] rounded-full flex justify-center items-center z-10"
+                        "top-1/2 -translate-y-1/2 right-1 text-(--palette-text-secondary) cursor-pointer p-2 hover:bg-[rgba(145,158,171,0.08)] rounded-full flex justify-center items-center z-10"
                       )}
                       aria-label={showOldPassword ? "Hide password" : "Show password"}
                     >
@@ -251,7 +251,7 @@ export default function ChangePassword() {
                       aria-label={showNewPassword ? "Hide password" : "Show password"}
                       className={cn(
                         style.btn,
-                        "top-1/2 -translate-y-1/2 right-1 text-(--palette-action-active) cursor-pointer p-2 hover:bg-[rgba(145,158,171,0.08)] rounded-full flex justify-center items-center z-10"
+                        "top-1/2 -translate-y-1/2 right-1 text-(--palette-text-secondary) cursor-pointer p-2 hover:bg-[rgba(145,158,171,0.08)] rounded-full flex justify-center items-center z-10"
                       )}
                     >
                       {/* Password Toggle SVG */}
@@ -317,7 +317,7 @@ export default function ChangePassword() {
                       aria-label={showConfirmPassword ? "Hide password" : "Show password"}
                       className={cn(
                         style.btn,
-                        "top-1/2 -translate-y-1/2 right-1 text-(--palette-action-active) cursor-pointer p-2 hover:bg-[rgba(145,158,171,0.08)] rounded-full flex justify-center items-center z-10"
+                        "top-1/2 -translate-y-1/2 right-1 text-(--palette-text-secondary) cursor-pointer p-2 hover:bg-[rgba(145,158,171,0.08)] rounded-full flex justify-center items-center z-10"
                       )}
                     >
                       {/* Password Toggle SVG */}

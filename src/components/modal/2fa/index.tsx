@@ -362,7 +362,7 @@ export default function TwoFAModal({
                           "w-full rounded-lg relative p-[6px_12px] min-h-9 text-sm font-bold h-[48px] bg-(--primary-color) text-white cursor-pointer disabled:cursor-not-allowed",
                           hasFullCode &&
                             !isSubmitting &&
-                            "hover:bg-(--login-btn-hover)",
+                            "hover:bg-(--primary-color-dark)",
                         )}
                       >
                         {isSubmitting ? (

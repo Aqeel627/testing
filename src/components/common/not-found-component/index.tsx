@@ -22,7 +22,7 @@ export default function NotFoundComponent() {
           </div>
           <Link
             href="/"
-            className="inline-flex mt-[7px] bg-[var(--foreground)] text-[var(--background)] dark:bg-[var(--palette-common-white)] dark:text-[#171717] items-center justify-center relative box-border cursor-pointer select-none align-middle appearance-none font-sans font-bold leading-[1.71429] normal-case min-w-16 text-[0.9375rem] shadow-none h-12 outline-none m-0 no-underline border-0 rounded-lg py-2 px-4 transition-all hover:opacity-90 hover:scale-[1.02]"
+            className="inline-flex mt-[7px] bg-foreground text-background items-center justify-center relative box-border cursor-pointer select-none align-middle appearance-none font-sans font-bold leading-[1.71429] normal-case min-w-16 text-[0.9375rem] shadow-none h-12 outline-none m-0 no-underline border-0 rounded-lg py-2 px-4 transition-all hover:opacity-90 hover:scale-[1.02]"
           >
             Go to home
           </Link>

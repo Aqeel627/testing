@@ -74,7 +74,7 @@
 
 .sectionTitle:hover {
   padding: 16px 8px 8px 16px;
-  color: var(--text-primary-hover);
+  color: var(--primary-text-color);
 }
 
 .sectionIcon {
@@ -397,7 +397,7 @@
     "Segoe UI Symbol";
   text-align: center;
   font-size: 1.5rem;
-  color: var(--palette-action-active);
+  color: var(--palette-text-secondary);
   --IconButton-hoverBg: rgba(
     var(--palette-action-activeChannel) /
       calc(var(--palette-action-hoverOpacity))
