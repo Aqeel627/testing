@@ -1097,3 +1097,13 @@ body:has(.drawer) {
   filter: blur(10px);
   opacity: 0.55;
 }
+
+/* iOS Safari interaction fix */
+
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  -webkit-touch-callout: none;
+}
