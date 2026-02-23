@@ -787,6 +787,7 @@ export default function MarketDetails() {
       }));
     }
     return [];
+
   };
 
   function filterCompetitions(eventTypeId: any) {
@@ -828,6 +829,7 @@ export default function MarketDetails() {
     setOpenRules(true);
     setRuleContent(rule);
   }
+  const [activeTooltip, setActiveTooltip] = useState<string | null>(null);
 
   const renderMarketTable = (market: any) => {
     const runners = getRunnersList(market);
@@ -843,33 +845,46 @@ export default function MarketDetails() {
         <div className="border w-full border-dashed border-(--dotted-line) rounded-[4px] overflow-hidden">
           {/* HEADER */}
           <div className="px-1 min-[900px]:px-2 bg-(--market-header-bg) flex flex-col justify-center w-full font-bold h-8 relative">
-            <div className="absolute z-10 cursor-pointer right-2 top-1/2 -translate-y-[50%]">
+            <div className="absolute z-10 cursor-pointer right-2 top-1/2 -translate-y-1/2">
+              <Tooltip
+                open={activeTooltip === market.marketId}
+                onOpenChange={(isOpen) => {
+                  setActiveTooltip(isOpen ? market.marketId : null);
 
-              <Tooltip disableHoverableContent>
+                  if (isOpen) {
+                    // Auto-hide after 2.5 seconds (mobile-friendly)
+                    setTimeout(() => {
+                      setActiveTooltip(null);
+                    }, 2500);
+                  }
+                }}
+                disableHoverableContent
+              >
                 <TooltipTrigger asChild>
-                  {/* onClick={() => setOpenRulesModal(data.description.rules)} */}
-                  <Icon
-                    name="info"
-                    className="text-(--accordion-text)"
-                  />
+                  <div
+                    onClick={() =>
+                      setActiveTooltip((prev) =>
+                        prev === market.marketId ? null : market.marketId
+                      )
+                    }
+                  >
+                    <Icon name="info" className="text-(--accordion-text)" />
+                  </div>
                 </TooltipTrigger>
+
                 <TooltipContent
                   side="top"
-                  className="!bg-background --palette-text-primary text-[14px] font-normal px-4 py-[17px]"
+                  className="!bg-background text-[14px] font-normal px-4 py-[17px]"
                   sideOffset={12}
                   alignOffset={-10}
                   align="end"
                 >
-                  <div className="flex justify-center items-center gap-1">
-                    Max: {market?.max} Max: {market?.min}
+                  <div className="flex justify-center items-center gap-2">
+                    <span>Min: {shortNumber(market?.min)}</span>
+                    <span>Max: {shortNumber(market?.max)}</span>
                   </div>
                 </TooltipContent>
               </Tooltip>
-              {/* <RuleModal
-                open={openRules}
-                onOpenChange={setOpenRules}
-                text={ruleContent}
-              /> */}
             </div>
             <div className="relative flex flex-row items-center h-8 justify-between w-full">
               <div className="text-[14px] text-(--accordion-text) font-[500] leading-[14px] flex-1 flex-[1_1_6rem] min-w-0 whitespace-nowrap truncate relative top-[1px]">
@@ -1190,11 +1205,11 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)]  flex-1 min-w-0 cursor-pointer te
                             navigateToMarket(item.eventType.name);
                           }}
                           className={`text-sm w-full text-nowrap text-left relative bg-transparent cursor-pointer gap-2 font-semibold transition px-2 py-1.5 rounded-[6px] ${(selectedEventType &&
-                              selectedEventType === item.eventType.name) ||
-                              (!selectedEventType &&
-                                sportName === item.eventType.name)
-                              ? "bg-[rgba(255,255,255,0.25)]! text-(--primary-color)"
-                              : "hover:bg-[rgba(255,255,255,0.25)]"
+                            selectedEventType === item.eventType.name) ||
+                            (!selectedEventType &&
+                              sportName === item.eventType.name)
+                            ? "bg-[rgba(255,255,255,0.25)]! text-(--primary-color)"
+                            : "hover:bg-[rgba(255,255,255,0.25)]"
                             }`}
                         >
                           {item.eventType.name}
@@ -1246,12 +1261,12 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)]  flex-1 min-w-0 cursor-pointer te
                               );
                             }}
                             className={`text-sm w-full text-nowrap text-left relative bg-transparent cursor-pointer gap-2 font-semibold transition px-2 py-1.5 rounded-[6px] ${(selectedCompetition &&
-                                selectedCompetition ===
-                                item.competition.name) ||
-                                (!selectedCompetition &&
-                                  tournamentName === item.competition.name)
-                                ? "bg-[rgba(255,255,255,0.25)]! text-(--primary-color)"
-                                : "hover:bg-[rgba(255,255,255,0.25)]"
+                              selectedCompetition ===
+                              item.competition.name) ||
+                              (!selectedCompetition &&
+                                tournamentName === item.competition.name)
+                              ? "bg-[rgba(255,255,255,0.25)]! text-(--primary-color)"
+                              : "hover:bg-[rgba(255,255,255,0.25)]"
                               }`}
                           >
                             {item.competition.name}
@@ -1364,8 +1379,8 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)]  flex-1 min-w-0 cursor-pointer te
                     setMarketType("POPULAR", e, "Popular", 1, "");
                   }}
                   className={`inline-flex items-center justify-center bg-transparent border-none cursor-pointer text-[0.875rem] px-4 py-1.5 transition-colors duration-200 leading-[1.57143] relative z-10 top-[-1px] ${activeTab === "POPULAR"
-                      ? "text-(--tab-active-text) font-semibold"
-                      : "text-(--tab-default-text) font-medium"
+                    ? "text-(--tab-active-text) font-semibold"
+                    : "text-(--tab-default-text) font-medium"
                     }`}
                 >
                   POPULAR
@@ -1386,8 +1401,8 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)]  flex-1 min-w-0 cursor-pointer te
                       );
                     }}
                     className={`inline-flex uppercase items-center justify-center bg-transparent border-none cursor-pointer text-[0.875rem] px-4 py-1.5 transition-colors duration-200 leading-[1.57143] relative z-10 top-[-1px] ${activeTab === market?.marketName
-                        ? "text-(--tab-active-text) font-semibold"
-                        : "text-(--tab-default-text) font-medium"
+                      ? "text-(--tab-active-text) font-semibold"
+                      : "text-(--tab-default-text) font-medium"
                       }`}
                   >
                     {market?.marketName}
@@ -1401,8 +1416,8 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)]  flex-1 min-w-0 cursor-pointer te
                     setMarketType("ALL", e, "All", 0, "");
                   }}
                   className={`inline-flex items-center justify-center bg-transparent border-none cursor-pointer text-[0.875rem] px-4 py-1.5 transition-colors duration-200 leading-[1.57143] relative z-10 top-[-1px] ${activeTab === "ALL"
-                      ? "text-(--tab-active-text) font-semibold"
-                      : "text-(--tab-default-text) font-medium"
+                    ? "text-(--tab-active-text) font-semibold"
+                    : "text-(--tab-default-text) font-medium"
                     }`}
                 >
                   ALL Markets
