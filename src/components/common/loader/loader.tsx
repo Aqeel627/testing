@@ -1,8 +1,12 @@
+"use client";
+
 import styles from "./loader.module.css";
 import Link from "next/link";
 import Image from "next/image";
+import { useTheme } from "next-themes";
 
 const Loader = () => {
+  const { theme } = useTheme();
   return (
     <div className={styles.loaderWrapper}>
       <div className={styles.cssContainer}>
@@ -17,7 +21,11 @@ const Loader = () => {
             >
               <Image
                 alt="brand logo"
-                src="/logo.png"
+                src={
+                  theme === "dark"
+                    ? "/logo-black.svg"
+                    : "/logo-white.svg"
+                }
                 width={152}
                 height={44}
                 priority

@@ -142,16 +142,16 @@ export default function ChangePassword() {
 
     } catch (err: any) {
       console.error("🔥 ERROR in changePassword:", err);
-      
+
       // Attempt to decrypt error if possible
       try {
-         const decryptedErr = await CryptoService.decryptApiResponse(err?.error || err);
-         const message = decryptedErr?.meta?.message || decryptedErr?.message || "Something went wrong";
-         setApiError(message);
+        const decryptedErr = await CryptoService.decryptApiResponse(err?.error || err);
+        const message = decryptedErr?.meta?.message || decryptedErr?.message || "Something went wrong";
+        setApiError(message);
       } catch (e) {
-         setApiError("Something went wrong. Please try again.");
+        setApiError("Something went wrong. Please try again.");
       }
-      
+
     } finally {
       setIsSubmitting(false);
       console.log("⏳ Loading stopped");
@@ -178,7 +178,11 @@ export default function ChangePassword() {
         <div className="flex justify-between items-center px-4 min-[600px]:px-6 h-14 shrink-0 min-[900px]:hidden">
           <Link href="/" className="flex items-center">
             <Image
-              src="/logo.png"
+              src={
+                theme === "dark"
+                  ? "/logo-black.svg"
+                  : "/logo-white.svg"
+              }
               alt="100exch Logo"
               width={152}
               height={40}

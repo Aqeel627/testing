@@ -80,9 +80,9 @@ export default function TwoFAModal({
     } catch (error: any) {
       setApiError(
         error?.response?.data?.meta?.message ||
-          error?.response?.data?.message ||
-          error?.message ||
-          "Verification failed",
+        error?.response?.data?.message ||
+        error?.message ||
+        "Verification failed",
       );
       triggerShake();
       setOtpValue("");
@@ -118,7 +118,11 @@ export default function TwoFAModal({
               className="flex items-center"
             >
               <Image
-                src="/logo.png"
+                src={
+                  theme === "dark"
+                    ? "/logo-black.svg"
+                    : "/logo-white.svg"
+                }
                 alt="100exch Logo"
                 width={152}
                 height={1000}
@@ -166,7 +170,11 @@ export default function TwoFAModal({
                     Hi, Welcome back
                   </h2>
                   <Image
-                    src="/logo.png"
+                    src={
+                      theme === "dark"
+                        ? "/logo-white.svg"
+                        : "/logo-black.svg"
+                    }
                     alt="100exch Logo"
                     width={360}
                     height={110}
@@ -361,8 +369,8 @@ export default function TwoFAModal({
                         className={cn(
                           "w-full rounded-lg relative p-[6px_12px] min-h-9 text-sm font-bold h-[48px] bg-(--primary-color) text-white cursor-pointer disabled:cursor-not-allowed",
                           hasFullCode &&
-                            !isSubmitting &&
-                            "hover:bg-(--primary-color-dark)",
+                          !isSubmitting &&
+                          "hover:bg-(--primary-color-dark)",
                         )}
                       >
                         {isSubmitting ? (
