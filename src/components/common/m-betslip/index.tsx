@@ -140,20 +140,9 @@ export default function MBetSlip() {
       >
         <div className="p-4 flex flex-col gap-3">
           {/* ── HEADER ── */}
-          <div className="flex flex-col gap-0.5">
-            <p
-              className="text-[15px] font-bold leading-tight"
-              style={{ color: accentVar }}
-            >
-              {isBack ? "Backing" : "Laying"}: {runner}
-            </p>
-            <p
-              className="text-[12px]"
-              style={{ color: "var(--bs-event-name)" }}
-            >
-              {selectedBet.eventName}
-            </p>
-          </div>
+              <p className="text-[13px] font-semibold leading-tight" style={{ color: "var(--bs-event-name)" }}>
+  {isBack ? "back (BetFor)" : "lay (BetFor)"}: <strong style={{ color: accentVar }}>{runner}</strong>
+</p>
 
           {/* ── ODDS + STAKE ── */}
           <div className="flex gap-2">
@@ -276,7 +265,7 @@ export default function MBetSlip() {
           </div>
 
           {/* ── PROFIT / LIABILITY ── */}
-          <div
+          {/* <div
             className="text-center py-2.5 px-4 rounded-full text-[13px]"
             style={{ background: accentBg10 }}
           >
@@ -286,7 +275,7 @@ export default function MBetSlip() {
             <span className="font-bold" style={{ color: accentVar }}>
               ${profitOrLiability}
             </span>
-          </div>
+          </div> */}
 
           {/* ── CANCEL + PLACE BET ── */}
           <div className="flex gap-3">
@@ -297,7 +286,7 @@ export default function MBetSlip() {
                 setStake(0);
                 setQuickValue(0);
               }}
-              className="bs-cancel-btn flex-1 py-3 rounded-full font-bold text-[14px] border-none cursor-pointer transition-colors"
+              className="bs-cancel-btn flex-1 py-2 rounded-full font-bold text-[14px] border-none cursor-pointer transition-colors"
               style={{
                 background: "var(--bs-cancel-bg)",
                 color: "var(--bs-text)",
@@ -305,18 +294,34 @@ export default function MBetSlip() {
             >
               Cancel
             </button>
-            <button
-              type="button"
-              disabled={stake === 0}
-              className="flex-1 py-3 rounded-full text-white font-bold text-[14px] border-none transition-all"
-              style={{
-                background: `rgba(${accentRgbVar}, ${stake === 0 ? "0.40" : "1"})`,
-                cursor: stake === 0 ? "not-allowed" : "pointer",
-                boxShadow:
-                  stake > 0 ? `0 4px 15px rgba(${accentRgbVar}, 0.40)` : "none",
-              }}
-            >
+        <button
+  type="button"
+  disabled={stake === 0}
+  className="flex-1 py-2 rounded-full text-white font-bold text-[14px] border-none transition-all"
+  style={{
+    background: stake === 0
+      ? isBack
+        ? "var(--back-selected)"
+        : "var(--lay-selected)"
+      : isBack
+        ? "var(--back-selected)"
+        : "var(--lay-selected)",
+    cursor: stake === 0 ? "not-allowed" : "pointer",
+    opacity: stake === 0 ? 0.45 : 1,
+   
+  }}
+>
               Place Bet
+              {stake!==0&&<div
+                className="text-center rounded-full text-[10px]"
+              >
+                <span>
+                  {isBack ? "Profit: " : "Liability: "}
+                </span>
+                <span className="font-bold">
+                  ${profitOrLiability}
+                </span>
+              </div>}
             </button>
           </div>
         </div>
