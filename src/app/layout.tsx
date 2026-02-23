@@ -11,6 +11,7 @@ import { AuExchThemeProvider } from "@/components/common/theme-provider";
 import { Suspense } from "react";
 import Script from "next/script";
 import dynamic from "next/dynamic";
+import { Closebetslip } from "@/components/common/m-betslip/close-betslip";
 const MiniCasinoDrawer = dynamic(() => import("@/components/common/mini-casino-drawer"));
 const GlobalApisCall = dynamic(() => import("@/lib/providers/global-apis"));
 const NavigationLoader = dynamic(() => import("@/lib/providers/navigation-loader"));
@@ -95,6 +96,7 @@ export default function RootLayout({
           strategy="afterInteractive"
         />
         <Suspense>
+          <Closebetslip/>
           <NavigationLoader />
           <GlobalApisCall />
           <AuExchThemeProvider>
