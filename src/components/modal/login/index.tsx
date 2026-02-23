@@ -334,7 +334,7 @@ export default function LoginModal() {
                             onClick={() => setShowPassword((prev) => !prev)}
                             className={cn(
                               style.btn,
-                              "top-1/2  -translate-y-1/2 right-0.5 text-(--palette-action-active)  cursor-pointer p-2 hover:bg-[rgba(145,158,171,0.08)] rounded-full flex justify-center items-center",
+                              "top-1/2  -translate-y-1/2 right-0.5 text-(--palette-text-secondary)  cursor-pointer p-2 hover:bg-[rgba(145,158,171,0.08)] rounded-full flex justify-center items-center",
                             )}
                             aria-label={
                               showPassword ? "Hide password" : "Show password"
@@ -443,7 +443,7 @@ export default function LoginModal() {
                           "w-full rounded-lg relative p-[6px_12px] min-h-9 text-sm font-bold h-[48px] bg-(--primary-color) text-white cursor-pointer disabled:cursor-not-allowed",
                           hasFormValues &&
                             !isSubmitting &&
-                            "hover:bg-(--login-btn-hover)",
+                            "hover:bg-(--primary-color-dark)",
                         )}
                       >
                         {isSubmitting ? (
