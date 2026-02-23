@@ -185,6 +185,7 @@ export default function MBetSlip() {
                 </button>
                 <input
                   value={inputValue}
+                  inputMode="numeric"
                   type="number"
                   step="0.01"
                   onChange={handleChange}
@@ -233,13 +234,14 @@ export default function MBetSlip() {
                 <input
                   value={stake !== 0 ? stake : ""}
                   placeholder="0"
+                  inputMode="numeric"
                   type="number"
                   onChange={handleStakeChange}
                   className="bs-stake-input flex-1 min-w-0 w-0 bg-transparent border-none text-center text-[14px] font-semibold outline-none"
                   style={
                     {
                       color: accentVar,
-                      "--bs-stake-placeholder": accentVar, 
+                      "--bs-stake-placeholder": accentVar,
                     } as React.CSSProperties
                   }
                 />
