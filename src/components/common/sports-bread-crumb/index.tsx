@@ -162,7 +162,7 @@ const SportsBreadCrumb = ({ title, subtitle }: BreadCrumbProps) => {
                         selectedEventType === item.eventType.name) ||
                       (!selectedEventType &&
                         defaultSportName === item.eventType.name)
-                        ? "bg-[rgba(255,255,255,0.25)]! text-(--palette-primary-main)"
+                        ? "bg-[rgba(255,255,255,0.25)]! text-(--primary-color)"
                         : "hover:bg-[rgba(255,255,255,0.25)]"
                     }`}
                   >
@@ -217,7 +217,7 @@ const SportsBreadCrumb = ({ title, subtitle }: BreadCrumbProps) => {
                             selectedCompetition === item.competition.name) ||
                           (!selectedCompetition &&
                             subtitle === item.competition.name)
-                            ? "bg-[rgba(255,255,255,0.25)]! text-(--palette-primary-main)"
+                            ? "bg-[rgba(255,255,255,0.25)]! text-(--primary-color)"
                             : "hover:bg-[rgba(255,255,255,0.25)]"
                         }`}
                       >

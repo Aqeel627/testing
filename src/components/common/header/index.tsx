@@ -88,7 +88,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
             <button
               type="button"
               onClick={onMenuClick}
-              className="text-(--palette-action-active) transition-colors p-1 cursor-pointer rounded-full hover:scale-[1.04] hover:bg-(--IconButton-hoverBg)"
+              className="text-(--palette-text-secondary) transition-colors p-1 cursor-pointer rounded-full hover:scale-[1.04] hover:bg-(--IconButton-hoverBg)"
               aria-label="Toggle sidebar"
             >
               <Icon name="logo" className="h-6 w-6" />

@@ -106,6 +106,7 @@ export default function HomeSlider() {
                         fill
                         className="object-cover"
                         draggable={false}
+                        unoptimized
                       />
                     </div>
                   </a>
@@ -159,6 +160,7 @@ export default function HomeSlider() {
                         fill
                         className="object-cover"
                         draggable={false}
+                        unoptimized
                       />
                     </div>
                   </a>
@@ -178,6 +180,7 @@ export default function HomeSlider() {
                         fill
                         className="object-cover"
                         draggable={false}
+                        unoptimized
                       />
                     </div>
                   </a>
