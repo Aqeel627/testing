@@ -622,6 +622,8 @@ export default function MarketDetails() {
     index: any,
     marketid: any,
   ) => {
+      setSelectedBet(null);  
+
     // Save current tab state
     setActiveTab(type);
     setCurrentMarketType(type);
