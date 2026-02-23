@@ -82,8 +82,8 @@ export default function ChangePassword() {
         router.push("/");
       }, 1000);
     } catch (error) {
-       setApiError("Something went wrong");
-       setIsSubmitting(false);
+      setApiError("Something went wrong");
+      setIsSubmitting(false);
     }
   };
 
@@ -94,7 +94,7 @@ export default function ChangePassword() {
   return (
     <>
       {theme === "light" && <div className="absolute inset-0 z-10 bg-black/50"></div>}
-      
+
       <section
         className={cn(
           // ✅ z-[9999] use kiya hai taake mobile header/sidebar ke bhi ooper aaye
@@ -119,7 +119,7 @@ export default function ChangePassword() {
 
         {/* MAIN CENTERED WRAPPER (Mobile aur Desktop dono ke liye perfect centering) */}
         <div className="flex flex-1 items-center justify-center p-4 md:p-8 w-full overflow-y-auto">
-          
+
           {/* THE GLASS CARD */}
           <div
             className={cn(
@@ -137,7 +137,7 @@ export default function ChangePassword() {
             }}
           >
             <div className="w-full flex flex-col justify-center gap-6">
-              
+
               {/* Heading */}
               <div className="flex flex-col mb-2 gap-3.5 items-center min-[900px]:items-start">
                 <h2 className="text-[24px] md:text-[28px] font-extrabold tracking-tight">
@@ -146,14 +146,14 @@ export default function ChangePassword() {
               </div>
 
               <form className="space-y-6 flex flex-col gap-6 w-full" onSubmit={handleSubmit} noValidate>
-                
+
                 {/* Old Password Field */}
                 <div className="inline-flex flex-col relative min-w-0 align-top w-full m-0 p-0 border-0 border-[initial]">
                   <label
                     htmlFor="oldPassword"
                     className={`font-semibold text-base leading-normal font-normal leading-[1.57143] block text-ellipsis absolute origin-[left_top] z-[1] select-none pointer-events-auto max-w-[calc(133%-32px)] translate-x-3.5 translate-y-[-9px] whitespace-nowrap overflow-hidden p-0 scale-75 left-0 top-0 ${oldPasswordError
-                        ? "text-(--palette-error-main)"
-                        : "text-(--palette-text-secondary)"
+                      ? "text-(--palette-error-main)"
+                      : "text-(--palette-text-secondary)"
                       }`}
                   >
                     Old Password
@@ -197,8 +197,8 @@ export default function ChangePassword() {
                     </button>
                     <fieldset
                       className={`text-left absolute top-[-5px] group-focus-within:border-2 pointer-events-none min-w-[0%] border overflow-hidden transition-[border-color] duration ease-in-out m-0 px-2 py-0 rounded-[inherit] border-solid bottom-0 inset-x-0 ${oldPasswordError
-                          ? "border-(--palette-error-main)"
-                          : "border-[rgba(var(--palette-grey-500Channel)_/_20%)] group-hover:border-(--palette-text-primary) group-focus-within:border-(--palette-text-primary)"
+                        ? "border-(--palette-error-main)"
+                        : "border-[rgba(var(--palette-grey-500Channel)_/_20%)] group-hover:border-(--palette-text-primary) group-focus-within:border-(--palette-text-primary)"
                         }`}
                     >
                       <legend className="w-[105px] overflow-hidden block h-[11px] text-[14px] invisible whitespace-nowrap max-w-full transition-[max-width] duration-100 ease-out delay-[50ms] p-0">
@@ -218,8 +218,8 @@ export default function ChangePassword() {
                   <label
                     htmlFor="newPassword"
                     className={`font-semibold text-base leading-normal font-normal leading-[1.57143] block text-ellipsis absolute origin-[left_top] z-[1] select-none pointer-events-auto max-w-[calc(133%-32px)] translate-x-3.5 translate-y-[-9px] whitespace-nowrap overflow-hidden p-0 scale-75 left-0 top-0 ${newPasswordError
-                        ? "text-(--palette-error-main)"
-                        : "text-(--palette-text-secondary)"
+                      ? "text-(--palette-error-main)"
+                      : "text-(--palette-text-secondary)"
                       }`}
                   >
                     New Password
@@ -263,8 +263,8 @@ export default function ChangePassword() {
                     </button>
                     <fieldset
                       className={`text-left absolute top-[-5px] group-focus-within:border-2 pointer-events-none min-w-[0%] border overflow-hidden transition-[border-color] duration ease-in-out m-0 px-2 py-0 rounded-[inherit] border-solid bottom-0 inset-x-0 ${newPasswordError
-                          ? "border-(--palette-error-main)"
-                          : "border-[rgba(var(--palette-grey-500Channel)_/_20%)] group-hover:border-(--palette-text-primary) group-focus-within:border-(--palette-text-primary)"
+                        ? "border-(--palette-error-main)"
+                        : "border-[rgba(var(--palette-grey-500Channel)_/_20%)] group-hover:border-(--palette-text-primary) group-focus-within:border-(--palette-text-primary)"
                         }`}
                     >
                       <legend className="w-[110px] overflow-hidden block h-[11px] text-[14px] invisible whitespace-nowrap max-w-full transition-[max-width] duration-100 ease-out delay-[50ms] p-0">
@@ -284,8 +284,8 @@ export default function ChangePassword() {
                   <label
                     htmlFor="confirmPassword"
                     className={`font-semibold text-base leading-normal font-normal leading-[1.57143] block text-ellipsis absolute origin-[left_top] z-[1] select-none pointer-events-auto max-w-[calc(133%-32px)] translate-x-3.5 translate-y-[-9px] whitespace-nowrap overflow-hidden p-0 scale-75 left-0 top-0 ${confirmPasswordError
-                        ? "text-(--palette-error-main)"
-                        : "text-(--palette-text-secondary)"
+                      ? "text-(--palette-error-main)"
+                      : "text-(--palette-text-secondary)"
                       }`}
                   >
                     Re-enter New Password
@@ -329,8 +329,8 @@ export default function ChangePassword() {
                     </button>
                     <fieldset
                       className={`text-left absolute top-[-5px] group-focus-within:border-2 pointer-events-none min-w-[0%] border overflow-hidden transition-[border-color] duration ease-in-out m-0 px-2 py-0 rounded-[inherit] border-solid bottom-0 inset-x-0 ${confirmPasswordError
-                          ? "border-(--palette-error-main)"
-                          : "border-[rgba(var(--palette-grey-500Channel)_/_20%)] group-hover:border-(--palette-text-primary) group-focus-within:border-(--palette-text-primary)"
+                        ? "border-(--palette-error-main)"
+                        : "border-[rgba(var(--palette-grey-500Channel)_/_20%)] group-hover:border-(--palette-text-primary) group-focus-within:border-(--palette-text-primary)"
                         }`}
                     >
                       <legend className="w-[170px] overflow-hidden block h-[11px] text-[14px] invisible whitespace-nowrap max-w-full transition-[max-width] duration-100 ease-out delay-[50ms] p-0">
@@ -361,11 +361,18 @@ export default function ChangePassword() {
                   <button
                     type="submit"
                     disabled={!hasFormValues || isSubmitting}
+                    // className={cn(
+                    //   "w-full rounded-[8px] relative p-[6px_12px] text-[15px] font-bold h-[48px] cursor-pointer disabled:cursor-not-allowed transition-all",
+                    //   hasFormValues && !isSubmitting
+                    //     ? "bg-[#078DEE] text-white hover:bg-[#0672c2]"
+                    //     : "bg-[rgba(145,158,171,0.24)] text-[rgba(145,158,171,0.8)]"
+                    // )}
+
                     className={cn(
-                      "w-full rounded-[8px] relative p-[6px_12px] text-[15px] font-bold h-[48px] cursor-pointer disabled:cursor-not-allowed transition-all",
-                      hasFormValues && !isSubmitting
-                        ? "bg-[#078DEE] text-white hover:bg-[#0672c2]"
-                        : "bg-[rgba(145,158,171,0.24)] text-[rgba(145,158,171,0.8)]"
+                      "w-full rounded-lg relative p-[6px_12px] min-h-9 text-sm font-bold h-[48px] bg-(--primary-color) text-white cursor-pointer disabled:cursor-not-allowed",
+                      hasFormValues &&
+                      !isSubmitting &&
+                      "hover:bg-(--login-btn-hover)",
                     )}
                   >
                     {isSubmitting ? (

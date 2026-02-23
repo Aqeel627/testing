@@ -946,8 +946,8 @@ export const icons = {
           y1="71.822%"
           y2="16.69%"
         >
-          <stop offset="0%" stop-color="#0c3258"></stop>
-          <stop offset="100%" stop-color="#0c3258" stop-opacity="0"></stop>
+          <stop offset="0%" stopColor="#0c3258"></stop>
+          <stop offset="100%" stopColor="#0c3258" stopOpacity="0"></stop>
         </linearGradient>
 
         {/* Light to Dark Blue for numbers (4 - 4) */}
@@ -959,8 +959,8 @@ export const icons = {
           y2="305.935"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#3b82f6"></stop> {/* Light Blue */}
-          <stop offset="1" stop-color="#1e3a8a"></stop> {/* Dark Blue */}
+          <stop stopColor="#3b82f6"></stop> {/* Light Blue */}
+          <stop offset="1" stopColor="#1e3a8a"></stop> {/* Dark Blue */}
         </linearGradient>
       </defs>
 

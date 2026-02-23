@@ -130,7 +130,7 @@ export default function InplaySportNav({
 
   return (
     <div
-      className={`${styles["tabs-root"]} border-3 min-[900]:mt-6 mt-3 border-dashed border-(--dotted-line)`}
+      className={`${styles["tabs-root"]} border-2 min-[900]:mt-6 mt-3 border-dashed border-(--dotted-line)`}
     >
       <div
         ref={scrollContainerRef}
