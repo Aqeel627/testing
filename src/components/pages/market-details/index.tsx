@@ -19,9 +19,8 @@ import { VideoSimple } from "@/components/video-simple/VideoSimple";
 import dynamic from "next/dynamic";
 import MarketLoader from "@/components/common/market-loader";
 import RuleModal from "@/components/modal/role";
-
-const MBetSlip = dynamic(() => import("@/components/common/m-betslip"));
-const Icon = dynamic(() => import("@/icons/icons"));
+import Icon from "@/icons/icons";
+import MBetSlip from "@/components/common/m-betslip";
 
 interface RunnerName {
   selectionId: number;
@@ -1174,7 +1173,7 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)]  flex-1 min-w-0 cursor-pointer te
                               selectedEventType === item.eventType.name) ||
                             (!selectedEventType &&
                               sportName === item.eventType.name)
-                              ? "bg-[rgba(255,255,255,0.25)]! text-(--palette-primary-main)"
+                              ? "bg-[rgba(255,255,255,0.25)]! text-(--primary-color)"
                               : "hover:bg-[rgba(255,255,255,0.25)]"
                           }`}
                         >
@@ -1232,7 +1231,7 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)]  flex-1 min-w-0 cursor-pointer te
                                   item.competition.name) ||
                               (!selectedCompetition &&
                                 tournamentName === item.competition.name)
-                                ? "bg-[rgba(255,255,255,0.25)]! text-(--palette-primary-main)"
+                                ? "bg-[rgba(255,255,255,0.25)]! text-(--primary-color)"
                                 : "hover:bg-[rgba(255,255,255,0.25)]"
                             }`}
                           >
