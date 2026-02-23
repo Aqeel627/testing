@@ -78,6 +78,7 @@ export default function ThemePage() {
       setUpdatingThemeId(null);
     }, 600);
   };
+  
 
   return (
     <div>
