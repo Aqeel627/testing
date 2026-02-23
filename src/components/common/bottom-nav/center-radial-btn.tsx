@@ -26,7 +26,7 @@ const CenterRadialButton = () => {
 
   // your fixed 425px transforms (DO NOT TOUCH)
   const rotations = [-60, -20, 20, 60] as const;
-  const radialIcons = ["theme", "stake", "themeSetting", "powerOff"] as const;
+  const radialIcons = ["theme", "themeSetting", "stake", "powerOff"] as const;
 
   const xPerc425 = [-65, -57, -50, -35] as const;
   const y425 = [-32.75, -25.75, -25.75, -31.75] as const;
@@ -216,6 +216,10 @@ const iconName =
     ? theme === "light"
       ? "stakeLight"
       : "stakeDark"
+    : radialIcons[i] === "themeSetting"
+    ? theme === "light"
+      ? "themeSettingLight"
+      : "themeSettingDark"
     : radialIcons[i];
     const iconClass = `icon-${iconName}`;
           return (

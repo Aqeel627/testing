@@ -853,7 +853,7 @@ export default function MarketDetails() {
               </div>
 
               <div className="relative flex flex-col items-end max-w-[360px] w-full flex-[5_0_94px]">
-                <div className="flex items-center text-[13px] font-normal leading-[18px] text-(--accordion-text) pt-[1px]">
+                {/* <div className="flex items-center text-[13px] font-normal leading-[18px] text-(--accordion-text) pt-[1px]">
                   {limits ? (
                     <>
                       <p className="invisible">Min: {limits.min}</p>&nbsp;
@@ -866,19 +866,19 @@ export default function MarketDetails() {
                   ) : (
                     <p className="opacity-70"> </p>
                   )}
-                </div>
+                </div> */}
 
-                <div className="flex gap-1 w-full justify-end h-[20px] relative top-[-1px]">
+                <div className="flex gap-1  w-full justify-end h-[20px] items-center relative ">
                   <div className="flex w-1/2 gap-1 justify-end">
                     <div className="flex-1 min-w-0 max-[464px]:hidden" />
                     <div className="flex-1 min-w-0 max-[346px]:hidden" />
-                    <div className="flex items-center justify-center pb-[1px] font-semibold rounded-[2px] text-black select-none flex-1 min-w-0 text-[14px] leading-[18px] bg-(--market-header-back-bg) h-4 1111">
+                    <div className="flex items-center justify-center pb-[1px] font-semibold rounded-[2px] text-black select-none flex-1 min-w-0 text-[14px] leading-[18px] border border-[var(--back-border)] bg-(--market-header-back-bg) h-6 1111">
                       Back
                     </div>
                   </div>
 
                   <div className="flex w-1/2 gap-1 justify-start">
-                    <div className="flex items-center justify-center rounded-[2px] text-black select-none flex-1 min-w-0 text-[14px] font-semibold pb-[1px] leading-[18px] bg-(--market-header-lay-bg) h-4">
+                    <div className="flex items-center justify-center rounded-[2px] text-black select-none flex-1 min-w-0 text-[14px] font-semibold pb-[1px] leading-[18px] border border-[var(--lay-border)] bg-(--market-header-lay-bg) h-6">
                       Lay
                     </div>
                     <div className="flex-1 min-w-0 max-[346px]:hidden" />
@@ -892,6 +892,17 @@ export default function MarketDetails() {
           {/* BODY */}
           <ul className="relative list-none m-0 p-0 px-1 min-[900px]:px-2 bg-(--market-bg)">
             {runners.map((runner: any, index: number) => {
+            const isBackSelected = (item: any) =>
+  selectedBet?.selectionId === runner.selectionId &&
+  selectedBet?.marketType === (market.marketType || market.marketName) &&
+  selectedBet?.type === "back" &&
+  selectedBet?.odds === item.raw?.price;
+
+const isLaySelected = (item: any) =>
+  selectedBet?.selectionId === runner.selectionId &&
+  selectedBet?.marketType === (market.marketType || market.marketName) &&
+  selectedBet?.type === "lay" &&
+  selectedBet?.odds === item.raw?.price;
               const runnerName =
                 market?.runnerNameMap?.[Number(runner.selectionId)] ||
                 String(runner.selectionId);
@@ -919,133 +930,153 @@ export default function MarketDetails() {
 
               return (
                 <React.Fragment
-                                  key={`${market.marketId}-${runner.selectionId}-${index}`}
->
-                <li
                   key={`${market.marketId}-${runner.selectionId}-${index}`}
-                  className="flex flex-col justify-start items-center relative w-full box-border text-left no-underline border-b border-dashed border-(--dotted-line) bg-clip-padding transition-colors"
                 >
-                  <div className="flex w-full flex-row flex-1 min-h-[50px] items-center justify-between py-1">
-                    {/* Runner Name */}
-                    <div className="font-[500] text-[14px] leading-[1] flex-[1_1_6rem] min-w-0 pr-2">
-                      <span
-                        className={`${runnerSusp ? "" : "cursor-pointer"}`}
-                      >
-                        {runnerName}
-                      </span>
-                    </div>
+                  <li
+                    key={`${market.marketId}-${runner.selectionId}-${index}`}
+                    className="flex flex-col justify-start items-center relative w-full box-border text-left no-underline border-b border-dashed border-(--dotted-line) bg-clip-padding transition-colors"
+                  >
+                    <div className="flex w-full flex-row flex-1 min-h-[50px] items-center justify-between py-1">
+                      {/* Runner Name */}
+                      <div className="font-[500] text-[14px] leading-[1] flex-[1_1_6rem] min-w-0 pr-2">
+                        <span
+                          className={`${runnerSusp ? "" : "cursor-pointer"}`}
+                        >
+                          {runnerName}
+                        </span>
+                      </div>
 
-                    {/* Odds Boxes */}
-                    <div className="relative flex gap-1 max-w-[360px]   w-full flex-[5_0_94px]">
-                      {/* BACK (blue) */}
-                      <div
-                        className={`flex flex-row-reverse w-1/2 gap-1 overflow-hidden ${runnerSusp ? "bg-black" : ""}`}
-                      >
-                        {runnerSusp
-                          ? [0, 1, 2].map((_, i) => (
-                              <div
-                                key={`back-susp-${i}`}
-                                className={`flex flex-col h-full rounded-[2px] flex-1 min-w-0 bg-[#041117] ${
-                                  i === 2 ? "max-[464px]:hidden" : ""
-                                } ${i === 1 ? "max-[346px]:hidden" : ""}`}
-                              />
-                            ))
-                          : back3.map((item, i) => (
-                              <div
-                                key={`back-${i}`}
-                                data-app-rate-highlighter
-                                className={`back-${i + 1} flex flex-col items-center justify-center w-[75%] @min-[700]:w-[57.5px] h-[45px] rounded-[8px] border border-[var(--back-border)] bg-[var(--back-bg)]
+                      {/* Odds Boxes */}
+                      <div className="relative flex gap-1 max-w-[360px]   w-full flex-[5_0_94px]">
+                        {/* BACK (blue) */}
+                        <div
+                          className={`flex flex-row-reverse w-1/2 gap-1 overflow-hidden ${runnerSusp ? "bg-black" : ""}`}
+                        >
+                          {runnerSusp
+                            ? [0, 1, 2].map((_, i) => (
+                                <div
+                                  key={`back-susp-${i}`}
+                                  className={`flex flex-col h-full rounded-[2px] flex-1 min-w-0 bg-[#041117] ${
+                                    i === 2 ? "max-[464px]:hidden" : ""
+                                  } ${i === 1 ? "max-[346px]:hidden" : ""}`}
+                                />
+                              ))
+                            : back3.map((item, i) => (
+                                <div
+                                  key={`back-${i}`}
+                                  data-app-rate-highlighter
+                                  className={`back-${i + 1} flex flex-col items-center justify-center w-[75%] @min-[700]:w-[57.5px] h-[45px] rounded-[8px] border border-[var(--back-border)] bg-[var(--back-bg)]
 hover:bg-[var(--back-hover)] flex-1 min-w-0 cursor-pointer text-black transition-colors ${
-                                  i === 0
-                                    ? "bg-[#0591cf] hover:bg-(--secondary-color)"
-                                    : "bg-[#0a77a8] hover:bg-(--secondary-color)"
-                                } ${i === 2 ? "max-[464px]:hidden" : ""} ${i === 1 ? "max-[346px]:hidden" : ""}`}
-                                onClick={() => {
-                                  if (!item.raw?.price || item.raw.price === 0)
-                                    return;
+                                    i === 0
+                                      ? isBackSelected(item) ? "bg-[var(--back-selected)]" : "bg-[#0591cf] hover:bg-(--secondary-color)"
+  : isBackSelected(item) ? "bg-[var(--back-selected)]" : "bg-[#0a77a8] hover:bg-(--secondary-color)"
+  
+                                  } ${i === 2 ? "max-[464px]:hidden" : ""} ${i === 1 ? "max-[346px]:hidden" : ""}`}
+                                  onClick={() => {
+                                    if (
+                                      !item.raw?.price ||
+                                      item.raw.price === 0
+                                    )
+                                      return;
 
-                                  setSelectedBet({
-                                    type: "back",
-                                    odds: item.raw?.price,
-                                    teamName: runnerName,
-                                    eventName: market.event?.name || eventName,
-                                    marketType:
-                                      market.marketType || market.marketName,
-                                    selectionId: runner.selectionId,
-                                  });
-                                }}
-                              >
-                                <span className="text-[11px] sm:text-[13px] font-bold leading-[1.1] truncate text-[var(--back-price-text)]">
-                                  {item.odd}
-                                </span>
-                                <span className="text-[9px] sm:text-[10px] font-normal leading-[1] truncate text-[var(--back-size-text)]">
-                                  {item.vol}
-                                </span>
-                              </div>
-                            ))}
-                      </div>
-
-                      {/* LAY (red/pink) */}
-                      <div
-                        className={`flex w-1/2 gap-1 overflow-hidden ${runnerSusp ? "bg-black" : ""}`}
-                      >
-                        {runnerSusp
-                          ? [0, 1, 2].map((_, i) => (
-                              <div
-                                key={`lay-susp-${i}`}
-                                className={`flex flex-col h-full rounded-[2px] flex-1 min-w-0 bg-[#140d0f] ${
-                                  i === 2 ? "max-[464px]:hidden" : ""
-                                } ${i === 1 ? "max-[346px]:hidden" : ""}`}
-                              />
-                            ))
-                          : lay3.map((item, i) => (
-                              <div
-                                key={`lay-${i}`}
-                                data-app-rate-highlighter
-                                className={`lay-${i + 1} flex flex-col items-center justify-center w-[75%] @min-[700]:w-[57.5px] h-[45px] rounded-[8px] border border-[var(--lay-border)]
-bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)]  flex-1 min-w-0 cursor-pointer text-black transition-colors ${
-                                  i === 0
-                                    ? "bg-[#d1686d] hover:bg-[#FFA4A7]"
-                                    : "bg-[#a3555b] hover:bg-[#FFA4A7]"
-                                } ${i === 2 ? "max-[464px]:hidden" : ""} ${i === 1 ? "max-[346px]:hidden" : ""}`}
-                                onClick={() => {
-                                  if (!item.raw?.price || item.raw.price === 0)
-                                    return;
-
-                                  setSelectedBet({
-                                    type: "lay",
-                                    odds: item.raw?.price,
-                                    teamName: runnerName,
-                                    eventName: market.event?.name || eventName,
-                                    marketType:
-                                      market.marketType || market.marketName,
-                                    selectionId: runner.selectionId,
-                                  });
-                                }}
-                              >
-                                <span className="text-[11px] sm:text-[13px] font-bold leading-[1.1] truncate text-[var(--lay-price-text)]">
-                                  {item.odd}
-                                </span>
-                                <span className="text-[9px] sm:text-[10px] font-normal leading-[1] truncate text-[var(--lay-price-text)]">
-                                  {item.vol}
-                                </span>
-                              </div>
-                            ))}
-                      </div>
-
-                      {/* OVERLAY */}
-                      {runnerSusp && (
-                        <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
-                          <p className="m-0 text-[#FF8C4B] text-[16px] font-[500] leading-[1.5] tracking-wide">
-                            SUSPENDED
-                          </p>
+                                    setSelectedBet({
+                                      type: "back",
+                                      odds: item.raw?.price,
+                                      teamName: runnerName,
+                                      eventName:
+                                        market.event?.name || eventName,
+                                      marketType:
+                                        market.marketType || market.marketName,
+                                      selectionId: runner.selectionId,
+                                    });
+                                  }}
+                                >
+                                  <span
+                                    className={`text-[11px] sm:text-[13px] font-bold leading-[1.1] truncate text-[var(--back-price-text)] ${isBackSelected(item) ? "dark:text-white" : ""}`}
+                                  >
+                                    {item.odd}
+                                  </span>
+                                  <span
+                                    className={`text-[9px] sm:text-[10px] font-normal leading-[1] truncate text-[var(--back-size-text)] ${isBackSelected(item)? "dark:text-white" : ""}`}
+                                  >
+                                    {item.vol}
+                                  </span>
+                                </div>
+                              ))}
                         </div>
-                      )}
+
+                        {/* LAY (red/pink) */}
+                        <div
+                          className={`flex w-1/2 gap-1 overflow-hidden ${runnerSusp ? "bg-black" : ""}`}
+                        >
+                          {runnerSusp
+                            ? [0, 1, 2].map((_, i) => (
+                                <div
+                                  key={`lay-susp-${i}`}
+                                  className={`flex flex-col h-full rounded-[2px] flex-1 min-w-0 bg-[#140d0f] ${
+                                    i === 2 ? "max-[464px]:hidden" : ""
+                                  } ${i === 1 ? "max-[346px]:hidden" : ""}`}
+                                />
+                              ))
+                            : lay3.map((item, i) => (
+                                <div
+                                  key={`lay-${i}`}
+                                  data-app-rate-highlighter
+                                  className={`lay-${i + 1} flex flex-col items-center justify-center w-[75%] @min-[700]:w-[57.5px] h-[45px] rounded-[8px] border border-[var(--lay-border)]
+bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)]  flex-1 min-w-0 cursor-pointer text-black transition-colors ${
+                                    i === 0
+                                      ? isLaySelected(item)
+                                        ? "bg-[var(--lay-selected)]"
+                                        : "bg-[#d1686d] hover:bg-[#FFA4A7]"
+                                      : isLaySelected(item)
+                                        ? "bg-[var(--lay-selected)]"
+                                        : "bg-[#a3555b] hover:bg-[#FFA4A7]"
+                                  } ${i === 2 ? "max-[464px]:hidden" : ""} ${i === 1 ? "max-[346px]:hidden" : ""}`}
+                                  onClick={() => {
+                                    if (
+                                      !item.raw?.price ||
+                                      item.raw.price === 0
+                                    )
+                                      return;
+
+                                    setSelectedBet({
+                                      type: "lay",
+                                      odds: item.raw?.price,
+                                      teamName: runnerName,
+                                      eventName:
+                                        market.event?.name || eventName,
+                                      marketType:
+                                        market.marketType || market.marketName,
+                                      selectionId: runner.selectionId,
+                                    });
+                                  }}
+                                >
+                                  <span
+                                    className={`text-[11px] sm:text-[13px] font-bold leading-[1.1] truncate text-[var(--lay-price-text)] ${isLaySelected(item) ? "dark:text-white" : ""}`}
+                                  >
+                                    {item.odd}
+                                  </span>
+                                  <span
+                                    className={`text-[9px] sm:text-[10px] font-normal leading-[1] truncate text-[var(--lay-size-text)] ${isLaySelected(item) ? "dark:text-white" : ""}`}
+                                  >
+                                    {item.vol}
+                                  </span>
+                                </div>
+                              ))}
+                        </div>
+
+                        {/* OVERLAY */}
+                        {runnerSusp && (
+                          <div className="absolute inset-0 z-10 flex items-center justify-center pointer-events-none">
+                            <p className="m-0 text-[#FF8C4B] text-[16px] font-[500] leading-[1.5] tracking-wide">
+                              SUSPENDED
+                            </p>
+                          </div>
+                        )}
+                      </div>
                     </div>
-                  </div>
-              
-                </li>
-                   <div
+                  </li>
+                  <div
                     id={`betslip-${runner.selectionId}-${market.marketType || market.marketName}`}
                   >
                     {selectedBet?.selectionId === runner.selectionId &&
@@ -1056,7 +1087,7 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)]  flex-1 min-w-0 cursor-pointer te
                         </div>
                       )}
                   </div>
-                  </React.Fragment>
+                </React.Fragment>
               );
             })}
 
