@@ -32,6 +32,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const [hideBalance, setHideBalance] = useState(false);
+  const { clearSelectedBet } = useAppStore();
   const pathName = usePathname();
   const userName =
     token && typeof window !== "undefined"
@@ -77,7 +78,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
       className={cn(
         "w-full glass  --palette-text-primary  sticky top-0 z-[9999999]",
         theme === "light" &&
-        "backdrop-blur-[10px]! bg-linear-to-br! from-white/25! to-white/5! border-b! border-[rgb(205_192_192/0.4)]! shadow-[0_8px_32px_rgba(0,0,0,0.2)]!",
+          "backdrop-blur-[10px]! bg-linear-to-br! from-white/25! to-white/5! border-b! border-[rgb(205_192_192/0.4)]! shadow-[0_8px_32px_rgba(0,0,0,0.2)]!",
       )}
     >
       <div className="max-w-[1600px] mx-auto px-2 h-12 flex items-center justify-between">
@@ -103,7 +104,10 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
             </div> */}
           <Link
             href="/"
-            onClick={() => window.dispatchEvent(new Event("reset-sidebar"))}
+            onClick={() => {
+              window.dispatchEvent(new Event("reset-sidebar"));
+              clearSelectedBet();
+            }}
             className="font-[inherit]  no-underline shrink-0 text-transparent inline-flex h-[44px] w-[152px] cursor-pointer"
           >
             <Image
@@ -298,9 +302,9 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                           {hideBalance
                             ? "-"
                             : (
-                              (userBalance?.bankBalance ?? 0) -
-                              (userBalance?.exposure ?? 0)
-                            ).toFixed(2)}
+                                (userBalance?.bankBalance ?? 0) -
+                                (userBalance?.exposure ?? 0)
+                              ).toFixed(2)}
                         </p>
                       </div>
                     </div>
