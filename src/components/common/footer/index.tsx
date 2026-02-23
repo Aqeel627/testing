@@ -31,7 +31,7 @@ export default function Footer() {
                 </p>
 
                 {/* <div className="flex flex-col">
-                  <span className="inline-flex max-[899px]:mb-[3px]    justify-center items-center h-[24px] rounded bg-[rgba(var(--palette-primary-mainChannel)_/_16%)]   text-[12px] font-bold leading-[19px] text-(--palette-primary-light)">
+                  <span className="inline-flex max-[899px]:mb-[3px]    justify-center items-center h-[24px] rounded text-[12px] font-bold leading-[19px]">
                     Payment Gateways
                   </span>
 
@@ -119,7 +119,7 @@ export default function Footer() {
               <Link
                 key={i}
                 href={item.href}
-                className="hover:underline hover:text-[var(--palette-primary-main)] cursor-pointer py-1"
+                className="hover:underline hover:text-(--primary-color) cursor-pointer py-1"
               >
                 {item.name}
               </Link>

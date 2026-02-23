@@ -1174,7 +1174,7 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)]  flex-1 min-w-0 cursor-pointer te
                               selectedEventType === item.eventType.name) ||
                             (!selectedEventType &&
                               sportName === item.eventType.name)
-                              ? "bg-[rgba(255,255,255,0.25)]! text-(--palette-primary-main)"
+                              ? "bg-[rgba(255,255,255,0.25)]! text-(--primary-color)"
                               : "hover:bg-[rgba(255,255,255,0.25)]"
                           }`}
                         >
@@ -1232,7 +1232,7 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)]  flex-1 min-w-0 cursor-pointer te
                                   item.competition.name) ||
                               (!selectedCompetition &&
                                 tournamentName === item.competition.name)
-                                ? "bg-[rgba(255,255,255,0.25)]! text-(--palette-primary-main)"
+                                ? "bg-[rgba(255,255,255,0.25)]! text-(--primary-color)"
                                 : "hover:bg-[rgba(255,255,255,0.25)]"
                             }`}
                           >
