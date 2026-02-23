@@ -276,7 +276,7 @@ export default function MBetSlip() {
           </div>
 
           {/* ── PROFIT / LIABILITY ── */}
-          <div
+          {/* <div
             className="text-center py-2.5 px-4 rounded-full text-[13px]"
             style={{ background: accentBg10 }}
           >
@@ -286,7 +286,7 @@ export default function MBetSlip() {
             <span className="font-bold" style={{ color: accentVar }}>
               ${profitOrLiability}
             </span>
-          </div>
+          </div> */}
 
           {/* ── CANCEL + PLACE BET ── */}
           <div className="flex gap-3">
@@ -317,6 +317,16 @@ export default function MBetSlip() {
               }}
             >
               Place Bet
+              {stake!==0&&<div
+                className="text-center rounded-full text-[10px]"
+              >
+                <span>
+                  {isBack ? "Profit: " : "Liability: "}
+                </span>
+                <span className="font-bold">
+                  ${profitOrLiability}
+                </span>
+              </div>}
             </button>
           </div>
         </div>

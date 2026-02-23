@@ -482,3 +482,31 @@
 .linkActive .linkText {
   font-weight: 600;
 }
+
+
+.sportImage {
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+.linkIconWrap {
+  contain: paint;
+}
+
+@supports (-webkit-touch-callout: none) {
+  .sportImage {
+    backface-visibility: hidden;
+  }
+}
+
+.container {
+  -webkit-user-select: none;
+  user-select: none;
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+.link,
+.navLink {
+  -webkit-touch-callout: none;
+}
