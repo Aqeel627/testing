@@ -139,7 +139,7 @@
   --bs-lay-accent: #ff7a7f;
   --bs-lay-accent-bg10: rgba(255, 45, 85, 0.1);
   --bs-lay-accent-bg15: rgba(255, 45, 85, 0.15);
-  --bs-lay-accent-rgb: #48c5fc
+  --bs-lay-accent-rgb: #48c5fc;
   --back-selected: #03b2ff;
   --lay-selected: #ff7a7f;
 
@@ -259,9 +259,9 @@
   --bs-lay-accent: #ff7a7f;
   --bs-lay-accent-bg10: rgba(255, 45, 85, 0.1);
   --bs-lay-accent-bg15: rgba(255, 45, 85, 0.15);
-  --bs-lay-accent-rgb: 255, 45, 85;
+  --bs-lay-accent-rgb: #ff7a7f;
 
-  --back-selected: #03b2ff; /* solid blue fill — dark theme */
+  --back-selected: #379eca; /* solid blue fill — dark theme */
   --lay-selected: #ff7a7f;
 
   --background: #141a21;
