@@ -22,12 +22,13 @@ left: 6px;
     top: -6px;
     right: 6px;
 }
-.icon-stakeLight div,
-.icon-stakeDark div{
+.icon-themeSettingLight div
+.icon-themeSettingDark div{
     position: relative;
     left: 3px;
 }
-.icon-themeSetting div{
+.icon-stakeLight div,
+.icon-stakeDark div{
     position: relative;
     right: 3px;
 }
@@ -42,14 +43,15 @@ left: 6px;
     .icon-theme button{
             bottom: 10px;
     left: 10px;
-    }
-    .icon-stakeLight div,
-.icon-stakeDark div{
+    }    
+    .icon-themeSettingLight div
+    .icon-themeSettingDark div{
         left: 4px;
     position: relative;
     bottom: 2px;
     }
-    .icon-themeSetting div{
+    .icon-stakeLight div,
+    .icon-stakeDark div{
         position: relative;
         bottom: 2px;
         right: 3px;
@@ -66,13 +68,14 @@ left: 6px;
             top: -14px;
     left: 10px;
     }
-    .icon-stakeLight div,
-.icon-stakeDark div{
+    .icon-themeSettingLight div
+    .icon-themeSettingDark div{
         left: 6px;
     position: relative;
     bottom: 2px;
     }
-    .icon-themeSetting div{
+    .icon-stakeLight div,
+    .icon-stakeDark div{
         position: relative;
         bottom: 2px;
         right: 5px;
