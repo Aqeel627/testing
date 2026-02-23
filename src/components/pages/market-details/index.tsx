@@ -22,6 +22,12 @@ import RuleModal from "@/components/modal/role";
 import Icon from "@/icons/icons";
 import MBetSlip from "@/components/common/m-betslip";
 import { EventTimer } from "@/components/common/single-market/event-timer";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/common/tooltip";
 
 interface RunnerName {
   selectionId: number;
@@ -623,7 +629,7 @@ export default function MarketDetails() {
     index: any,
     marketid: any,
   ) => {
-      setSelectedBet(null);  
+    setSelectedBet(null);
 
     // Save current tab state
     setActiveTab(type);
@@ -855,7 +861,7 @@ export default function MarketDetails() {
                   align="end"
                 >
                   <div className="flex justify-center items-center gap-1">
-                    Max: {market?.max} Max: {market?.min} 
+                    Max: {market?.max} Max: {market?.min}
                   </div>
                 </TooltipContent>
               </Tooltip>
@@ -1184,18 +1190,24 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)]  flex-1 min-w-0 cursor-pointer te
                             navigateToMarket(item.eventType.name);
                           }}
                           className={`text-sm w-full text-nowrap text-left relative bg-transparent cursor-pointer gap-2 font-semibold transition px-2 py-1.5 rounded-[6px] ${(selectedEventType &&
-                            selectedEventType === item.eventType.name) ||
-                            (!selectedEventType &&
-                              sportName === item.eventType.name)
+                              selectedEventType === item.eventType.name) ||
+                              (!selectedEventType &&
+                                sportName === item.eventType.name)
                               ? "bg-[rgba(255,255,255,0.25)]! text-(--primary-color)"
                               : "hover:bg-[rgba(255,255,255,0.25)]"
-                          }`}
+                            }`}
                         >
                           {item.eventType.name}
                         </button>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </span>
 
               <span
                 ref={competitionRef}
+                className="h-6 min-w-6 inline-flex justify-center relative items-center text-sm bg-(--sidebar-badge-bg) rounded-[6px] pl-[8px] pr-2 gap-2.5"
               >
                 {/* ✅ ICON CLICK TOGGLE (same look) */}
                 <button
@@ -1234,19 +1246,25 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)]  flex-1 min-w-0 cursor-pointer te
                               );
                             }}
                             className={`text-sm w-full text-nowrap text-left relative bg-transparent cursor-pointer gap-2 font-semibold transition px-2 py-1.5 rounded-[6px] ${(selectedCompetition &&
-                              selectedCompetition ===
-                              item.competition.name) ||
-                              (!selectedCompetition &&
-                                tournamentName === item.competition.name)
+                                selectedCompetition ===
+                                item.competition.name) ||
+                                (!selectedCompetition &&
+                                  tournamentName === item.competition.name)
                                 ? "bg-[rgba(255,255,255,0.25)]! text-(--primary-color)"
                                 : "hover:bg-[rgba(255,255,255,0.25)]"
-                            }`}
+                              }`}
                           >
                             {item.competition.name}
                           </button>
+                        </li>
+                      ))
+                    ) : (
+                      <li className="p-3 text-xs opacity-70">
+                        No competitions
                       </li>
                     )}
                   </ul>
+                )}
               </span>
             </div>
           </div>
@@ -1268,7 +1286,7 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)]  flex-1 min-w-0 cursor-pointer te
               </span>
               <span className="text-[0.875rem]">
                 <div className="flex gap-2 items-center text-(--tab-default-text)">
-                  <EventTimer startTime={marketTime}/>
+                  <EventTimer startTime={marketTime} />
                 </div>
               </span>
             </div>
@@ -1346,8 +1364,8 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)]  flex-1 min-w-0 cursor-pointer te
                     setMarketType("POPULAR", e, "Popular", 1, "");
                   }}
                   className={`inline-flex items-center justify-center bg-transparent border-none cursor-pointer text-[0.875rem] px-4 py-1.5 transition-colors duration-200 leading-[1.57143] relative z-10 top-[-1px] ${activeTab === "POPULAR"
-                    ? "text-(--tab-active-text) font-semibold"
-                    : "text-(--tab-default-text) font-medium"
+                      ? "text-(--tab-active-text) font-semibold"
+                      : "text-(--tab-default-text) font-medium"
                     }`}
                 >
                   POPULAR
@@ -1368,8 +1386,8 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)]  flex-1 min-w-0 cursor-pointer te
                       );
                     }}
                     className={`inline-flex uppercase items-center justify-center bg-transparent border-none cursor-pointer text-[0.875rem] px-4 py-1.5 transition-colors duration-200 leading-[1.57143] relative z-10 top-[-1px] ${activeTab === market?.marketName
-                      ? "text-(--tab-active-text) font-semibold"
-                      : "text-(--tab-default-text) font-medium"
+                        ? "text-(--tab-active-text) font-semibold"
+                        : "text-(--tab-default-text) font-medium"
                       }`}
                   >
                     {market?.marketName}
@@ -1383,8 +1401,8 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)]  flex-1 min-w-0 cursor-pointer te
                     setMarketType("ALL", e, "All", 0, "");
                   }}
                   className={`inline-flex items-center justify-center bg-transparent border-none cursor-pointer text-[0.875rem] px-4 py-1.5 transition-colors duration-200 leading-[1.57143] relative z-10 top-[-1px] ${activeTab === "ALL"
-                    ? "text-(--tab-active-text) font-semibold"
-                    : "text-(--tab-default-text) font-medium"
+                      ? "text-(--tab-active-text) font-semibold"
+                      : "text-(--tab-default-text) font-medium"
                     }`}
                 >
                   ALL Markets
