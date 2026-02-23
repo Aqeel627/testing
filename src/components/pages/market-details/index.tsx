@@ -19,9 +19,8 @@ import { VideoSimple } from "@/components/video-simple/VideoSimple";
 import dynamic from "next/dynamic";
 import MarketLoader from "@/components/common/market-loader";
 import RuleModal from "@/components/modal/role";
-
-const MBetSlip = dynamic(() => import("@/components/common/m-betslip"));
-const Icon = dynamic(() => import("@/icons/icons"));
+import Icon from "@/icons/icons";
+import MBetSlip from "@/components/common/m-betslip";
 
 interface RunnerName {
   selectionId: number;
