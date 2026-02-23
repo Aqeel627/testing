@@ -21,6 +21,7 @@ import MarketLoader from "@/components/common/market-loader";
 import RuleModal from "@/components/modal/role";
 import Icon from "@/icons/icons";
 import MBetSlip from "@/components/common/m-betslip";
+import { EventTimer } from "@/components/common/single-market/event-timer";
 
 interface RunnerName {
   selectionId: number;
@@ -1257,9 +1258,9 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)]  flex-1 min-w-0 cursor-pointer te
       {/* Title Block */}
       <div className="bg-(--primary-hover) w-full border-[1px] border-dashed border-(--dotted-line) rounded-[16px] overflow-hidden max-[637px]:mt-[6px]">
         <div className="relative no-underline w-full box-border text-left py-2 px-4 flex-wrap rounded-2">
-          <div className="flex justify-between items-center w-full">
+          <div className="flex gap-2 justify-between items-center w-full">
             <div className="flex-auto min-w-0 m-0">
-              <span className="h-6 min-w-6 inline-flex justify-center items-center text-sm bg-(--sidebar-badge-bg) rounded-[6px] pl-[8px] pr-2 gap-2.5">
+              <span className="py-0.5 min-w-6 inline-flex justify-center items-center text-sm bg-(--sidebar-badge-bg) rounded-[6px] pl-[8px] pr-2 gap-2.5">
                 <span className="text-market-name">
                   <Icon name="play" className="w-5 h-5 text-(--arrow-color)!" />
                 </span>
@@ -1267,11 +1268,9 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)]  flex-1 min-w-0 cursor-pointer te
                   {eventName || "Event"}
                 </a>
               </span>
-              <span className="text-[0.875rem] leading-[1.57143]">
-                <div className="flex gap-2 items-center">
-                  <time className="text-[0.785rem] font-semibold leading-[1.57143] text-(--secondary-text-color)">
-                    {formatDate(marketTime)}
-                  </time>
+              <span className="text-[0.875rem]">
+                <div className="flex gap-2 items-center text-(--tab-default-text)">
+                  <EventTimer startTime={marketTime}/>
                 </div>
               </span>
             </div>
