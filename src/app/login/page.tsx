@@ -60,7 +60,11 @@ export default function LoginPage() {
       <div className="flex justify-between items-center px-4 min-[600]:px-6 h-12">
         <Link href="/">
           <Image
-            src="/logo.png"
+            src={
+              theme === "dark"
+                ? "/logo-black.svg"
+                : "/logo-white.svg"
+            }
             alt="100exch Logo"
             width={152}
             height={1000}
@@ -90,7 +94,11 @@ export default function LoginPage() {
         >
           <h2 className="text-[32px] font-bold">Hi, Welcome back</h2>
           <Image
-            src="/logo.png"
+            src={
+              theme === "dark"
+                ? "/logo-black.svg"
+                : "/logo-white.svg"
+            }
             alt="100exch Logo"
             width={304}
             height={1000}
@@ -127,8 +135,8 @@ export default function LoginPage() {
                   <label
                     htmlFor="username"
                     className={`font-semibold text-base leading-normal font-normal  leading-[1.57143] block text-ellipsis absolute origin-[left_top] z-[1] select-none pointer-events-auto max-w-[calc(133%-32px)] translate-x-3.5 translate-y-[-9px] whitespace-nowrap overflow-hidden p-0 scale-75 left-0 top-0 ${usernameError
-                        ? "text-(--palette-error-main)"
-                        : "text-(--palette-text-secondary)"
+                      ? "text-(--palette-error-main)"
+                      : "text-(--palette-text-secondary)"
                       }`}
                   >
                     Username
@@ -157,8 +165,8 @@ export default function LoginPage() {
                     />
                     <fieldset
                       className={`text-left absolute top-[-5px] group-focus-within:border-2 pointer-events-none min-w-[0%] border overflow-hidden transition-[border-color] duration ease-in-out m-0 px-2 py-0 rounded-[inherit] border-solid bottom-0 inset-x-0 ${usernameError
-                          ? "border-(--palette-error-main)"
-                          : "border-[rgba(var(--palette-grey-500Channel)_/_20%)] group-hover:border-(--palette-text-primary) group-focus-within:border-(--palette-text-primary)"
+                        ? "border-(--palette-error-main)"
+                        : "border-[rgba(var(--palette-grey-500Channel)_/_20%)] group-hover:border-(--palette-text-primary) group-focus-within:border-(--palette-text-primary)"
                         }`}
                     >
                       <legend className="w-18.75 overflow-hidden block h-[11px] text-[14px] invisible whitespace-nowrap max-w-full transition-[max-width] duration-100 ease-out delay-[50ms] p-0">
@@ -180,8 +188,8 @@ export default function LoginPage() {
                   <label
                     htmlFor="password"
                     className={`font-semibold text-base leading-normal font-normal  leading-[1.57143] block text-ellipsis absolute origin-[left_top] z-[1] select-none pointer-events-auto max-w-[calc(133%-32px)] translate-x-3.5 translate-y-[-9px] whitespace-nowrap overflow-hidden p-0 scale-75 left-0 top-0 ${passwordError
-                        ? "text-(--palette-error-main)"
-                        : "text-(--palette-text-secondary)"
+                      ? "text-(--palette-error-main)"
+                      : "text-(--palette-text-secondary)"
                       }`}
                   >
                     Password
@@ -267,8 +275,8 @@ export default function LoginPage() {
                     </button>
                     <fieldset
                       className={`text-left absolute top-[-5px] pointer-events-none group-focus-within:border-2 min-w-[0%] border overflow-hidden transition-[border-color] duration ease-in-out m-0 px-2 py-0 rounded-[inherit] border-solid bottom-0 inset-x-0 ${passwordError
-                          ? "border-(--palette-error-main)"
-                          : "border-[rgba(var(--palette-grey-500Channel)_/_20%)] group-hover:border-(--palette-text-primary) group-focus-within:border-(--palette-text-primary)"
+                        ? "border-(--palette-error-main)"
+                        : "border-[rgba(var(--palette-grey-500Channel)_/_20%)] group-hover:border-(--palette-text-primary) group-focus-within:border-(--palette-text-primary)"
                         }`}
                     >
                       <legend className="w-18.25 overflow-hidden block h-[11px] text-[14px] invisible whitespace-nowrap max-w-full transition-[max-width] duration-100 ease-out delay-[50ms] p-0">
@@ -314,8 +322,8 @@ export default function LoginPage() {
                   type="submit"
                   disabled={!hasFormValues || isSubmitting}
                   className={`w-full rounded-lg relative p-[6px_12px] min-h-9 text-sm font-bold ${hasFormValues && !isSubmitting
-                      ? "bg-[#078DEE] text-white hover:shadow-(--customShadows-primary) cursor-pointer hover:bg-(--palette-primary-dark)"
-                      : "bg-[rgba(145,158,171,0.24)] text-[rgba(145,158,171,0.8)] cursor-not-allowed"
+                    ? "bg-[#078DEE] text-white hover:shadow-(--customShadows-primary) cursor-pointer hover:bg-(--palette-primary-dark)"
+                    : "bg-[rgba(145,158,171,0.24)] text-[rgba(145,158,171,0.8)] cursor-not-allowed"
                     }`}
                 >
                   {isSubmitting ? (
