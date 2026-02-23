@@ -8,6 +8,8 @@ import style from "./style.module.css";
 import { useTheme } from "next-themes";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
+import { CONFIG, } from "@/lib/config";
+import { CryptoService } from "@/lib/crypto-service";
 
 const Loader = dynamic(() => import("@/components/common/loader/loader"));
 
@@ -67,23 +69,92 @@ export default function ChangePassword() {
       confirmPassword: true,
     });
 
-    if (!hasFormValues) {
-      return;
-    }
+    if (!hasFormValues) return;
 
     setIsSubmitting(true);
     setApiError("");
 
-    // API Call Simulate
+    const payload = {
+      newPassword: newPassword,
+      oldPassword: oldPassword,
+    };
+
     try {
-      setTimeout(() => {
-        setIsSubmitting(false);
-        // Modal close karwane ka logic ya redirect
+      console.log("🔐 Encrypting payload...", payload);
+
+      // 1. Encrypt Payload
+      const encrypted = await CryptoService.encryptJSON1(payload);
+      const finalPayload = {
+        data: encrypted.iv + "###" + encrypted.payload,
+      };
+
+      console.log("🚀 Final encrypted payload:", finalPayload);
+
+      // 2. Fetch Call
+      const response = await fetch(CONFIG.changeUserPassword, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token") || ""}`,
+        },
+        body: JSON.stringify(finalPayload),
+      });
+
+      const encryptedRes = await response.json();
+
+      // 3. Decrypt backend response
+      const res = await CryptoService.decryptApiResponse(encryptedRes);
+      console.log("🔓 Decrypted API response:", res);
+
+      // 4. Safe message parsing (Angular Pattern)
+      let parts: any[] = [];
+      if (res?.meta?.message) {
+        parts = res.meta.message
+          .split(/',\s*'/)
+          .map((p: string | undefined) => p?.replace(/^'+|'+$/g, "").trim() || "");
+      }
+
+      const msg = {
+        status: parts?.[0] || "",
+        title: parts?.[1] || "",
+        desc: parts?.[2] || "",
+      };
+
+      // 5. Success Logic (Status 200)
+      if (res?.meta?.status_code === 200) {
+        try {
+          if (typeof window !== "undefined") {
+            // Force logout after password change
+            localStorage.clear();
+            sessionStorage.clear();
+          }
+        } catch (clearErr) {
+          console.error("Storage clear error:", clearErr);
+        }
+
+        // Redirect to Login/Home
         router.push("/");
-      }, 1000);
-    } catch (error) {
-      setApiError("Something went wrong");
+        return;
+      } else {
+        console.warn("❌ API returned non-200:", res);
+        setApiError(msg.desc || "Failed to change password. Please check your current password.");
+      }
+
+    } catch (err: any) {
+      console.error("🔥 ERROR in changePassword:", err);
+      
+      // Attempt to decrypt error if possible
+      try {
+         const decryptedErr = await CryptoService.decryptApiResponse(err?.error || err);
+         const message = decryptedErr?.meta?.message || decryptedErr?.message || "Something went wrong";
+         setApiError(message);
+      } catch (e) {
+         setApiError("Something went wrong. Please try again.");
+      }
+      
+    } finally {
       setIsSubmitting(false);
+      console.log("⏳ Loading stopped");
     }
   };
 
@@ -97,14 +168,13 @@ export default function ChangePassword() {
 
       <section
         className={cn(
-          // ✅ z-[9999] use kiya hai taake mobile header/sidebar ke bhi ooper aaye
           "fixed! rounded-none! inset-0! z-[9999] drawer flex flex-col w-full h-[100dvh]",
           theme === "dark"
             ? "apple-glass apple-glass-dark"
             : "apple-glass-light"
         )}
       >
-        {/* HEADER (mobile only) - Desktop pe ye hide ho jayega */}
+        {/* HEADER (mobile only) */}
         <div className="flex justify-between items-center px-4 min-[600px]:px-6 h-14 shrink-0 min-[900px]:hidden">
           <Link href="/" className="flex items-center">
             <Image
@@ -117,14 +187,14 @@ export default function ChangePassword() {
           </Link>
         </div>
 
-        {/* MAIN CENTERED WRAPPER (Mobile aur Desktop dono ke liye perfect centering) */}
+        {/* MAIN CENTERED WRAPPER */}
         <div className="flex flex-1 items-center justify-center p-4 md:p-8 w-full overflow-y-auto">
 
           {/* THE GLASS CARD */}
           <div
             className={cn(
               "flex flex-col w-full max-w-[550px] px-6 py-8 md:px-10 md:py-10 rounded-[16px] shadow-2xl relative",
-              "border border-white/5" // Halka sa glass border depth ke liye
+              "border border-white/5"
             )}
             style={{
               background:
@@ -176,7 +246,7 @@ export default function ChangePassword() {
                         setTouched((prev) => ({ ...prev, oldPassword: true }))
                       }
                       aria-invalid={oldPasswordError}
-                      className="font-[inherit] max-[600px]:text-base placeholder:text-(--palette-text-primary) outline-0 leading-[inherit] tracking-[inherit] text-current box-content h-[1.4375em] block min-w-0 w-full text-[0.9375rem] m-0 px-3.5 py-[16.5px] border-0"
+                      className="font-[inherit] max-[600px]:text-base placeholder:text-(--palette-text-primary) outline-0 leading-[inherit] tracking-[inherit] text-current box-content h-[1.4375em] block min-w-0 w-full text-[0.9375rem] m-0 px-3.5 py-[16.5px] border-0 bg-transparent"
                     />
                     <button
                       type="button"
@@ -184,11 +254,10 @@ export default function ChangePassword() {
                       onClick={() => setShowOldPassword((prev) => !prev)}
                       className={cn(
                         style.btn,
-                        "top-1/2 -translate-y-1/2 right-1 text-(--palette-text-secondary) cursor-pointer p-2 hover:bg-[rgba(145,158,171,0.08)] rounded-full flex justify-center items-center z-10"
+                        "absolute right-2 top-1/2 -translate-y-1/2 text-(--palette-text-secondary) cursor-pointer p-2 hover:bg-[rgba(145,158,171,0.08)] rounded-full flex justify-center items-center z-10 bg-transparent border-0"
                       )}
                       aria-label={showOldPassword ? "Hide password" : "Show password"}
                     >
-                      {/* Password Toggle SVG */}
                       {showOldPassword ? (
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24"><path fill="currentColor" d="M9.75 12a2.25 2.25 0 1 1 4.5 0a2.25 2.25 0 0 1-4.5 0"></path><path fill="currentColor" fillRule="evenodd" d="M2 12c0 1.64.425 2.191 1.275 3.296C4.972 17.5 7.818 20 12 20s7.028-2.5 8.725-4.704C21.575 14.192 22 13.639 22 12c0-1.64-.425-2.191-1.275-3.296C19.028 6.5 16.182 4 12 4S4.972 6.5 3.275 8.704C2.425 9.81 2 10.361 2 12m10-3.75a3.75 3.75 0 1 0 0 7.5a3.75 3.75 0 0 0 0-7.5" clipRule="evenodd"></path></svg>
                       ) : (
@@ -242,7 +311,7 @@ export default function ChangePassword() {
                         setTouched((prev) => ({ ...prev, newPassword: true }))
                       }
                       aria-invalid={newPasswordError}
-                      className="font-[inherit] max-[600px]:text-base placeholder:text-(--palette-text-primary) outline-0 leading-[inherit] tracking-[inherit] text-current box-content h-[1.4375em] block min-w-0 w-full text-[0.9375rem] m-0 px-3.5 py-[16.5px] border-0"
+                      className="font-[inherit] max-[600px]:text-base placeholder:text-(--palette-text-primary) outline-0 leading-[inherit] tracking-[inherit] text-current box-content h-[1.4375em] block min-w-0 w-full text-[0.9375rem] m-0 px-3.5 py-[16.5px] border-0 bg-transparent"
                     />
                     <button
                       type="button"
@@ -251,10 +320,9 @@ export default function ChangePassword() {
                       aria-label={showNewPassword ? "Hide password" : "Show password"}
                       className={cn(
                         style.btn,
-                        "top-1/2 -translate-y-1/2 right-1 text-(--palette-text-secondary) cursor-pointer p-2 hover:bg-[rgba(145,158,171,0.08)] rounded-full flex justify-center items-center z-10"
+                        "absolute right-2 top-1/2 -translate-y-1/2 text-(--palette-text-secondary) cursor-pointer p-2 hover:bg-[rgba(145,158,171,0.08)] rounded-full flex justify-center items-center z-10 bg-transparent border-0"
                       )}
                     >
-                      {/* Password Toggle SVG */}
                       {showNewPassword ? (
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24"><path fill="currentColor" d="M9.75 12a2.25 2.25 0 1 1 4.5 0a2.25 2.25 0 0 1-4.5 0"></path><path fill="currentColor" fillRule="evenodd" d="M2 12c0 1.64.425 2.191 1.275 3.296C4.972 17.5 7.818 20 12 20s7.028-2.5 8.725-4.704C21.575 14.192 22 13.639 22 12c0-1.64-.425-2.191-1.275-3.296C19.028 6.5 16.182 4 12 4S4.972 6.5 3.275 8.704C2.425 9.81 2 10.361 2 12m10-3.75a3.75 3.75 0 1 0 0 7.5a3.75 3.75 0 0 0 0-7.5" clipRule="evenodd"></path></svg>
                       ) : (
@@ -308,7 +376,7 @@ export default function ChangePassword() {
                         setTouched((prev) => ({ ...prev, confirmPassword: true }))
                       }
                       aria-invalid={confirmPasswordError}
-                      className="font-[inherit] max-[600px]:text-base placeholder:text-(--palette-text-primary) outline-0 leading-[inherit] tracking-[inherit] text-current box-content h-[1.4375em] block min-w-0 w-full text-[0.9375rem] m-0 px-3.5 py-[16.5px] border-0"
+                      className="font-[inherit] max-[600px]:text-base placeholder:text-(--palette-text-primary) outline-0 leading-[inherit] tracking-[inherit] text-current box-content h-[1.4375em] block min-w-0 w-full text-[0.9375rem] m-0 px-3.5 py-[16.5px] border-0 bg-transparent"
                     />
                     <button
                       type="button"
@@ -317,10 +385,9 @@ export default function ChangePassword() {
                       aria-label={showConfirmPassword ? "Hide password" : "Show password"}
                       className={cn(
                         style.btn,
-                        "top-1/2 -translate-y-1/2 right-1 text-(--palette-text-secondary) cursor-pointer p-2 hover:bg-[rgba(145,158,171,0.08)] rounded-full flex justify-center items-center z-10"
+                        "absolute right-2 top-1/2 -translate-y-1/2 text-(--palette-text-secondary) cursor-pointer p-2 hover:bg-[rgba(145,158,171,0.08)] rounded-full flex justify-center items-center z-10 bg-transparent border-0"
                       )}
                     >
-                      {/* Password Toggle SVG */}
                       {showConfirmPassword ? (
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 24 24"><path fill="currentColor" d="M9.75 12a2.25 2.25 0 1 1 4.5 0a2.25 2.25 0 0 1-4.5 0"></path><path fill="currentColor" fillRule="evenodd" d="M2 12c0 1.64.425 2.191 1.275 3.296C4.972 17.5 7.818 20 12 20s7.028-2.5 8.725-4.704C21.575 14.192 22 13.639 22 12c0-1.64-.425-2.191-1.275-3.296C19.028 6.5 16.182 4 12 4S4.972 6.5 3.275 8.704C2.425 9.81 2 10.361 2 12m10-3.75a3.75 3.75 0 1 0 0 7.5a3.75 3.75 0 0 0 0-7.5" clipRule="evenodd"></path></svg>
                       ) : (
@@ -349,9 +416,9 @@ export default function ChangePassword() {
                   ) : null}
                 </div>
 
-                {/* API Error Message */}
+                {/* ✅ API Error Message UI Box */}
                 {apiError && (
-                  <div className="text-red-500 text-sm mt-2">
+                  <div className="text-(--palette-error-main) text-sm mt-1 mb-2 font-medium bg-red-500/10 p-3 rounded-md border border-red-500/20 text-center">
                     {apiError}
                   </div>
                 )}
@@ -361,26 +428,20 @@ export default function ChangePassword() {
                   <button
                     type="submit"
                     disabled={!hasFormValues || isSubmitting}
-                    // className={cn(
-                    //   "w-full rounded-[8px] relative p-[6px_12px] text-[15px] font-bold h-[48px] cursor-pointer disabled:cursor-not-allowed transition-all",
-                    //   hasFormValues && !isSubmitting
-                    //     ? "bg-[#078DEE] text-white hover:bg-[#0672c2]"
-                    //     : "bg-[rgba(145,158,171,0.24)] text-[rgba(145,158,171,0.8)]"
-                    // )}
-
                     className={cn(
-                      "w-full rounded-lg relative p-[6px_12px] min-h-9 text-sm font-bold h-[48px] bg-(--primary-color) text-white cursor-pointer disabled:cursor-not-allowed",
+                      "w-full rounded-lg relative p-[6px_12px] min-h-9 text-sm font-bold h-[48px] bg-(--primary-color) text-white cursor-pointer disabled:cursor-not-allowed transition-colors",
                       hasFormValues &&
                       !isSubmitting &&
                       "hover:bg-(--login-btn-hover)",
+                      (!hasFormValues || isSubmitting) && "opacity-50"
                     )}
                   >
                     {isSubmitting ? (
                       <span className="contents">
-                        <span className="absolute visible flex -translate-2/4 text-(--palette-action-disabled) left-2/4 top-2/4">
+                        <span className="absolute visible flex -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2">
                           <span className="h-4 w-4 inline-block submitLoader">
-                            <svg className="block text-(--palette-action-disabled)" viewBox="22 22 44 44">
-                              <circle className="visible text-(--palette-action-disabled) circleAnimation" cx="44" cy="44" r="20.2" fill="none" strokeWidth="3.6"></circle>
+                            <svg className="block text-white" viewBox="22 22 44 44">
+                              <circle className="visible text-white circleAnimation" cx="44" cy="44" r="20.2" fill="none" strokeWidth="3.6"></circle>
                             </svg>
                           </span>
                         </span>
@@ -392,7 +453,7 @@ export default function ChangePassword() {
 
                   <Link
                     href="/"
-                    className="w-full rounded-[8px] cursor-pointer shadow-(--customShadows-z8) font-bold text-[15px] py-3.5 h-[48px] inline-flex justify-center items-center bg-[var(--gth-btn-bg)] text-white dark:text-black"
+                    className="w-full rounded-[8px] cursor-pointer shadow-(--customShadows-z8) font-bold text-[15px] py-3.5 h-[48px] inline-flex justify-center items-center bg-[var(--gth-btn-bg)] text-white dark:text-black transition-opacity hover:opacity-90"
                   >
                     <span className="max-[600px]:translate-y-[-0.5px]">
                       Go to Home

@@ -11,7 +11,7 @@ import {
   ResizablePanel,
   ResizablePanelGroup,
 } from "@/components/common/resizeable";
-import ChangePassword from "../change-password/page";
+import ChangePassword from "@/components/modal/change-password";
 const Header = dynamic(() => import("@/components/common/header"));
 const Footer = dynamic(() => import("@/components/common/footer"));
 const Sidebar = dynamic(() => import("@/components/common/sidebar"));
