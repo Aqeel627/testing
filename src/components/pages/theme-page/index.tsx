@@ -1,119 +1,152 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { useTheme } from "next-themes";
 import BreadCrumb from "@/components/common/bread-crumb";
 
-// 8 Theme configurations
-const themeOptions = [
+ const themeOptions = [
+  // 1. Aapki Original Default Theme (Isko bilkul nahi chhera)
   {
-    id: "blue-pro",
-    name: "Blue Professional",
-    colors: ["#3498db", "#2c3e50"],
+    id: "default-blue",
+    name: "Original Blue",
+    colors: ["#078dee", "#68cdf9"],
+    bg: { light: "#f4f6f8", dark: "#141a21" }
   },
-  {
-    id: "green-nature",
-    name: "Green Nature",
-    colors: ["#2ecc71", "#1abc9c"],
-  },
-  {
-    id: "purple-creative",
-    name: "Purple Creative",
-    colors: ["#9b59b6", "#e91e63"],
-  },
-  {
-    id: "dark-pro",
-    name: "Dark Professional",
-    colors: ["#34495e", "#7f8c8d"],
-  },
-  {
-    id: "sunset-vibe",
-    name: "Sunset Vibe",
-    colors: ["#e67e22", "#f39c12"],
-  },
-  {
-    id: "crimson-fire",
-    name: "Crimson Fire",
-    colors: ["#e53935", "#b71c1c"],
-  },
-  {
-    id: "midnight-neon",
-    name: "Midnight Neon",
-    colors: ["#0f2027", "#203a43"],
-  },
-  {
-    id: "ocean-breeze",
-    name: "Ocean Breeze",
-    colors: ["#00c6ff", "#0072ff"],
-  },
-  {
-    id: "ocean-breeze",
-    name: "Ocean Breeze",
-    colors: ["#00c6ff", "#0072ff"],
-  },
-  {
-    id: "ocean-breeze",
-    name: "Ocean Breeze",
-    colors: ["#00c6ff", "#0072ff"],
-  },
-];
 
+  // 2. Premium VIP Gold (Bohat decent aur luxury look - Best for Casino)
+  {
+    id: "premium-gold",
+    name: "Premium Gold",
+    colors: ["#eab308", "#fef08a"],
+    bg: { light: "#fefce8", dark: "radial-gradient(circle at 50% 0%, #422006 0%, #09090b 100%)" }
+  },
+
+  // 3. Royal Amethyst (Modern aur mysterious deep purple)
+  {
+    id: "royal-amethyst",
+    name: "Royal Purple",
+    colors: ["#a855f7", "#d8b4fe"],
+    bg: { light: "#faf5ff", dark: "radial-gradient(circle at 50% 0%, #2e1065 0%, #09090b 100%)" }
+  },
+
+  // 4. Mint FinTech (Aankhon ko thendak dene wala fresh teal/mint)
+  {
+    id: "mint-fintech",
+    name: "Mint Breeze",
+    colors: ["#14b8a6", "#5eead4"],
+    bg: { light: "#f0fdfa", dark: "radial-gradient(circle at 50% 0%, #042f2e 0%, #09090b 100%)" }
+  },
+
+  // 5. Velvet Rose (Chubne wala red nahi, bohat soft aur premium ruby/rose)
+  {
+    id: "velvet-rose",
+    name: "Velvet Rose",
+    colors: ["#f43f5e", "#fda4af"],
+    bg: { light: "#fff1f2", dark: "radial-gradient(circle at 50% 0%, #4c0519 0%, #09090b 100%)" }
+  },
+
+  // 6. Oceanic Trust (FinTech apps wala deep blue, trust build karta hai)
+  {
+    id: "oceanic-trust",
+    name: "Oceanic Blue",
+    colors: ["#3b82f6", "#93c5fd"],
+    bg: { light: "#eff6ff", dark: "radial-gradient(circle at 50% 0%, #1e3a8a 0%, #09090b 100%)" }
+  },
+
+  // 7. Ignite Orange (Sports vibes ke liye energetic aur warm)
+  {
+    id: "ignite-orange",
+    name: "Ignite Orange",
+    colors: ["#f97316", "#fdba74"],
+    bg: { light: "#fff7ed", dark: "radial-gradient(circle at 50% 0%, #431407 0%, #09090b 100%)" }
+  },
+
+  // 8. Neon Matrix (Hacker/Trading style ka sharp neon green glow)
+  {
+    id: "neon-matrix",
+    name: "Matrix Green",
+    colors: ["#22c55e", "#86efac"],
+    bg: { light: "#f0fdf4", dark: "radial-gradient(circle at 50% 0%, #14532d 0%, #09090b 100%)" }
+  },
+
+  // 9. Cosmic Pink (Bohat trendy aur Gen-Z appealing color)
+  {
+    id: "cosmic-pink",
+    name: "Cosmic Pink",
+    colors: ["#d946ef", "#f0abfc"],
+    bg: { light: "#fdf4ff", dark: "radial-gradient(circle at 50% 0%, #4a044e 0%, #09090b 100%)" }
+  },
+
+  // 10. Platinum Sleek (Un users k liye jinhe srf black/grey pasand hai)
+  {
+    id: "platinum-sleek",
+    name: "Platinum Sleek",
+    colors: ["#94a3b8", "#cbd5e1"],
+    bg: { light: "#f8fafc", dark: "radial-gradient(circle at 50% 0%, #1e293b 0%, #09090b 100%)" }
+  }
+];
 export default function ThemePage() {
-  const { theme, setTheme } = useTheme();
-  const [activeThemeId, setActiveThemeId] = useState("blue-pro");
+  const { theme, resolvedTheme } = useTheme();
+  const [activeThemeId, setActiveThemeId] = useState("default-blue");
   const [updatingThemeId, setUpdatingThemeId] = useState<string | null>(null);
 
+  // Yeh function DOM mein ja kar variables change karta hai (100% working approach)
+  const applyThemeColors = (themeId: string, currentMode: string | undefined) => {
+    const selectedTheme = themeOptions.find((t) => t.id === themeId);
+    if (selectedTheme) {
+      const root = document.documentElement;
+      const primary = selectedTheme.colors[0];
+      const secondary = selectedTheme.colors[1];
+
+      const mode = currentMode === "dark" ? "dark" : "light";
+      const bgColor = selectedTheme.bg[mode];
+
+      // Colors Update
+      root.style.setProperty("--primary-color", primary);
+      root.style.setProperty("--secondary-color", secondary);
+      root.style.setProperty("--palette-primary-main", primary);
+      root.style.setProperty("--tab-active-text", primary);
+      root.style.setProperty("--sidebar-badge-text", primary);
+      root.style.setProperty("--accordion-text", primary);
+
+      // Backgrounds Update
+      // root.style.setProperty("--background", bgColor);
+      root.style.setProperty("--palette-background-default", bgColor);
+      root.style.setProperty("--market-bg", bgColor);
+
+      localStorage.setItem("app-color-theme", themeId);
+    }
+  };
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem("app-color-theme") || "default-blue";
+    setActiveThemeId(savedTheme);
+    applyThemeColors(savedTheme, resolvedTheme);
+  }, [resolvedTheme]);
+
   const handleApplyTheme = (themeId: string) => {
-    // Agar already selected hai to kuch mat karo
     if (themeId === activeThemeId || updatingThemeId) return;
 
     setUpdatingThemeId(themeId);
 
-    // Fake delay to show spinner, then apply theme
     setTimeout(() => {
       setActiveThemeId(themeId);
-      // Actual theme set karne ka code:
-      // setTheme(themeId); 
+      applyThemeColors(themeId, resolvedTheme);
       setUpdatingThemeId(null);
     }, 600);
   };
-  
 
   return (
     <div>
       <BreadCrumb title="Theme" showTitle={true} />
       <section className="min-h-auto w-full flex items-center justify-center">
-
-        {/* Main Glass Container */}
-        <div
-          className={cn(
-            "flex flex-col rounded-2xl! w-full max-w-5xl transition-all duration-300 bg-transparent!",
-            // theme === "dark" ? "bg-(--background)" : "bg-(--background)"
-          )}
-        >
-          {/* Header Section */}
-          {/* <div className="">
-            <h2 className={cn(
-              "text-2xl md:text-3xl flex justify-center items-center font-bold tracking-tight mb-2",
-              theme === "dark" ? "text-white" : "text-gray-900"
-            )}>
-              Choose Your Theme
-            </h2>
-            <p className={cn(
-              "text-sm",
-              theme === "dark" ? "text-(--palette-text-secondary)" : "text-gray-500"
-            )}>
-              Personalize your experience by selecting a color palette that suits your style.
-            </p>
-          </div> */}
-
-          {/* Theme Grid: Mobile: 2 cols, Desktop: 4 cols */}
-          {/* 8 cards hone ki wajah se perfectly 2 rows banengi desktop par */}
+        <div className={cn("flex flex-col rounded-2xl! w-full max-w-5xl transition-all duration-300 bg-transparent!")}>
           <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 md:gap-6 mb-2 mt-1">
             {themeOptions.map((item) => {
               const isActive = activeThemeId === item.id;
               const isUpdatingThis = updatingThemeId === item.id;
+              const dynamicShadow = isActive ? `0 0 20px ${item.colors[0]}66` : "none";
 
               return (
                 <div
@@ -121,57 +154,42 @@ export default function ThemePage() {
                   onClick={() => handleApplyTheme(item.id)}
                   className={cn(
                     "relative flex flex-col rounded-xl overflow-hidden cursor-pointer transition-all duration-300 group backdrop-blur-xl",
-
-                    // GLASS EFFECT LOGIC
-                    theme === "dark"
-                      ? "bg-white/5 hover:bg-white/10 border-(--dotted-line)"
-                      : "bg-white/40 hover:bg-white/50 border-(--dotted-line)",
-
-                    // Active vs Inactive state
-                    isActive
-                      ? "border-2 border-(--primary-color) shadow-[0_0_20px_rgba(7,141,238,0.4)] scale-[1.03]"
-                      : "border-2 hover:scale-[1.03]",
-
-                    // Disable clicks when updating
+                    theme === "dark" ? "bg-white/5 hover:bg-white/10" : "bg-white/40 hover:bg-white/50",
+                    isActive ? "border-2 scale-[1.03]" : "border-2 border-(--dotted-line) hover:scale-[1.03]",
                     updatingThemeId && updatingThemeId !== item.id ? "opacity-50 pointer-events-none" : "opacity-100"
                   )}
+                  style={{
+                    borderColor: isActive ? item.colors[0] : "",
+                    boxShadow: dynamicShadow,
+                  }}
                 >
-                  {/* Active Checkmark Badge */}
                   {isActive && !isUpdatingThis && (
-                    <div className="absolute top-2 right-2 bg-(--primary-color) rounded-full p-1 z-10 shadow-md animate-in zoom-in duration-200">
+                    <div
+                      className="absolute top-2 right-2 rounded-full p-1 z-10 shadow-md animate-in zoom-in duration-200"
+                      style={{ backgroundColor: item.colors[0] }}
+                    >
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 text-white" viewBox="0 0 20 20" fill="currentColor">
                         <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                       </svg>
                     </div>
                   )}
 
-                  {/* Updating Spinner Overlay */}
                   {isUpdatingThis && (
                     <div className="absolute inset-0 bg-black/20 backdrop-blur-sm z-20 flex items-center justify-center">
                       <span className="h-6 w-6 border-2 border-white border-t-transparent rounded-full animate-spin"></span>
                     </div>
                   )}
 
-                  {/* Color Palette Preview (Half & Half with slight transparency to blend with glass) */}
                   <div className="h-20 w-full flex flex-col opacity-90 group-hover:opacity-100 transition-opacity">
-                    <div
-                      className="flex-1 w-full"
-                      style={{ backgroundColor: item.colors[0] }}
-                    />
-                    <div
-                      className="flex-1 w-full"
-                      style={{ backgroundColor: item.colors[1] }}
-                    />
+                    <div className="flex-1 w-full" style={{ backgroundColor: item.colors[0] }} />
+                    <div className="flex-1 w-full" style={{ backgroundColor: item.colors[1] }} />
                   </div>
 
-                  {/* Theme Name - Transparent background to keep it glassy */}
                   <div className="p-3 text-center border-t border-white/10">
-                    <span className={cn(
-                      "text-xs md:text-sm font-semibold transition-colors block truncate",
-                      isActive
-                        ? "text-(--primary-color)"
-                        : "text-(--sidebar-badge-text)"
-                    )}>
+                    <span
+                      className="text-xs md:text-sm font-semibold transition-colors block truncate"
+                      style={{ color: isActive ? item.colors[0] : "var(--sidebar-badge-text)" }}
+                    >
                       {item.name}
                     </span>
                   </div>
@@ -182,6 +200,5 @@ export default function ThemePage() {
         </div>
       </section>
     </div>
-
   );
 }

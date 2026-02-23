@@ -29,7 +29,8 @@
     "swiper": "^12.1.1",
     "tailwind-merge": "^3.4.1",
     "universe-code": "^0.0.94",
-    "zustand": "^5.0.11"
+    "zustand": "^5.0.11",
+    "@radix-ui/react-tooltip": "^1.2.8"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

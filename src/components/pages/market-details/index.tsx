@@ -22,6 +22,12 @@ import RuleModal from "@/components/modal/role";
 import Icon from "@/icons/icons";
 import MBetSlip from "@/components/common/m-betslip";
 import { EventTimer } from "@/components/common/single-market/event-timer";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/common/tooltip";
 
 interface RunnerName {
   selectionId: number;
@@ -360,7 +366,7 @@ export default function MarketDetails() {
                 reject(e);
               }
             };
-            req.onupgradeneeded = () => {};
+            req.onupgradeneeded = () => { };
           });
 
         try {
@@ -623,7 +629,7 @@ export default function MarketDetails() {
     index: any,
     marketid: any,
   ) => {
-      setSelectedBet(null);  
+    setSelectedBet(null);
 
     // Save current tab state
     setActiveTab(type);
@@ -838,16 +844,32 @@ export default function MarketDetails() {
           {/* HEADER */}
           <div className="px-1 min-[900px]:px-2 bg-(--market-header-bg) flex flex-col justify-center w-full font-bold h-8 relative">
             <div className="absolute z-10 cursor-pointer right-2 top-1/2 -translate-y-[50%]">
-              <Icon
-                name="info"
-                onClick={() => setOpenRulesModal(data.description.rules)}
-                className="text-(--accordion-text)"
-              />
-              <RuleModal
+
+              <Tooltip disableHoverableContent>
+                <TooltipTrigger asChild>
+                  {/* onClick={() => setOpenRulesModal(data.description.rules)} */}
+                  <Icon
+                    name="info"
+                    className="text-(--accordion-text)"
+                  />
+                </TooltipTrigger>
+                <TooltipContent
+                  side="top"
+                  className="!bg-background --palette-text-primary text-[14px] font-normal px-4 py-[17px]"
+                  sideOffset={12}
+                  alignOffset={-10}
+                  align="end"
+                >
+                  <div className="flex justify-center items-center gap-1">
+                    Max: {market?.max} Max: {market?.min}
+                  </div>
+                </TooltipContent>
+              </Tooltip>
+              {/* <RuleModal
                 open={openRules}
                 onOpenChange={setOpenRules}
                 text={ruleContent}
-              />
+              /> */}
             </div>
             <div className="relative flex flex-row items-center h-8 justify-between w-full">
               <div className="text-[14px] text-(--accordion-text) font-[500] leading-[14px] flex-1 flex-[1_1_6rem] min-w-0 whitespace-nowrap truncate relative top-[1px]">
@@ -894,17 +916,17 @@ export default function MarketDetails() {
           {/* BODY */}
           <ul className="relative list-none m-0 p-0 px-1 min-[900px]:px-2 bg-(--market-bg)">
             {runners.map((runner: any, index: number) => {
-            const isBackSelected = (item: any) =>
-  selectedBet?.selectionId === runner.selectionId &&
-  selectedBet?.marketType === (market.marketType || market.marketName) &&
-  selectedBet?.type === "back" &&
-  selectedBet?.odds === item.raw?.price;
+              const isBackSelected = (item: any) =>
+                selectedBet?.selectionId === runner.selectionId &&
+                selectedBet?.marketType === (market.marketType || market.marketName) &&
+                selectedBet?.type === "back" &&
+                selectedBet?.odds === item.raw?.price;
 
-const isLaySelected = (item: any) =>
-  selectedBet?.selectionId === runner.selectionId &&
-  selectedBet?.marketType === (market.marketType || market.marketName) &&
-  selectedBet?.type === "lay" &&
-  selectedBet?.odds === item.raw?.price;
+              const isLaySelected = (item: any) =>
+                selectedBet?.selectionId === runner.selectionId &&
+                selectedBet?.marketType === (market.marketType || market.marketName) &&
+                selectedBet?.type === "lay" &&
+                selectedBet?.odds === item.raw?.price;
               const runnerName =
                 market?.runnerNameMap?.[Number(runner.selectionId)] ||
                 String(runner.selectionId);
@@ -956,55 +978,53 @@ const isLaySelected = (item: any) =>
                         >
                           {runnerSusp
                             ? [0, 1, 2].map((_, i) => (
-                                <div
-                                  key={`back-susp-${i}`}
-                                  className={`flex flex-col h-full rounded-[2px] flex-1 min-w-0 bg-[#041117] ${
-                                    i === 2 ? "max-[464px]:hidden" : ""
+                              <div
+                                key={`back-susp-${i}`}
+                                className={`flex flex-col h-full rounded-[2px] flex-1 min-w-0 bg-[#041117] ${i === 2 ? "max-[464px]:hidden" : ""
                                   } ${i === 1 ? "max-[346px]:hidden" : ""}`}
-                                />
-                              ))
+                              />
+                            ))
                             : back3.map((item, i) => (
-                                <div
-                                  key={`back-${i}`}
-                                  data-app-rate-highlighter
-                                  className={`back-${i + 1} flex flex-col items-center justify-center w-[75%] @min-[700]:w-[57.5px] h-[45px] rounded-[8px] border border-[var(--back-border)] bg-[var(--back-bg)]
-hover:bg-[var(--back-hover)] flex-1 min-w-0 cursor-pointer text-black transition-colors ${
-                                    i === 0
-                                      ? isBackSelected(item) ? "bg-[var(--back-selected)]" : "bg-[#0591cf] hover:bg-(--secondary-color)"
-  : isBackSelected(item) ? "bg-[var(--back-selected)]" : "bg-[#0a77a8] hover:bg-(--secondary-color)"
-  
-                                  } ${i === 2 ? "max-[464px]:hidden" : ""} ${i === 1 ? "max-[346px]:hidden" : ""}`}
-                                  onClick={() => {
-                                    if (
-                                      !item.raw?.price ||
-                                      item.raw.price === 0
-                                    )
-                                      return;
+                              <div
+                                key={`back-${i}`}
+                                data-app-rate-highlighter
+                                className={`back-${i + 1} flex flex-col items-center justify-center w-[75%] @min-[700]:w-[57.5px] h-[45px] rounded-[8px] border border-[var(--back-border)] bg-[var(--back-bg)]
+hover:bg-[var(--back-hover)] flex-1 min-w-0 cursor-pointer text-black transition-colors ${i === 0
+                                    ? isBackSelected(item) ? "bg-[var(--back-selected)]" : "bg-[#0591cf] hover:bg-(--secondary-color)"
+                                    : isBackSelected(item) ? "bg-[var(--back-selected)]" : "bg-[#0a77a8] hover:bg-(--secondary-color)"
 
-                                    setSelectedBet({
-                                      type: "back",
-                                      odds: item.raw?.price,
-                                      teamName: runnerName,
-                                      eventName:
-                                        market.event?.name || eventName,
-                                      marketType:
-                                        market.marketType || market.marketName,
-                                      selectionId: runner.selectionId,
-                                    });
-                                  }}
+                                  } ${i === 2 ? "max-[464px]:hidden" : ""} ${i === 1 ? "max-[346px]:hidden" : ""}`}
+                                onClick={() => {
+                                  if (
+                                    !item.raw?.price ||
+                                    item.raw.price === 0
+                                  )
+                                    return;
+
+                                  setSelectedBet({
+                                    type: "back",
+                                    odds: item.raw?.price,
+                                    teamName: runnerName,
+                                    eventName:
+                                      market.event?.name || eventName,
+                                    marketType:
+                                      market.marketType || market.marketName,
+                                    selectionId: runner.selectionId,
+                                  });
+                                }}
+                              >
+                                <span
+                                  className={`text-[11px] sm:text-[13px] font-bold leading-[1.1] truncate text-[var(--back-price-text)] ${isBackSelected(item) ? "dark:text-white" : ""}`}
                                 >
-                                  <span
-                                    className={`text-[11px] sm:text-[13px] font-bold leading-[1.1] truncate text-[var(--back-price-text)] ${isBackSelected(item) ? "dark:text-white" : ""}`}
-                                  >
-                                    {item.odd}
-                                  </span>
-                                  <span
-                                    className={`text-[9px] sm:text-[10px] font-normal leading-[1] truncate text-[var(--back-size-text)] ${isBackSelected(item)? "dark:text-white" : ""}`}
-                                  >
-                                    {item.vol}
-                                  </span>
-                                </div>
-                              ))}
+                                  {item.odd}
+                                </span>
+                                <span
+                                  className={`text-[9px] sm:text-[10px] font-normal leading-[1] truncate text-[var(--back-size-text)] ${isBackSelected(item) ? "dark:text-white" : ""}`}
+                                >
+                                  {item.vol}
+                                </span>
+                              </div>
+                            ))}
                         </div>
 
                         {/* LAY (red/pink) */}
@@ -1013,58 +1033,56 @@ hover:bg-[var(--back-hover)] flex-1 min-w-0 cursor-pointer text-black transition
                         >
                           {runnerSusp
                             ? [0, 1, 2].map((_, i) => (
-                                <div
-                                  key={`lay-susp-${i}`}
-                                  className={`flex flex-col h-full rounded-[2px] flex-1 min-w-0 bg-[#140d0f] ${
-                                    i === 2 ? "max-[464px]:hidden" : ""
+                              <div
+                                key={`lay-susp-${i}`}
+                                className={`flex flex-col h-full rounded-[2px] flex-1 min-w-0 bg-[#140d0f] ${i === 2 ? "max-[464px]:hidden" : ""
                                   } ${i === 1 ? "max-[346px]:hidden" : ""}`}
-                                />
-                              ))
+                              />
+                            ))
                             : lay3.map((item, i) => (
-                                <div
-                                  key={`lay-${i}`}
-                                  data-app-rate-highlighter
-                                  className={`lay-${i + 1} flex flex-col items-center justify-center w-[75%] @min-[700]:w-[57.5px] h-[45px] rounded-[8px] border border-[var(--lay-border)]
-bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)]  flex-1 min-w-0 cursor-pointer text-black transition-colors ${
-                                    i === 0
-                                      ? isLaySelected(item)
-                                        ? "bg-[var(--lay-selected)]"
-                                        : "bg-[#d1686d] hover:bg-[#FFA4A7]"
-                                      : isLaySelected(item)
-                                        ? "bg-[var(--lay-selected)]"
-                                        : "bg-[#a3555b] hover:bg-[#FFA4A7]"
+                              <div
+                                key={`lay-${i}`}
+                                data-app-rate-highlighter
+                                className={`lay-${i + 1} flex flex-col items-center justify-center w-[75%] @min-[700]:w-[57.5px] h-[45px] rounded-[8px] border border-[var(--lay-border)]
+bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)]  flex-1 min-w-0 cursor-pointer text-black transition-colors ${i === 0
+                                    ? isLaySelected(item)
+                                      ? "bg-[var(--lay-selected)]"
+                                      : "bg-[#d1686d] hover:bg-[#FFA4A7]"
+                                    : isLaySelected(item)
+                                      ? "bg-[var(--lay-selected)]"
+                                      : "bg-[#a3555b] hover:bg-[#FFA4A7]"
                                   } ${i === 2 ? "max-[464px]:hidden" : ""} ${i === 1 ? "max-[346px]:hidden" : ""}`}
-                                  onClick={() => {
-                                    if (
-                                      !item.raw?.price ||
-                                      item.raw.price === 0
-                                    )
-                                      return;
+                                onClick={() => {
+                                  if (
+                                    !item.raw?.price ||
+                                    item.raw.price === 0
+                                  )
+                                    return;
 
-                                    setSelectedBet({
-                                      type: "lay",
-                                      odds: item.raw?.price,
-                                      teamName: runnerName,
-                                      eventName:
-                                        market.event?.name || eventName,
-                                      marketType:
-                                        market.marketType || market.marketName,
-                                      selectionId: runner.selectionId,
-                                    });
-                                  }}
+                                  setSelectedBet({
+                                    type: "lay",
+                                    odds: item.raw?.price,
+                                    teamName: runnerName,
+                                    eventName:
+                                      market.event?.name || eventName,
+                                    marketType:
+                                      market.marketType || market.marketName,
+                                    selectionId: runner.selectionId,
+                                  });
+                                }}
+                              >
+                                <span
+                                  className={`text-[11px] sm:text-[13px] font-bold leading-[1.1] truncate text-[var(--lay-price-text)] ${isLaySelected(item) ? "dark:text-white" : ""}`}
                                 >
-                                  <span
-                                    className={`text-[11px] sm:text-[13px] font-bold leading-[1.1] truncate text-[var(--lay-price-text)] ${isLaySelected(item) ? "dark:text-white" : ""}`}
-                                  >
-                                    {item.odd}
-                                  </span>
-                                  <span
-                                    className={`text-[9px] sm:text-[10px] font-normal leading-[1] truncate text-[var(--lay-size-text)] ${isLaySelected(item) ? "dark:text-white" : ""}`}
-                                  >
-                                    {item.vol}
-                                  </span>
-                                </div>
-                              ))}
+                                  {item.odd}
+                                </span>
+                                <span
+                                  className={`text-[9px] sm:text-[10px] font-normal leading-[1] truncate text-[var(--lay-size-text)] ${isLaySelected(item) ? "dark:text-white" : ""}`}
+                                >
+                                  {item.vol}
+                                </span>
+                              </div>
+                            ))}
                         </div>
 
                         {/* OVERLAY */}
@@ -1083,7 +1101,7 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)]  flex-1 min-w-0 cursor-pointer te
                   >
                     {selectedBet?.selectionId === runner.selectionId &&
                       selectedBet?.marketType ===
-                        (market.marketType || market.marketName) && (
+                      (market.marketType || market.marketName) && (
                         <div className="block lg:hidden">
                           <MBetSlip />
                         </div>
@@ -1171,14 +1189,13 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)]  flex-1 min-w-0 cursor-pointer te
                             setIsEventTypeOpen(false);
                             navigateToMarket(item.eventType.name);
                           }}
-                          className={`text-sm w-full text-nowrap text-left relative bg-transparent cursor-pointer gap-2 font-semibold transition px-2 py-1.5 rounded-[6px] ${
-                            (selectedEventType &&
+                          className={`text-sm w-full text-nowrap text-left relative bg-transparent cursor-pointer gap-2 font-semibold transition px-2 py-1.5 rounded-[6px] ${(selectedEventType &&
                               selectedEventType === item.eventType.name) ||
-                            (!selectedEventType &&
-                              sportName === item.eventType.name)
+                              (!selectedEventType &&
+                                sportName === item.eventType.name)
                               ? "bg-[rgba(255,255,255,0.25)]! text-(--primary-color)"
                               : "hover:bg-[rgba(255,255,255,0.25)]"
-                          }`}
+                            }`}
                         >
                           {item.eventType.name}
                         </button>
@@ -1228,15 +1245,14 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)]  flex-1 min-w-0 cursor-pointer te
                                 item.competition.id,
                               );
                             }}
-                            className={`text-sm w-full text-nowrap text-left relative bg-transparent cursor-pointer gap-2 font-semibold transition px-2 py-1.5 rounded-[6px] ${
-                              (selectedCompetition &&
+                            className={`text-sm w-full text-nowrap text-left relative bg-transparent cursor-pointer gap-2 font-semibold transition px-2 py-1.5 rounded-[6px] ${(selectedCompetition &&
                                 selectedCompetition ===
-                                  item.competition.name) ||
-                              (!selectedCompetition &&
-                                tournamentName === item.competition.name)
+                                item.competition.name) ||
+                                (!selectedCompetition &&
+                                  tournamentName === item.competition.name)
                                 ? "bg-[rgba(255,255,255,0.25)]! text-(--primary-color)"
                                 : "hover:bg-[rgba(255,255,255,0.25)]"
-                            }`}
+                              }`}
                           >
                             {item.competition.name}
                           </button>
@@ -1270,7 +1286,7 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)]  flex-1 min-w-0 cursor-pointer te
               </span>
               <span className="text-[0.875rem]">
                 <div className="flex gap-2 items-center text-(--tab-default-text)">
-                  <EventTimer startTime={marketTime}/>
+                  <EventTimer startTime={marketTime} />
                 </div>
               </span>
             </div>
@@ -1347,11 +1363,10 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)]  flex-1 min-w-0 cursor-pointer te
                   onClick={(e) => {
                     setMarketType("POPULAR", e, "Popular", 1, "");
                   }}
-                  className={`inline-flex items-center justify-center bg-transparent border-none cursor-pointer text-[0.875rem] px-4 py-1.5 transition-colors duration-200 leading-[1.57143] relative z-10 top-[-1px] ${
-                    activeTab === "POPULAR"
+                  className={`inline-flex items-center justify-center bg-transparent border-none cursor-pointer text-[0.875rem] px-4 py-1.5 transition-colors duration-200 leading-[1.57143] relative z-10 top-[-1px] ${activeTab === "POPULAR"
                       ? "text-(--tab-active-text) font-semibold"
                       : "text-(--tab-default-text) font-medium"
-                  }`}
+                    }`}
                 >
                   POPULAR
                 </button>
@@ -1370,11 +1385,10 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)]  flex-1 min-w-0 cursor-pointer te
                         market?.marketId,
                       );
                     }}
-                    className={`inline-flex uppercase items-center justify-center bg-transparent border-none cursor-pointer text-[0.875rem] px-4 py-1.5 transition-colors duration-200 leading-[1.57143] relative z-10 top-[-1px] ${
-                      activeTab === market?.marketName
+                    className={`inline-flex uppercase items-center justify-center bg-transparent border-none cursor-pointer text-[0.875rem] px-4 py-1.5 transition-colors duration-200 leading-[1.57143] relative z-10 top-[-1px] ${activeTab === market?.marketName
                         ? "text-(--tab-active-text) font-semibold"
                         : "text-(--tab-default-text) font-medium"
-                    }`}
+                      }`}
                   >
                     {market?.marketName}
                   </button>
@@ -1386,11 +1400,10 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)]  flex-1 min-w-0 cursor-pointer te
                   onClick={(e) => {
                     setMarketType("ALL", e, "All", 0, "");
                   }}
-                  className={`inline-flex items-center justify-center bg-transparent border-none cursor-pointer text-[0.875rem] px-4 py-1.5 transition-colors duration-200 leading-[1.57143] relative z-10 top-[-1px] ${
-                    activeTab === "ALL"
+                  className={`inline-flex items-center justify-center bg-transparent border-none cursor-pointer text-[0.875rem] px-4 py-1.5 transition-colors duration-200 leading-[1.57143] relative z-10 top-[-1px] ${activeTab === "ALL"
                       ? "text-(--tab-active-text) font-semibold"
                       : "text-(--tab-default-text) font-medium"
-                  }`}
+                    }`}
                 >
                   ALL Markets
                 </button>
