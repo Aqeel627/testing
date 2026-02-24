@@ -26,6 +26,88 @@ export function capitalize(str: string) {
 /* ---------------------------------- */
 /* GENERIC FETCH DATA */
 /* ---------------------------------- */
+// export async function fetchData({
+//   cachedKey,
+//   url,
+//   payload,
+//   setFn,
+//   showToast,
+//   headers = {},
+//   expireIn = 60 * 5,
+//   forceApiCall,
+// }: {
+//   cachedKey?: string | null;
+//   url: string;
+//   payload: any;
+//   setFn?: (value: any) => void;
+//   showToast?: (
+//     status: "error" | "info" | "success" | "warning",
+//     title: string,
+//     desc: string,
+//   ) => void;
+//   headers?: Record<string, string>;
+//   expireIn?: number;
+//   forceApiCall?: boolean;
+// }) {
+//   /* ---------------- CACHE ---------------- */
+//   if (cachedKey) {
+//     const cached = await getData(cachedKey);
+
+//     if (!forceApiCall && cached) {
+//       const diff = (Date.now() - cached.timestamp) / 1000;
+//       if (diff < expireIn) {
+//         setFn?.(cached.data);
+//         return;
+//       }
+//     }
+//   }
+
+//   /* ---------------- TOKEN ---------------- */
+//   let token = "";
+//   if (typeof window !== "undefined") {
+//     token = localStorage.getItem("token") || "";
+//   }
+
+//   /* ---------------- API CALL ---------------- */
+//   try {
+//     const response: any = await http.post(url, payload, {
+//       headers: {
+//         Authorization: token ? `Bearer ${token}` : "",
+//         ...headers,
+//       },
+//     });
+
+//     const apiData = response?.data?.data ?? response?.data;
+//     setFn?.(apiData);
+
+//     /* ------------ TOAST ------------ */
+//     if (showToast) {
+//       const message = response?.data?.meta?.message || response?.meta?.message;
+
+//       if (typeof message === "string") {
+//         const msg = splitMsg(message);
+//         showToast(msg.status, msg.title, msg.desc);
+//       } else {
+//         showToast("success", "Success", "Request successful");
+//       }
+//     }
+
+//     /* ------------ CACHE SAVE ------------ */
+//     if (cachedKey) {
+//       await saveData(cachedKey, apiData);
+//     }
+//   } catch (error: any) {
+//     console.error("API Error:", error);
+
+//     if (showToast) {
+//       showToast(
+//         "error",
+//         "Failed",
+//         error?.response?.data?.meta?.message || "Unauthorized / API Error",
+//       );
+//     }
+//   }
+// }
 export async function fetchData({
   cachedKey,
   url,
@@ -49,15 +131,23 @@ export async function fetchData({
   expireIn?: number;
   forceApiCall?: boolean;
 }) {
+  let shouldFetchFromApi = true;
+
   /* ---------------- CACHE ---------------- */
   if (cachedKey) {
     const cached = await getData(cachedKey);
 
-    if (!forceApiCall && cached) {
+    if (cached) {
+      // Pehle cache wala data screen par set kar do (taki user ko blank screen na dikhe)
+      setFn?.(cached.data);
+
       const diff = (Date.now() - cached.timestamp) / 1000;
-      if (diff < expireIn) {
-        setFn?.(cached.data);
-        return;
+
+      // Agar data expire nahi hua hai aur force call nahi hai,
+      // toh API call skip karo
+      if (!forceApiCall && diff < expireIn) {
+        shouldFetchFromApi = false;
+        return; // Yahan se return ho jayega kyunki data fresh hai
       }
     }
   }
@@ -69,42 +159,46 @@ export async function fetchData({
   }
 
   /* ---------------- API CALL ---------------- */
-  try {
-    const response: any = await http.post(url, payload, {
-      headers: {
-        Authorization: token ? `Bearer ${token}` : "",
-        ...headers,
-      },
-    });
+  if (shouldFetchFromApi) {
+    try {
+      const response: any = await http.post(url, payload, {
+        headers: {
+          Authorization: token ? `Bearer ${token}` : "",
+          ...headers,
+        },
+      });
 
-    const apiData = response?.data?.data ?? response?.data;
-    setFn?.(apiData);
+      const apiData = response?.data?.data ?? response?.data;
 
-    /* ------------ TOAST ------------ */
-    if (showToast) {
-      const message = response?.data?.meta?.message || response?.meta?.message;
+      // API se data aate hi screen update ho jayegi
+      setFn?.(apiData);
 
-      if (typeof message === "string") {
-        const msg = splitMsg(message);
-        showToast(msg.status, msg.title, msg.desc);
-      } else {
-        showToast("success", "Success", "Request successful");
+      /* ------------ TOAST ------------ */
+      // Optional: Expired data ke case mein toast na dikhayein toh better experience hota hai
+      if (showToast) {
+        const message =
+          response?.data?.meta?.message || response?.meta?.message;
+        if (typeof message === "string") {
+          const msg = splitMsg(message);
+          showToast(msg.status, msg.title, msg.desc);
+        } else {
+          showToast("success", "Success", "Data Updated");
+        }
       }
-    }
 
-    /* ------------ CACHE SAVE ------------ */
-    if (cachedKey) {
-      await saveData(cachedKey, apiData);
-    }
-  } catch (error: any) {
-    console.error("API Error:", error);
-
-    if (showToast) {
-      showToast(
-        "error",
-        "Failed",
-        error?.response?.data?.meta?.message || "Unauthorized / API Error",
-      );
+      /* ------------ CACHE SAVE ------------ */
+      if (cachedKey) {
+        await saveData(cachedKey, apiData);
+      }
+    } catch (error: any) {
+      console.error("API Error:", error);
+      if (showToast) {
+        showToast(
+          "error",
+          "Failed",
+          error?.response?.data?.meta?.message || "Unauthorized / API Error",
+        );
+      }
     }
   }
 }
@@ -212,23 +306,23 @@ export function shortNumber(value: number): string | null {
 }
 
 export function safeParse(key: string) {
-    try {
-        const raw = localStorage.getItem(key);
-        if (!raw) return null;
+  try {
+    const raw = localStorage.getItem(key);
+    if (!raw) return null;
 
-        const parsed = JSON.parse(raw);
+    const parsed = JSON.parse(raw);
 
-        // ensure it's actually an object (optional extra check)
-        if (parsed && typeof parsed === "object") {
-            return parsed;
-        }
-
-        console.warn("Invalid userDetail type:", parsed);
-        localStorage.removeItem(key);
-        return null;
-    } catch (err) {
-        console.warn("Invalid JSON in localStorage for", key);
-        localStorage.removeItem(key); // 🧹 auto-clean invalid data
-        return null;
+    // ensure it's actually an object (optional extra check)
+    if (parsed && typeof parsed === "object") {
+      return parsed;
     }
+
+    console.warn("Invalid userDetail type:", parsed);
+    localStorage.removeItem(key);
+    return null;
+  } catch (err) {
+    console.warn("Invalid JSON in localStorage for", key);
+    localStorage.removeItem(key); // 🧹 auto-clean invalid data
+    return null;
+  }
 }
