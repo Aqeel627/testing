@@ -293,7 +293,10 @@ const SportItemComponent = ({
         <span className={styles.linkIconWrap}>
           <span
             className={styles.sportImage}
-            style={{ "--sport-icon": `url(${sport.iconUrl})` } as CSSProperties}
+            style={{ 
+    backgroundImage: `url(${sport.iconUrl})`,
+    WebkitMaskImage: `url(${sport.iconUrl})`, 
+  } as CSSProperties}
           />
         </span>
         <span className={styles.linkText}>{sport.name}</span>
