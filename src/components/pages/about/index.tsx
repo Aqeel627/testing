@@ -10,15 +10,15 @@ export default function About() {
       <BreadCrumb title="About Us" showTitle={false} />
       <div className="w-full mx-auto flex flex-col flex-grow scroll-mt-[40px]">
         <h1 className="text-2xl md:text-[24px] font-bold leading-normal">
-          About 100Exch
+          About GJEXCH
         </h1>
 
         <h6 className="text-[16px] mt-2">Last updated: {formattedDate}</h6>
 
         <div className="py-2"></div>
 
-        <Section id="welcome" title="Welcome to 100Exch">
-          At 100Exch, we are passionate about providing a safe, exciting, and
+        <Section id="welcome" title="Welcome to GJEXCH">
+          At GJEXCH, we are passionate about providing a safe, exciting, and
           fair online gaming experience. Founded with the vision to
           revolutionize the world of online gaming, we strive to bring
           cutting-edge technology and a user-friendly interface to our global
@@ -26,7 +26,7 @@ export default function About() {
         </Section>
 
         <Section id="who-we-are" title="Who We Are">
-          100Exch is a Curacao-based company with a mission to deliver
+          GJEXCH is a Curacao-based company with a mission to deliver
           exceptional online gaming experiences. Licensed and regulated by the
           Curacao Gaming Control Board, we are committed to operating with the
           highest standards of transparency, security, and integrity.
@@ -79,7 +79,7 @@ export default function About() {
           id="our-commitment-to-responsible-gaming"
           title="Our Commitment to Responsible Gaming"
         >
-          At 100Exch, we understand gaming should be entertainment, not stress.
+          At GJEXCH, we understand gaming should be entertainment, not stress.
           We promote responsible gaming and provide tools to manage habits.
         </Section>
 

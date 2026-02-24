@@ -25,13 +25,14 @@ const GlobalApisCall = () => {
     console.log("Formatted:", formatted);
   };
 
-  useDisableTouchGestures();
-  DisableWheelZoom();
-  DisableZoom();
+  // useDisableTouchGestures();
+  // DisableWheelZoom();
+  // DisableZoom();
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     checkLogin(token || "");
+    console.log("code live 3");
 
     fetchData({
       url: CONFIG.getAllEventsList,

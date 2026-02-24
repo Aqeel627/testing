@@ -33,7 +33,7 @@ const KPolicy = () => {
               <span className="font-[Calibri,sans-serif]">
                 <span className="font-[Calibri,sans-serif]">
                   By using and/or visiting any section (including sub-domains)
-                  of the 100Exch&nbsp; website or any other websites or
+                  of the GJEXCH&nbsp; website or any other websites or
                   applications that we own (the “Website”) and/or registering on
                   the Website, you agree to be bound by (i) these Terms and
                   Conditions; (ii) our Privacy Policy; (iii) the Rules
@@ -101,8 +101,8 @@ const KPolicy = () => {
             <span className="leading-normal">
               <span className="font-[Calibri,sans-serif]">
                 <span className="font-[Calibri,sans-serif]">
-                  Reference to "100Exch", "We", "Us" or "Our" is reference to
-                  100Exch’s corporate entities.
+                  Reference to "GJEXCH", "We", "Us" or "Our" is reference to
+                  GJEXCH’s corporate entities.
                 </span>
               </span>
             </span>
@@ -114,8 +114,8 @@ const KPolicy = () => {
               <span className="font-[Calibri,sans-serif]">
                 <span className="font-[Calibri,sans-serif]">
                   Reference to "you", "your" or the "customer" is reference to
-                  any person using the Website or the services of 100Exch and/or
-                  any registered customer of 100Exch.
+                  any person using the Website or the services of GJEXCH and/or
+                  any registered customer of GJEXCH.
                 </span>
               </span>
             </span>
@@ -156,7 +156,7 @@ const KPolicy = () => {
               <span className="font-[Calibri,sans-serif]">
                 <b>
                   <u>
-                    <span className="font-aptos">YOUR 100Exch ACCOUNT</span>
+                    <span className="font-aptos">YOUR GJEXCH ACCOUNT</span>
                   </u>
                 </b>
               </span>
@@ -184,10 +184,10 @@ const KPolicy = () => {
                     <span className="font-[Calibri,sans-serif]">
                       <span className="font-[Aptos]">
                         All applicants must be over 18 years of age to place a
-                        bet or register with100Exch. 100Exch reserves the right
+                        bet or register withGJEXCH. GJEXCH reserves the right
                         to ask for proof of age from any customer and suspend
                         their account until satisfactory documentation is
-                        provided. 100Exch takes its responsibilities in respect
+                        provided. GJEXCH takes its responsibilities in respect
                         of under-age gambling very seriously.
                       </span>
                     </span>
@@ -218,10 +218,10 @@ const KPolicy = () => {
                   <span className="leading-normal">
                     <span className="font-[Calibri,sans-serif]">
                       <span className="font-[Aptos]">
-                        100Exch may confirm a customer’s address by posting an
+                        GJEXCH may confirm a customer’s address by posting an
                         address verification letter to the customer. All
                         correspondence will be discreet, and the envelope will
-                        not display any reference to 100Exch. When such
+                        not display any reference to GJEXCH. When such
                         correspondence is initiated, all offers, and withdrawal
                         requests may remain pending until the address has been
                         confirmed as correct.
@@ -275,7 +275,7 @@ const KPolicy = () => {
                       <span className="font-[Aptos]">
                         Customers may open only one account. Should we identify
                         any customer with more than one account we reserve the
-                        right to close or suspend any such customer and 100Exch
+                        right to close or suspend any such customer and GJEXCH
                         shall also be entitled to withhold and/or retain any and
                         all amounts which would otherwise have been paid or
                         payable to you (including any winnings or bonus
@@ -326,7 +326,7 @@ const KPolicy = () => {
                   <span className="leading-normal">
                     <span className="font-[Calibri,sans-serif]">
                       <span className="font-[Aptos]">
-                        100Exch allows all its customers to choose their own
+                        GJEXCH allows all its customers to choose their own
                         username and password combination. Customers must keep
                         this information secret and confidential as you are
                         responsible for all bets placed on your account and any
@@ -464,9 +464,9 @@ const KPolicy = () => {
                       <span className="font-[Aptos]">
                         If you want to close your account, please contact us.
                         Any negative balance on your account will fall
-                        immediately due and payable to 100Exch, and your account
+                        immediately due and payable to GJEXCH, and your account
                         will not be closed until the relevant amount owed to
-                        100Exch is paid in full.
+                        GJEXCH is paid in full.
                       </span>
                     </span>
                   </span>
@@ -477,9 +477,9 @@ const KPolicy = () => {
                   <span className="leading-normal">
                     <span className="font-[Calibri,sans-serif]">
                       <span className="font-[Aptos]">
-                        100Exch reserves the right to close or suspend your
+                        GJEXCH reserves the right to close or suspend your
                         account at any time and for any reason. Without limiting
-                        the preceding sentence, 100Exch shall be entitled to
+                        the preceding sentence, GJEXCH shall be entitled to
                         close or suspend your account if:
                       </span>
                     </span>
@@ -505,7 +505,7 @@ const KPolicy = () => {
               <span className="leading-normal">
                 <span className="font-[Calibri,sans-serif]">
                   <span className="font-aptos">
-                    100Exch considers that you have used the Website in a
+                    GJEXCH considers that you have used the Website in a
                     fraudulent manner or for illegal and/or unlawful or improper
                     purposes;
                   </span>
@@ -518,9 +518,9 @@ const KPolicy = () => {
               <span className="leading-normal">
                 <span className="font-[Calibri,sans-serif]">
                   <span className="font-aptos">
-                    100Exch considers that you have used the Website in an
+                    GJEXCH considers that you have used the Website in an
                     unfair manner or have deliberately cheated or taken unfair
-                    advantage of 100Exch or any of its customers;
+                    advantage of GJEXCH or any of its customers;
                   </span>
                 </span>
               </span>
@@ -531,7 +531,7 @@ const KPolicy = () => {
               <span className="leading-normal">
                 <span className="font-[Calibri,sans-serif]">
                   <span className="font-aptos">
-                    100Exch is requested to do so by the police, any regulatory
+                    GJEXCH is requested to do so by the police, any regulatory
                     authority or court;
                   </span>
                 </span>
@@ -543,7 +543,7 @@ const KPolicy = () => {
               <span className="leading-normal">
                 <span className="font-[Calibri,sans-serif]">
                   <span className="font-aptos">
-                    100Exch considers that any of the events referred to in (a)
+                    GJEXCH considers that any of the events referred to in (a)
                     to (c) above may have occurred or are likely to occur;
                   </span>
                 </span>
@@ -560,14 +560,14 @@ const KPolicy = () => {
                   <span className="leading-normal">
                     <span className="font-[Calibri,sans-serif]">
                       <span className="font-[Aptos]">
-                        If 100Exch closes or suspends your account for any of
+                        If GJEXCH closes or suspends your account for any of
                         the reasons referred to in (a) to (e) above, you shall
                         be liable for any and all claims, losses, liabilities,
                         damages, costs and expenses incurred or suffered by
-                        100Exch(together “Claims”) arising therefrom and shall
-                        indemnify and hold 100Exchharmless on demand for such
+                        GJEXCH(together “Claims”) arising therefrom and shall
+                        indemnify and hold GJEXCHharmless on demand for such
                         Claims. In the circumstances referred to in (a) to (e)
-                        above, 100Exch shall also be entitled to withhold and/or
+                        above, GJEXCH shall also be entitled to withhold and/or
                         retain any and all amounts which would otherwise have
                         been paid or payable to you (including any winnings or
                         bonus payments).
@@ -626,7 +626,7 @@ const KPolicy = () => {
                           <span className="font-[Aptos]">
                             You must confirm your account information to receive
                             your first deposit. The name confirmed on your first
-                            deposit will be used as your 100Exchaccount name.
+                            deposit will be used as your GJEXCHaccount name.
                             For bank withdrawals, you may only withdraw to this
                             name.
                           </span>
@@ -702,7 +702,7 @@ const KPolicy = () => {
                           <span className="font-[Aptos]">
                             You agree that we shall be entitled to retain any
                             interest which might accrue on monies held in your
-                            100Exch account.
+                            GJEXCH account.
                           </span>
                         </span>
                       </span>
@@ -714,14 +714,14 @@ const KPolicy = () => {
                         <span className="font-[Calibri,sans-serif]">
                           <span className="font-[Aptos]">
                             No credit will be offered by any employee of
-                            100Exch, and all bets must be supported by
+                            GJEXCH, and all bets must be supported by
                             sufficient funds in the customer account.
-                            100Exchreserves the right to void any bet which may
+                            GJEXCHreserves the right to void any bet which may
                             have inadvertently been accepted when the account
                             did not have sufficient funds to cover the bet.
                             Should funds be credited to a customer's account in
                             error it is the customer's responsibility to inform
-                            100Exch without delay. 100Exchwill recover such
+                            GJEXCH without delay. GJEXCHwill recover such
                             funds by account adjustment.
                           </span>
                         </span>
@@ -765,7 +765,7 @@ const KPolicy = () => {
                       <span className="leading-normal">
                         <span className="font-[Calibri,sans-serif]">
                           <span className="font-[Aptos]">
-                            100Exch shall be entitled to withhold and/or retain
+                            GJEXCH shall be entitled to withhold and/or retain
                             any and all amounts earned or received by you as a
                             result of or in connection with your ‘unauthorised’
                             use of the Website including activities which are
@@ -809,10 +809,10 @@ const KPolicy = () => {
                       <span className="leading-normal">
                         <span className="font-[Calibri,sans-serif]">
                           <span className="font-[Aptos]">
-                            For bank withdrawals from 100Exch accounts with a
-                            confirmed name,100Exch generally only allows
+                            For bank withdrawals from GJEXCH accounts with a
+                            confirmed name,GJEXCH generally only allows
                             withdrawals to bank account names that match the
-                            confirmed name on the 100Exch account.
+                            confirmed name on the GJEXCH account.
                           </span>
                         </span>
                       </span>
@@ -837,7 +837,7 @@ const KPolicy = () => {
                         <span className="font-[Calibri,sans-serif]">
                           <span className="font-[Aptos]">
                             If the value of a deposit is not played through in
-                            full before a withdrawal is requested, 100Exch
+                            full before a withdrawal is requested, GJEXCH
                             reserves the right to make a charge to the
                             customer’s account to cover all reasonable costs
                             relating to both the deposit and withdrawal. If
@@ -898,7 +898,7 @@ const KPolicy = () => {
                           <span className="font-[Aptos]">
                             We may, at any time, set off any positive balance on
                             your account against any amounts owed by you to
-                            100Exch or any company within the100Exch group.
+                            GJEXCH or any company within theGJEXCH group.
                           </span>
                         </span>
                       </span>
@@ -966,7 +966,7 @@ const KPolicy = () => {
                       <span className="leading-normal">
                         <span className="font-[Calibri,sans-serif]">
                           <span className="font-[Aptos]">
-                            100Exch reserves the right to decline all, or part,
+                            GJEXCH reserves the right to decline all, or part,
                             of any bet requested at its sole and absolute
                             discretion. All bets are placed at your own risk and
                             discretion.
@@ -998,7 +998,7 @@ const KPolicy = () => {
                             It is the responsibility of the customer to ensure
                             details of their bets are correct. Once bets have
                             been placed they may not be cancelled or changed by
-                            the customer. 100Exch reserves the right to cancel
+                            the customer. GJEXCH reserves the right to cancel
                             any bet at any time.
                           </span>
                         </span>
@@ -1012,7 +1012,7 @@ const KPolicy = () => {
                           <span className="font-[Aptos]">
                             Your funds will be allocated to bets in the order
                             they are placed and will not be available for any
-                            other use. 100Exch reserves the right to void and/or
+                            other use. GJEXCH reserves the right to void and/or
                             reverse any transactions made after a bet has been
                             placed involving allocated funds, either at the time
                             or retrospectively.
@@ -1068,7 +1068,7 @@ const KPolicy = () => {
                         <span className="font-[Calibri,sans-serif]">
                           <span className="font-[Aptos]">
                             A bet that you request will only be valid once
-                            accepted by 100Exch’s servers. Each valid bet will
+                            accepted by GJEXCH’s servers. Each valid bet will
                             receive a unique transaction code. We shall not be
                             liable for the settlement of any bets which are not
                             issued with a unique transaction code. If you are
@@ -1099,8 +1099,8 @@ const KPolicy = () => {
                       <span className="leading-normal">
                         <span className="font-[Calibri,sans-serif]">
                           <span className="font-[Aptos]">
-                            Should a dispute arise, you and 100Exch agree that
-                            the 100Exchtransaction log database will be the
+                            Should a dispute arise, you and GJEXCH agree that
+                            the GJEXCHtransaction log database will be the
                             ultimate authority in such matters.
                           </span>
                         </span>
@@ -1180,20 +1180,20 @@ const KPolicy = () => {
                             payments, free and risk free bets, or any other
                             promotional offer results in guaranteed customer
                             profits irrespective of the outcome, whether
-                            individually or as part of a group, 100Exch reserves
+                            individually or as part of a group, GJEXCH reserves
                             the right to reclaim the bonus element of such
-                            offers and in 100Exch’s absolute discretion settle
+                            offers and in GJEXCH’s absolute discretion settle
                             bets at the correct odds, void the free and risk
                             free bets or void any bet funded by the deposit
-                            bonus. In addition, 100Exchreserves the right to
+                            bonus. In addition, GJEXCHreserves the right to
                             levy an administration charge on the customer up to
                             the value of the deposit bonus, free and risk free
                             bet or additional payment to cover administrative
-                            costs. 100Exch further reserves the right to ask any
+                            costs. GJEXCH further reserves the right to ask any
                             customer to provide sufficient documentation
-                            for100Exch to be satisfied in its absolute
+                            forGJEXCH to be satisfied in its absolute
                             discretion as to the customer’s identity prior to
-                            100Exch crediting any bonus, free and risk free bet
+                            GJEXCH crediting any bonus, free and risk free bet
                             or offer to the customer’s account.
                           </span>
                         </span>
@@ -1205,12 +1205,12 @@ const KPolicy = () => {
                       <span className="leading-normal">
                         <span className="font-[Calibri,sans-serif]">
                           <span className="font-[Aptos]">
-                            100Exch reserves the right to withdraw the
+                            GJEXCH reserves the right to withdraw the
                             availability of any offer or all offers to any
                             customer or group of customers at any time and at
-                            100Exch’s sole and absolute discretion. Offers only
+                            GJEXCH’s sole and absolute discretion. Offers only
                             apply to customers who have made an actual/real
-                            money deposit with 100Exch
+                            money deposit with GJEXCH
                           </span>
                         </span>
                       </span>
@@ -1221,7 +1221,7 @@ const KPolicy = () => {
                       <span className="leading-normal">
                         <span className="font-[Calibri,sans-serif]">
                           <span className="font-[Aptos]">
-                            100Exch reserves the right to amend the terms of or
+                            GJEXCH reserves the right to amend the terms of or
                             cancel any customer offer or promotion at any time.
                           </span>
                         </span>
@@ -1278,9 +1278,9 @@ const KPolicy = () => {
                       <span className="leading-normal">
                         <span className="font-[Calibri,sans-serif]">
                           <span className="font-[Aptos]">
-                            100Exch reserves the right to suspend a market(s)
+                            GJEXCH reserves the right to suspend a market(s)
                             and/or cancel any bet at any time. When a market is
-                            suspended any bets entered will be rejected. 100Exch
+                            suspended any bets entered will be rejected. GJEXCH
                             also reserves the right to cease betting on any
                             market at any time without notice.
                           </span>
@@ -1325,7 +1325,7 @@ const KPolicy = () => {
                             Winnings from settled bets are added to the balance
                             of your betting account. Any funds/winnings credited
                             to an account in error are not available for use,
-                            and 100Exch reserves the right to void any
+                            and GJEXCH reserves the right to void any
                             transactions involving such funds and/or withdraw
                             the relevant amount from your account and/or reverse
                             the transaction, either at the time or
@@ -1340,17 +1340,17 @@ const KPolicy = () => {
                       <span className="leading-normal">
                         <span className="font-[Calibri,sans-serif]">
                           <span className="font-[Aptos]">
-                            100Exch reserves the right to withhold payment and
+                            GJEXCH reserves the right to withhold payment and
                             to declare bets on an event void if we have evidence
                             that the following has occurred: (i) the integrity
                             of the event has been called into question; (ii) the
                             price(s) or pool has been manipulated, or (iii)
                             match-rigging has taken place. Evidence of the above
                             may be based on the size, volume or pattern of bets
-                            placed with 100Exch across any or all of our betting
-                            channels. Any decision made by 100Exch in this
+                            placed with GJEXCH across any or all of our betting
+                            channels. Any decision made by GJEXCH in this
                             regard will be conclusive. If any customer owes any
-                            money to 100Exch for any reason, we have the right
+                            money to GJEXCH for any reason, we have the right
                             to take that into account before making any payments
                             to that customer.
                           </span>
@@ -1366,7 +1366,7 @@ const KPolicy = () => {
                             Where there is evidence of a series of bets each
                             containing the same selection(s) having been placed
                             by or for the same individual or syndicate of
-                            individuals, 100Exch reserves the right to make bets
+                            individuals, GJEXCH reserves the right to make bets
                             void or withhold payment of returns pending the
                             outcome of any subsequent investigation.
                           </span>
@@ -1389,11 +1389,11 @@ const KPolicy = () => {
                             participant/team has gained any material advantage
                             (e.g. a score, sending off for the other team, etc.)
                             at the time the bet was placed. If the outcome of an
-                            event/market is known 100Exch reserves the right to
+                            event/market is known GJEXCH reserves the right to
                             void the bet, win or lose. Disputes over time bets
                             are placed will be settled using the transaction
                             log. All times stated on the Website and/or referred
-                            to by 100Exch staff relate to GMT unless stated
+                            to by GJEXCH staff relate to GMT unless stated
                             otherwise.
                           </span>
                         </span>
@@ -1410,7 +1410,7 @@ const KPolicy = () => {
                             a bet is placed after the outcome of an event or
                             specific market is already known, or after the
                             selected team or participant has obtained a material
-                            advantage (eg. a score, sending off etc.), 100Exch
+                            advantage (eg. a score, sending off etc.), GJEXCH
                             reserves the right to void the bet(win or lose)
                             according to our T&amp;C.
                           </span>
@@ -1450,11 +1450,11 @@ const KPolicy = () => {
                         <span className="font-[Calibri,sans-serif]">
                           <span className="font-[Aptos]">
                             Where a customer gives ambiguous instructions,
-                            100Exch reserves the right to split the amount of
+                            GJEXCH reserves the right to split the amount of
                             monies staked between the potential outcomes. Where
                             this is impractical we reserve the right to void the
                             whole of that bet. In any event, the decision of
-                            100Exch is final.
+                            GJEXCH is final.
                           </span>
                         </span>
                       </span>
@@ -1494,13 +1494,13 @@ const KPolicy = () => {
                       <span className="leading-normal">
                         <span className="font-[Calibri,sans-serif]">
                           <span className="font-[Aptos]">
-                            100Exch will not be liable for any errors in respect
+                            GJEXCH will not be liable for any errors in respect
                             of bets or wagers including where: (i) there is an
                             Obvious Error in the relevant
                             odds/spreads/handicap/totals/Cash Out/Edit Bet
-                            amount displayed by100Exch; (ii) 100Exch continues
+                            amount displayed byGJEXCH; (ii) GJEXCH continues
                             to accept bets or wagers on closed or suspended
-                            markets; (iii) 100Exch incorrectly calculates or
+                            markets; (iii) GJEXCH incorrectly calculates or
                             pays a settlement amount, including where a bet is
                             Cashed Out for the full settlement amount; or (iv)
                             any error occurs in a random number generator or pay
@@ -1518,7 +1518,7 @@ const KPolicy = () => {
                           <span className="font-[Aptos]">
                             Incorrect Price - Prior to the start of an event,
                             In-Play or after the event, where an Obvious Error
-                            is identified 100Exch reserves the right to void the
+                            is identified GJEXCH reserves the right to void the
                             bets(win or lose).
                           </span>
                         </span>
@@ -1532,7 +1532,7 @@ const KPolicy = () => {
                           <span className="font-[Aptos]">
                             Incorrect Fixture - Where an incorrect player or
                             team is quoted within a fixture all bets will be
-                            void. Such determination to be in 100Exch’s absolute
+                            void. Such determination to be in GJEXCH’s absolute
                             discretion.
                           </span>
                         </span>
@@ -1547,7 +1547,7 @@ const KPolicy = () => {
                             Incorrect Market - If an incorrect market is quoted
                             for any match or event, bets placed on that market
                             will be void; other markets may also be void. Such
-                            determination to be in 100Exch’s absolute
+                            determination to be in GJEXCH’s absolute
                             discretion.
                           </span>
                         </span>
@@ -1657,10 +1657,10 @@ const KPolicy = () => {
                           <span className="font-[Aptos]">
                             Your computer equipment or mobile device and
                             internet connection may affect the performance
-                            and/or operation of the Website. 100Exch does not
+                            and/or operation of the Website. GJEXCH does not
                             guarantee that the Website will operate without
-                            faults or errors or that the 100Exch services will
-                            be provided without interruption.100Exch does not
+                            faults or errors or that the GJEXCH services will
+                            be provided without interruption.GJEXCH does not
                             accept any liability for any failures or issues that
                             arise due to your equipment, internet connection or
                             internet or telecommunication service provider
@@ -1677,8 +1677,8 @@ const KPolicy = () => {
                       <span className="leading-normal">
                         <span className="font-[Calibri,sans-serif]">
                           <span className="font-[Aptos]">
-                            For customers using 100Exch’s mobile sites for the
-                            placing of bets, please note that 100Exch will not
+                            For customers using GJEXCH’s mobile sites for the
+                            placing of bets, please note that GJEXCH will not
                             be responsible for any damage to, or loss of data
                             from the mobile device that the software is
                             installed on, and will also not be responsible for
@@ -1723,7 +1723,7 @@ const KPolicy = () => {
                       <span className="leading-normal">
                         <span className="font-[Calibri,sans-serif]">
                           <span className="font-[Aptos]">
-                            The Website and 100Exch products may only be used
+                            The Website and GJEXCH products may only be used
                             for the purposes of placing bets on events and/or
                             gaming products.
                           </span>
@@ -1737,8 +1737,8 @@ const KPolicy = () => {
                         <span className="font-[Calibri,sans-serif]">
                           <span className="font-[Aptos]">
                             You must not use the Website for any purpose which
-                            (in 100Exch’s opinion) is illegal, defamatory,
-                            abusive or obscene, or which 100Exchconsiders
+                            (in GJEXCH’s opinion) is illegal, defamatory,
+                            abusive or obscene, or which GJEXCHconsiders
                             discriminatory, fraudulent, dishonest or
                             inappropriate.
                           </span>
@@ -1751,13 +1751,13 @@ const KPolicy = () => {
                       <span className="leading-normal">
                         <span className="font-[Calibri,sans-serif]">
                           <span className="font-[Aptos]">
-                            100Exch will seek criminal and contractual sanctions
+                            GJEXCH will seek criminal and contractual sanctions
                             against any customer involved in fraudulent,
                             dishonest or criminal acts via or in connection with
-                            the Website or 100Exch 's products. 100Exch will
+                            the Website or GJEXCH 's products. GJEXCH will
                             withhold payment to any customer where any of these
                             are suspected. The customer shall indemnify and
-                            shall be liable to pay to 100Exch, on demand, all
+                            shall be liable to pay to GJEXCH, on demand, all
                             Claims (as defined in paragraph B.4.3 above) arising
                             directly or indirectly from the customer’s
                             fraudulent, dishonest or criminal act.
@@ -1810,7 +1810,7 @@ const KPolicy = () => {
                             additional terms and conditions governing the use of
                             their products. If you do not accept those third
                             party terms and conditions, do not use the relevant
-                            third party software. 100Exch does not accept any
+                            third party software. GJEXCH does not accept any
                             liability in respect of any third party software.
                           </span>
                         </span>
@@ -1880,7 +1880,7 @@ const KPolicy = () => {
                                     or make or distribute copies of the
                                     software; (iii) enter, access or attempt to
                                     enter or access or otherwise bypass
-                                    100Exch’s security system or interfere in
+                                    GJEXCH’s security system or interfere in
                                     any way (including but not limited to,
                                     robots and similar devices) with the
                                     relevant products or the Website or attempt
@@ -1915,10 +1915,10 @@ const KPolicy = () => {
                                   <span className="font-[Aptos]">
                                     You do not own the software. The software is
                                     owned and is the exclusive property of
-                                    100Exch or a third party software provider
+                                    GJEXCH or a third party software provider
                                     company (the "Software Provider"). Any
                                     software and accompanying documentation
-                                    which have been licensed to 100Exchare
+                                    which have been licensed to GJEXCHare
                                     proprietary products of the Software
                                     Provider and protected throughout the world
                                     by copyright law. Your use of the software
@@ -1938,11 +1938,11 @@ const KPolicy = () => {
                                     The software is provided "as is" without any
                                     warranties, conditions, undertakings or
                                     representations, express or implied,
-                                    statutory or otherwise. 100Exch hereby
+                                    statutory or otherwise. GJEXCH hereby
                                     excludes all implied terms, conditions and
                                     warranties (including any of
                                     merchantability, satisfactory quality and
-                                    fitness for any particular purpose). 100Exch
+                                    fitness for any particular purpose). GJEXCH
                                     does not warrant that: (i) the software will
                                     meet your requirements; (ii) the software
                                     will not infringe any third party’s
@@ -1964,10 +1964,10 @@ const KPolicy = () => {
                                     In the event of communications or system
                                     errors occurring in connection with the
                                     settlement of accounts or other features or
-                                    components of the software, neither 100Exch
+                                    components of the software, neither GJEXCH
                                     nor the Software Provider will have any
                                     liability to you or to any third party in
-                                    respect of such errors. 100Exch reserves the
+                                    respect of such errors. GJEXCH reserves the
                                     right in the event of such errors to remove
                                     all relevant products from the Website and
                                     take any other action to correct such
@@ -1983,9 +1983,9 @@ const KPolicy = () => {
                                 <span className="font-[Calibri,sans-serif]">
                                   <span className="font-[Aptos]">
                                     You hereby acknowledge that how you use the
-                                    software is outside of 100Exch’s control.
+                                    software is outside of GJEXCH’s control.
                                     Accordingly, you load and use the software
-                                    at your own risk. 100Exch will not have any
+                                    at your own risk. GJEXCH will not have any
                                     liability to you or to any third party in
                                     respect of your receipt of and/or use of the
                                     software.
@@ -2001,7 +2001,7 @@ const KPolicy = () => {
                                   <span className="font-[Aptos]">
                                     The software may include confidential
                                     information which is secret and valuable to
-                                    the Software Provider and/or 100Exch. You
+                                    the Software Provider and/or GJEXCH. You
                                     are not entitled to use or disclose that
                                     confidential information other than strictly
                                     in accordance with these Terms and
@@ -2031,8 +2031,8 @@ const KPolicy = () => {
                       <span className="leading-normal">
                         <span className="font-[Calibri,sans-serif]">
                           <span className="font-[Aptos]">
-                            While 100Exch endeavours to ensure that the Website
-                            is available 24 hours a day, 100Exch shall not be
+                            While GJEXCH endeavours to ensure that the Website
+                            is available 24 hours a day, GJEXCH shall not be
                             liable if for any reason the Website is unavailable
                             at any time or for any period. We reserve the right
                             to make changes or corrections to or to alter,
@@ -2109,7 +2109,7 @@ const KPolicy = () => {
                       <span className="leading-normal">
                         <span className="font-[Calibri,sans-serif]">
                           <span className="font-[Aptos]">
-                            100Exch receives feeds, commentaries and content
+                            GJEXCH receives feeds, commentaries and content
                             from a number of suppliers. Certain third party
                             product providers may require you to agree to
                             additional terms and conditions governing the use of
@@ -2127,7 +2127,7 @@ const KPolicy = () => {
                       <span className="leading-normal">
                         <span className="font-[Calibri,sans-serif]">
                           <span className="font-[Aptos]">
-                            100Exch does not accept any liability in respect of
+                            GJEXCH does not accept any liability in respect of
                             any third party feeds, commentaries and content.
                           </span>
                         </span>
@@ -2139,13 +2139,13 @@ const KPolicy = () => {
                       <span className="leading-normal">
                         <span className="font-[Calibri,sans-serif]">
                           <span className="font-[Aptos]">
-                            100Exch does not allow any employee, anyone else in
+                            GJEXCH does not allow any employee, anyone else in
                             any way connected to such employee or anyone
                             otherwise connected to a third party service
-                            provider (to be determined in 100Exch’s absolute
+                            provider (to be determined in GJEXCH’s absolute
                             discretion) to bet/wager on any market or event
                             where the third party service provider is providing
-                            a service to 100Exch. 100Exch will void any
+                            a service to GJEXCH. GJEXCH will void any
                             bet/wager where it determines in its absolute
                             discretion that such betting/wagering has taken
                             place.
@@ -2161,7 +2161,7 @@ const KPolicy = () => {
                           <span className="font-[Aptos]">
                             Where the Website contains links to third party
                             websites and resources, these links are provided for
-                            your information only. 100Exch has no control over
+                            your information only. GJEXCH has no control over
                             the content of these sites or resources, and accepts
                             no liability for them or for any loss or damage that
                             may arise from your use of them. The inclusion of a
@@ -2207,11 +2207,11 @@ const KPolicy = () => {
                       <span className="leading-normal">
                         <span className="font-[Calibri,sans-serif]">
                           <span className="font-[Aptos]">
-                            100Exch will not be liable for any errors in respect
-                            of bets including where: (i) 100Exch has incorrectly
+                            GJEXCH will not be liable for any errors in respect
+                            of bets including where: (i) GJEXCH has incorrectly
                             stated the relevant odds/spreads/handicap/totals
-                            amount; (ii) 100Exch continues to accept bets on
-                            closed or suspended markets; (iii) 100Exch
+                            amount; (ii) GJEXCH continues to accept bets on
+                            closed or suspended markets; (iii) GJEXCH
                             incorrectly calculates or pays a settlement amount;
                             or (iv) any error occurs in a random number
                             generator or pay tables included, incorporated or
@@ -2229,7 +2229,7 @@ const KPolicy = () => {
                             Incorrect Price - Prior to the start of an event,
                             In-Play or after the event, where an Obvious Error
                             is identified any bets will stand and be settled at
-                            the 100Exch revised price. Where a revised price is
+                            the GJEXCH revised price. Where a revised price is
                             deemed less than 1.01 then bets will be void.
                           </span>
                         </span>
@@ -2242,7 +2242,7 @@ const KPolicy = () => {
                         <span className="font-[Calibri,sans-serif]">
                           <span className="font-[Aptos]">
                             Where there is sufficient time before the start of
-                            an event, 100Exchwill endeavour to contact the
+                            an event, GJEXCHwill endeavour to contact the
                             customer and may allow the option of cancelling the
                             bet in our absolute discretion.
                           </span>
@@ -2259,7 +2259,7 @@ const KPolicy = () => {
                             to the start of an event, In-Play or after the
                             event, where an Obvious Error is identified any bets
                             will stand and be settled at the count, line,
-                            spread, handicap or total taken at the 100Exch
+                            spread, handicap or total taken at the GJEXCH
                             revised price except for the following situations:
                           </span>
                         </span>
@@ -2299,7 +2299,7 @@ const KPolicy = () => {
                         <span className="font-[Calibri,sans-serif]">
                           <span className="font-[Aptos]">
                             Where there is sufficient time before the start of
-                            an event, 100Exchwill endeavour to contact the
+                            an event, GJEXCHwill endeavour to contact the
                             customer and may in our absolute discretion allow
                             the option of cancelling the bet.
                           </span>
@@ -2314,7 +2314,7 @@ const KPolicy = () => {
                           <span className="font-[Aptos]">
                             Incorrect Fixture - Where the wrong player or team
                             is quoted within a fixture name all bets will be
-                            void. Such determination to be in100Exch’s absolute
+                            void. Such determination to be inGJEXCH’s absolute
                             discretion.
                           </span>
                         </span>
@@ -2329,7 +2329,7 @@ const KPolicy = () => {
                             Wrong Participant - If a wrong participant is quoted
                             for any match or event, bets placed on that
                             participant will be void; other participants may
-                            also be void. Such determination to be in 100Exch’s
+                            also be void. Such determination to be in GJEXCH’s
                             absolute discretion.
                           </span>
                         </span>
@@ -2377,7 +2377,7 @@ const KPolicy = () => {
                     will stand as long as the selected participant or team has
                     not gained a material advantage (e.g. a score, sending off
                     for the other team etc.). Where a material advantage has
-                    been gained 100Exch reserve the right to void the bet, win
+                    been gained GJEXCH reserve the right to void the bet, win
                     or lose. Any bet placed where the outcome is already known,
                     including In-Play, will be made void.
                   </span>
@@ -2440,8 +2440,8 @@ const KPolicy = () => {
                       <span className="leading-normal">
                         <span className="font-[Calibri,sans-serif]">
                           <span className="font-[Aptos]">
-                            100Exch actively monitors traffic to and from the
-                            Website. 100Exchreserves the right in its sole
+                            GJEXCH actively monitors traffic to and from the
+                            Website. GJEXCHreserves the right in its sole
                             discretion to block access where evidence indicative
                             of automated or robotic activity is found.
                           </span>
@@ -2454,7 +2454,7 @@ const KPolicy = () => {
                       <span className="leading-normal">
                         <span className="font-[Calibri,sans-serif]">
                           <span className="font-[Aptos]">
-                            100Exch reserves the right to restrict access to all
+                            GJEXCH reserves the right to restrict access to all
                             or certain parts of the Website in respect of
                             certain jurisdictions.
                           </span>
@@ -2467,7 +2467,7 @@ const KPolicy = () => {
                       <span className="leading-normal">
                         <span className="font-[Calibri,sans-serif]">
                           <span className="font-[Aptos]">
-                            100Exch may alter or amend the products offered via
+                            GJEXCH may alter or amend the products offered via
                             the Website at any time and for any reason.
                           </span>
                         </span>
@@ -2516,7 +2516,7 @@ const KPolicy = () => {
                   <span className="leading-normal">
                     <span className="font-[Calibri,sans-serif]">
                       <span className="font-[Aptos]">
-                        100Exch does not accept any liability for any damages,
+                        GJEXCH does not accept any liability for any damages,
                         liabilities or losses which are deemed or alleged to
                         have arisen out of or in connection with the Website or
                         its content (including delays or interruptions in
@@ -2534,17 +2534,17 @@ const KPolicy = () => {
                   <span className="leading-normal">
                     <span className="font-[Calibri,sans-serif]">
                       <span className="font-[Aptos]">
-                        While 100Exch endeavours to ensure that the information
-                        on the Website is correct, 100Exch does not warrant the
+                        While GJEXCH endeavours to ensure that the information
+                        on the Website is correct, GJEXCH does not warrant the
                         accuracy or completeness of the information and material
                         on the Website. The Website may contain typographical
                         errors or other inaccuracies, or information that is out
-                        of date. 100Exch is under no obligation to update such
+                        of date. GJEXCH is under no obligation to update such
                         material. The information and material on the Website is
                         provided “as is”, without any conditions, warranties or
                         other terms of any kind. Accordingly, to the maximum
-                        extent permitted by law, 100Exch provides you with the
-                        Website on the basis that 100Exch excludes all
+                        extent permitted by law, GJEXCH provides you with the
+                        Website on the basis that GJEXCH excludes all
                         representations, express or implied warranties,
                         conditions and other terms which but for these terms and
                         conditions might have effect in relation to the Website.
@@ -2558,7 +2558,7 @@ const KPolicy = () => {
                   <span className="leading-normal">
                     <span className="font-[Calibri,sans-serif]">
                       <span className="font-[Aptos]">
-                        100Exch’s total aggregate liability to you under or in
+                        GJEXCH’s total aggregate liability to you under or in
                         connection with these Terms and Conditions does not
                         exceed:
                       </span>
@@ -2610,7 +2610,7 @@ const KPolicy = () => {
                   <span className="leading-normal">
                     <span className="font-[Calibri,sans-serif]">
                       <span className="font-[Aptos]">
-                        100Exch shall not be liable, in contract, tort
+                        GJEXCH shall not be liable, in contract, tort
                         (including negligence) or for breach of statutory duty
                         or in any other way for any of the following (whether
                         incurred directly or indirectly):
@@ -2730,7 +2730,7 @@ const KPolicy = () => {
                       <span className="font-[Aptos]">
                         The contents of the Website are protected by
                         international copyright laws and other intellectual
-                        property rights. The owner of these rights is100Exch,
+                        property rights. The owner of these rights isGJEXCH,
                         its affiliates or other third party licensors.
                       </span>
                     </span>
@@ -2744,7 +2744,7 @@ const KPolicy = () => {
                       <span className="font-[Aptos]">
                         All product and company names and logos mentioned on the
                         Website are the trademarks, service marks or trading
-                        names of their respective owners, including 100Exch.
+                        names of their respective owners, including GJEXCH.
                       </span>
                     </span>
                   </span>
@@ -2778,14 +2778,14 @@ const KPolicy = () => {
                         material, information, comments, postings or other
                         content to the Website ("User Content"), then the User
                         Content will be considered to be non-confidential and
-                        non-proprietary and 100Exch has the right to use, copy,
+                        non-proprietary and GJEXCH has the right to use, copy,
                         distribute and disclose to third parties any User
-                        Content for any purpose. 100Exch also has the right to
+                        Content for any purpose. GJEXCH also has the right to
                         disclose your identity to any third party who is
                         claiming that any User Content posted or uploaded by you
                         to the Website constitutes a violation of their
                         intellectual property rights or of their right to
-                        privacy. 100Exch has the right to remove, amend or edit
+                        privacy. GJEXCH has the right to remove, amend or edit
                         any User Content you make on the Website.
                       </span>
                     </span>
@@ -2911,10 +2911,10 @@ const KPolicy = () => {
                         You shall execute or cause to be executed all documents
                         and do or cause to be done all further acts and things
                         consistent with the terms of these Terms and Conditions
-                        that 100Exch may from time to time reasonably require in
-                        order to vest in and secure to 100Exch the full benefit
+                        that GJEXCH may from time to time reasonably require in
+                        order to vest in and secure to GJEXCH the full benefit
                         of rights and benefits to be transferred or granted to
-                        100Exch under these Terms and Conditions and for the
+                        GJEXCH under these Terms and Conditions and for the
                         protection and enforcement of the same and otherwise to
                         give full effect to the terms of these Terms and
                         Conditions.
@@ -2944,7 +2944,7 @@ const KPolicy = () => {
                   <span className="leading-normal">
                     <span className="font-[Calibri,sans-serif]">
                       <span className="font-[Aptos]">
-                        100Exch shall not be in breach of these Terms and
+                        GJEXCH shall not be in breach of these Terms and
                         Conditions nor liable for delay in performing, or
                         failure to perform, any of its obligations if such delay
                         or failure results from events, circumstances or causes
@@ -2968,11 +2968,11 @@ const KPolicy = () => {
                   <span className="leading-normal">
                     <span className="font-[Calibri,sans-serif]">
                       <span className="font-[Aptos]">
-                        100Exch may assign, transfer, charge, sub-license or
+                        GJEXCH may assign, transfer, charge, sub-license or
                         deal in any other manner with these Terms and
                         Conditions, or sub-contract any of its rights and
                         obligations under these Terms and Conditions, to any
-                        party including any company within the 100Exch group.
+                        party including any company within the GJEXCH group.
                       </span>
                     </span>
                   </span>
@@ -2987,13 +2987,13 @@ const KPolicy = () => {
                         must be in writing, in English and may be served by hand
                         delivery, first class post, recorded delivery or
                         registered post or airmail, email or fax to: (a) in the
-                        case of100Exch , the address of the relevant 100Exch
+                        case ofGJEXCH , the address of the relevant GJEXCH
                         company as set out at the beginning of these Terms and
                         Conditions or as displayed on the Website; and (b) in
-                        respect of notices given by 100Exch to you, pursuant to
+                        respect of notices given by GJEXCH to you, pursuant to
                         the customer registration procedure (including any
                         amendment to those details you have notified to
-                        100Exch). Any notice shall be deemed to have been
+                        GJEXCH). Any notice shall be deemed to have been
                         received: (a) if delivered by hand, at the time of
                         delivery; (b) if sent by first class post, recorded
                         delivery or registered post, at 09.30 (GMT) on the
@@ -3057,15 +3057,15 @@ const KPolicy = () => {
                     <span className="font-[Calibri,sans-serif]">
                       <span className="font-[Aptos]">
                         Should there be any claim or dispute arising from a past
-                        or current transaction, please contact us. If 100Exch is
-                        unable to settle the dispute,100Exch will refer the
+                        or current transaction, please contact us. If GJEXCH is
+                        unable to settle the dispute,GJEXCH will refer the
                         dispute to an arbiter, whose decision will be final
                         (save in respect of any manifest error) subject to full
                         representation given to all parties involved. No dispute
                         regarding any bet/wager will result in litigation, court
                         action or objection to a bookmaker’s licence or permit
                         (including any remote operator’s licence or personal
-                        licence) unless100Exch fails to implement the decision
+                        licence) unlessGJEXCH fails to implement the decision
                         given by arbitration.
                       </span>
                     </span>
@@ -3110,12 +3110,12 @@ const KPolicy = () => {
                       <span className="font-[Aptos]">
                         By accepting these Terms and Conditions and/or placing
                         bets or wagers and/or making use (whether authorised or
-                        not) of the facilities offered by 100Exch(whether
+                        not) of the facilities offered by GJEXCH(whether
                         through the Website or otherwise), you irrevocably agree
                         that the courts of Nigeria shall have exclusive
                         jurisdiction to settle any dispute which may arise out
                         of or in connection with these Terms and Conditions.
-                        Notwithstanding the foregoing, 100Exch shall be entitled
+                        Notwithstanding the foregoing, GJEXCH shall be entitled
                         to bring a claim against a customer in the court of the
                         customer's country of domicile.
                       </span>
@@ -3143,7 +3143,7 @@ const KPolicy = () => {
               <span className="font-[Calibri,sans-serif]">
                 <b>
                   <span className="font-aptos">
-                    CURRENCY OPTIONS AVAILABLE AT 100Exch
+                    CURRENCY OPTIONS AVAILABLE AT GJEXCH
                   </span>
                 </b>
               </span>
@@ -3221,7 +3221,7 @@ const KPolicy = () => {
                   of its conclusion for betting purposes, subject to
                   confirmation by the relevant sport's governing body. Any
                   subsequent enquiry that may result in an overturned decision
-                  will not be recognised by 100Exch, and the original settlement
+                  will not be recognised by GJEXCH, and the original settlement
                   of bets will stand.
                 </span>
               </span>
@@ -3497,7 +3497,7 @@ const KPolicy = () => {
               <span className="font-[Calibri,sans-serif]">
                 <span className="font-[Calibri,sans-serif]">
                   In the case of all multiples including selections with related
-                  outcomes, if a bet is taken inadvertently 100Exch reserves the
+                  outcomes, if a bet is taken inadvertently GJEXCH reserves the
                   right to void part of or the whole of the bet.
                 </span>
               </span>
@@ -3520,7 +3520,7 @@ const KPolicy = () => {
             <span className="leading-normal">
               <span className="font-[Calibri,sans-serif]">
                 <span className="font-[Calibri,sans-serif]">
-                  100Exch safeguards the security of the data you provide us
+                  GJEXCH safeguards the security of the data you provide us
                   with physical, electronic, and managerial procedures. Please
                   note that we cannot guarantee that any data transmitted over
                   the Internet is completely secure. Accordingly, we encourage

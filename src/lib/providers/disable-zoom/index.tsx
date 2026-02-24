@@ -22,7 +22,7 @@ export function DisableZoom() {
 export function DisableWheelZoom() {
   useEffect(() => {
     const handler = (e: WheelEvent) => {
-      if (e.ctrlKey) {
+      if (e.ctrlKey || e.metaKey) {
         e.preventDefault();
       }
     };

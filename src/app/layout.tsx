@@ -18,8 +18,8 @@ const NavigationLoader = dynamic(() => import("@/lib/providers/navigation-loader
 const SearchModal = dynamic(() => import("@/components/modal/search"));
 
 export const metadata: Metadata = {
-  title: "100exch",
-  description: "Explore 100exch",
+  title: "GJEXCH",
+  description: "Explore GJEXCH",
 };
 export const viewport = {
   width: "device-width",
@@ -77,6 +77,7 @@ export default function RootLayout({
           name="viewport"
           content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"
         /> */}
+        <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, viewport-fit=cover" />
       </head>
       <body
@@ -100,6 +101,7 @@ export default function RootLayout({
           src="//translate.google.com/translate_a/element.js?cb=TranslateInit"
           strategy="afterInteractive"
         />
+        <Script src="/js/gestures.js" strategy="afterInteractive"/>
         <Suspense>
           <Closebetslip/>
           <NavigationLoader />
