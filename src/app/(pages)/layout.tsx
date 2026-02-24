@@ -49,7 +49,8 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
       <>
         <div
           className={cn(
-            "w-full overflow-hidden!",
+            // "w-full overflow-hidden!",
+            "w-full min-h-screen",
             (loginModal || isMobileSidebarOpen) && "overflow-hidden!",
           )}
         >
@@ -82,7 +83,7 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
             <Sidebar />
           </aside>
 
-          <main className="pt-[80px] px-3 h-screen overflow-y-auto">
+          <main className="pt-[80px] px-3 h-screen">
             {children}
             <Footer />
             <div className="md:hidden h-25"></div>

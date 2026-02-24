@@ -315,7 +315,7 @@ body {
     sans-serif;
 }
 
-p,
+/* p,
 h1,
 h2,
 h3,
@@ -338,24 +338,17 @@ html {
 
 body {
   -webkit-touch-callout: none;
-  /* iOS Safari */
   -webkit-user-select: none;
-  /* Safari */
   -khtml-user-select: none;
-  /* Konqueror HTML */
   -moz-user-select: none;
-  /* Firefox */
   -ms-user-select: none;
-  /* Internet Explorer/Edge */
   user-select: none;
-  /* Non-prefixed version, currently
-                                        supported by Chrome and Opera */
 }
 body {
   -webkit-font-smoothing: antialiased;
   touch-action: manipulation;
   overflow: hidden;
-}
+} */
 
 body:has(.drawer) {
   overflow: hidden !important;

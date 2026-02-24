@@ -104,6 +104,8 @@ export default function MarketDetails() {
   const eventId = String(params.eventId ?? "");
   const sportId = String(params.sportId ?? params.marketId ?? "");
 
+  const sportNames: any = { "4": "Cricket", "2": "Tennis", "1": "Soccer" };
+
   // API states
   const [allMarketPl, setAllMarketPl] = useState<
     Record<string, Record<string, number>>
@@ -155,8 +157,11 @@ export default function MarketDetails() {
   const [isMarketSectionOpen, setIsMarketSectionOpen] = useState(true);
   const [indicatorStyle, setIndicatorStyle] = useState({
     left: 0,
+    top: 0,
     width: 0,
+    height: 0,
     opacity: 0,
+    animate: false,
   });
 
   useEffect(() => {
@@ -366,7 +371,7 @@ export default function MarketDetails() {
                 reject(e);
               }
             };
-            req.onupgradeneeded = () => { };
+            req.onupgradeneeded = () => {};
           });
 
         try {
@@ -743,19 +748,82 @@ export default function MarketDetails() {
     return tabs;
   }, [popularMarkets]);
 
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const firstRender = useRef(true);
+
   const updateIndicator = useCallback(() => {
     if (!tabsListRef.current || !activeTab) return;
+
     const activeBtn = tabsListRef.current.querySelector(
       `button[data-tab="${activeTab}"]`,
-    ) as HTMLElement | null;
-    if (activeBtn) {
-      setIndicatorStyle({
-        left: activeBtn.offsetLeft,
-        width: activeBtn.offsetWidth,
-        opacity: 1,
-      });
+    ) as HTMLElement;
+
+    if (!activeBtn || !scrollContainerRef.current) return;
+
+    const container = scrollContainerRef.current;
+    const isFirst = firstRender.current;
+
+    // ----- Indicator Position -----
+    setIndicatorStyle({
+      left: activeBtn.offsetLeft,
+      top: activeBtn.offsetTop,
+      width: activeBtn.offsetWidth,
+      height: activeBtn.offsetHeight,
+      opacity: 1,
+      animate: !isFirst,
+    });
+
+    // ----- PERFECT CENTER SCROLL -----
+    const containerWidth = container.clientWidth;
+    const scrollWidth = container.scrollWidth;
+
+    let targetScroll =
+      activeBtn.offsetLeft - containerWidth / 2 + activeBtn.offsetWidth / 2;
+
+    // prevent over scroll
+    targetScroll = Math.max(
+      0,
+      Math.min(targetScroll, scrollWidth - containerWidth),
+    );
+
+    container.scrollTo({
+      left: targetScroll,
+      behavior: isFirst ? "auto" : "smooth",
+    });
+
+    if (isFirst) {
+      firstRender.current = false;
     }
   }, [activeTab]);
+
+  // ----- Effect to run after navItems or tab change -----
+  useEffect(() => {
+    const handle = () => {
+      updateIndicator();
+    };
+
+    handle();
+
+    window.addEventListener("resize", handle);
+
+    return () => {
+      window.removeEventListener("resize", handle);
+    };
+  }, [popularMarkets, activeTab, updateIndicator]);
+
+  // const updateIndicator = useCallback(() => {
+  //   if (!tabsListRef.current || !activeTab) return;
+  //   const activeBtn = tabsListRef.current.querySelector(
+  //     `button[data-tab="${activeTab}"]`,
+  //   ) as HTMLElement | null;
+  //   if (activeBtn) {
+  //     setIndicatorStyle({
+  //       left: activeBtn.offsetLeft,
+  //       width: activeBtn.offsetWidth,
+  //       opacity: 1,
+  //     });
+  //   }
+  // }, [activeTab]);
 
   useEffect(() => {
     const t = setTimeout(() => updateIndicator(), 80);
@@ -787,7 +855,6 @@ export default function MarketDetails() {
       }));
     }
     return [];
-
   };
 
   function filterCompetitions(eventTypeId: any) {
@@ -864,7 +931,7 @@ export default function MarketDetails() {
                   <div
                     onClick={() =>
                       setActiveTooltip((prev) =>
-                        prev === market.marketId ? null : market.marketId
+                        prev === market.marketId ? null : market.marketId,
                       )
                     }
                   >
@@ -933,13 +1000,15 @@ export default function MarketDetails() {
             {runners.map((runner: any, index: number) => {
               const isBackSelected = (item: any) =>
                 selectedBet?.selectionId === runner.selectionId &&
-                selectedBet?.marketType === (market.marketType || market.marketName) &&
+                selectedBet?.marketType ===
+                  (market.marketType || market.marketName) &&
                 selectedBet?.type === "back" &&
                 selectedBet?.odds === item.raw?.price;
 
               const isLaySelected = (item: any) =>
                 selectedBet?.selectionId === runner.selectionId &&
-                selectedBet?.marketType === (market.marketType || market.marketName) &&
+                selectedBet?.marketType ===
+                  (market.marketType || market.marketName) &&
                 selectedBet?.type === "lay" &&
                 selectedBet?.odds === item.raw?.price;
               const runnerName =
@@ -993,53 +1062,58 @@ export default function MarketDetails() {
                         >
                           {runnerSusp
                             ? [0, 1, 2].map((_, i) => (
-                              <div
-                                key={`back-susp-${i}`}
-                                className={`flex flex-col h-full rounded-[2px] flex-1 min-w-0 bg-[#041117] ${i === 2 ? "max-[464px]:hidden" : ""
+                                <div
+                                  key={`back-susp-${i}`}
+                                  className={`flex flex-col h-full rounded-[2px] flex-1 min-w-0 bg-[#041117] ${
+                                    i === 2 ? "max-[464px]:hidden" : ""
                                   } ${i === 1 ? "max-[346px]:hidden" : ""}`}
-                              />
-                            ))
+                                />
+                              ))
                             : back3.map((item, i) => (
-                              <div
-                                key={`back-${i}`}
-                                data-app-rate-highlighter
-                                className={`back-${i + 1} flex flex-col items-center justify-center w-[75%] @min-[700]:w-[57.5px] h-[45px] rounded-[8px] border border-[var(--back-border)] bg-[var(--back-bg)]
-hover:bg-[var(--back-hover)] flex-1 min-w-0 cursor-pointer text-black transition-colors ${i === 0
-                                    ? isBackSelected(item) ? "bg-[var(--back-selected)]" : "bg-[#0591cf] hover:bg-(--secondary-color)"
-                                    : isBackSelected(item) ? "bg-[var(--back-selected)]" : "bg-[#0a77a8] hover:bg-(--secondary-color)"
-
+                                <div
+                                  key={`back-${i}`}
+                                  data-app-rate-highlighter
+                                  className={`back-${i + 1} flex flex-col items-center justify-center w-[75%] @min-[700]:w-[57.5px] h-[45px] rounded-[8px] border border-[var(--back-border)] bg-[var(--back-bg)]
+hover:bg-[var(--back-hover)] flex-1 min-w-0 cursor-pointer text-black transition-colors ${
+                                    i === 0
+                                      ? isBackSelected(item)
+                                        ? "bg-[var(--back-selected)]"
+                                        : "bg-[#0591cf] hover:bg-(--secondary-color)"
+                                      : isBackSelected(item)
+                                        ? "bg-[var(--back-selected)]"
+                                        : "bg-[#0a77a8] hover:bg-(--secondary-color)"
                                   } ${i === 2 ? "max-[464px]:hidden" : ""} ${i === 1 ? "max-[346px]:hidden" : ""}`}
-                                onClick={() => {
-                                  if (
-                                    !item.raw?.price ||
-                                    item.raw.price === 0
-                                  )
-                                    return;
+                                  onClick={() => {
+                                    if (
+                                      !item.raw?.price ||
+                                      item.raw.price === 0
+                                    )
+                                      return;
 
-                                  setSelectedBet({
-                                    type: "back",
-                                    odds: item.raw?.price,
-                                    teamName: runnerName,
-                                    eventName:
-                                      market.event?.name || eventName,
-                                    marketType:
-                                      market.marketType || market.marketName,
-                                    selectionId: runner.selectionId,
-                                  });
-                                }}
-                              >
-                                <span
-                                  className={`price sm:text-[13px] font-bold leading-[1.1] truncate text-[var(--back-price-text)] ${isBackSelected(item) ? "dark:text-white" : ""}`}
+                                    setSelectedBet({
+                                      type: "back",
+                                      odds: item.raw?.price,
+                                      teamName: runnerName,
+                                      eventName:
+                                        market.event?.name || eventName,
+                                      marketType:
+                                        market.marketType || market.marketName,
+                                      selectionId: runner.selectionId,
+                                    });
+                                  }}
                                 >
-                                  {item.odd}
-                                </span>
-                                <span
-                                  className={`size sm:text-[10px] font-normal leading-[1] truncate text-[var(--back-size-text)] ${isBackSelected(item) ? "dark:text-white" : ""}`}
-                                >
-                                  {item.vol}
-                                </span>
-                              </div>
-                            ))}
+                                  <span
+                                    className={`price sm:text-[13px] font-bold leading-[1.1] truncate text-[var(--back-price-text)] ${isBackSelected(item) ? "dark:text-white" : ""}`}
+                                  >
+                                    {item.odd}
+                                  </span>
+                                  <span
+                                    className={`size sm:text-[10px] font-normal leading-[1] truncate text-[var(--back-size-text)] ${isBackSelected(item) ? "dark:text-white" : ""}`}
+                                  >
+                                    {item.vol}
+                                  </span>
+                                </div>
+                              ))}
                         </div>
 
                         {/* LAY (red/pink) */}
@@ -1048,56 +1122,58 @@ hover:bg-[var(--back-hover)] flex-1 min-w-0 cursor-pointer text-black transition
                         >
                           {runnerSusp
                             ? [0, 1, 2].map((_, i) => (
-                              <div
-                                key={`lay-susp-${i}`}
-                                className={`flex flex-col h-full rounded-[2px] flex-1 min-w-0 bg-[#140d0f] ${i === 2 ? "max-[464px]:hidden" : ""
+                                <div
+                                  key={`lay-susp-${i}`}
+                                  className={`flex flex-col h-full rounded-[2px] flex-1 min-w-0 bg-[#140d0f] ${
+                                    i === 2 ? "max-[464px]:hidden" : ""
                                   } ${i === 1 ? "max-[346px]:hidden" : ""}`}
-                              />
-                            ))
+                                />
+                              ))
                             : lay3.map((item, i) => (
-                              <div
-                                key={`lay-${i}`}
-                                data-app-rate-highlighter
-                                className={`lay-${i + 1} flex flex-col items-center justify-center w-[75%] @min-[700]:w-[57.5px] h-[45px] rounded-[8px] border border-[var(--lay-border)]
-bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)]  flex-1 min-w-0 cursor-pointer text-black transition-colors ${i === 0
-                                    ? isLaySelected(item)
-                                      ? "bg-[var(--lay-selected)]"
-                                      : "bg-[#d1686d] hover:bg-[#FFA4A7]"
-                                    : isLaySelected(item)
-                                      ? "bg-[var(--lay-selected)]"
-                                      : "bg-[#a3555b] hover:bg-[#FFA4A7]"
+                                <div
+                                  key={`lay-${i}`}
+                                  data-app-rate-highlighter
+                                  className={`lay-${i + 1} flex flex-col items-center justify-center w-[75%] @min-[700]:w-[57.5px] h-[45px] rounded-[8px] border border-[var(--lay-border)]
+bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)]  flex-1 min-w-0 cursor-pointer text-black transition-colors ${
+                                    i === 0
+                                      ? isLaySelected(item)
+                                        ? "bg-[var(--lay-selected)]"
+                                        : "bg-[#d1686d] hover:bg-[#FFA4A7]"
+                                      : isLaySelected(item)
+                                        ? "bg-[var(--lay-selected)]"
+                                        : "bg-[#a3555b] hover:bg-[#FFA4A7]"
                                   } ${i === 2 ? "max-[464px]:hidden" : ""} ${i === 1 ? "max-[346px]:hidden" : ""}`}
-                                onClick={() => {
-                                  if (
-                                    !item.raw?.price ||
-                                    item.raw.price === 0
-                                  )
-                                    return;
+                                  onClick={() => {
+                                    if (
+                                      !item.raw?.price ||
+                                      item.raw.price === 0
+                                    )
+                                      return;
 
-                                  setSelectedBet({
-                                    type: "lay",
-                                    odds: item.raw?.price,
-                                    teamName: runnerName,
-                                    eventName:
-                                      market.event?.name || eventName,
-                                    marketType:
-                                      market.marketType || market.marketName,
-                                    selectionId: runner.selectionId,
-                                  });
-                                }}
-                              >
-                                <span
-                                  className={`price text-[11px] sm:text-[13px] font-bold leading-[1.1] truncate text-[var(--lay-price-text)] ${isLaySelected(item) ? "dark:text-white" : ""}`}
+                                    setSelectedBet({
+                                      type: "lay",
+                                      odds: item.raw?.price,
+                                      teamName: runnerName,
+                                      eventName:
+                                        market.event?.name || eventName,
+                                      marketType:
+                                        market.marketType || market.marketName,
+                                      selectionId: runner.selectionId,
+                                    });
+                                  }}
                                 >
-                                  {item.odd}
-                                </span>
-                                <span
-                                  className={`size text-[9px] sm:text-[10px] font-normal leading-[1] truncate text-[var(--lay-size-text)] ${isLaySelected(item) ? "dark:text-white" : ""}`}
-                                >
-                                  {item.vol}
-                                </span>
-                              </div>
-                            ))}
+                                  <span
+                                    className={`price text-[11px] sm:text-[13px] font-bold leading-[1.1] truncate text-[var(--lay-price-text)] ${isLaySelected(item) ? "dark:text-white" : ""}`}
+                                  >
+                                    {item.odd}
+                                  </span>
+                                  <span
+                                    className={`size text-[9px] sm:text-[10px] font-normal leading-[1] truncate text-[var(--lay-size-text)] ${isLaySelected(item) ? "dark:text-white" : ""}`}
+                                  >
+                                    {item.vol}
+                                  </span>
+                                </div>
+                              ))}
                         </div>
 
                         {/* OVERLAY */}
@@ -1116,7 +1192,7 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)]  flex-1 min-w-0 cursor-pointer te
                   >
                     {selectedBet?.selectionId === runner.selectionId &&
                       selectedBet?.marketType ===
-                      (market.marketType || market.marketName) && (
+                        (market.marketType || market.marketName) && (
                         <div className="block lg:hidden">
                           <MBetSlip />
                         </div>
@@ -1186,7 +1262,7 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)]  flex-1 min-w-0 cursor-pointer te
 
                 {/* ORIGINAL TEXT */}
                 <a href="" className="inline-flex">
-                  {selectedEventType || sportName || ""}
+                  {sportNames[sportId]}
                 </a>
 
                 {/* ORIGINAL DROPDOWN DESIGN */}
@@ -1204,13 +1280,14 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)]  flex-1 min-w-0 cursor-pointer te
                             setIsEventTypeOpen(false);
                             navigateToMarket(item.eventType.name);
                           }}
-                          className={`text-sm w-full text-nowrap text-left relative bg-transparent cursor-pointer gap-2 font-semibold transition px-2 py-1.5 rounded-[6px] ${(selectedEventType &&
-                            selectedEventType === item.eventType.name) ||
+                          className={`text-sm w-full text-nowrap text-left relative bg-transparent cursor-pointer gap-2 font-semibold transition px-2 py-1.5 rounded-[6px] ${
+                            (selectedEventType &&
+                              selectedEventType === item.eventType.name) ||
                             (!selectedEventType &&
                               sportName === item.eventType.name)
-                            ? "bg-[rgba(255,255,255,0.25)]! text-(--primary-color)"
-                            : "hover:bg-[rgba(255,255,255,0.25)]"
-                            }`}
+                              ? "bg-[rgba(255,255,255,0.25)]! text-(--primary-color)"
+                              : "hover:bg-[rgba(255,255,255,0.25)]"
+                          }`}
                         >
                           {item.eventType.name}
                         </button>
@@ -1260,14 +1337,15 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)]  flex-1 min-w-0 cursor-pointer te
                                 item.competition.id,
                               );
                             }}
-                            className={`text-sm w-full text-nowrap text-left relative bg-transparent cursor-pointer gap-2 font-semibold transition px-2 py-1.5 rounded-[6px] ${(selectedCompetition &&
-                              selectedCompetition ===
-                              item.competition.name) ||
+                            className={`text-sm w-full text-nowrap text-left relative bg-transparent cursor-pointer gap-2 font-semibold transition px-2 py-1.5 rounded-[6px] ${
+                              (selectedCompetition &&
+                                selectedCompetition ===
+                                  item.competition.name) ||
                               (!selectedCompetition &&
                                 tournamentName === item.competition.name)
-                              ? "bg-[rgba(255,255,255,0.25)]! text-(--primary-color)"
-                              : "hover:bg-[rgba(255,255,255,0.25)]"
-                              }`}
+                                ? "bg-[rgba(255,255,255,0.25)]! text-(--primary-color)"
+                                : "hover:bg-[rgba(255,255,255,0.25)]"
+                            }`}
                           >
                             {item.competition.name}
                           </button>
@@ -1356,7 +1434,10 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)]  flex-1 min-w-0 cursor-pointer te
         <>
           {/* Tabs */}
           <div className="mt-1 min-[900px]:mt-2 flex dark:bg-[#28323D] rounded-[8px] min-h-[48px] overflow-hidden w-full max-w-full">
-            <div className="relative flex items-center flex-1 overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+            <div
+              ref={scrollContainerRef}
+              className="relative flex items-center flex-1 overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]"
+            >
               <div
                 ref={tabsListRef}
                 className="flex p-2 !pb-[6px] relative z-[1] *:text-nowrap w-full items-center relative"
@@ -1378,10 +1459,11 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)]  flex-1 min-w-0 cursor-pointer te
                   onClick={(e) => {
                     setMarketType("POPULAR", e, "Popular", 1, "");
                   }}
-                  className={`inline-flex items-center justify-center bg-transparent border-none cursor-pointer text-[0.875rem] px-4 py-1.5 transition-colors duration-200 leading-[1.57143] relative z-10 top-[-1px] ${activeTab === "POPULAR"
-                    ? "text-(--tab-active-text) font-semibold"
-                    : "text-(--tab-default-text) font-medium"
-                    }`}
+                  className={`inline-flex items-center justify-center bg-transparent border-none cursor-pointer text-[0.875rem] px-4 py-1.5 transition-colors duration-200 leading-[1.57143] relative z-10 top-[-1px] ${
+                    activeTab === "POPULAR"
+                      ? "text-(--tab-active-text) font-semibold"
+                      : "text-(--tab-default-text) font-medium"
+                  }`}
                 >
                   POPULAR
                 </button>
@@ -1400,10 +1482,11 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)]  flex-1 min-w-0 cursor-pointer te
                         market?.marketId,
                       );
                     }}
-                    className={`inline-flex uppercase items-center justify-center bg-transparent border-none cursor-pointer text-[0.875rem] px-4 py-1.5 transition-colors duration-200 leading-[1.57143] relative z-10 top-[-1px] ${activeTab === market?.marketName
-                      ? "text-(--tab-active-text) font-semibold"
-                      : "text-(--tab-default-text) font-medium"
-                      }`}
+                    className={`inline-flex uppercase items-center justify-center bg-transparent border-none cursor-pointer text-[0.875rem] px-4 py-1.5 transition-colors duration-200 leading-[1.57143] relative z-10 top-[-1px] ${
+                      activeTab === market?.marketName
+                        ? "text-(--tab-active-text) font-semibold"
+                        : "text-(--tab-default-text) font-medium"
+                    }`}
                   >
                     {market?.marketName}
                   </button>
@@ -1415,10 +1498,11 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)]  flex-1 min-w-0 cursor-pointer te
                   onClick={(e) => {
                     setMarketType("ALL", e, "All", 0, "");
                   }}
-                  className={`inline-flex items-center justify-center bg-transparent border-none cursor-pointer text-[0.875rem] px-4 py-1.5 transition-colors duration-200 leading-[1.57143] relative z-10 top-[-1px] ${activeTab === "ALL"
-                    ? "text-(--tab-active-text) font-semibold"
-                    : "text-(--tab-default-text) font-medium"
-                    }`}
+                  className={`inline-flex items-center justify-center bg-transparent border-none cursor-pointer text-[0.875rem] px-4 py-1.5 transition-colors duration-200 leading-[1.57143] relative z-10 top-[-1px] ${
+                    activeTab === "ALL"
+                      ? "text-(--tab-active-text) font-semibold"
+                      : "text-(--tab-default-text) font-medium"
+                  }`}
                 >
                   ALL Markets
                 </button>
