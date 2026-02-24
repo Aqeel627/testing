@@ -101,7 +101,7 @@ export default function RootLayout({
           src="//translate.google.com/translate_a/element.js?cb=TranslateInit"
           strategy="afterInteractive"
         />
-        <Script src="/js/gestures.js" strategy="afterInteractive"/>
+        {/* <Script src="/js/gestures.js" strategy="afterInteractive"/> */}
         <Suspense>
           <Closebetslip/>
           <NavigationLoader />
