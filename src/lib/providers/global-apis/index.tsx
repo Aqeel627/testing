@@ -32,6 +32,7 @@ const GlobalApisCall = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     checkLogin(token || "");
+    console.log("code live");
 
     fetchData({
       url: CONFIG.getAllEventsList,
