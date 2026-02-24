@@ -18,8 +18,8 @@ const NavigationLoader = dynamic(() => import("@/lib/providers/navigation-loader
 const SearchModal = dynamic(() => import("@/components/modal/search"));
 
 export const metadata: Metadata = {
-  title: "100exch",
-  description: "Explore 100exch",
+  title: "GJEXCH",
+  description: "Explore GJEXCH",
 };
 export const viewport = {
   width: "device-width",

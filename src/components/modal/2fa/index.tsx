@@ -123,7 +123,7 @@ export default function TwoFAModal({
                     ? "/logo-black.svg"
                     : "/logo-white.svg"
                 }
-                alt="100exch Logo"
+                alt="GJEXCH Logo"
                 width={152}
                 height={1000}
                 className="object-contain h-13 min-[600]:mx-2 mx-1"
@@ -175,7 +175,7 @@ export default function TwoFAModal({
                         ? "/logo-white.svg"
                         : "/logo-black.svg"
                     }
-                    alt="100exch Logo"
+                    alt="GJEXCH Logo"
                     width={360}
                     height={110}
                     className="object-contain w-auto h-20"

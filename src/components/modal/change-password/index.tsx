@@ -183,7 +183,7 @@ export default function ChangePassword() {
                   ? "/logo-black.svg"
                   : "/logo-white.svg"
               }
-              alt="100exch Logo"
+              alt="GJEXCH Logo"
               width={152}
               height={40}
               className="object-contain h-10 min-[600px]:mx-2 mx-1"
