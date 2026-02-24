@@ -1029,12 +1029,12 @@ hover:bg-[var(--back-hover)] flex-1 min-w-0 cursor-pointer text-black transition
                                 }}
                               >
                                 <span
-                                  className={`text-[11px] sm:text-[13px] font-bold leading-[1.1] truncate text-[var(--back-price-text)] ${isBackSelected(item) ? "dark:text-white" : ""}`}
+                                  className={`price sm:text-[13px] font-bold leading-[1.1] truncate text-[var(--back-price-text)] ${isBackSelected(item) ? "dark:text-white" : ""}`}
                                 >
                                   {item.odd}
                                 </span>
                                 <span
-                                  className={`text-[9px] sm:text-[10px] font-normal leading-[1] truncate text-[var(--back-size-text)] ${isBackSelected(item) ? "dark:text-white" : ""}`}
+                                  className={`size sm:text-[10px] font-normal leading-[1] truncate text-[var(--back-size-text)] ${isBackSelected(item) ? "dark:text-white" : ""}`}
                                 >
                                   {item.vol}
                                 </span>
@@ -1087,12 +1087,12 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)]  flex-1 min-w-0 cursor-pointer te
                                 }}
                               >
                                 <span
-                                  className={`text-[11px] sm:text-[13px] font-bold leading-[1.1] truncate text-[var(--lay-price-text)] ${isLaySelected(item) ? "dark:text-white" : ""}`}
+                                  className={`price text-[11px] sm:text-[13px] font-bold leading-[1.1] truncate text-[var(--lay-price-text)] ${isLaySelected(item) ? "dark:text-white" : ""}`}
                                 >
                                   {item.odd}
                                 </span>
                                 <span
-                                  className={`text-[9px] sm:text-[10px] font-normal leading-[1] truncate text-[var(--lay-size-text)] ${isLaySelected(item) ? "dark:text-white" : ""}`}
+                                  className={`size text-[9px] sm:text-[10px] font-normal leading-[1] truncate text-[var(--lay-size-text)] ${isLaySelected(item) ? "dark:text-white" : ""}`}
                                 >
                                   {item.vol}
                                 </span>
