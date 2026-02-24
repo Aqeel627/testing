@@ -93,7 +93,7 @@ const SingleMarket = ({
                 <div className="flex flex-row whitespace-nowrap items-center max-w-full min-h-[1.125rem] overflow-hidden -mt-1 mr-5 -mb-1 -ml-1 text-[9px] font-bold tracking-[0.7px] uppercase text-[#098DEE]">
                   <a
                     href=""
-                    className="m-0 [font:inherit] [letter-spacing:inherit] text-[#078dee] no-underline relative rounded-[8px] py-1 px-0 inline-block"
+                    className="m-0 [font:inherit] [letter-spacing:inherit] text-(--primary-color) no-underline relative rounded-[8px] py-1 px-0 inline-block"
                   >
                     <div className="rounded-1 px-1">
                       {event.eventType?.name}
@@ -102,7 +102,7 @@ const SingleMarket = ({
                   <span className="h-1 w-1 rounded-full bg-[rgb(99,115,129)]"></span>
                   <a
                     href=""
-                    className="m-0 [font:inherit] [letter-spacing:inherit] text-[#078dee] no-underline relative rounded-[8px] py-1 px-0 inline-block"
+                    className="m-0 [font:inherit] [letter-spacing:inherit] text-(--primary-color) no-underline relative rounded-[8px] py-1 px-0 inline-block"
                   >
                     <div className="rounded-1 px-1">
                       {event.competition?.name}
@@ -124,7 +124,7 @@ const SingleMarket = ({
                       {event.inplay &&
                         isCricket &&
                         runner0?.status === "ACTIVE" && (
-                          <Icon name="bat" className="w-5 h-5 text-[#078dee]" />
+                          <Icon name="bat" className="w-5 h-5 text-(--primary-color)" />
                         )}
                     </div>
                   </div>
@@ -138,7 +138,7 @@ const SingleMarket = ({
                       {event.inplay &&
                         isCricket &&
                         rightRunner?.status === "ACTIVE" && (
-                          <Icon name="bat" className="w-5 h-5 text-[#078dee]" />
+                          <Icon name="bat" className="w-5 h-5 text-(--primary-color)" />
                         )}
                     </div>
                     <div className="flex flex-row gap-1.5">
@@ -161,7 +161,7 @@ const SingleMarket = ({
                         </div>
                       )}
                       <p
-                        className={`m-0 font-sans truncate whitespace-nowrap text-[10px] font-bold leading-[1rem] ${event.inplay ? "text-[#078dee]" : "text-[var(--secondary-text-color)]"}`}
+                        className={`m-0 font-sans truncate whitespace-nowrap text-[10px] font-bold leading-[1rem] ${event.inplay ? "text-(--primary-color)" : "text-[var(--secondary-text-color)]"}`}
                       >
                         {event.inplay ? (
                           "In-Play"
