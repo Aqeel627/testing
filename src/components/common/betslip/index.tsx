@@ -19,12 +19,15 @@ export default function BetSlipUI() {
   const { selectedBet, clearSelectedBet } = useAppStore();
 
   useEffect(() => {
+    // Log the selectedBet type
+    // console.log("selectedBet.type in betslip:", selectedBet?.type);
     if (selectedBet?.odds) setOdds(Number(selectedBet.odds));
     setStake("");
   }, [selectedBet]);
 
   // Close forms when clicking outside
   useEffect(() => {
+
     const handleClickOutside = (event: MouseEvent) => {
       if (
         stakeFormRef.current &&
@@ -75,6 +78,10 @@ export default function BetSlipUI() {
   if (!selectedBet) return null;
 
   const isBack = selectedBet.type === "back";
+  const isLay = selectedBet.type === "lay";
+  const isNo = selectedBet.type === "no";
+  const isYes = selectedBet.type === "yes";
+
 
   return (
     <section className="block relative w-full">
@@ -228,7 +235,7 @@ export default function BetSlipUI() {
         )}
 
         {/* ── LAY BET SECTION ── */}
-        {!isBack && (
+        {isLay && (
           <div className="relative text-black">
             {/* Sub-header */}
             <header className="bg-[#fac9d4] p-1 flex justify-between items-center text-[11px] relative">
@@ -247,52 +254,6 @@ export default function BetSlipUI() {
                     {"]"}
                   </span>
                 </div>
-
-                {/* <div className="flex flex-col items-center mr-[10px] relative">
-                  <label className="cursor-pointer max-h-[16px] text-[#2789ce] text-[12px]">
-                    <input type="radio" name="lay-option" className="mr-[2px] w-[11px] h-[10px]" value="LIABILITY" defaultChecked />
-                    <span className="text-[#2789ce] cursor-pointer hover:underline"
-                      onClick={() => { setShowStakeForm(false); setShowLiabilityForm(true); }}>
-                      Liability
-                    </span>
-                  </label>
-                  <label className="cursor-pointer max-h-[16px] text-[#2789ce] text-[12px]">
-                    <input type="radio" name="lay-option" className="mr-[2px] w-[11px] h-[10px]" value="Payout" />
-                    <span className="text-[rgb(39,137,206)] cursor-pointer hover:underline"
-                      onClick={() => { setShowStakeForm(false); setShowLiabilityForm(true); }}>
-                      Payout
-                    </span>
-                  </label>
-                  <span className="flex absolute -right-2.5 text-[11px] leading-[16px] top-[50%] cursor-help -translate-y-[50%]">
-                    {"["}<span className="text-[#2889ce]">?</span>{"]"}
-                  </span>
-
-                  {showLiabilityForm && (
-                    <div className="absolute top-full right-0 mt-1 z-50">
-                      <div ref={liabilityFormRef} className="bg-[#fff9d8] border border-[#7d97a8] p-2 h-[52.5px] w-max">
-                        <form onSubmit={handleLiabilityFormSubmit} className="h-full flex flex-col justify-between">
-                          <p className="text-[#273a47] mb-[3px] text-[11px] text-left m-0 p-0 leading-[1]">Total Stake</p>
-                          <div className="flex items-center gap-1">
-                            <label className="inline-flex items-center leading-[19px]">
-                              <span className="mr-1 text-[#273a47] text-[13px]">GBP</span>
-                              <input
-                                name="amount"
-                                className="border text-[#273a47] border-[#dcdcdc] p-[2px_4px] text-[11px] w-[80px] max-h-[21.5px] outline-none"
-                                type="text"
-                                autoFocus
-                                value={totalLiabilityAmount}
-                                onChange={(e) => setTotalLiabilityAmount(e.target.value)}
-                              />
-                            </label>
-                            <button type="submit" className="text-[11px] text-[#273a47] text-center leading-[16px] h-[18px] px-[10px] bg-[#cbcbcb] border-b border-[#94a8b3] rounded-[2px] cursor-pointer hover:bg-[#b0b0b0]">
-                              OK
-                            </button>
-                          </div>
-                        </form>
-                      </div>
-                    </div>
-                  )}
-                </div> */}
               </div>
             </header>
 
@@ -330,16 +291,19 @@ export default function BetSlipUI() {
 
                   {/* Stake input */}
                   <div className="w-[64px] ml-2 max-h-[21.5px] flex items-center">
-                    <input
+                    {/* <input
                       className="p-[2px_0] border border-[#dcdcdc] text-center w-full text-[11px] outline-none max-h-[21.5px] appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                       name="betsStake"
+                        type="number"
+                        onChange={(e) => setOdds(Number(e.target.value || 0))}
+                    /> */}
+
+                    <input
+                      className="p-[2px_14px_2px_0] border border-[#dcdcdc] text-center w-full text-[11px] outline-none max-h-[21.5px] "
+                      value={odds}
+                      name="betsOdds"
                       type="number"
-                      value={stake}
-                      onChange={(e) =>
-                        setStake(
-                          e.target.value === "" ? "" : Number(e.target.value),
-                        )
-                      }
+                      onChange={(e) => setOdds(Number(e.target.value || 0))}
                     />
                   </div>
                   {/* Liability display */}
@@ -385,6 +349,248 @@ export default function BetSlipUI() {
             </div>
           </div>
         )}
+        {/*  no market*/}
+        {isNo && (
+          <div className="relative text-black">
+            {/* Sub-header */}
+            <header className="bg-[#5baca7] p-1 flex justify-between items-center text-[11px] relative">
+              <span className="leading-[16px]">Lay (Bet Against)</span>
+              <div className="flex relative">
+                <span className="text-center w-16 leading-[16px]">
+                  Backer's odds
+                </span>
+                <span className="text-center w-16 leading-[16px]">
+                  Backer's stake
+                </span>
+                <div className="relative left-8">
+                  <span className="text-[11px] mr-12  leading-[16px] cursor-help">
+                    {"["}
+                    <span className="items-end text-[#2889ce]">?</span>
+                    {"]"}
+                  </span>
+                </div>
+              </div>
+            </header>
+
+            {/* Lay bet row */}
+            <section className="bg-[#6FC1BC]">
+              <div className="flex p-1 items-center">
+                <section className="flex justify-between w-full items-center max-h-fit">
+                  <div className="flex items-center">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        clearSelectedBet();
+                        setStake("");
+                      }}
+                      className="rounded-[2px] text-[#303030] inline-flex w-3 h-3 p-0 hover:bg-[#e0e0e0] items-center justify-center mx-1 cursor-pointer"
+                    >
+                      <svg
+                        className="w-[6.5px] h-[6.5px] fill-[#303030]"
+                        viewBox="0 0 100 100"
+                      >
+                        <path d="M100,12.5L87.5,0L50,37.5L12.5,0L0,12.5L37.5,50L0,87.5L12.5,100L50,62.5L87.5,100L100,87.5L62.5,50L100,12.5z" />
+                      </svg>
+                    </button>
+                    <span className="font-bold text-[13px] leading-[16px]">
+                      {selectedBet.teamName ?? "Name-Pending"}
+                    </span>
+                  </div>
+                  <span className="text-[10px] text-[#555] pr-1">
+                    {selectedBet.marketType}
+                  </span>
+                </section>
+
+                <div className="flex items-center min-w-[187px] max-h-fit">
+                  {/* Odds control */}
+
+                  {/* Stake input */}
+                  <div className="w-[64px] ml-2 max-h-[21.5px] flex items-center">
+                    {/* <input
+                      className="p-[2px_0] border border-[#87D8D2] text-center w-full text-[11px] outline-none max-h-[21.5px] appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                      name="betsStake"
+                      type="number"
+                      value={stake}
+                      onChange={(e) =>
+                        setStake(
+                          e.target.value === "" ? "" : Number(e.target.value),
+                        )
+                      }
+                    /> */}
+                    <input
+                      className="p-[2px_14px_2px_0] border border-[#87D8D2] text-center w-full text-[11px] outline-none max-h-[21.5px] "
+                      value={odds}
+                      name="betsOdds"
+                      type="number"
+                      onChange={(e) => setOdds(Number(e.target.value || 0))}
+                    />
+
+
+                  </div>
+                  {/* Liability display */}
+                  <span className="ml-2 text-[11px]">
+                    £{liability.toFixed(2)}
+                  </span>
+                </div>
+              </div>
+            </section>
+
+            {/* Min/Max info */}
+            <div className="bg-[#6FC1BC] px-2 pb-1 text-[10px] text-[#555] flex gap-3">
+              <span>Min: 100</span>
+              <span>Max: 25T</span>
+            </div>
+
+            {/* Quick stake buttons */}
+            <div className="bg-[#6FC1BC] px-1 pb-1">
+              <div className="grid grid-cols-4 gap-1 pt-1">
+                {quick.slice(0, 4).map((v) => (
+                  <button
+                    key={v}
+                    type="button"
+                    onClick={() => setStake(v)}
+                    className="w-full rounded-[2px] border border-[rgba(145,158,171,0.32)] bg-white py-[4px] text-center text-[11px] font-bold text-[#303030] hover:bg-[#e0e0e0]"
+                  >
+                    {v}
+                  </button>
+                ))}
+              </div>
+              <div className="grid grid-cols-4 gap-1 pt-1">
+                {quick.slice(4, 8).map((v) => (
+                  <button
+                    key={v}
+                    type="button"
+                    onClick={() => setStake(v)}
+                    className="w-full rounded-[2px] border border-[rgba(145,158,171,0.32)] bg-white py-[4px] text-center text-[11px] font-bold text-[#303030] hover:bg-[#e0e0e0]"
+                  >
+                    {v}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+        {/* yes market */}
+        {isYes && (
+          <div className="relative text-black">
+            {/* Sub-header */}
+            <header className="bg-[#50d0ae] p-1 flex justify-between items-center text-[11px] relative">
+              <span className="leading-[16px]">Lay (Bet Against)</span>
+              <div className="flex relative">
+                <span className="text-center w-16 leading-[16px]">
+                  Backer's odds
+                </span>
+                <span className="text-center w-16 leading-[16px]">
+                  Backer's stake
+                </span>
+                <div className="relative left-8">
+                  <span className="text-[11px] mr-12  leading-[16px] cursor-help">
+                    {"["}
+                    <span className="items-end text-[#2889ce]">?</span>
+                    {"]"}
+                  </span>
+                </div>
+              </div>
+            </header>
+
+            {/* Lay bet row */}
+            <section className="bg-[#6EE1BF]">
+              <div className="flex p-1 items-center">
+                <section className="flex justify-between w-full items-center max-h-fit">
+                  <div className="flex items-center">
+                    <button
+                      type="button"
+                      onClick={() => {
+                        clearSelectedBet();
+                        setStake("");
+                      }}
+                      className="rounded-[2px] text-[#303030] inline-flex w-3 h-3 p-0 hover:bg-[#e0e0e0] items-center justify-center mx-1 cursor-pointer"
+                    >
+                      <svg
+                        className="w-[6.5px] h-[6.5px] fill-[#303030]"
+                        viewBox="0 0 100 100"
+                      >
+                        <path d="M100,12.5L87.5,0L50,37.5L12.5,0L0,12.5L37.5,50L0,87.5L12.5,100L50,62.5L87.5,100L100,87.5L62.5,50L100,12.5z" />
+                      </svg>
+                    </button>
+                    <span className="font-bold text-[13px] leading-[16px]">
+                      {selectedBet.teamName ?? "Name-Pending"}
+                    </span>
+                  </div>
+                  <span className="text-[10px] text-[#555] pr-1">
+                    {selectedBet.marketType}
+                  </span>
+                </section>
+
+                <div className="flex items-center min-w-[187px] max-h-fit">
+                  {/* Odds control */}
+
+                  {/* Stake input */}
+                  <div className="w-[64px] ml-2 max-h-[21.5px] flex items-center">
+                    {/* <input
+                      className="p-[2px_0] border border-[#8DF1D1]  text-center w-full text-[11px] outline-none max-h-[21.5px] appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                      name="betsStake"
+                      type="number"
+                      value={stake}
+                      onChange={(e) =>
+                        setStake(
+                          e.target.value === "" ? "" : Number(e.target.value),
+                        )
+                      }
+                    /> */}
+
+                    <input
+                      className="p-[2px_14px_2px_0] border border-[#8DF1D1] text-center w-full text-[11px] outline-none max-h-[21.5px] "
+                      value={odds}
+                      name="betsOdds"
+                      type="number"
+                      onChange={(e) => setOdds(Number(e.target.value || 0))}
+                    />
+                  </div>
+                  {/* Liability display */}
+                  <span className="ml-2 text-[11px]">
+                    £{liability.toFixed(2)}
+                  </span>
+                </div>
+              </div>
+            </section>
+
+            {/* Min/Max info */}
+            <div className="bg-[#6EE1BF] px-2 pb-1 text-[10px] text-[#555] flex gap-3">
+              <span>Min: 100</span>
+              <span>Max: 25T</span>
+            </div>
+
+            {/* Quick stake buttons */}
+            <div className="bg-[#6FC1BC] px-1 pb-1">
+              <div className="grid grid-cols-4 gap-1 pt-1">
+                {quick.slice(0, 4).map((v) => (
+                  <button
+                    key={v}
+                    type="button"
+                    onClick={() => setStake(v)}
+                    className="w-full rounded-[2px] border border-[#87D8D2] bg-white py-[4px] text-center text-[11px] font-bold text-[#303030] hover:bg-[#e0e0e0]"
+                  >
+                    {v}
+                  </button>
+                ))}
+              </div>
+              <div className="grid grid-cols-4 gap-1 pt-1">
+                {quick.slice(4, 8).map((v) => (
+                  <button
+                    key={v}
+                    type="button"
+                    onClick={() => setStake(v)}
+                    className="w-full rounded-[2px] border border-[rgba(145,158,171,0.32)] bg-white py-[4px] text-center text-[11px] font-bold text-[#303030] hover:bg-[#e0e0e0]"
+                  >
+                    {v}
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
 
         {/* ── FOOTER ── */}
         <div className="bg-[#122D38] p-1">

@@ -2,7 +2,6 @@
 import { useAppStore } from "@/lib/store/store";
 import { Minus, Plus } from "lucide-react";
 import React, { useState, useEffect } from "react";
-import { cn } from "@/lib/utils";
 
 export default function MBetSlip() {
   const { selectedBet, clearSelectedBet } = useAppStore();
@@ -56,24 +55,51 @@ export default function MBetSlip() {
 
   const type = selectedBet.type;
   const runner = selectedBet.teamName;
-  const isBack = type === "back";
 
-  // CSS variable names resolved at runtime — back or lay
-  const accentVar = isBack ? "var(--bs-back-accent)" : "var(--bs-lay-accent)";
-  const accentBg10 = isBack
-    ? "var(--bs-back-accent-bg10)"
-    : "var(--bs-lay-accent-bg10)";
-  const accentBg15 = isBack
-    ? "var(--bs-back-accent-bg15)"
-    : "var(--bs-lay-accent-bg15)";
-  const accentRgbVar = isBack
-    ? "var(--bs-back-accent-rgb)"
-    : "var(--bs-lay-accent-rgb)";
+  // Define all bet types
+  const isBack = type === "back" || type === "yes";
+  const isLay = type === "lay" || type === "no";
+
+  // Correct border colors for yes/no
+  const accentVar =
+    type === "yes"
+      ? "#50d0ae"
+      : type === "no"
+      ? "#5baca7"
+      : isBack
+      ? "var(--bs-back-accent)"
+      : "var(--bs-lay-accent)";
+  const accentBg10 =
+    type === "yes"
+      ? "#50d0ae1A"
+      : type === "no"
+      ? "#5baca71A"
+      : isBack
+      ? "var(--bs-back-accent-bg10)"
+      : "var(--bs-lay-accent-bg10)";
+  const accentBg15 =
+    type === "yes"
+      ? "#50d0ae26"
+      : type === "no"
+      ? "#5baca726"
+      : isBack
+      ? "var(--bs-back-accent-bg15)"
+      : "var(--bs-lay-accent-bg15)";
 
   const profitOrLiability =
     stake > 0 && odds > 1 ? ((odds - 1) * stake).toFixed(2) : "0.00";
 
-  // ── Odds handlers ──────────────────────────────────
+  // Header label
+  const headerLabel =
+    type === "back"
+      ? "Back (Bet For)"
+      : type === "lay"
+      ? "Lay (Bet Against)"
+      : type === "yes"
+      ? "Yes (Bet For)"
+      : "No (Bet Against)";
+
+  // ── Odds handlers ──
   const handleIncrease = () => {
     const inc = getIncrement(odds);
     const nv = odds + inc;
@@ -107,15 +133,13 @@ export default function MBetSlip() {
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) =>
     e.key === "Enter" && handleBlur();
 
-  // ── Stake handlers ─────────────────────────────────
+  // ── Stake handlers ──
   const handleIncreaseStake = () => setStake((p) => p + 1);
   const handleDecreaseStake = () => setStake((p) => (p > 0 ? p - 1 : 0));
-
   const handleStakeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const v = parseFloat(e.target.value);
     setStake(!isNaN(v) ? v : 0);
   };
-
   const handleQuickValues = (value: string) => {
     const add = Number(value.replace("+", ""));
     setQuickValue((p) => {
@@ -128,200 +152,60 @@ export default function MBetSlip() {
   return (
     <>
       <style>{`
-  .bs-circle-btn:hover { background: var(--bs-circle-btn-hover) !important; }
-  .bs-quick-pill:hover { background: var(--bs-quick-pill-hover-bg) !important; border-color: var(--bs-quick-pill-hover-border) !important; }
-  .bs-cancel-btn:hover { background: var(--bs-cancel-hover) !important; }
-  .bs-stake-input::placeholder { color: var(--bs-stake-placeholder); }  /* ✅ یہ add کریں */
-`}</style>
+        .bs-circle-btn:hover { background: var(--bs-circle-btn-hover) !important; }
+        .bs-quick-pill:hover { background: var(--bs-quick-pill-hover-bg) !important; border-color: var(--bs-quick-pill-hover-border) !important; }
+        .bs-cancel-btn:hover { background: var(--bs-cancel-hover) !important; }
+        .bs-stake-input::placeholder { color: var(--bs-stake-placeholder); }
+      `}</style>
 
-      <div
-        className="w-full rounded-2xl border"
-        style={{ borderColor: accentVar }}
-      >
+      <div className="w-full rounded-2xl border" style={{ borderColor: accentVar }}>
         <div className="p-4 flex flex-col gap-3">
-          {/* ── HEADER ── */}
-              <p className="text-[13px] font-semibold leading-tight" style={{ color: "var(--bs-event-name)" }}>
-  {isBack ? "back (BetFor)" : "lay (BetFor)"}: <strong style={{ color: accentVar }}>{runner}</strong>
-</p>
+          {/* HEADER */}
+          <p className="text-[13px] font-semibold leading-tight" style={{ color: "var(--bs-event-name)" }}>
+            {headerLabel}: <strong style={{ color: accentVar }}>{runner}</strong>
+          </p>
 
-          {/* ── ODDS + STAKE ── */}
+          {/* ODDS + STAKE */}
           <div className="flex gap-2">
-            {/* Odds pill */}
+            {/* Odds */}
             <div className="flex-1 min-w-0 flex flex-col gap-1.5">
-              <label
-                className="text-[11px] ml-2.5"
-                style={{ color: "var(--bs-label)" }}
-              >
-                Odds
-              </label>
-              <div
-                className="flex items-center rounded-full px-1 py-1 gap-1"
-                style={{
-                  background: "var(--bs-input-bg)",
-                  border: "1px solid var(--bs-odds-border)",
-                }}
-              >
-                <button
-                  type="button"
-                  onClick={handleDecrease}
-                  className="bs-circle-btn w-7 h-7 shrink-0 rounded-full border-none flex items-center justify-center cursor-pointer transition-colors"
-                  style={{
-                    background: "var(--bs-circle-btn-bg)",
-                    color: "var(--bs-text)",
-                  }}
-                >
-                  <Minus className="w-3 h-3" />
-                </button>
-                <input
-                  value={inputValue}
-                  inputMode="numeric"
-                  type="number"
-                  step="0.01"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  onKeyDown={handleKeyDown}
-                  className="flex-1 min-w-0 w-0 bg-transparent border-none text-center text-[14px] font-semibold outline-none"
-                  style={{ color: "var(--bs-text)" }}
-                />
-                <button
-                  type="button"
-                  onClick={handleIncrease}
-                  className="bs-circle-btn w-7 h-7 shrink-0 rounded-full border-none flex items-center justify-center cursor-pointer transition-colors"
-                  style={{
-                    background: "var(--bs-circle-btn-bg)",
-                    color: "var(--bs-text)",
-                  }}
-                >
-                  <Plus className="w-3 h-3" />
-                </button>
+              <label className="text-[11px] ml-2.5" style={{ color: "var(--bs-label)" }}>Odds</label>
+              <div className="flex items-center rounded-full px-1 py-1 gap-1" style={{ background: "var(--bs-input-bg)", border: "1px solid var(--bs-odds-border)" }}>
+                <button type="button" onClick={handleDecrease} className="bs-circle-btn w-7 h-7 shrink-0 rounded-full flex items-center justify-center cursor-pointer" style={{ background: "var(--bs-circle-btn-bg)", color: "var(--bs-text)" }}><Minus className="w-3 h-3" /></button>
+                <input value={inputValue} inputMode="numeric" type="number" step="0.01" onChange={handleChange} onBlur={handleBlur} onKeyDown={handleKeyDown} className="flex-1 min-w-0 w-0 bg-transparent border-none text-center text-[14px] font-semibold outline-none" style={{ color: "var(--bs-text)" }} />
+                <button type="button" onClick={handleIncrease} className="bs-circle-btn w-7 h-7 shrink-0 rounded-full flex items-center justify-center cursor-pointer" style={{ background: "var(--bs-circle-btn-bg)", color: "var(--bs-text)" }}><Plus className="w-3 h-3" /></button>
               </div>
             </div>
 
-            {/* Stake pill */}
+            {/* Stake */}
             <div className="flex-1 min-w-0 flex flex-col gap-1.5">
-              <label
-                className="text-[11px] ml-2.5"
-                style={{ color: "var(--bs-label)" }}
-              >
-                Stake
-              </label>
-              <div
-                className="flex items-center rounded-full px-1 py-1 gap-1"
-                style={{
-                  background: "var(--bs-input-bg)",
-                  border: `1px solid ${accentVar}`,
-                }}
-              >
-                <button
-                  type="button"
-                  onClick={handleDecreaseStake}
-                  className="bs-circle-btn w-7 h-7 shrink-0 rounded-full border-none flex items-center justify-center cursor-pointer transition-colors"
-                  style={{ background: accentBg15, color: accentVar }}
-                >
-                  <Minus className="w-3 h-3" />
-                </button>
-                <input
-                  value={stake !== 0 ? stake : ""}
-                  placeholder="0"
-                  inputMode="numeric"
-                  type="number"
-                  onChange={handleStakeChange}
-                  className="bs-stake-input flex-1 min-w-0 w-0 bg-transparent border-none text-center text-[14px] font-semibold outline-none"
-                  style={
-                    {
-                      color: accentVar,
-                      "--bs-stake-placeholder": accentVar,
-                    } as React.CSSProperties
-                  }
-                />
-                <button
-                  type="button"
-                  onClick={handleIncreaseStake}
-                  className="bs-circle-btn w-7 h-7 shrink-0 rounded-full border-none flex items-center justify-center cursor-pointer transition-colors"
-                  style={{ background: accentBg15, color: accentVar }}
-                >
-                  <Plus className="w-3 h-3" />
-                </button>
+              <label className="text-[11px] ml-2.5" style={{ color: "var(--bs-label)" }}>Stake</label>
+              <div className="flex items-center rounded-full px-1 py-1 gap-1" style={{ background: "var(--bs-input-bg)", border: `1px solid ${accentVar}` }}>
+                <button type="button" onClick={handleDecreaseStake} className="bs-circle-btn w-7 h-7 shrink-0 rounded-full flex items-center justify-center cursor-pointer" style={{ background: accentBg15, color: accentVar }}><Minus className="w-3 h-3" /></button>
+                <input value={stake !== 0 ? stake : ""} placeholder="0" inputMode="numeric" type="number" onChange={handleStakeChange} className="bs-stake-input flex-1 min-w-0 w-0 bg-transparent border-none text-center text-[14px] font-semibold outline-none" style={{ color: accentVar, "--bs-stake-placeholder": accentVar } as React.CSSProperties} />
+                <button type="button" onClick={handleIncreaseStake} className="bs-circle-btn w-7 h-7 shrink-0 rounded-full flex items-center justify-center cursor-pointer" style={{ background: accentBg15, color: accentVar }}><Plus className="w-3 h-3" /></button>
               </div>
             </div>
           </div>
 
-          {/* ── QUICK STAKE PILLS ── */}
+          {/* QUICK STAKE PILLS */}
           <div className="grid grid-cols-4 gap-2">
             {quickValues.map((value, i) => (
-              <button
-                key={i}
-                onClick={() => handleQuickValues(value)}
-                className="bs-quick-pill py-2 rounded-full font-semibold text-[12px] cursor-pointer transition-colors"
-                style={{
-                  background: "var(--bs-quick-pill-bg)",
-                  border: "1px solid var(--bs-quick-pill-border)",
-                  color: "var(--bs-text)",
-                }}
-              >
-                {value}
-              </button>
+              <button key={i} onClick={() => handleQuickValues(value)} className="bs-quick-pill py-2 rounded-full font-semibold text-[12px] cursor-pointer" style={{ background: "var(--bs-quick-pill-bg)", border: "1px solid var(--bs-quick-pill-border)", color: "var(--bs-text)" }}>{value}</button>
             ))}
           </div>
 
-          {/* ── PROFIT / LIABILITY ── */}
-          {/* <div
-            className="text-center py-2.5 px-4 rounded-full text-[13px]"
-            style={{ background: accentBg10 }}
-          >
-            <span style={{ color: "var(--bs-profit-label)" }}>
-              {isBack ? "Profit: " : "Liability: "}
-            </span>
-            <span className="font-bold" style={{ color: accentVar }}>
-              ${profitOrLiability}
-            </span>
-          </div> */}
-
-          {/* ── CANCEL + PLACE BET ── */}
+          {/* CANCEL + PLACE BET */}
           <div className="flex gap-3">
-            <button
-              type="button"
-              onClick={() => {
-                clearSelectedBet();
-                setStake(0);
-                setQuickValue(0);
-              }}
-              className="bs-cancel-btn flex-1 py-2 rounded-full font-bold text-[14px] border-none cursor-pointer transition-colors"
-              style={{
-                background: "var(--bs-cancel-bg)",
-                color: "var(--bs-text)",
-              }}
-            >
-              Cancel
-            </button>
-        <button
-  type="button"
-  disabled={stake === 0}
-  className="flex-1 py-2 rounded-full text-white font-bold text-[14px] border-none transition-all"
-  style={{
-    background: stake === 0
-      ? isBack
-        ? "var(--back-selected)"
-        : "var(--lay-selected)"
-      : isBack
-        ? "var(--back-selected)"
-        : "var(--lay-selected)",
-    cursor: stake === 0 ? "not-allowed" : "pointer",
-    opacity: stake === 0 ? 0.45 : 1,
-   
-  }}
->
+            <button type="button" onClick={() => { clearSelectedBet(); setStake(0); setQuickValue(0); }} className="bs-cancel-btn flex-1 py-2 rounded-full font-bold text-[14px] border-none cursor-pointer" style={{ background: "var(--bs-cancel-bg)", color: "var(--bs-text)" }}>Cancel</button>
+            <button type="button" disabled={stake === 0} className="flex-1 py-2 rounded-full text-white font-bold text-[14px] border-none transition-all" style={{ background: accentVar, cursor: stake === 0 ? "not-allowed" : "pointer", opacity: stake === 0 ? 0.45 : 1 }}>
               Place Bet
-              {stake!==0&&<div
-                className="text-center rounded-full text-[10px]"
-              >
-                <span>
-                  {isBack ? "Profit: " : "Liability: "}
-                </span>
-                <span className="font-bold">
-                  ${profitOrLiability}
-                </span>
-              </div>}
+              {stake !== 0 && (
+                <div className="text-center rounded-full text-[10px]">
+                  <span>{isBack ? "Profit: " : "Liability: "}</span>
+                  <span className="font-bold">${profitOrLiability}</span>
+                </div>
+              )}
             </button>
           </div>
         </div>
