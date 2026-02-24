@@ -23,7 +23,7 @@ const fairnessPolicyRoute = () => {
                     <br />
                     <br />
                     {/* 👇 Data replaced here */}
-                    All online products provided by 100Exch are supplied by licensed companies with approved status from Anjouan eGaming Authorities.
+                    All online products provided by GJEXCH are supplied by licensed companies with approved status from Anjouan eGaming Authorities.
                   </span>
                 </span>
               </span>

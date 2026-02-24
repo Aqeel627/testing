@@ -116,7 +116,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                   ? "/logo-black.svg"
                   : "/logo-white.svg"
               }
-              alt="100exch Logo"
+              alt="GJEXCH Logo"
               fill
               className="object-contain relative! mx-1 "
             />
