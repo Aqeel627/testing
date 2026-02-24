@@ -315,11 +315,46 @@ body {
     sans-serif;
 }
 
-html, body, #__next, #root, main {
-  touch-action: manipulation !important; /* Sirf vertical scroll allow karega, pinch zoom nahi */
-  -webkit-text-size-adjust: none !important;
-  -webkit-user-zoom: none !important;
-  overscroll-behavior-y: none !important; /* Bounce effect ko rokne ke liye */
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+div,
+span,
+hr,
+body,
+a,
+html {
+  touch-action: manipulation !important;
+}
+
+* {
+  -ms-touch-action: manipulation;
+  touch-action: manipulation;
+}
+
+body {
+  -webkit-touch-callout: none;
+  /* iOS Safari */
+  -webkit-user-select: none;
+  /* Safari */
+  -khtml-user-select: none;
+  /* Konqueror HTML */
+  -moz-user-select: none;
+  /* Firefox */
+  -ms-user-select: none;
+  /* Internet Explorer/Edge */
+  user-select: none;
+  /* Non-prefixed version, currently
+                                        supported by Chrome and Opera */
+}
+body {
+  -webkit-font-smoothing: antialiased;
+  touch-action: manipulation;
+  overflow: hidden;
 }
 
 body:has(.drawer) {
