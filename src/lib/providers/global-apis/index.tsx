@@ -1,12 +1,21 @@
 "use client";
 import { CONFIG } from "@/lib/config";
 import { fetchData } from "@/lib/functions";
+import { useDisableTouchGestures } from "@/lib/hooks/use-disable-touch-gestures";
 import { useAppStore } from "@/lib/store/store";
 import { useAuthStore } from "@/lib/useAuthStore";
 import React, { useEffect } from "react";
+import { DisableWheelZoom, DisableZoom } from "../disable-zoom";
 
 const GlobalApisCall = () => {
-  const { setCasinoEvents, setAllEventsList, setMenuList, setOurBanners, setOurCasinoGames, setOurEvents, } = useAppStore();
+  const {
+    setCasinoEvents,
+    setAllEventsList,
+    setMenuList,
+    setOurBanners,
+    setOurCasinoGames,
+    setOurEvents,
+  } = useAppStore();
   const { checkLogin } = useAuthStore();
   const handleAllEvents = (data: any) => {
     setAllEventsList(data);
@@ -15,6 +24,11 @@ const GlobalApisCall = () => {
     const formatted = useAppStore.getState().getFormattedInplayEvents?.();
     console.log("Formatted:", formatted);
   };
+
+  useDisableTouchGestures();
+  DisableWheelZoom();
+  DisableZoom();
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     checkLogin(token || "");

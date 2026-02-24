@@ -20,7 +20,7 @@ export default function CasinoGames({ hideHeading }: { hideHeading?: boolean }) 
         <div className="relative flex items-center justify-center w-full mb-6 px-2 min-[600px]:px-4">
           {/* Left Glowing Line & Dots */}
           {/* flex-1 lagaya hai taake line auto-stretch ho */}
-          <div className="flex relative items-center justify-end gap-2 w-full">
+          <div className="flex relative items-center justify-end gap-2 w-full z-0">
             <div className="neon-underline -top-1 -right-1 max-sm:right-3 max-md:right-1">
               {/* <span className="neon-glow glow-main"></span> */}
               <span className="neon-line line-main"></span>
