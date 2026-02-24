@@ -315,13 +315,11 @@ body {
     sans-serif;
 }
 
-html,
-body {
-  -webkit-user-select: none;
-  -webkit-touch-callout: none;
-  -webkit-text-size-adjust: none;
-  overscroll-behavior: none;
-  touch-action: manipulation;
+html, body, #__next, #root, main {
+  touch-action: pan-y !important; /* Sirf vertical scroll allow karega, pinch zoom nahi */
+  -webkit-text-size-adjust: none !important;
+  -webkit-user-zoom: none !important;
+  overscroll-behavior-y: none !important; /* Bounce effect ko rokne ke liye */
 }
 
 body:has(.drawer) {
