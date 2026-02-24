@@ -159,13 +159,9 @@ export default function MBetSlip() {
 
       <div className="w-full rounded-2xl border" style={{ borderColor: accentVar }}>
         <div className="p-4 flex flex-col gap-3">
-          {/* ── HEADER ── */}
-          <p
-            className="text-[13px] font-semibold leading-tight"
-            style={{ color: "var(--bs-event-name)" }}
-          >
-            {isBack ? "back (BetFor)" : "lay (BetFor)"}:{" "}
-            <strong style={{ color: accentVar }}>{runner}</strong>
+          {/* HEADER */}
+          <p className="text-[13px] font-semibold leading-tight" style={{ color: "var(--bs-event-name)" }}>
+            {headerLabel}: <strong style={{ color: accentVar }}>{runner}</strong>
           </p>
 
           {/* ODDS + STAKE */}
@@ -200,38 +196,8 @@ export default function MBetSlip() {
 
           {/* CANCEL + PLACE BET */}
           <div className="flex gap-3">
-            <button
-              type="button"
-              onClick={() => {
-                clearSelectedBet();
-                setStake(0);
-                setQuickValue(0);
-              }}
-              className="bs-cancel-btn flex-1 py-2 rounded-full font-bold text-[14px] border-none cursor-pointer transition-colors"
-              style={{
-                background: "var(--bs-cancel-bg)",
-                color: "var(--bs-text)",
-              }}
-            >
-              Cancel
-            </button>
-            <button
-              type="button"
-              disabled={stake === 0}
-              className="flex-1 py-2 rounded-full text-white font-bold text-[14px] border-none transition-all"
-              style={{
-                background:
-                  stake === 0
-                    ? isBack
-                      ? "var(--back-selected)"
-                      : "var(--lay-selected)"
-                    : isBack
-                      ? "var(--back-selected)"
-                      : "var(--lay-selected)",
-                cursor: stake === 0 ? "not-allowed" : "pointer",
-                opacity: stake === 0 ? 0.45 : 1,
-              }}
-            >
+            <button type="button" onClick={() => { clearSelectedBet(); setStake(0); setQuickValue(0); }} className="bs-cancel-btn flex-1 py-2 rounded-full font-bold text-[14px] border-none cursor-pointer" style={{ background: "var(--bs-cancel-bg)", color: "var(--bs-text)" }}>Cancel</button>
+            <button type="button" disabled={stake === 0} className="flex-1 py-2 rounded-full text-white font-bold text-[14px] border-none transition-all" style={{ background: accentVar, cursor: stake === 0 ? "not-allowed" : "pointer", opacity: stake === 0 ? 0.45 : 1 }}>
               Place Bet
               {stake !== 0 && (
                 <div className="text-center rounded-full text-[10px]">
