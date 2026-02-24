@@ -51,6 +51,11 @@
   --background: #f4f6f8;
   --foreground: #171717;
 
+--line-no-selected-bg: #4fada6;
+--line-no-selected-border: #5dbdb8;
+--line-yes-selected-bg: #2aaf8c;
+--line-yes-selected-border: #40ad92;
+
   /* login variables */
   --gth-btn-bg: #1c252e;
 
@@ -170,6 +175,10 @@
   --primary-text-color: white;
   --sport-active-bg: #141a21;
 
+--line-no-selected-bg: #5baca7;
+--line-no-selected-border: #4a9692;
+--line-yes-selected-bg: #50d0ae;
+--line-yes-selected-border: #3db99a;
   /* market variables */
   --arrow-color: var(--secondary-color);
   --accordion-text: var(--secondary-color);

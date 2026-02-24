@@ -1104,16 +1104,19 @@ export default function MarketDetails() {
                 selectedBet?.selectionId === runner.selectionId &&
                 selectedBet?.marketType ===
                   (market.marketType || market.marketName) &&
-                selectedBet?.type === "back" &&
-                selectedBet?.odds === item.raw?.price;
+                ((selectedBet?.type === "back" &&
+                  selectedBet?.odds === item.raw?.price) ||
+                  (selectedBet?.type === "no" &&
+                    selectedBet?.odds === item.raw?.price + 0.5));
 
               const isLaySelected = (item: any) =>
                 selectedBet?.selectionId === runner.selectionId &&
                 selectedBet?.marketType ===
                   (market.marketType || market.marketName) &&
-                selectedBet?.type === "lay" &&
-                selectedBet?.odds === item.raw?.price;
-
+                ((selectedBet?.type === "lay" &&
+                  selectedBet?.odds === item.raw?.price) ||
+                  (selectedBet?.type === "yes" &&
+                    selectedBet?.odds === item.raw?.price + 0.5));
               const runnerName =
                 market?.runnerNameMap?.[Number(runner.selectionId)] ||
                 String(runner.selectionId);
@@ -1196,7 +1199,8 @@ ${
     : "border-[#5baca7] bg-[rgba(15,69,66,0.6)] hover:bg-[rgba(15,69,66,0.8)]"
 }
 
-${isBackSelected(item) ? "!bg-[#315f5c] !border-[#315f5c]" : ""}
+${isBackSelected(item) ? "!bg-(--line-no-selected-bg) !border-(--line-no-selected-border)" : ""}
+
 
 ${i === 2 ? "max-[464px]:hidden" : ""}
 ${i === 1 ? "max-[346px]:hidden" : ""}
@@ -1227,24 +1231,13 @@ ${i === 1 ? "max-[346px]:hidden" : ""}
                                         });
                                       }}
                                     >
-                                      <span
-                                        className={`price sm:text-[13px] font-bold leading-[1.1] truncate ${
-                                          theme === "dark"
-                                            ? " text-[#5baca7]"
-                                            : "text-black"
-                                        }`}
-                                      >
-                                        {cleanPrice(item?.raw?.price + 0.5)}
-                                      </span>
-                                      <span
-                                        className={`size sm:text-[10px] font-normal leading-[1] truncate truncate ${
-                                          theme === "dark"
-                                            ? " text-[#5baca7]"
-                                            : "text-black"
-                                        }`}
-                                      >
-                                        {item.vol}
-                                      </span>
+                                   <span className={`price sm:text-[13px] font-bold leading-[1.1] truncate ${theme === "dark" ? isBackSelected(item) ? "text-white" : "text-[#5baca7]" : "text-black"}`}>
+  {cleanPrice(item?.raw?.price + 0.5)}
+</span>
+                                       
+                                     <span className={`size sm:text-[10px] font-normal leading-[1] truncate truncate ${theme === "dark" ? isBackSelected(item) ? "text-white" : "text-[#5baca7]" : "text-black"}`}>
+  {item.vol}
+</span>
                                     </div>
                                   );
                                 }
@@ -1335,7 +1328,7 @@ ${
     : "border-[#50d0ae] bg-[rgba(13,59,46,0.6)] hover:bg-[rgba(13,59,46,0.8)]"
 }
 
-${isLaySelected(item) ? "!bg-[#235c4d] !border-[#235c4d]" : ""}
+${isLaySelected(item) ? "!bg-(--line-yes-selected-bg) !border-(--line-yes-selected-border)" : ""}
 
 ${i === 2 ? "max-[464px]:hidden" : ""}
 ${i === 1 ? "max-[346px]:hidden" : ""}
@@ -1366,24 +1359,12 @@ ${i === 1 ? "max-[346px]:hidden" : ""}
                                         });
                                       }}
                                     >
-                                      <span
-                                        className={`price text-[11px] sm:text-[13px] font-bold leading-[1.1] truncate ${
-                                          theme === "dark"
-                                            ? "text-[#50d0ae] "
-                                            : "text-black"
-                                        }`}
-                                      >
-                                        {cleanPrice(item?.raw?.price + 0.5)}
-                                      </span>
-                                      <span
-                                        className={`size text-[9px] sm:text-[10px] font-normal leading-[1] truncate truncate ${
-                                          theme === "dark"
-                                            ? "text-[#50d0ae] "
-                                            : "text-black"
-                                        }`}
-                                      >
-                                        {item.vol}
-                                      </span>
+                                     <span className={`price text-[11px] sm:text-[13px] font-bold leading-[1.1] truncate ${theme === "dark" ? isLaySelected(item) ? "text-white" : "text-[#50d0ae]" : "text-black"}`}>
+  {cleanPrice(item?.raw?.price + 0.5)}
+</span>
+                                    <span className={`size text-[9px] sm:text-[10px] font-normal leading-[1] truncate truncate ${theme === "dark" ? isLaySelected(item) ? "text-white" : "text-[#50d0ae]" : "text-black"}`}>
+  {item.vol}
+</span>
                                     </div>
                                   );
                                 }
