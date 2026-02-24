@@ -34,6 +34,7 @@ interface Sport {
   count: number;
   tournaments: Tournament[];
   href?: string;
+  id: string;
 }
 
 interface SidebarConfig {
@@ -290,7 +291,7 @@ const SportItemComponent = ({
         className={cn(styles.link, isSportActive && styles.linkActive)}
         onClick={(e) => onSportClick(e, sportIndex)}
       >
-        <span className={styles.linkIconWrap}>
+        {/* <span className={styles.linkIconWrap}>
           <span
             className={styles.sportImage}
             style={{ 
@@ -298,7 +299,25 @@ const SportItemComponent = ({
     WebkitMaskImage: `url(${sport.iconUrl})`, 
   } as CSSProperties}
           />
-        </span>
+        </span> */}
+        <span className={styles.linkIconWrap}>
+  {sport.id === "4" ? (
+    // ✅ Cricket → use Icon component
+    <Icon
+      name="cricket"
+      className={styles.linkIcon}
+    />
+  ) : (
+    // ✅ Others → keep mask flow exactly same
+    <span
+      className={styles.sportImage}
+      style={{
+        backgroundImage: `url(${sport.iconUrl})`,
+        WebkitMaskImage: `url(${sport.iconUrl})`,
+      } as CSSProperties}
+    />
+  )}
+</span>
         <span className={styles.linkText}>{sport.name}</span>
         <span className={styles.badgeWrap}>
           <span className={styles.badge}>{sport.count}</span>
@@ -438,6 +457,7 @@ export default function Sidebar({ config }: SidebarProps) {
       }));
 
       return {
+        id: sport.id,
         name: sport.name,
         iconUrl: SPORT_ICONS[sport.id] || "/sidebar/ic_default.svg",
         count: tournaments.reduce((sum, t) => sum + t.count, 0),
