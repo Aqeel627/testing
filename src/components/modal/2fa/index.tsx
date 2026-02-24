@@ -172,8 +172,8 @@ export default function TwoFAModal({
                   <Image
                     src={
                       theme === "dark"
-                        ? "/logo-white.svg"
-                        : "/logo-black.svg"
+                        ? "/logo-black.svg"
+                        : "/logo-white.svg"
                     }
                     alt="100exch Logo"
                     width={360}
