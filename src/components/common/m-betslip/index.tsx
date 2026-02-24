@@ -141,12 +141,11 @@ export default function MBetSlip() {
     setStake(!isNaN(v) ? v : 0);
   };
   const handleQuickValues = (value: string) => {
-    const add = Number(value.replace("+", ""));
-    setQuickValue((p) => {
-      const n = p + add;
-      setStake(n);
-      return n;
-    });
+    const add = Number(value.replace("+", "")) || 0;
+
+    setQuickValue((prev) => Number(prev || 0) + add);
+
+    setStake((prev) => Number(prev || 0) + add);
   };
 
   return (

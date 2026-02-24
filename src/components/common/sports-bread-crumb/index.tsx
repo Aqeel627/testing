@@ -109,13 +109,13 @@ const SportsBreadCrumb = ({ title, subtitle }: BreadCrumbProps) => {
   return (
     <div className="px-2 pt-4 pb-2">
       {/* Title */}
-      <h1 className="m-0 font-sans text-[1.5rem] font-bold text-white leading-tight">
+      <h1 className="m-0 font-sans text-[1.5rem] font-bold leading-tight">
         {pageTitle}
       </h1>
 
       {/* Subtitle (e.g. competition name on competition page) */}
       {subtitle && (
-        <p className="m-0 mt-0.5 font-sans text-[0.85rem] text-[#919eab] font-medium">
+        <p className="m-0 mt-0.5 font-sans text-[0.85rem] text-(--secondary-text-color) font-medium">
           {subtitle}
         </p>
       )}
