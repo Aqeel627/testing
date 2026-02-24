@@ -316,7 +316,7 @@ body {
 }
 
 html, body, #__next, #root, main {
-  touch-action: pan-y !important; /* Sirf vertical scroll allow karega, pinch zoom nahi */
+  touch-action: manipulation !important; /* Sirf vertical scroll allow karega, pinch zoom nahi */
   -webkit-text-size-adjust: none !important;
   -webkit-user-zoom: none !important;
   overscroll-behavior-y: none !important; /* Bounce effect ko rokne ke liye */
