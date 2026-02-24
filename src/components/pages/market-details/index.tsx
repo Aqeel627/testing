@@ -29,6 +29,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/common/tooltip";
+import Link from "next/link";
 
 interface RunnerName {
   selectionId: number;
@@ -132,6 +133,7 @@ export default function MarketDetails() {
   const [openRules, setOpenRules] = useState(false);
   const [isEventTypeOpen, setIsEventTypeOpen] = useState(false);
   const [isCompetitionOpen, setIsCompetitionOpen] = useState(false);
+  const [isEventsDropDown, setIsEventsDropDown] = useState(false);
   const [streamCounter, setStreamCounter] = useState(0);
   const { resolvedTheme, theme } = useTheme();
   const marketData = {
@@ -141,6 +143,101 @@ export default function MarketDetails() {
     backPrice: "2.36",
     layPrice: "2.42",
   };
+
+  const dynamicSportsConfig = useMemo(() => {
+    if (!menuList) return [];
+
+    // 1. Dono arrays nikaalein
+    const { eventTypes = [], events = [] } = menuList;
+
+    const sportMap = new Map<string, any>();
+
+    eventTypes.forEach((item: any) => {
+      const sId = item.eventType.id;
+      sportMap.set(sId, {
+        name: item.eventType.name,
+        id: sId,
+        tournaments: new Map(),
+      });
+    });
+
+    // 3. Ab events ko unke respective sports mein daalein
+    events.forEach((event: any) => {
+      const sportId = event?.eventType?.id || "";
+      const compId = event?.competition?.id || "";
+      const compName = event?.competition?.name || "";
+      const eventId = event?.event?.id || "";
+      const eventName = event?.event?.name || "";
+
+      if (!sportId || !compId || !eventId || !sportMap.has(sportId)) return;
+
+      const sport = sportMap.get(sportId)!;
+
+      if (!sport.tournaments.has(compId)) {
+        sport.tournaments.set(compId, {
+          name: compName,
+          id: compId,
+          events: [],
+        });
+      }
+
+      sport.tournaments
+        .get(compId)!
+        .events.push({ id: eventId, name: eventName });
+    });
+
+    // 4. Return formatted data (Insertion order will be preserved)
+    return Array.from(sportMap.values())
+      .map((sport) => {
+        const tournaments = Array.from(sport.tournaments.values()).map(
+          (comp: any) => ({
+            name: comp.name,
+            count: comp.events.length,
+            href: undefined,
+            thirdItems: comp.events.map((evt: any) => ({
+              name: evt.name,
+              count: 1,
+              id:evt.id,
+              href: `/market-details/${evt.id}/${sport.id}`,
+            })),
+          }),
+        );
+
+        return {
+          id: sport.id,
+          name: sport.name,
+          count: tournaments.reduce((sum, t) => sum + t.count, 0),
+          tournaments,
+        };
+      })
+      .filter((sport) => sport.count > 0);
+  }, [menuList]);
+
+  const thirdItems = useMemo(() => {
+    // Agar data mojood nahi hai toh empty array bhej dein
+    if (!dynamicSportsConfig || !Array.isArray(dynamicSportsConfig)) return [];
+
+    // 1. Pehle sport ko uski 'id' se find karein
+    const matchedSport = dynamicSportsConfig?.find(
+      (sport) => sport.id === sportId,
+    );
+
+    if (matchedSport && matchedSport.tournaments) {
+      // 2. Phir uske andar 'tournaments' array mein se tournament ka naam match karein
+      const matchedTournament = matchedSport.tournaments.find(
+        (tournament) => tournament.name === tournamentName,
+      );
+
+      if (matchedTournament && matchedTournament.thirdItems) {
+        // 3. Agar tournament mil jaye, toh uske 'thirdItems' return kar dein
+        return matchedTournament.thirdItems;
+      }
+    }
+
+    // Agar sport ya tournament na mile toh empty array return karein
+    return [];
+  }, [dynamicSportsConfig, sportId, tournamentName]); // Dependency array
+
   const [selectedEventType, setSelectedEventType] = useState<string>(
     sportName || "",
   );
@@ -148,6 +245,7 @@ export default function MarketDetails() {
 
   const eventTypeRef = useRef<HTMLSpanElement | null>(null);
   const competitionRef = useRef<HTMLSpanElement | null>(null);
+  const eventDropRef = useRef<HTMLSpanElement | null>(null);
 
   // Current market type for filtering - IMPORTANT: track current tab
   const [currentMarketType, setCurrentMarketType] = useState<string>("POPULAR");
@@ -884,9 +982,11 @@ export default function MarketDetails() {
 
       const inEventType = eventTypeRef.current?.contains(t);
       const inCompetition = competitionRef.current?.contains(t);
+      const inEventDrop = eventDropRef.current?.contains(t);
 
       if (!inEventType) setIsEventTypeOpen(false);
       if (!inCompetition) setIsCompetitionOpen(false);
+      if (!inEventDrop) setIsEventsDropDown(false);
     };
 
     document.addEventListener("mousedown", onDocClick);
@@ -1400,6 +1500,7 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)] flex-1 min-w-0 cursor-pointer tex
                     e.stopPropagation();
                     setIsEventTypeOpen((v) => !v);
                     setIsCompetitionOpen(false);
+                    setIsEventsDropDown(false)
                   }}
                   className="inline-flex cursor-pointer text-(--arrow-color)!"
                 >
@@ -1455,6 +1556,7 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)] flex-1 min-w-0 cursor-pointer tex
                     e.stopPropagation();
                     setIsCompetitionOpen((v) => !v);
                     setIsEventTypeOpen(false);
+                    setIsEventsDropDown(false)
                   }}
                   className="text-market-name inline-flex cursor-pointer text-(--arrow-color)!"
                 >
@@ -1511,17 +1613,57 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)] flex-1 min-w-0 cursor-pointer tex
       </div>
 
       {/* Title Block */}
-      <div className="bg-(--primary-hover) w-full border-[1px] border-dashed border-(--dotted-line) rounded-[16px] overflow-hidden max-[637px]:mt-[6px]">
+      <div className="bg-(--primary-hover) w-full border-[1px] border-dashed border-(--dotted-line) rounded-[16px] max-[637px]:mt-[6px]">
         <div className="relative no-underline w-full box-border text-left py-2 px-4 flex-wrap rounded-2">
           <div className="flex gap-2 justify-between items-center w-full">
             <div className="flex-auto min-w-0 m-0">
-              <span className="py-0.5 min-w-6 inline-flex justify-center items-center text-sm bg-(--sidebar-badge-bg) rounded-[6px] pl-[8px] pr-2 gap-2.5">
-                <span className="text-market-name">
-                  <Icon name="play" className="w-5 h-5 text-(--arrow-color)!" />
-                </span>
+              <span ref={eventDropRef} className="py-0.5 relative min-w-6 inline-flex justify-center items-center text-sm bg-(--sidebar-badge-bg) rounded-[6px] pl-[8px] pr-2 gap-2.5">
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    setIsEventsDropDown((v) => !v);
+                    setIsCompetitionOpen(false);
+                    setIsEventTypeOpen(false);
+                  }}
+                  className="inline-flex cursor-pointer text-(--arrow-color)!"
+                >
+                  <Icon name="play" className="w-5 h-5" />
+                </button>
                 <a href="" className="inline-flex">
                   {eventName || "Event"}
                 </a>
+                {isEventsDropDown && (
+                  <ul className="absolute p-1 left-2 top-full glass mt-0 -ml-1 max-h-[200px] rounded-sm shadow-lg bg-[rgba(var(--palette-background-paperChannel)/90%)] text-(--palette-text-primary) backdrop-blur-[2px]! z-40 overflow-y-auto no-scrollbar">
+                    {Array.isArray(thirdItems) && thirdItems?.length > 0 ? (
+                      thirdItems?.map((item: any) => (
+                        <li key={item?.id}>
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              router.push(item?.href)
+                              setIsEventsDropDown(false);
+                            }}
+                            className={`text-sm w-full text-nowrap text-left relative bg-transparent cursor-pointer gap-2 font-semibold transition px-2 py-1.5 rounded-[6px] ${
+                              eventName === item?.name
+                                ? "bg-[rgba(255,255,255,0.25)]! text-(--primary-color)"
+                                : "hover:bg-[rgba(255,255,255,0.25)]"
+                            }`}
+                          >
+                            {item?.name}
+                          </button>
+                        </li>
+                      ))
+                    ) : (
+                      <li className="p-3 text-xs opacity-70">
+                        No competitions
+                      </li>
+                    )}
+                  </ul>
+                )}
               </span>
               <span className="text-[0.875rem]">
                 <div className="flex gap-2 items-center text-(--tab-default-text)">
