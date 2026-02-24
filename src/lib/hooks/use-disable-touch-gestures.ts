@@ -7,7 +7,7 @@ interface TouchEventWithScale extends TouchEvent {
 export const useDisableTouchGestures = (): void => {
   useEffect(() => {
     // Only run on client side (Next.js SSR safety)
-    if (typeof window === 'undefined') return;
+    if (typeof window === "undefined") return;
 
     let touchStartTime = 0;
     let touchCount = 0;
@@ -33,7 +33,7 @@ export const useDisableTouchGestures = (): void => {
     const handleTouchStart = (event: TouchEvent) => {
       touchCount = event.touches.length;
       touchStartTime = Date.now();
-      
+
       // Block any multi-touch immediately
       if (event.touches.length > 1) {
         event.preventDefault();
@@ -42,23 +42,39 @@ export const useDisableTouchGestures = (): void => {
       }
     };
 
+    // const handleTouchMove = (event: TouchEventWithScale) => {
+    //   // Block multi-touch gestures
+    //   if (event.touches.length > 1) {
+    //     event.preventDefault();
+    //     event.stopImmediatePropagation();
+    //     return false;
+    //   }
+
+    //   // Block pinch zoom detection
+    //   if (event.scale !== undefined && event.scale !== 1) {
+    //     event.preventDefault();
+    //     event.stopImmediatePropagation();
+    //     return false;
+    //   }
+
+    //   // Additional iOS Safari specific checks
+    //   if (touchCount > 1) {
+    //     event.preventDefault();
+    //     event.stopImmediatePropagation();
+    //     return false;
+    //   }
+    // };
+
     const handleTouchMove = (event: TouchEventWithScale) => {
-      // Block multi-touch gestures
+      // Agar 1 se zyada fingers touch ho rahi hain (chahe scroll ho raha ho ya nahi)
       if (event.touches.length > 1) {
         event.preventDefault();
         event.stopImmediatePropagation();
         return false;
       }
 
-      // Block pinch zoom detection
-      if (event.scale !== undefined && event.scale !== 1) {
-        event.preventDefault();
-        event.stopImmediatePropagation();
-        return false;
-      }
-
-      // Additional iOS Safari specific checks
-      if (touchCount > 1) {
+      // iOS Safari specific scale check (Pinch zoom check)
+      if (event.scale && event.scale !== 1) {
         event.preventDefault();
         event.stopImmediatePropagation();
         return false;
@@ -68,7 +84,7 @@ export const useDisableTouchGestures = (): void => {
     const handleTouchEnd = (event: TouchEvent) => {
       // Reset touch count
       touchCount = event.touches.length;
-      
+
       if (event.touches.length > 0) {
         event.preventDefault();
         event.stopImmediatePropagation();
@@ -91,11 +107,11 @@ export const useDisableTouchGestures = (): void => {
     };
 
     // Apply CSS styles to prevent gestures
-    const styleId = 'disable-touch-gestures';
+    const styleId = "disable-touch-gestures";
     let existingStyle = document.getElementById(styleId);
-    
+
     if (!existingStyle) {
-      const style = document.createElement('style');
+      const style = document.createElement("style");
       style.id = styleId;
       style.textContent = `
         html, body {
@@ -120,36 +136,36 @@ export const useDisableTouchGestures = (): void => {
     }
 
     // Event listeners with highest priority
-    const options = { 
-      passive: false, 
-      capture: true 
+    const options = {
+      passive: false,
+      capture: true,
     };
 
     // Gesture events (iOS Safari specific)
-    window.addEventListener('gesturestart', handleGestureStart, options);
-    window.addEventListener('gesturechange', handleGestureChange, options);
-    window.addEventListener('gestureend', handleGestureEnd, options);
-    
+    window.addEventListener("gesturestart", handleGestureStart, options);
+    window.addEventListener("gesturechange", handleGestureChange, options);
+    window.addEventListener("gestureend", handleGestureEnd, options);
+
     // Touch events
-    window.addEventListener('touchstart', handleTouchStart, options);
-    window.addEventListener('touchmove', handleTouchMove, options);
-    window.addEventListener('touchend', handleTouchEnd, options);
-    
+    window.addEventListener("touchstart", handleTouchStart, options);
+    window.addEventListener("touchmove", handleTouchMove, options);
+    window.addEventListener("touchend", handleTouchEnd, options);
+
     // Mouse events
-    window.addEventListener('dblclick', handleDoubleClick, options);
-    window.addEventListener('wheel', handleWheel, options);
+    window.addEventListener("dblclick", handleDoubleClick, options);
+    window.addEventListener("wheel", handleWheel, options);
 
     // Cleanup function
     return () => {
-      window.removeEventListener('gesturestart', handleGestureStart, options);
-      window.removeEventListener('gesturechange', handleGestureChange, options);
-      window.removeEventListener('gestureend', handleGestureEnd, options);
-      window.removeEventListener('touchstart', handleTouchStart, options);
-      window.removeEventListener('touchmove', handleTouchMove, options);
-      window.removeEventListener('touchend', handleTouchEnd, options);
-      window.removeEventListener('dblclick', handleDoubleClick, options);
-      window.removeEventListener('wheel', handleWheel, options);
-      
+      window.removeEventListener("gesturestart", handleGestureStart, options);
+      window.removeEventListener("gesturechange", handleGestureChange, options);
+      window.removeEventListener("gestureend", handleGestureEnd, options);
+      window.removeEventListener("touchstart", handleTouchStart, options);
+      window.removeEventListener("touchmove", handleTouchMove, options);
+      window.removeEventListener("touchend", handleTouchEnd, options);
+      window.removeEventListener("dblclick", handleDoubleClick, options);
+      window.removeEventListener("wheel", handleWheel, options);
+
       // Remove styles
       const styleElement = document.getElementById(styleId);
       if (styleElement) {

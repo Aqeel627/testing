@@ -129,7 +129,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
             href="/"
             onClick={() => window.dispatchEvent(new Event("reset-sidebar"))}
             className={cn(
-              pathName === "/" && "active text-(--primary-color)!",
+              pathName !== "/live-casino" && "active text-(--primary-color)!",
               "flex p-1 items-center relative text-[13px] font-bold --palette-text-primary  hover:--palette-text-primary  transition-colors group rounded-lg  hover:bg-(--primary-hover) ",
             )}
           >
@@ -144,7 +144,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
             )} */}
             <span
               className={cn(
-                pathName === "/"
+                pathName !== "/live-casino"
                   ? "active text-(--primary-color)! border-(--primary-color)!"
                   : "border-[#a5a7a9]",
                 " group-hover:--palette-text-primary transition-colors mr-[4px]  border rounded-full p-[2px]",
@@ -154,7 +154,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                 name="exchange"
                 className={cn(
                   "h-4 w-4",
-                  pathName === "/" && "text-(--primary-color)!",
+                  pathName !== "/live-casino" && "text-(--primary-color)!",
                 )}
               />
             </span>
@@ -407,7 +407,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
           <Link
             href="/"
             className={cn(
-              pathName === "/" && "active text-(--primary-color)!",
+              pathName !== "/live-casino" && "active text-(--primary-color)!",
               "flex py-1 relative pr-[4px] pl-1 items-center text-[13px] font-bold --palette-text-primary hover:--palette-text-primary  transition-colors group whitespace-nowrap",
             )}
           >
@@ -424,7 +424,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
             )} */}
             <span
               className={cn(
-                pathName === "/" && "text-(--primary-color)!",
+                pathName !== "/live-casino" && "text-(--primary-color)!",
                 " group-hover:--palette-text-primary transition-colors mr-[4px] ",
               )}
             >
