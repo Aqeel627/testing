@@ -255,6 +255,9 @@ export default function MarketDetails() {
   const tabsListRef = useRef<HTMLDivElement>(null);
   const [activeTab, setActiveTab] = useState<TabKey>("POPULAR");
   const [isMarketSectionOpen, setIsMarketSectionOpen] = useState(true);
+const [openLineGroups, setOpenLineGroups] = useState<Record<string, boolean>>(
+  {},
+);
   const [indicatorStyle, setIndicatorStyle] = useState({
     left: 0,
     top: 0,
@@ -935,8 +938,76 @@ export default function MarketDetails() {
   }, [updateIndicator, activeTab]);
 
   // ---------- UI helpers ----------
-  const getMarketTitle = (m: any) =>
-    m?.marketName || m?.marketType || m?.oddsType || m?.name || "Market";
+  // const getMarketTitle = (m: any) =>
+  //   m?.marketName || m?.marketType || m?.oddsType || m?.name || "Market";
+  const getMarketTitle = useCallback((m: any) => {
+  return m?.marketName || m?.marketType || m?.oddsType || m?.name || "Market";
+}, []);
+const isLineMarketFn = useCallback((m: any) => {
+  return String(m?.description?.bettingType || "").toUpperCase() === "LINE";
+}, []);
+
+// ONLY for ALL/POPULAR accordion area (existing flow safe)
+const accordionMarkets = useMemo(() => {
+  if (activeTab === "ALL") return allMarkets || [];
+  if (activeTab === "POPULAR") return popularMarkets || [];
+  return [];
+}, [activeTab, allMarkets, popularMarkets]);
+
+const oddsMarketsForAccordion = useMemo(() => {
+  return [...accordionMarkets]
+    .filter((m: any) => !isLineMarketFn(m))
+    .sort((a: any, b: any) => Number(a.sequence || 0) - Number(b.sequence || 0));
+}, [accordionMarkets, isLineMarketFn]);
+
+const lineMarketsForAccordion = useMemo(() => {
+  return [...accordionMarkets]
+    .filter((m: any) => isLineMarketFn(m))
+    .sort((a: any, b: any) => Number(a.sequence || 0) - Number(b.sequence || 0));
+}, [accordionMarkets, isLineMarketFn]);
+
+// Group LINE markets by dynamic name
+const lineGroups = useMemo(() => {
+  const map: Record<string, Market[]> = {};
+  for (const m of lineMarketsForAccordion) {
+    const key = getMarketTitle(m) || "Line Markets";
+    (map[key] ||= []).push(m);
+  }
+  return map;
+}, [lineMarketsForAccordion, getMarketTitle]);
+
+// stable dependency (prevents infinite loop)
+const lineGroupTitlesKey = useMemo(() => {
+  return Object.keys(lineGroups).sort().join("||");
+}, [lineGroups]);
+
+useEffect(() => {
+  const titles = lineGroupTitlesKey ? lineGroupTitlesKey.split("||") : [];
+
+  setOpenLineGroups((prev) => {
+    let changed = false;
+    const next = { ...prev };
+
+    // add new groups open by default
+    for (const t of titles) {
+      if (t && next[t] === undefined) {
+        next[t] = true;
+        changed = true;
+      }
+    }
+
+    // remove old groups
+    for (const k of Object.keys(next)) {
+      if (!titles.includes(k)) {
+        delete next[k];
+        changed = true;
+      }
+    }
+
+    // KEY: if nothing changed, don't update state
+    return changed ? next : prev;
+  });
+}, [lineGroupTitlesKey]);
 
   const getLimits = (m: any) => {
     const mn = Number(m?.min);
@@ -1273,6 +1344,7 @@ hover:bg-[var(--back-hover)] flex-1 min-w-0 cursor-pointer text-black transition
                                           market.marketType ||
                                           market.marketName,
                                         selectionId: runner.selectionId,
+                                        isLineMarket:isLineMarket,
                                       });
                                     }}
                                   >
@@ -1400,6 +1472,7 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)] flex-1 min-w-0 cursor-pointer tex
                                           market.marketType ||
                                           market.marketName,
                                         selectionId: runner.selectionId,
+                                        isLineMarket:isLineMarket,
                                       });
                                     }}
                                   >
@@ -1822,7 +1895,7 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)] flex-1 min-w-0 cursor-pointer tex
           )}
 
           {/* Display markets based on active tab */}
-          {activeTab === "ALL" || activeTab === "POPULAR" ? (
+          {/* {activeTab === "ALL" || activeTab === "POPULAR" ? (
             <AnimatePresence initial={false}>
               {isMarketSectionOpen && (
                 <motion.div
@@ -1881,7 +1954,105 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)] flex-1 min-w-0 cursor-pointer tex
                     </React.Fragment>
                   ))}
             </div>
-          )}
+          )} */}
+          {activeTab === "ALL" || activeTab === "POPULAR" ? (
+  <>
+    {/* ODDS (Non-LINE) - your current code stays */}
+    <AnimatePresence initial={false}>
+      {isMarketSectionOpen && (
+        <motion.div
+          key="market-section"
+          initial={{ height: 0, opacity: 0 }}
+          animate={{ height: "auto", opacity: 1 }}
+          exit={{ height: 0, opacity: 0 }}
+          transition={{ duration: 0.3, ease: "easeInOut" }}
+          className="overflow-hidden"
+        >
+          <div className="w-full flex flex-wrap gap-x-2 gap-y-2 mt-1">
+            {oddsMarketsForAccordion.map((m: any) => (
+              <React.Fragment key={String(m.exMarketId ?? m.marketId)}>
+                {renderMarketTable(m)}
+              </React.Fragment>
+            ))}
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+
+    {/* LINE MARKETS - NEW (dynamic market name collapses) */}
+    {Object.keys(lineGroups).map((title) => {
+      const isOpen = !!openLineGroups[title];
+      const markets = lineGroups[title] || [];
+
+      return (
+        <React.Fragment key={`line-group-${title}`}>
+          {/* Header same as Odds */}
+          <div
+            onClick={() =>
+              setOpenLineGroups((prev) => ({ ...prev, [title]: !isOpen }))
+            }
+            className="px-1 mt-2 min-[900px]:px-2 rounded-md bg-(--accordion-bg) flex flex-col justify-center w-full font-bold h-8 relative cursor-pointer"
+          >
+            <div className="relative flex flex-row items-center h-8 justify-between w-full">
+              <div className="text-[14px] text-(--accordion-text) font-[500] leading-[14px] flex-1 flex-[1_1_6rem] min-w-0 whitespace-nowrap truncate relative top-[1px]">
+                {title}
+              </div>
+              <span
+                className={`transition-transform duration-300 ${
+                  isOpen ? "rotate-90" : "rotate-0"
+                }`}
+              >
+                <Icon
+                  name="downArrow"
+                  width={20}
+                  height={20}
+                  className="text-(--accordion-text)"
+                />
+              </span>
+            </div>
+          </div>
+
+          {/* Body */}
+          <AnimatePresence initial={false}>
+            {isOpen && (
+              <motion.div
+                key={`line-section-${title}`}
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: "auto", opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.3, ease: "easeInOut" }}
+                className="overflow-hidden"
+              >
+                <div className="w-full flex flex-wrap gap-x-2 gap-y-2 mt-1">
+                  {markets.map((m: any) => (
+                    <React.Fragment key={String(m.exMarketId ?? m.marketId)}>
+                      {renderMarketTable(m)}
+                    </React.Fragment>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </React.Fragment>
+      );
+    })}
+  </>
+) : (
+  // filtered tab branch - DON'T TOUCH
+  <div className="w-full flex flex-wrap gap-x-2 gap-y-2 mt-1">
+    {filteredMarkets.length > 0 &&
+      filteredMarkets
+        .sort(
+          (a: any, b: any) =>
+            Number(a.sequence || 0) - Number(b.sequence || 0),
+        )
+        .map((m: any) => (
+          <React.Fragment key={String(m.exMarketId ?? m.marketId)}>
+            {renderMarketTable(m)}
+          </React.Fragment>
+        ))}
+  </div>
+)}
 
           {/* If empty */}
           {!allMarkets.length && (
