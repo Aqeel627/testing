@@ -1299,6 +1299,7 @@ ${i === 1 ? "max-[346px]:hidden" : ""}
                                             market.marketType ||
                                             market.marketName,
                                           selectionId: runner.selectionId,
+                                          isLineMarket:isLineMarket,
                                         });
                                       }}
                                     >
@@ -1344,7 +1345,6 @@ hover:bg-[var(--back-hover)] flex-1 min-w-0 cursor-pointer text-black transition
                                           market.marketType ||
                                           market.marketName,
                                         selectionId: runner.selectionId,
-                                        isLineMarket:isLineMarket,
                                       });
                                     }}
                                   >
@@ -1428,6 +1428,7 @@ ${i === 1 ? "max-[346px]:hidden" : ""}
                                             market.marketType ||
                                             market.marketName,
                                           selectionId: runner.selectionId,
+                                          isLineMarket:isLineMarket,
                                         });
                                       }}
                                     >
@@ -1472,7 +1473,6 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)] flex-1 min-w-0 cursor-pointer tex
                                           market.marketType ||
                                           market.marketName,
                                         selectionId: runner.selectionId,
-                                        isLineMarket:isLineMarket,
                                       });
                                     }}
                                   >
