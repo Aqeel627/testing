@@ -140,7 +140,7 @@
   --bs-lay-accent-bg10: rgba(255, 45, 85, 0.1);
   --bs-lay-accent-bg15: rgba(255, 45, 85, 0.15);
   --bs-lay-accent-rgb: #48c5fc;
-  --back-selected: #03b2ff; 
+  --back-selected: #03b2ff;
   --lay-selected: #ff7a7f;
 
   --palette-text-primary: #1c252e;
@@ -267,7 +267,6 @@
   --background: #141a21;
   --foreground: #ededed;
 
-
   --palette-text-primary: #ffffff;
   --palette-text-secondary: var(--secondary-text-color);
   --palette-text-disabled: #637381;
@@ -314,6 +313,15 @@ body {
     "Helvetica Neue",
     Arial,
     sans-serif;
+}
+
+html,
+body {
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-text-size-adjust: none;
+  overscroll-behavior: none;
+  touch-action: manipulation;
 }
 
 body:has(.drawer) {
