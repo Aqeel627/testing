@@ -14,7 +14,7 @@ export default function ContactUs() {
             <a href="#happy-to-help" className="cursor-pointer">We’re here to help!</a>
           </h2>
           <p className="text-base">
-            At 100Exch, we value our customers and are committed to providing excellent support.
+            At GJEXCH, we value our customers and are committed to providing excellent support.
             Whether you have a question, need assistance, or simply want to provide feedback, we’re just a message away.
             You can reach us through the following platforms:
           </p>
@@ -63,7 +63,7 @@ export default function ContactUs() {
           </h2>
           <p className="text-base">
             If you prefer email, you can reach us at&nbsp;
-            <a href="mailto:support@100exch.com" className="text-[#9E9EFF] underline cursor-pointer"></a>.
+            <a href="mailto:support@GJEXCH.com" className="text-[#9E9EFF] underline cursor-pointer"></a>.
           </p>
         </div>
 

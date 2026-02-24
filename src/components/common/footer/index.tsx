@@ -134,7 +134,7 @@ export default function Footer() {
                 href={CONFIG.domain}
                 className="cursor-pointer text-[#098DEE] hover:underline relative left-[1px]"
               >
-                100exch.
+                GJEXCH.
               </a>{" "}
               &nbsp; &nbsp; All rights reserved.
             </p>

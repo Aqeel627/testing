@@ -25,7 +25,7 @@ const RasGamRoute = () => {
 
           <p className="mb-2">
             <a className="underline text-[#9E9EFF] cursor-pointer" data-discover="true"> </a>
-            is operated by <b>100Exch</b> Company Registration number <b>92605.</b>
+            is operated by <b>GJEXCH</b> Company Registration number <b>92605.</b>
           </p>
 
           {/* 🔹 Section Component style */}
