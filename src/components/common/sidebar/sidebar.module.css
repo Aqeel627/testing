@@ -338,6 +338,14 @@
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
+
+    /* ✅ HARD GPU LAYER LOCK */
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+
+  /* ✅ isolate from parent repaint */
+  contain: paint;
 }
 
 .thirdItemText {
@@ -495,6 +503,8 @@
 
 .linkIconWrap {
   contain: paint;
+    /* ✅ prevent parent animation repaint */
+  transform: translateZ(0);
 }
 
 @supports (-webkit-touch-callout: none) {
@@ -515,3 +525,9 @@
   -webkit-touch-callout: none;
 }
 
+
+.sportDropdown {
+  overflow: hidden;
+  transform-origin: top;
+  will-change: transform, opacity;
+}
