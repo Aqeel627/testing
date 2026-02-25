@@ -341,17 +341,20 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                   {/* Links List */}
                   <ul className="my-2 px-2 flex flex-col">
                     {[
+                      { label: "Edit Password", href: "/edit-password" },
                       { label: "Statement", href: "/statement" },
+                      { label: "Profit/Loss", href: "/profit-loss" },
+                      { label: "Bets History", href: "/bets-history" },
                       { label: "Settings", href: "/settings" },
                       { label: "Activity", href: "/activity" },
-                      {
-                        label: "Bet Buttons",
-                        href: "/account/settings/bet-buttons",
-                      },
-                      {
-                        label: "Rules",
-                        href: "/rules",
-                      },
+                      // {
+                      //   label: "Bet Buttons",
+                      //   href: "/account/settings/bet-buttons",
+                      // },
+                      // {
+                      //   label: "Rules",
+                      //   href: "/rules",
+                      // },
                     ].map((item, index) => (
                       <li
                         key={index}
