@@ -51,7 +51,7 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
         <div
           className={cn(
             // "w-full overflow-hidden!",
-            "w-full min-h-screen",
+            "w-full min-h-screen app-scroll-root",
             (loginModal || isMobileSidebarOpen) && "overflow-hidden!",
           )}
         >

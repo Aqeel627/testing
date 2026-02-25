@@ -2,6 +2,7 @@
 import { useAppStore } from "@/lib/store/store";
 import React, { useState, useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
+import { CONFIG } from "@/lib/config";
 
 export default function BetSlipUI() {
   const [odds, setOdds] = useState<number>(0);
@@ -12,6 +13,7 @@ export default function BetSlipUI() {
   const [totalStakeAmount, setTotalStakeAmount] = useState("");
   const [showLiabilityForm, setShowLiabilityForm] = useState(false);
   const [totalLiabilityAmount, setTotalLiabilityAmount] = useState("");
+  const [quickValue, setQuickValue] = useState(0);
 
   const stakeFormRef = useRef<HTMLDivElement>(null);
   const liabilityFormRef = useRef<HTMLDivElement>(null);
@@ -81,6 +83,48 @@ export default function BetSlipUI() {
   const isLay = selectedBet.type === "lay";
   const isNo = selectedBet.type === "no";
   const isYes = selectedBet.type === "yes";
+
+  const handlePlaceBet = async () => {
+    if (!selectedBet || stake === 0) return;
+
+    const side = selectedBet.type.toLowerCase();
+
+    const payload = {
+      eventId: selectedBet?.eventId,
+      marketId: selectedBet?.marketId,
+      sportId: selectedBet?.sportId,
+      selectionId: selectedBet?.selectionId,
+      price: Number((odds || 0).toFixed(2)),
+      stake: Number((stake || 0).toFixed(2)),
+      side: side,
+      type: selectedBet?.marketType || "MATCH_ODDS",
+      matchMe: false,
+    };
+
+    try {
+      const res = await fetch(CONFIG.placeBetURL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) throw new Error(data.message || "Failed to place bet");
+
+      console.log("Bet Success:", data);
+
+      // reset after success
+      clearSelectedBet();
+      setStake(0);
+      setQuickValue(0);
+
+    } catch (error: any) {
+      console.error("Bet Error:", error.message);
+    }
+  };
 
 
   return (
@@ -638,7 +682,8 @@ export default function BetSlipUI() {
               Cancel all selections
             </button>
             <div className="flex-1 flex justify-end">
-              <button
+              {/* onClick={handlePlaceBet} */}
+              <button 
                 type="button"
                 className="rounded-[2px] inline-block p-[6px_12px] text-[13px] font-bold text-white bg-[#22c55e] hover:bg-[rgb(17,141,87)] cursor-pointer"
               >
