@@ -100,6 +100,7 @@ const QuickLinkItem = ({
   <li className={styles.item}>
     <Link
       href={href}
+      prefetch={false}
       onMouseDown={handleRipple}
       className={cn(styles.link, isActive && styles.linkActive)}
       onClick={() => {

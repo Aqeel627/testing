@@ -11,7 +11,7 @@ import { useAuthStore } from "@/lib/useAuthStore";
 import { ThemeToggle } from "../theme-toggler";
 import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useCacheStore } from "@/lib/store/cacheStore";
 import dynamic from "next/dynamic";
 import { useUIStore } from "@/lib/store/ui-store";
@@ -29,13 +29,14 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
   const { userBalance, setUserBalance } = useAppStore();
   const { setLoginModal } = useCacheStore();
   const { token, isLoggedIn, logout } = useAuthStore();
-  const { resolvedTheme, theme } = useTheme();
+  const { resolvedTheme, theme , setTheme} = useTheme();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const [hideBalance, setHideBalance] = useState(false);
   const { clearSelectedBet } = useAppStore();
   const toggleBets = useUIStore((s) => s.toggleBets);
   const pathName = usePathname();
+  const router = useRouter();
   const userName =
     token && typeof window !== "undefined"
       ? JSON.parse(localStorage.getItem("userDetail") || "null")?.userName || ""
@@ -74,6 +75,11 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
       document.body.style.overflow = "unset";
     };
   }, [isMenuOpen]);
+
+  const handleLogout = () => {
+    setIsMenuOpen(false);
+    logout();
+  };
 
   return (
     <header
@@ -165,6 +171,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
           </Link>
 
           <Link
+            prefetch={false}
             href="/live-casino"
             className={cn(
               pathName === "/live-casino" && "active text-(--primary-color)!",
@@ -225,6 +232,10 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
             >
               Bets
             </Link>
+          )}
+          {!isLoggedIn && (
+            <Icon name="themeSetting" width={22} height={22}
+              onClick={() => router.push("/theme")} />
           )}
 
           <Link
@@ -347,6 +358,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                         className="mb-1 hover:bg-[rgba(145,158,171,0.08)] rounded-[8px] no-underline h-12 min-[600px]:h-auto text-[0.875rem] leading-[1.57143px] "
                       >
                         <Link
+                          prefetch={false}
                           href={item.href}
                           onClick={() => setIsMenuOpen(false)}
                           className="flex items-center w-full px-2 py-2 text-[0.875rem] leading-[1.57143px] text-[var(--dropdowntext)] hover:text-[var(--palette-text-primary)] hover:bg-transparent transition-colors h-[34px]"
@@ -357,11 +369,24 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                     ))}
 
                     {/* Theme Option (Static Icon for now) */}
-                    <li className="mb-1 no-underline h-12 min-[600px]:h-auto text-[0.875rem] leading-[1.57143px] hover:bg-[rgba(145,158,171,0.08)] rounded-[8px]">
+                    <li onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                    className="mb-1 no-underline h-12 min-[600px]:h-auto text-[0.875rem] leading-[1.57143px] hover:bg-[rgba(145,158,171,0.08)] rounded-[8px]">
+                      <div className="flex items-center justify-between w-full px-2 text-[14px] text-[var(--dropdowntext)] hover:text-[var(--palette-text-primary)] hover:bg-white/5 transition-colors cursor-pointer">
+                        <span className="ml-4">
+                          {typeof window !== "undefined" &&
+                            (localStorage.getItem("theme") === "dark" ? "Light" : "Dark")} </span>
+                        <span>
+                          <ThemeToggle />
+                        </span>
+                      </div>
+                    </li>
+
+                    <li className="mb-1 no-underline h-12 min-[600px]:h-auto text-[0.875rem] leading-[1.57143px] hover:bg-[rgba(145,158,171,0.08)] rounded-[8px]"
+                      onClick={() => router.push("/theme")}>
                       <div className="flex items-center justify-between w-full px-2 text-[14px] text-[var(--dropdowntext)] hover:text-[var(--palette-text-primary)] hover:bg-white/5 transition-colors cursor-pointer">
                         <span className="ml-4">Theme</span>
                         <span>
-                          <ThemeToggle />
+                          <Icon name="themeSetting" className="h-6 w-6" />
                         </span>
                       </div>
                     </li>
@@ -398,7 +423,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                     <div className="absolute -bottom-4 hidden md:flex -left-4 w-20 h-20 bg-[#FF5630] blur-[30px] opacity-15 pointer-events-none"></div>
 
                     <button
-                      onClick={logout}
+                      onClick={handleLogout}
                       className="relative z-10 w-full text-left px-2 py-2 text-[14px] font-bold text-(--dropdown-logout-color) hover:bg-(--dropdown-logout-bg-hover) rounded-lg transition-colors cursor-pointer "
                     >
                       Logout
@@ -446,6 +471,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
 
           <Link
             href="/live-casino"
+            prefetch={false}
             className={cn(
               pathName === "/live-casino" && "active text-(--primary-color)",
               "flex py-1 pr-[4px] pl-[0.5px] items-center text-[13px] font-medium --palette-text-primary  hover:--palette-text-primary  transition-colors group whitespace-nowrap relative left-[3px] font-bold",
