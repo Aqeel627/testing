@@ -24,6 +24,7 @@ type HeaderProps = {
 
 export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
   // New state for checkbox toggles - default true
+  const {toggleBets}=useUIStore()
   const [showBalance, setShowBalance] = useState(true);
   const [showExposure, setShowExposure] = useState(true);
   const { userBalance, setUserBalance } = useAppStore();
