@@ -3,7 +3,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useAppStore } from "@/lib/store/store";
 import dynamic from "next/dynamic";
-const Icon = dynamic(() => import("@/icons/icons"));
+import Icon from "@/icons/icons";
 
 interface BreadCrumbProps {
   /** Override the page title shown above the crumbs. Defaults to last segment. */
