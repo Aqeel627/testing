@@ -1579,15 +1579,14 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)] flex-1 min-w-0 cursor-pointer tex
                     setIsCompetitionOpen(false);
                     setIsEventsDropDown(false)
                   }}
-                  className="inline-flex cursor-pointer text-(--arrow-color)!"
+                  className="inline-flex cursor-pointer "
                 >
-                  <Icon name="play" className="w-5 h-5" />
+                  <Icon name="play" className="w-5 h-5 text-(--arrow-color)!" />
+                   {sportNames[sportId]}
                 </button>
 
                 {/* ORIGINAL TEXT */}
-                <a href="" className="inline-flex">
-                  {sportNames[sportId]}
-                </a>
+                
 
                 {/* ORIGINAL DROPDOWN DESIGN */}
                 {isEventTypeOpen && (
@@ -1634,14 +1633,13 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)] flex-1 min-w-0 cursor-pointer tex
                     setIsEventTypeOpen(false);
                     setIsEventsDropDown(false)
                   }}
-                  className="text-market-name inline-flex cursor-pointer text-(--arrow-color)!"
+                  className="inline-flex cursor-pointer"
                 >
-                  <Icon name="play" className="w-5 h-5" />
+                  <Icon name="play" className="w-5 h-5 text-(--arrow-color)!" />
+                     {selectedCompetition || tournamentName || "Tournament"}
                 </button>
 
-                <a href="" className="inline-flex">
-                  {selectedCompetition || tournamentName || "Tournament"}
-                </a>
+             
 
                 {/* ✅ ORIGINAL DROPDOWN DESIGN */}
                 {isCompetitionOpen && (
@@ -1702,13 +1700,12 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)] flex-1 min-w-0 cursor-pointer tex
                     setIsCompetitionOpen(false);
                     setIsEventTypeOpen(false);
                   }}
-                  className="inline-flex cursor-pointer text-(--arrow-color)!"
+                  className="inline-flex cursor-pointer "
                 >
-                  <Icon name="play" className="w-5 h-5" />
-                </button>
-                <a href="" className="inline-flex">
+                  <Icon name="play" className="w-5 h-5 text-(--arrow-color)!" />
                   {eventName || "Event"}
-                </a>
+                </button>
+              
                 {isEventsDropDown && (
                   <ul className="absolute p-1 left-2 top-full glass mt-0 -ml-1 max-h-[200px] rounded-sm shadow-lg bg-[rgba(var(--palette-background-paperChannel)/90%)] text-(--palette-text-primary) backdrop-blur-[2px]! z-40 overflow-y-auto no-scrollbar">
                     {Array.isArray(thirdItems) && thirdItems?.length > 0 ? (
