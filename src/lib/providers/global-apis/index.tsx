@@ -13,6 +13,7 @@ const GlobalApisCall = () => {
     setAllEventsList,
     setMenuList,
     setOurBanners,
+    setStakeValue,
     setOurCasinoGames,
     setOurEvents,
   } = useAppStore();
@@ -55,6 +56,13 @@ const GlobalApisCall = () => {
       cachedKey: "menuList",
       setFn: setMenuList,
       expireIn: CONFIG.menuListTime,
+    });
+    fetchData({
+      url: CONFIG.getUserBetStake,
+      payload: { key: CONFIG.siteKey },
+      cachedKey: "betStake",
+      setFn: setStakeValue,
+      expireIn: CONFIG.getUserBetStakeTime,
     });
     fetchData({
       url: CONFIG.events,
