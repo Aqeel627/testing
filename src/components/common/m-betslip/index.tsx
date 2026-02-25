@@ -42,7 +42,7 @@ export default function MBetSlip() {
   };
 
   useEffect(() => {
-    console.log(selectedBet)
+    // console.log(selectedBet)
     if (selectedBet?.odds) {
       const n = Number(selectedBet.odds);
       setOdds(n);

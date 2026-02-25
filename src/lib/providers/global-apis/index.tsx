@@ -19,10 +19,10 @@ const GlobalApisCall = () => {
   const { checkLogin } = useAuthStore();
   const handleAllEvents = (data: any) => {
     setAllEventsList(data);
-    console.log("Events Set", data);
+    // console.log("Events Set", data);
 
     const formatted = useAppStore.getState().getFormattedInplayEvents?.();
-    console.log("Formatted:", formatted);
+    // console.log("Formatted:", formatted);
   };
 
   useDisableTouchGestures();

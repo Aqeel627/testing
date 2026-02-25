@@ -19,7 +19,7 @@ export default function Footer() {
                   alt="Secure"
                   width={106}
                   height={54}
-                  className="mb-[0px] lg:mb-0  mx-auto"
+                  className="mb-[0px] lg:mb-0  mx-auto w-[106px] h-[53px]"
                 />
 
                 <p className="mt-[9px] text-[13px] mb-[1px] font-semibold leading-[19px] dark:text-[white] lg:mt-2">

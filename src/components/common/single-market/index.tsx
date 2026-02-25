@@ -6,10 +6,12 @@ import { AnimatedNumber } from "@/components/common/animatied-number";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import MarketLoader from "../market-loader";
+// import MarketLoader from "../market-loader";
 import { EventTimer } from "./event-timer";
 import Icon from "@/icons/icons";
 import MBetSlip from "@/components/common/m-betslip";
+import dynamic from "next/dynamic";
+const MarketLoader = dynamic(() => import('@/components/common/market-loader'),);
 
 const SingleMarket = ({
   events,

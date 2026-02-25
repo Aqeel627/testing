@@ -368,7 +368,7 @@ export const icons = {
       x="0px"
       y="0px"
       viewBox="0 0 25 25"
-      enable-background="new 0 0 25 25"
+      enableBackground="new 0 0 25 25"
     >
       <path
       fill="currentColor"
@@ -1018,7 +1018,7 @@ export const icons = {
       width="14px"
       height="14px"
       viewBox="0 0 14 14"
-      enable-background="new 0 0 14 14"
+      enableBackground="new 0 0 14 14"
     >
       <g>
         <path
@@ -1053,7 +1053,7 @@ export const icons = {
       width="14px"
       height="14px"
       viewBox="0 0 14 14"
-      enable-background="new 0 0 14 14"
+      enableBackground="new 0 0 14 14"
     >
       <g>
         <path
@@ -1076,7 +1076,7 @@ export const icons = {
       width="14px"
       height="14px"
       viewBox="0 0 14 14"
-      enable-background="new 0 0 14 14"
+      enableBackground="new 0 0 14 14"
     >
       <g>
         <path
@@ -1148,7 +1148,7 @@ export const icons = {
     </svg>
   ),
   themeSettingLight:(
-    <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" width="22px" height="22px" viewBox="0 0 22 22" enable-background="new 0 0 22 22" xmlSpace="preserve">
+    <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" width="22px" height="22px" viewBox="0 0 22 22" enableBackground="new 0 0 22 22" xmlSpace="preserve">
 <g>
 	<path fillRule="evenodd" clipRule="evenodd" d="M15.046,15.901c-0.482,0-0.966-0.023-1.446,0.006   c-0.717,0.043-1.229,0.426-1.52,1.072c-0.273,0.61-0.209,1.212,0.165,1.771c0.113,0.169,0.257,0.321,0.354,0.498   c0.698,1.269-0.173,2.737-1.631,2.735c-1.841-0.003-3.58-0.441-5.194-1.328c-2.138-1.175-3.76-2.861-4.745-5.095   c-1.495-3.39-1.376-6.755,0.448-9.989C3.087,2.721,5.536,0.867,8.75,0.268c4.473-0.834,8.337,0.397,11.29,3.957   c1.47,1.771,2.131,3.87,1.922,6.188c-0.247,2.749-2.424,5.004-5.155,5.396c-0.105,0.015-0.21,0.044-0.314,0.045   c-0.482,0.005-0.552,0.057-1.034,0.057C15.458,15.924,15.046,15.885,15.046,15.901z"/>
 	<path fillRule="evenodd" clipRule="evenodd" fill="#FF0000" d="M7.633,7.048c-1.122,0.004-2.031-0.894-2.04-2.016   C5.584,3.925,6.504,3.004,7.621,3C8.743,2.997,9.652,3.899,9.657,5.02S8.76,7.043,7.633,7.048z"/>
@@ -1160,7 +1160,7 @@ export const icons = {
 </svg>
   ),
   themeSettingDark: (
-    <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" width="22" height="22" viewBox="0 0 22 22" fill="#fff" enable-background="new 0 0 22 22" xmlSpace="preserve">
+    <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" width="22" height="22" viewBox="0 0 22 22" fill="#fff" enableBackground="new 0 0 22 22" xmlSpace="preserve">
       <g>
         <path fillRule="evenodd" clipRule="evenodd" d="M15.046,15.901c-0.482,0-0.966-0.023-1.446,0.006   c-0.717,0.043-1.229,0.426-1.52,1.072c-0.273,0.61-0.209,1.212,0.165,1.771c0.113,0.169,0.257,0.321,0.354,0.498   c0.698,1.269-0.173,2.737-1.631,2.735c-1.841-0.003-3.58-0.441-5.194-1.328c-2.138-1.175-3.76-2.861-4.745-5.095   c-1.495-3.39-1.376-6.755,0.448-9.989C3.087,2.721,5.536,0.867,8.75,0.268c4.473-0.834,8.337,0.397,11.29,3.957   c1.47,1.771,2.131,3.87,1.922,6.188c-0.247,2.749-2.424,5.004-5.155,5.396c-0.105,0.015-0.21,0.044-0.314,0.045   c-0.482,0.005-0.552,0.057-1.034,0.057C15.458,15.924,15.046,15.885,15.046,15.901z"></path>
         <path fillRule="evenodd" clipRule="evenodd" fill="#FF0000" d="M7.633,7.048c-1.122,0.004-2.031-0.894-2.04-2.016   C5.584,3.925,6.504,3.004,7.621,3C8.743,2.997,9.652,3.899,9.657,5.02S8.76,7.043,7.633,7.048z"></path>
@@ -1172,7 +1172,7 @@ export const icons = {
     </svg>
   ),
   stakeDark:(
-    <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" width="22px" height="22px" viewBox="0 0 22 22" enable-background="new 0 0 22 22" xmlSpace="preserve">
+    <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" width="22px" height="22px" viewBox="0 0 22 22" enableBackground="new 0 0 22 22" xmlSpace="preserve">
 <g>
 	<path fillRule="evenodd" clipRule="evenodd" fill="#078DEE" d="M17.191,2.779c0.46,0.328,0.812,0.764,1.163,1.195   c1.042,1.277,1.856,2.685,2.385,4.251c-0.297,0.202-0.652,0.239-0.981,0.348c-0.377,0.125-0.764,0.219-1.139,0.351   C18.5,8.931,18.503,8.831,18.477,8.76c-0.17-0.464-0.341-0.929-0.574-1.363c-0.453-0.844-0.975-1.644-1.653-2.329   c-0.138-0.139-0.263-0.287-0.369-0.451c-0.023-0.042-0.04-0.087-0.042-0.136c0.004-0.085,0.047-0.152,0.099-0.215   c0.365-0.449,0.723-0.905,1.087-1.355C17.07,2.853,17.117,2.8,17.191,2.779z"/>
 	<path fillRule="evenodd" clipRule="evenodd" fill="#078DEE" d="M21.275,13.341c-0.021,0.799-0.217,1.564-0.463,2.316   c-0.349,1.063-0.881,2.026-1.607,2.88c-0.037,0.042-0.08,0.079-0.12,0.118c-0.098,0.02-0.146-0.055-0.204-0.107   c-0.577-0.533-1.073-1.146-1.644-1.685c-0.012-0.011-0.014-0.028-0.015-0.046c0.354-0.452,0.704-0.906,0.963-1.426   c0.399-0.801,0.632-1.646,0.736-2.531c0.014-0.112,0.009-0.229,0.109-0.31c0.242,0.03,0.46,0.141,0.688,0.213   c0.431,0.137,0.857,0.286,1.286,0.428C21.104,13.224,21.21,13.246,21.275,13.341z"/>
@@ -1236,7 +1236,7 @@ export const icons = {
 </svg>
   ),
   stakeLight:(
-    <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" width="22px" height="22px" viewBox="0 0 22 22" enable-background="new 0 0 22 22" xmlSpace="preserve">
+    <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" width="22px" height="22px" viewBox="0 0 22 22" enableBackground="new 0 0 22 22" xmlSpace="preserve">
 <g>
 	<path fillRule="evenodd" clipRule="evenodd" fill="#078DEE" d="M17.191,2.779c0.46,0.328,0.812,0.764,1.163,1.195   c1.042,1.277,1.856,2.685,2.385,4.251c-0.297,0.202-0.652,0.239-0.981,0.348c-0.377,0.125-0.764,0.219-1.139,0.351   C18.5,8.931,18.503,8.831,18.477,8.76c-0.17-0.463-0.341-0.929-0.574-1.363c-0.453-0.844-0.975-1.644-1.653-2.329   c-0.138-0.139-0.263-0.287-0.369-0.451c-0.023-0.042-0.04-0.087-0.042-0.136c0.004-0.085,0.047-0.152,0.099-0.215   c0.365-0.449,0.723-0.905,1.087-1.355C17.07,2.853,17.117,2.8,17.191,2.779z"/>
 	<path fillRule="evenodd" clipRule="evenodd" fill="#078DEE" d="M21.275,13.341c-0.021,0.799-0.217,1.564-0.463,2.316   c-0.349,1.063-0.881,2.026-1.607,2.88c-0.037,0.042-0.08,0.079-0.12,0.118c-0.098,0.02-0.146-0.055-0.204-0.107   c-0.577-0.533-1.073-1.146-1.644-1.685c-0.012-0.011-0.014-0.028-0.015-0.046c0.354-0.452,0.704-0.906,0.963-1.426   c0.399-0.801,0.632-1.646,0.736-2.531c0.014-0.112,0.009-0.229,0.109-0.311c0.242,0.031,0.46,0.142,0.688,0.214   c0.431,0.137,0.857,0.286,1.286,0.428C21.104,13.224,21.21,13.246,21.275,13.341z"/>
