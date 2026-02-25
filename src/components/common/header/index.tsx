@@ -29,7 +29,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
   const { userBalance, setUserBalance } = useAppStore();
   const { setLoginModal } = useCacheStore();
   const { token, isLoggedIn, logout } = useAuthStore();
-  const { resolvedTheme, theme , setTheme} = useTheme();
+  const { resolvedTheme, theme, setTheme } = useTheme();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const [hideBalance, setHideBalance] = useState(false);
@@ -228,27 +228,19 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
           {isLoggedIn && (
             <Link
               href=""
+              onClick={toggleBets}
               className="inline-flex items-center justify-center relative box-border cursor-pointer select-none align-middle appearance-none font-sans font-bold leading-[1.71429] normal-case min-w-[64px] text-[0.8125rem] h-[30px] outline-none m-0 no-underline rounded-lg border border-solid py-[3px] px-1 min-[600px]:px-[8px] transition-all duration-[250ms] ease-[cubic-bezier(0.4,0,0.2,1)] bg-transparent hover:border-[1px] hover:border-[#078dee] text-[#078DEE] border-[#078dee7a] hover:bg-blue-600/5 hover:shadow-[0px_0px_0px_0.75px_currentColor]"
             >
               Bets
             </Link>
           )}
+
+          
           {!isLoggedIn && (
             <Icon name="themeSetting" width={22} height={22}
               onClick={() => router.push("/theme")} />
           )}
 
-          <Link
-            href=""
-            onClick={toggleBets}
-            className="inline-flex items-center justify-center relative box-border cursor-pointer select-none align-middle appearance-none font-sans font-bold leading-[1.71429] normal-case min-w-[64px] text-[0.8125rem] h-[30px] outline-none m-0 no-underline rounded-lg border border-solid py-[3px] px-1 min-[600px]:px-[8px] transition-all duration-[250ms] ease-[cubic-bezier(0.4,0,0.2,1)] bg-transparent hover:border-[1px] hover:border-[#078dee] text-[#078DEE] border-[#078dee7a] hover:bg-blue-600/5 hover:shadow-[0px_0px_0px_0.75px_currentColor]"
-          >
-            Bets
-          </Link>
-
-          <span className="hidden min-[600px]:flex ">
-            <ThemeToggle />
-          </span>
           {!isLoggedIn && (
             // <Link
             //   href="/login"
@@ -370,7 +362,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
 
                     {/* Theme Option (Static Icon for now) */}
                     <li onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                    className="mb-1 no-underline h-12 min-[600px]:h-auto text-[0.875rem] leading-[1.57143px] hover:bg-[rgba(145,158,171,0.08)] rounded-[8px]">
+                      className="mb-1 no-underline h-12 min-[600px]:h-auto text-[0.875rem] leading-[1.57143px] hover:bg-[rgba(145,158,171,0.08)] rounded-[8px]">
                       <div className="flex items-center justify-between w-full px-2 text-[14px] text-[var(--dropdowntext)] hover:text-[var(--palette-text-primary)] hover:bg-white/5 transition-colors cursor-pointer">
                         <span className="ml-4">
                           {typeof window !== "undefined" &&

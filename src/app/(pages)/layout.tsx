@@ -121,10 +121,9 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
 
               <ResizablePanel
                 minSize={450}
-                // NOTE: "70%" ki jagah numbers use karein (70), ye library ka rule hai
                 defaultSize={isBetsOpen ? 70 : 100}
                 className="transition-all duration-300 ease-in-out h-full pt-[50px] overflow-y-auto no-scrollbar pb-[30px] min-w-[450px] ps-3 pe-[6px] mt-[10px]"
-                style={{ transition: "flex 0.35s ease-in-out" }} // 👈 Ye jadoo karega
+                style={{ transition: "flex 0.35s ease-in-out" }}
               >
                 <div className="@container w-full">
                   {children}
@@ -134,21 +133,32 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
 
               {isBetsOpen && (
                 <>
-                  <ResizableHandle
-                    withHandle
-                    className="ml-[6.5px] bg-[rgba(145,158,171,0.2)] w-1 mt-[50px]"
-                  />
+                <ResizableHandle
+                withHandle
+                className={cn(
+                  "bg-[rgba(145,158,171,0.2)] mt-[50px] transition-all duration-500 ease-in-out",
+                  isBetsOpen ? "w-1 ml-[6.5px] opacity-100" : "w-0 ml-0 opacity-0 pointer-events-none"
+                )}
+              />
 
-                  <ResizablePanel
-                    defaultSize={isBetsOpen ? 30 : 0}
-                    className="animate-in slide-in-from-right fade-in duration-300 flex-auto min-w-0 h-full overflow-y-auto no-scrollbar pt-[50px] border-l border-white/5"
-                    style={{ transition: "flex 0.35s ease-in-out" }}
-                  >
-                    <BetSlip />
-                    {isLoggedIn && <BetsTable />}
-                  </ResizablePanel>
-                </>
+              <ResizablePanel
+                defaultSize={isBetsOpen ? 30 : 0}
+                className={cn(
+                  "h-full overflow-hidden pt-[50px] transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]",
+                  isBetsOpen
+                    ? "border-l border-white/5 opacity-100"
+                    : "!flex-[0_0_0%] !min-w-0 !border-0 opacity-0 px-0 pointer-events-none"
+                )}
+                style={{ transitionProperty: "flex, opacity, width" }}
+              >
+                <div className="max-w-[320px] h-full overflow-y-auto no-scrollbar">
+                  <BetSlip />
+                  {isLoggedIn && <BetsTable />}
+                </div>
+              </ResizablePanel>
+              </>
               )}
+
 
 
 
