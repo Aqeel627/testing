@@ -7,6 +7,12 @@ export const useCacheStore = create<any>()(
     (set) => ({
       loginModal: false,
       setLoginModal: (open: boolean) => set({ loginModal: open }),
+
+      isPasswordModalOpen: false,
+      setIsPasswordModalOpen: (open: boolean) => set({ isPasswordModalOpen: open }),
+
+      openPasswordModal: () => set({ isPasswordModalOpen: true }),
+      closePasswordModal: () => set({ isPasswordModalOpen: false }),
     }),
     {
       name: "cache-store", // localStorage key
