@@ -226,13 +226,12 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
 
         <div className="flex items-center gap-2 sm:gap-[6px]">
           {isLoggedIn && (
-            <Link
-              href=""
+            <button
               onClick={toggleBets}
               className="inline-flex items-center justify-center relative box-border cursor-pointer select-none align-middle appearance-none font-sans font-bold leading-[1.71429] normal-case min-w-[64px] text-[0.8125rem] h-[30px] outline-none m-0 no-underline rounded-lg border border-solid py-[3px] px-1 min-[600px]:px-[8px] transition-all duration-[250ms] ease-[cubic-bezier(0.4,0,0.2,1)] bg-transparent hover:border-[1px] hover:border-[#078dee] text-[#078DEE] border-[#078dee7a] hover:bg-blue-600/5 hover:shadow-[0px_0px_0px_0.75px_currentColor]"
             >
               Bets
-            </Link>
+            </button>
           )}
 
 

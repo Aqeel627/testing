@@ -12,13 +12,21 @@ import {
   ResizablePanelGroup,
 } from "@/components/common/resizeable";
 import ChangePassword from "@/components/modal/change-password";
-const Header = dynamic(() => import("@/components/common/header"));
-const Footer = dynamic(() => import("@/components/common/footer"));
-const Sidebar = dynamic(() => import("@/components/common/sidebar"));
-const BetSlip = dynamic(() => import("@/components/common/betslip"));
-const BottomNavbar = dynamic(() => import("@/components/common/bottom-nav"));
-const LoginModal = dynamic(() => import("@/components/modal/login"));
-const BetsTable = dynamic(() => import("@/components/common/betstable"));
+import Header from "@/components/common/header";
+import Sidebar from "@/components/common/sidebar";
+import Footer from "@/components/common/footer";
+import BottomNavbar from "@/components/common/bottom-nav";
+import LoginModal from "@/components/modal/login";
+import BetSlipUI from "@/components/common/betslip";
+import BetsTable from "@/components/common/betstable";
+import { AnimatePresence, motion } from "framer-motion";
+// const Header = dynamic(() => import("@/components/common/header"));
+// const Footer = dynamic(() => import("@/components/common/footer"));
+// const Sidebar = dynamic(() => import("@/components/common/sidebar"));
+// const BetSlip = dynamic(() => import("@/components/common/betslip"));
+// const BottomNavbar = dynamic(() => import("@/components/common/bottom-nav"));
+// const LoginModal = dynamic(() => import("@/components/modal/login"));
+// const BetsTable = dynamic(() => import("@/components/common/betstable"));
 
 const MAIN_WIDTH_STORAGE_KEY = "pages-layout-main-width";
 
@@ -131,25 +139,32 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
                   <Footer />
                 </div>
               </ResizablePanel>
+              <AnimatePresence>
+                {(!isLoggedIn || isBetsOpen) && (
+                  <>
+                    <ResizableHandle
+                      withHandle
+                      className="ml-[6.5px] bg-[rgba(145,158,171,0.2)] w-1 mt-[50px]"
+                    />
 
-              {/* Conditionally rendering handle and right panel based on your logic */}
-              {(!isLoggedIn || isBetsOpen) && (
-                <>
-                  <ResizableHandle
-                    withHandle
-                    className="ml-[6.5px] bg-[rgba(145,158,171,0.2)] w-1 mt-[50px]"
-                  />
-
-                  <ResizablePanel
-                    defaultSize="30%"
-                    className="flex-auto min-w-0 h-full overflow-y-auto no-scrollbar pt-[50px] border-l border-white/5"
-                  >
-                    <BetSlip />
-                    {/* Jab login hoga tabhi BetsTable show hoga */}
-                    {isLoggedIn && <BetsTable />}
-                  </ResizablePanel>
-                </>
-              )}
+                    <ResizablePanel
+                      defaultSize={"30%"}
+                      className="flex-auto min-w-0 h-full border-l border-white/5 overflow-hidden pt-[50px]"
+                    >
+                      <motion.div
+                        initial={{ x: "100%", opacity: 0 }}
+                        animate={{ x: 0, opacity: 1 }}
+                        exit={{ x: "100%", opacity: 0 }}
+                        transition={{ duration: 0.3, ease: "easeOut" }}
+                        className="w-full h-full overflow-y-auto no-scrollbar"
+                      >
+                        <BetSlipUI />
+                        {isLoggedIn && <BetsTable />}
+                      </motion.div>
+                    </ResizablePanel>
+                  </>
+                )}
+              </AnimatePresence>
             </ResizablePanelGroup>
           </div>
         </div>

@@ -16,6 +16,6 @@ export const useUIStore = create<AppState>((set) => ({
   isSidebarOpen: false,
   closeSidebar: () => set({ isSidebarOpen: false }),
   openSidebar: () => set({ isSidebarOpen: true }),
-  isBetsOpen: false,
+  isBetsOpen: true,
   toggleBets: () => set((state) => ({ isBetsOpen: !state.isBetsOpen })),
 }));
