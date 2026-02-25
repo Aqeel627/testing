@@ -7,7 +7,7 @@
 // const BASE_URL_APIX = "https://100exch.com";
 
 export const BASE_URL_NewApi = "https://auexch.yourdesign.live";
-export const BASE_URL_100 = "https://auexch.yourdesign.live";
+export const BASE_URL_100 = "https://100exch.com";
 
 export const BASE_URL_API = '';
 export const BASE_URL_V1 = "";
