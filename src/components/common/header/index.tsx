@@ -245,10 +245,11 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
               />
             )
           )}
-
-          <span className="hidden min-[600px]:flex ">
-            <ThemeToggle />
-          </span>
+          {!isLoggedIn && (
+            <span className="hidden min-[600px]:flex ">
+              <ThemeToggle />
+            </span>
+          )}
           {!isLoggedIn && (
             // <Link
             //   href="/login"
@@ -342,7 +343,8 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                   <ul className="my-2 px-2 flex flex-col">
                     {[
                       { label: "Edit Password", href: "/edit-password" },
-                      { label: "Statement", href: "/statement" },
+                      // /statement
+                      { label: "Statement", href: "" },
                       { label: "Profit/Loss", href: "/profit-loss" },
                       { label: "Bets History", href: "/bets-history" },
                       { label: "Settings", href: "/settings" },
