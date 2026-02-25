@@ -119,6 +119,7 @@ export default function Footer() {
               <Link
                 key={i}
                 href={item.href}
+                prefetch={false}
                 className="hover:underline hover:text-(--primary-color) cursor-pointer py-1"
               >
                 {item.name}
