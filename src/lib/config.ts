@@ -7,6 +7,7 @@
 // const BASE_URL_APIX = "https://100exch.com";
 
 export const BASE_URL_NewApi = "https://auexch.yourdesign.live";
+export const BASE_URL_100 = "https://100exch.com";
 
 export const BASE_URL_API = '';
 export const BASE_URL_V1 = "";
@@ -80,9 +81,9 @@ export const CONFIG = {
   getDaysWiseEventsTime: 1440, //check
 
   getUserProfile: BASE_URL + "/app/exchange/users/userProfile", // done
-  playerLogin: BASE_URL + "/app/users/playerLogin",
+  playerLogin: BASE_URL_100 + "/app/users/playerLogin",
   getIpLocation: "https://pro.ip-api.com/json/?key=qSA5ctYZHdWsx04", // done
-  getUserBalance: BASE_URL + "/app/exchange/users/userBalance", // done
+  getUserBalance: BASE_URL_100 + "/app/exchange/users/userBalance", // done
   changeUserPassword: BASE_URL + "/app/exchange/users/userChangePassword", // done
   getUserBetStake: BASE_URL + "/app/exchange/users/userBetStakeList", // done
   getUserBetStakeTime: 518400,
