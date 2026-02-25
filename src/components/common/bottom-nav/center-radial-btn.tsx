@@ -5,7 +5,7 @@ import { useTheme } from "next-themes";
 import "./custome-style.css";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
-const Icon = dynamic(() => import("@/icons/icons"));
+import Icon from "@/icons/icons";
 
 const clamp = (v: number, a: number, b: number) => Math.max(a, Math.min(b, v));
 const rad2deg = (r: number) => (r * 180) / Math.PI;

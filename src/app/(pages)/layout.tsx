@@ -67,17 +67,19 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
 
           {/* ✅ backdrop closes via store */}
           <div
-            className={`fixed inset-0 z-[60] bg-black/50 transition-opacity duration-300 ${isMobileSidebarOpen
-              ? "opacity-100 pointer-events-auto"
-              : "opacity-0 pointer-events-none"
-              }`}
+            className={`fixed inset-0 z-[60] bg-black/50 transition-opacity duration-300 ${
+              isMobileSidebarOpen
+                ? "opacity-100 pointer-events-auto"
+                : "opacity-0 pointer-events-none"
+            }`}
             onClick={() => closeMobileSidebar()}
             aria-hidden="true"
           />
 
           <aside
-            className={`fixed top-0 sidebar-container left-0 z-[70] h-screen w-[288px] max-w-[85vw] bg-[var(--background)] overflow-y-auto no-scrollbar transition-transform duration-300 ease-in-out ${isMobileSidebarOpen ? "translate-x-0 drawer" : "-translate-x-full"
-              }`}
+            className={`fixed top-0 sidebar-container left-0 z-[70] h-screen w-[288px] max-w-[85vw] bg-[var(--background)] overflow-y-auto no-scrollbar transition-transform duration-300 ease-in-out ${
+              isMobileSidebarOpen ? "translate-x-0 drawer" : "-translate-x-full"
+            }`}
           >
             <Sidebar />
           </aside>
@@ -121,9 +123,8 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
 
               <ResizablePanel
                 minSize={450}
-                defaultSize={isBetsOpen ? 70 : 100}
-                className="transition-all duration-300 ease-in-out h-full pt-[50px] overflow-y-auto no-scrollbar pb-[30px] min-w-[450px] ps-3 pe-[6px] mt-[10px]"
-                style={{ transition: "flex 0.35s ease-in-out" }}
+                defaultSize="70%"
+                className="h-full pt-[50px] overflow-y-auto no-scrollbar pb-[30px] min-w-[450px] ps-3 pe-[6px] mt-[10px]"
               >
                 <div className="@container w-full">
                   {children}
@@ -131,37 +132,24 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
                 </div>
               </ResizablePanel>
 
-              {isBetsOpen && (
+              {/* Conditionally rendering handle and right panel based on your logic */}
+              {(!isLoggedIn || isBetsOpen) && (
                 <>
-                <ResizableHandle
-                withHandle
-                className={cn(
-                  "bg-[rgba(145,158,171,0.2)] mt-[50px] transition-all duration-500 ease-in-out",
-                  isBetsOpen ? "w-1 ml-[6.5px] opacity-100" : "w-0 ml-0 opacity-0 pointer-events-none"
-                )}
-              />
+                  <ResizableHandle
+                    withHandle
+                    className="ml-[6.5px] bg-[rgba(145,158,171,0.2)] w-1 mt-[50px]"
+                  />
 
-              <ResizablePanel
-                defaultSize={isBetsOpen ? 30 : 0}
-                className={cn(
-                  "h-full overflow-hidden pt-[50px] transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]",
-                  isBetsOpen
-                    ? "border-l border-white/5 opacity-100"
-                    : "!flex-[0_0_0%] !min-w-0 !border-0 opacity-0 px-0 pointer-events-none"
-                )}
-                style={{ transitionProperty: "flex, opacity, width" }}
-              >
-                <div className="max-w-[320px] h-full overflow-y-auto no-scrollbar">
-                  <BetSlip />
-                  {isLoggedIn && <BetsTable />}
-                </div>
-              </ResizablePanel>
-              </>
+                  <ResizablePanel
+                    defaultSize="30%"
+                    className="flex-auto min-w-0 h-full overflow-y-auto no-scrollbar pt-[50px] border-l border-white/5"
+                  >
+                    <BetSlip />
+                    {/* Jab login hoga tabhi BetsTable show hoga */}
+                    {isLoggedIn && <BetsTable />}
+                  </ResizablePanel>
+                </>
               )}
-
-
-
-
             </ResizablePanelGroup>
           </div>
         </div>

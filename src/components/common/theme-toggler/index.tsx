@@ -2,7 +2,7 @@
 import { useTheme } from "next-themes";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
-const Icon = dynamic(() => import("@/icons/icons"));
+import Icon from "@/icons/icons";
 
 export function ThemeToggle() {
   const [mounted, setMounted] = useState(false);

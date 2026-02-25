@@ -8,7 +8,7 @@ import { usePathname } from "next/navigation";
 import { useMiniCasinoStore } from "@/lib/store/miniCasinoStore";
 import { useCacheStore } from "@/lib/store/cacheStore";
 import dynamic from "next/dynamic";
-const Icon = dynamic(() => import("@/icons/icons"));
+import Icon from "@/icons/icons";
 const CenterRadialButton = dynamic(
   () => import("@/components/common/bottom-nav/center-radial-btn"),
 );

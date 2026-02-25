@@ -15,7 +15,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useCacheStore } from "@/lib/store/cacheStore";
 import dynamic from "next/dynamic";
 import { useUIStore } from "@/lib/store/ui-store";
-const Icon = dynamic(() => import("@/icons/icons"));
+import Icon from "@/icons/icons";
 
 type HeaderProps = {
   onMenuClick?: () => void;
