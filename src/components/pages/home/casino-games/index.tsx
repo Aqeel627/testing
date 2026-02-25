@@ -8,7 +8,7 @@ export default function CasinoGames({ hideHeading }: { hideHeading?: boolean }) 
 
 
   useEffect(() => {
-    console.log("ourCasinoGames", ourCasinoGames);
+    // console.log("ourCasinoGames", ourCasinoGames);
   }, [ourCasinoGames]);
 
 

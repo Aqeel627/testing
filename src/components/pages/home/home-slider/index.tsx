@@ -67,7 +67,7 @@ export default function HomeSlider() {
   }
 
   useEffect(() => {
-    console.log(ourBanners, 'ourBanners');
+    // console.log(ourBanners, 'ourBanners');
   }, [ourBanners])
 
   return (

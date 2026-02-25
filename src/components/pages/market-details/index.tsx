@@ -17,7 +17,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { webSocketService } from "@/lib/websocket.service";
 import { VideoSimple } from "@/components/video-simple/VideoSimple";
 import dynamic from "next/dynamic";
-import MarketLoader from "@/components/common/market-loader";
+// import MarketLoader from "@/components/common/market-loader";
+const MarketLoader = dynamic(() => import('@/components/common/market-loader'),);
 import RuleModal from "@/components/modal/role";
 import Icon from "@/icons/icons";
 import MBetSlip from "@/components/common/m-betslip";
@@ -255,9 +256,7 @@ export default function MarketDetails() {
   const tabsListRef = useRef<HTMLDivElement>(null);
   const [activeTab, setActiveTab] = useState<TabKey>("POPULAR");
   const [isMarketSectionOpen, setIsMarketSectionOpen] = useState(true);
-  const [openLineGroups, setOpenLineGroups] = useState<Record<string, boolean>>(
-    {},
-  );
+  const [isLineSectionOpen, setIsLineSectionOpen] = useState(true);
   const [indicatorStyle, setIndicatorStyle] = useState({
     left: 0,
     top: 0,
@@ -943,9 +942,13 @@ export default function MarketDetails() {
   const getMarketTitle = useCallback((m: any) => {
     return m?.marketName || m?.marketType || m?.oddsType || m?.name || "Market";
   }, []);
-  const isLineMarketFn = useCallback((m: any) => {
-    return String(m?.description?.bettingType || "").toUpperCase() === "LINE";
-  }, []);
+const getBettingType = useCallback((m: any) => {
+  return String(m?.description?.bettingType ?? m?.bettingType ?? "").toUpperCase();
+}, []);
+
+const isLineMarketFn = useCallback((m: any) => {
+  return getBettingType(m) === "LINE";
+}, [getBettingType]);
 
   // ONLY for ALL/POPULAR accordion area (existing flow safe)
   const accordionMarkets = useMemo(() => {
@@ -966,48 +969,6 @@ export default function MarketDetails() {
       .sort((a: any, b: any) => Number(a.sequence || 0) - Number(b.sequence || 0));
   }, [accordionMarkets, isLineMarketFn]);
 
-  // Group LINE markets by dynamic name
-  const lineGroups = useMemo(() => {
-    const map: Record<string, Market[]> = {};
-    for (const m of lineMarketsForAccordion) {
-      const key = getMarketTitle(m) || "Line Markets";
-      (map[key] ||= []).push(m);
-    }
-    return map;
-  }, [lineMarketsForAccordion, getMarketTitle]);
-
-  // stable dependency (prevents infinite loop)
-  const lineGroupTitlesKey = useMemo(() => {
-    return Object.keys(lineGroups).sort().join("||");
-  }, [lineGroups]);
-
-  useEffect(() => {
-    const titles = lineGroupTitlesKey ? lineGroupTitlesKey.split("||") : [];
-
-    setOpenLineGroups((prev) => {
-      let changed = false;
-      const next = { ...prev };
-
-      // add new groups open by default
-      for (const t of titles) {
-        if (t && next[t] === undefined) {
-          next[t] = true;
-          changed = true;
-        }
-      }
-
-      // remove old groups
-      for (const k of Object.keys(next)) {
-        if (!titles.includes(k)) {
-          delete next[k];
-          changed = true;
-        }
-      }
-
-      // KEY: if nothing changed, don't update state
-      return changed ? next : prev;
-    });
-  }, [lineGroupTitlesKey]);
 
   const getLimits = (m: any) => {
     const mn = Number(m?.min);
@@ -1302,11 +1263,11 @@ ${i === 1 ? "max-[346px]:hidden" : ""}
                                       });
                                     }}
                                   >
-                                    <span className={`price sm:text-[13px] font-bold leading-[1.1] truncate ${theme === "dark" ? isBackSelected(item) ? "text-white" : "text-[#5baca7]" : "text-black"}`}>
+                                    <span className={`price sm:text-[13px] font-bold leading-[1.1] truncate ${isBackSelected(item) ? "text-white" : theme === "dark" ?  "text-[#5baca7]" : "text-black"}`}>
                                       {cleanPrice(item?.raw?.price + 0.5)}
                                     </span>
 
-                                    <span className={`size sm:text-[10px] font-normal leading-[1] truncate truncate ${theme === "dark" ? isBackSelected(item) ? "text-white" : "text-[#5baca7]" : "text-black"}`}>
+                                    <span className={`size sm:text-[10px] font-normal leading-[1] truncate truncate ${isBackSelected(item) ? "text-white" : theme === "dark" ? "text-[#5baca7]" : "text-black"}`}>
                                       {item.vol}
                                     </span>
                                   </div>
@@ -1434,10 +1395,10 @@ ${i === 1 ? "max-[346px]:hidden" : ""}
                                       });
                                     }}
                                   >
-                                    <span className={`price text-[11px] sm:text-[13px] font-bold leading-[1.1] truncate ${theme === "dark" ? isLaySelected(item) ? "text-white" : "text-[#50d0ae]" : "text-black"}`}>
+                                    <span className={`price text-[11px] sm:text-[13px] font-bold leading-[1.1] truncate ${isLaySelected(item) ? "text-white" : theme === "dark" ? "text-[#50d0ae]" : "text-black"}`}>
                                       {cleanPrice(item?.raw?.price + 0.5)}
                                     </span>
-                                    <span className={`size text-[9px] sm:text-[10px] font-normal leading-[1] truncate truncate ${theme === "dark" ? isLaySelected(item) ? "text-white" : "text-[#50d0ae]" : "text-black"}`}>
+                                    <span className={`size text-[9px] sm:text-[10px] font-normal leading-[1] truncate truncate ${isLaySelected(item) ? "text-white" : theme === "dark" ? "text-[#50d0ae]" : "text-black"}`}>
                                       {item.vol}
                                     </span>
                                   </div>
@@ -1579,15 +1540,14 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)] flex-1 min-w-0 cursor-pointer tex
                     setIsCompetitionOpen(false);
                     setIsEventsDropDown(false)
                   }}
-                  className="inline-flex cursor-pointer text-(--arrow-color)!"
+                  className="inline-flex cursor-pointer "
                 >
-                  <Icon name="play" className="w-5 h-5" />
+                  <Icon name="play" className="w-5 h-5 text-(--arrow-color)!" />
+                   {sportNames[sportId]}
                 </button>
 
                 {/* ORIGINAL TEXT */}
-                <a href="" className="inline-flex">
-                  {sportNames[sportId]}
-                </a>
+                
 
                 {/* ORIGINAL DROPDOWN DESIGN */}
                 {isEventTypeOpen && (
@@ -1634,14 +1594,13 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)] flex-1 min-w-0 cursor-pointer tex
                     setIsEventTypeOpen(false);
                     setIsEventsDropDown(false)
                   }}
-                  className="text-market-name inline-flex cursor-pointer text-(--arrow-color)!"
+                  className="inline-flex cursor-pointer"
                 >
-                  <Icon name="play" className="w-5 h-5" />
+                  <Icon name="play" className="w-5 h-5 text-(--arrow-color)!" />
+                     {selectedCompetition || tournamentName || "Tournament"}
                 </button>
 
-                <a href="" className="inline-flex">
-                  {selectedCompetition || tournamentName || "Tournament"}
-                </a>
+             
 
                 {/* ✅ ORIGINAL DROPDOWN DESIGN */}
                 {isCompetitionOpen && (
@@ -1702,13 +1661,12 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)] flex-1 min-w-0 cursor-pointer tex
                     setIsCompetitionOpen(false);
                     setIsEventTypeOpen(false);
                   }}
-                  className="inline-flex cursor-pointer text-(--arrow-color)!"
+                  className="inline-flex cursor-pointer "
                 >
-                  <Icon name="play" className="w-5 h-5" />
-                </button>
-                <a href="" className="inline-flex">
+                  <Icon name="play" className="w-5 h-5 text-(--arrow-color)!" />
                   {eventName || "Event"}
-                </a>
+                </button>
+              
                 {isEventsDropDown && (
                   <ul className="absolute p-1 left-2 top-full glass mt-0 -ml-1 max-h-[200px] rounded-sm shadow-lg bg-[rgba(var(--palette-background-paperChannel)/90%)] text-(--palette-text-primary) backdrop-blur-[2px]! z-40 overflow-y-auto no-scrollbar">
                     {Array.isArray(thirdItems) && thirdItems?.length > 0 ? (
@@ -1978,61 +1936,56 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)] flex-1 min-w-0 cursor-pointer tex
               </AnimatePresence>
 
               {/* LINE MARKETS - NEW (dynamic market name collapses) */}
-              {Object.keys(lineGroups).map((title) => {
-                const isOpen = !!openLineGroups[title];
-                const markets = lineGroups[title] || [];
+{/* LINE MARKETS - SINGLE COLLAPSE */}
+{lineMarketsForAccordion.length > 0 && (
+  <>
+    {/* Header */}
+    <div
+      onClick={() => setIsLineSectionOpen((prev) => !prev)}
+      className="px-1 mt-2 min-[900px]:px-2 rounded-md bg-(--accordion-bg) flex flex-col justify-center w-full font-bold h-8 relative cursor-pointer"
+    >
+      <div className="relative flex flex-row items-center h-8 justify-between w-full">
+        <div className="text-[14px] text-(--accordion-text) font-[500] leading-[14px] flex-1 flex-[1_1_6rem] min-w-0 whitespace-nowrap truncate relative top-[1px]">
+          Line
+        </div>
+        <span
+          className={`transition-transform duration-300 ${
+            isLineSectionOpen ? "rotate-90" : "rotate-0"
+          }`}
+        >
+          <Icon
+            name="downArrow"
+            width={20}
+            height={20}
+            className="text-(--accordion-text)"
+          />
+        </span>
+      </div>
+    </div>
 
-                return (
-                  <React.Fragment key={`line-group-${title}`}>
-                    {/* Header same as Odds */}
-                    <div
-                      onClick={() =>
-                        setOpenLineGroups((prev) => ({ ...prev, [title]: !isOpen }))
-                      }
-                      className="px-1 mt-2 min-[900px]:px-2 rounded-md bg-(--accordion-bg) flex flex-col justify-center w-full font-bold h-8 relative cursor-pointer"
-                    >
-                      <div className="relative flex flex-row items-center h-8 justify-between w-full">
-                        <div className="text-[14px] text-(--accordion-text) font-[500] leading-[14px] flex-1 flex-[1_1_6rem] min-w-0 whitespace-nowrap truncate relative top-[1px]">
-                          {title}
-                        </div>
-                        <span
-                          className={`transition-transform duration-300 ${isOpen ? "rotate-90" : "rotate-0"
-                            }`}
-                        >
-                          <Icon
-                            name="downArrow"
-                            width={20}
-                            height={20}
-                            className="text-(--accordion-text)"
-                          />
-                        </span>
-                      </div>
-                    </div>
-
-                    {/* Body */}
-                    <AnimatePresence initial={false}>
-                      {isOpen && (
-                        <motion.div
-                          key={`line-section-${title}`}
-                          initial={{ height: 0, opacity: 0 }}
-                          animate={{ height: "auto", opacity: 1 }}
-                          exit={{ height: 0, opacity: 0 }}
-                          transition={{ duration: 0.3, ease: "easeInOut" }}
-                          className="overflow-hidden"
-                        >
-                          <div className="w-full flex flex-wrap gap-x-2 gap-y-2 mt-1">
-                            {markets.map((m: any) => (
-                              <React.Fragment key={String(m.exMarketId ?? m.marketId)}>
-                                {renderMarketTable(m)}
-                              </React.Fragment>
-                            ))}
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </React.Fragment>
-                );
-              })}
+    {/* Body */}
+    <AnimatePresence initial={false}>
+      {isLineSectionOpen && (
+        <motion.div
+          key="line-section"
+          initial={{ height: 0, opacity: 0 }}
+          animate={{ height: "auto", opacity: 1 }}
+          exit={{ height: 0, opacity: 0 }}
+          transition={{ duration: 0.3, ease: "easeInOut" }}
+          className="overflow-hidden"
+        >
+          <div className="w-full flex flex-wrap gap-x-2 gap-y-2 mt-1">
+            {lineMarketsForAccordion.map((m: any) => (
+              <React.Fragment key={String(m.exMarketId ?? m.marketId)}>
+                {renderMarketTable(m)}
+              </React.Fragment>
+            ))}
+          </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  </>
+)}
             </>
           ) : (
             // filtered tab branch - DON'T TOUCH

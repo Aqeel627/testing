@@ -149,8 +149,8 @@ export default function LoginModal() {
                 }
                 alt="GJEXCH Logo"
                 width={152}
-                height={1000}
-                className="object-contain h-13 min-[600]:mx-2 mx-1"
+                height={48}
+                className="object-contain min-[600]:mx-2 mx-1 w-[152px] h-[48px]"
               />
             </Link>
           </div>
@@ -183,7 +183,7 @@ export default function LoginModal() {
                 style={{
                   background:
                     theme === "dark"
-                      ? " linear-gradient(rgba(10, 17, 24, 0.59), rgba(15, 25, 35, 0));"
+                      ? " linear-gradient(rgba(10, 17, 24, 0.59), rgba(15, 25, 35, 0))"
                       : "linear-gradient(180deg, rgba(244,246,248,0.92) 0%, rgba(244,246,248,0.40) 100%), url('/background-3-blur.webp')",
                   backgroundRepeat: "no-repeat",
                   backgroundSize: "cover",
@@ -259,6 +259,8 @@ export default function LoginModal() {
                             type="text"
                             placeholder="Username"
                             name="username"
+                            id="username"
+                            autoComplete="username"
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
                             onBlur={() =>
@@ -319,6 +321,7 @@ export default function LoginModal() {
                             placeholder="Password"
                             name="password"
                             id="password"
+                            autoComplete="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             onBlur={() =>
