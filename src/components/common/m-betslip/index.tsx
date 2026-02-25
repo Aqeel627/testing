@@ -43,7 +43,7 @@ export default function MBetSlip() {
   };
 
   useEffect(() => {
-    console.log(selectedBet)
+    // console.log(selectedBet)
     if (selectedBet?.odds) {
       const n = Number(selectedBet.odds);
       setOdds(n);
@@ -150,30 +150,19 @@ export default function MBetSlip() {
     setStake((prev) => Number(prev || 0) + add);
   };
 
-  useEffect(() => {
-  if (selectedBet) {
-    console.log("=== Selected Bet Check ===");
-    console.log("eventId:", selectedBet.event?.id);     
-    console.log("marketId:", selectedBet.marketId);     
-    console.log("sportId:", selectedBet.id);          
-  }
-}, [selectedBet]);
-
   const handlePlaceBet = async () => {
     if (!selectedBet || stake === 0) return;
-    console.log("Selected Bet:", selectedBet?.eventId);
-    console.log("selectedBet?.marketId:", selectedBet?.marketId);
-    console.log("selectedBet?.sportId", selectedBet?.sportId);
-    console.log("selectedBet?.selectionId", selectedBet?.selectionId);
+
+    const side = selectedBet.type.toLowerCase();  
 
     const payload = {
-      eventId: selectedBet?.event?.id,
+      eventId: selectedBet?.eventId,
       marketId: selectedBet?.marketId,
-      sportId: selectedBet?.id,
+      sportId: selectedBet?.sportId,
       selectionId: selectedBet?.selectionId,
       price: Number((odds || 0).toFixed(2)),
       stake: Number((stake || 0).toFixed(2)),
-      side: isBack ? "BACK" : "LAY",
+      side: side,  
       type: selectedBet?.marketType || "MATCH_ODDS",
       matchMe: false,
     };
@@ -183,18 +172,15 @@ export default function MBetSlip() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          // Authorization: `Bearer ${token}`, // agar required ho
         },
         body: JSON.stringify(payload),
       });
 
       const data = await res.json();
 
-      if (!res.ok) {
-        throw new Error(data.message || "Failed to place bet");
-      }
+      if (!res.ok) throw new Error(data.message || "Failed to place bet");
 
-      console.log("Bet Success:", data);
+      // console.log("Bet Success:", data);
 
       // reset after success
       clearSelectedBet();
@@ -226,7 +212,7 @@ export default function MBetSlip() {
           <div className="flex gap-2">
             {/* Odds */}
             <div className="flex-1 min-w-0 flex flex-col gap-1.5">
-              <label className="text-[11px] ml-2.5" style={{ color: "var(--bs-label)" }}>{selectedBet?.isLineMarket?"Runs":"Odds"}</label>
+              <label className="text-[11px] ml-2.5" style={{ color: "var(--bs-label)" }}>{selectedBet?.isLineMarket ? "Runs" : "Odds"}</label>
               <div className="flex items-center rounded-full px-1 py-1 gap-1" style={{ background: "var(--bs-input-bg)", border: "1px solid var(--bs-odds-border)" }}>
                 <button type="button" onClick={handleDecrease} className="bs-circle-btn w-7 h-7 shrink-0 rounded-full flex items-center justify-center cursor-pointer" style={{ background: "var(--bs-circle-btn-bg)", color: "var(--bs-text)" }}><Minus className="w-3 h-3" /></button>
                 <input value={inputValue} inputMode="numeric" type="number" step="0.01" onChange={handleChange} onBlur={handleBlur} onKeyDown={handleKeyDown} className="flex-1 min-w-0 w-0 bg-transparent border-none text-center text-[14px] font-semibold outline-none" style={{ color: "var(--bs-text)" }} />
@@ -255,7 +241,8 @@ export default function MBetSlip() {
           {/* CANCEL + PLACE BET */}
           <div className="flex gap-3">
             <button type="button" onClick={() => { clearSelectedBet(); setStake(0); setQuickValue(0); }} className="bs-cancel-btn flex-1 py-2 rounded-full font-bold text-[14px] border-none cursor-pointer" style={{ background: "var(--bs-cancel-bg)", color: "var(--bs-text)" }}>Cancel</button>
-            <button onClick={handlePlaceBet} type="button" disabled={stake === 0} className="flex-1 py-2 rounded-full text-white font-bold text-[14px] border-none transition-all" style={{ background: accentVar, cursor: stake === 0 ? "not-allowed" : "pointer", opacity: stake === 0 ? 0.45 : 1 }}>
+            {/* onClick={handlePlaceBet}  */}
+            <button type="button" disabled={stake === 0} className="flex-1 py-2 rounded-full text-white font-bold text-[14px] border-none transition-all" style={{ background: accentVar, cursor: stake === 0 ? "not-allowed" : "pointer", opacity: stake === 0 ? 0.45 : 1 }}>
               Place Bet
               {stake !== 0 && (
                 <div className="text-center rounded-full text-[10px]">

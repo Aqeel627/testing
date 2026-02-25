@@ -28,7 +28,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
   const { userBalance, setUserBalance } = useAppStore();
   const { setLoginModal } = useCacheStore();
   const { token, isLoggedIn, logout } = useAuthStore();
-  const { resolvedTheme, theme , setTheme} = useTheme();
+  const { resolvedTheme, theme, setTheme } = useTheme();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const [hideBalance, setHideBalance] = useState(false);
@@ -231,8 +231,19 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
             </Link>
           )}
           {!isLoggedIn && (
-            <Icon name="themeSetting" width={22} height={22}
-              onClick={() => router.push("/theme")} />
+            theme === "dark" ? (
+              <Icon
+                name="themeSettingDark"
+                className="h-6 w-6 mr-2 cursor-pointer"
+                onClick={() => router.push("/theme")}
+              />
+            ) : (
+              <Icon
+                name="themeSettingLight"
+                className="h-6 w-6 mr-2 cursor-pointer"
+                onClick={() => router.push("/theme")}
+              />
+            )
           )}
 
           <span className="hidden min-[600px]:flex ">
@@ -359,7 +370,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
 
                     {/* Theme Option (Static Icon for now) */}
                     <li onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-                    className="mb-1 no-underline h-12 min-[600px]:h-auto text-[0.875rem] leading-[1.57143px] hover:bg-[rgba(145,158,171,0.08)] rounded-[8px]">
+                      className="mb-1 no-underline h-12 min-[600px]:h-auto text-[0.875rem] leading-[1.57143px] hover:bg-[rgba(145,158,171,0.08)] rounded-[8px]">
                       <div className="flex items-center justify-between w-full px-2 text-[14px] text-[var(--dropdowntext)] hover:text-[var(--palette-text-primary)] hover:bg-white/5 transition-colors cursor-pointer">
                         <span className="ml-4">
                           {typeof window !== "undefined" &&
@@ -372,10 +383,14 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
 
                     <li className="mb-1 no-underline h-12 min-[600px]:h-auto text-[0.875rem] leading-[1.57143px] hover:bg-[rgba(145,158,171,0.08)] rounded-[8px]"
                       onClick={() => router.push("/theme")}>
-                      <div className="flex items-center justify-between w-full px-2 text-[14px] text-[var(--dropdowntext)] hover:text-[var(--palette-text-primary)] hover:bg-white/5 transition-colors cursor-pointer">
+                      <div className="flex items-center justify-between w-full px-2 py-2 text-[14px] text-[var(--dropdowntext)] hover:text-[var(--palette-text-primary)] hover:bg-white/5 transition-colors cursor-pointer">
                         <span className="ml-4">Theme</span>
                         <span>
-                          <Icon name="themeSetting" className="h-6 w-6" />
+                          {theme === "dark" ? (
+                            <Icon name="themeSettingDark" className="h-6 w-6 mr-2" />
+                          ) : (
+                            <Icon name="themeSettingLight" className="h-6 w-6 mr-2" />
+                          )}
                         </span>
                       </div>
                     </li>
