@@ -73,6 +73,11 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
     };
   }, [isMenuOpen]);
 
+  const handleLogout = () => {
+  setIsMenuOpen(false); 
+  logout();            
+};
+
   return (
     <header
       className={cn(
@@ -389,7 +394,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                     <div className="absolute -bottom-4 hidden md:flex -left-4 w-20 h-20 bg-[#FF5630] blur-[30px] opacity-15 pointer-events-none"></div>
 
                     <button
-                      onClick={logout}
+                    onClick={handleLogout}
                       className="relative z-10 w-full text-left px-2 py-2 text-[14px] font-bold text-(--dropdown-logout-color) hover:bg-(--dropdown-logout-bg-hover) rounded-lg transition-colors cursor-pointer "
                     >
                       Logout
