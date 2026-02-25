@@ -162,6 +162,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
           </Link>
 
           <Link
+            prefetch={false}
             href="/live-casino"
             className={cn(
               pathName === "/live-casino" && "active text-(--primary-color)!",
@@ -336,6 +337,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                         className="mb-1 hover:bg-[rgba(145,158,171,0.08)] rounded-[8px] no-underline h-12 min-[600px]:h-auto text-[0.875rem] leading-[1.57143px] "
                       >
                         <Link
+                          prefetch={false}
                           href={item.href}
                           onClick={() => setIsMenuOpen(false)}
                           className="flex items-center w-full px-2 py-2 text-[0.875rem] leading-[1.57143px] text-[var(--dropdowntext)] hover:text-[var(--palette-text-primary)] hover:bg-transparent transition-colors h-[34px]"
@@ -435,6 +437,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
 
           <Link
             href="/live-casino"
+            prefetch={false}
             className={cn(
               pathName === "/live-casino" && "active text-(--primary-color)",
               "flex py-1 pr-[4px] pl-[0.5px] items-center text-[13px] font-medium --palette-text-primary  hover:--palette-text-primary  transition-colors group whitespace-nowrap relative left-[3px] font-bold",
