@@ -12,18 +12,26 @@ import {
   ResizablePanelGroup,
 } from "@/components/common/resizeable";
 import ChangePassword from "@/components/modal/change-password";
-const Header = dynamic(() => import("@/components/common/header"));
-const Footer = dynamic(() => import("@/components/common/footer"));
-const Sidebar = dynamic(() => import("@/components/common/sidebar"));
-const BetSlip = dynamic(() => import("@/components/common/betslip"));
-const BottomNavbar = dynamic(() => import("@/components/common/bottom-nav"));
-const LoginModal = dynamic(() => import("@/components/modal/login"));
-const BetsTable = dynamic(() => import("@/components/common/betstable"));
+import Header from "@/components/common/header";
+import Sidebar from "@/components/common/sidebar";
+import Footer from "@/components/common/footer";
+import BottomNavbar from "@/components/common/bottom-nav";
+import LoginModal from "@/components/modal/login";
+import BetSlipUI from "@/components/common/betslip";
+import BetsTable from "@/components/common/betstable";
+import { AnimatePresence, motion } from "framer-motion";
+// const Header = dynamic(() => import("@/components/common/header"));
+// const Footer = dynamic(() => import("@/components/common/footer"));
+// const Sidebar = dynamic(() => import("@/components/common/sidebar"));
+// const BetSlip = dynamic(() => import("@/components/common/betslip"));
+// const BottomNavbar = dynamic(() => import("@/components/common/bottom-nav"));
+// const LoginModal = dynamic(() => import("@/components/modal/login"));
+// const BetsTable = dynamic(() => import("@/components/common/betstable"));
 
 const MAIN_WIDTH_STORAGE_KEY = "pages-layout-main-width";
 
 export default function PagesLayout({ children }: { children: ReactNode }) {
-  const { loginModal } = useCacheStore();
+  const { loginModal, isPasswordModalOpen } = useCacheStore();
   const { isLoggedIn } = useAuthStore();
   const [isMobile, setIsMobile] = useState<boolean | null>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -67,17 +75,19 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
 
           {/* ✅ backdrop closes via store */}
           <div
-            className={`fixed inset-0 z-[60] bg-black/50 transition-opacity duration-300 ${isMobileSidebarOpen
-              ? "opacity-100 pointer-events-auto"
-              : "opacity-0 pointer-events-none"
-              }`}
+            className={`fixed inset-0 z-[60] bg-black/50 transition-opacity duration-300 ${
+              isMobileSidebarOpen
+                ? "opacity-100 pointer-events-auto"
+                : "opacity-0 pointer-events-none"
+            }`}
             onClick={() => closeMobileSidebar()}
             aria-hidden="true"
           />
 
           <aside
-            className={`fixed top-0 sidebar-container left-0 z-[70] h-screen w-[288px] max-w-[85vw] bg-[var(--background)] overflow-y-auto no-scrollbar transition-transform duration-300 ease-in-out ${isMobileSidebarOpen ? "translate-x-0 drawer" : "-translate-x-full"
-              }`}
+            className={`fixed top-0 sidebar-container left-0 z-[70] h-screen w-[288px] max-w-[85vw] bg-[var(--background)] overflow-y-auto no-scrollbar transition-transform duration-300 ease-in-out ${
+              isMobileSidebarOpen ? "translate-x-0 drawer" : "-translate-x-full"
+            }`}
           >
             <Sidebar />
           </aside>
@@ -91,7 +101,7 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
           <BottomNavbar />
         </div>
         {loginModal && <LoginModal />}
-        {/* <ChangePassword /> */}
+        {isPasswordModalOpen && <ChangePassword />}
       </>
     );
   } else {
@@ -121,52 +131,45 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
 
               <ResizablePanel
                 minSize={450}
-                defaultSize={isBetsOpen ? 70 : 100}
-                className="transition-all duration-300 ease-in-out h-full pt-[50px] overflow-y-auto no-scrollbar pb-[30px] min-w-[450px] ps-3 pe-[6px] mt-[10px]"
-                style={{ transition: "flex 0.35s ease-in-out" }}
+                defaultSize="70%"
+                className="h-full pt-[50px] overflow-y-auto no-scrollbar pb-[30px] min-w-[450px] ps-3 pe-[6px] mt-[10px]"
               >
                 <div className="@container w-full">
                   {children}
                   <Footer />
                 </div>
               </ResizablePanel>
+              <AnimatePresence>
+                {(!isLoggedIn || isBetsOpen) && (
+                  <>
+                    <ResizableHandle
+                      withHandle
+                      className="ml-[6.5px] bg-[rgba(145,158,171,0.2)] w-1 mt-[50px]"
+                    />
 
-              {isBetsOpen && (
-                <>
-                <ResizableHandle
-                withHandle
-                className={cn(
-                  "bg-[rgba(145,158,171,0.2)] mt-[50px] transition-all duration-500 ease-in-out",
-                  isBetsOpen ? "w-1 ml-[6.5px] opacity-100" : "w-0 ml-0 opacity-0 pointer-events-none"
+                    <ResizablePanel
+                      defaultSize={"30%"}
+                      className="flex-auto min-w-0 h-full border-l border-white/5 overflow-hidden pt-[50px]"
+                    >
+                      <motion.div
+                        initial={{ x: "100%", opacity: 0 }}
+                        animate={{ x: 0, opacity: 1 }}
+                        exit={{ x: "100%", opacity: 0 }}
+                        transition={{ duration: 0.3, ease: "easeOut" }}
+                        className="w-full h-full overflow-y-auto no-scrollbar"
+                      >
+                        <BetSlipUI />
+                        {isLoggedIn && <BetsTable />}
+                      </motion.div>
+                    </ResizablePanel>
+                  </>
                 )}
-              />
-
-              <ResizablePanel
-                defaultSize={isBetsOpen ? 30 : 0}
-                className={cn(
-                  "h-full overflow-hidden pt-[50px] transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]",
-                  isBetsOpen
-                    ? "border-l border-white/5 opacity-100"
-                    : "!flex-[0_0_0%] !min-w-0 !border-0 opacity-0 px-0 pointer-events-none"
-                )}
-                style={{ transitionProperty: "flex, opacity, width" }}
-              >
-                <div className="max-w-[320px] h-full overflow-y-auto no-scrollbar">
-                  <BetSlip />
-                  {isLoggedIn && <BetsTable />}
-                </div>
-              </ResizablePanel>
-              </>
-              )}
-
-
-
-
+              </AnimatePresence>
             </ResizablePanelGroup>
           </div>
         </div>
         {loginModal && <LoginModal />}
-        {/* <ChangePassword /> */}
+        {isPasswordModalOpen && <ChangePassword />}
       </>
     );
   }

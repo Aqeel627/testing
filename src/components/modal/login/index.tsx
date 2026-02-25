@@ -260,6 +260,7 @@ export default function LoginModal() {
                             placeholder="Username"
                             name="username"
                             id="username"
+                            autoComplete="username"
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
                             onBlur={() =>
@@ -320,6 +321,7 @@ export default function LoginModal() {
                             placeholder="Password"
                             name="password"
                             id="password"
+                            autoComplete="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             onBlur={() =>

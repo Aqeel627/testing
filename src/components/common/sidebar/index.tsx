@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils";
 import { usePathname } from "next/navigation";
 import { useUIStore } from "@/lib/store/ui-store";
 import dynamic from "next/dynamic";
-const Icon = dynamic(() => import("@/icons/icons"));
+import Icon from "@/icons/icons";
 
 // ─────────────────────────────────────────────
 // Types

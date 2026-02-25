@@ -1,6 +1,6 @@
 import dynamic from "next/dynamic";
 
-const Icon = dynamic(() => import("@/icons/icons"));
+import Icon from "@/icons/icons";
 
 export default function Marque() {
   return (

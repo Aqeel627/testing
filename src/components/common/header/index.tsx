@@ -15,7 +15,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useCacheStore } from "@/lib/store/cacheStore";
 import dynamic from "next/dynamic";
 import { useUIStore } from "@/lib/store/ui-store";
-const Icon = dynamic(() => import("@/icons/icons"));
+import Icon from "@/icons/icons";
 
 type HeaderProps = {
   onMenuClick?: () => void;
@@ -24,6 +24,7 @@ type HeaderProps = {
 
 export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
   // New state for checkbox toggles - default true
+  const {toggleBets}=useUIStore()
   const [showBalance, setShowBalance] = useState(true);
   const [showExposure, setShowExposure] = useState(true);
   const { userBalance, setUserBalance } = useAppStore();
@@ -34,7 +35,6 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
   const menuRef = useRef<HTMLDivElement>(null);
   const [hideBalance, setHideBalance] = useState(false);
   const { clearSelectedBet } = useAppStore();
-  const toggleBets = useUIStore((s) => s.toggleBets);
   const pathName = usePathname();
   const router = useRouter();
   const userName =
@@ -116,7 +116,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
               window.dispatchEvent(new Event("reset-sidebar"));
               clearSelectedBet();
             }}
-            className="font-[inherit]  no-underline shrink-0 text-transparent inline-flex h-[44px] w-[152px] cursor-pointer relative"
+            className="font-[inherit]  no-underline shrink-0 text-transparent inline-flex h-[44px] w-[152px] cursor-pointer"
           >
             <Image
               src={
@@ -126,7 +126,6 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
               }
               alt="GJEXCH Logo"
               fill
-              priority
               className="object-contain relative! mx-1 "
             />
           </Link>
@@ -226,32 +225,35 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
 
         <div className="flex items-center gap-2 sm:gap-[6px]">
           {isLoggedIn && (
-            <Link
-              href=""
+            <button
               onClick={toggleBets}
               className="inline-flex items-center justify-center relative box-border cursor-pointer select-none align-middle appearance-none font-sans font-bold leading-[1.71429] normal-case min-w-[64px] text-[0.8125rem] h-[30px] outline-none m-0 no-underline rounded-lg border border-solid py-[3px] px-1 min-[600px]:px-[8px] transition-all duration-[250ms] ease-[cubic-bezier(0.4,0,0.2,1)] bg-transparent hover:border-[1px] hover:border-[#078dee] text-[#078DEE] border-[#078dee7a] hover:bg-blue-600/5 hover:shadow-[0px_0px_0px_0.75px_currentColor]"
             >
               Bets
-            </Link>
+            </button>
           )}
-
-          
           {!isLoggedIn && (
-            theme === "dark" ? (
-              <Icon
-                name="themeSettingDark"
-                className="h-6 w-6 mr-2 cursor-pointer"
-                onClick={() => router.push("/theme")}
-              />
-            ) : (
-              <Icon
-                name="themeSettingLight"
-                className="h-6 w-6 mr-2 cursor-pointer"
-                onClick={() => router.push("/theme")}
-              />
-            )
+            <div className="hidden md:block">
+              {theme === "dark" ? (
+                <Icon
+                  name="themeSettingDark"
+                  className="h-6 w-6 mr-2 cursor-pointer"
+                  onClick={() => router.push("/theme")}
+                />
+              ) : (
+                <Icon
+                  name="themeSettingLight"
+                  className="h-6 w-6 mr-2 cursor-pointer"
+                  onClick={() => router.push("/theme")}
+                />
+              )}
+            </div>
           )}
-
+          {!isLoggedIn && (
+            <span className="hidden min-[600px]:flex ">
+              <ThemeToggle />
+            </span>
+          )}
           {!isLoggedIn && (
             // <Link
             //   href="/login"
@@ -345,7 +347,8 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                   <ul className="my-2 px-2 flex flex-col">
                     {[
                       { label: "Edit Password", href: "/edit-password" },
-                      { label: "Statement", href: "/statement" },
+                      // /statement
+                      { label: "Statement", href: "" },
                       { label: "Profit/Loss", href: "/profit-loss" },
                       { label: "Bets History", href: "/bets-history" },
                       { label: "Settings", href: "/settings" },
