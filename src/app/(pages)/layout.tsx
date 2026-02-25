@@ -23,7 +23,7 @@ const BetsTable = dynamic(() => import("@/components/common/betstable"));
 const MAIN_WIDTH_STORAGE_KEY = "pages-layout-main-width";
 
 export default function PagesLayout({ children }: { children: ReactNode }) {
-  const { loginModal } = useCacheStore();
+  const { loginModal, isPasswordModalOpen } = useCacheStore();
   const { isLoggedIn } = useAuthStore();
   const [isMobile, setIsMobile] = useState<boolean | null>(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
@@ -91,7 +91,7 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
           <BottomNavbar />
         </div>
         {loginModal && <LoginModal />}
-        {/* <ChangePassword /> */}
+        {isPasswordModalOpen && <ChangePassword />}
       </>
     );
   } else {
@@ -166,7 +166,7 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
           </div>
         </div>
         {loginModal && <LoginModal />}
-        {/* <ChangePassword /> */}
+        {isPasswordModalOpen && <ChangePassword />}
       </>
     );
   }
