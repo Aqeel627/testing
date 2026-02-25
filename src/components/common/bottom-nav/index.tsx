@@ -9,7 +9,9 @@ import { useMiniCasinoStore } from "@/lib/store/miniCasinoStore";
 import { useCacheStore } from "@/lib/store/cacheStore";
 import dynamic from "next/dynamic";
 const Icon = dynamic(() => import("@/icons/icons"));
-const CenterRadialButton = dynamic(() => import("@/components/common/bottom-nav/center-radial-btn"));
+const CenterRadialButton = dynamic(
+  () => import("@/components/common/bottom-nav/center-radial-btn"),
+);
 
 const BottomNavbar = () => {
   const [isSafari, setIsSafari] = useState(false);
@@ -18,15 +20,14 @@ const BottomNavbar = () => {
   const { theme } = useTheme();
 
   const { isLoggedIn } = useAuthStore();
-const { setLoginModal } = useCacheStore();
-const { isOpen, open, close } = useMiniCasinoStore();
+  const { setLoginModal } = useCacheStore();
+  const { isOpen, open, close } = useMiniCasinoStore();
 
   const items = [
     { icon: "house", link: "/" },
     { icon: "inplay", link: "/inplay" },
-        { icon: "bets", link: "#" },
+    { icon: "bets", link: "#" },
     { icon: "casinoic", link: "#" },
-
   ];
 
   useEffect(() => {
@@ -55,23 +56,24 @@ const { isOpen, open, close } = useMiniCasinoStore();
           {idx === 2 && <CenterRadialButton />}
 
           <Link
+            prefetch={false}
             href={item.link}
-onClick={(e) => {
-  if (item.icon === "casinoic") {
-    e.preventDefault();
+            onClick={(e) => {
+              if (item.icon === "casinoic") {
+                e.preventDefault();
 
-    if (!isLoggedIn) {
-      setLoginModal(true);
-      return;
-    }
+                if (!isLoggedIn) {
+                  setLoginModal(true);
+                  return;
+                }
 
-    if (isOpen) {
-      close();
-    } else {
-      open();
-    }
-  }
-}}
+                if (isOpen) {
+                  close();
+                } else {
+                  open();
+                }
+              }
+            }}
             className={cn(
               "h-12 w-12 flex border justify-center items-center glass rounded-full",
               pathName === item?.link
@@ -79,7 +81,7 @@ onClick={(e) => {
                 : "bg-(--IconButton-hoverBg)",
               theme === "dark"
                 ? "border-[rgba(255,255,255,0.3)]"
-                : "border-[rgb(205,192,192,0.5)]"
+                : "border-[rgb(205,192,192,0.5)]",
             )}
           >
             <Icon name={item.icon} width={25} height={25} />

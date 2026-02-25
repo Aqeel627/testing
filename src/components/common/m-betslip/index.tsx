@@ -43,6 +43,7 @@ export default function MBetSlip() {
   };
 
   useEffect(() => {
+    console.log(selectedBet)
     if (selectedBet?.odds) {
       const n = Number(selectedBet.odds);
       setOdds(n);
@@ -225,7 +226,7 @@ export default function MBetSlip() {
           <div className="flex gap-2">
             {/* Odds */}
             <div className="flex-1 min-w-0 flex flex-col gap-1.5">
-              <label className="text-[11px] ml-2.5" style={{ color: "var(--bs-label)" }}>Odds</label>
+              <label className="text-[11px] ml-2.5" style={{ color: "var(--bs-label)" }}>{selectedBet?.isLineMarket?"Runs":"Odds"}</label>
               <div className="flex items-center rounded-full px-1 py-1 gap-1" style={{ background: "var(--bs-input-bg)", border: "1px solid var(--bs-odds-border)" }}>
                 <button type="button" onClick={handleDecrease} className="bs-circle-btn w-7 h-7 shrink-0 rounded-full flex items-center justify-center cursor-pointer" style={{ background: "var(--bs-circle-btn-bg)", color: "var(--bs-text)" }}><Minus className="w-3 h-3" /></button>
                 <input value={inputValue} inputMode="numeric" type="number" step="0.01" onChange={handleChange} onBlur={handleBlur} onKeyDown={handleKeyDown} className="flex-1 min-w-0 w-0 bg-transparent border-none text-center text-[14px] font-semibold outline-none" style={{ color: "var(--bs-text)" }} />
