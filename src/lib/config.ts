@@ -83,7 +83,7 @@ export const CONFIG = {
   getUserProfile: BASE_URL + "/app/exchange/users/userProfile", // done
   playerLogin: BASE_URL_100 + "/app/users/playerLogin",
   getIpLocation: "https://pro.ip-api.com/json/?key=qSA5ctYZHdWsx04", // done
-  getUserBalance: BASE_URL + "/app/exchange/users/userBalance", // done
+  getUserBalance: BASE_URL_100 + "/app/exchange/users/userBalance", // done
   changeUserPassword: BASE_URL + "/app/exchange/users/userChangePassword", // done
   getUserBetStake: BASE_URL + "/app/exchange/users/userBetStakeList", // done
   getUserBetStakeTime: 518400,
