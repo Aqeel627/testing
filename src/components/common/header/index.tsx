@@ -27,14 +27,13 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
   const [showBalance, setShowBalance] = useState(true);
   const [showExposure, setShowExposure] = useState(true);
   const { userBalance, setUserBalance } = useAppStore();
-  const { setLoginModal, openPasswordModal } = useCacheStore();
+  const { setLoginModal } = useCacheStore();
   const { token, isLoggedIn, logout } = useAuthStore();
   const { resolvedTheme, theme, setTheme } = useTheme();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const [hideBalance, setHideBalance] = useState(false);
   const { clearSelectedBet } = useAppStore();
-  const toggleBets = useUIStore((s) => s.toggleBets);
   const pathName = usePathname();
   const router = useRouter();
   const userName =
@@ -116,7 +115,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
               window.dispatchEvent(new Event("reset-sidebar"));
               clearSelectedBet();
             }}
-            className="font-[inherit]  no-underline shrink-0 text-transparent inline-flex h-[44px] w-[152px] cursor-pointer relative"
+            className="font-[inherit]  no-underline shrink-0 text-transparent inline-flex h-[44px] w-[152px] cursor-pointer"
           >
             <Image
               src={
@@ -126,7 +125,6 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
               }
               alt="GJEXCH Logo"
               fill
-              priority
               className="object-contain relative! mx-1 "
             />
           </Link>
@@ -233,24 +231,28 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
               Bets
             </button>
           )}
-
-
           {!isLoggedIn && (
-            theme === "dark" ? (
-              <Icon
-                name="themeSettingDark"
-                className="h-6 w-6 mr-2 cursor-pointer"
-                onClick={() => router.push("/theme")}
-              />
-            ) : (
-              <Icon
-                name="themeSettingLight"
-                className="h-6 w-6 mr-2 cursor-pointer"
-                onClick={() => router.push("/theme")}
-              />
-            )
+            <div className="hidden md:block">
+              {theme === "dark" ? (
+                <Icon
+                  name="themeSettingDark"
+                  className="h-6 w-6 mr-2 cursor-pointer"
+                  onClick={() => router.push("/theme")}
+                />
+              ) : (
+                <Icon
+                  name="themeSettingLight"
+                  className="h-6 w-6 mr-2 cursor-pointer"
+                  onClick={() => router.push("/theme")}
+                />
+              )}
+            </div>
           )}
-
+          {!isLoggedIn && (
+            <span className="hidden min-[600px]:flex ">
+              <ThemeToggle />
+            </span>
+          )}
           {!isLoggedIn && (
             // <Link
             //   href="/login"
@@ -344,7 +346,8 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                   <ul className="my-2 px-2 flex flex-col">
                     {[
                       { label: "Edit Password", href: "/edit-password" },
-                      { label: "Statement", href: "/statement" },
+                      // /statement
+                      { label: "Statement", href: "" },
                       { label: "Profit/Loss", href: "/profit-loss" },
                       { label: "Bets History", href: "/bets-history" },
                       { label: "Settings", href: "/settings" },
@@ -365,15 +368,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                         <Link
                           prefetch={false}
                           href={item.href}
-                          onClick={(e) => {
-                            if (item.label === "Edit Password") {
-                              e.preventDefault();
-                              openPasswordModal();
-                              setIsMenuOpen(false);
-                            } else {
-                              setIsMenuOpen(false);
-                            }
-                          }}
+                          onClick={() => setIsMenuOpen(false)}
                           className="flex items-center w-full px-2 py-2 text-[0.875rem] leading-[1.57143px] text-[var(--dropdowntext)] hover:text-[var(--palette-text-primary)] hover:bg-transparent transition-colors h-[34px]"
                         >
                           <span className="ml-4">{item.label}</span>

@@ -1,0 +1,483 @@
+.headerLine h6 {
+  /* text-transform: uppercase; */
+}
+
+.headerLine {
+  margin-top: 10px;
+}
+
+.account-pro {
+  color: black;
+  font-size: 15px;
+  padding: 10px;
+  font-weight: bold;
+}
+
+.option-row .form-control {
+  background-color: white;
+  color: black;
+  font-weight: 600;
+  height: 40px;
+  border-radius: 25px;
+}
+
+.btn-download {
+  background: none;
+  font-size: 20px;
+  border: none;
+  transition: 0.9s;
+  color: var(--theme-color) !important;
+}
+
+.table-responsive {
+  overflow-x: auto;
+  overflow-y: hidden;
+  position: relative;
+  -ms-overflow-style: none;
+  margin-bottom: 30px;
+  /* Internet Explorer 10+ */
+  /* scrollbar-width   : none; */
+  /* Firefox */
+}
+
+.table-responsive::-webkit-scrollbar {
+  /* display: none; */
+  /* Safari and Chrome */
+}
+
+.table-responsive::-webkit-scrollbar {
+  -webkit-appearance: none;
+}
+
+.table-responsive::-webkit-scrollbar:vertical {
+  width: 8px;
+}
+
+.table-responsive::-webkit-scrollbar:horizontal {
+  height: 8px;
+}
+
+.table-responsive::-webkit-scrollbar-thumb {
+  background-color: #5700a3;
+  border-radius: 10px;
+  border: 2px solid #ffffff;
+}
+
+.table-responsive::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: #ffffff;
+}
+
+.tableData {
+  font-size: 13px;
+  border: 2px solid var(--theme-color1);
+  font-family: Gotham, sans-serif;
+}
+
+.credit {
+  color: #19fc19;
+}
+
+.debit {
+  color: red;
+}
+
+.table-dark {
+  --bs-table-bg: #292929 !important;
+  --bs-table-striped-bg: #3d3d3d !important;
+}
+
+@media screen and (max-width: 750px) {
+  .table-dark {
+    width: 750px;
+  }
+}
+
+.liner {
+  width: 100% !important;
+}
+
+/* DATATBL Design START*/
+
+:host ::ng-deep .dataTables_wrapper .dataTables_info {
+  color: var(--black, #3a3a3a);
+  font-size: 10px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+  margin-top: 20px;
+}
+
+:host
+  ::ng-deep
+  .dataTables_wrapper
+  .dataTables_paginate
+  .paginate_button.current,
+.dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
+  border-radius: 5px;
+  background: var(--purple-bg, #5700a3);
+}
+
+:host ::ng-deep .dataTables_wrapper .dataTables_paginate {
+  color: #ebebeb;
+  text-align: center;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  margin-bottom: 12px;
+}
+
+:host ::ng-deep .dataTables_wrapper .dataTables_paginate .paginate_button {
+  padding: 0.3em 0.7em;
+}
+
+:host ::ng-deep .dataTables_wrapper .dataTables_length {
+  width: 40%;
+  margin-bottom: 30px;
+}
+
+:host ::ng-deep .dataTables_wrapper .dataTables_filter {
+  width: 60%;
+  margin-bottom: 30px;
+}
+
+:host ::ng-deep table.dataTable thead th,
+:host ::ng-deep table.dataTable tfoot th {
+  color: #000;
+  text-align: center;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  border: unset;
+  background: #dbcdeb;
+  border-right: 1px solid #fff;
+}
+
+::ng-deep .dataTables_empty,
+::ng-deep .dataTables_filter {
+  display: none !important;
+}
+
+.bg-empty {
+  /* background-color: var(--bs-table-bg); */
+  background: #f1f1f1;
+  padding: 8px 10px;
+  border-bottom-color: currentColor;
+  border: unset;
+  border-right: 1px solid #fff;
+  border-bottom: 1px solid #fff;
+  font-size: 12px;
+}
+
+:host ::ng-deep table.dataTable thead th:first-child {
+  border-radius: 5px 0 0 0;
+}
+
+:host ::ng-deep table.dataTable thead th:last-child {
+  border-radius: 0 5px 0 0;
+}
+
+:host ::ng-deep table.dataTable tbody tr {
+  background: var(--inputfill, #f1f1f1);
+  color: var(--black, #3a3a3a);
+  text-align: center;
+  font-size: 11px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+:host ::ng-deep table.dataTable tbody tr td {
+  border: unset;
+  border-right: 1px solid #fff;
+  border-bottom: 1px solid #fff;
+}
+
+table.dataTable.no-footer {
+  border-bottom: unset;
+}
+
+:host ::ng-deep .dataTables_wrapper .dataTables_length {
+  float: right;
+  text-align: right;
+  color: var(--black, #3a3a3a);
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+
+:host ::ng-deep .dataTables_wrapper .dataTables_filter {
+  float: left;
+  text-align: left;
+  margin: 0;
+  color: #6d6d6d;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+
+:host ::ng-deep .dataTables_wrapper {
+  margin-top: 10px;
+}
+
+:host ::ng-deep .dataTables_wrapper .dataTables_filter input {
+  border-radius: 5px;
+  border: 1px solid var(--inputstrokegrey, #adadad);
+  background: var(--inputfill, #f1f1f1);
+  height: 34px;
+  outline: unset;
+}
+
+:host ::ng-deep .dataTables_wrapper .dataTables_length select {
+  border-radius: 5px;
+  border: 1px solid var(--inputstrokegrey, #adadad);
+  background: var(--inputfill, #f1f1f1);
+}
+
+#filter {
+  margin: 15px 0;
+}
+
+.form-control {
+  border-radius: 5px;
+  border: 1px solid var(--inputstrokegrey, #adadad);
+  background: var(--inputfill, #f1f1f1);
+  color: #6d6d6d;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  /* line-height: normal; */
+  height: 32px;
+}
+
+.btn-get {
+  border-radius: 5px;
+  background: var(--purple-bg, #5700a3);
+  height: 32px;
+  color: #ebebeb;
+  font-size: 12px;
+  border: unset;
+  font-style: normal;
+  font-weight: 700;
+  width: 100%;
+  line-height: normal;
+  text-transform: uppercase;
+}
+
+/* DATATBL Design END*/
+
+@media screen and (max-width: 767px) {
+  .input-wrapper > *:nth-child(1) {
+    padding-right: 6px !important;
+  }
+
+  .input-wrapper > *:nth-child(2) {
+    padding-left: 6px !important;
+  }
+
+  .mobileHide {
+    display: none !important;
+  }
+
+  .entries-text {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+  }
+
+  .entries-text span {
+    width: 50%;
+    text-align: start;
+  }
+
+  .page-jump {
+    width: 50%;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .desktopHide {
+    display: none !important;
+  }
+
+  .form-control.jumpto {
+    width: 100px;
+  }
+
+  .jumptext {
+    width: 63px;
+  }
+}
+
+::ng-deep .dataTables_wrapper .dataTables_paginate .paginate_button {
+  color: #000 !important;
+}
+
+::ng-deep .dataTables_wrapper .dataTables_paginate .paginate_button.disabled {
+  color: rgb(221, 221, 221) !important;
+}
+
+::ng-deep .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+  color: white !important;
+}
+
+.custom-pagination-container {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.entries-text {
+  /* margin-bottom: 10px; */
+  color: #555;
+  font-size: 10px;
+}
+
+.pagination-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.pg-btn {
+  border: none;
+  background: transparent;
+  color: #757272;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 11px !important;
+}
+
+.pg-btn.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.pg-number {
+  width: 23.52px;
+  height: 21.09px;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 11px;
+}
+
+.pg-number.active {
+  background: #5f02b9;
+  /* Purple as in your screenshot */
+  color: #fff;
+}
+
+th {
+  background: #dbcdeb;
+  font-size: 11px;
+}
+
+th,
+td {
+  font-size: 11px;
+  padding: 8px 10px;
+  border-color: #ebebeb;
+  align-content: center;
+  text-align: center;
+  text-wrap: nowrap;
+}
+
+table th:first-child {
+  border-radius: 5px 0 0 0;
+  border: none;
+}
+
+table th:last-child {
+  border-radius: 0 5px 0 0;
+  border: none;
+}
+
+thead tr {
+  border: none;
+}
+
+@media (min-width: 768px) {
+  .custom-pagination-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.pagination-buttons {
+  order: 2;
+}
+
+.entries-tex {
+  order: 1;
+  text-align: start !important;
+}
+
+.page-jump {
+  order: 3;
+}
+
+.page-jump {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #757272;
+}
+
+.jumptext {
+  color: #757272;
+  width: 100%;
+  text-decoration: none;
+  font-size: 10px;
+  text-align: end;
+  margin-right: 5px;
+  text-wrap: nowrap;
+}
+
+.jumpGoBtn {
+  background: #dbcdeb;
+  height: 32px;
+  line-height: 20px;
+  margin-left: 5px;
+  font-weight: 600;
+}
+
+.form-control.jumpto {
+  text-align: center;
+  font-size: 14px;
+}
+
+.form-control.jumpto:focus {
+  color: #212529;
+  background-color: #fff;
+  border-color: #86b7fe;
+  outline: 0;
+  box-shadow: 0 0 0 0rem rgba(13, 110, 253, 0.25);
+}
+
+@media (max-width: 768px) {
+  .custom-pagination-container {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 15px;
+  }
+
+  .pagination-buttons {
+    justify-content: space-between;
+  }
+
+  .table-responsive {
+    margin-bottom: 0px;
+  }
+
+  table {
+    margin-bottom: 0px;
+  }
+}
