@@ -175,7 +175,7 @@ export default function ChangePassword() {
         )}
       >
         {/* HEADER (mobile only) */}
-        <div className="flex justify-between items-center px-4 min-[600px]:px-6 h-14 shrink-0 min-[900px]:hidden">
+        {/* <div className="flex justify-between items-center px-4 min-[600px]:px-6 h-14 shrink-0 min-[900px]:hidden">
           <Link href="/" className="flex items-center">
             <Image
               src={
@@ -189,7 +189,7 @@ export default function ChangePassword() {
               className="object-contain h-10 min-[600px]:mx-2 mx-1"
             />
           </Link>
-        </div>
+        </div> */}
 
         {/* MAIN CENTERED WRAPPER */}
         <div className="flex flex-1 items-center justify-center p-4 md:p-8 w-full overflow-y-auto">

@@ -19,7 +19,7 @@ export default function Footer() {
                   alt="Secure"
                   width={106}
                   height={54}
-                  className="mb-[0px] lg:mb-0  mx-auto"
+                  className="mb-[0px] lg:mb-0  mx-auto w-[106px] h-[53px]"
                 />
 
                 <p className="mt-[9px] text-[13px] mb-[1px] font-semibold leading-[19px] dark:text-[white] lg:mt-2">
@@ -59,17 +59,17 @@ export default function Footer() {
               {/* DESCRIPTION */}
               <div className="min-[900px]:pt-2   max-[900]:text-xs  text-[13px] leading-[20px] text-(--palette-text-secondary) dark:border-[rgba(145,158,171,0.2)] ">
                 This website is operated by{" "}
-                <span className="text-[14px] text-[#098DEE]">
+                <span className="text-[14px] text-(--primary-color)">
                   Rich Able Developments Limited
                 </span>
                 , registered under No. 92605 at{" "}
-                <span className="text-[14px] text-[#098DEE]">Samoa</span>.
+                <span className="text-[14px] text-(--primary-color)">Samoa</span>.
                 website is licensed and regulated by{" "}
-                <span className="text-[14px] text-[#098DEE]">
+                <span className="text-[14px] text-(--primary-color)">
                   Anjouan eGaming
                 </span>{" "}
                 , license No.{" "}
-                <span className="text-[14px] text-[#098DEE]">
+                <span className="text-[14px] text-(--primary-color)">
                   ALSI-202510012-FI1
                 </span>
                 <span>
@@ -133,7 +133,7 @@ export default function Footer() {
               Copyright © {new Date().getFullYear()} &nbsp;
               <a
                 href={CONFIG.domain}
-                className="cursor-pointer text-[#098DEE] hover:underline relative left-[1px]"
+                className="cursor-pointer text-(--primary-color) hover:underline relative left-[1px]"
               >
                 GJEXCH.
               </a>{" "}

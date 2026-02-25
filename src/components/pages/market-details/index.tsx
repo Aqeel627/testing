@@ -17,7 +17,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { webSocketService } from "@/lib/websocket.service";
 import { VideoSimple } from "@/components/video-simple/VideoSimple";
 import dynamic from "next/dynamic";
-import MarketLoader from "@/components/common/market-loader";
+// import MarketLoader from "@/components/common/market-loader";
+const MarketLoader = dynamic(() => import('@/components/common/market-loader'),);
 import RuleModal from "@/components/modal/role";
 import Icon from "@/icons/icons";
 import MBetSlip from "@/components/common/m-betslip";
@@ -1302,11 +1303,11 @@ ${i === 1 ? "max-[346px]:hidden" : ""}
                                       });
                                     }}
                                   >
-                                    <span className={`price sm:text-[13px] font-bold leading-[1.1] truncate ${theme === "dark" ? isBackSelected(item) ? "text-white" : "text-[#5baca7]" : "text-black"}`}>
+                                    <span className={`price sm:text-[13px] font-bold leading-[1.1] truncate ${isBackSelected(item) ? "text-white" : theme === "dark" ?  "text-[#5baca7]" : "text-black"}`}>
                                       {cleanPrice(item?.raw?.price + 0.5)}
                                     </span>
 
-                                    <span className={`size sm:text-[10px] font-normal leading-[1] truncate truncate ${theme === "dark" ? isBackSelected(item) ? "text-white" : "text-[#5baca7]" : "text-black"}`}>
+                                    <span className={`size sm:text-[10px] font-normal leading-[1] truncate truncate ${isBackSelected(item) ? "text-white" : theme === "dark" ? "text-[#5baca7]" : "text-black"}`}>
                                       {item.vol}
                                     </span>
                                   </div>
@@ -1434,10 +1435,10 @@ ${i === 1 ? "max-[346px]:hidden" : ""}
                                       });
                                     }}
                                   >
-                                    <span className={`price text-[11px] sm:text-[13px] font-bold leading-[1.1] truncate ${theme === "dark" ? isLaySelected(item) ? "text-white" : "text-[#50d0ae]" : "text-black"}`}>
+                                    <span className={`price text-[11px] sm:text-[13px] font-bold leading-[1.1] truncate ${isLaySelected(item) ? "text-white" : theme === "dark" ? "text-[#50d0ae]" : "text-black"}`}>
                                       {cleanPrice(item?.raw?.price + 0.5)}
                                     </span>
-                                    <span className={`size text-[9px] sm:text-[10px] font-normal leading-[1] truncate truncate ${theme === "dark" ? isLaySelected(item) ? "text-white" : "text-[#50d0ae]" : "text-black"}`}>
+                                    <span className={`size text-[9px] sm:text-[10px] font-normal leading-[1] truncate truncate ${isLaySelected(item) ? "text-white" : theme === "dark" ? "text-[#50d0ae]" : "text-black"}`}>
                                       {item.vol}
                                     </span>
                                   </div>

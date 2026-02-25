@@ -6,6 +6,8 @@ type AppState = {
   isSidebarOpen: boolean;
   closeSidebar: () => void;
   openSidebar: () => void;
+  isBetsOpen: boolean;
+  toggleBets: () => void;
 };
 
 export const useUIStore = create<AppState>((set) => ({
@@ -14,4 +16,6 @@ export const useUIStore = create<AppState>((set) => ({
   isSidebarOpen: false,
   closeSidebar: () => set({ isSidebarOpen: false }),
   openSidebar: () => set({ isSidebarOpen: true }),
+  isBetsOpen: false,
+  toggleBets: () => set((state) => ({ isBetsOpen: !state.isBetsOpen })),
 }));
