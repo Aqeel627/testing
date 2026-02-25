@@ -3,7 +3,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useAppStore } from "@/lib/store/store";
 import dynamic from "next/dynamic";
-const Icon = dynamic(() => import("@/icons/icons"));
+import Icon from "@/icons/icons";
 
 interface BreadCrumbProps {
   /** Override the page title shown above the crumbs. Defaults to last segment. */
@@ -133,15 +133,14 @@ const SportsBreadCrumb = ({ title, subtitle }: BreadCrumbProps) => {
               setIsEventTypeOpen((v) => !v);
               setIsCompetitionOpen(false);
             }}
-            className="text-[#68CDF9] inline-flex"
+            className="cursor-pointer inline-flex"
           >
-            <Icon name="play" className="w-5 h-5" />
+            <Icon name="play" className="w-5 h-5 text-[#68CDF9]" />
+                        {selectedEventType || defaultSportName || ""}
+
           </button>
 
-          <a href="" className="inline-flex">
-            {selectedEventType || defaultSportName || ""}
-          </a>
-
+          
           {isEventTypeOpen && (
             <ul className="absolute left-2 p-1 top-full mt-0 -ml-1 max-h-50 glass backdrop-blur-[2px]!  rounded-sm shadow-lg bg-[rgba(var(--palette-background-paperChannel)/90%)] text-(--palette-text-primary) z-40 overflow-y-auto no-scrollbar">
               {menuList?.eventTypes?.map((item: any) => (
@@ -186,14 +185,13 @@ const SportsBreadCrumb = ({ title, subtitle }: BreadCrumbProps) => {
                 setIsCompetitionOpen((v) => !v);
                 setIsEventTypeOpen(false);
               }}
-              className="text-[#68CDF9] inline-flex"
+              className="inline-flex cursor-pointer"
             >
-              <Icon name="play" className="w-5 h-5" />
+              <Icon name="play" className="w-5 h-5 text-[#68CDF9] " />
+                            {selectedCompetition || subtitle || "Tournament"}
+
             </button>
 
-            <a href="" className="inline-flex">
-              {selectedCompetition || subtitle || "Tournament"}
-            </a>
 
             {isCompetitionOpen && (
               <ul className="absolute p-1 left-2 top-full mt-0 -ml-1 max-h-50 glass backdrop-blur-[2px]! rounded-sm shadow-lg bg-[rgba(var(--palette-background-paperChannel)/90%)] text-(--palette-text-primary) z-40 overflow-y-auto no-scrollbar">

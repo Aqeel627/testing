@@ -11,10 +11,11 @@ import { useAuthStore } from "@/lib/useAuthStore";
 import { ThemeToggle } from "../theme-toggler";
 import { useTheme } from "next-themes";
 import { cn } from "@/lib/utils";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useCacheStore } from "@/lib/store/cacheStore";
 import dynamic from "next/dynamic";
-const Icon = dynamic(() => import("@/icons/icons"));
+import { useUIStore } from "@/lib/store/ui-store";
+import Icon from "@/icons/icons";
 
 type HeaderProps = {
   onMenuClick?: () => void;
@@ -23,17 +24,19 @@ type HeaderProps = {
 
 export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
   // New state for checkbox toggles - default true
+  const {toggleBets}=useUIStore()
   const [showBalance, setShowBalance] = useState(true);
   const [showExposure, setShowExposure] = useState(true);
   const { userBalance, setUserBalance } = useAppStore();
   const { setLoginModal } = useCacheStore();
   const { token, isLoggedIn, logout } = useAuthStore();
-  const { resolvedTheme, theme } = useTheme();
+  const { resolvedTheme, theme, setTheme } = useTheme();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
   const [hideBalance, setHideBalance] = useState(false);
   const { clearSelectedBet } = useAppStore();
   const pathName = usePathname();
+  const router = useRouter();
   const userName =
     token && typeof window !== "undefined"
       ? JSON.parse(localStorage.getItem("userDetail") || "null")?.userName || ""
@@ -74,9 +77,9 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
   }, [isMenuOpen]);
 
   const handleLogout = () => {
-  setIsMenuOpen(false); 
-  logout();            
-};
+    setIsMenuOpen(false);
+    logout();
+  };
 
   return (
     <header
@@ -222,17 +225,35 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
 
         <div className="flex items-center gap-2 sm:gap-[6px]">
           {isLoggedIn && (
-            <Link
-              href=""
+            <button
+              onClick={toggleBets}
               className="inline-flex items-center justify-center relative box-border cursor-pointer select-none align-middle appearance-none font-sans font-bold leading-[1.71429] normal-case min-w-[64px] text-[0.8125rem] h-[30px] outline-none m-0 no-underline rounded-lg border border-solid py-[3px] px-1 min-[600px]:px-[8px] transition-all duration-[250ms] ease-[cubic-bezier(0.4,0,0.2,1)] bg-transparent hover:border-[1px] hover:border-[#078dee] text-[#078DEE] border-[#078dee7a] hover:bg-blue-600/5 hover:shadow-[0px_0px_0px_0.75px_currentColor]"
             >
               Bets
-            </Link>
+            </button>
           )}
-
-          <span className="hidden min-[600px]:flex ">
-            <ThemeToggle />
-          </span>
+          {!isLoggedIn && (
+            <div className="hidden md:block">
+              {theme === "dark" ? (
+                <Icon
+                  name="themeSettingDark"
+                  className="h-6 w-6 mr-2 cursor-pointer"
+                  onClick={() => router.push("/theme")}
+                />
+              ) : (
+                <Icon
+                  name="themeSettingLight"
+                  className="h-6 w-6 mr-2 cursor-pointer"
+                  onClick={() => router.push("/theme")}
+                />
+              )}
+            </div>
+          )}
+          {!isLoggedIn && (
+            <span className="hidden min-[600px]:flex ">
+              <ThemeToggle />
+            </span>
+          )}
           {!isLoggedIn && (
             // <Link
             //   href="/login"
@@ -325,17 +346,21 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                   {/* Links List */}
                   <ul className="my-2 px-2 flex flex-col">
                     {[
-                      { label: "Statement", href: "/statement" },
+                      { label: "Edit Password", href: "/edit-password" },
+                      // /statement
+                      { label: "Statement", href: "" },
+                      { label: "Profit/Loss", href: "/profit-loss" },
+                      { label: "Bets History", href: "/bets-history" },
                       { label: "Settings", href: "/settings" },
                       { label: "Activity", href: "/activity" },
-                      {
-                        label: "Bet Buttons",
-                        href: "/account/settings/bet-buttons",
-                      },
-                      {
-                        label: "Rules",
-                        href: "/rules",
-                      },
+                      // {
+                      //   label: "Bet Buttons",
+                      //   href: "/account/settings/bet-buttons",
+                      // },
+                      // {
+                      //   label: "Rules",
+                      //   href: "/rules",
+                      // },
                     ].map((item, index) => (
                       <li
                         key={index}
@@ -353,11 +378,28 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                     ))}
 
                     {/* Theme Option (Static Icon for now) */}
-                    <li className="mb-1 no-underline h-12 min-[600px]:h-auto text-[0.875rem] leading-[1.57143px] hover:bg-[rgba(145,158,171,0.08)] rounded-[8px]">
+                    <li onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                      className="mb-1 no-underline h-12 min-[600px]:h-auto text-[0.875rem] leading-[1.57143px] hover:bg-[rgba(145,158,171,0.08)] rounded-[8px]">
                       <div className="flex items-center justify-between w-full px-2 text-[14px] text-[var(--dropdowntext)] hover:text-[var(--palette-text-primary)] hover:bg-white/5 transition-colors cursor-pointer">
-                        <span className="ml-4">Theme</span>
+                        <span className="ml-4">
+                          {typeof window !== "undefined" &&
+                            (localStorage.getItem("theme") === "dark" ? "Light" : "Dark")} </span>
                         <span>
                           <ThemeToggle />
+                        </span>
+                      </div>
+                    </li>
+
+                    <li className="mb-1 no-underline h-12 min-[600px]:h-auto text-[0.875rem] leading-[1.57143px] hover:bg-[rgba(145,158,171,0.08)] rounded-[8px]"
+                      onClick={() => router.push("/theme")}>
+                      <div className="flex items-center justify-between w-full px-2 py-2 text-[14px] text-[var(--dropdowntext)] hover:text-[var(--palette-text-primary)] hover:bg-white/5 transition-colors cursor-pointer">
+                        <span className="ml-4">Theme</span>
+                        <span>
+                          {theme === "dark" ? (
+                            <Icon name="themeSettingDark" className="h-6 w-6 mr-2" />
+                          ) : (
+                            <Icon name="themeSettingLight" className="h-6 w-6 mr-2" />
+                          )}
                         </span>
                       </div>
                     </li>
@@ -394,7 +436,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                     <div className="absolute -bottom-4 hidden md:flex -left-4 w-20 h-20 bg-[#FF5630] blur-[30px] opacity-15 pointer-events-none"></div>
 
                     <button
-                    onClick={handleLogout}
+                      onClick={handleLogout}
                       className="relative z-10 w-full text-left px-2 py-2 text-[14px] font-bold text-(--dropdown-logout-color) hover:bg-(--dropdown-logout-bg-hover) rounded-lg transition-colors cursor-pointer "
                     >
                       Logout

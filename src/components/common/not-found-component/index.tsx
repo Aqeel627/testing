@@ -1,6 +1,6 @@
 import dynamic from "next/dynamic";
 import Link from "next/link";
-const Icon = dynamic(() => import("@/icons/icons"));
+import Icon from "@/icons/icons";
 
 export default function NotFoundComponent() {
   return (

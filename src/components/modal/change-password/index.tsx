@@ -10,6 +10,7 @@ import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import { CONFIG, } from "@/lib/config";
 import { CryptoService } from "@/lib/crypto-service";
+import { useCacheStore } from "@/lib/store/cacheStore";
 
 const Loader = dynamic(() => import("@/components/common/loader/loader"));
 
@@ -20,11 +21,13 @@ export default function ChangePassword() {
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [apiError, setApiError] = useState("");
+  const { isPasswordModalOpen, setIsPasswordModalOpen } = useCacheStore();
 
   // Show/Hide password states
   const [showOldPassword, setShowOldPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
 
   // Input values
   const [oldPassword, setOldPassword] = useState("");
@@ -175,7 +178,7 @@ export default function ChangePassword() {
         )}
       >
         {/* HEADER (mobile only) */}
-        <div className="flex justify-between items-center px-4 min-[600px]:px-6 h-14 shrink-0 min-[900px]:hidden">
+        {/* <div className="flex justify-between items-center px-4 min-[600px]:px-6 h-14 shrink-0 min-[900px]:hidden">
           <Link href="/" className="flex items-center">
             <Image
               src={
@@ -189,7 +192,7 @@ export default function ChangePassword() {
               className="object-contain h-10 min-[600px]:mx-2 mx-1"
             />
           </Link>
-        </div>
+        </div> */}
 
         {/* MAIN CENTERED WRAPPER */}
         <div className="flex flex-1 items-center justify-center p-4 md:p-8 w-full overflow-y-auto">
@@ -457,6 +460,7 @@ export default function ChangePassword() {
 
                   <Link
                     href="/"
+                    onClick={() => setIsPasswordModalOpen(false)}
                     className="w-full rounded-[8px] cursor-pointer shadow-(--customShadows-z8) font-bold text-[15px] py-3.5 h-[48px] inline-flex justify-center items-center bg-[var(--gth-btn-bg)] text-white dark:text-black transition-opacity hover:opacity-90"
                   >
                     <span className="max-[600px]:translate-y-[-0.5px]">

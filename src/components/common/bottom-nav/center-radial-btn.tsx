@@ -2,11 +2,10 @@
 import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { useTheme } from "next-themes";
-import "./custome-style.css"
+import "./custome-style.css";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
-const Icon = dynamic(() => import("@/icons/icons"));
-
+import Icon from "@/icons/icons";
 
 const clamp = (v: number, a: number, b: number) => Math.max(a, Math.min(b, v));
 const rad2deg = (r: number) => (r * 180) / Math.PI;
@@ -143,9 +142,18 @@ const CenterRadialButton = () => {
       const ratio = clamp(needed / (2 * Math.max(1, rCenter)), 0, 0.999);
       const requiredStepDeg = rad2deg(2 * Math.asin(ratio));
 
-      const stepDeg = clamp(Math.max(baseStepDeg, requiredStepDeg), baseStepDeg, maxStepDeg);
+      const stepDeg = clamp(
+        Math.max(baseStepDeg, requiredStepDeg),
+        baseStepDeg,
+        maxStepDeg,
+      );
 
-      const angles = [-1.5 * stepDeg, -0.5 * stepDeg, 0.5 * stepDeg, 1.5 * stepDeg];
+      const angles = [
+        -1.5 * stepDeg,
+        -0.5 * stepDeg,
+        0.5 * stepDeg,
+        1.5 * stepDeg,
+      ];
 
       setSmall({ dx, baseY, rCenter, angles });
     };
@@ -164,13 +172,12 @@ const CenterRadialButton = () => {
   }, [vw]);
 
   const handleIconAction = (iconName: string) => {
+    setOpen(false);
     if (iconName === "themeSetting") {
-      router.push("/theme")
-    }
-    else if (iconName === "stake") {
+      router.push("/theme");
+    } else if (iconName === "stake") {
       console.log("stake clicked");
-    }
-    else if (iconName === "powerOff") {
+    } else if (iconName === "powerOff") {
       console.log("PowerOff clicked");
     }
   };
@@ -188,17 +195,19 @@ const CenterRadialButton = () => {
           className={cn(
             "absolute left-1/2 -translate-x-1/2 bottom-[64px] h-[125px] max-[360px]:h-[118px] overflow-hidden transition-all duration-300",
             "w-[74vw] max-[405px]:w-[73vw] max-[390px]:w-[72vw] max-[375px]:w-[71vw] min-[426px]:w-[325px]",
-            open ? "opacity-100 scale-100 visible" : "opacity-0 scale-95 invisible"
+            open
+              ? "opacity-100 scale-100 visible"
+              : "opacity-0 scale-95 invisible",
           )}
         >
           <div
             ref={arcCircleRef}
             className={cn(
               "absolute left-1/2 top-0 w-full aspect-square -translate-x-1/2 rounded-full glass-radial border",
-                theme !== "dark" && "light-radial",
+              theme !== "dark" && "light-radial",
               theme === "dark"
                 ? "border-[rgba(255,255,255,0.25)]"
-                : "border-[rgba(255,255,255,0.4)]"
+                : "border-[rgba(255,255,255,0.4)]",
             )}
             style={{ transformOrigin: "center top" }}
           />
@@ -208,27 +217,29 @@ const CenterRadialButton = () => {
         {rotations.map((deg, i) => {
           const transformOpen = useFixed425To767
             ? // EXACT 425px values (no change from 425 to 767)
-            `translateX(calc(${xPerc425[i]}% + 0px)) translateY(${y425[i]}px) rotate(${deg}deg) translateY(-${r425}px) rotate(${-deg}deg)`
+              `translateX(calc(${xPerc425[i]}% + 0px)) translateY(${y425[i]}px) rotate(${deg}deg) translateY(-${r425}px) rotate(${-deg}deg)`
             : // <425px: border gap == icon gap == (10..20px)
-            `translateX(calc(-50% + ${small.dx}px)) translateY(${small.baseY}px) rotate(${small.angles[i]}deg) translateY(-${small.rCenter}px) rotate(${-small.angles[i]}deg)`;
-const iconName =
-  radialIcons[i] === "stake"
-    ? theme === "light"
-      ? "stakeLight"
-      : "stakeDark"
-    : radialIcons[i] === "themeSetting"
-    ? theme === "light"
-      ? "themeSettingLight"
-      : "themeSettingDark"
-    : radialIcons[i];
-    const iconClass = `icon-${iconName}`;
+              `translateX(calc(-50% + ${small.dx}px)) translateY(${small.baseY}px) rotate(${small.angles[i]}deg) translateY(-${small.rCenter}px) rotate(${-small.angles[i]}deg)`;
+          const iconName =
+            radialIcons[i] === "stake"
+              ? theme === "light"
+                ? "stakeLight"
+                : "stakeDark"
+              : radialIcons[i] === "themeSetting"
+                ? theme === "light"
+                  ? "themeSettingLight"
+                  : "themeSettingDark"
+                : radialIcons[i];
+          const iconClass = `icon-${iconName}`;
           return (
             <span
               key={i}
               // className="absolute left-1/2 bottom-0 pointer-events-auto transition-transform duration-500"
               className={`absolute left-1/2 bottom-0 pointer-events-auto transition-transform duration-500 radial-icon ${iconClass}`}
               style={{
-                transform: open ? transformOpen : `translateX(-50%) translateY(-22px)`,
+                transform: open
+                  ? transformOpen
+                  : `translateX(-50%) translateY(-22px)`,
                 transitionDelay: open ? `${i * 0.08}s` : "0s",
               }}
             >
@@ -236,13 +247,16 @@ const iconName =
                 <button
                   ref={sampleIconRef}
                   type="button"
-                  onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                  onClick={() => {
+                    setOpen(false);
+                    setTheme(theme === "dark" ? "light" : "dark");
+                  }}
                   className={cn(
                     "c333 w-[50px] h-[50px] max-[355px]:w-[45px] max-[355px]:h-[45px] max-[330px]:h-[42px] rounded-full flex items-center justify-center  btn-glass backdrop-blur-[20px] border shadow-lg transition-opacity duration-300",
                     open ? "opacity-100" : "opacity-0",
                     theme === "dark"
                       ? "border-[rgba(255,255,255,0.25)]"
-                      : "border-[rgba(255,255,255,0.4)]"
+                      : "border-[rgba(255,255,255,0.4)]",
                   )}
                 >
                   {theme === "dark" ? (
@@ -253,13 +267,13 @@ const iconName =
                 </button>
               ) : (
                 <div
-                onClick={() => handleIconAction(radialIcons[i])}
+                  onClick={() => handleIconAction(radialIcons[i])}
                   className={cn(
                     "w-[50px] h-[50px] max-[355px]:w-[45px] max-[355px]:h-[45px] rounded-full flex items-center justify-center btn-glass backdrop-blur-[20px] border shadow-lg transition-opacity duration-300",
                     open ? "opacity-100" : "opacity-0",
                     theme === "dark"
                       ? "border-[rgba(255,255,255,0.25)]"
-                      : "border-[rgba(255,255,255,0.4)]"
+                      : "border-[rgba(255,255,255,0.4)]",
                   )}
                 >
                   <Icon name={iconName} width={22} height={22} />
@@ -275,7 +289,7 @@ const iconName =
             "absolute left-1/2 bottom-0 w-12 h-12 rounded-full pointer-events-auto z-10 flex items-center justify-center transition-all duration-300 btn-glass backdrop-blur-[25px] border shadow-[0_8px_25px_rgba(0,0,0,0.25)]",
             theme === "dark"
               ? "border-[rgba(255,255,255,0.3)]"
-              : "border-[rgba(255,255,255,0.4)]"
+              : "border-[rgba(255,255,255,0.4)]",
           )}
           style={{ transform: "translateX(-50%) translateY(-11px)" }}
         >

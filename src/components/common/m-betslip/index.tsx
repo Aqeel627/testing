@@ -1,4 +1,5 @@
 "use client";
+import { CONFIG } from "@/lib/config";
 import { useAppStore } from "@/lib/store/store";
 import { Minus, Plus } from "lucide-react";
 import React, { useState, useEffect } from "react";
@@ -42,7 +43,7 @@ export default function MBetSlip() {
   };
 
   useEffect(() => {
-    console.log(selectedBet)
+    // console.log(selectedBet)
     if (selectedBet?.odds) {
       const n = Number(selectedBet.odds);
       setOdds(n);
@@ -66,26 +67,26 @@ export default function MBetSlip() {
     type === "yes"
       ? "#50d0ae"
       : type === "no"
-      ? "#5baca7"
-      : isBack
-      ? "var(--bs-back-accent)"
-      : "var(--bs-lay-accent)";
+        ? "#5baca7"
+        : isBack
+          ? "var(--bs-back-accent)"
+          : "var(--bs-lay-accent)";
   const accentBg10 =
     type === "yes"
       ? "#50d0ae1A"
       : type === "no"
-      ? "#5baca71A"
-      : isBack
-      ? "var(--bs-back-accent-bg10)"
-      : "var(--bs-lay-accent-bg10)";
+        ? "#5baca71A"
+        : isBack
+          ? "var(--bs-back-accent-bg10)"
+          : "var(--bs-lay-accent-bg10)";
   const accentBg15 =
     type === "yes"
       ? "#50d0ae26"
       : type === "no"
-      ? "#5baca726"
-      : isBack
-      ? "var(--bs-back-accent-bg15)"
-      : "var(--bs-lay-accent-bg15)";
+        ? "#5baca726"
+        : isBack
+          ? "var(--bs-back-accent-bg15)"
+          : "var(--bs-lay-accent-bg15)";
 
   const profitOrLiability =
     stake > 0 && odds > 1 ? ((odds - 1) * stake).toFixed(2) : "0.00";
@@ -95,10 +96,10 @@ export default function MBetSlip() {
     type === "back"
       ? "Back (Bet For)"
       : type === "lay"
-      ? "Lay (Bet Against)"
-      : type === "yes"
-      ? "Yes (Bet For)"
-      : "No (Bet Against)";
+        ? "Lay (Bet Against)"
+        : type === "yes"
+          ? "Yes (Bet For)"
+          : "No (Bet Against)";
 
   // ── Odds handlers ──
   const handleIncrease = () => {
@@ -149,6 +150,48 @@ export default function MBetSlip() {
     setStake((prev) => Number(prev || 0) + add);
   };
 
+  const handlePlaceBet = async () => {
+    if (!selectedBet || stake === 0) return;
+
+    const side = selectedBet.type.toLowerCase();  
+
+    const payload = {
+      eventId: selectedBet?.eventId,
+      marketId: selectedBet?.marketId,
+      sportId: selectedBet?.sportId,
+      selectionId: selectedBet?.selectionId,
+      price: Number((odds || 0).toFixed(2)),
+      stake: Number((stake || 0).toFixed(2)),
+      side: side,  
+      type: selectedBet?.marketType || "MATCH_ODDS",
+      matchMe: false,
+    };
+
+    try {
+      const res = await fetch(CONFIG.placeBetURL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) throw new Error(data.message || "Failed to place bet");
+
+      // console.log("Bet Success:", data);
+
+      // reset after success
+      clearSelectedBet();
+      setStake(0);
+      setQuickValue(0);
+
+    } catch (error: any) {
+      console.error("Bet Error:", error.message);
+    }
+  };
+
   return (
     <>
       <style>{`
@@ -169,7 +212,7 @@ export default function MBetSlip() {
           <div className="flex gap-2">
             {/* Odds */}
             <div className="flex-1 min-w-0 flex flex-col gap-1.5">
-              <label className="text-[11px] ml-2.5" style={{ color: "var(--bs-label)" }}>{selectedBet?.isLineMarket?"Runs":"Odds"}</label>
+              <label className="text-[11px] ml-2.5" style={{ color: "var(--bs-label)" }}>{selectedBet?.isLineMarket ? "Runs" : "Odds"}</label>
               <div className="flex items-center rounded-full px-1 py-1 gap-1" style={{ background: "var(--bs-input-bg)", border: "1px solid var(--bs-odds-border)" }}>
                 <button type="button" onClick={handleDecrease} className="bs-circle-btn w-7 h-7 shrink-0 rounded-full flex items-center justify-center cursor-pointer" style={{ background: "var(--bs-circle-btn-bg)", color: "var(--bs-text)" }}><Minus className="w-3 h-3" /></button>
                 <input value={inputValue} inputMode="numeric" type="number" step="0.01" onChange={handleChange} onBlur={handleBlur} onKeyDown={handleKeyDown} className="flex-1 min-w-0 w-0 bg-transparent border-none text-center text-[14px] font-semibold outline-none" style={{ color: "var(--bs-text)" }} />
@@ -198,6 +241,7 @@ export default function MBetSlip() {
           {/* CANCEL + PLACE BET */}
           <div className="flex gap-3">
             <button type="button" onClick={() => { clearSelectedBet(); setStake(0); setQuickValue(0); }} className="bs-cancel-btn flex-1 py-2 rounded-full font-bold text-[14px] border-none cursor-pointer" style={{ background: "var(--bs-cancel-bg)", color: "var(--bs-text)" }}>Cancel</button>
+            {/* onClick={handlePlaceBet}  */}
             <button type="button" disabled={stake === 0} className="flex-1 py-2 rounded-full text-white font-bold text-[14px] border-none transition-all" style={{ background: accentVar, cursor: stake === 0 ? "not-allowed" : "pointer", opacity: stake === 0 ? 0.45 : 1 }}>
               Place Bet
               {stake !== 0 && (

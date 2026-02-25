@@ -13,7 +13,7 @@ export function Closebetslip() {
 
     // Only fire when the path actually changed (skip very first render)
     if (prevPathname.current !== null && prevPathname.current !== pathname) {
-        console.log("closebetslip")
+        // console.log("closebetslip")
       clearSelectedBet();
 
     }
