@@ -9,7 +9,7 @@ export default function Casino({ hideHeading }: { hideHeading?: boolean }) {
   const activeIndex = searchParams.get("tab") ?? "Popular";
 
   useEffect(() => {
-    console.log("casinoEvents", casinoEvents);
+    // console.log("casinoEvents", casinoEvents);
   }, [casinoEvents]);
 
   const filteredItems = React.useMemo(() => {
