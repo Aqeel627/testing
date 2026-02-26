@@ -30,10 +30,10 @@
   position: absolute;
       inset: 54px;
   border-radius: 50%;
-  border: 7px solid #68cdf9;
+  border: 7px solid var(--secondary-color);
   box-shadow:
-    0 0 7px #68cdf9,
-    inset 0 0 10px #68cdf9;
+    0 0 7px var(--secondary-color),
+    inset 0 0 10px var(--secondary-color);
 }
 
 /* ===== ROTATING ARCS BASE ===== */
