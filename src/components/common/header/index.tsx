@@ -237,13 +237,13 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
               {theme === "dark" ? (
                 <Icon
                   name="themeSettingDark"
-                  className="h-6 w-6 mr-2 cursor-pointer"
+                  className="h-5 w-5 mr-2 cursor-pointer"
                   onClick={() => router.push("/theme")}
                 />
               ) : (
                 <Icon
                   name="themeSettingLight"
-                  className="h-6 w-6 mr-2 cursor-pointer"
+                  className="h-5 w-5 mr-2 cursor-pointer"
                   onClick={() => router.push("/theme")}
                 />
               )}
@@ -347,7 +347,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                   <ul className="my-2 px-2 flex flex-col">
                     {[
                       { label: "Edit Password", href: "" },
-                      { label: "Statement", href: "" },
+                      { label: "Statement", href: "/statement" },
                       { label: "Profit/Loss", href: "/profit-loss" },
                       { label: "Bets History", href: "/bets-history" },
                       { label: "Settings", href: "/settings" },
@@ -379,7 +379,10 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                     ))}
 
                     {/* Theme Option (Static Icon for now) */}
-                    <li onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                    <li onClick={() => {
+                      setTheme(theme === "dark" ? "light" : "dark");
+                      setIsMenuOpen(false);
+                    }}
                       className="mb-1 no-underline h-12 min-[600px]:h-auto text-[0.875rem] leading-[1.57143px] hover:bg-[rgba(145,158,171,0.08)] rounded-[8px]">
                       <div className="flex items-center justify-between w-full px-2 text-[14px] text-[var(--dropdowntext)] hover:text-[var(--palette-text-primary)] hover:bg-white/5 transition-colors cursor-pointer">
                         <span className="ml-4">
@@ -392,14 +395,17 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                     </li>
 
                     <li className="mb-1 no-underline h-12 min-[600px]:h-auto text-[0.875rem] leading-[1.57143px] hover:bg-[rgba(145,158,171,0.08)] rounded-[8px]"
-                      onClick={() => router.push("/theme")}>
+                      onClick={() => {
+                        setIsMenuOpen(false);
+                        router.push("/theme");
+                      }}>
                       <div className="flex items-center justify-between w-full px-2 py-2 text-[14px] text-[var(--dropdowntext)] hover:text-[var(--palette-text-primary)] hover:bg-white/5 transition-colors cursor-pointer">
                         <span className="ml-4">Theme</span>
                         <span>
                           {theme === "dark" ? (
-                            <Icon name="themeSettingDark" className="h-6 w-6 mr-2" />
+                            <Icon name="themeSettingDark" className="h-5 w-5 mr-2" />
                           ) : (
-                            <Icon name="themeSettingLight" className="h-6 w-6 mr-2" />
+                            <Icon name="themeSettingLight" className="h-5 w-5 mr-2" />
                           )}
                         </span>
                       </div>
