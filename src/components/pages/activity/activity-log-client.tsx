@@ -68,7 +68,6 @@ export default function ActivityLogClient() {
           </li>
         </ul>
       </div>
-
       <div className="mt-3">
         <h6 className="text-[14px] font-semibold text-[var(--palette-text-primary)]">
           Activity Log
