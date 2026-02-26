@@ -20,6 +20,7 @@ import LoginModal from "@/components/modal/login";
 import BetSlipUI from "@/components/common/betslip";
 import BetsTable from "@/components/common/betstable";
 import { AnimatePresence, motion } from "framer-motion";
+import { usePathname } from "next/navigation";
 // const Header = dynamic(() => import("@/components/common/header"));
 // const Footer = dynamic(() => import("@/components/common/footer"));
 // const Sidebar = dynamic(() => import("@/components/common/sidebar"));
@@ -39,6 +40,17 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
   const openMobileSidebar = useUIStore((s) => s.openSidebar);
   const closeMobileSidebar = useUIStore((s) => s.closeSidebar);
   const isBetsOpen = useUIStore((s) => s.isBetsOpen);
+  const pathname = usePathname();
+
+const HIDE_FOOTER_ROUTES = [
+  "/statement",
+  "/profit-loss",
+  "/bets-history",
+  "/settings",
+  "/activity",
+];
+
+const shouldHideFooter = HIDE_FOOTER_ROUTES.includes(pathname);
 
   useLayoutEffect(() => {
     const checkDevice = () => {
@@ -94,7 +106,7 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
 
           <main className="pt-[80px] px-3 h-screen">
             {children}
-            <Footer />
+            {!shouldHideFooter && <Footer />}
             <div className="md:hidden h-25"></div>
           </main>
 
@@ -136,7 +148,7 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
               >
                 <div className="@container w-full">
                   {children}
-                  <Footer />
+                  {!shouldHideFooter && <Footer />}
                 </div>
               </ResizablePanel>
               <AnimatePresence>
