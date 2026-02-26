@@ -31,8 +31,8 @@ const Loader = () => {
   <span className={`${styles.ringArc} ${styles.arc6}`}></span>
 
   <span className={styles.ringGlow}></span>
-
-  <span className={styles.innerThin}></span>
+<span className={styles.innerThinRing}></span>
+  {/* <span className={styles.innerThin}></span> */}
   <div className={styles.ringInner}></div>
 
   {/* <div className={styles.logoSlot}>
