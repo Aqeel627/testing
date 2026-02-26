@@ -21,7 +21,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  filter: drop-shadow(0 0 22px rgba(255, 204, 80, 0.35));
+  filter: drop-shadow(0 0 22px var(--sidebar-badge-text));
 }
 
 /* ===== STATIC TRACK ===== */
@@ -30,10 +30,10 @@
   position: absolute;
       inset: 48px;
   border-radius: 50%;
-  border: 7px solid rgba(245,196,83,0.92);
+  border: 7px solid var(--sidebar-badge-text);
   box-shadow:
-    0 0 14px rgba(248,196,77,0.65),
-    inset 0 0 10px rgba(255,224,153,0.32);
+    0 0 14px var(--sidebar-badge-text),
+    inset 0 0 10px var(--sidebar-badge-text);
 }
 
 /* ===== ROTATING ARCS BASE ===== */
@@ -64,7 +64,7 @@
   background: conic-gradient(
     from 0deg,
     transparent 0deg 30deg,
-    #ffd773 30deg 63deg,
+    var(--sidebar-badge-text) 30deg 63deg,
     transparent 63deg 360deg
   );
   animation: spinClockwise 2.8s linear infinite;
@@ -75,7 +75,7 @@
   background: conic-gradient(
     from 180deg,
     transparent 0deg 30deg,
-    #ffcc66 30deg 63deg,
+    var(--sidebar-badge-text) 30deg 63deg,
     transparent 63deg 360deg
   );
   animation: spinAnti 2.8s linear infinite;
@@ -88,7 +88,7 @@
   background: conic-gradient(
     from 40deg,
     transparent 0deg 30deg,
-    #ffbf55 30deg 72deg,
+    var(--sidebar-badge-text) 30deg 72deg,
     transparent 72deg 360deg
   );
   animation: spinClockwise 1.9s linear infinite;
@@ -99,7 +99,7 @@
   background: conic-gradient(
     from 220deg,
     transparent 0deg 30deg,
-    #ffc76a 30deg 72deg,
+    var(--sidebar-badge-text) 30deg 72deg,
     transparent 72deg 360deg
   );
   animation: spinAnti 1.9s linear infinite;
@@ -112,7 +112,7 @@
   background: conic-gradient(
     from 70deg,
     transparent 0deg 30deg,
-    #ffb84d 30deg 64deg,
+    var(--sidebar-badge-text) 30deg 64deg,
     transparent 64deg 360deg
   );
   animation: spinClockwise 1.3s linear infinite;
@@ -123,7 +123,7 @@
   background: conic-gradient(
     from 250deg,
     transparent 0deg 30deg,
-    #ffd27f 30deg 64deg,
+    var(--sidebar-badge-text) 30deg 64deg,
     transparent 64deg 360deg
   );
   animation: spinAnti 1.3s linear infinite;
@@ -135,8 +135,8 @@
   inset: 0;
   border-radius: 50%;
   box-shadow:
-    0 0 22px rgba(255,191,72,0.5),
-    inset 0 0 14px rgba(255,191,72,0.28);
+    0 0 22px var(--sidebar-badge-text),
+    inset 0 0 14px var(--sidebar-badge-text);
   animation: pulseGlow 1.4s ease-in-out infinite;
 }
 
@@ -147,7 +147,7 @@
   width: 200px;
   height: 200px;
   border-radius: 50%;
-  border: 2px solid rgba(255,219,140,0.85);
+  border: 2px solid var(--sidebar-badge-text);
 }
 
 .ringInner {
@@ -156,8 +156,8 @@
   height: 190px;
   border-radius: 50%;
   box-shadow:
-    inset 0 0 16px rgba(255,208,96,0.32),
-    0 0 20px rgba(255,208,96,0.35);
+    inset 0 0 16px var(--sidebar-badge-text),
+    0 0 20px var(--sidebar-badge-text);
 }
 
 .logoSlot {
