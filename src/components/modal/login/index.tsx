@@ -112,7 +112,7 @@ export default function LoginModal() {
     }
   };
 
-  if (loginModal && isLoading) {
+  if (loginModal && !isLoading) {
     return <Loader />;
   }
 
