@@ -18,6 +18,9 @@
   /* market variables */
   --accordion-bg: rgba(7, 141, 238, 0.16);
 
+  /* table header */
+  --table-header-bg: rgba(7, 141, 238, 0.16);
+
   /* sidebar variables */
   --sidebar-active-bg: rgba(7 141 238 / 8%);
   --sidebar-active-hover-bg: rgba(7 141 238 / 16%);
@@ -51,10 +54,14 @@
   --background: #f4f6f8;
   --foreground: #171717;
 
---line-no-selected-bg: #327772;
---line-no-selected-border: #5dbdb8;
---line-yes-selected-bg: #2aaf8c;
---line-yes-selected-border: #40ad92;
+  /* table header */
+  --table-header-text: var(--primary-color-dark);
+  --table-border-color: #1c252e;
+
+  --line-no-selected-bg: #327772;
+  --line-no-selected-border: #5dbdb8;
+  --line-yes-selected-bg: #2aaf8c;
+  --line-yes-selected-border: #40ad92;
 
   /* login variables */
   --gth-btn-bg: #1c252e;
@@ -175,10 +182,13 @@
   --primary-text-color: white;
   --sport-active-bg: #141a21;
 
---line-no-selected-bg: #5baca7;
---line-no-selected-border: #4a9692;
---line-yes-selected-bg: #50d0ae;
---line-yes-selected-border: #3db99a;
+  /* table header */
+  --table-header-text: var(--secondary-color);
+
+  --line-no-selected-bg: #5baca7;
+  --line-no-selected-border: #4a9692;
+  --line-yes-selected-bg: #50d0ae;
+  --line-yes-selected-border: #3db99a;
   /* market variables */
   --arrow-color: var(--secondary-color);
   --accordion-text: var(--secondary-color);
@@ -358,7 +368,7 @@ body {
   touch-action: manipulation;
   overflow: hidden !important;
 } */
- /* .app-scroll-root {
+/* .app-scroll-root {
   overflow-y: auto !important;  
   overflow-x: hidden;
   -webkit-overflow-scrolling: touch;
