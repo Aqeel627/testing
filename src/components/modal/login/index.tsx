@@ -499,8 +499,8 @@ export default function LoginModal() {
                         onClick={() => setLoginModal(false)}
                         className="text-center text-sm gap-1 flex justify-center items-center"
                       >
-                        <Icon name={'back'} width={16} height={16} className="text-(--primary-color)"/>
-                        <span className="text-(--primary-color)">
+                        <Icon name={'back'} width={16} height={16} className="text-(--gth-btn-bg)"/>
+                        <span className="text-(--gth-btn-bg)">
                           Return to Homepage
                         </span>
                       </Link>
