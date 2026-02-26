@@ -3,17 +3,15 @@ import ActivityLogClient from "./activity-log-client";
 import RequireAuth from "@/lib/require-auth";
 const BreadCrumb = dynamic(() => import("@/components/common/bread-crumb"));
 
-const  ActivityPage = () => {
+const ActivityPage = () => {
   return (
     <>
-      <BreadCrumb title="Activities"/>
+      <BreadCrumb title="Activities" />
       <div className="w-full mx-auto flex flex-col flex-grow scroll-mt-[40px]">
-         <RequireAuth>
-<ActivityLogClient />
-</RequireAuth>
+        <ActivityLogClient />
       </div>
     </>
-  )
-}
+  );
+};
 
-export default ActivityPage
+export default ActivityPage;

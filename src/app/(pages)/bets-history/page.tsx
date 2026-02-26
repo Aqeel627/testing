@@ -1,3 +1,4 @@
+import RequireAuth from "@/lib/require-auth";
 import dynamic from "next/dynamic";
 
 const BetHistory = dynamic(
@@ -5,7 +6,11 @@ const BetHistory = dynamic(
 );
 
 const BetHistoryROute = () => {
-  return <BetHistory />;
+  return (
+    <RequireAuth>
+      <BetHistory />
+    </RequireAuth>
+  );
 };
 
 export default BetHistoryROute;

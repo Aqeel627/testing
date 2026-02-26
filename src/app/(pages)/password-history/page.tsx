@@ -1,10 +1,12 @@
 import PasswordHistory from "@/components/pages/passwordHistory";
-import dynamic from "next/dynamic";
+import RequireAuth from "@/lib/require-auth";
 
 const PasswordHistoryRoute = () => {
   return (
     <>
-      <PasswordHistory />
+      <RequireAuth>
+        <PasswordHistory />
+      </RequireAuth>
     </>
   );
 };

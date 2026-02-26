@@ -1165,3 +1165,7 @@ body:has(.drawer) {
 #nprogress .bar {
   background: var(--primary-color) !important; 
 }
+
+#nprogress .peg {
+  box-shadow: 0 0 10px var(--primary-color), 0 0 5px var(--primary-color) !important;
+}
