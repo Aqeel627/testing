@@ -12,8 +12,7 @@ import { CONFIG } from "@/lib/config";
 import { CryptoService } from "@/lib/crypto-service";
 import { useCacheStore } from "@/lib/store/cacheStore";
 import Icon from "@/icons/icons";
-
-const Loader = dynamic(() => import("@/components/common/loader/loader"));
+import Loader from "@/components/common/loader/loader";
 
 export default function ChangePassword() {
   const { theme } = useTheme();
