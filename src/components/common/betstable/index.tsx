@@ -280,7 +280,7 @@ export default function BetsTable() {
           <div className="absolute inset-0 bg-black/50" onClick={() => setIsFullScreen(false)} />
           <div className="relative w-full h-full bg-[var(--palette-background-default)] flex flex-col">
             <div className="flex items-center justify-between p-2">
-              <h2 className="text-[18px] font-semibold p-6 text-[var(--palette-text-primary)]">Bets</h2>
+              <h2 className="text-[18px] font-semibold p-6"><span className="text-(--primary-color)">Bets</span></h2>
               <button onClick={() => setIsFullScreen(false)} className="w-9 h-9 flex items-center justify-center rounded-full hover:bg-[var(--primary-hover)] transition-colors text-[var(--palette-text-primary)]">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="w-5 h-5">
                   <path fill="currentColor" d="m12 13.414l5.657 5.657a1 1 0 0 0 1.414-1.414L13.414 12l5.657-5.657a1 1 0 0 0-1.414-1.414L12 10.586L6.343 4.929A1 1 0 0 0 4.93 6.343L10.586 12l-5.657 5.657a1 1 0 1 0 1.414 1.414z"/>

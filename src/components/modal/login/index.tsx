@@ -10,9 +10,8 @@ import { useAuthStore } from "@/lib/useAuthStore";
 // import { useToast } from "@/app/(pages)/components/toast/toast-context";
 import { useRouter } from "next/navigation";
 import { useCacheStore } from "@/lib/store/cacheStore";
-import dynamic from "next/dynamic";
-
-const Loader = dynamic(() => import("@/components/common/loader/loader"));
+import Icon from "@/icons/icons";
+import Loader from "@/components/common/loader/loader";
 
 export default function LoginModal() {
   const { loginModal, setLoginModal } = useCacheStore();
@@ -119,7 +118,9 @@ export default function LoginModal() {
 
   return (
     <>
-      {theme === "light" && <div className="absolute inset-0 z-10 bg-black/50"></div>}
+      {theme === "light" && (
+        <div className="absolute inset-0 z-10 bg-black/50"></div>
+      )}
       <section
         className={cn(
           "fixed! rounded-none! inset-0! z-9999 drawer!",
@@ -135,25 +136,7 @@ export default function LoginModal() {
         {/* ✅ Desktop alignment wrapper (no mobile styles applied) */}
         <div className="min-[900px]:mx-auto min-[900px]:max-w-[1120px] min-[900px]:min-h-[calc(100vh-96px)] min-[900px]:flex min-[900px]:flex-col">
           {/* HEADER (mobile only — unchanged visually on mobile) */}
-          <div className="flex justify-between items-center px-4 min-[600]:px-6 h-12 min-[900px]:hidden">
-            <Link
-              href="/"
-              onClick={() => setLoginModal(false)}
-              className="flex items-center"
-            >
-              <Image
-                src={
-                  theme === "dark"
-                    ? "/logo-black.svg"
-                    : "/logo-white.svg"
-                }
-                alt="GJEXCH Logo"
-                width={152}
-                height={48}
-                className="object-contain min-[600]:mx-2 mx-1 w-[152px] h-[48px]"
-              />
-            </Link>
-          </div>
+          {/* <div className="flex justify-between items-center px-4 min-[600]:px-6 h-12 min-[900px]:hidden"></div> */}
 
           {/* MAIN (mobile unchanged; desktop centered) */}
           <div
@@ -197,9 +180,7 @@ export default function LoginModal() {
 
                   <Image
                     src={
-                      theme === "dark"
-                        ? "/logo-black.svg"
-                        : "/logo-white.svg"
+                      theme === "dark" ? "/logo-black.svg" : "/logo-white.svg"
                     }
                     alt="GJEXCH Logo"
                     width={360}
@@ -229,6 +210,25 @@ export default function LoginModal() {
                   >
                     {/* Heading */}
                     <div className="flex flex-col mb-[41px] gap-3.5 max-[900px]:items-center min-[900px]:items-start min-[900px]:mb-8">
+                      <div className="flex justify-between items-center px-4 min-[600]:px-6 h-12 min-[900px]:hidden">
+                        <Link
+                          href="/"
+                          onClick={() => setLoginModal(false)}
+                          className="flex items-center"
+                        >
+                          <Image
+                            src={
+                              theme === "dark"
+                                ? "/logo-black.svg"
+                                : "/logo-white.svg"
+                            }
+                            alt="GJEXCH Logo"
+                            width={152}
+                            height={48}
+                            className="object-contain min-[600]:mx-2 mx-1 w-[152px] h-[48px]"
+                          />
+                        </Link>
+                      </div>
                       <h2 className="text-xl xl:text-[19px] font-bold max-[600px]:text-[18px] max-[900px]:text-[19px]">
                         Sign in to GJEXCH
                       </h2>
@@ -239,10 +239,11 @@ export default function LoginModal() {
                       <div className="inline-flex flex-col relative min-w-0 align-top w-full m-0 p-0 border-0 border-[initial]">
                         <label
                           htmlFor="username"
-                          className={`font-semibold text-base leading-normal font-normal  leading-[1.57143] block text-ellipsis absolute origin-[left_top] z-[1] select-none pointer-events-auto max-w-[calc(133%-32px)] translate-x-3.5 translate-y-[-9px] whitespace-nowrap overflow-hidden p-0 scale-75 left-0 top-0 ${usernameError
-                            ? "text-(--palette-error-main)"
-                            : "text-(--palette-text-secondary)"
-                            }`}
+                          className={`font-semibold text-base leading-normal font-normal  leading-[1.57143] block text-ellipsis absolute origin-[left_top] z-[1] select-none pointer-events-auto max-w-[calc(133%-32px)] translate-x-3.5 translate-y-[-9px] whitespace-nowrap overflow-hidden p-0 scale-75 left-0 top-0 ${
+                            usernameError
+                              ? "text-(--palette-error-main)"
+                              : "text-(--palette-text-secondary)"
+                          }`}
                         >
                           Username
                           <span className=""> *</span>
@@ -276,10 +277,11 @@ export default function LoginModal() {
                             className="font-[inherit] placeholder:text-(--palette-text-primary) outline-0 leading-[inherit] tracking-[inherit] text-current box-content h-[1.4375em] block min-w-0 w-full max-[600px]:text-base text-[0.9375rem] m-0 px-3.5 py-[16.5px] border-0"
                           />
                           <fieldset
-                            className={`text-left absolute top-[-5px] group-focus-within:border-2 pointer-events-none min-w-[0%] border overflow-hidden transition-[border-color] duration ease-in-out m-0 px-2 py-0 rounded-[inherit] border-solid bottom-0 inset-x-0 ${usernameError
-                              ? "border-(--palette-error-main)"
-                              : "border-[rgba(var(--palette-grey-500Channel)_/_20%)] group-hover:border-(--palette-text-primary) group-focus-within:border-(--palette-text-primary)"
-                              }`}
+                            className={`text-left absolute top-[-5px] group-focus-within:border-2 pointer-events-none min-w-[0%] border overflow-hidden transition-[border-color] duration ease-in-out m-0 px-2 py-0 rounded-[inherit] border-solid bottom-0 inset-x-0 ${
+                              usernameError
+                                ? "border-(--palette-error-main)"
+                                : "border-[rgba(var(--palette-grey-500Channel)_/_20%)] group-hover:border-(--palette-text-primary) group-focus-within:border-(--palette-text-primary)"
+                            }`}
                           >
                             <legend className="w-18.75 overflow-hidden block h-[11px] text-[14px] invisible whitespace-nowrap max-w-full transition-[max-width] duration-100 ease-out delay-[50ms] p-0">
                               <span>Username *</span>
@@ -300,10 +302,11 @@ export default function LoginModal() {
                       <div className="inline-flex   flex-col relative min-w-0 align-top w-full m-0 p-0 border-0 border-[initial]">
                         <label
                           htmlFor="password"
-                          className={`font-semibold text-base leading-normal font-normal  leading-[1.57143] block text-ellipsis absolute origin-[left_top] z-[1] select-none pointer-events-auto max-w-[calc(133%-32px)] translate-x-3.5 translate-y-[-9px] whitespace-nowrap overflow-hidden p-0 scale-75 left-0 top-0 ${passwordError
-                            ? "text-(--palette-error-main)"
-                            : "text-(--palette-text-secondary)"
-                            }`}
+                          className={`font-semibold text-base leading-normal font-normal  leading-[1.57143] block text-ellipsis absolute origin-[left_top] z-[1] select-none pointer-events-auto max-w-[calc(133%-32px)] translate-x-3.5 translate-y-[-9px] whitespace-nowrap overflow-hidden p-0 scale-75 left-0 top-0 ${
+                            passwordError
+                              ? "text-(--palette-error-main)"
+                              : "text-(--palette-text-secondary)"
+                          }`}
                         >
                           Password
                           <span className=""> *</span>
@@ -393,10 +396,11 @@ export default function LoginModal() {
                             )}
                           </button>
                           <fieldset
-                            className={`text-left absolute top-[-5px] pointer-events-none group-focus-within:border-2 min-w-[0%] border overflow-hidden transition-[border-color] duration ease-in-out m-0 px-2 py-0 rounded-[inherit] border-solid bottom-0 inset-x-0 ${passwordError
-                              ? "border-(--palette-error-main)"
-                              : "border-[rgba(var(--palette-grey-500Channel)_/_20%)] group-hover:border-(--palette-text-primary) group-focus-within:border-(--palette-text-primary)"
-                              }`}
+                            className={`text-left absolute top-[-5px] pointer-events-none group-focus-within:border-2 min-w-[0%] border overflow-hidden transition-[border-color] duration ease-in-out m-0 px-2 py-0 rounded-[inherit] border-solid bottom-0 inset-x-0 ${
+                              passwordError
+                                ? "border-(--palette-error-main)"
+                                : "border-[rgba(var(--palette-grey-500Channel)_/_20%)] group-hover:border-(--palette-text-primary) group-focus-within:border-(--palette-text-primary)"
+                            }`}
                           >
                             <legend className="w-18.25 overflow-hidden block h-[11px] text-[14px] invisible whitespace-nowrap max-w-full transition-[max-width] duration-100 ease-out delay-[50ms] p-0">
                               <span>Password *</span>
@@ -449,8 +453,8 @@ export default function LoginModal() {
                         className={cn(
                           "w-full rounded-lg relative p-[6px_12px] min-h-9 text-sm font-bold h-[48px] bg-(--primary-color) text-white cursor-pointer disabled:cursor-not-allowed",
                           hasFormValues &&
-                          !isSubmitting &&
-                          "hover:bg-(--primary-color-dark)",
+                            !isSubmitting &&
+                            "hover:bg-(--primary-color-dark)",
                         )}
                       >
                         {isSubmitting ? (
@@ -479,7 +483,7 @@ export default function LoginModal() {
                       </button>
 
                       {/* Go to Home (UNCHANGED) */}
-                      <Link
+                      {/* <Link
                         href="/"
                         onClick={() => setLoginModal(false)}
                         className="w-full rounded-[8px] cursor-pointer shadow-(--customShadows-z8)
@@ -488,6 +492,16 @@ export default function LoginModal() {
                         <span className="max-[600px]:translate-y-[-0.5px]">
                           {" "}
                           Go to Home
+                        </span>
+                      </Link> */}
+                      <Link
+                        href={"/"}
+                        onClick={() => setLoginModal(false)}
+                        className="text-center text-sm gap-1 flex justify-center items-center"
+                      >
+                        <Icon name={'back'} width={16} height={16} className="text-(--primary-color)"/>
+                        <span className="text-(--primary-color)">
+                          Return to Homepage
                         </span>
                       </Link>
                     </div>
