@@ -4,12 +4,20 @@ import styles from "./loader.module.css";
 import Link from "next/link";
 import Image from "next/image";
 import { useTheme } from "next-themes";
+import { cn } from "@/lib/utils";
 
 const Loader = () => {
   const { theme } = useTheme();
   return (
     <div className={styles.loaderWrapper}>
-      <div className={styles.cssContainer}>
+      <div
+        className={cn(
+          theme === "dark"
+            ? "apple-glass apple-glass-dark "
+            : "apple-glass-light",
+          styles.cssContainer,
+        )}
+      >
         <div className={styles.loaderContainer}>
           {/* Logo */}
           <span className={styles.logoAnim}>
@@ -21,11 +29,7 @@ const Loader = () => {
             >
               <Image
                 alt="brand logo"
-                src={
-                  theme === "dark"
-                    ? "/logo-black.svg"
-                    : "/logo-white.svg"
-                }
+                src={theme === "dark" ? "/logo-black.svg" : "/logo-white.svg"}
                 width={152}
                 height={44}
                 priority
