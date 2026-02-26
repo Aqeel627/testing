@@ -5,10 +5,26 @@ import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { CONFIG } from "@/lib/config";
 import { fetchData } from "@/lib/functions";
+import styles from '@/components/pages/passwordHistory/style.module.css'
 
 function pad2(n: number) {
   return String(n).padStart(2, "0");
 }
+
+
+const tabs = [
+  {
+    id: 1,
+    name: "Activity",
+    link: "/activity",
+  },
+  {
+    id: 2,
+    name: "Password History",
+    link: "/password-history",
+  },
+];
+
 function formatDateTime(value: any) {
   if (!value) return "-";
   const d = new Date(value);
@@ -38,34 +54,18 @@ export default function ActivityLogClient() {
 
   return (
     <div className="">
-      <div className="">
-        <ul className="flex justify-start  gap-3 w-full overflow-x-auto scrollbar-hide">
-          <li>
-            <Link
-              href="/activity"
-              className={
-                pathname === "/activity"
-                  ? "flex items-center justify-center px-6 py-3 rounded-[16px] whitespace-nowrap text-[14px] font-medium transition-all duration-200 backdrop-blur-[20px]  border bg-[rgba(var(--palette-primary-mainChannel)_/_14%)] border-[rgba(var(--palette-primary-mainChannel)_/_30%)] text-[var(--primary-color)]"
-                  : "flex items-center justify-center px-6 py-3 rounded-[16px] whitespace-nowrap text-[14px] font-medium transition-all duration-200 backdrop-blur-[12px] border bg-[rgba(var(--palette-background-paperChannel)_/_92%)] border-[rgba(var(--palette-grey-500Channel)_/_32%)] text-[var(--palette-text-secondary)] shadow-[0_0_0_1px_rgba(var(--palette-grey-500Channel)_/_18%)] hover:border-[rgba(var(--palette-primary-mainChannel)_/_30%)]"
-              }
-            >
-              Activity Log
-            </Link>
-          </li>
-
-          <li>
-            <Link
-              href="/passwordHistory"
-              className={
-                pathname === "/passwordHistory"
-                  ? "flex items-center justify-center px-6 py-3 rounded-[16px] whitespace-nowrap text-[14px] font-medium transition-all duration-200 backdrop-blur-[20px]  border bg-[rgba(var(--palette-primary-mainChannel)_/_14%)] border-[rgba(var(--palette-primary-mainChannel)_/_30%)] text-[var(--primary-color)]"
-                  : "flex items-center justify-center px-6 py-3 rounded-[16px] whitespace-nowrap text-[14px] font-medium transition-all duration-200 backdrop-blur-[12px] border bg-[rgba(var(--palette-background-paperChannel)_/_92%)] border-[rgba(var(--palette-grey-500Channel)_/_32%)] text-[var(--palette-text-secondary)] shadow-[0_0_0_1px_rgba(var(--palette-grey-500Channel)_/_18%)] hover:border-[rgba(var(--palette-primary-mainChannel)_/_30%)]"
-              }
-            >
-              Password History
-            </Link>
-          </li>
-        </ul>
+      <div className="flex mx-auto overflow-x-auto scroll-width-none max-w-3xl px-2 pb-[5px] gap-[15px]">
+        {/* Open Tab */}
+        {tabs.map((item) => (
+          <Link
+            href={item.link}
+            key={item.id}
+            className={`${styles["glass-panel"]} ${styles["nav-item"]} ${pathname===item.link&&styles.active}`}
+            
+          >
+            <p>{item.name}</p>
+          </Link>
+        ))}
       </div>
       <div className="mt-3">
         <h6 className="text-[14px] font-semibold text-[var(--palette-text-primary)]">

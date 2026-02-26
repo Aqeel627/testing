@@ -9,6 +9,8 @@
   --primary-color-dark: #0351ab;
   --secondary-color: #68cdf9;
 
+  --account-tab-color:#208AD9;
+
   --secondary-text-color: #919eab;
 
   /* lay and back font-size */
@@ -53,6 +55,8 @@
   --sport-active-bg: rgba(7 141 238 / 8%);
   --background: #f4f6f8;
   --foreground: #171717;
+
+  --account-tab-bg:#CFE9FA;
 
   /* table header */
   --table-header-text: var(--primary-color-dark);
@@ -181,6 +185,8 @@
   --dotted-line: rgba(145, 158, 171, 0.2);
   --primary-text-color: white;
   --sport-active-bg: #141a21;
+
+  --account-tab-bg:#2b3f4d;
 
   /* table header */
   --table-header-text: var(--secondary-color);
