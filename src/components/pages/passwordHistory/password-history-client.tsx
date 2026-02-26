@@ -42,7 +42,7 @@ export default function PasswordHistoryClient() {
   return (
     <div className="">
       <div className="">
-        <ul className="flex justify-start  gap-3 w-full overflow-x-auto scrollbar-hide py-2">
+        <ul className="flex justify-start  gap-3 w-full overflow-x-auto scrollbar-hide">
           <li>
             <Link
               href="/activity"
