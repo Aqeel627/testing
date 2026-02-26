@@ -60,7 +60,6 @@
 
   /* table header */
   --table-header-text: var(--primary-color-dark);
-  --table-border-color: #1c252e;
 
   --line-no-selected-bg: #327772;
   --line-no-selected-border: #5dbdb8;
