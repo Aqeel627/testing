@@ -12,6 +12,9 @@ import { Suspense } from "react";
 import Script from "next/script";
 import dynamic from "next/dynamic";
 import { Closebetslip } from "@/components/common/m-betslip/close-betslip";
+import { ToastProvider } from "@/components/common/toast/toast-context";
+import { ToastConnector } from "@/components/common/toast/toast-connector";
+import { ToastContainer } from "@/components/common/toast";
 // import SearchModal from "@/components/modal/search";
 const MiniCasinoDrawer = dynamic(() => import("@/components/common/mini-casino-drawer"));
 const GlobalApisCall = dynamic(() => import("@/lib/providers/global-apis"));
@@ -104,16 +107,21 @@ export default function RootLayout({
           strategy="afterInteractive"
         />
         {/* <Script src="/js/gestures.js" strategy="afterInteractive"/> */}
+                <ToastProvider>
+
         <Suspense>
           <Closebetslip/>
           <NavigationLoader />
           <GlobalApisCall />
           <AuExchThemeProvider>
+             <ToastConnector />
+                    <ToastContainer />
             {children}
             <MiniCasinoDrawer />
             <SearchModal />
           </AuExchThemeProvider>
         </Suspense>
+        </ToastProvider>
       </body>
     </html>
   );

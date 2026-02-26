@@ -17,7 +17,6 @@ const FALLBACK_STAKES: StakeItem[] = [
   { stakeAmount: "500000" },
 ];
 
-// Parse "'error', '💵 Invalid Amount', 'The amount...'" → just the description
 function parseErrorMsg(raw: string): string {
   try {
     const parts = raw.match(/'([^']*)'/g);
