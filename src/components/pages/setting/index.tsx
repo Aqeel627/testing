@@ -17,7 +17,6 @@ const FALLBACK_STAKES: StakeItem[] = [
   { stakeAmount: "500000" },
 ];
 
-// Parse "'error', '💵 Invalid Amount', 'The amount...'" → just the description
 function parseErrorMsg(raw: string): string {
   try {
     const parts = raw.match(/'([^']*)'/g);
@@ -110,9 +109,9 @@ export default function SettingsPage() {
   };
 
   return (
-    <div className="w-full min-h-screen px-4 py-10">
+    <div className="w-full min-h-screen  py-4">
       <div className="w-full max-w-[900px] mx-auto">
-        <div className="flex items-center gap-4 mb-8">
+        <div className="flex items-center gap-4 mb-4">
           <div
             className="flex-1 h-[1px]"
             style={{ background: "var(--dotted-line)" }}
@@ -132,7 +131,7 @@ export default function SettingsPage() {
         <div
           className="w-full rounded-2xl border p-6 md:p-8"
           style={{
-            background: "var(--market-bg)",
+            background: "",
             borderColor: "var(--dotted-line)",
           }}
         >

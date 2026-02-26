@@ -40,17 +40,16 @@ export default function PasswordHistoryClient() {
   }, []);
 
   return (
-    <div className="px-3">
-      {/* Tabs same to same */}
-      <div className="mt-3">
-        <ul className="flex gap-2 w-full overflow-x-auto scrollbar-hide">
+    <div className="">
+      <div className="">
+        <ul className="flex justify-start  gap-3 w-full overflow-x-auto scrollbar-hide">
           <li>
             <Link
               href="/activity"
               className={
                 pathname === "/activity"
-                  ? "uppercase text-[12px] font-bold text-center px-5 py-[10px] rounded-full border w-full inline-block whitespace-nowrap bg-[var(--primary-color)] border-[var(--primary-color)] text-white"
-                  : "uppercase text-[12px] font-bold text-center px-5 py-[10px] rounded-full border w-full inline-block whitespace-nowrap bg-transparent border-[var(--primary-color)] text-[var(--primary-color)]"
+                  ? "flex items-center justify-center px-6 py-3 rounded-[16px] whitespace-nowrap text-[14px] font-medium transition-all duration-200 backdrop-blur-[20px]  border bg-[rgba(var(--palette-primary-mainChannel)_/_14%)] border-[rgba(var(--palette-primary-mainChannel)_/_30%)] text-[var(--primary-color)]"
+                  : "flex items-center justify-center px-6 py-3 rounded-[16px] whitespace-nowrap text-[14px] font-medium transition-all duration-200 backdrop-blur-[12px] border bg-[rgba(var(--palette-background-paperChannel)_/_92%)] border-[rgba(var(--palette-grey-500Channel)_/_32%)] text-[var(--palette-text-secondary)] shadow-[0_0_0_1px_rgba(var(--palette-grey-500Channel)_/_18%)] hover:border-[rgba(var(--palette-primary-mainChannel)_/_30%)]"
               }
             >
               Activity Log
@@ -62,8 +61,8 @@ export default function PasswordHistoryClient() {
               href="/passwordHistory"
               className={
                 pathname === "/passwordHistory"
-                  ? "uppercase text-[12px] font-bold text-center px-5 py-[10px] rounded-full border w-full inline-block whitespace-nowrap bg-[var(--primary-color)] border-[var(--primary-color)] text-white"
-                  : "uppercase text-[12px] font-bold text-center px-5 py-[10px] rounded-full border w-full inline-block whitespace-nowrap bg-transparent border-[var(--primary-color)] text-[var(--primary-color)]"
+                  ? "flex items-center justify-center px-6 py-3 rounded-[16px] whitespace-nowrap text-[14px] font-medium transition-all duration-200 backdrop-blur-[20px]  border bg-[rgba(var(--palette-primary-mainChannel)_/_14%)] border-[rgba(var(--palette-primary-mainChannel)_/_30%)] text-[var(--primary-color)]"
+                  : "flex items-center justify-center px-6 py-3 rounded-[16px] whitespace-nowrap text-[14px] font-medium transition-all duration-200 backdrop-blur-[12px] border bg-[rgba(var(--palette-background-paperChannel)_/_92%)] border-[rgba(var(--palette-grey-500Channel)_/_32%)] text-[var(--palette-text-secondary)] shadow-[0_0_0_1px_rgba(var(--palette-grey-500Channel)_/_18%)] hover:border-[rgba(var(--palette-primary-mainChannel)_/_30%)]"
               }
             >
               Password History
