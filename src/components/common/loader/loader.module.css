@@ -16,24 +16,24 @@
 
 .ringContainer {
   position: relative;
-    width: 300px;
-  height: 300px;
+    width: 320px;
+  height: 320px;
   display: flex;
   align-items: center;
   justify-content: center;
-  filter: drop-shadow(0 0 22px var(--sidebar-badge-text));
+  filter: drop-shadow(0 0 22px var(--primary-color));
 }
 
 /* ===== STATIC TRACK ===== */
 
 .ringTrack {
   position: absolute;
-      inset: 48px;
+      inset: 54px;
   border-radius: 50%;
-  border: 7px solid var(--sidebar-badge-text);
+  border: 7px solid var(--primary-color);
   box-shadow:
-    0 0 14px var(--sidebar-badge-text),
-    inset 0 0 10px var(--sidebar-badge-text);
+    0 0 14px var(--primary-color),
+    inset 0 0 10px var(--primary-color);
 }
 
 /* ===== ROTATING ARCS BASE ===== */
@@ -45,7 +45,7 @@
   transform-origin: 50% 50%;
   will-change: transform;
 
-  -webkit-mask: radial-gradient(
+  /* -webkit-mask: radial-gradient(
     farthest-side,
     transparent calc(100% - 6px),
     #000 calc(100% - 6px)
@@ -54,101 +54,124 @@
     farthest-side,
     transparent calc(100% - 6px),
     #000 calc(100% - 6px)
-  );
+  ); */
 }
 
 /* ========= OUTER LAYER ========= */
 
 .arc1 {
-  inset: -4px;
+  inset: 0px;
   background: conic-gradient(
-    from 0deg,
-    transparent 0deg 30deg,
-    var(--sidebar-badge-text) 30deg 63deg,
-    transparent 63deg 360deg
+    from -20deg,
+    transparent 0deg 50deg,
+    var(--primary-color) 50deg 90deg,
+    transparent 90deg 160deg,
+    var(--primary-color) 160deg 200deg,
+    transparent 200deg 360deg
   );
-  animation: spinClockwise 2.8s linear infinite;
+  animation: spinClockwise 1.45s linear infinite;
 }
 
 .arc2 {
-  inset: -4px;
+  inset: 0px;
   background: conic-gradient(
-    from 180deg,
-    transparent 0deg 30deg,
-    var(--sidebar-badge-text) 30deg 63deg,
-    transparent 63deg 360deg
+    from 140deg,
+    transparent 0deg 60deg,
+    var(--primary-color) 60deg 105deg,
+    transparent 105deg 360deg
   );
-  animation: spinAnti 2.8s linear infinite;
+  animation: spinAnti 2s linear infinite;
 }
 
 /* ========= MIDDLE LAYER ========= */
 
 .arc3 {
-  inset: 6px;
+  inset: 12px;
   background: conic-gradient(
-    from 40deg,
-    transparent 0deg 30deg,
-    var(--sidebar-badge-text) 30deg 72deg,
-    transparent 72deg 360deg
+    from 30deg,
+    transparent 0deg 70deg,
+    var(--primary-color) 70deg 140deg,
+    transparent 140deg 260deg,
+    var(--primary-color) 260deg 320deg,
+    transparent 320deg 360deg
   );
-  animation: spinClockwise 1.9s linear infinite;
+  animation: spinAnti 2.8s linear infinite;
 }
 
 .arc4 {
-  inset: 6px;
+  inset: 12px;
   background: conic-gradient(
-    from 220deg,
-    transparent 0deg 30deg,
-    var(--sidebar-badge-text) 30deg 72deg,
-    transparent 72deg 360deg
+    from 210deg,
+    transparent 0deg 80deg,
+    var(--primary-color) 80deg 130deg,
+    transparent 130deg 360deg
   );
-  animation: spinAnti 1.9s linear infinite;
+  animation: spinClockwise 1.45s linear infinite;
 }
 
 /* ========= INNER LAYER ========= */
 
 .arc5 {
-  inset: 14px;
+  inset: 26px;
   background: conic-gradient(
-    from 70deg,
-    transparent 0deg 30deg,
-    var(--sidebar-badge-text) 30deg 64deg,
-    transparent 64deg 360deg
+    from 90deg,
+    transparent 0deg 120deg,
+    var(--primary-color) 120deg 150deg,
+    transparent 150deg 360deg
   );
-  animation: spinClockwise 1.3s linear infinite;
+  animation: spinClockwise 2s linear infinite;
 }
 
 .arc6 {
-  inset: 14px;
+  inset: 26px;
   background: conic-gradient(
-    from 250deg,
-    transparent 0deg 30deg,
-    var(--sidebar-badge-text) 30deg 64deg,
-    transparent 64deg 360deg
+    from 260deg,
+    transparent 0deg 140deg,
+    var(--primary-color) 140deg 165deg,
+    transparent 165deg 360deg
   );
-  animation: spinAnti 1.3s linear infinite;
+  animation: spinAnti 2.8s linear infinite;
+}
+
+/* EXACT VIDEO-SCALED ARC THICKNESS */
+.arc1,
+.arc2,
+.arc3,
+.arc4,
+.arc5,
+.arc6 {
+  -webkit-mask: radial-gradient(
+    farthest-side,
+    transparent calc(100% - 8px),
+    #000 calc(100% - 8px)
+  );
+  mask: radial-gradient(
+    farthest-side,
+    transparent calc(100% - 8px),
+    #000 calc(100% - 8px)
+  );
 }
 
 /* Glow */
 .ringGlow {
   position: absolute;
-  inset: 0;
+  inset: -6px;
   border-radius: 50%;
   box-shadow:
-    0 0 22px var(--sidebar-badge-text),
-    inset 0 0 14px var(--sidebar-badge-text);
-  animation: pulseGlow 1.4s ease-in-out infinite;
+    0 0 32px var(--primary-color),
+    inset 0 0 18px var(--primary-color);
+  animation: pulseGlow 1.6s ease-in-out infinite;
 }
 
 /* ===== CENTER ===== */
-
+/* 
 .innerThin {
   position: absolute;
   width: 200px;
   height: 200px;
   border-radius: 50%;
-  border: 2px solid var(--sidebar-badge-text);
-}
+  border: 4px solid rgba(255,219,140,0.85);
+} */
 
 .ringInner {
   position: absolute;
@@ -156,8 +179,9 @@
   height: 190px;
   border-radius: 50%;
   box-shadow:
-    inset 0 0 16px var(--sidebar-badge-text),
-    0 0 20px var(--sidebar-badge-text);
+    inset 0 0 22px var(--primary-color),
+    inset 0 0 8px var(--primary-color),
+    0 0 24px var(--primary-color);
 }
 
 .logoSlot {
@@ -228,15 +252,36 @@
   .arc5, .arc6 {
     inset: 20px;
   }
-  .innerThin {
+  /* .innerThin {
     width: 160px;
     height: 160px;
-  }
+  } */
   .ringInner {
     width: 150px;
     height: 150px;
   }
     .LoaderImg {
     width: 120px !important;
+  }
+}
+.innerThinRing {
+  position: absolute;
+  inset: 62px; /* same position – DO NOT TOUCH */
+  border-radius: 50%;
+  border: 3.6px solid var(--primary-color); /* was 1.6px */
+
+  box-shadow:
+    0 0 10px var(--primary-color),
+    inset 0 0 6px var(--primary-color);
+
+  pointer-events: none;
+}
+@media only screen and (max-width:360px){
+  .innerThinRing {
+    inset: 46px;      /* unchanged */
+    border-width: 3px;
+    box-shadow:
+      0 0 8px var(--primary-color),
+      inset 0 0 5px var(--primary-color);
   }
 }
