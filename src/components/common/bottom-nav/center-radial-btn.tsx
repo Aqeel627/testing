@@ -176,7 +176,7 @@ const CenterRadialButton = () => {
     if (iconName === "themeSetting") {
       router.push("/theme");
     } else if (iconName === "stake") {
-      console.log("stake clicked");
+      router.push("/settings");
     } else if (iconName === "powerOff") {
       console.log("PowerOff clicked");
     }
@@ -217,9 +217,9 @@ const CenterRadialButton = () => {
         {rotations.map((deg, i) => {
           const transformOpen = useFixed425To767
             ? // EXACT 425px values (no change from 425 to 767)
-              `translateX(calc(${xPerc425[i]}% + 0px)) translateY(${y425[i]}px) rotate(${deg}deg) translateY(-${r425}px) rotate(${-deg}deg)`
+            `translateX(calc(${xPerc425[i]}% + 0px)) translateY(${y425[i]}px) rotate(${deg}deg) translateY(-${r425}px) rotate(${-deg}deg)`
             : // <425px: border gap == icon gap == (10..20px)
-              `translateX(calc(-50% + ${small.dx}px)) translateY(${small.baseY}px) rotate(${small.angles[i]}deg) translateY(-${small.rCenter}px) rotate(${-small.angles[i]}deg)`;
+            `translateX(calc(-50% + ${small.dx}px)) translateY(${small.baseY}px) rotate(${small.angles[i]}deg) translateY(-${small.rCenter}px) rotate(${-small.angles[i]}deg)`;
           const iconName =
             radialIcons[i] === "stake"
               ? theme === "light"

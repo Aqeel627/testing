@@ -1,0 +1,29 @@
+.glass-panel {
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--secondary-text-color);
+  border-top: 1px solid var(--secondary-text-color);
+}
+
+.nav-item {
+  padding: 12px 25px;
+  border-radius: 15px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  color: gray;
+  transition: 0.3s;
+}
+
+.nav-item.active {
+  background: var(--account-tab-bg) !important;
+  color: var(--account-tab-color);
+  border: 1px solid var(--account-tab-color);
+}
+
+.nav-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+}

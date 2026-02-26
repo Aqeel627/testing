@@ -1,17 +1,18 @@
 import dynamic from "next/dynamic";
-import ActivityLogClient from "./activity-log-client";
+import PasswordHistoryClient from "./password-history-client";
 import RequireAuth from "@/lib/require-auth";
+
 const BreadCrumb = dynamic(() => import("@/components/common/bread-crumb"));
 
-const ActivityPage = () => {
+const PasswordHistoryPage = () => {
   return (
     <>
-      <BreadCrumb title="Activities" />
+      <BreadCrumb title="Password History" />
       <div className="w-full mx-auto flex flex-col flex-grow scroll-mt-[40px]">
-        <ActivityLogClient />
+        <PasswordHistoryClient />
       </div>
     </>
   );
 };
 
-export default ActivityPage;
+export default PasswordHistoryPage;

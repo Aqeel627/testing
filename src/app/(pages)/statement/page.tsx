@@ -1,9 +1,12 @@
 import StatementPage from "@/components/pages/statement";
+import RequireAuth from "@/lib/require-auth";
 
-const   statementoute = () => {
+const statementoute = () => {
   return (
     <>
-      <StatementPage />
+      <RequireAuth>
+        <StatementPage />
+      </RequireAuth>
     </>
   );
 };

@@ -1,136 +1,290 @@
 .loaderWrapper {
   flex-grow: 1;
   display: flex;
-  flex-direction: column;
 }
 
 .cssContainer {
-  right: 0;
-  bottom: 0;
-  z-index: 9998;
-  flex-grow: 1;
-  width: 100%;
-  height: 100%;
-  display: flex;
   position: fixed;
+  inset: 0;
+  z-index: 9998;
+  display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--palette-background-default);
+  background: var(--background);
+  border-radius: 0px !important;
 }
 
-.loaderContainer {
-  align-items: center;
+.ringContainer {
   position: relative;
-  display: inline-flex;
+    width: 320px;
+  height: 320px;
+  display: flex;
+  align-items: center;
   justify-content: center;
-  height: 200px;
+  filter: drop-shadow(0 0 22px var(--primary-color));
+}
+
+/* ===== STATIC TRACK ===== */
+/* 123123 */
+.ringTrack {
+  position: absolute;
+      inset: 54px;
+  border-radius: 50%;
+  border: 7px solid var(--secondary-color);
+  box-shadow:
+    0 0 7px var(--secondary-color),
+    inset 0 0 10px var(--secondary-color);
+}
+
+/* ===== ROTATING ARCS BASE ===== */
+/* ===== ARC BASE ===== */
+
+.ringArc {
+  position: absolute;
+  border-radius: 50%;
+  transform-origin: 50% 50%;
+  will-change: transform;
+
+  /* -webkit-mask: radial-gradient(
+    farthest-side,
+    transparent calc(100% - 6px),
+    #000 calc(100% - 6px)
+  );
+  mask: radial-gradient(
+    farthest-side,
+    transparent calc(100% - 6px),
+    #000 calc(100% - 6px)
+  ); */
+}
+
+/* ========= OUTER LAYER ========= */
+
+.arc1 {
+  inset: 0px;
+  background: conic-gradient(
+    from -20deg,
+    transparent 0deg 50deg,
+    var(--primary-color) 50deg 90deg,
+    transparent 90deg 160deg,
+    var(--primary-color) 160deg 200deg,
+    transparent 200deg 360deg
+  );
+  animation: spinClockwise 1.45s linear infinite;
+}
+
+.arc2 {
+  inset: 0px;
+  background: conic-gradient(
+    from 140deg,
+    transparent 0deg 60deg,
+    var(--primary-color) 60deg 105deg,
+    transparent 105deg 360deg
+  );
+  animation: spinAnti 2s linear infinite;
+}
+
+/* ========= MIDDLE LAYER ========= */
+
+.arc3 {
+  inset: 12px;
+  background: conic-gradient(
+    from 30deg,
+    transparent 0deg 70deg,
+    var(--primary-color) 70deg 140deg,
+    transparent 140deg 260deg,
+    var(--primary-color) 260deg 320deg,
+    transparent 320deg 360deg
+  );
+  animation: spinAnti 2.8s linear infinite;
+}
+
+.arc4 {
+  inset: 12px;
+  background: conic-gradient(
+    from 210deg,
+    transparent 0deg 80deg,
+    var(--primary-color) 80deg 130deg,
+    transparent 130deg 360deg
+  );
+  animation: spinClockwise 1.45s linear infinite;
+}
+
+/* ========= INNER LAYER ========= */
+
+.arc5 {
+  inset: 26px;
+  background: conic-gradient(
+    from 90deg,
+    transparent 0deg 120deg,
+    var(--primary-color) 120deg 150deg,
+    transparent 150deg 360deg
+  );
+  animation: spinClockwise 2s linear infinite;
+}
+
+.arc6 {
+  inset: 26px;
+  background: conic-gradient(
+    from 260deg,
+    transparent 0deg 140deg,
+    var(--primary-color) 140deg 165deg,
+    transparent 165deg 360deg
+  );
+  animation: spinAnti 2.8s linear infinite;
+}
+
+/* EXACT VIDEO-SCALED ARC THICKNESS */
+.arc1,
+.arc2,
+.arc3,
+.arc4,
+.arc5,
+.arc6 {
+  -webkit-mask: radial-gradient(
+    farthest-side,
+    transparent calc(100% - 8px),
+    #000 calc(100% - 8px)
+  );
+  mask: radial-gradient(
+    farthest-side,
+    transparent calc(100% - 8px),
+    #000 calc(100% - 8px)
+  );
+}
+
+/* Glow */
+.ringGlow {
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  /* 123123 */
+  box-shadow:
+    0 0 32px var(--primary-color),
+    inset 0 0 18px var(--primary-color);
+  animation: pulseGlow 1.6s ease-in-out infinite;
+}
+
+/* ===== CENTER ===== */
+/* 
+.innerThin {
+  position: absolute;
   width: 200px;
-}
+  height: 200px;
+  border-radius: 50%;
+  border: 4px solid rgba(255,219,140,0.85);
+} */
 
-/* Logo container */
-.loaderImageContainer {
-  margin: 0;
-  font: inherit;
-  letter-spacing: inherit;
-  text-decoration: none;
-  flex-shrink: 0;
-  color: transparent;
-  display: inline-flex;
-  vertical-align: middle;
-  pointer-events: none;
-  height: 44px;
-  width: 152px;
-}
-
-.LoaderImg {
-  vertical-align: middle;
-  max-width: 100%;
-}
-
-/* Inner rotating ring */
-.loaderSpan {
+.ringInner {
   position: absolute;
-  width: calc(100% - 20px);
-  height: calc(100% - 20px);
-  border: solid 12px var(--primary-color);
-  border-radius: 25%;
-  transform-origin: 50% 50%;
-  will-change: transform, opacity;
-
-  /* start like your inline style */
-  --r: 111.375deg;
-
-  animation: ringA 1.2s ease-in-out infinite;
+  width: 190px;
+  height: 190px;
+  border-radius: 50%;
+  /* 123123 */
+  /* box-shadow:
+    inset 0 0 22px white, 
+    inset 0 0 8px var(--primary-color),
+    0 0 24px var(--primary-color); */
 }
 
-/* ✅ Outer ring = THIN + opposite rotate */
-.loaderBorder {
+.logoSlot {
   position: absolute;
-  width: 100%;
-  height: 100%;
-  border: solid 4px var(--primary-color);
-  border-radius: 25%;
-  transform-origin: 50% 50%;
-  will-change: transform, opacity;
-
-  --r: 158.625deg;
-
-  animation: ringB 1.8s ease-in-out infinite;
+  width: 90px;
+  height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
 }
 
-/* ✅ Logo (same “reload vibe”) */
+/* ===== ANIMATIONS ===== */
+
+@keyframes spinClockwise {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes spinAnti {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(-360deg); }
+}
+
+@keyframes pulseGlow {
+  0%,100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+
 .logoAnim {
-  will-change: transform, opacity;
-  animation:
-    logoIn 500ms ease-out 1,
-    logoPulse 1.6s ease-in-out infinite;
-  z-index: 2;
+  position: absolute;
+  width: 152px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 3;
+  animation: logoPulse 1.8s ease-in-out infinite;
 }
-
-/* --- Keyframes (MUI-like) --- */
-@keyframes ringA {
-  0% {
-    transform: rotate(var(--r)) scale(0.9);
-  }
-  50% {
-    transform: rotate(calc(var(--r) + 180deg)) scale(1.25);
-  }
-  100% {
-    transform: rotate(calc(var(--r) + 360deg)) scale(0.9);
-  }
-}
-
-@keyframes ringB {
-  0% {
-    transform: rotate(var(--r)) scale(1.1);
-  }
-  50% {
-    transform: rotate(calc(var(--r) - 180deg)) scale(0.95);
-  }
-  100% {
-    transform: rotate(calc(var(--r) - 360deg)) scale(1.1);
-  }
-}
-
-@keyframes logoIn {
-  from {
-    opacity: 0;
-    transform: scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
 @keyframes logoPulse {
-  0%,
-  100% {
-    opacity: 0.55;
-    transform: scale(0.98);
+  0% {
+    transform: scale(1);
+    opacity: 0.85;
   }
   50% {
+    transform: scale(1.06);
     opacity: 1;
+  }
+  100% {
     transform: scale(1);
+    opacity: 0.85;
+  }
+}
+@media only screen and (max-width:360px){
+  .ringContainer {
+    width: 220px;
+    height: 220px;
+  }
+  .ringTrack {
+    inset: 34px;
+  }
+  .arc1, .arc2 {
+    inset: -2px;
+  }
+  .arc3, .arc4 {
+    inset: 16px;
+  }
+  .arc5, .arc6 {
+    inset: 20px;
+  }
+  /* .innerThin {
+    width: 160px;
+    height: 160px;
+  } */
+  .ringInner {
+    width: 150px;
+    height: 150px;
+  }
+    .LoaderImg {
+    width: 120px !important;
+  }
+}
+/*  */
+.innerThinRing {
+  position: absolute;
+  inset: 62px; /* same position – DO NOT TOUCH */
+  border-radius: 50%;
+  border: 3.6px solid var(--primary-color); /* was 1.6px */
+
+  box-shadow:
+    0 0 10px var(--primary-color),
+    inset 0 0 6px var(--primary-color);
+
+  pointer-events: none;
+}
+@media only screen and (max-width:360px){
+  .innerThinRing {
+    inset: 46px;      /* unchanged */
+    border-width: 3px;
+    box-shadow:
+      0 0 8px var(--primary-color),
+      inset 0 0 5px var(--primary-color);
   }
 }
