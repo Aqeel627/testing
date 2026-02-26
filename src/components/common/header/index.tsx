@@ -79,6 +79,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
   const handleLogout = () => {
     setIsMenuOpen(false);
     logout();
+     router.push("/");
   };
 
   return (
