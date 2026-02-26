@@ -92,13 +92,13 @@ export default function LoginModal() {
           router.replace("/change-password");
           return;
         }
+        setUsername("");
+        setPassword("");
       } else {
         // showToast(msg.status, msg.title, msg.desc);
         setApiError(msg.desc || "Invalid username or password");
       }
 
-      setUsername("");
-      setPassword("");
     } catch (error: any) {
       const errorMsg =
         error?.response?.data?.meta?.message ||
@@ -451,10 +451,11 @@ export default function LoginModal() {
                         //     : "bg-[rgba(145,158,171,0.24)] text-(--secondary-text-color) cursor-not-allowed"
                         // }`}
                         className={cn(
-                          "w-full rounded-lg relative p-[6px_12px] min-h-9 text-sm font-bold h-[48px] bg-(--primary-color) text-white cursor-pointer disabled:cursor-not-allowed",
+                          "w-full rounded-lg relative p-[6px_12px] min-h-9 text-sm font-bold h-[48px] disabled:bg-gray-500 bg-(--primary-color) text-white cursor-pointer disabled:cursor-not-allowed",
                           hasFormValues &&
                             !isSubmitting &&
                             "hover:bg-(--primary-color-dark)",
+                          
                         )}
                       >
                         {isSubmitting ? (
