@@ -2,7 +2,8 @@
 import { useState, useEffect } from "react";
 import { useAppStore } from "@/lib/store/store";
 import { CONFIG } from "@/lib/config";
-import { fetchData } from "@/lib/functions";
+import { fetchData, splitMsg } from "@/lib/functions";
+import { useToast } from "@/components/common/toast/toast-context";
 
 type StakeItem = { stakeAmount: string; stakeName?: string };
 
@@ -35,6 +36,7 @@ export default function SettingsPage() {
     useState<StakeItem[]>(FALLBACK_STAKES);
   const [saving, setSaving] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string>("");
+  const {showToast}=useToast()
 
   useEffect(() => {
     console.log(stakeValue, "stakes")
@@ -94,7 +96,8 @@ export default function SettingsPage() {
       payload: { stake: JSON.stringify(respRes) },
       setFn: (data: any) => {
         setSaving(false);
-
+        const msg = splitMsg(data?.meta?.message);
+        showToast(msg.status,msg.title,msg.desc)
         if (data?.meta?.status) {
           // ✅ Success: update store + refetch fresh stakes
           setStakeValue({ data: { stake: stackButtonArry } });
