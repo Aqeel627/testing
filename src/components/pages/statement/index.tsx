@@ -152,7 +152,7 @@ const StatementPage = () => {
             <BreadCrumb title="Account Statement" />
             <div className="w-full">
 
-                <div className="flex items-center gap-4 mb-8">
+                {/* <div className="flex items-center gap-4 mb-8">
                     <div
                         className="flex-1 h-[1px]"
                         style={{ background: "var(--dotted-line)" }}
@@ -167,7 +167,7 @@ const StatementPage = () => {
                         className="flex-1 h-[1px]"
                         style={{ background: "var(--dotted-line)" }}
                     />
-                </div>
+                </div> */}
 
 
                 {/* ================= FILTER ================= */}
@@ -184,7 +184,7 @@ const StatementPage = () => {
                             }}
                             max={endDate ? endDate.toISOString().split("T")[0] : undefined}
                             placeholder="From"
-                            className="h-[32px] px-3 text-[12px] bg-[#f1f1f1] border border-[#adadad] rounded-[5px] text-[#555] focus:outline-none"
+                            className="h-[32px] px-3 text-[12px] bg-transparent border border-[var(--primary-color)] text-[#757272]  rounded-[5px]  focus:outline-none"
                             readOnly={false}
                             autoComplete="off"
                         />
@@ -198,7 +198,7 @@ const StatementPage = () => {
                             }}
                             min={startDate ? startDate.toISOString().split("T")[0] : undefined}
                             placeholder="To"
-                            className="h-[32px] px-3 text-[12px] bg-[#f1f1f1] border border-[#adadad] rounded-[5px] text-[#555] focus:outline-none"
+                            className="h-[32px] px-3 text-[12px] bg-transparent border border-[var(--primary-color)] text-[#757272]  rounded-[5px]  focus:outline-none"
                             readOnly={false}
                             autoComplete="off"
                         />
@@ -228,7 +228,7 @@ const StatementPage = () => {
                                 }}
                                 max={endDate ? endDate.toISOString().split("T")[0] : undefined}
                                 placeholder="From"
-                                className="h-[32px] w-[49%] px-3 text-[12px] bg-[#f1f1f1] border border-[#adadad] rounded-[5px] text-[#555] focus:outline-none"
+                                className="h-[32px] w-[49%] px-3 text-[12px] bg-transparent border border-[var(--primary-color)] text-[#757272] rounded-[5px]   focus:outline-none"
                                 readOnly={false}
                                 autoComplete="off"
                             />
@@ -241,7 +241,7 @@ const StatementPage = () => {
                                 }}
                                 min={startDate ? startDate.toISOString().split("T")[0] : undefined}
                                 placeholder="To"
-                                className="h-[32px] w-[49%] px-3 text-[12px] bg-[#f1f1f1] border border-[#adadad] rounded-[5px] text-[#555] focus:outline-none"
+                                className="h-[32px] w-[49%] px-3 text-[12px] bg-transparent border border-[var(--primary-color)] text-[#757272] rounded-[5px]   focus:outline-none"
                                 readOnly={false}
                                 autoComplete="off"
                             />
@@ -277,15 +277,12 @@ const StatementPage = () => {
                                             className={`
   font-bold
   py-[8px] px-[10px]
+  bg-transparent  border border-[var(--secondary-text-color)]
   text-center whitespace-nowrap
   ${i === 0 ? "rounded-tl-[5px]" : ""}
   ${i === 4 ? "rounded-tr-[5px]" : ""}
 `}
-                                            style={{
-                                                background: "var(--accordion-bg)",
-                                                color: "var(--accordion-text)",
-                                                borderRight: i !== 4 ? "1px solid var(--dotted-line)" : "none"
-                                            }}
+                                            
                                         >
                                             {head}
                                         </th>
@@ -299,25 +296,25 @@ const StatementPage = () => {
                                 statements.map((statement, index) => (
                                     <tr
                                         key={index}
-                                        className="bg-[#f1f1f1] text-black text-center"
+                                        className="  text-black text-center"
                                     >
-                                        <td className="py-[8px] px-[10px] border-r border-b text-black  border-white whitespace-nowrap">
+                                        <td className="py-[8px] px-[10px] bg-transparent  border border-[var(--secondary-text-color)] text-[#757272] whitespace-nowrap">
                                             {formatDisplayDate(statement.createdAt)}
                                         </td>
 
-                                        <td className="py-[8px] px-[10px] border-r border-b border-white text-green-600 font-bold">
+                                        <td className="py-[8px] px-[10px] bg-transparent  border border-[var(--secondary-text-color)] text-green-600 font-bold">
                                             {formatTwoDecimals(statement.deposit)}
                                         </td>
 
-                                        <td className="py-[8px] px-[10px] border-r border-b border-white text-red-600 font-bold">
+                                        <td className="py-[8px] px-[10px] bg-transparent  border border-[var(--secondary-text-color)] text-red-600 font-bold">
                                             {formatTwoDecimals(statement.withdraw)}
                                         </td>
 
-                                        <td className="py-[8px] px-[10px] border-r border-b border-white font-bold">
+                                        <td className="py-[8px] px-[10px] bg-transparent  border border-[var((--secondary-text-color)] text-[#757272] font-bold">
                                             {formatTwoDecimals(statement.bankBalance)}
                                         </td>
 
-                                        <td className="py-[8px] px-[10px] border-b border-white whitespace-nowrap">
+                                        <td className="py-[8px] px-[10px] bg-transparent  border border-[var((--secondary-text-color)] text-[#757272] whitespace-nowrap">
                                             {statement.remark || "-"}
                                         </td>
                                     </tr>
@@ -326,7 +323,7 @@ const StatementPage = () => {
                                 <tr>
                                     <td
                                         colSpan={5}
-                                        className="bg-[#f1f1f1] text-[#555] text-center text-[12px] py-[8px]"
+                                        className="  text-[#555] text-center text-[12px] py-[8px]"
                                     >
                                         No data!
                                     </td>
@@ -338,13 +335,39 @@ const StatementPage = () => {
 
 
                 {/* ================= PAGINATION ================= */}
-                <div className="flex md:hidden justify-between gap-[10px] order-2">
-
-                    <button className="text-[#757272] font-semibold disabled:opacity-40">
+                <div className="flex md:hidden justify-between items-center gap-[10px] order-2">
+                    <button
+                        onClick={() => handlePageChange(1)}
+                        disabled={isFirstPage || !hasMultiplePages}
+                        className={`
+    font-semibold rounded px-3 py-1 transition-all
+    ${isFirstPage || !hasMultiplePages
+                                ? " bg-transparent cursor-not-allowed border border-[var(--primary-color)] text-[#757272]"
+                                : "bg-transparent border border-[var(--primary-color)] hover:opacity-80 text-[#757272]"
+                            }
+  `}
+                        style={
+                            !(isFirstPage || !hasMultiplePages)
+                                ? {
+                                    color: "var(--primary-color)",
+                                }
+                                : {}
+                        }
+                    >
                         First
                     </button>
 
-                    <button className="text-[#757272] font-semibold disabled:opacity-40">
+                    <button
+                        onClick={() => handlePageChange(currentPage - 1)}
+                        disabled={isFirstPage || !hasMultiplePages}
+                        className={`
+    text-[#757272] font-semibold rounded px-3 py-1
+    ${isFirstPage || !hasMultiplePages
+                                ? "bg-transparent cursor-not-allowed border border-[var(--primary-color)] text-[#757272]"
+                                : "bg-transparent border border-[var(--primary-color)] hover:opacity-80 text-[#757272]"
+                            }
+  `}
+                    >
                         Previous
                     </button>
 
@@ -356,15 +379,32 @@ const StatementPage = () => {
                         }}>
                         1
                     </span>
-
-                    <button className="text-[#757272] font-semibold">
+                    <button
+                        onClick={() => handlePageChange(currentPage + 1)}
+                        disabled={isLastPage || !hasMultiplePages}
+                        className={`
+    text-[#757272] font-semibold rounded px-3 py-1
+    ${isLastPage || !hasMultiplePages
+                                ? "bg-transparent cursor-not-allowed border border-[var(--primary-color)] text-[#757272]"
+                                : "bg-transparent border border-[var(--primary-color)] hover:opacity-80 text-[#757272]"
+                            }
+  `}
+                    >
                         Next
                     </button>
-
-                    <button className="text-[#757272] font-semibold">
+                    <button
+                        onClick={() => handlePageChange(totalPages)}
+                        disabled={isLastPage || !hasMultiplePages}
+                        className={`
+    text-[#757272] font-semibold rounded px-3 py-1
+    ${isLastPage || !hasMultiplePages
+                                ? "bg-transparent cursor-not-allowed border border-[var(--primary-color)] text-[#757272]"
+                                : "bg-transparent border border-[var(--primary-color)] hover:opacity-80 text-[#757272]"
+                            }
+  `}
+                    >
                         Last
                     </button>
-
                 </div>
                 <div className="mt-[15px] text-[11px]  flex items-center justify-between flex-row gap-[15px]">
 
@@ -374,18 +414,25 @@ const StatementPage = () => {
                     </div>
 
                     {/* Pagination Buttons */}
-                    <div className=" hidden md:flex  justify-center gap-[10px] order-2">
+                    <div className=" hidden md:flex items-center justify-center gap-[10px] order-2">
 
                         <button
                             onClick={() => handlePageChange(1)}
                             disabled={isFirstPage || !hasMultiplePages}
                             className={`
-    text-[#757272] font-semibold rounded px-3 py-1
+    font-semibold rounded px-3 py-1 transition-all
     ${isFirstPage || !hasMultiplePages
-                                    ? "bg-gray-200 text-gray-500 cursor-not-allowed"
-                                    : "bg-white text-gray-700 hover:bg-gray-50 border border-gray-300"
+                                    ? " bg-transparent cursor-not-allowed border border-[var(--primary-color)] text-[#757272]"
+                                    : "bg-transparent border border-[var(--primary-color)] hover:opacity-80 text-[#757272]"
                                 }
   `}
+                            style={
+                                !(isFirstPage || !hasMultiplePages)
+                                    ? {
+                                        color: "var(--primary-color)",
+                                    }
+                                    : {}
+                            }
                         >
                             First
                         </button>
@@ -396,8 +443,8 @@ const StatementPage = () => {
                             className={`
     text-[#757272] font-semibold rounded px-3 py-1
     ${isFirstPage || !hasMultiplePages
-                                    ? "bg-gray-200 text-gray-500 cursor-not-allowed"
-                                    : "bg-white text-gray-700 hover:bg-gray-50 border border-gray-300"
+                                    ? "bg-transparent cursor-not-allowed border border-[var(--primary-color)] text-[#757272]"
+                                    : "bg-transparent border border-[var(--primary-color)] hover:opacity-80 text-[#757272]"
                                 }
   `}
                         >
@@ -419,8 +466,8 @@ const StatementPage = () => {
                             className={`
     text-[#757272] font-semibold rounded px-3 py-1
     ${isLastPage || !hasMultiplePages
-                                    ? "bg-gray-200 text-gray-500 cursor-not-allowed"
-                                    : "bg-white text-gray-700 hover:bg-gray-50 border border-gray-300"
+                                    ? "bg-transparent cursor-not-allowed border border-[var(--primary-color)] text-[#757272]"
+                                    : "bg-transparent border border-[var(--primary-color)] hover:opacity-80 text-[#757272]"
                                 }
   `}
                         >
@@ -433,8 +480,8 @@ const StatementPage = () => {
                             className={`
     text-[#757272] font-semibold rounded px-3 py-1
     ${isLastPage || !hasMultiplePages
-                                    ? "bg-gray-200 text-gray-500 cursor-not-allowed"
-                                    : "bg-white text-gray-700 hover:bg-gray-50 border border-gray-300"
+                                    ? "bg-transparent cursor-not-allowed border border-[var(--primary-color)] text-[#757272]"
+                                    : "bg-transparent border border-[var(--primary-color)] hover:opacity-80 text-[#757272]"
                                 }
   `}
                         >
@@ -462,8 +509,7 @@ const StatementPage = () => {
                             className="
       w-[30px] sm:w-[40px] md:w-[60px]
       h-8 text-center text-[14px] 
-      bg-[#f1f1f1] border border-[#adadad] rounded-[5px]
-      focus:outline-none focus:ring-1 focus:ring-blue-500
+      bg-transparent border border-[var(--primary-color)] rounded-[5px]
       disabled:opacity-50 disabled:cursor-not-allowed
     "
                         />
