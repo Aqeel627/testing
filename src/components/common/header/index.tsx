@@ -24,11 +24,11 @@ type HeaderProps = {
 
 export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
   // New state for checkbox toggles - default true
-  const {toggleBets}=useUIStore()
+  const { toggleBets } = useUIStore()
   const [showBalance, setShowBalance] = useState(true);
   const [showExposure, setShowExposure] = useState(true);
   const { userBalance, setUserBalance } = useAppStore();
-  const { setLoginModal } = useCacheStore();
+  const { setLoginModal, openPasswordModal } = useCacheStore();
   const { token, isLoggedIn, logout } = useAuthStore();
   const { resolvedTheme, theme, setTheme } = useTheme();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -346,21 +346,13 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                   {/* Links List */}
                   <ul className="my-2 px-2 flex flex-col">
                     {[
-                      { label: "Edit Password", href: "/edit-password" },
-                      // /statement
+                      { label: "Edit Password", href: "" },
                       { label: "Statement", href: "" },
                       { label: "Profit/Loss", href: "/profit-loss" },
                       { label: "Bets History", href: "/bets-history" },
                       { label: "Settings", href: "/settings" },
                       { label: "Activity", href: "/activity" },
-                      // {
-                      //   label: "Bet Buttons",
-                      //   href: "/account/settings/bet-buttons",
-                      // },
-                      // {
-                      //   label: "Rules",
-                      //   href: "/rules",
-                      // },
+
                     ].map((item, index) => (
                       <li
                         key={index}
@@ -369,7 +361,16 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                         <Link
                           prefetch={false}
                           href={item.href}
-                          onClick={() => setIsMenuOpen(false)}
+                          // onClick={() => setIsMenuOpen(false)}
+                          onClick={(e) => {
+                            if (item.label === "Edit Password") {
+                              e.preventDefault();
+                              openPasswordModal();
+                              setIsMenuOpen(false);
+                            } else {
+                              setIsMenuOpen(false);
+                            }
+                          }}
                           className="flex items-center w-full px-2 py-2 text-[0.875rem] leading-[1.57143px] text-[var(--dropdowntext)] hover:text-[var(--palette-text-primary)] hover:bg-transparent transition-colors h-[34px]"
                         >
                           <span className="ml-4">{item.label}</span>
