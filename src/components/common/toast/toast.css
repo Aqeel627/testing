@@ -1,0 +1,22 @@
+@keyframes progress {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0%;
+  }
+}
+
+#global-toast-container {
+  position: fixed;
+  top: -5px;
+  right: 5px;
+  min-width: 300px;
+  max-width: 400px;
+  z-index: 2147483647;
+  pointer-events: none;
+}
+
+.toast-wrapper {
+  pointer-events: auto;
+}

@@ -31,6 +31,8 @@ import {
   TooltipTrigger,
 } from "@/components/common/tooltip";
 import Link from "next/link";
+import { eventBus } from "@/lib/eventBus";
+import http from "@/lib/axios-instance";
 
 interface RunnerName {
   selectionId: number;
@@ -137,13 +139,78 @@ export default function MarketDetails() {
   const [isEventsDropDown, setIsEventsDropDown] = useState(false);
   const [streamCounter, setStreamCounter] = useState(0);
   const { resolvedTheme, theme } = useTheme();
-  const marketData = {
-    title: "Tied Match",
-    min: 5,
-    max: 10000,
-    backPrice: "2.36",
-    layPrice: "2.42",
-  };
+
+
+const [matchedBets, setMatchedBets] = useState<any[]>([]);
+const [slipPreview, setSlipPreview] = useState<{ stake: number; price: number }>({ stake: 0, price: 0 });
+const handleSlipPreview = useCallback(
+  ({ stake, price }: { stake: number; price: number }) => {
+    setSlipPreview({ stake, price });
+  },
+  []
+);
+// ── ADD: fetch PL ───────────────────────────────────────────────
+const fetchMarketPL = useCallback(async () => {
+  if (!eventId || !sportId) return;
+  try {
+    const res: any = await http.post(CONFIG.getAllMarketplURL, {
+      eventId: String(eventId),
+      sportId: String(sportId),
+    });
+    if (res?.data?.pl) {
+      setAllMarketPl(JSON.parse(JSON.stringify(res.data.pl)));
+    }
+  } catch { /* silent */ }
+}, [eventId, sportId]);
+
+// ── ADD: fetch matched/unmatched bets ───────────────────────────
+const fetchBets = useCallback(async () => {
+  if (!eventId || !sportId) return;
+  try {
+    const res: any = await http.post(CONFIG.unmatchedBets, {
+      eventId: String(eventId),
+      sportId: String(sportId),
+    });
+    setMatchedBets(res?.data?.data?.matchedBets || []);
+  } catch { /* silent */ }
+}, [eventId, sportId]);
+
+// ── ADD: call on mount ──────────────────────────────────────────
+useEffect(() => {
+  fetchMarketPL();
+  fetchBets();
+}, [eventId, sportId, fetchMarketPL, fetchBets]);
+
+// ── ADD: listen for post-bet refresh event ──────────────────────
+useEffect(() => {
+  const unsub = eventBus.on("REFRESH_AFTER_PLACE", () => {
+    fetchMarketPL();
+    fetchBets();
+  });
+  return unsub;
+}, [fetchMarketPL, fetchBets]);
+
+// ── ADD: PL helper (same logic as old project) ──────────────────
+const getRunnerPL = (marketId: string, selectionId: number): number | null => {
+  const plMap = allMarketPl[String(marketId)] as Record<string, number> | undefined;
+  if (!plMap) return null;
+  const val = plMap[String(selectionId)];
+  return val !== undefined ? Number(val) : null;
+};
+
+useEffect(() => {
+  if (!selectedBet) {
+    setSlipPreview({ stake: 0, price: 0 });
+  }
+}, [selectedBet]);
+
+function getSide(type: string): "BACK" | "LAY" {
+  if (type === "back") return "BACK";
+  if (type === "lay")  return "LAY";
+  if (type === "yes")  return "BACK"; // LINE yes → BACK
+  if (type === "no")   return "LAY";  // LINE no  → LAY
+  return "BACK";
+}
 
   const dynamicSportsConfig = useMemo(() => {
     if (!menuList) return [];
@@ -1183,11 +1250,77 @@ const isLineMarketFn = useCallback((m: any) => {
                     <div className="flex w-full flex-row flex-1 min-h-[50px] items-center justify-between py-1">
                       {/* Runner Name */}
                       <div className="font-[500] text-[14px] leading-[1] flex-[1_1_6rem] min-w-0 pr-2">
-                        <span
-                          className={`${runnerSusp ? "" : "cursor-pointer"}`}
-                        >
-                          {runnerName}
-                        </span>
+<span className={`${runnerSusp ? "" : "cursor-pointer"}`}>
+  {runnerName}
+</span>
+{(() => {
+  // 1) Current backend PL (null = no bets placed yet)
+  const actualPL = getRunnerPL(market.marketId, runner.selectionId);
+
+  // 2) Betslip is open on this market + valid stake entered
+  const isBetOnThisMarket =
+    selectedBet &&
+    selectedBet.marketId === market.marketId &&
+    slipPreview.stake > 0 &&
+    slipPreview.price > 1;
+
+  // 3) Calculate preview delta for this runner
+  let previewPL: number | null = null;
+
+  if (isBetOnThisMarket) {
+    const side = getSide(selectedBet!.type); // "BACK" or "LAY"
+    const isSelectedRunner =
+      selectedBet!.selectionId === runner.selectionId;
+
+    if (side === "BACK") {
+      previewPL = isSelectedRunner
+        ? slipPreview.stake * (slipPreview.price - 1)   // profit if win
+        : -slipPreview.stake;                             // loss on other runners
+    } else {
+      // LAY
+      previewPL = isSelectedRunner
+        ? slipPreview.stake                               // profit if lay wins
+        : -(slipPreview.stake * (slipPreview.price - 1)); // liability on other runners
+    }
+  }
+
+  // 4) Decide what to show
+  const hasActual = actualPL !== null && actualPL !== 0;
+  const hasPreview = previewPL !== null;
+
+  // Nothing to show
+  if (!hasActual && !hasPreview) return null;
+
+  const currentVal = actualPL ?? 0;    // show 0 if no backend PL
+  const projectedVal = hasPreview
+    ? currentVal + previewPL!
+    : null;
+
+  const renderValue = (val: number) => (
+    <span className={val >= 0 ? "text-green-600" : "text-red-500"}>
+      {val >= 0 ? "" : "-"}{Math.abs(val).toFixed(2)}
+    </span>
+  );
+
+  return (
+    <div className="flex items-center gap-1 text-[12px] font-semibold leading-tight mt-0.5">
+      {/* Arrow icon */}
+      <i className="fa fa-arrow-right text-[10px] text-gray-400" />
+
+      {/* Current PL */}
+      {renderValue(currentVal)}
+
+      {/* >> projected PL (only when betslip open with stake) */}
+      {projectedVal !== null && (
+        <>
+          <span className="text-gray-400 font-bold text-[11px]">{">>"}</span>
+          {renderValue(projectedVal)}
+        </>
+      )}
+    </div>
+  );
+})()}
+
                       </div>
 
                       {/* Odds Boxes */}
@@ -1478,8 +1611,8 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)] flex-1 min-w-0 cursor-pointer tex
                         selectedBet.type === "yes" ||
                         selectedBet.type === "no") && (
                         <div className="block lg:hidden">
-                          <MBetSlip />
-                        </div>
+  <MBetSlip onPreviewChange={handleSlipPreview} />
+                         </div>
                       )}
                   </div>
                 </React.Fragment>

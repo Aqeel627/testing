@@ -5,12 +5,16 @@ import style from "@/components/common/single-market/style.module.css";
 import { AnimatedNumber } from "@/components/common/animatied-number";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 // import MarketLoader from "../market-loader";
 import { EventTimer } from "./event-timer";
 import Icon from "@/icons/icons";
 import MBetSlip from "@/components/common/m-betslip";
 import dynamic from "next/dynamic";
+import { http } from "@/lib/axios-instance";
+import { CONFIG } from "@/lib/config";
+import { eventBus } from "@/lib/eventBus";
+import { useParams } from "next/navigation";
 const MarketLoader = dynamic(() => import('@/components/common/market-loader'),);
 
 const SingleMarket = ({
@@ -20,9 +24,45 @@ const SingleMarket = ({
   events: any;
   className?: string;
 }) => {
-  // const [loading, setLoading] = useState(true);
   const { setSelectedBet, selectedBet } = useAppStore();
   const betslipRef = useRef<HTMLDivElement | null>(null);
+
+const params = useParams();
+const eventId = (params as any)?.eventId || "";
+const sportId = (params as any)?.sportId || "";
+
+useEffect(() => {
+  const unsub = eventBus.on("REFRESH_AFTER_PLACE", async ({ eventId: eId, sportId: sId }: any) => {
+    const eIdToUse = eId || eventId;
+    const sIdToUse = sId || sportId;
+
+    if (!eIdToUse || !sIdToUse) return;
+
+    try {
+      await http.post(CONFIG.getAllMarketplURL, {
+        eventId: String(eIdToUse),
+        sportId: String(sIdToUse),
+      });
+    } catch {}
+
+    try {
+      await http.post(CONFIG.unmatchedBets, {
+        eventId: String(eIdToUse),
+        sportId: String(sIdToUse),
+      });
+    } catch { }
+  });
+
+  return unsub;
+}, [eventId, sportId]);
+  const [slipPreview, setSlipPreview] = useState<{ stake: number; price: number }>({ stake: 0, price: 0 });
+
+  const handleSlipPreview = useCallback(
+    ({ stake, price }: { stake: number; price: number }) => {
+      setSlipPreview({ stake, price });
+    },
+    []
+  );
 
   useEffect(() => {
     if (selectedBet?.eventName && betslipRef.current) {
@@ -178,16 +218,6 @@ const SingleMarket = ({
                     <Icon name={"bookMark"} className="h-[14px] w-[14px]" />
                     <Icon name={"fancy"} className="h-[14px] w-[14px]" />
                     <Icon name={"sportsbook"} className="h-[14px] w-[14px]" />
-                    {/* <div className="bg-[#FFAB00] h-3.5 w-3.5 inline-flex justify-center items-center rounded-[4px] text-[13px] max-w-full">
-                      <span className="text-[12px] font-semibold truncate overflow-hidden whitespace-nowrap">
-                        B
-                      </span>
-                    </div> */}
-                    {/* <div className="bg-[#FFAB00] h-3.5 w-3.5 inline-flex justify-center items-center rounded-[4px] text-[13px] max-w-full">
-                      <span className="text-[12px] font-semibold truncate overflow-hidden whitespace-nowrap">
-                        F
-                      </span>
-                    </div> */}
                   </div>
 
                   <div className="w-4 h-4 pb-0.5 text-(--palette-text-primary)">
@@ -231,6 +261,11 @@ const SingleMarket = ({
                           teamName: event.runnersName?.[0]?.runnerName,
                           eventName: event.event?.name,
                           marketType: event.marketType,
+                          // ✅ required for bet placement
+                          marketId:    event.marketId,
+                          eventId:     event.event?.id,
+                          sportId:     event.eventType?.id,
+                          selectionId: runner0?.selectionId,
                         });
                       }}
                     >
@@ -255,6 +290,11 @@ const SingleMarket = ({
                           teamName: event.runnersName?.[0]?.runnerName,
                           eventName: event.event?.name,
                           marketType: event.marketType,
+                          // ✅ required for bet placement
+                          marketId:    event.marketId,
+                          eventId:     event.event?.id,
+                          sportId:     event.eventType?.id,
+                          selectionId: runner0?.selectionId,
                         });
                       }}
                     >
@@ -296,6 +336,11 @@ const SingleMarket = ({
                           teamName: event.runnersName?.[2]?.runnerName,
                           eventName: event.event?.name,
                           marketType: event.marketType,
+                          // ✅ required for bet placement
+                          marketId:    event.marketId,
+                          eventId:     event.event?.id,
+                          sportId:     event.eventType?.id,
+                          selectionId: runner2?.selectionId,
                         });
                       }}
                     >
@@ -347,6 +392,11 @@ const SingleMarket = ({
                           teamName: event.runnersName?.[2]?.runnerName,
                           eventName: event.event?.name,
                           marketType: event.marketType,
+                          // ✅ required for bet placement
+                          marketId:    event.marketId,
+                          eventId:     event.event?.id,
+                          sportId:     event.eventType?.id,
+                          selectionId: runner2?.selectionId,
                         });
                       }}
                     >
@@ -397,6 +447,11 @@ const SingleMarket = ({
                           teamName: rightRunnerName,
                           eventName: event.event?.name,
                           marketType: event.marketType,
+                          // ✅ required for bet placement
+                          marketId:    event.marketId,
+                          eventId:     event.event?.id,
+                          sportId:     event.eventType?.id,
+                          selectionId: rightRunner?.selectionId,
                         });
                       }}
                     >
@@ -421,6 +476,11 @@ const SingleMarket = ({
                           teamName: rightRunnerName,
                           eventName: event.event?.name,
                           marketType: event.marketType,
+                          // ✅ required for bet placement
+                          marketId:    event.marketId,
+                          eventId:     event.event?.id,
+                          sportId:     event.eventType?.id,
+                          selectionId: rightRunner?.selectionId,
                         });
                       }}
                     >
@@ -435,9 +495,11 @@ const SingleMarket = ({
                 </div>
               </div>
             </div>
+
+            {/* ✅ MBetSlip with onPreviewChange */}
             {isBetOnThisEvent && (
               <div ref={betslipRef} className="block lg:hidden">
-                <MBetSlip />
+                <MBetSlip onPreviewChange={handleSlipPreview} />
               </div>
             )}
           </li>
