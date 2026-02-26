@@ -131,7 +131,7 @@ export default function SettingsPage() {
         <div
           className="w-full rounded-2xl border p-6 md:p-8"
           style={{
-            background: "var(--market-bg)",
+            background: "",
             borderColor: "var(--dotted-line)",
           }}
         >
