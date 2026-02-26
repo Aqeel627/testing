@@ -184,8 +184,8 @@ const ProfitLossPage: React.FC = () => {
               </tr>
             ) : profitLossData.length > 0 ? (
               profitLossData.map((profit, index) => (
-                <tr key={index} className="border-b border-white bg-[var(--palette-background-paper)]">
-                  <td className="p-[8px_10px] text-[var(--palette-text-primary)] text-center border-r border-white">
+                <tr key={index} className="border-b border-(--secondary-text-color) bg-[var(--palette-background-paper)]">
+                  <td className="p-[8px_10px] text-[var(--palette-text-primary)] text-center border-r border-(--secondary-text-color)">
                     <button 
                       onClick={() => goToEventPL(profit.eventType.id)}
                       className="text-[#4285f4] font-bold text-[11px] hover:underline"
@@ -193,10 +193,10 @@ const ProfitLossPage: React.FC = () => {
                       {profit.eventType.name}
                     </button>
                   </td>
-                  <td className={`p-[8px_10px] text-[var(--palette-text-primary)] text-center border-r border-white font-bold text-[11px] ${profit.pl <= 0 ? 'text-red-600' : 'text-green-600'}`}>
+                  <td className={`p-[8px_10px] text-[var(--palette-text-primary)] text-center border-r border-(--secondary-text-color) font-bold text-[11px] ${profit.pl <= 0 ? 'text-red-600' : 'text-green-600'}`}>
                     {profit.pl.toFixed(2)}
                   </td>
-                  <td className="p-[8px_10px] text-[var(--palette-text-primary)] text-center border-r border-white text-[11px]">
+                  <td className="p-[8px_10px] text-[var(--palette-text-primary)] text-center border-r border-(--secondary-text-color) text-[11px]">
                     {profit.commission.toFixed(2)}
                   </td>
                   <td className={`p-[8px_10px] text-[var(--palette-text-primary)] text-center font-bold text-[11px] ${(profit.pl - profit.commission) <= 0 ? 'text-red-600' : 'text-green-600'}`}>

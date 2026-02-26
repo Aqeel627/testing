@@ -1161,3 +1161,7 @@ body:has(.drawer) {
   filter: blur(10px);
   opacity: 0.55;
 }
+
+#nprogress .bar {
+  background: var(--primary-color) !important; 
+}

@@ -141,17 +141,17 @@ const ProfitLossEventPage: React.FC = () => {
               </tr>
             ) : profitList.length > 0 ? (
               profitList.map((profit, index) => (
-                <tr key={index} className="border-b border-white bg-[var(--palette-background-paper)]">
-                  <td className="p-[8px_10px] text-center border-r border-white text-[11px] text-[var(--palette-text-primary)]">{profit.eventType.name}</td>
-                  <td className="p-[8px_10px] text-center border-r border-white text-[11px]">
+                <tr key={index} className="border-b border-(--secondary-text-color) bg-[var(--palette-background-paper)]">
+                  <td className="p-[8px_10px] text-center border-r border-(--secondary-text-color) text-[11px] text-[var(--palette-text-primary)]">{profit.eventType.name}</td>
+                  <td className="p-[8px_10px] text-center border-r border-(--secondary-text-color) text-[11px]">
                     <button onClick={() => goToEventPL(profit.event.id)} className="text-[#4285f4] hover:underline font-bold">
                       {profit.event.name}
                     </button>
                   </td>
-                  <td className={`p-[8px_10px] text-center border-r border-white font-bold text-[11px] ${profit.pl <= 0 ? 'text-red-600' : 'text-green-600'}`}>
+                  <td className={`p-[8px_10px] text-center border-r border-(--secondary-text-color) font-bold text-[11px] ${profit.pl <= 0 ? 'text-red-600' : 'text-green-600'}`}>
                     {profit.pl}
                   </td>
-                  <td className="p-[8px_10px] text-center border-r border-white text-[11px] text-[var(--palette-text-primary)]">{profit.commission}</td>
+                  <td className="p-[8px_10px] text-center border-r border-(--secondary-text-color) text-[11px] text-[var(--palette-text-primary)]">{profit.commission}</td>
                   <td className={`p-[8px_10px] text-center font-bold text-[11px] ${(profit.pl - profit.commission) <= 0 ? 'text-red-600' : 'text-green-600'}`}>
                     {(profit.pl - profit.commission).toLocaleString()}
                   </td>

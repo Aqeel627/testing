@@ -230,7 +230,7 @@ export default function LoginModal() {
                         </Link>
                       </div>
                       <h2 className="text-xl xl:text-[19px] font-bold max-[600px]:text-[18px] max-[900px]:text-[19px]">
-                        Sign in to GJEXCH
+                        Securely sign in to your account
                       </h2>
                     </div>
 

@@ -24,7 +24,7 @@ type HeaderProps = {
 
 export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
   // New state for checkbox toggles - default true
-  const { toggleBets } = useUIStore()
+  const { toggleBets } = useUIStore();
   const [showBalance, setShowBalance] = useState(true);
   const [showExposure, setShowExposure] = useState(true);
   const { userBalance, setUserBalance } = useAppStore();
@@ -86,7 +86,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
       className={cn(
         "w-full glass  --palette-text-primary  sticky top-0 z-[9999999]",
         theme === "light" &&
-        "backdrop-blur-[10px]! bg-linear-to-br! from-white/25! to-white/5! border-b! border-[rgb(205_192_192/0.4)]! shadow-[0_8px_32px_rgba(0,0,0,0.2)]!",
+          "backdrop-blur-[10px]! bg-linear-to-br! from-white/25! to-white/5! border-b! border-[rgb(205_192_192/0.4)]! shadow-[0_8px_32px_rgba(0,0,0,0.2)]!",
       )}
     >
       <div className="max-w-[1600px] mx-auto px-2 h-12 flex items-center justify-between">
@@ -119,11 +119,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
             className="font-[inherit]  no-underline shrink-0 text-transparent inline-flex h-[44px] w-[152px] cursor-pointer"
           >
             <Image
-              src={
-                theme === "dark"
-                  ? "/logo-black.svg"
-                  : "/logo-white.svg"
-              }
+              src={theme === "dark" ? "/logo-black.svg" : "/logo-white.svg"}
               alt="GJEXCH Logo"
               fill
               className="object-contain relative! mx-1 "
@@ -293,8 +289,13 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                   <span className="text-[0.6rem] text-[#919EAB] font-semibold leading-[1] uppercase tracking-[1px]">
                     Pts
                   </span>
-                  <span className="text-[12px] font-bold leading-[1] text-[var(--palette-text-primary)]">
-                    {hideBalance ? "-" : "1"}
+                  <span className="text-[10px] font-bold leading-[1] text-[var(--palette-text-primary)]">
+                    {hideBalance
+                      ? "-"
+                      : (
+                          (userBalance?.bankBalance ?? 0) -
+                          (userBalance?.exposure ?? 0)
+                        ).toFixed(2)}
                   </span>
                 </button>
               </div>
@@ -333,9 +334,9 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                           {hideBalance
                             ? "-"
                             : (
-                              (userBalance?.bankBalance ?? 0) -
-                              (userBalance?.exposure ?? 0)
-                            ).toFixed(2)}
+                                (userBalance?.bankBalance ?? 0) -
+                                (userBalance?.exposure ?? 0)
+                              ).toFixed(2)}
                         </p>
                       </div>
                     </div>
@@ -352,7 +353,6 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                       { label: "Bets History", href: "/bets-history" },
                       { label: "Settings", href: "/settings" },
                       { label: "Activity", href: "/activity" },
-
                     ].map((item, index) => (
                       <li
                         key={index}
@@ -379,33 +379,46 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                     ))}
 
                     {/* Theme Option (Static Icon for now) */}
-                    <li onClick={() => {
-                      setTheme(theme === "dark" ? "light" : "dark");
-                      setIsMenuOpen(false);
-                    }}
-                      className="mb-1 no-underline h-12 min-[600px]:h-auto text-[0.875rem] leading-[1.57143px] hover:bg-[rgba(145,158,171,0.08)] rounded-[8px]">
+                    <li
+                      onClick={() => {
+                        setTheme(theme === "dark" ? "light" : "dark");
+                        setIsMenuOpen(false);
+                      }}
+                      className="mb-1 no-underline h-12 min-[600px]:h-auto text-[0.875rem] leading-[1.57143px] hover:bg-[rgba(145,158,171,0.08)] rounded-[8px]"
+                    >
                       <div className="flex items-center justify-between w-full px-2 text-[14px] text-[var(--dropdowntext)] hover:text-[var(--palette-text-primary)] hover:bg-white/5 transition-colors cursor-pointer">
                         <span className="ml-4">
                           {typeof window !== "undefined" &&
-                            (localStorage.getItem("theme") === "dark" ? "Light" : "Dark")} </span>
+                            (localStorage.getItem("theme") === "dark"
+                              ? "Light"
+                              : "Dark")}{" "}
+                        </span>
                         <span>
                           <ThemeToggle />
                         </span>
                       </div>
                     </li>
 
-                    <li className="mb-1 no-underline h-12 min-[600px]:h-auto text-[0.875rem] leading-[1.57143px] hover:bg-[rgba(145,158,171,0.08)] rounded-[8px]"
+                    <li
+                      className="mb-1 no-underline h-12 min-[600px]:h-auto text-[0.875rem] leading-[1.57143px] hover:bg-[rgba(145,158,171,0.08)] rounded-[8px]"
                       onClick={() => {
                         setIsMenuOpen(false);
                         router.push("/theme");
-                      }}>
+                      }}
+                    >
                       <div className="flex items-center justify-between w-full px-2 py-2 text-[14px] text-[var(--dropdowntext)] hover:text-[var(--palette-text-primary)] hover:bg-white/5 transition-colors cursor-pointer">
                         <span className="ml-4">Theme</span>
                         <span>
                           {theme === "dark" ? (
-                            <Icon name="themeSettingDark" className="h-5 w-5 mr-2" />
+                            <Icon
+                              name="themeSettingDark"
+                              className="h-5 w-5 mr-2"
+                            />
                           ) : (
-                            <Icon name="themeSettingLight" className="h-5 w-5 mr-2" />
+                            <Icon
+                              name="themeSettingLight"
+                              className="h-5 w-5 mr-2"
+                            />
                           )}
                         </span>
                       </div>
