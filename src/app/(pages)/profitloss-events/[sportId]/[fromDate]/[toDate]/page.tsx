@@ -1,4 +1,4 @@
-import ProfitLossEventPage from "@/components/pages/profitloss-event-page";
+import ProfitLossEventPage from "@/components/pages/profit-loss/profitloss-event-page";
 import RequireAuth from "@/lib/require-auth";
 import React from "react";
 
