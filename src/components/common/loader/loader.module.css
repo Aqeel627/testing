@@ -15,7 +15,8 @@
   position: fixed;
   align-items: center;
   justify-content: center;
-  background-color: var(--palette-background-default);
+  border-radius: 0 !important;
+  /* background: var(--palette-background-default); */
 }
 
 .loaderContainer {

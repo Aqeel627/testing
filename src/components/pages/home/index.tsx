@@ -2,9 +2,8 @@
 import { useAppStore } from "@/lib/store/store";
 import { useMemo, useState, useTransition } from "react";
 import dynamic from "next/dynamic";
-// import MarketLoader from "@/components/common/market-loader";
 import CasinoGames from "./casino-games";
-const MarketLoader = dynamic(() => import('@/components/common/market-loader'),);
+import MarketLoader from "@/components/common/market-loader";
 
 const SportsNav = dynamic(() => import("@/components/pages/home/sports-nav"));
 const HomeSlider = dynamic(() => import("@/components/pages/home/home-slider"));
