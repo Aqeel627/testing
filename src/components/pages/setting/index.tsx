@@ -109,9 +109,9 @@ export default function SettingsPage() {
   };
 
   return (
-    <div className="w-full min-h-screen px-4 py-10">
+    <div className="w-full min-h-screen  py-4">
       <div className="w-full max-w-[900px] mx-auto">
-        <div className="flex items-center gap-4 mb-8">
+        <div className="flex items-center gap-4 mb-4">
           <div
             className="flex-1 h-[1px]"
             style={{ background: "var(--dotted-line)" }}
