@@ -303,7 +303,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
               </div>
 
               {isMenuOpen && (
-                <div className="absolute top-0 md:top-[16px] md:top-[38px] right-0 md:right-[10px] w-[250px] bg-[var(--dropdownBg)] rounded-xl  z-[9999999] flex flex-col var(--palette-text-primary) overflow-hidden overflow-y-auto max-h-[calc(100vh-32px)] border border-[#919eab29] scrollbar-hide">
+                <div className="absolute top-0 md:top-[16px] md:top-[38px] right-0 md:right-[10px] w-[250px] bg-[var(--dropdownBg)] rounded-xl  z-[9999999] flex flex-col var(--palette-text-primary) overflow-hidden overflow-y-auto h-[100vh] md:max-h-[calc(100vh-32px)] border border-[#919eab29] scrollbar-hide">
                   <div className="absolute -top-10 -right-10 w-20 h-20 bg-[#078dee] blur-[60px] opacity-[0.50] pointer-events-none z-0 rounded-full"></div>
                   <div className="px-4 pt-4 pb-2">
                     <h6 className="text-[0.875rem] font-semibold text-[var(--palette-text-primary)] truncate leading-[1.57143]">
@@ -449,7 +449,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                     </li>
                   </ul>
 
-                  <hr className="m-0 shrink-0 border-0 border-b border-dashed border-(--dotted-line)" />
+                  <hr className="m-0 shrink-0 border-0 border-b border-dashed border-(--dotted-line) max-md:hidden" />
 
                   {/* Logout Button */}
                   <div className="p-2 relative hidden md:block">
