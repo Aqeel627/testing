@@ -348,7 +348,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                   {/* Links List */}
                   <ul className="my-2 px-2 flex flex-col">
                     {[
-                      { label: "Edit Password", href: "" },
+                      { label: "Change Password", href: "" },
                       { label: "Statement", href: "/statement" },
                       { label: "Profit/Loss", href: "/profit-loss" },
                       { label: "Bets History", href: "/bets-history" },
@@ -357,14 +357,14 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                     ].map((item, index) => (
                       <li
                         key={index}
-                        className="mb-1 hover:bg-[rgba(145,158,171,0.08)] rounded-[8px] no-underline h-9.5 min-[600px]:h-auto text-[0.875rem] leading-[1.57143px] "
+                        className="mb-1 hover:bg-[rgba(145,158,171,0.08)] rounded-[8px] no-underline h-12 min-[600px]:h-auto text-[0.875rem] leading-[1.57143px] "
                       >
                         <Link
                           prefetch={false}
                           href={item.href}
                           // onClick={() => setIsMenuOpen(false)}
                           onClick={(e) => {
-                            if (item.label === "Edit Password") {
+                            if (item.label === "Change Password") {
                               e.preventDefault();
                               openPasswordModal();
                               setIsMenuOpen(false);
@@ -383,9 +383,8 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                     <li
                       onClick={() => {
                         setTheme(theme === "dark" ? "light" : "dark");
-                        setIsMenuOpen(false);
                       }}
-                      className="mb-1 no-underline h-9.5 min-[600px]:h-auto text-[0.875rem] leading-[1.57143px] hover:bg-[rgba(145,158,171,0.08)] rounded-[8px]"
+                      className="mb-1 no-underline h-12 min-[600px]:h-auto text-[0.875rem] leading-[1.57143px] hover:bg-[rgba(145,158,171,0.08)] rounded-[8px]"
                     >
                       <div className="flex items-center justify-between w-full px-2 text-[14px] text-[var(--dropdowntext)] hover:text-[var(--palette-text-primary)] hover:bg-white/5 transition-colors cursor-pointer">
                         <span className="ml-4">
@@ -401,7 +400,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                     </li>
 
                     <li
-                      className="mb-1 no-underline h-9.5 min-[600px]:h-auto text-[0.875rem] leading-[1.57143px] hover:bg-[rgba(145,158,171,0.08)] rounded-[8px]"
+                      className="mb-1 no-underline h-12 min-[600px]:h-auto text-[0.875rem] leading-[1.57143px] hover:bg-[rgba(145,158,171,0.08)] rounded-[8px]"
                       onClick={() => {
                         setIsMenuOpen(false);
                         router.push("/theme");
@@ -426,7 +425,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                     </li>
 
                     {/* Hide Balance Toggle */}
-                    <li className="mb-1 no-underline h-9.5 text-[0.875rem] leading-[1.57143px] flex items-center hover:bg-[rgba(145,158,171,0.08)] rounded-[8px]">
+                    <li className="mb-1 no-underline h-12 min-[600px]:h-[44px] text-[0.875rem] leading-[1.57143px] flex items-center hover:bg-[rgba(145,158,171,0.08)] rounded-[8px]">
                       <div
                         className="flex items-center justify-between w-full px-2 text-[14px] text-[var(--dropdowntext)] hover:text-[var(--palette-text-primary)] transition-colors cursor-pointer"
                         onClick={(e) => {
