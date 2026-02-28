@@ -21,6 +21,7 @@ export default function LoginModal() {
   const router = useRouter();
 
   const [isLoading, setIsLoading] = useState(true);
+  const [passwordLengthError, setPasswordLengthError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [username, setUsername] = useState("");
@@ -53,6 +54,10 @@ export default function LoginModal() {
     });
 
     if (!username.trim() || !password.trim()) {
+      return;
+    }
+    if (password.trim().length < 6) {
+      setApiError("Password must be at least 6 characters");
       return;
     }
 
@@ -97,8 +102,8 @@ export default function LoginModal() {
       } else {
         // showToast(msg.status, msg.title, msg.desc);
         setApiError(msg.desc || "Invalid username or password");
+        console.log(msg.desc, "api response of error msg decrypted");
       }
-
     } catch (error: any) {
       const errorMsg =
         error?.response?.data?.meta?.message ||
@@ -293,7 +298,7 @@ export default function LoginModal() {
                             className="font-normal text-xs leading-normal text-left mt-2 mb-0 mx-3.5 text-(--palette-error-main)"
                             id="username-helper-text"
                           >
-                            Can not be empty
+                           Username is required
                           </div>
                         )}
                       </div>
@@ -326,7 +331,11 @@ export default function LoginModal() {
                             id="password"
                             autoComplete="password"
                             value={password}
-                            onChange={(e) => setPassword(e.target.value)}
+                            onChange={(e) => {
+                              setPassword(e.target.value);
+                              setPasswordLengthError("");
+                              setApiError("");
+                            }}
                             onBlur={() =>
                               setTouched((prev) => ({
                                 ...prev,
@@ -412,7 +421,7 @@ export default function LoginModal() {
                             className="font-normal text-xs leading-normal text-left mt-2 mb-0 mx-3.5 text-(--palette-error-main)"
                             id="password-helper-text"
                           >
-                            Can not be empty
+                            Password is required
                           </div>
                         )}
                       </div>
@@ -455,7 +464,6 @@ export default function LoginModal() {
                           hasFormValues &&
                             !isSubmitting &&
                             "hover:bg-(--primary-color-dark)",
-                          
                         )}
                       >
                         {isSubmitting ? (
@@ -500,7 +508,12 @@ export default function LoginModal() {
                         onClick={() => setLoginModal(false)}
                         className="text-center text-sm gap-1 flex justify-center items-center"
                       >
-                        <Icon name={'back'} width={16} height={16} className="text-(--gth-btn-bg)"/>
+                        <Icon
+                          name={"back"}
+                          width={16}
+                          height={16}
+                          className="text-(--gth-btn-bg)"
+                        />
                         <span className="text-(--gth-btn-bg)">
                           Return to Homepage
                         </span>

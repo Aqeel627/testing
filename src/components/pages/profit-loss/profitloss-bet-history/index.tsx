@@ -5,6 +5,7 @@ import { useParams } from 'next/navigation';
 import { CONFIG } from '@/lib/config';
 import { useAuthStore } from '@/lib/useAuthStore';
 import http from '@/lib/axios-instance';
+import BreadCrumb from '@/components/common/bread-crumb';
 
 // Types define kar di hain
 interface BetHistoryItem {
@@ -110,12 +111,16 @@ const ProfitLossBetHostory: React.FC = () => {
         <div id="profitloss-bet-history.tsx">
             <div className="container-fluid">
                 {/* Header Section */}
-                <div className="flex items-center my-4">
+                {/* <div className="flex items-center my-4">
                     <div className="flex-grow border-t border-t border-dashed border-(--dotted-line)"></div>
                     <span className="px-4 text-[var(--palette-text-primary)] font-bold text-[16px] whitespace-nowrap uppercase">
                         Bet History
                     </span>
                     <div className="flex-grow border-t border-t border-dashed border-(--dotted-line)"></div>
+                </div> */}
+
+                <div className="my-4">
+                    <BreadCrumb title="Bet History" />
                 </div>
 
                 {/* Indicators (Back/Lay/Void) */}

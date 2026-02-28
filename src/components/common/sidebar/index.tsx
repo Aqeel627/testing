@@ -302,23 +302,22 @@ const SportItemComponent = ({
           />
         </span> */}
         <span className={styles.linkIconWrap}>
-  {sport.id === "4" ? (
-    // ✅ Cricket → use Icon component
-    <Icon
-      name="cricket"
-      className={styles.linkIcon}
-    />
-  ) : (
-    // ✅ Others → keep mask flow exactly same
-    <span
-      className={styles.sportImage}
-      style={{
-        backgroundImage: `url(${sport.iconUrl})`,
-        WebkitMaskImage: `url(${sport.iconUrl})`,
-      } as CSSProperties}
-    />
-  )}
-</span>
+          {sport.id === "4" ? (
+            // ✅ Cricket → use Icon component
+            <Icon name="cricket" className={styles.linkIcon} />
+          ) : (
+            // ✅ Others → keep mask flow exactly same
+            <span
+              className={styles.sportImage}
+              style={
+                {
+                  backgroundImage: `url(${sport.iconUrl})`,
+                  WebkitMaskImage: `url(${sport.iconUrl})`,
+                } as CSSProperties
+              }
+            />
+          )}
+        </span>
         <span className={styles.linkText}>{sport.name}</span>
         <span className={styles.badgeWrap}>
           <span className={styles.badge}>{sport.count}</span>
@@ -402,7 +401,7 @@ export default function Sidebar({ config }: SidebarProps) {
     };
   }, []);
   // 👆 ---------------------------------------------------- 👆
- const dynamicSportsConfig: Sport[] = useMemo(() => {
+  const dynamicSportsConfig: Sport[] = useMemo(() => {
     if (!menuList) return [];
 
     // 1. Dono arrays nikaalein
@@ -439,34 +438,37 @@ export default function Sidebar({ config }: SidebarProps) {
         });
       }
 
-      sport.tournaments.get(compId)!.events.push({ id: eventId, name: eventName });
+      sport.tournaments
+        .get(compId)!
+        .events.push({ id: eventId, name: eventName });
     });
 
     // 4. Return formatted data (Insertion order will be preserved)
-    return Array.from(sportMap.values()).map((sport) => {
-      const tournaments: Tournament[] = Array.from(
-        sport.tournaments.values()
-      ).map((comp: any) => ({
-        name: comp.name,
-        count: comp.events.length,
-        href: undefined,
-        thirdItems: comp.events.map((evt: any) => ({
-          name: evt.name,
-          count: 1,
-          href: `/market-details/${evt.id}/${sport.id}`,
-        })),
-      }));
+    return Array.from(sportMap.values())
+      .map((sport) => {
+        const tournaments: Tournament[] = Array.from(
+          sport.tournaments.values(),
+        ).map((comp: any) => ({
+          name: comp.name,
+          count: comp.events.length,
+          href: undefined,
+          thirdItems: comp.events.map((evt: any) => ({
+            name: evt.name,
+            count: 1,
+            href: `/market-details/${evt.id}/${sport.id}`,
+          })),
+        }));
 
-      return {
-        id: sport.id,
-        name: sport.name,
-        iconUrl: SPORT_ICONS[sport.id] || "/sidebar/ic_default.svg",
-        count: tournaments.reduce((sum, t) => sum + t.count, 0),
-        tournaments,
-        href: undefined,
-      };
-    })
-    .filter((sport) => sport.count > 0);
+        return {
+          id: sport.id,
+          name: sport.name,
+          iconUrl: SPORT_ICONS[sport.id] || "/sidebar/ic_default.svg",
+          count: tournaments.reduce((sum, t) => sum + t.count, 0),
+          tournaments,
+          href: undefined,
+        };
+      })
+      .filter((sport) => sport.count > 0);
   }, [menuList]);
 
   const sidebarConfig: SidebarConfig = config || {
@@ -575,139 +577,141 @@ export default function Sidebar({ config }: SidebarProps) {
   };
 
   return (
-    <div className={styles.container}>
-      <ul className={styles.list}>
-        {/* Mobile Search */}
-        <div
-          className={`${styles.searchWrapper} lg:hidden! border-dashed border-b -mx-4 border-(--dotted-line)`}
-          onClick={handleSearchToggle}
-          role="button"
-          tabIndex={0}
-          onKeyDown={(e) => handleKeyDown(e, handleSearchToggle)}
-        >
-          <div className="px-4">
-            <div className={styles.searchBtn}>
-              <Icon name={"search"} className={styles.searchIcon} />
+    <div id="sidebar.tsx">
+      <div className={styles.container}>
+        <ul className={styles.list}>
+          {/* Mobile Search */}
+          <div
+            className={`${styles.searchWrapper} lg:hidden! border-dashed border-b -mx-4 border-(--dotted-line)`}
+            onClick={handleSearchToggle}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => handleKeyDown(e, handleSearchToggle)}
+          >
+            <div className="px-4">
+              <div className={styles.searchBtn}>
+                <Icon name={"search"} className={styles.searchIcon} />
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* Desktop Search */}
-        <div
-          className={`${styles.searchRow} max-lg:hidden!`}
-          onClick={handleSearchToggle}
-          role="button"
-          tabIndex={0}
-          onKeyDown={(e) => handleKeyDown(e, handleSearchToggle)}
-        >
-          <span className={styles.searchIconWrap}>
-            <Icon name={"search"} className={styles.searchIcon} />
-          </span>
-          <span className={styles.shortcut}>⌘K</span>
-        </div>
-
-        {/* Quick Links Section */}
-        <li className={styles.item}>
+          {/* Desktop Search */}
           <div
-            className={`${styles.sectionTitle} flex items-center justify-between`}
-            onClick={handleQuickLinksToggle}
+            className={`${styles.searchRow} max-lg:hidden!`}
+            onClick={handleSearchToggle}
             role="button"
             tabIndex={0}
-            onKeyDown={(e) => handleKeyDown(e, handleQuickLinksToggle)}
+            onKeyDown={(e) => handleKeyDown(e, handleSearchToggle)}
           >
-            <Icon
-              name={"chevronDown"}
-              className={`${styles.sectionIcon} duration-300 ${!isQuickLinksOpen ? "-rotate-90" : ""}`}
-            />
-            <span className={`${styles.sectionLabel} leading-[1.5]!`}>
-              Quick Links
+            <span className={styles.searchIconWrap}>
+              <Icon name={"search"} className={styles.searchIcon} />
             </span>
+            <span className={styles.shortcut}>⌘K</span>
           </div>
 
-          <motion.div
-            className={styles.sportDropdown}
-            initial={false}
-            animate={
-              isQuickLinksOpen
-                ? { height: "auto", opacity: 1 }
-                : { height: 0, opacity: 0 }
-            }
-            transition={DROPDOWN_TRANSITION}
-          >
-            <ul className={styles.subList}>
-              {sidebarConfig.quickLinks.map((link) => (
-                <QuickLinkItem
-                  onClose={closeSidebar}
-                  key={link.label}
-                  label={link.label}
-                  href={link.href}
-                  count={link.count}
-                  icon={link.icon}
-                  // pathName={pathName}
-                  isActive={isQuickLinkActive(link.label, link.href)}
-                  onActivate={() => handleQuickLinkActivate(link.label)}
-                />
-              ))}
-            </ul>
-          </motion.div>
-        </li>
-
-        {/* Sports Section */}
-        <li className={styles.item}>
-          <div
-            className={`${styles.sectionTitle} flex items-center justify-between`}
-            onClick={handleSportsToggle}
-            role="button"
-            tabIndex={0}
-            onKeyDown={(e) => handleKeyDown(e, handleSportsToggle)}
-          >
-            <Icon
-              name={"chevronDown"}
-              className={`${styles.sectionIcon} duration-300 ${!isSportsOpen ? "-rotate-90" : ""}`}
-            />
-            <span className={`${styles.sectionLabel} flex-auto`}>sports</span>
-            <span className={styles.badgeWrap}>
-              <span className={styles.badge}>
-                {sidebarConfig.sports.reduce((sum, s) => sum + s.count, 0)}
+          {/* Quick Links Section */}
+          <li className={styles.item}>
+            <div
+              className={`${styles.sectionTitle} flex items-center justify-between`}
+              onClick={handleQuickLinksToggle}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => handleKeyDown(e, handleQuickLinksToggle)}
+            >
+              <Icon
+                name={"chevronDown"}
+                className={`${styles.sectionIcon} duration-300 ${!isQuickLinksOpen ? "-rotate-90" : ""}`}
+              />
+              <span className={`${styles.sectionLabel} leading-[1.5]!`}>
+                Quick Links
               </span>
-            </span>
-          </div>
+            </div>
 
-          <motion.div
-            className={styles.sportDropdown}
-            initial={false}
-            animate={
-              isSportsOpen
-                ? { height: "auto", opacity: 1 }
-                : { height: 0, opacity: 0 }
-            }
-            transition={DROPDOWN_TRANSITION}
-          >
-            <ul className={styles.subList}>
-              {sidebarConfig.sports.length === 0 && (
-                <li className="px-4 py-2 text-sm text-gray-500">
-                  Loading sports...
-                </li>
-              )}
-              {sidebarConfig.sports.map((sport, sportIndex) => (
-                <SportItemComponent
-                  key={sport.name + sportIndex}
-                  sport={sport}
-                  sportIndex={sportIndex}
-                  openSportIndex={openSportIndex}
-                  openTournamentKey={openTournamentKey}
-                  onSportClick={handleSportClick}
-                  onTournamentClick={handleTournamentClick}
-                  isSportActive={isSportActive(sportIndex)}
-                  activeTournamentIndex={activeTournamentIndexFor(sportIndex)}
-                  activeThirdIndex={activeThirdIndexFor(sportIndex)}
-                  onThirdItemActivate={handleThirdItemActivate}
-                />
-              ))}
-            </ul>
-          </motion.div>
-        </li>
-      </ul>
+            <motion.div
+              className={styles.sportDropdown}
+              initial={false}
+              animate={
+                isQuickLinksOpen
+                  ? { height: "auto", opacity: 1 }
+                  : { height: 0, opacity: 0 }
+              }
+              transition={DROPDOWN_TRANSITION}
+            >
+              <ul className={styles.subList}>
+                {sidebarConfig.quickLinks.map((link) => (
+                  <QuickLinkItem
+                    onClose={closeSidebar}
+                    key={link.label}
+                    label={link.label}
+                    href={link.href}
+                    count={link.count}
+                    icon={link.icon}
+                    // pathName={pathName}
+                    isActive={isQuickLinkActive(link.label, link.href)}
+                    onActivate={() => handleQuickLinkActivate(link.label)}
+                  />
+                ))}
+              </ul>
+            </motion.div>
+          </li>
+
+          {/* Sports Section */}
+          <li className={styles.item}>
+            <div
+              className={`${styles.sectionTitle} flex items-center justify-between`}
+              onClick={handleSportsToggle}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => handleKeyDown(e, handleSportsToggle)}
+            >
+              <Icon
+                name={"chevronDown"}
+                className={`${styles.sectionIcon} duration-300 ${!isSportsOpen ? "-rotate-90" : ""}`}
+              />
+              <span className={`${styles.sectionLabel} flex-auto`}>sports</span>
+              <span className={styles.badgeWrap}>
+                <span className={styles.badge}>
+                  {sidebarConfig.sports.reduce((sum, s) => sum + s.count, 0)}
+                </span>
+              </span>
+            </div>
+
+            <motion.div
+              className={styles.sportDropdown}
+              initial={false}
+              animate={
+                isSportsOpen
+                  ? { height: "auto", opacity: 1 }
+                  : { height: 0, opacity: 0 }
+              }
+              transition={DROPDOWN_TRANSITION}
+            >
+              <ul className={styles.subList}>
+                {sidebarConfig.sports.length === 0 && (
+                  <li className="px-4 py-2 text-sm text-gray-500">
+                    Loading sports...
+                  </li>
+                )}
+                {sidebarConfig.sports.map((sport, sportIndex) => (
+                  <SportItemComponent
+                    key={sport.name + sportIndex}
+                    sport={sport}
+                    sportIndex={sportIndex}
+                    openSportIndex={openSportIndex}
+                    openTournamentKey={openTournamentKey}
+                    onSportClick={handleSportClick}
+                    onTournamentClick={handleTournamentClick}
+                    isSportActive={isSportActive(sportIndex)}
+                    activeTournamentIndex={activeTournamentIndexFor(sportIndex)}
+                    activeThirdIndex={activeThirdIndexFor(sportIndex)}
+                    onThirdItemActivate={handleThirdItemActivate}
+                  />
+                ))}
+              </ul>
+            </motion.div>
+          </li>
+        </ul>
+      </div>
     </div>
   );
 }

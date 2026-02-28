@@ -107,76 +107,75 @@ const SportsBreadCrumb = ({ title, subtitle }: BreadCrumbProps) => {
   };
 
   return (
-    <div className="px-2 pt-4 pb-2">
-      {/* Title */}
-      <h1 className="m-0 font-sans text-[1.5rem] font-bold leading-tight">
-        {pageTitle}
-      </h1>
+    <div id="sport-bread-crumb.tsx">
+      <div className="px-2 pt-4 pb-2">
+        {/* Title */}
+        <h1 className="m-0 font-sans text-[1.5rem] font-bold leading-tight">
+          {pageTitle}
+        </h1>
 
-      {/* Subtitle (e.g. competition name on competition page) */}
-      {subtitle && (
-        <p className="m-0 mt-0.5 font-sans text-[0.85rem] text-(--secondary-text-color) font-medium">
-          {subtitle}
-        </p>
-      )}
+        {/* Subtitle (e.g. competition name on competition page) */}
+        {subtitle && (
+          <p className="m-0 mt-0.5 font-sans text-[0.85rem] text-(--secondary-text-color) font-medium">
+            {subtitle}
+          </p>
+        )}
 
-      <div className="flex flex-wrap gap-2 min-[900px]:gap-4 mt-1.5">
-        <span
-          ref={eventTypeRef}
-          className="h-6 min-w-6 inline-flex justify-center items-center overflow-visible text-sm bg-[#078dee29] rounded-[6px] pl-[8px] pr-2 gap-2.5 relative"
-        >
-          <button
-            type="button"
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              setIsEventTypeOpen((v) => !v);
-              setIsCompetitionOpen(false);
-            }}
-            className="cursor-pointer inline-flex"
+        <div className="flex flex-wrap gap-2 min-[900px]:gap-4 mt-1.5">
+          <span
+            ref={eventTypeRef}
+            className="h-6 min-w-6 inline-flex justify-center items-center overflow-visible text-sm bg-[#078dee29] rounded-[6px] pl-[8px] pr-2 gap-2.5 relative"
           >
-            <Icon name="play" className="w-5 h-5 text-[#68CDF9]" />
-                        {selectedEventType || defaultSportName || ""}
+            <button
+              type="button"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setIsEventTypeOpen((v) => !v);
+                setIsCompetitionOpen(false);
+              }}
+              className="cursor-pointer inline-flex"
+            >
+              <Icon name="play" className="w-5 h-5 text-[#68CDF9]" />
+              {selectedEventType || defaultSportName || ""}
+            </button>
 
-          </button>
+            {isEventTypeOpen && (
+              <ul className="absolute left-2 p-1 top-full mt-0 -ml-1 max-h-50 glass backdrop-blur-[2px]!  rounded-sm shadow-lg bg-[rgba(var(--palette-background-paperChannel)/90%)] text-(--palette-text-primary) z-40 overflow-y-auto no-scrollbar">
+                {menuList?.eventTypes?.map((item: any) => (
+                  <li key={item.eventType.id}>
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        setSelectedEventType(item.eventType.name);
+                        setSelectedCompetition("");
+                        filterCompetitions(item.eventType.id);
+                        setIsEventTypeOpen(false);
+                        navigateToMarket(item.eventType.name);
+                      }}
+                      className={`text-sm w-full text-nowrap text-left relative bg-transparent cursor-pointer gap-2 font-semibold transition px-2 py-1.5 rounded-[6px] ${
+                        (selectedEventType &&
+                          selectedEventType === item.eventType.name) ||
+                        (!selectedEventType &&
+                          defaultSportName === item.eventType.name)
+                          ? "bg-[rgba(255,255,255,0.25)]! text-(--primary-color)"
+                          : "hover:bg-[rgba(255,255,255,0.25)]"
+                      }`}
+                    >
+                      {item.eventType.name}
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </span>
 
-          
-          {isEventTypeOpen && (
-            <ul className="absolute left-2 p-1 top-full mt-0 -ml-1 max-h-50 glass backdrop-blur-[2px]!  rounded-sm shadow-lg bg-[rgba(var(--palette-background-paperChannel)/90%)] text-(--palette-text-primary) z-40 overflow-y-auto no-scrollbar">
-              {menuList?.eventTypes?.map((item: any) => (
-                <li key={item.eventType.id}>
-                  <button
-                    type="button"
-                    onClick={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-                      setSelectedEventType(item.eventType.name);
-                      setSelectedCompetition("");
-                      filterCompetitions(item.eventType.id);
-                      setIsEventTypeOpen(false);
-                      navigateToMarket(item.eventType.name);
-                    }}
-                    className={`text-sm w-full text-nowrap text-left relative bg-transparent cursor-pointer gap-2 font-semibold transition px-2 py-1.5 rounded-[6px] ${
-                      (selectedEventType &&
-                        selectedEventType === item.eventType.name) ||
-                      (!selectedEventType &&
-                        defaultSportName === item.eventType.name)
-                        ? "bg-[rgba(255,255,255,0.25)]! text-(--primary-color)"
-                        : "hover:bg-[rgba(255,255,255,0.25)]"
-                    }`}
-                  >
-                    {item.eventType.name}
-                  </button>
-                </li>
-              ))}
-            </ul>
-          )}
-        </span>
-
-        <span
-          ref={competitionRef}
-          className="h-6 min-w-6 inline-flex justify-center relative items-center text-sm bg-[#078dee29] rounded-[6px] pl-[8px] pr-2 gap-2.5"
-        >
+          <span
+            ref={competitionRef}
+            className="h-6 min-w-6 inline-flex justify-center relative items-center text-sm bg-[#078dee29] rounded-[6px] pl-[8px] pr-2 gap-2.5"
+          >
             <button
               type="button"
               onClick={(e) => {
@@ -188,10 +187,8 @@ const SportsBreadCrumb = ({ title, subtitle }: BreadCrumbProps) => {
               className="inline-flex cursor-pointer"
             >
               <Icon name="play" className="w-5 h-5 text-[#68CDF9] " />
-                            {selectedCompetition || subtitle || "Tournament"}
-
+              {selectedCompetition || subtitle || "Tournament"}
             </button>
-
 
             {isCompetitionOpen && (
               <ul className="absolute p-1 left-2 top-full mt-0 -ml-1 max-h-50 glass backdrop-blur-[2px]! rounded-sm shadow-lg bg-[rgba(var(--palette-background-paperChannel)/90%)] text-(--palette-text-primary) z-40 overflow-y-auto no-scrollbar">
@@ -228,7 +225,8 @@ const SportsBreadCrumb = ({ title, subtitle }: BreadCrumbProps) => {
                 )}
               </ul>
             )}
-        </span>
+          </span>
+        </div>
       </div>
     </div>
   );

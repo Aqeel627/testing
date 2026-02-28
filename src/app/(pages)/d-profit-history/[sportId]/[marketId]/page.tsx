@@ -1,4 +1,5 @@
-import ProfitLossBetHostory from '@/components/pages/profitloss-bet-history'
+
+import ProfitLossBetHostory from '@/components/pages/profit-loss/profitloss-bet-history'
 import React from 'react'
 
 export default function DProfitHistory() {
