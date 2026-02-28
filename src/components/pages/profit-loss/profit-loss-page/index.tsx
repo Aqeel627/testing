@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { CONFIG } from '@/lib/config'; // API endpoints ke liye
 import http from '@/lib/axios-instance';
 import dynamic from 'next/dynamic';
+import "./style.css";
 const BreadCrumb = dynamic(() => import("@/components/common/bread-crumb"));
 
 // Interfaces
@@ -134,43 +135,42 @@ const ProfitLossPage: React.FC = () => {
           <BreadCrumb title="Profit & Loss" />
         </div>
 
-        {/* FILTER SECTION - Design preserved */}
         <div id="filter" className="my-[15px]">
           <div className="grid grid-cols-12 gap-3 items-center">
+            {/* Start Date */}
             <div className="col-span-6 md:col-span-4 xl:col-span-2">
               <input
                 type="date"
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
-                className="w-full h-[32px] px-3 py-1 bg-transparent text-[var(--palette-text-primary)] border border-(--dotted-line) rounded-[5px] text-[12px] outline-none focus:border-(--primary-color)"
+                // Yahan 'input' aur 'bh-date-input' classes add ki hain
+                className="input bh-date-input w-full h-[32px] px-3 py-1 outline-none rounded-[5px] text-[12px]"
               />
             </div>
+
+            {/* End Date */}
             <div className="col-span-6 md:col-span-4 xl:col-span-2">
               <input
                 type="date"
                 value={endDate}
                 onChange={(e) => setEndDate(e.target.value)}
-                className="w-full h-[32px] px-3 py-1 bg-transparent text-[var(--palette-text-primary)] border border-(--dotted-line) rounded-[5px] text-[12px] outline-none focus:border-(--primary-color)"
+                // Same classes yahan bhi
+                className="input bh-date-input w-full h-[32px] px-3 py-1 outline-none rounded-[5px] text-[12px]"
               />
             </div>
-            <div className="col-span-12 md:col-span-4 xl:col-span-2 mt-3 md:mt-0">
-              {/* <button
-                onClick={rerender}
-                disabled={isLoader}
-                className="w-full h-[32px] cursor-pointer hover:bg-(--primary-color-dark) bg-(--primary-color) text-[12px] font-bold rounded-[5px] uppercase disabled:opacity-50 transition-all text-white"
-              >
-                Submit
-              </button> */}
 
+            {/* Submit Button */}
+            <div className="col-span-12 md:col-span-4 xl:col-span-2 mt-3 md:mt-0">
               <button
                 onClick={rerender}
                 disabled={isLoader}
-                className="h-[32px] px-4 font-bold rounded-[5px] uppercase text-white  text-[12px] cursor-pointer "
+                // Yahan 'bh-submit-btn' class add ki hai
+                className="bh-submit-btn h-[32px] px-4 font-[400] rounded-[5px] uppercase text-white text-[12px] cursor-pointer"
                 style={{
                   background: "var(--primary-color)",
-                  boxShadow:
-                    "0 4px 20px color-mix(in srgb, var(--primary-color) 35%, transparent)",
-                }}>
+                  boxShadow: "0 4px 20px color-mix(in srgb, var(--primary-color) 35%, transparent)",
+                }}
+              >
                 Submit
               </button>
             </div>
@@ -231,40 +231,103 @@ const ProfitLossPage: React.FC = () => {
           </table>
         </div>
 
-        {/* PAGINATION SECTION - Design preserved */}
-        <div className="flex flex-col-reverse md:flex-row justify-between items-center gap-4 mt-[15px] text-[#757272]">
-          <div className="text-[10px] order-1 w-full md:w-auto text-start text-(--secondary-text-color)">
-            <span>Showing {startIndex} to {endIndex} of {totalRecords} entries</span>
+        {/* PAGINATION SECTION */}
+        <div className="bh-pagination-container">
+          {/* Mobile buttons - Only visible on mobile */}
+          <div className="bh-mobile-only bh-pg-buttons w-full">
+            <button
+              className={`pg-btn${currentPage === 1 ? " disabled" : ""}`}
+              onClick={goToFirst}
+            >
+              First
+            </button>
+            <button
+              className={`pg-btn${currentPage === 1 ? " disabled" : ""}`}
+              onClick={goToPrevious}
+            >
+              Previous
+            </button>
+            <span className="pg-number active">{currentPage}</span>
+            <button
+              className={`pg-btn${currentPage === totalPages ? " disabled" : ""}`}
+              onClick={goToNext}
+            >
+              Next
+            </button>
+            <button
+              className={`pg-btn${currentPage === totalPages ? " disabled" : ""}`}
+              onClick={goToLast}
+            >
+              Last
+            </button>
           </div>
 
-          <div className="flex justify-center items-center gap-2 order-2 text-(--secondary-text-color)">
-            <button onClick={goToFirst} disabled={currentPage === 1} className="text-[11px] font-semibold disabled:opacity-40 px-1">First</button>
-            <button onClick={goToPrevious} disabled={currentPage === 1} className="text-[11px] font-semibold disabled:opacity-40 px-1">Previous</button>
-            <span className="w-[24px] h-[21px] bg-[var(--primary-color)] text-white rounded-[5px] flex items-center justify-center font-bold text-[11px]">
-              {currentPage}
-            </span>
-            <button onClick={goToNext} disabled={currentPage === totalPages} className="text-[11px] font-semibold disabled:opacity-40 px-1">Next</button>
-            <button onClick={goToLast} disabled={currentPage === totalPages} className="text-[11px] font-semibold disabled:opacity-40 px-1">Last</button>
-          </div>
-
-          <div className="flex items-center gap-1 order-3 w-full md:w-auto justify-end">
-            <span className="text-[10px] whitespace-nowrap text-(--secondary-text-color)">Jump to page</span>
+          {/* Desktop jump - Only visible on desktop */}
+          <div className="bh-desktop-only bh-jump">
+            <span className="jumptext">Jump to page</span>
             <input
-              type="text"
+              className="input bh-jump-input h-[32px]"
               value={jumptoPage}
               onChange={(e) => setJumptoPage(e.target.value)}
-              className="text-sm text-center h-[32px] border border-(--dotted-line) bg-transparent rounded-[5px] focus:outline-none max-w-[156.78px] text-white"
+              onKeyDown={(e) => e.key === "Enter" && JumpPage()}
             />
-            <button onClick={JumpPage} className="bg-[var(--primary-color)] border-[var(--primary-color)] text-white h-[32px] px-3 rounded-[5px] text-[12px] font-semibold ml-1">Go</button>
+            <button className="bh-jump-go-btn h-[32px]" onClick={JumpPage}>
+              Go
+            </button>
+          </div>
+
+          {/* Entries text + mobile jump logic */}
+          <div className="bh-entries-text">
+            <div className="bh-mobile-only bh-jump">
+              <span className="jumptext">Jump to page</span>
+              <input
+                className="input bh-jump-input"
+                value={jumptoPage}
+                onChange={(e) => setJumptoPage(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && JumpPage()}
+              />
+              <button
+                className="bh-jump-go-btn"
+                onClick={JumpPage}
+                disabled={!jumptoPage}
+              >
+                Go
+              </button>
+            </div>
+            <span>
+              Showing {startIndex} to {endIndex} of {totalRecords} entries
+            </span>
+          </div>
+
+          {/* Desktop buttons - Only visible on desktop */}
+          <div className="bh-desktop-only bh-pg-buttons h-[32px]">
+            <button
+              className={`pg-btn${currentPage === 1 ? " disabled" : ""} h-[32px]`}
+              onClick={goToFirst}
+            >
+              First
+            </button>
+            <button
+              className={`pg-btn${currentPage === 1 ? " disabled" : ""} h-[32px]`}
+              onClick={goToPrevious}
+            >
+              Previous
+            </button>
+            <span className="pg-number active h-[32px]">{currentPage}</span>
+            <button
+              className={`pg-btn${currentPage === totalPages ? " disabled" : ""} h-[32px]`}
+              onClick={goToNext}
+            >
+              Next
+            </button>
+            <button
+              className={`pg-btn${currentPage === totalPages ? " disabled" : ""} h-[32px]`}
+              onClick={goToLast}
+            >
+              Last
+            </button>
           </div>
         </div>
-
-        {/* Scrollbar CSS */}
-        <style jsx global>{`
-        .custom-scrollbar::-webkit-scrollbar { height: 8px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #5700a3; border-radius: 10px; border: 2px solid #ffffff; }
-        .custom-scrollbar::-webkit-scrollbar-track { background-color: #ffffff; }
-      `}</style>
       </div>
     </div>
   );

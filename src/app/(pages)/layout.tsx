@@ -97,12 +97,24 @@ const shouldHideFooter = HIDE_FOOTER_ROUTES.includes(pathname);
           />
 
           <aside
-            className={`fixed top-0 sidebar-container left-0 z-[70] h-screen w-[288px] max-w-[85vw] bg-[var(--background)] overflow-y-auto no-scrollbar transition-transform duration-300 ease-in-out ${
-              isMobileSidebarOpen ? "translate-x-0 drawer" : "-translate-x-full"
-            }`}
-          >
-            <Sidebar />
-          </aside>
+  className="fixed top-0 sidebar-container left-0 z-[70] w-[288px] max-w-[85vw] bg-[var(--background)] overflow-y-auto no-scrollbar"
+  style={{
+    height: "100svh",
+    transform: isMobileSidebarOpen
+      ? "translate3d(0, 0, 0)"
+      : "translate3d(-100%, 0, 0)",
+    transition: "transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)",  // ✅ Material easing — iOS pe smooth
+    willChange: "transform",
+    backfaceVisibility: "hidden",
+    WebkitBackfaceVisibility: "hidden" as any,
+    WebkitTransform: isMobileSidebarOpen
+      ? "translate3d(0, 0, 0)"
+      : "translate3d(-100%, 0, 0)",
+    WebkitTransition: "-webkit-transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)" as any, // ✅ webkit prefix with -webkit-transform
+  }}
+>
+  <Sidebar />
+</aside>
 
           <main className="pt-[80px] px-3 h-screen">
             {children}

@@ -453,7 +453,7 @@ export default function LoginModal() {
                       {/* Login Button (UNCHANGED) */}
                       <button
                         type="submit"
-                        disabled={!hasFormValues || isSubmitting}
+                        disabled={!hasFormValues}
                         // className={`w-full rounded-lg relative p-[6px_12px] min-h-9 text-sm font-bold h-[48px] ${
                         //   hasFormValues && !isSubmitting
                         //     ? "bg-(--primary-color) text-white cursor-pointer hover:bg-(--login-btn-hover)"
@@ -468,14 +468,14 @@ export default function LoginModal() {
                       >
                         {isSubmitting ? (
                           <span className="contents">
-                            <span className="absolute visible flex -translate-2/4 text-(--palette-action-disabled) left-2/4 top-2/4">
+                            <span className="absolute visible flex -translate-2/4 text-white left-2/4 top-2/4">
                               <span className="h-4 w-4 inline-block submitLoader">
                                 <svg
-                                  className="block text-(--palette-action-disabled)"
+                                  className="block"
                                   viewBox="22 22 44 44"
                                 >
                                   <circle
-                                    className="visible text-(--palette-action-disabled) circleAnimation"
+                                    className="visible text-white circleAnimation"
                                     cx="44"
                                     cy="44"
                                     r="20.2"
