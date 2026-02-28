@@ -150,7 +150,7 @@ const ProfitLossEventPage: React.FC = () => {
                   <tr key={index} className="border-b border-(--dotted-line) bg-[var(--palette-background-paper)]">
                     <td className="p-[8px_10px] text-center whitespace-nowrap border-r border-(--dotted-line) text-[11px] text-[var(--palette-text-primary)]">{profit.eventType.name}</td>
                     <td className="p-[8px_10px] text-center whitespace-nowrap border-r border-(--dotted-line) text-[11px]">
-                      <button onClick={() => goToEventPL(profit.event.id)} className="text-[#4285f4] hover:underline font-bold cursor-pointer">
+                      <button onClick={() => goToEventPL(profit.event.id)} className="text-(--primary-color) hover:underline font-bold cursor-pointer">
                         {profit.event.name}
                       </button>
                     </td>

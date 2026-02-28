@@ -205,9 +205,8 @@ export default function SettingsPage() {
               <button
                 onClick={updateBetSetting}
                 disabled={saving}
-                className="w-full max-w-[360px] py-3 rounded-xl text-white font-bold text-[15px] uppercase tracking-widest transition-all duration-200 hover:opacity-90 active:scale-[0.98] disabled:opacity-50 cursor-pointer shadow-lg"
+                className="w-full max-w-[360px] py-3 rounded-xl hover:bg-(--primary-color-dark) bg-(--primary-color) font-bold text-[15px] uppercase tracking-widest transition-all duration-200 hover:opacity-90 active:scale-[0.98] disabled:opacity-50 cursor-pointer shadow-lg"
                 style={{
-                  background: "var(--primary-color)",
                   boxShadow:
                     "0 4px 20px color-mix(in srgb, var(--primary-color) 35%, transparent)",
                 }}
