@@ -125,60 +125,61 @@ const shouldHideFooter = HIDE_FOOTER_ROUTES.includes(pathname);
             <Header onMenuClick={() => setIsSidebarOpen((prev) => !prev)} />
           </div>
 
-          <div className="flex h-full w-100% ">
-            <ResizablePanelGroup
-              orientation="horizontal"
-              className="min-w-112.5!"
+          <div className="flex h-full w-full">
+  
+  <motion.aside
+    animate={{ width: isSidebarOpen ? 300 : 0 }}
+    transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+    className="h-full pt-[50px] shrink-0 overflow-hidden border-r border-white/5"
+  >
+    <div className="w-[300px] h-full">
+      <Sidebar />
+    </div>
+  </motion.aside>
+
+  <ResizablePanelGroup
+    orientation="horizontal"
+    className="flex-1 min-w-0"
+  >
+    <ResizablePanel
+      minSize={450}
+      defaultSize="70%"
+      className="h-full pt-[50px] overflow-y-auto no-scrollbar pb-[30px] min-w-[450px] ps-3 pe-[6px] mt-[10px]"
+    >
+      <div className="@container w-full">
+        {children}
+        {!shouldHideFooter && <Footer />}
+      </div>
+    </ResizablePanel>
+
+    <AnimatePresence>
+      {(!isLoggedIn || isBetsOpen) && (
+        <>
+          <ResizableHandle
+            withHandle
+            className="ml-[6.5px] bg-[rgba(145,158,171,0.2)] w-1 mt-[50px]"
+          />
+          <ResizablePanel
+            defaultSize={"30%"}
+            className="flex-auto min-w-0 h-full border-l border-white/5 overflow-hidden pt-[50px]"
+          >
+            <motion.div
+              initial={{ x: "100%", opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              exit={{ x: "100%", opacity: 0 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+              className="w-full h-full overflow-y-auto no-scrollbar"
             >
-              <aside
-                className={cn(
-                  "h-full pt-[50px] no-scrollbar overflow-hidden transition-all duration-300 border-white/5 ease-in-out",
-                  isSidebarOpen
-                    ? "border-r min-w-75 w-75"
-                    : "border-0 w-0 min-w-0",
-                )}
-              >
-                <Sidebar />
-              </aside>
+              <BetSlipUI />
+              {isLoggedIn && <BetsTable />}
+            </motion.div>
+          </ResizablePanel>
+        </>
+      )}
+    </AnimatePresence>
+  </ResizablePanelGroup>
 
-              <ResizablePanel
-                minSize={450}
-                defaultSize="70%"
-                className="h-full pt-[50px] overflow-y-auto no-scrollbar pb-[30px] min-w-[450px] ps-3 pe-[6px] mt-[10px]"
-              >
-                <div className="@container w-full">
-                  {children}
-                  {!shouldHideFooter && <Footer />}
-                </div>
-              </ResizablePanel>
-              <AnimatePresence>
-                {(!isLoggedIn || isBetsOpen) && (
-                  <>
-                    <ResizableHandle
-                      withHandle
-                      className="ml-[6.5px] bg-[rgba(145,158,171,0.2)] w-1 mt-[50px]"
-                    />
-
-                    <ResizablePanel
-                      defaultSize={"30%"}
-                      className="flex-auto min-w-0 h-full border-l border-white/5 overflow-hidden pt-[50px]"
-                    >
-                      <motion.div
-                        initial={{ x: "100%", opacity: 0 }}
-                        animate={{ x: 0, opacity: 1 }}
-                        exit={{ x: "100%", opacity: 0 }}
-                        transition={{ duration: 0.3, ease: "easeOut" }}
-                        className="w-full h-full overflow-y-auto no-scrollbar"
-                      >
-                        <BetSlipUI />
-                        {isLoggedIn && <BetsTable />}
-                      </motion.div>
-                    </ResizablePanel>
-                  </>
-                )}
-              </AnimatePresence>
-            </ResizablePanelGroup>
-          </div>
+</div>
         </div>
         {loginModal && <LoginModal />}
         {isPasswordModalOpen && <ChangePassword />}
