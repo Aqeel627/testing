@@ -83,14 +83,6 @@ const LanguageToggler = () => {
 
   useEffect(() => {
     // console.log('Translation config:', language);
-    getUserCountry().then((countryCode) => {
-      const reordered = reorderLanguagesByCountry(
-        globalThis.__GOOGLE_TRANSLATION_CONFIG__?.languages,
-        countryCode,
-      );
-      setLanguageConfig(reordered);
-      // console.log('Reordered languages:', reordered);
-    });
 
     const cookies = parseCookies();
     const existingLanguageCookieValue = cookies[COOKIE_NAME];
