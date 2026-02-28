@@ -1187,6 +1187,7 @@ body:has(.drawer) {
     @media (max-width: 440px) {
   .iphone-date {
       width: 90% !important;
+      padding-block: 0px !important;
     }
           .iphone-only-margin {
         margin-right: 10px;
