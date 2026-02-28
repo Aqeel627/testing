@@ -1199,3 +1199,6 @@ body:has(.drawer) {
     }
   }
 }
+.border-t-0{
+    border-top-width: 0px;
+}
