@@ -54,6 +54,7 @@ export default function ActivityLogClient() {
   }, []);
 
   return (
+    <div id="activityLogClient.tsx">
     <div className="">
       <div className="flex mx-auto overflow-x-auto scroll-width-none max-w-3xl px-2 pb-[5px] gap-[15px]">
         {/* Open Tab */}
@@ -132,6 +133,7 @@ export default function ActivityLogClient() {
           </tbody>
         </table>
       </div>
+    </div>
     </div>
   );
 }
