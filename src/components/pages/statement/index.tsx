@@ -325,7 +325,7 @@ const StatementPage = () => {
                                     <tr>
                                         <td
                                             colSpan={5}
-                                            className="  text-[#555] text-center text-[12px] py-[8px] border border-[var(--primary-color)]"
+                                            className="  text-[#555] text-center text-[12px] py-[8px] border border-[var(--secondary-text-color)]"
                                         >
                                             No data!
                                         </td>
