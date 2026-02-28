@@ -4,33 +4,13 @@ import { useAuthStore } from "./useAuthStore";
 import Router from "next/router";
 
 export const http = axios.create({
-  baseURL: BASE_URL_API ,
+  baseURL: BASE_URL_API,
   headers: {
     "x-Requested-With": "XMLHttpRequest",
     "Content-Type": "application/json",
   },
   withCredentials: false,
 });
-
-// -----------------------
-// 🔥 Request Interceptor
-// -----------------------
-// http.interceptors.request.use(
-//   (config) => {
-//     if (typeof window !== "undefined") {
-//       const token = localStorage.getItem("token");
-
-//       if (token) {
-//         config.headers["Authorization"] = `Bearer ${token}`;
-//       }
-//     }
-
-//     return config;
-//   },
-//   (error) => {
-//     return Promise.reject(error);
-//   }
-// );
 
 if (typeof window !== "undefined") {
     // Request Interceptor
@@ -55,21 +35,18 @@ if (typeof window !== "undefined") {
     http.interceptors.response.use(
         (response) => response,
         (error: AxiosError) => {
+            // 401 Unauthorized Handling
             if (error.response?.status === 401) {
-                // toast.error("Please log in again.", {
-                //     position: "top-right",
-                //     autoClose: 700,
-                // });
-
-                // Logout from Zustand store
                 const logout = useAuthStore.getState().logout;
                 logout();
-
-                const isDesktop = window.innerWidth > 1024;
-                Router.push(isDesktop ? "/" : "/authentication/login");
             }
 
-            return Promise.reject(error);
+            // 🔥 Yahan hum Axios error ki jagah API ka custom error nikal rahe hain
+            // Backend se mostly error 'error.response.data' mein aata hai
+            const apiError = error.response?.data || error.message || "Something went wrong";
+
+            // Ab try/catch block mein direct backend ka error milega
+            return Promise.reject(apiError);
         }
     );
 }

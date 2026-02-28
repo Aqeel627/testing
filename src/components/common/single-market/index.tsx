@@ -226,7 +226,7 @@ useEffect(() => {
 
                   <div>
                     <p className="m-0 font-sans whitespace-nowrap text-[var(--secondary-text-color)] text-[10px] font-bold uppercase leading-4 truncate overflow-hidden">
-                      Traded :{" "}
+                      Matched :{" "}
                       <span className="text-[10px] font-bold text-[var(--primary-text-color)] leading-[1rem]">
                         <AnimatedNumber
                           value={event.totalMatched}

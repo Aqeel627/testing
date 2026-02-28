@@ -8,18 +8,8 @@ import { eventBus } from "@/lib/eventBus";
 import { useToast } from "@/components/common/toast/toast-context";
 import { useAuthStore } from "@/lib/useAuthStore";
 import { useCacheStore } from "@/lib/store/cacheStore";
+import { splitMsg } from "@/lib/functions";
 
-// ── Same message parser as T20 ──────────────────────────────────
-function parseMsg(raw: string) {
-  const parts = String(raw || "")
-    .split(/',\s*'/)
-    .map((p) => p.replace(/^'+|'+$/g, "").trim());
-  return {
-    status: (parts[0] || "success") as "success" | "error" | "info" | "warning",
-    title: parts[1] || "Done",
-    desc: parts[2] || "",
-  };
-}
 // ────────────────────────────────────────────────────────────────
 
 // ── side mapping — matches T20 exactly ─────────────────────────
@@ -210,7 +200,8 @@ useEffect(() => {
 
       const ok = res?.data?.meta?.status === true || res?.data?.status === true;
       const rawMessage = res?.data?.meta?.message || res?.data?.message || "";
-      const msg = parseMsg(rawMessage);
+      // console.log(rawMessage, "raw");
+      const msg = splitMsg(rawMessage);
 
       if (ok) {
         showToast(
@@ -244,10 +235,16 @@ useEffect(() => {
         );
       }
     } catch (err: any) {
-      const raw =
-        err?.response?.data?.meta?.message || err?.message || "Network error.";
-      const msg = parseMsg(raw);
-      showToast("error", msg.title || "Error", msg.desc || raw);
+      const msg = splitMsg(err?.meta?.message);
+      if (msg.title && msg.status && msg.desc) {
+        showToast(msg.status, msg.title, msg.desc);
+      } else {
+        showToast("error", "Error", err?.meta?.message);
+      }
+
+      // if (err?.meta?.status_code === 401) {
+      //   setLoginModal(true);
+      // }
     } finally {
       setPlacing(false);
     }
