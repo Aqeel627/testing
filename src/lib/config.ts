@@ -85,7 +85,7 @@ export const CONFIG = {
   getIpLocation: "https://pro.ip-api.com/json/?key=qSA5ctYZHdWsx04", // done
   getUserBalance: BASE_URL_100 + "/app/exchange/users/userBalance", // done
   changeUserPassword: BASE_URL_100 + "/app/exchange/users/userChangePassword", // done
-  getUserBetStake: BASE_URL + "/app/exchange/users/userBetStakeList", // done
+  getUserBetStake: BASE_URL_100 + "/app/exchange/users/userBetStakeList", // done
   getUserBetStakeTime: 518400,
   userUpdateStackValueURL: BASE_URL + "/app/exchange/users/updateUserBetStake", // done
   getExchangeNews: BASE_URL_API + "/api/navigation/exchangeNews", // done
@@ -98,8 +98,8 @@ export const CONFIG = {
   getSportbookPLURL: BASE_URL + "/app/exchange/users/pl/getSportsbookPl", //done
 
   getBinaryPLURL: BASE_URL_V1 + "/v1/exchange/users/pl/getBinaryPl", // =----= not Done YET
-  getAllMarketplURL: BASE_URL + "/app/exchange/users/pl/getMatchOddsPl", //done
-  placeBetURL: BASE_URL + "/app/exchange/users/placebet", //done
+  getAllMarketplURL: BASE_URL_100 + "/app/exchange/users/pl/getMatchOddsPl", //done
+  placeBetURL: BASE_URL_100 + "/app/exchange/users/placebet", //done
 
   videoStreamURL: BASE_URL_API + "/api/exchange/streaming/exchEventsStreaming", //done
   getRulesOfMarketURL: BASE_URL_API + "/api/exchange/rules/getSportsRule", //done
@@ -110,16 +110,16 @@ export const CONFIG = {
   fancyBookListByMarketURL: BASE_URL + "/app/exchange/users/pl/marketFancyBook", // done
   userGetStackURL: BASE_URL_V1 + "/v1/exchange/users/getUserBetStake", // =---= not Done Yet
 
-  userAccountStatement: BASE_URL + "/app/exchange/users/userAccountStatement", // done
+  userAccountStatement: BASE_URL_100 + "/app/exchange/users/userAccountStatement", // done
 
   userSportsProfitloss:
-    BASE_URL + "/app/exchange/users/pl/userSportsProfitloss", // done
-  getPasswordHistory: BASE_URL + "/app/exchange/users/changedPasswordHistory", // done
+    BASE_URL_100 + "/app/exchange/users/pl/userSportsProfitloss", // done
+  getPasswordHistory: BASE_URL_100 + "/app/exchange/users/changedPasswordHistory", // done
   userEventsProfitloss:
-    BASE_URL + "/app/exchange/users/pl/userEventsProfitloss", // done
+    BASE_URL_100 + "/app/exchange/users/pl/userEventsProfitloss", // done
   userMarketsProfitloss:
     BASE_URL + "/app/exchange/users/pl/userMarketsProfitloss", // done
-  getUserBetList: BASE_URL + "/app/exchange/users/bet/userMarketBetsNew", // done
+  getUserBetList: BASE_URL_100 + "/app/exchange/users/bet/userMarketBetsNew", // done
   casinoInternational:
     BASE_URL_API + "/api/exchange/navigations/internationalCasinoList", // done
   casinoInternationalTime: 1440,
@@ -182,7 +182,7 @@ export const CONFIG = {
 
   // OLD APIS
 
-  updateUserBetStake: BASE_URL_V1 + "/v1/exchange/users/updateUserBetStake",
+  updateUserBetStake: BASE_URL_100 + "/v1/exchange/users/updateUserBetStake",
 
   registerUserURL: BASE_URL_V1 + "/v1/exchange/user/userRegisterVerify",
   withdrawRequestURL: BASE_URL_V1 + "/exchange/bank/withdrawal",
@@ -192,7 +192,7 @@ export const CONFIG = {
   sendOTPTransferRequest: BASE_URL_V1 + "/exchange/transfer/amount_request",
   registerUserSpeedURL: BASE_URL_V1 + "/front/signup/cbtfspeed",
   activityList: BASE_URL + "/app/exchange/users/userActivityLogs",
-  unmatchedBets: BASE_URL_V1 + "/app/exchange/users/matchedUnmatchedBets",
+  unmatchedBets: BASE_URL_100 + "/app/exchange/users/matchedUnmatchedBets",
   cancelBetsAllUnmatchedBets: BASE_URL_V1 + "/app/exchange/users/cancelBets",
 
   uploadTransactionImageURL:
@@ -205,12 +205,12 @@ export const CONFIG = {
   menuListTime: 1440,
 
   marketBookLine: BASE_URL + "/app/exchange/users/pl/marketBook",
-  userBetList: BASE_URL + "/app/exchange/users/userBetList",
+  userBetList: BASE_URL_100 + "/app/exchange/users/userBetList",
   newProfitLossMarket:
-    BASE_URL + "/app/exchange/users/pl/userMarketsProfitloss",
+    BASE_URL_100 + "/app/exchange/users/pl/userMarketsProfitloss",
   newProfitLoss: BASE_URL + "/app/exchange/users/pl/userSportsProfitlossNew",
   newProfitLossEventMarket:
-    BASE_URL + "/app/exchange/users/pl/userEventsProfitlossNew",
+    BASE_URL_100 + "/app/exchange/users/pl/userEventsProfitlossNew",
   ProfitLossMarketNew:
     BASE_URL + "/app/exchange/users/pl/userMarketsProfitlossNew",
 };
