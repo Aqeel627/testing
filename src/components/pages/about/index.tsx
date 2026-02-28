@@ -7,6 +7,7 @@ export default function About() {
 
   return (
     <>
+    <div id="about.tsx">
       <BreadCrumb title="About Us" showTitle={false} />
       <div className="w-full mx-auto flex flex-col flex-grow scroll-mt-[40px]">
         <h1 className="text-2xl md:text-[24px] font-bold leading-normal">
@@ -98,6 +99,7 @@ export default function About() {
             {/* support@dollar365.com */}
           </a>
         </Section>
+      </div>
       </div>
     </>
   );
