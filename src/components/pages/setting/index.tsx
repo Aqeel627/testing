@@ -112,8 +112,8 @@ export default function SettingsPage() {
   };
 
   return (
-    <div className="w-full min-h-screen  py-4">
-      <div className="w-full max-w-[900px] mx-auto">
+    <div className="w-full py-4">
+      <div className="w-full max-w-[900px] flex justify-center items-center flex-col mx-auto">
         <div className="flex items-center gap-4 mb-4">
           <div
             className="flex-1 h-[1px]"
@@ -157,10 +157,10 @@ export default function SettingsPage() {
           <div className="grid grid-cols-2 md:grid-cols-2 gap-4 mb-8">
             {stackButtonArry.map((item, i) => (
               <div key={i} className="relative group">
-                <div
+                {/* <div
                   className="absolute left-0 top-0 bottom-0 w-[3px] rounded-l-md opacity-0 group-focus-within:opacity-100 transition-opacity duration-200"
                   style={{ background: "var(--primary-color)" }}
-                />
+                /> */}
                 <input
                   id={`stack_value_${i}`}
                   name={`stack_value_${i}`}
