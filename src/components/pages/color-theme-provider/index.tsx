@@ -9,7 +9,7 @@ export const themeOptions = [
     {
         id: "default-blue",
         name: "Original Blue",
-        colors: ["#078dee", "#68cdf9"],
+        colors: ["#078dee", "#68cdf9", "#0351ab"],
         bg: { light: "#f4f6f8", dark: "#141a21" }
     },
 
@@ -17,7 +17,7 @@ export const themeOptions = [
     {
         id: "premium-gold",
         name: "Premium Gold",
-        colors: ["#eab308", "#fef08a"],
+        colors: ["#eab308", "#fef08a", "#a16207"],
         bg: { light: "#fefce8", dark: "radial-gradient(circle at 50% 0%, #422006 0%, #09090b 100%)" }
     },
 
@@ -25,7 +25,7 @@ export const themeOptions = [
     {
         id: "royal-amethyst",
         name: "Royal Purple",
-        colors: ["#a855f7", "#d8b4fe"],
+        colors: ["#a855f7", "#d8b4fe", "#6d28d9"],
         bg: { light: "#faf5ff", dark: "radial-gradient(circle at 50% 0%, #2e1065 0%, #09090b 100%)" }
     },
 
@@ -33,7 +33,7 @@ export const themeOptions = [
     {
         id: "mint-fintech",
         name: "Mint Breeze",
-        colors: ["#14b8a6", "#5eead4"],
+        colors: ["#14b8a6", "#5eead4", "#0f766e"],
         bg: { light: "#f0fdfa", dark: "radial-gradient(circle at 50% 0%, #042f2e 0%, #09090b 100%)" }
     },
 
@@ -41,7 +41,7 @@ export const themeOptions = [
     {
         id: "velvet-rose",
         name: "Velvet Rose",
-        colors: ["#f43f5e", "#fda4af"],
+        colors: ["#f43f5e", "#fda4af", "#be123c"],
         bg: { light: "#fff1f2", dark: "radial-gradient(circle at 50% 0%, #4c0519 0%, #09090b 100%)" }
     },
 
@@ -49,7 +49,7 @@ export const themeOptions = [
     {
         id: "oceanic-trust",
         name: "Oceanic Blue",
-        colors: ["#3b82f6", "#93c5fd"],
+        colors: ["#3b82f6", "#93c5fd", "#1d4ed8"],
         bg: { light: "#eff6ff", dark: "radial-gradient(circle at 50% 0%, #1e3a8a 0%, #09090b 100%)" }
     },
 
@@ -57,7 +57,7 @@ export const themeOptions = [
     {
         id: "ignite-orange",
         name: "Ignite Orange",
-        colors: ["#f97316", "#fdba74"],
+        colors: ["#f97316", "#fdba74", "#c2410c"],
         bg: { light: "#fff7ed", dark: "radial-gradient(circle at 50% 0%, #431407 0%, #09090b 100%)" }
     },
 
@@ -65,7 +65,7 @@ export const themeOptions = [
     {
         id: "neon-matrix",
         name: "Matrix Green",
-        colors: ["#22c55e", "#86efac"],
+        colors: ["#22c55e", "#86efac", "#15803d"],
         bg: { light: "#f0fdf4", dark: "radial-gradient(circle at 50% 0%, #14532d 0%, #09090b 100%)" }
     },
 
@@ -73,7 +73,7 @@ export const themeOptions = [
     {
         id: "cosmic-pink",
         name: "Cosmic Pink",
-        colors: ["#d946ef", "#f0abfc"],
+        colors: ["#d946ef", "#f0abfc", "#a21caf"],
         bg: { light: "#fdf4ff", dark: "radial-gradient(circle at 50% 0%, #4a044e 0%, #09090b 100%)" }
     },
 
@@ -81,7 +81,7 @@ export const themeOptions = [
     {
         id: "platinum-sleek",
         name: "Platinum Sleek",
-        colors: ["#94a3b8", "#cbd5e1"],
+        colors: ["#94a3b8", "#cbd5e1", "#475569"],
         bg: { light: "#f8fafc", dark: "radial-gradient(circle at 50% 0%, #1e293b 0%, #09090b 100%)" }
     }
 ];
@@ -92,10 +92,12 @@ export const applyThemeColors = (themeId: string, currentMode: string | undefine
         const root = document.documentElement;
         const primary = selectedTheme.colors[0];
         const secondary = selectedTheme.colors[1];
+        const primaryDark = selectedTheme.colors[2];
         const mode = currentMode === "dark" ? "dark" : "light";
         const bgColor = selectedTheme.bg[mode];
 
         root.style.setProperty("--primary-color", primary);
+        root.style.setProperty("--primary-color-dark", primaryDark);
         root.style.setProperty("--secondary-color", secondary);
         root.style.setProperty("--palette-primary-main", primary);
         root.style.setProperty("--tab-active-text", primary);
