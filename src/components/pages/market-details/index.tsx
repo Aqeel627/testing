@@ -118,7 +118,7 @@ export default function MarketDetails() {
   const router = useRouter();
   const eventId = String(params.eventId ?? "");
   const sportId = String(params.sportId ?? params.marketId ?? "");
-  const { isLoggedIn } = useAuthStore();
+  const { isLoggedIn } = useAuthStore()
   const sportNames: any = { "4": "Cricket", "2": "Tennis", "1": "Soccer" };
 
   // API states
@@ -168,9 +168,7 @@ export default function MarketDetails() {
       if (res?.data?.pl) {
         setAllMarketPl(JSON.parse(JSON.stringify(res.data.pl)));
       }
-    } catch {
-      /* silent */
-    }
+    } catch { /* silent */ }
   }, [eventId, sportId, isLoggedIn]);
 
   const fetchBets = useCallback(async () => {
@@ -181,9 +179,7 @@ export default function MarketDetails() {
         sportId: String(sportId),
       });
       setMatchedBets(res?.data?.data?.matchedBets || []);
-    } catch {
-      /* silent */
-    }
+    } catch { /* silent */ }
   }, [eventId, sportId, isLoggedIn]);
 
   // ── ADD: call on mount ──────────────────────────────────────────
@@ -560,7 +556,7 @@ export default function MarketDetails() {
                 reject(e);
               }
             };
-            req.onupgradeneeded = () => {};
+            req.onupgradeneeded = () => { };
           });
 
         try {
@@ -836,7 +832,6 @@ export default function MarketDetails() {
     // Save current tab state
     setActiveTab(type);
     setCurrentMarketType(type);
-    setCurrentMarketId(marketid || "");
 
     if (event) {
       // Remove active class from all list items
@@ -948,6 +943,28 @@ export default function MarketDetails() {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const firstRender = useRef(true);
 
+  const scrollToActiveTab = useCallback(() => {
+    if (!tabsListRef.current || !activeTab || !scrollContainerRef.current) return;
+
+    const activeBtn = tabsListRef.current.querySelector(
+      `button[data-tab="${activeTab}"]`
+    ) as HTMLElement;
+
+    if (!activeBtn) return;
+
+    const container = scrollContainerRef.current;
+    const containerWidth = container.clientWidth;
+    const scrollWidth = container.scrollWidth;
+
+    let targetScroll = activeBtn.offsetLeft - containerWidth / 2 + activeBtn.offsetWidth / 2;
+    targetScroll = Math.max(0, Math.min(targetScroll, scrollWidth - containerWidth));
+
+    container.scrollTo({
+      left: targetScroll,
+      behavior: "smooth",
+    });
+  }, [activeTab]);
+
   const updateIndicator = useCallback(() => {
     if (!tabsListRef.current || !activeTab) return;
 
@@ -955,58 +972,23 @@ export default function MarketDetails() {
       `button[data-tab="${activeTab}"]`,
     ) as HTMLElement;
 
-    if (!activeBtn || !scrollContainerRef.current) return;
+    if (!activeBtn) return;
 
-    const container = scrollContainerRef.current;
-    const isFirst = firstRender.current;
-
-    // ----- Indicator Position -----
     setIndicatorStyle({
       left: activeBtn.offsetLeft,
       top: activeBtn.offsetTop,
       width: activeBtn.offsetWidth,
       height: activeBtn.offsetHeight,
       opacity: 1,
-      animate: !isFirst,
+      animate: true,
     });
 
-    // ----- PERFECT CENTER SCROLL -----
-    const containerWidth = container.clientWidth;
-    const scrollWidth = container.scrollWidth;
-
-    let targetScroll =
-      activeBtn.offsetLeft - containerWidth / 2 + activeBtn.offsetWidth / 2;
-
-    // prevent over scroll
-    targetScroll = Math.max(
-      0,
-      Math.min(targetScroll, scrollWidth - containerWidth),
-    );
-
-    container.scrollTo({
-      left: targetScroll,
-      behavior: isFirst ? "auto" : "smooth",
-    });
-
-    if (isFirst) {
-      firstRender.current = false;
-    }
   }, [activeTab]);
 
   // ----- Effect to run after navItems or tab change -----
   useEffect(() => {
-    const handle = () => {
-      updateIndicator();
-    };
-
-    handle();
-
-    window.addEventListener("resize", handle);
-
-    return () => {
-      window.removeEventListener("resize", handle);
-    };
-  }, [popularMarkets, activeTab, updateIndicator]);
+    scrollToActiveTab();
+  }, [activeTab]);
 
   // const updateIndicator = useCallback(() => {
   //   if (!tabsListRef.current || !activeTab) return;
@@ -1204,11 +1186,10 @@ export default function MarketDetails() {
                     <div className="flex-1 min-w-0 max-[464px]:hidden" />
                     <div className="flex-1 min-w-0 max-[346px]:hidden" />
                     <div
-                      className={`flex items-center justify-center pb-[1px] font-semibold rounded-[2px] text-black select-none flex-1 min-w-0 text-[14px] leading-[18px] border h-6 ${
-                        isLineMarket
-                          ? "border-[#5baca7] bg-[#5baca7] text-black"
-                          : "border-[var(--back-border)] bg-(--market-header-back-bg)"
-                      }`}
+                      className={`flex items-center justify-center pb-[1px] font-semibold rounded-[2px] text-black select-none flex-1 min-w-0 text-[14px] leading-[18px] border h-6 ${isLineMarket
+                        ? "border-[#5baca7] bg-[#5baca7] text-black"
+                        : "border-[var(--back-border)] bg-(--market-header-back-bg)"
+                        }`}
                     >
                       {isLineMarket ? "No" : "Back"}
                     </div>
@@ -1216,11 +1197,10 @@ export default function MarketDetails() {
 
                   <div className="flex w-1/2 gap-1 justify-start">
                     <div
-                      className={`flex items-center justify-center rounded-[2px] text-black select-none flex-1 min-w-0 text-[14px] font-semibold pb-[1px] leading-[18px] border h-6 ${
-                        isLineMarket
-                          ? "border-[#50d0ae] bg-[#50d0ae] text-black"
-                          : "border-[var(--lay-border)] bg-(--market-header-lay-bg)"
-                      }`}
+                      className={`flex items-center justify-center rounded-[2px] text-black select-none flex-1 min-w-0 text-[14px] font-semibold pb-[1px] leading-[18px] border h-6 ${isLineMarket
+                        ? "border-[#50d0ae] bg-[#50d0ae] text-black"
+                        : "border-[var(--lay-border)] bg-(--market-header-lay-bg)"
+                        }`}
                     >
                       {isLineMarket ? "Yes" : "Lay"}
                     </div>
@@ -1238,7 +1218,7 @@ export default function MarketDetails() {
               const isBackSelected = (item: any) =>
                 selectedBet?.selectionId === runner.selectionId &&
                 selectedBet?.marketType ===
-                  (market.marketType || market.marketName) &&
+                (market.marketType || market.marketName) &&
                 ((selectedBet?.type === "back" &&
                   selectedBet?.odds === item.raw?.price) ||
                   (selectedBet?.type === "no" &&
@@ -1247,7 +1227,7 @@ export default function MarketDetails() {
               const isLaySelected = (item: any) =>
                 selectedBet?.selectionId === runner.selectionId &&
                 selectedBet?.marketType ===
-                  (market.marketType || market.marketName) &&
+                (market.marketType || market.marketName) &&
                 ((selectedBet?.type === "lay" &&
                   selectedBet?.odds === item.raw?.price) ||
                   (selectedBet?.type === "yes" &&
@@ -1324,9 +1304,9 @@ export default function MarketDetails() {
                               previewPL = isSelectedRunner
                                 ? slipPreview.stake // profit if lay wins
                                 : -(
-                                    slipPreview.stake *
-                                    (slipPreview.price - 1)
-                                  ); // liability on other runners
+                                  slipPreview.stake *
+                                  (slipPreview.price - 1)
+                                ); // liability on other runners
                             }
                           }
 
@@ -1383,36 +1363,34 @@ export default function MarketDetails() {
                         >
                           {runnerSusp
                             ? [0, 1, 2].map((_, i) => (
-                                <div
-                                  key={`back-susp-${i}`}
-                                  className={`flex flex-col h-full rounded-[2px] flex-1 min-w-0 bg-[#041117] ${
-                                    i === 2 ? "max-[464px]:hidden" : ""
+                              <div
+                                key={`back-susp-${i}`}
+                                className={`flex flex-col h-full rounded-[2px] flex-1 min-w-0 bg-[#041117] ${i === 2 ? "max-[464px]:hidden" : ""
                                   } ${i === 1 ? "max-[346px]:hidden" : ""}`}
-                                />
-                              ))
+                              />
+                            ))
                             : back3.map((item, i) => {
-                                // ✅ Sirf LINE market ke liye colors change
-                                if (isLineMarket) {
-                                  return (
-                                    <div
-                                      key={`back-${i}`}
-                                      data-app-rate-highlighter
-                                      className={`back-${i + 1} 
+                              // ✅ Sirf LINE market ke liye colors change
+                              if (isLineMarket) {
+                                return (
+                                  <div
+                                    key={`back-${i}`}
+                                    data-app-rate-highlighter
+                                    className={`back-${i + 1} 
 flex flex-col items-center justify-center 
 w-[75%] @min-[700]:w-[57.5px] 
 h-[45px] rounded-[8px] border 
 flex-1 min-w-0 cursor-pointer 
 text-black transition-colors
 
-${
-  theme === "light"
-    ? i === 0
-      ? "border-[#5baca7] bg-[#5baca7]"
-      : i === 1
-        ? "border-[#5baca7] bg-[#5baca7]"
-        : "border-[#5baca7] bg-[#5baca7]"
-    : "border-[#5baca7] bg-[rgba(15,69,66,0.6)] hover:bg-[rgba(15,69,66,0.8)]"
-}
+${theme === "light"
+                                        ? i === 0
+                                          ? "border-[#5baca7] bg-[#5baca7]"
+                                          : i === 1
+                                            ? "border-[#5baca7] bg-[#5baca7]"
+                                            : "border-[#5baca7] bg-[#5baca7]"
+                                        : "border-[#5baca7] bg-[rgba(15,69,66,0.6)] hover:bg-[rgba(15,69,66,0.8)]"
+                                      }
 
 ${isBackSelected(item) ? "!bg-(--line-no-selected-bg) hover:bg-[var(--line-no-selected-bg)] !border-(--line-no-selected-border)" : ""}
 
@@ -1420,75 +1398,22 @@ ${isBackSelected(item) ? "!bg-(--line-no-selected-bg) hover:bg-[var(--line-no-se
 ${i === 2 ? "max-[464px]:hidden" : ""}
 ${i === 1 ? "max-[346px]:hidden" : ""}
 `}
-                                      onClick={() => {
-                                        if (
-                                          !item.raw?.price ||
-                                          item.raw?.price === 0
-                                        )
-                                          return;
-                                        const isLineMarket =
-                                          market?.description?.bettingType ===
-                                          "LINE";
-                                        const betType = isLineMarket
-                                          ? "no"
-                                          : "back";
-
-                                        setSelectedBet({
-                                          type: betType,
-                                          odds: item.raw?.price + 0.5,
-                                          teamName: runnerName,
-                                          eventName:
-                                            market.event?.name || eventName,
-                                          marketType:
-                                            market.marketType ||
-                                            market.marketName,
-                                          selectionId: runner.selectionId,
-                                          isLineMarket: isLineMarket,
-                                          marketId: market.marketId,
-                                          eventId: market.event?.id || eventId,
-                                          sportId: market.sportId || sportId,
-                                        });
-                                      }}
-                                    >
-                                      <span
-                                        className={`price sm:text-[13px] font-bold leading-[1.1] truncate ${isBackSelected(item) ? "text-white" : theme === "dark" ? "text-[#5baca7]" : "text-black"}`}
-                                      >
-                                        {cleanPrice(item?.raw?.price + 0.5)}
-                                      </span>
-
-                                      <span
-                                        className={`size sm:text-[10px] font-normal leading-[1] truncate truncate ${isBackSelected(item) ? "text-white" : theme === "dark" ? "text-[#5baca7]" : "text-black"}`}
-                                      >
-                                        {item.vol}
-                                      </span>
-                                    </div>
-                                  );
-                                }
-
-                                // ✅ Normal market (original code - bilkul same)
-                                return (
-                                  <div
-                                    key={`back-${i}`}
-                                    data-app-rate-highlighter
-                                    className={`back-${i + 1} flex flex-col items-center justify-center w-[75%] @min-[700]:w-[57.5px] h-[45px] rounded-[8px] border border-[var(--back-border)] bg-[var(--back-bg)]
-hover:bg-[var(--back-hover)] flex-1 min-w-0 cursor-pointer text-black transition-colors ${
-                                      i === 0
-                                        ? isBackSelected(item)
-                                          ? "bg-[var(--back-selected)] hover:bg-[var(--back-selected)]"
-                                          : "bg-[#0591cf] hover:bg-(--secondary-color)"
-                                        : isBackSelected(item)
-                                          ? "bg-[var(--back-selected)] hover:bg-[var(--back-selected)]"
-                                          : "bg-[#0a77a8] hover:bg-(--secondary-color)"
-                                    } ${i === 2 ? "max-[464px]:hidden" : ""} ${i === 1 ? "max-[346px]:hidden" : ""}`}
                                     onClick={() => {
                                       if (
                                         !item.raw?.price ||
-                                        item?.raw?.price === 0
+                                        item.raw?.price === 0
                                       )
                                         return;
+                                      const isLineMarket =
+                                        market?.description?.bettingType ===
+                                        "LINE";
+                                      const betType = isLineMarket
+                                        ? "no"
+                                        : "back";
+
                                       setSelectedBet({
-                                        type: "back",
-                                        odds: item.raw?.price,
+                                        type: betType,
+                                        odds: item.raw?.price + 0.5,
                                         teamName: runnerName,
                                         eventName:
                                           market.event?.name || eventName,
@@ -1496,6 +1421,7 @@ hover:bg-[var(--back-hover)] flex-1 min-w-0 cursor-pointer text-black transition
                                           market.marketType ||
                                           market.marketName,
                                         selectionId: runner.selectionId,
+                                        isLineMarket: isLineMarket,
                                         marketId: market.marketId,
                                         eventId: market.event?.id || eventId,
                                         sportId: market.sportId || sportId,
@@ -1503,18 +1429,69 @@ hover:bg-[var(--back-hover)] flex-1 min-w-0 cursor-pointer text-black transition
                                     }}
                                   >
                                     <span
-                                      className={`price sm:text-[13px] font-bold leading-[1.1] truncate text-[var(--back-price-text)] ${isBackSelected(item) ? "dark:text-white" : ""}`}
+                                      className={`price sm:text-[13px] font-bold leading-[1.1] truncate ${isBackSelected(item) ? "text-white" : theme === "dark" ? "text-[#5baca7]" : "text-black"}`}
                                     >
-                                      {item.odd}
+                                      {cleanPrice(item?.raw?.price + 0.5)}
                                     </span>
+
                                     <span
-                                      className={`size sm:text-[10px] font-normal leading-[1] truncate text-[var(--back-size-text)] ${isBackSelected(item) ? "dark:text-white" : ""}`}
+                                      className={`size sm:text-[10px] font-normal leading-[1] truncate truncate ${isBackSelected(item) ? "text-white" : theme === "dark" ? "text-[#5baca7]" : "text-black"}`}
                                     >
                                       {item.vol}
                                     </span>
                                   </div>
                                 );
-                              })}
+                              }
+
+                              // ✅ Normal market (original code - bilkul same)
+                              return (
+                                <div
+                                  key={`back-${i}`}
+                                  data-app-rate-highlighter
+                                  className={`back-${i + 1} flex flex-col items-center justify-center w-[75%] @min-[700]:w-[57.5px] h-[45px] rounded-[8px] border border-[var(--back-border)] bg-[var(--back-bg)]
+hover:bg-[var(--back-hover)] flex-1 min-w-0 cursor-pointer text-black transition-colors ${i === 0
+                                      ? isBackSelected(item)
+                                        ? "bg-[var(--back-selected)] hover:bg-[var(--back-selected)]"
+                                        : "bg-[#0591cf] hover:bg-(--secondary-color)"
+                                      : isBackSelected(item)
+                                        ? "bg-[var(--back-selected)] hover:bg-[var(--back-selected)]"
+                                        : "bg-[#0a77a8] hover:bg-(--secondary-color)"
+                                    } ${i === 2 ? "max-[464px]:hidden" : ""} ${i === 1 ? "max-[346px]:hidden" : ""}`}
+                                  onClick={() => {
+                                    if (
+                                      !item.raw?.price ||
+                                      item?.raw?.price === 0
+                                    )
+                                      return;
+                                    setSelectedBet({
+                                      type: "back",
+                                      odds: item.raw?.price,
+                                      teamName: runnerName,
+                                      eventName:
+                                        market.event?.name || eventName,
+                                      marketType:
+                                        market.marketType ||
+                                        market.marketName,
+                                      selectionId: runner.selectionId,
+                                      marketId: market.marketId,
+                                      eventId: market.event?.id || eventId,
+                                      sportId: market.sportId || sportId,
+                                    });
+                                  }}
+                                >
+                                  <span
+                                    className={`price sm:text-[13px] font-bold leading-[1.1] truncate text-[var(--back-price-text)] ${isBackSelected(item) ? "dark:text-white" : ""}`}
+                                  >
+                                    {item.odd}
+                                  </span>
+                                  <span
+                                    className={`size sm:text-[10px] font-normal leading-[1] truncate text-[var(--back-size-text)] ${isBackSelected(item) ? "dark:text-white" : ""}`}
+                                  >
+                                    {item.vol}
+                                  </span>
+                                </div>
+                              );
+                            })}
                         </div>
 
                         {/* LAY side */}
@@ -1523,110 +1500,56 @@ hover:bg-[var(--back-hover)] flex-1 min-w-0 cursor-pointer text-black transition
                         >
                           {runnerSusp
                             ? [0, 1, 2].map((_, i) => (
-                                <div
-                                  key={`lay-susp-${i}`}
-                                  className={`flex flex-col h-full rounded-[2px] flex-1 min-w-0 bg-[#140d0f] ${
-                                    i === 2 ? "max-[464px]:hidden" : ""
+                              <div
+                                key={`lay-susp-${i}`}
+                                className={`flex flex-col h-full rounded-[2px] flex-1 min-w-0 bg-[#140d0f] ${i === 2 ? "max-[464px]:hidden" : ""
                                   } ${i === 1 ? "max-[346px]:hidden" : ""}`}
-                                />
-                              ))
+                              />
+                            ))
                             : lay3.map((item, i) => {
-                                // ✅ Sirf LINE market ke liye colors change
-                                if (isLineMarket) {
-                                  return (
-                                    <div
-                                      key={`lay-${i}`}
-                                      data-app-rate-highlighter
-                                      className={`lay-${i + 1} 
+                              // ✅ Sirf LINE market ke liye colors change
+                              if (isLineMarket) {
+                                return (
+                                  <div
+                                    key={`lay-${i}`}
+                                    data-app-rate-highlighter
+                                    className={`lay-${i + 1} 
 flex flex-col items-center justify-center 
 w-[75%] @min-[700]:w-[57.5px] 
 h-[45px] rounded-[8px] border 
 flex-1 min-w-0 cursor-pointer 
 text-black transition-colors
 
-${
-  theme === "light"
-    ? i === 0
-      ? "border-[#50d0ae] bg-[#50d0ae]"
-      : i === 1
-        ? "border-[#50d0ae] bg-[#50d0ae]"
-        : "border-[#50d0ae] bg-[#50d0ae]"
-    : "border-[#50d0ae] bg-[rgba(13,59,46,0.6)] hover:bg-[rgba(13,59,46,0.8)]"
-}
+${theme === "light"
+                                        ? i === 0
+                                          ? "border-[#50d0ae] bg-[#50d0ae]"
+                                          : i === 1
+                                            ? "border-[#50d0ae] bg-[#50d0ae]"
+                                            : "border-[#50d0ae] bg-[#50d0ae]"
+                                        : "border-[#50d0ae] bg-[rgba(13,59,46,0.6)] hover:bg-[rgba(13,59,46,0.8)]"
+                                      }
 
 ${isLaySelected(item) ? "!bg-(--line-yes-selected-bg) hover:bg-[var(--line-yes-selected-bg)] !border-(--line-yes-selected-border)" : ""}
 
 ${i === 2 ? "max-[464px]:hidden" : ""}
 ${i === 1 ? "max-[346px]:hidden" : ""}
 `}
-                                      onClick={() => {
-                                        if (
-                                          !item.raw?.price ||
-                                          item.raw?.price === 0
-                                        )
-                                          return;
-                                        const isLineMarket =
-                                          market?.description?.bettingType ===
-                                          "LINE";
-                                        const betType = isLineMarket
-                                          ? "yes"
-                                          : "lay";
-
-                                        setSelectedBet({
-                                          type: betType,
-                                          odds: item.raw?.price + 0.5,
-                                          teamName: runnerName,
-                                          eventName:
-                                            market.event?.name || eventName,
-                                          marketType:
-                                            market.marketType ||
-                                            market.marketName,
-                                          selectionId: runner.selectionId,
-                                          isLineMarket: isLineMarket,
-                                          marketId: market.marketId,
-                                          eventId: market.event?.id || eventId,
-                                          sportId: market.sportId || sportId,
-                                        });
-                                      }}
-                                    >
-                                      <span
-                                        className={`price text-[11px] sm:text-[13px] font-bold leading-[1.1] truncate ${isLaySelected(item) ? "text-white" : theme === "dark" ? "text-[#50d0ae]" : "text-black"}`}
-                                      >
-                                        {cleanPrice(item?.raw?.price + 0.5)}
-                                      </span>
-                                      <span
-                                        className={`size text-[9px] sm:text-[10px] font-normal leading-[1] truncate truncate ${isLaySelected(item) ? "text-white" : theme === "dark" ? "text-[#50d0ae]" : "text-black"}`}
-                                      >
-                                        {item.vol}
-                                      </span>
-                                    </div>
-                                  );
-                                }
-
-                                // ✅ Normal market (original code - bilkul same)
-                                return (
-                                  <div
-                                    key={`lay-${i}`}
-                                    data-app-rate-highlighter
-                                    className={`lay-${i + 1} flex flex-col items-center justify-center w-[75%] @min-[700]:w-[57.5px] h-[45px] rounded-[8px] border border-[var(--lay-border)]
-bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)] flex-1 min-w-0 cursor-pointer text-black transition-colors ${
-                                      i === 0
-                                        ? isLaySelected(item)
-                                          ? "bg-[var(--lay-selected)] hover:bg-[var(--lay-selected)]"
-                                          : "bg-[#d1686d] hover:bg-[#FFA4A7]"
-                                        : isLaySelected(item)
-                                          ? "bg-[var(--lay-selected)] hover:bg-[var(--lay-selected)]"
-                                          : "bg-[#a3555b] hover:bg-[#FFA4A7]"
-                                    } ${i === 2 ? "max-[464px]:hidden" : ""} ${i === 1 ? "max-[346px]:hidden" : ""}`}
                                     onClick={() => {
                                       if (
                                         !item.raw?.price ||
-                                        item.raw.price === 0
+                                        item.raw?.price === 0
                                       )
                                         return;
+                                      const isLineMarket =
+                                        market?.description?.bettingType ===
+                                        "LINE";
+                                      const betType = isLineMarket
+                                        ? "yes"
+                                        : "lay";
+
                                       setSelectedBet({
-                                        type: "lay",
-                                        odds: item.raw?.price,
+                                        type: betType,
+                                        odds: item.raw?.price + 0.5,
                                         teamName: runnerName,
                                         eventName:
                                           market.event?.name || eventName,
@@ -1634,6 +1557,7 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)] flex-1 min-w-0 cursor-pointer tex
                                           market.marketType ||
                                           market.marketName,
                                         selectionId: runner.selectionId,
+                                        isLineMarket: isLineMarket,
                                         marketId: market.marketId,
                                         eventId: market.event?.id || eventId,
                                         sportId: market.sportId || sportId,
@@ -1641,18 +1565,68 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)] flex-1 min-w-0 cursor-pointer tex
                                     }}
                                   >
                                     <span
-                                      className={`price text-[11px] sm:text-[13px] font-bold leading-[1.1] truncate text-[var(--lay-price-text)] ${isLaySelected(item) ? "dark:text-white" : ""}`}
+                                      className={`price text-[11px] sm:text-[13px] font-bold leading-[1.1] truncate ${isLaySelected(item) ? "text-white" : theme === "dark" ? "text-[#50d0ae]" : "text-black"}`}
                                     >
-                                      {item.odd}
+                                      {cleanPrice(item?.raw?.price + 0.5)}
                                     </span>
                                     <span
-                                      className={`size text-[9px] sm:text-[10px] font-normal leading-[1] truncate text-[var(--lay-size-text)] ${isLaySelected(item) ? "dark:text-white" : ""}`}
+                                      className={`size text-[9px] sm:text-[10px] font-normal leading-[1] truncate truncate ${isLaySelected(item) ? "text-white" : theme === "dark" ? "text-[#50d0ae]" : "text-black"}`}
                                     >
                                       {item.vol}
                                     </span>
                                   </div>
                                 );
-                              })}
+                              }
+
+                              // ✅ Normal market (original code - bilkul same)
+                              return (
+                                <div
+                                  key={`lay-${i}`}
+                                  data-app-rate-highlighter
+                                  className={`lay-${i + 1} flex flex-col items-center justify-center w-[75%] @min-[700]:w-[57.5px] h-[45px] rounded-[8px] border border-[var(--lay-border)]
+bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)] flex-1 min-w-0 cursor-pointer text-black transition-colors ${i === 0
+                                      ? isLaySelected(item)
+                                        ? "bg-[var(--lay-selected)] hover:bg-[var(--lay-selected)]"
+                                        : "bg-[#d1686d] hover:bg-[#FFA4A7]"
+                                      : isLaySelected(item)
+                                        ? "bg-[var(--lay-selected)] hover:bg-[var(--lay-selected)]"
+                                        : "bg-[#a3555b] hover:bg-[#FFA4A7]"
+                                    } ${i === 2 ? "max-[464px]:hidden" : ""} ${i === 1 ? "max-[346px]:hidden" : ""}`}
+                                  onClick={() => {
+                                    if (
+                                      !item.raw?.price ||
+                                      item.raw.price === 0
+                                    )
+                                      return;
+                                    setSelectedBet({
+                                      type: "lay",
+                                      odds: item.raw?.price,
+                                      teamName: runnerName,
+                                      eventName:
+                                        market.event?.name || eventName,
+                                      marketType:
+                                        market.marketType ||
+                                        market.marketName,
+                                      selectionId: runner.selectionId,
+                                      marketId: market.marketId,
+                                      eventId: market.event?.id || eventId,
+                                      sportId: market.sportId || sportId,
+                                    });
+                                  }}
+                                >
+                                  <span
+                                    className={`price text-[11px] sm:text-[13px] font-bold leading-[1.1] truncate text-[var(--lay-price-text)] ${isLaySelected(item) ? "dark:text-white" : ""}`}
+                                  >
+                                    {item.odd}
+                                  </span>
+                                  <span
+                                    className={`size text-[9px] sm:text-[10px] font-normal leading-[1] truncate text-[var(--lay-size-text)] ${isLaySelected(item) ? "dark:text-white" : ""}`}
+                                  >
+                                    {item.vol}
+                                  </span>
+                                </div>
+                              );
+                            })}
                         </div>
 
                         {/* OVERLAY */}
@@ -1671,7 +1645,7 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)] flex-1 min-w-0 cursor-pointer tex
                   >
                     {selectedBet?.selectionId === runner.selectionId &&
                       selectedBet?.marketType ===
-                        (market.marketType || market.marketName) &&
+                      (market.marketType || market.marketName) &&
                       (selectedBet.type === "back" ||
                         selectedBet.type === "lay" ||
                         selectedBet.type === "yes" ||
@@ -1766,14 +1740,13 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)] flex-1 min-w-0 cursor-pointer tex
                               setIsEventTypeOpen(false);
                               navigateToMarket(item.eventType.name);
                             }}
-                            className={`text-sm w-full text-nowrap text-left relative bg-transparent cursor-pointer gap-2 font-semibold transition px-2 py-1.5 rounded-[6px] ${
-                              (selectedEventType &&
-                                selectedEventType === item.eventType.name) ||
+                            className={`text-sm w-full text-nowrap text-left relative bg-transparent cursor-pointer gap-2 font-semibold transition px-2 py-1.5 rounded-[6px] ${(selectedEventType &&
+                              selectedEventType === item.eventType.name) ||
                               (!selectedEventType &&
                                 sportName === item.eventType.name)
-                                ? "bg-[rgba(255,255,255,0.25)]! text-(--primary-color)"
-                                : "hover:bg-[rgba(255,255,255,0.25)]"
-                            }`}
+                              ? "bg-[rgba(255,255,255,0.25)]! text-(--primary-color)"
+                              : "hover:bg-[rgba(255,255,255,0.25)]"
+                              }`}
                           >
                             {item.eventType.name}
                           </button>
@@ -1824,15 +1797,14 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)] flex-1 min-w-0 cursor-pointer tex
                                   item.competition.id,
                                 );
                               }}
-                              className={`text-sm w-full text-nowrap text-left relative bg-transparent cursor-pointer gap-2 font-semibold transition px-2 py-1.5 rounded-[6px] ${
-                                (selectedCompetition &&
-                                  selectedCompetition ===
-                                    item.competition.name) ||
+                              className={`text-sm w-full text-nowrap text-left relative bg-transparent cursor-pointer gap-2 font-semibold transition px-2 py-1.5 rounded-[6px] ${(selectedCompetition &&
+                                selectedCompetition ===
+                                item.competition.name) ||
                                 (!selectedCompetition &&
                                   tournamentName === item.competition.name)
-                                  ? "bg-[rgba(255,255,255,0.25)]! text-(--primary-color)"
-                                  : "hover:bg-[rgba(255,255,255,0.25)]"
-                              }`}
+                                ? "bg-[rgba(255,255,255,0.25)]! text-(--primary-color)"
+                                : "hover:bg-[rgba(255,255,255,0.25)]"
+                                }`}
                             >
                               {item.competition.name}
                             </button>
@@ -1891,11 +1863,10 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)] flex-1 min-w-0 cursor-pointer tex
                                 router.push(item?.href);
                                 setIsEventsDropDown(false);
                               }}
-                              className={`text-sm w-full text-nowrap text-left relative bg-transparent cursor-pointer gap-2 font-semibold transition px-2 py-1.5 rounded-[6px] ${
-                                eventName === item?.name
-                                  ? "bg-[rgba(255,255,255,0.25)]! text-(--primary-color)"
-                                  : "hover:bg-[rgba(255,255,255,0.25)]"
-                              }`}
+                              className={`text-sm w-full text-nowrap text-left relative bg-transparent cursor-pointer gap-2 font-semibold transition px-2 py-1.5 rounded-[6px] ${eventName === item?.name
+                                ? "bg-[rgba(255,255,255,0.25)]! text-(--primary-color)"
+                                : "hover:bg-[rgba(255,255,255,0.25)]"
+                                }`}
                             >
                               {item?.name}
                             </button>
@@ -1991,11 +1962,10 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)] flex-1 min-w-0 cursor-pointer tex
                     onClick={(e) => {
                       setMarketType("POPULAR", e, "Popular", 1, "");
                     }}
-                    className={`inline-flex items-center justify-center bg-transparent border-none cursor-pointer text-[0.875rem] px-4 py-1.5 transition-colors duration-200 leading-[1.57143] relative z-10 top-[-1px] ${
-                      activeTab === "POPULAR"
-                        ? "text-(--tab-active-text) font-semibold"
-                        : "text-(--tab-default-text) font-medium"
-                    }`}
+                    className={`inline-flex items-center justify-center bg-transparent border-none cursor-pointer text-[0.875rem] px-4 py-1.5 transition-colors duration-200 leading-[1.57143] relative z-10 top-[-1px] ${activeTab === "POPULAR"
+                      ? "text-(--tab-active-text) font-semibold"
+                      : "text-(--tab-default-text) font-medium"
+                      }`}
                   >
                     POPULAR
                   </button>
@@ -2014,11 +1984,10 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)] flex-1 min-w-0 cursor-pointer tex
                           market?.marketId,
                         );
                       }}
-                      className={`inline-flex uppercase items-center justify-center bg-transparent border-none cursor-pointer text-[0.875rem] px-4 py-1.5 transition-colors duration-200 leading-[1.57143] relative z-10 top-[-1px] ${
-                        activeTab === market?.marketName
-                          ? "text-(--tab-active-text) font-semibold"
-                          : "text-(--tab-default-text) font-medium"
-                      }`}
+                      className={`inline-flex uppercase items-center justify-center bg-transparent border-none cursor-pointer text-[0.875rem] px-4 py-1.5 transition-colors duration-200 leading-[1.57143] relative z-10 top-[-1px] ${activeTab === market?.marketName
+                        ? "text-(--tab-active-text) font-semibold"
+                        : "text-(--tab-default-text) font-medium"
+                        }`}
                     >
                       {market?.marketName}
                     </button>
@@ -2030,11 +1999,10 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)] flex-1 min-w-0 cursor-pointer tex
                     onClick={(e) => {
                       setMarketType("ALL", e, "All", 0, "");
                     }}
-                    className={`inline-flex items-center justify-center bg-transparent border-none cursor-pointer text-[0.875rem] px-4 py-1.5 transition-colors duration-200 leading-[1.57143] relative z-10 top-[-1px] ${
-                      activeTab === "ALL"
-                        ? "text-(--tab-active-text) font-semibold"
-                        : "text-(--tab-default-text) font-medium"
-                    }`}
+                    className={`inline-flex items-center justify-center bg-transparent border-none cursor-pointer text-[0.875rem] px-4 py-1.5 transition-colors duration-200 leading-[1.57143] relative z-10 top-[-1px] ${activeTab === "ALL"
+                      ? "text-(--tab-active-text) font-semibold"
+                      : "text-(--tab-default-text) font-medium"
+                      }`}
                   >
                     ALL Markets
                   </button>
@@ -2166,9 +2134,8 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)] flex-1 min-w-0 cursor-pointer tex
                           Line
                         </div>
                         <span
-                          className={`transition-transform duration-300 ${
-                            isLineSectionOpen ? "rotate-90" : "rotate-0"
-                          }`}
+                          className={`transition-transform duration-300 ${isLineSectionOpen ? "rotate-90" : "rotate-0"
+                            }`}
                         >
                           <Icon
                             name="downArrow"
