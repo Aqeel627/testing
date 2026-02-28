@@ -35,6 +35,8 @@ export default function SearchModal() {
 
   const close = () => {
     toggleSearch(false);
+      // closeMobileSidebar(); 
+
   };
   useEffect(() => {
     // console.log(allEventsList, "events all in search modal");
@@ -142,8 +144,10 @@ export default function SearchModal() {
                   <Link
                     key={index}
                     className={styles.item}
-                    onClick={close}
-                    tabIndex={0}
+ onClick={() => {
+    close();
+    closeMobileSidebar();
+  }}                    tabIndex={0}
                     href={`/market-details/${match.event?.id}/${match.eventType?.id}`}
                   >
                     <div className={styles.textWrap}>
