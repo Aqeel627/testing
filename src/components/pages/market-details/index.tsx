@@ -1258,9 +1258,9 @@ export default function MarketDetails() {
                   >
                     <div className="flex w-full flex-row flex-1 min-h-[50px] items-center justify-between py-1">
                       {/* Runner Name */}
-                      <div className="font-[500] text-[14px] leading-[1] flex-[1_1_6rem] min-w-0 pr-2">
+                     <div className="font-[500] text-[14px] leading-[1] flex-[1_1_6rem] min-w-[120px] pr-2 overflow-hidden">
                         <span
-                          className={`${runnerSusp ? "" : "cursor-pointer"}`}
+                          className={`block break-words ${runnerSusp ? "" : "cursor-pointer"}`}
                         >
                           {runnerName}
                         </span>
@@ -1320,27 +1320,29 @@ export default function MarketDetails() {
                               }
                             >
                               {val >= 0 ? "" : "-"}
-                              {Math.abs(val).toFixed(2)}
+                              {shortNumber(Math.abs(val))}
                             </span>
                           );
 
                           return (
-                            <div className="flex items-center gap-1 text-[12px] font-semibold leading-tight mt-0.5">
-                              {/* Arrow icon */}
-                              <i className="fa fa-arrow-right text-[10px] text-gray-400" />
+                            <div className="flex flex-wrap items-center gap-1 text-[12px] font-semibold leading-tight mt-0.5">
 
-                              {/* Current PL */}
-                              {renderValue(currentVal)}
+                              {/* Arrow + Current PL */}
+                              <div className="flex items-center gap-1 shrink-0">
+                                <i className="fa fa-arrow-right text-[10px] text-gray-400" />
+                                {renderValue(currentVal)}
+                              </div>
 
-                              {/* >> projected PL (only when betslip open with stake) */}
+                              {/* Projected PL */}
                               {projectedVal !== null && (
-                                <>
+                                <div className="flex items-center gap-1 min-w-0">
                                   <span className="text-gray-400 font-bold text-[11px]">
                                     {">>"}
                                   </span>
                                   {renderValue(projectedVal)}
-                                </>
+                                </div>
                               )}
+
                             </div>
                           );
                         })()}
