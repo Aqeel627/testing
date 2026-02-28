@@ -103,14 +103,14 @@ const shouldHideFooter = HIDE_FOOTER_ROUTES.includes(pathname);
     transform: isMobileSidebarOpen
       ? "translate3d(0, 0, 0)"
       : "translate3d(-100%, 0, 0)",
-    transition: "transform 0.35s cubic-bezier(0.22, 1, 0.36, 1)",
+    transition: "transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)",  // ✅ Material easing — iOS pe smooth
     willChange: "transform",
     backfaceVisibility: "hidden",
     WebkitBackfaceVisibility: "hidden" as any,
-    WebkitTransform: isMobileSidebarOpen  // ✅ iOS explicit
+    WebkitTransform: isMobileSidebarOpen
       ? "translate3d(0, 0, 0)"
       : "translate3d(-100%, 0, 0)",
-    WebkitTransition: "transform 0.35s cubic-bezier(0.22, 1, 0.36, 1)" as any, // ✅ iOS explicit
+    WebkitTransition: "-webkit-transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)" as any, // ✅ webkit prefix with -webkit-transform
   }}
 >
   <Sidebar />
