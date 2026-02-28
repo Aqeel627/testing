@@ -231,7 +231,7 @@ const StatementPage = () => {
                                     }}
                                     max={endDate ? endDate.toISOString().split("T")[0] : undefined}
                                     placeholder="From"
-                                    className="h-[32px] w-[49%] px-3 text-[12px] bg-transparent border border-[var(--primary-color)] text-[#757272] rounded-[5px]   focus:outline-none max-[375]:w-[45%] max-[375]:mr-[10px]"
+                                    className="h-[32px] w-[49%] px-3 text-[12px] bg-transparent border border-[var(--primary-color)] text-[#757272] rounded-[5px]   focus:outline-none iphone-only-margin"
                                     readOnly={false}
                                     autoComplete="off"
                                 />
@@ -244,7 +244,7 @@ const StatementPage = () => {
                                     }}
                                     min={startDate ? startDate.toISOString().split("T")[0] : undefined}
                                     placeholder="To"
-                                    className="h-[32px] w-[49%] px-3 text-[12px] bg-transparent border border-[var(--primary-color)] text-[#757272] rounded-[5px]   focus:outline-none max-[375]:w-[45%] max-[375]:mr-[10px]"
+                                    className="h-[32px] w-[49%] px-3 text-[12px] bg-transparent border border-[var(--primary-color)] text-[#757272] rounded-[5px]   focus:outline-none "
                                     readOnly={false}
                                     autoComplete="off"
                                 />
