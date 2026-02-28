@@ -158,10 +158,10 @@
   inset: -6px;
   border-radius: 50%;
   /* 123123 */
-  box-shadow:
+  /* box-shadow:
     0 0 32px var(--primary-color),
     inset 0 0 18px var(--primary-color);
-  animation: pulseGlow 1.6s ease-in-out infinite;
+  animation: pulseGlow 1.6s ease-in-out infinite; */
 }
 
 /* ===== CENTER ===== */
