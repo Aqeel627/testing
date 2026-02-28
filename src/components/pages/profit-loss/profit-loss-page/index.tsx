@@ -157,7 +157,7 @@ const ProfitLossPage: React.FC = () => {
               <button
                 onClick={rerender}
                 disabled={isLoader}
-                className="w-full h-[32px] bg-[var(--primary-color)] border-[var(--primary-color)] text-[12px] font-bold rounded-[5px] uppercase disabled:opacity-50 transition-all text-white"
+                className="w-full h-[32px] cursor-pointer hover:bg-(--primary-color-dark) bg-(--primary-color) text-[12px] font-bold rounded-[5px] uppercase disabled:opacity-50 transition-all text-white"
               >
                 Submit
               </button>
@@ -194,7 +194,7 @@ const ProfitLossPage: React.FC = () => {
                     <td className="p-[8px_10px] text-[var(--palette-text-primary)] text-center border-r border-(--dotted-line) whitespace-nowrap">
                       <button
                         onClick={() => goToEventPL(profit.eventType.id)}
-                        className="text-[#4285f4] font-bold text-[11px] hover:underline cursor-pointer"
+                        className="text-(--primary-color) font-bold text-[11px] hover:underline cursor-pointer"
                       >
                         {profit.eventType.name}
                       </button>

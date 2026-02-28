@@ -33,7 +33,16 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       title,
       message,
     };
-    setToasts((prev) => [...prev, newToast]);
+
+    setToasts((prev) => {
+      // Purane toasts ko filter out kar do jo naye wale se bilkul match karte hain
+      const filteredToasts = prev.filter(
+        (t) => !(t.type === type && t.title === title && t.message === message)
+      );
+      
+      // Filtered list ke aakhir mein naya toast add kar do
+      return [...filteredToasts, newToast];
+    });
   }, []);
 
   const closeToast = useCallback((id: string) => {
