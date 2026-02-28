@@ -32,12 +32,10 @@ function getSide(type: string): "BACK" | "LAY" {
 }
 // ────────────────────────────────────────────────────────────────
 
-interface MBetSlipProps {
-  onPreviewChange?: (v: { stake: number; price: number }) => void;
-}
 
-export default function MBetSlip({ onPreviewChange }: MBetSlipProps) {
-  const { selectedBet, clearSelectedBet, stakeValue, setUserBalance } =
+
+export default function MBetSlip() {
+  const { selectedBet, clearSelectedBet, stakeValue, setUserBalance,setSlipPreview  } =
     useAppStore();
   const { showToast } = useToast();
   const { isLoggedIn } = useAuthStore();
@@ -90,13 +88,9 @@ export default function MBetSlip({ onPreviewChange }: MBetSlipProps) {
     setStake(0);
   }, [selectedBet]);
 
-  useEffect(() => {
-    if (!onPreviewChange) return;
-    onPreviewChange({
-      stake: Number(stake) || 0,
-      price: Number(odds) || 0,
-    });
-  }, [stake, odds, onPreviewChange]);
+useEffect(() => {
+  setSlipPreview({ stake: Number(stake) || 0, price: Number(odds) || 0 });
+}, [stake, odds]);
   if (!selectedBet) return null;
 
   const type = selectedBet.type;
@@ -226,8 +220,8 @@ export default function MBetSlip({ onPreviewChange }: MBetSlipProps) {
         );
         clearSelectedBet();
         setStake(0);
+        setSlipPreview({ stake: 0, price: 0 }); // ✅ add
 
-        // ✅ 1. Refresh user balance → updates header
         try {
           const balRes: any = await http.post(CONFIG.getUserBalance, {});
           if (balRes?.data?.data) {
@@ -412,6 +406,8 @@ export default function MBetSlip({ onPreviewChange }: MBetSlipProps) {
               onClick={() => {
                 clearSelectedBet();
                 setStake(0);
+                  setSlipPreview({ stake: 0, price: 0 }); 
+
               }}
               disabled={placing}
               className="bs-cancel-btn flex-1 py-2 rounded-full font-bold text-[14px] border-none cursor-pointer"
