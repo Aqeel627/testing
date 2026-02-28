@@ -83,6 +83,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
   };
 
   return (
+    <div id="header.tsx">
     <header
       className={cn(
         "w-full glass-header  --palette-text-primary  sticky top-0 z-[9999999]",
@@ -557,5 +558,6 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
         </nav>
       </div>
     </header>
+    </div>
   );
 }

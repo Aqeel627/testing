@@ -7,6 +7,7 @@ const LanguageToggler = dynamic(() => import("@/components/common/language-toggl
 export default function Footer() {
   return (
     <>
+    <div id="footer.tsx">
       <div className="mt-5">
         <div className="w-full flex flex-col  max-[900px]:rounded-[16px] rounded-xl bg-(--palette-background-paper) text-(--palette-text-primary) border  border-[rgba(145,158,171,0.2)] p-2 max-[900px]:p-4 max-[900px]:pb-0 overflow-hidden">
           {/* TOP SECTION */}
@@ -141,6 +142,7 @@ export default function Footer() {
             </p>
           </div>
         </div>
+      </div>
       </div>
     </>
   );

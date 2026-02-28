@@ -42,6 +42,7 @@ const BottomNavbar = () => {
   }, []);
 
   return (
+    <div id="bottomNavbar.tsx">
     <div
       className={cn(
         "md:hidden z-[40] fixed border shadow-[0_8px_32px_rgba(0,0,0,0.2)]! bottom-5 left-1/2 -translate-x-1/2 px-2 py-2 w-[84%] flex justify-around items-center rounded-full glass-blur h-15",
@@ -96,6 +97,7 @@ const BottomNavbar = () => {
           </Link>
         </Fragment>
       ))}
+    </div>
     </div>
   );
 };
