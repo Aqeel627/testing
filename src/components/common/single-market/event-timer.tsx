@@ -13,7 +13,7 @@ export function EventTimer({ startTime }: EventTimerProps) {
     const updateTimer = () => {
       const targetDate = new Date(startTime);
       const now = new Date();
-      
+
       const diff = targetDate.getTime() - now.getTime();
       const hours24 = 24 * 60 * 60 * 1000;
 
@@ -25,9 +25,9 @@ export function EventTimer({ startTime }: EventTimerProps) {
         const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
         const m = Math.floor((diff / 1000 / 60) % 60);
         const s = Math.floor((diff / 1000) % 60);
-        
+
         setDisplayTime(
-          `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`
+          `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:${String(s).padStart(2, "0")}`,
         );
       } else {
         // 24 ghante se zyada time ho (ya event guzar chuka ho) toh Date aur Time dikhega
@@ -36,7 +36,7 @@ export function EventTimer({ startTime }: EventTimerProps) {
         const year = targetDate.getFullYear();
         const hours = String(targetDate.getHours()).padStart(2, "0");
         const mins = String(targetDate.getMinutes()).padStart(2, "0");
-        
+
         // Yahan space ko proper format mein add kiya gaya hai
         setDisplayTime(`${day}-${month}-${year} ${hours}:${mins}`);
       }
@@ -48,41 +48,43 @@ export function EventTimer({ startTime }: EventTimerProps) {
     return () => clearInterval(interval);
   }, [startTime]);
 
-  const charactersArr = displayTime.split('');
+  const charactersArr = displayTime.split("");
 
   return (
-    <span className="inline-flex items-center overflow-hidden tabular-nums font-mono">
-      {charactersArr.map((char, i) => {
-        // Space ko check karna zaroori hai
-        const isSpace = char === ' ';
-        const isNumber = !isNaN(Number(char)) && !isSpace;
-        
-        return (
-          <span 
-            key={i} 
-            className="relative inline-flex justify-center"
-            // Numbers ko fixed width aur baqiyon ko auto taake layout na hile
-            style={{ width: isNumber ? '1ch' : 'auto' }} 
-          >
-            <AnimatePresence mode="popLayout" initial={false}>
-              <motion.span
-                key={char} // Jab character change hoga, tabhi yahan animation chalegi
-                initial={{ y: 20, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                exit={{ y: -20, opacity: 0 }}
-                transition={{
-                  duration: 0.3, // Thoda fast kiya hai taake tick feel natural ho
-                  ease: "easeOut",
-                }}
-                className="inline-block"
-              >
-                {/* Agar space hai toh HTML entity use karein, warna character */}
-                {isSpace ? "\u00A0" : char}
-              </motion.span>
-            </AnimatePresence>
-          </span>
-        );
-      })}
-    </span>
+    <div id="event-timer.tsx">
+      <span className="inline-flex items-center overflow-hidden tabular-nums font-mono">
+        {charactersArr.map((char, i) => {
+          // Space ko check karna zaroori hai
+          const isSpace = char === " ";
+          const isNumber = !isNaN(Number(char)) && !isSpace;
+
+          return (
+            <span
+              key={i}
+              className="relative inline-flex justify-center"
+              // Numbers ko fixed width aur baqiyon ko auto taake layout na hile
+              style={{ width: isNumber ? "1ch" : "auto" }}
+            >
+              <AnimatePresence mode="popLayout" initial={false}>
+                <motion.span
+                  key={char} // Jab character change hoga, tabhi yahan animation chalegi
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ y: -20, opacity: 0 }}
+                  transition={{
+                    duration: 0.3, // Thoda fast kiya hai taake tick feel natural ho
+                    ease: "easeOut",
+                  }}
+                  className="inline-block"
+                >
+                  {/* Agar space hai toh HTML entity use karein, warna character */}
+                  {isSpace ? "\u00A0" : char}
+                </motion.span>
+              </AnimatePresence>
+            </span>
+          );
+        })}
+      </span>
+    </div>
   );
 }

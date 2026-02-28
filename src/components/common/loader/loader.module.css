@@ -158,10 +158,10 @@
   inset: -6px;
   border-radius: 50%;
   /* 123123 */
-  box-shadow:
+  /* box-shadow:
     0 0 32px var(--primary-color),
     inset 0 0 18px var(--primary-color);
-  animation: pulseGlow 1.6s ease-in-out infinite;
+  animation: pulseGlow 1.6s ease-in-out infinite; */
 }
 
 /* ===== CENTER ===== */
@@ -237,35 +237,7 @@
     opacity: 0.85;
   }
 }
-@media only screen and (max-width:360px){
-  .ringContainer {
-    width: 220px;
-    height: 220px;
-  }
-  .ringTrack {
-    inset: 34px;
-  }
-  .arc1, .arc2 {
-    inset: -2px;
-  }
-  .arc3, .arc4 {
-    inset: 16px;
-  }
-  .arc5, .arc6 {
-    inset: 20px;
-  }
-  /* .innerThin {
-    width: 160px;
-    height: 160px;
-  } */
-  .ringInner {
-    width: 150px;
-    height: 150px;
-  }
-    .LoaderImg {
-    width: 120px !important;
-  }
-}
+
 /*  */
 .innerThinRing {
   position: absolute;
@@ -286,5 +258,74 @@
     /* box-shadow:
       0 0 8px var(--primary-color),
       inset 0 0 5px var(--primary-color); */
+  }
+}
+
+@media only screen and (max-width: 360px) {
+
+  /* MAIN CONTAINER */
+  .ringContainer {
+    width: 260px;
+    height: 260px;
+  }
+
+  /* STATIC TRACK */
+  .ringTrack {
+    inset: 44px; /* 54 × 0.8125 */
+    border-width: 6px;
+  }
+
+  /* OUTER ARCS */
+  .arc1,
+  .arc2 {
+    inset: 0px;
+  }
+
+  /* MIDDLE ARCS */
+  .arc3,
+  .arc4 {
+    inset: 10px; /* 12 × 0.8125 */
+  }
+
+  /* INNER ARCS */
+  .arc5,
+  .arc6 {
+    inset: 21px; /* 26 × 0.8125 */
+  }
+
+  /* ARC THICKNESS — SAME FEEL */
+  .arc1,
+  .arc2,
+  .arc3,
+  .arc4,
+  .arc5,
+  .arc6 {
+    -webkit-mask: radial-gradient(
+      farthest-side,
+      transparent calc(100% - 6.5px),
+      #000 calc(100% - 6.5px)
+    );
+    mask: radial-gradient(
+      farthest-side,
+      transparent calc(100% - 6.5px),
+      #000 calc(100% - 6.5px)
+    );
+  }
+
+  /* INNER THIN RING */
+  .innerThinRing {
+    inset: 50px; /* 62 × 0.8125 */
+    border-width: 3px;
+  }
+
+  /* INNER BG CIRCLE */
+  .ringInner {
+    width: 155px;
+    height: 155px;
+  }
+
+  /* LOGO */
+  .LoaderImg {
+    width: 120px !important;
   }
 }

@@ -207,9 +207,8 @@ const StatementPage = () => {
                                 autoComplete="off"
                             />
 
-                            <button className="h-[32px] px-4 font-bold rounded-[5px] uppercase text-white  text-[12px] cursor-pointer "
+                            <button className="h-[32px] px-4 font-bold rounded-[5px] hover:bg-(--primary-color-dark) bg-(--primary-color) uppercase text-white  text-[12px] cursor-pointer "
                                 style={{
-                                    background: "var(--primary-color)",
                                     boxShadow:
                                         "0 4px 20px color-mix(in srgb, var(--primary-color) 35%, transparent)",
                                 }}>
@@ -253,9 +252,8 @@ const StatementPage = () => {
 
                             {/* Submit button on next line */}
                             <button
-                                className="w-full mt-2 h-[32px] px-4 font-bold rounded-[5px] uppercase text-white text-[12px] cursor-pointer"
+                                className="w-full mt-2 h-[32px] hover:bg-(--primary-color-dark) bg-(--primary-color) px-4 font-bold rounded-[5px] uppercase text-white text-[12px] cursor-pointer"
                                 style={{
-                                    background: "var(--primary-color)",
                                     boxShadow:
                                         "0 4px 20px color-mix(in srgb, var(--primary-color) 35%, transparent)",
                                 }}

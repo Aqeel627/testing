@@ -45,31 +45,33 @@ export function AnimatedNumber({
     }).split('');
 
     return (
-        <span className="inline-flex items-center overflow-hidden tabular-nums">
-            {formattedArr.map((char, i) => {
-                const place = formattedArr.length - i;
+        <span id="animatedNumber.tsx">
+            <span className="inline-flex items-center overflow-hidden tabular-nums">
+                {formattedArr.map((char, i) => {
+                    const place = formattedArr.length - i;
 
-                return (
-                    <span key={place} className="relative inline-flex justify-center">
-                        <AnimatePresence mode="popLayout" initial={false}>
-                            <motion.span
-                                key={char}
-                                initial={{ y: 20, opacity: 0 }}
-                                animate={{ y: 0, opacity: 1 }}
-                                exit={{ y: -20, opacity: 0 }}
-                                transition={{
-                                    duration: 0.4,
-                                    ease: "easeOut",
-                                    delay: i * 0.08
-                                }}
-                                className="inline-block"
-                            >
-                                {char}
-                            </motion.span>
-                        </AnimatePresence>
-                    </span>
-                );
-            })}
+                    return (
+                        <span key={place} className="relative inline-flex justify-center">
+                            <AnimatePresence mode="popLayout" initial={false}>
+                                <motion.span
+                                    key={char}
+                                    initial={{ y: 20, opacity: 0 }}
+                                    animate={{ y: 0, opacity: 1 }}
+                                    exit={{ y: -20, opacity: 0 }}
+                                    transition={{
+                                        duration: 0.4,
+                                        ease: "easeOut",
+                                        delay: i * 0.08
+                                    }}
+                                    className="inline-block"
+                                >
+                                    {char}
+                                </motion.span>
+                            </AnimatePresence>
+                        </span>
+                    );
+                })}
+            </span>
         </span>
     );
 }

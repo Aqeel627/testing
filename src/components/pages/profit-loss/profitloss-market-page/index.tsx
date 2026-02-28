@@ -153,7 +153,7 @@ const ProfitLossMarketPage: React.FC = () => {
                       <td className="p-[8px_10px] border-r border-(--dotted-line) text-[11px] text-[var(--palette-text-primary)] whitespace-nowrap">{profit?.marketId}</td>
                     )}
                     <td className="p-[8px_10px] border-r border-(--dotted-line) text-[11px]">
-                      <Link href={`/d-profit-history/${profit?.eventType?.id}/${profit.marketId}`} className="text-[#4285f4] hover:underline font-bold whitespace-nowrap cursor-pointer">
+                      <Link href={`/d-profit-history/${profit?.eventType?.id}/${profit.marketId}`} className="text-(--primary-color) hover:underline font-bold whitespace-nowrap cursor-pointer">
                         {profit.marketName}
                       </Link>
                     </td>
