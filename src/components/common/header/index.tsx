@@ -93,7 +93,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
     >
       <div className="max-w-[1600px] mx-auto px-2 h-12 flex items-center justify-between">
         {/* 👇 Left: Hamburger & Logo */}
-        <div className="flex items-center gap-3 md:gap-4">
+        <div className="flex items-center gap-0 min-[321px]:gap-3 md:gap-4">
           {!hideMenuBtn && (
             <button
               type="button"
@@ -118,7 +118,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
               window.dispatchEvent(new Event("reset-sidebar"));
               clearSelectedBet();
             }}
-            className="font-[inherit]  no-underline shrink-0 text-transparent inline-flex h-[44px] w-[152px] cursor-pointer"
+            className="font-[inherit]  no-underline shrink-0 text-transparent inline-flex h-[44px] w-[120px] min-[321px]:w-[152px] cursor-pointer"
           >
             <Image
               src={theme === "dark" ? "/logo-black.svg" : "/logo-white.svg"}
