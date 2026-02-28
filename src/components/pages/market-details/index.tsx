@@ -102,7 +102,7 @@ const shortNumber = (value: any): string => {
 };
 
 export default function MarketDetails() {
-  const { setSelectedBet, menuList, selectedBet } = useAppStore();
+  const { setSelectedBet, menuList, selectedBet,slipPreview } = useAppStore();
   const [isLoading, setIsLoading] = useState(true);
   const params = useParams();
   const router = useRouter();
@@ -141,16 +141,8 @@ export default function MarketDetails() {
   const { resolvedTheme, theme } = useTheme();
 
   const [matchedBets, setMatchedBets] = useState<any[]>([]);
-  const [slipPreview, setSlipPreview] = useState<{
-    stake: number;
-    price: number;
-  }>({ stake: 0, price: 0 });
-  const handleSlipPreview = useCallback(
-    ({ stake, price }: { stake: number; price: number }) => {
-      setSlipPreview({ stake, price });
-    },
-    [],
-  );
+
+ 
   // ── ADD: fetch PL ───────────────────────────────────────────────
   const fetchMarketPL = useCallback(async () => {
     if (!eventId || !sportId) return;
@@ -209,11 +201,7 @@ export default function MarketDetails() {
     return val !== undefined ? Number(val) : null;
   };
 
-  useEffect(() => {
-    if (!selectedBet) {
-      setSlipPreview({ stake: 0, price: 0 });
-    }
-  }, [selectedBet]);
+ 
 
   function getSide(type: string): "BACK" | "LAY" {
     if (type === "back") return "BACK";
@@ -1660,7 +1648,7 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)] flex-1 min-w-0 cursor-pointer tex
                         selectedBet.type === "yes" ||
                         selectedBet.type === "no") && (
                         <div className="block lg:hidden">
-                          <MBetSlip onPreviewChange={handleSlipPreview} />
+                          <MBetSlip />
                         </div>
                       )}
                   </div>
