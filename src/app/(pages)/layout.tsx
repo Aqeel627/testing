@@ -71,11 +71,14 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
       <>
         <div
           className={cn(
+            // "w-full overflow-hidden!",
             "w-full min-h-screen app-scroll-root",
             (loginModal || isMobileSidebarOpen) && "overflow-hidden!",
           )}
         >
           <div className="w-full fixed top-0 z-50">
+            {/* <Marque /> */}
+            {/* ✅ toggle via store */}
             <Header
               onMenuClick={() =>
                 isMobileSidebarOpen ? closeMobileSidebar() : openMobileSidebar()
@@ -180,6 +183,10 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
                     <ResizableHandle
                       withHandle
                       className="ml-[6.5px] bg-[rgba(145,158,171,0.2)] w-1 mt-[50px]"
+                    />
+                    <ResizablePanel
+                      defaultSize={"30%"}
+                      className="flex-auto min-w-0 h-full border-l border-white/5 overflow-hidden pt-[50px]"
                     >
                       <motion.div
                         initial={{ x: "100%", opacity: 0 }}
