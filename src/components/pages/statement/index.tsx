@@ -149,7 +149,10 @@ const StatementPage = () => {
     const shouldEnableJumpToPage = hasMultiplePages;
     return (
         <>
+        <div className="my-4">
             <BreadCrumb title="Account Statement" />
+        </div>
+
             <div className="w-full">
 
                 {/* <div className="flex items-center gap-4 mb-8">
