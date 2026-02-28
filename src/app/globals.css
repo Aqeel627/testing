@@ -1181,3 +1181,24 @@ body:has(.drawer) {
     inset 0 0px 0 rgba(255, 255, 255, 0.25),
     inset 0 -2px 6px rgba(255, 255, 255, 0.05);
 }
+
+@layer utilities {
+  @supports (-webkit-touch-callout: none) {
+    @media (max-width: 440px) {
+  .iphone-date {
+      width: 90% !important;
+      padding-block: 0px !important;
+    }
+          .iphone-only-margin {
+        margin-right: 10px;
+      }
+        .iphone-date-bets {
+      width: 90% !important;
+      padding-block: 2.5px !important;
+    }
+    }
+  }
+}
+.border-t-0{
+    border-top-width: 0px;
+}
