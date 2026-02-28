@@ -85,7 +85,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
   return (
     <header
       className={cn(
-        "w-full glass  --palette-text-primary  sticky top-0 z-[9999999]",
+        "w-full glass-header  --palette-text-primary  sticky top-0 z-[9999999]",
         theme === "light" &&
           "backdrop-blur-[10px]! bg-linear-to-br! from-white/25! to-white/5! border-b! border-[rgb(205_192_192/0.4)]! shadow-[0_8px_32px_rgba(0,0,0,0.2)]!",
       )}

@@ -31,9 +31,9 @@
       inset: 54px;
   border-radius: 50%;
   border: 7px solid var(--secondary-color);
-  box-shadow:
+  /* box-shadow:
     0 0 7px var(--secondary-color),
-    inset 0 0 10px var(--secondary-color);
+    inset 0 0 10px var(--secondary-color); */
 }
 
 /* ===== ROTATING ARCS BASE ===== */
@@ -273,9 +273,9 @@
   border-radius: 50%;
   border: 3.6px solid var(--primary-color); /* was 1.6px */
 
-  box-shadow:
+  /* box-shadow:
     0 0 10px var(--primary-color),
-    inset 0 0 6px var(--primary-color);
+    inset 0 0 6px var(--primary-color); */
 
   pointer-events: none;
 }
@@ -283,8 +283,8 @@
   .innerThinRing {
     inset: 46px;      /* unchanged */
     border-width: 3px;
-    box-shadow:
+    /* box-shadow:
       0 0 8px var(--primary-color),
-      inset 0 0 5px var(--primary-color);
+      inset 0 0 5px var(--primary-color); */
   }
 }
