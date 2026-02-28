@@ -271,8 +271,9 @@ export default function BetHistoryComponent() {
   // ─── Render ───────────────────────────────────────────────────────────────
   return (
     <>
+        <div className="my-4">
       <BreadCrumb title="My Bets" />
-
+</div>
       <div className="bh-container">
         {/* Toast */}
         {toast && (
