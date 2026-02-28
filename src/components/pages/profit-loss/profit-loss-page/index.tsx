@@ -182,9 +182,9 @@ const ProfitLossPage: React.FC = () => {
           <table className="w-full border-collapse border-none">
             <thead>
               <tr>
-                <th className="p-[8px_10px] text-center text-[11px] font-bold bg-[var(--market-header-bg)] text-[var(--palette-text-primary)] border-r border-(--dotted-line)! first:rounded-tl-[5px] whitespace-nowrap">Sport Name</th>
-                <th className="p-[8px_10px] text-center text-[11px] font-bold bg-[var(--market-header-bg)] text-[var(--palette-text-primary)] border-r border-(--dotted-line)! whitespace-nowrap">Profit / Loss</th>
-                <th className="p-[8px_10px] text-center text-[11px] font-bold bg-[var(--market-header-bg)] text-[var(--palette-text-primary)] border-r border-(--dotted-line)! whitespace-nowrap">Commission</th>
+                <th className="p-[8px_10px] text-center text-[11px] font-bold bg-[var(--market-header-bg)] text-[var(--palette-text-primary)] border-r border-(--secondary-text-color)! first:rounded-tl-[5px] whitespace-nowrap">Sport Name</th>
+                <th className="p-[8px_10px] text-center text-[11px] font-bold bg-[var(--market-header-bg)] text-[var(--palette-text-primary)] border-r border-(--secondary-text-color)! whitespace-nowrap">Profit / Loss</th>
+                <th className="p-[8px_10px] text-center text-[11px] font-bold bg-[var(--market-header-bg)] text-[var(--palette-text-primary)] border-r border-(--secondary-text-color)! whitespace-nowrap">Commission</th>
                 <th className="p-[8px_10px] text-center text-[11px] font-bold bg-[var(--market-header-bg)] text-[var(--palette-text-primary)] last:rounded-tr-[5px] whitespace-nowrap">Total P&L</th>
               </tr>
             </thead>
@@ -202,8 +202,8 @@ const ProfitLossPage: React.FC = () => {
                 </tr>
               ) : profitLossData.length > 0 ? (
                 profitLossData.map((profit, index) => (
-                  <tr key={index} className="border-b border-(--dotted-line) bg-[var(--palette-background-paper)]">
-                    <td className="p-[8px_10px] text-[var(--palette-text-primary)] text-center border-r border-(--dotted-line) whitespace-nowrap">
+                  <tr key={index} className="border-b border-(--secondary-text-color) bg-[var(--palette-background-paper)]">
+                    <td className="p-[8px_10px] text-[var(--palette-text-primary)] text-center border-r border-(--secondary-text-color) whitespace-nowrap">
                       <button
                         onClick={() => goToEventPL(profit.eventType.id)}
                         className="text-(--primary-color) font-bold text-[11px] hover:underline cursor-pointer"
@@ -211,10 +211,10 @@ const ProfitLossPage: React.FC = () => {
                         {profit.eventType.name}
                       </button>
                     </td>
-                    <td className={`p-[8px_10px] whitespace-nowrap text-[var(--palette-text-primary)] text-center border-r border-(--dotted-line) font-bold text-[11px] ${profit.pl <= 0 ? 'text-red-600' : 'text-green-600'}`}>
+                    <td className={`p-[8px_10px] whitespace-nowrap text-[var(--palette-text-primary)] text-center border-r border-(--secondary-text-color) font-bold text-[11px] ${profit.pl <= 0 ? 'text-red-600' : 'text-green-600'}`}>
                       {profit.pl.toFixed(2)}
                     </td>
-                    <td className="p-[8px_10px] text-[var(--palette-text-primary)] text-center border-r border-(--dotted-line) text-[11px] whitespace-nowrap">
+                    <td className="p-[8px_10px] text-[var(--palette-text-primary)] text-center border-r border-(--secondary-text-color) text-[11px] whitespace-nowrap">
                       {profit.commission.toFixed(2)}
                     </td>
                     <td className={`p-[8px_10px] whitespace-nowrap text-[var(--palette-text-primary)] text-center font-bold text-[11px] ${(profit.pl - profit.commission) <= 0 ? 'text-red-600' : 'text-green-600'}`}>
@@ -224,7 +224,7 @@ const ProfitLossPage: React.FC = () => {
                 ))
               ) : (
                 <tr>
-                  <td colSpan={4} className="p-[8px_10px] text-center bg-[var(--palette-background-paper)] text-[12px]">No data!</td>
+                  <td colSpan={4} className="p-[8px_10px] text-center bg-[var(--palette-background-paper)] border-(--secondary-text-color) text-[12px]">No data!</td>
                 </tr>
               )}
             </tbody>

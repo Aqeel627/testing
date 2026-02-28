@@ -1192,6 +1192,10 @@ body:has(.drawer) {
           .iphone-only-margin {
         margin-right: 10px;
       }
+        .iphone-date-bets {
+      width: 90% !important;
+      padding-block: 2.5px !important;
+    }
     }
   }
 }
