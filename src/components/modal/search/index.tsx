@@ -35,7 +35,6 @@ export default function SearchModal() {
 
   const close = () => {
     toggleSearch(false);
-    closeMobileSidebar();
   };
   useEffect(() => {
     // console.log(allEventsList, "events all in search modal");
@@ -99,8 +98,10 @@ export default function SearchModal() {
     <Dialog.Root open={isOpenSearch} onOpenChange={toggleSearch}>
       <Dialog.Portal>
         {/* ---------- OVERLAY ---------- */}
-        <Dialog.Overlay className={styles.overlay} />
-
+<Dialog.Overlay 
+  className={styles.overlay} 
+  onClick={close}  
+/>
         {/* ---------- CONTENT ---------- */}
         <Dialog.Content
           className={styles.content}

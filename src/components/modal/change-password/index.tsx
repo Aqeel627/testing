@@ -285,7 +285,7 @@ export default function ChangePassword() {
                 <div className="flex flex-col gap-3 pt-2">
                   <button
                     type="submit"
-                    disabled={!isFormValid || isSubmitting}
+                    disabled={!isFormValid}
                     className={cn(
                       "w-full rounded-lg relative p-[6px_12px] min-h-9 text-sm font-bold h-[48px] bg-(--primary-color) text-white cursor-pointer",
                       "disabled:bg-gray-500 disabled:cursor-not-allowed",
