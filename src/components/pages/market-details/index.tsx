@@ -34,6 +34,8 @@ import Link from "next/link";
 import { eventBus } from "@/lib/eventBus";
 import http from "@/lib/axios-instance";
 import { useAuthStore } from "@/lib/useAuthStore";
+import { useToast } from "@/components/common/toast/toast-context";
+import { fetchData } from "@/lib/functions";
 
 interface RunnerName {
   selectionId: number;
@@ -103,8 +105,15 @@ const shortNumber = (value: any): string => {
 };
 
 export default function MarketDetails() {
-  const { setSelectedBet, menuList, selectedBet, slipPreview } = useAppStore();
+  const {
+    setSelectedBet,
+    menuList,
+    selectedBet,
+    slipPreview,
+    setAllEventsList,
+  } = useAppStore();
   const [isLoading, setIsLoading] = useState(true);
+  const { showToast } = useToast();
   const params = useParams();
   const router = useRouter();
   const eventId = String(params.eventId ?? "");
@@ -142,6 +151,10 @@ export default function MarketDetails() {
   const { resolvedTheme, theme } = useTheme();
 
   const [matchedBets, setMatchedBets] = useState<any[]>([]);
+  const handleAllEvents = (data: any) => {
+    setAllEventsList(data);
+    router.push("/");
+  };
 
   // ── ADD: fetch PL ───────────────────────────────────────────────
 
@@ -407,16 +420,16 @@ export default function MarketDetails() {
       }
 
       if (!data) return;
-      setTournamentName(data.matchOddsData[0].competition.name);
-      setSportName(data.matchOddsData[0].eventType.name);
-      setMarketTime(data.matchOddsData[0].marketStartTime);
-      const matchOdds = data.matchOddsData?.[0];
-      setTeamOne(matchOdds.runnersName[0].runnerName);
-      setTeamTwo(matchOdds.runnersName[1].runnerName);
-      const fancy = (data.fancyData || []) as Market[];
-      const manual = (data.bookmakersData || []) as Market[];
-      const betfair = (data.matchOddsData || []) as Market[];
-      const sportsbook = (data.sportsbookData || []) as Market[];
+      setTournamentName(data?.matchOddsData[0]?.competition?.name);
+      setSportName(data?.matchOddsData[0]?.eventType.name);
+      setMarketTime(data?.matchOddsData[0]?.marketStartTime);
+      const matchOdds = data?.matchOddsData?.[0];
+      setTeamOne(matchOdds?.runnersName[0]?.runnerName);
+      setTeamTwo(matchOdds?.runnersName[1]?.runnerName);
+      const fancy = (data?.fancyData || []) as Market[];
+      const manual = (data?.bookmakersData || []) as Market[];
+      const betfair = (data?.matchOddsData || []) as Market[];
+      const sportsbook = (data?.sportsbookData || []) as Market[];
 
       // attach maps on each market
       const all = [...fancy, ...manual, ...betfair, ...sportsbook].map(
@@ -446,28 +459,33 @@ export default function MarketDetails() {
       setAllMarkets(all);
 
       //  NEW LOGIC: Handle No Active Markets Found
-      if (all.length === 0) {
-        //  this.toastService.showFromResponse(
-        //             'error,  No Market Found, We couldn’t locate any active markets for your selection.'
-        //           );
-        // console.log("No Markets are active");
+      // if (all.length === 0) {
+      //   showToast(
+      //     "error",
+      //     "No Market Found ",
+      //     "We couldn't locate any active markets for your selection.",
+      //   );
+      //  this.toastService.showFromResponse(
+      //             'error,  No Market Found, We couldn’t locate any active markets for your selection.'
+      //           );
+      // console.log("No Markets are active");
 
-        // // 2. Fetch fresh lists in background (mimicking your old project services)
-        // try {
-        //   const isRacing = sportId === '7' || sportId === '4339';
-        //   const endpoint = isRacing ? CONFIG.racingEventsList : CONFIG.getAllEventsList;
+      // // 2. Fetch fresh lists in background (mimicking your old project services)
+      // try {
+      //   const isRacing = sportId === '7' || sportId === '4339';
+      //   const endpoint = isRacing ? CONFIG.racingEventsList : CONFIG.getAllEventsList;
 
-        //   // Using axios to refresh lists in background
-        //   axios.post(endpoint, { key: CONFIG.siteKey || "10" })
-        //     .catch(err => console.error("Background refresh failed", err));
-        // } catch (e) {
-        //   console.error("Service error:", e);
-        // }
+      //   // Using axios to refresh lists in background
+      //   axios.post(endpoint, { key: CONFIG.siteKey || "10" })
+      //     .catch(err => console.error("Background refresh failed", err));
+      // } catch (e) {
+      //   console.error("Service error:", e);
+      // }
 
-        // 3. Navigate to home and stop execution
-        router.push("/");
-        return;
-      }
+      // 3. Navigate to home and stop execution
+      //   router.push("/");
+      //   return;
+      // }
       // Calculate popular markets
       const popular = all
         .filter((market: any) => market.popular && market?.status !== "CLOSED")
@@ -502,6 +520,11 @@ export default function MarketDetails() {
 
       // 🎯 No Market Found → fallback IndexedDB
       if (all.length === 0) {
+        showToast(
+          "error",
+          "No Market Found ",
+          "We couldn't locate any active markets for your selection.",
+        );
         const readAllFromStore = <T,>(
           dbName: string,
           storeName: string,
@@ -608,7 +631,15 @@ export default function MarketDetails() {
             );
             if (bf) setEventName(bf.event?.name || bf?.eventName || "");
           } else {
-            router.push("/");
+            fetchData({
+              url: CONFIG.getAllEventsList,
+              payload: { key: CONFIG.siteKey },
+              cachedKey: "allEventsList",
+              forceApiCall: true,
+              setFn: handleAllEvents,
+              expireIn: CONFIG.getAllEventsListTime,
+            });
+            return;
           }
         } catch (e) {
           // console.warn("IndexedDB read failed:", e);
