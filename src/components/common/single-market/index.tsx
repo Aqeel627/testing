@@ -499,7 +499,7 @@ useEffect(() => {
             {/* ✅ MBetSlip with onPreviewChange */}
             {isBetOnThisEvent && (
               <div ref={betslipRef} className="block lg:hidden">
-                <MBetSlip onPreviewChange={handleSlipPreview} />
+                <MBetSlip  />
               </div>
             )}
           </li>

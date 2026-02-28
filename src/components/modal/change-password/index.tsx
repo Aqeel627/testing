@@ -1,22 +1,27 @@
 "use client";
 
 import { useEffect, useState, type FormEvent } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/lib/utils";
 import style from "./style.module.css";
 import { useTheme } from "next-themes";
-import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import { CONFIG } from "@/lib/config";
 import { CryptoService } from "@/lib/crypto-service";
 import { useCacheStore } from "@/lib/store/cacheStore";
 import Icon from "@/icons/icons";
 import Loader from "@/components/common/loader/loader";
+import { useToast } from "@/components/common/toast/toast-context";
+
+/* ---------------------- PASSWORD RULES ---------------------- */
+const passwordPattern = /^(?=.*\d).{8,}$/;
+
+
 
 export default function ChangePassword() {
   const { theme } = useTheme();
   const router = useRouter();
+  const { showToast } = useToast();
 
   const [isLoading, setIsLoading] = useState(true);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -39,25 +44,92 @@ export default function ChangePassword() {
     confirmPassword: false,
   });
 
-  // Validations
-  const oldPasswordError = touched.oldPassword && !oldPassword.trim();
-  const newPasswordError = touched.newPassword && !newPassword.trim();
-  const confirmPasswordEmptyError =
-    touched.confirmPassword && !confirmPassword.trim();
-  const confirmPasswordMatchError =
-    touched.confirmPassword &&
-    confirmPassword.trim() !== "" &&
-    confirmPassword !== newPassword;
 
-  const confirmPasswordError =
-    confirmPasswordEmptyError || confirmPasswordMatchError;
+
+  /* ---------------------- VALIDATION ---------------------- */
+
+  /* ---------------------- VALIDATION ---------------------- */
+  const passwordMatchValidator = (password: string, confirmPassword: string) =>
+    password === confirmPassword;
+
+  const validateField = (name: string, value: string, form: any) => {
+    let error = "";
+    let mismatch = "";
+
+    if (name === "oldPassword") {
+      error = !value
+        ? "Your Password is required."
+        : value === form.newPassword
+          ? "New password and Old password should not be same.."
+          : "";
+    }
+
+    if (name === "newPassword") {
+      if (!value) error = "New Password is required.";
+      else if (!passwordPattern.test(value))
+        error = "Password should be min 8 characters with number combination.";
+      else if (value === form.oldPassword)
+        error = "New password and Old password should not be same.";
+
+      if (form.confirmPassword && value !== form.confirmPassword)
+        mismatch = "Passwords do not match.";
+    }
+
+    if (name === "confirmPassword") {
+      mismatch = !value
+        ? "Confirm Password is required."
+        : value !== form.newPassword
+          ? "Passwords do not match."
+          : "";
+    }
+
+    return { error, mismatch };
+  };
 
   const hasFormValues =
-    !!oldPassword.trim() &&
-    !!newPassword.trim() &&
-    !!confirmPassword.trim() &&
-    newPassword === confirmPassword;
+    oldPassword.trim() &&
+    newPassword.trim() &&
+    confirmPassword.trim() &&
+    passwordPattern.test(newPassword) &&
+    oldPassword !== newPassword &&
+    passwordMatchValidator(newPassword, confirmPassword);
 
+  // Errors for rendering
+  const oldPasswordError =
+    touched.oldPassword &&
+    validateField("oldPassword", oldPassword, {
+      oldPassword,
+      newPassword,
+      confirmPassword,
+    }).error;
+
+  const newPasswordError =
+    touched.newPassword &&
+    validateField("newPassword", newPassword, {
+      oldPassword,
+      newPassword,
+      confirmPassword,
+    }).error;
+
+  const confirmPasswordEmptyError =
+    touched.confirmPassword &&
+    validateField("confirmPassword", confirmPassword, {
+      oldPassword,
+      newPassword,
+      confirmPassword,
+    }).error === "Confirm Password is required.";
+
+  const confirmPasswordMatchError =
+    touched.confirmPassword &&
+    validateField("confirmPassword", confirmPassword, {
+      oldPassword,
+      newPassword,
+      confirmPassword,
+    }).mismatch;
+
+  const confirmPasswordError = confirmPasswordEmptyError || confirmPasswordMatchError;
+
+  /* ---------------------- LOADER ---------------------- */
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false);
@@ -66,6 +138,7 @@ export default function ChangePassword() {
     return () => clearTimeout(timer);
   }, []);
 
+  /* ---------------------- SUBMIT ---------------------- */
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (isSubmitting) return;
@@ -81,23 +154,12 @@ export default function ChangePassword() {
     setIsSubmitting(true);
     setApiError("");
 
-    const payload = {
-      newPassword: newPassword,
-      oldPassword: oldPassword,
-    };
+    const payload = { newPassword, oldPassword };
 
     try {
-      console.log("🔐 Encrypting payload...", payload);
-
-      // 1. Encrypt Payload
       const encrypted = await CryptoService.encryptJSON1(payload);
-      const finalPayload = {
-        data: encrypted.iv + "###" + encrypted.payload,
-      };
+      const finalPayload = { data: encrypted.iv + "###" + encrypted.payload };
 
-      console.log("🚀 Final encrypted payload:", finalPayload);
-
-      // 2. Fetch Call
       const response = await fetch(CONFIG.changeUserPassword, {
         method: "POST",
         headers: {
@@ -108,68 +170,42 @@ export default function ChangePassword() {
       });
 
       const encryptedRes = await response.json();
-
-      // 3. Decrypt backend response
       const res = await CryptoService.decryptApiResponse(encryptedRes);
-      console.log("🔓 Decrypted API response:", res);
+      const parts = res?.meta?.message?.split(/',\s*'/).map((p: any) => p.replace(/^'+|'+$/g, "").trim());
+      const msg = { status: parts[0] || "", title: parts[1] || "", desc: parts[2] || "" };
 
-      // 4. Safe message parsing (Angular Pattern)
-      let parts: any[] = [];
-      if (res?.meta?.message) {
-        parts = res.meta.message
-          .split(/',\s*'/)
-          .map(
-            (p: string | undefined) => p?.replace(/^'+|'+$/g, "").trim() || "",
-          );
-      }
-
-      const msg = {
-        status: parts?.[0] || "",
-        title: parts?.[1] || "",
-        desc: parts?.[2] || "",
-      };
-
-      // 5. Success Logic (Status 200)
+      // ✅ Success logic INSIDE try block
       if (res?.meta?.status_code === 200) {
-        try {
-          if (typeof window !== "undefined") {
-            // Force logout after password change
-            localStorage.clear();
-            sessionStorage.clear();
-          }
-        } catch (clearErr) {
-          console.error("Storage clear error:", clearErr);
+        showToast(msg.status, msg.title, msg.desc || "Password changed successfully");
+
+        // Clear inputs
+        setOldPassword("");
+        setNewPassword("");
+        setConfirmPassword("");
+
+        // Reset touched
+        setTouched({ oldPassword: false, newPassword: false, confirmPassword: false });
+
+        // Clear storage
+        if (typeof window !== "undefined") {
+          localStorage.clear();
+          sessionStorage.clear();
         }
 
-        // Redirect to Login/Home
+        // Redirect
         router.push("/");
         return;
       } else {
-        console.warn("❌ API returned non-200:", res);
-        setApiError(
-          msg.desc ||
-            "Failed to change password. Please check your current password.",
-        );
+        const parts = res?.meta?.message
+          ?.split(/',\s*'/)
+          .map((p: string | undefined) => p?.replace(/^'+|'+$/g, "").trim() || "");
+        setApiError(parts?.[2] || "Failed to change password. Please check your current password.");
       }
     } catch (err: any) {
       console.error("🔥 ERROR in changePassword:", err);
-
-      // Attempt to decrypt error if possible
-      try {
-        const decryptedErr = await CryptoService.decryptApiResponse(
-          err?.error || err,
-        );
-        const message =
-          decryptedErr?.meta?.message ||
-          decryptedErr?.message ||
-          "Something went wrong";
-        setApiError(message);
-      } catch (e) {
-        setApiError("Something went wrong. Please try again.");
-      }
+      setApiError("Something went wrong. Please try again.");
     } finally {
-      setIsSubmitting(false);
-      console.log("⏳ Loading stopped");
+      setIsSubmitting(false); // ✅ always stop loading
     }
   };
 
@@ -191,22 +227,6 @@ export default function ChangePassword() {
             : "apple-glass-light",
         )}
       >
-        {/* HEADER (mobile only) */}
-        {/* <div className="flex justify-between items-center px-4 min-[600px]:px-6 h-14 shrink-0 min-[900px]:hidden">
-          <Link href="/" className="flex items-center">
-            <Image
-              src={
-                theme === "dark"
-                  ? "/logo-black.svg"
-                  : "/logo-white.svg"
-              }
-              alt="GJEXCH Logo"
-              width={152}
-              height={40}
-              className="object-contain h-10 min-[600px]:mx-2 mx-1"
-            />
-          </Link>
-        </div> */}
 
         {/* MAIN CENTERED WRAPPER */}
         <div className="flex flex-1 items-center justify-center p-4 md:p-8 w-full overflow-y-auto">
@@ -243,15 +263,12 @@ export default function ChangePassword() {
                 <div className="inline-flex flex-col relative min-w-0 align-top w-full m-0 p-0 border-0 border-[initial]">
                   <label
                     htmlFor="oldPassword"
-                    className={`font-semibold text-base leading-normal font-normal leading-[1.57143] block text-ellipsis absolute origin-[left_top] z-[1] select-none pointer-events-auto max-w-[calc(133%-32px)] translate-x-3.5 translate-y-[-9px] whitespace-nowrap overflow-hidden p-0 scale-75 left-0 top-0 ${
-                      oldPasswordError
-                        ? "text-(--palette-error-main)"
-                        : "text-(--palette-text-secondary)"
-                    }`}
+                    className={`font-semibold text-base leading-normal block text-ellipsis absolute origin-[left_top] z-[1] select-none pointer-events-auto max-w-[calc(133%-32px)] translate-x-3.5 translate-y-[-9px] whitespace-nowrap overflow-hidden p-0 scale-75 left-0 top-0 ${oldPasswordError ? "text-(--palette-error-main)" : "text-(--palette-text-secondary)"}`}
                   >
                     Old Password
-                    <span className=""> *</span>
+                    <span> *</span>
                   </label>
+
                   <div
                     className={cn(
                       "font-normal text-base leading-[1.4375em] text-(--palette-text-primary) box-border cursor-text inline-flex items-center w-full relative rounded-lg group",
@@ -265,71 +282,40 @@ export default function ChangePassword() {
                       id="oldPassword"
                       value={oldPassword}
                       onChange={(e) => setOldPassword(e.target.value)}
-                      onBlur={() =>
-                        setTouched((prev) => ({ ...prev, oldPassword: true }))
-                      }
-                      aria-invalid={oldPasswordError}
+                      onBlur={() => setTouched((prev) => ({ ...prev, oldPassword: true }))}
+                      aria-invalid={oldPasswordError ? "true" : "false"}
                       className="font-[inherit] max-[600px]:text-base placeholder:text-(--palette-text-primary) outline-0 leading-[inherit] tracking-[inherit] text-current box-content h-[1.4375em] block min-w-0 w-full text-[0.9375rem] m-0 px-3.5 py-[16.5px] border-0 bg-transparent"
                     />
+
                     <button
                       type="button"
                       onMouseDown={(e) => e.preventDefault()}
                       onClick={() => setShowOldPassword((prev) => !prev)}
                       className={cn(
                         style.btn,
-                        "absolute right-2 top-1/2 -translate-y-1/2 text-(--palette-text-secondary) cursor-pointer p-2 hover:bg-[rgba(145,158,171,0.08)] rounded-full flex justify-center items-center z-10 bg-transparent border-0",
+                        "absolute right-2 top-1/2 -translate-y-1/2 text-(--palette-text-secondary) cursor-pointer p-2 hover:bg-[rgba(145,158,171,0.08)] rounded-full flex justify-center items-center z-10 bg-transparent border-0"
                       )}
-                      aria-label={
-                        showOldPassword ? "Hide password" : "Show password"
-                      }
+                      aria-label={showOldPassword ? "Hide password" : "Show password"}
                     >
-                      {showOldPassword ? (
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="h-5 w-5"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            fill="currentColor"
-                            d="M9.75 12a2.25 2.25 0 1 1 4.5 0a2.25 2.25 0 0 1-4.5 0"
-                          ></path>
-                          <path
-                            fill="currentColor"
-                            fillRule="evenodd"
-                            d="M2 12c0 1.64.425 2.191 1.275 3.296C4.972 17.5 7.818 20 12 20s7.028-2.5 8.725-4.704C21.575 14.192 22 13.639 22 12c0-1.64-.425-2.191-1.275-3.296C19.028 6.5 16.182 4 12 4S4.972 6.5 3.275 8.704C2.425 9.81 2 10.361 2 12m10-3.75a3.75 3.75 0 1 0 0 7.5a3.75 3.75 0 0 0 0-7.5"
-                            clipRule="evenodd"
-                          ></path>
-                        </svg>
-                      ) : (
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="h-5 w-5"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            fill="currentColor"
-                            fillRule="evenodd"
-                            d="M1.606 6.08a1 1 0 0 1 1.313.526L2 7l.92-.394v-.001l.003.009l.021.045l.094.194c.086.172.219.424.4.729a13.4 13.4 0 0 0 1.67 2.237a12 12 0 0 0 .59.592C7.18 11.8 9.251 13 12 13a8.7 8.7 0 0 0 3.22-.602c1.227-.483 2.254-1.21 3.096-1.998a13 13 0 0 0 2.733-3.725l.027-.058l.005-.011a1 1 0 0 1 1.838.788L22 7l.92.394l-.003.005l-.004.008l-.011.026l-.04.087a14 14 0 0 1-.741 1.348a15.4 15.4 0 0 1-1.711 2.256l.797.797a1 1 0 0 1-1.414 1.415l-.84-.84a12 12 0 0 1-1.897 1.256l.782 1.202a1 1 0 1 1-1.676 1.091l-.986-1.514c-.679.208-1.404.355-2.176.424V16.5a1 1 0 0 1-2 0v-1.544c-.775-.07-1.5-.217-2.177-.425l-.985 1.514a1 1 0 0 1-1.676-1.09l.782-1.203c-.7-.37-1.332-.8-1.897-1.257l-.84.84a1 1 0 0 1-1.414-1.414l.797-.797a15.4 15.4 0 0 1-1.87-2.519a14 14 0 0 1-.591-1.107l-.033-.072l-.01-.021l-.002-.007l-.001-.002v-.001C1.08 7.395 1.08 7.394 2 7l-.919.395a1 1 0 0 1 .525-1.314"
-                            clipRule="evenodd"
-                          ></path>
-                        </svg>
-                      )}
+                      {showOldPassword ? <Icon name="beforeEye" width={22} height={22} /> : <Icon name="afterEye" width={22} height={22} />}
                     </button>
+
                     <fieldset
-                      className={`text-left absolute top-[-5px] group-focus-within:border-2 pointer-events-none min-w-[0%] border overflow-hidden transition-[border-color] duration ease-in-out m-0 px-2 py-0 rounded-[inherit] border-solid bottom-0 inset-x-0 ${
-                        oldPasswordError
-                          ? "border-(--palette-error-main)"
-                          : "border-[rgba(var(--palette-grey-500Channel)_/_20%)] group-hover:border-(--palette-text-primary) group-focus-within:border-(--palette-text-primary)"
-                      }`}
+                      className={`text-left absolute top-[-5px] group-focus-within:border-2 pointer-events-none min-w-[0%] border overflow-hidden transition-[border-color] duration ease-in-out m-0 px-2 py-0 rounded-[inherit] border-solid bottom-0 inset-x-0 ${oldPasswordError ? "border-(--palette-error-main)" : "border-[rgba(var(--palette-grey-500Channel)_/_20%)] group-hover:border-(--palette-text-primary) group-focus-within:border-(--palette-text-primary)"}`}
                     >
                       <legend className="w-[105px] overflow-hidden block h-[11px] text-[14px] invisible whitespace-nowrap max-w-full transition-[max-width] duration-100 ease-out delay-[50ms] p-0">
                         <span>Old Password *</span>
                       </legend>
                     </fieldset>
                   </div>
+
                   {oldPasswordError && (
                     <div className="font-normal text-xs leading-normal text-left mt-2 mb-0 mx-3.5 text-(--palette-error-main)">
-                      Can not be empty
+                      {oldPassword.trim() === ""
+                        ? "Your Password is required."
+                        : oldPassword === newPassword
+                          ? "New password and Old password should not be same."
+                          : ""}
                     </div>
                   )}
                 </div>
@@ -338,19 +324,17 @@ export default function ChangePassword() {
                 <div className="inline-flex flex-col relative min-w-0 align-top w-full m-0 p-0 border-0 border-[initial]">
                   <label
                     htmlFor="newPassword"
-                    className={`font-semibold text-base leading-normal font-normal leading-[1.57143] block text-ellipsis absolute origin-[left_top] z-[1] select-none pointer-events-auto max-w-[calc(133%-32px)] translate-x-3.5 translate-y-[-9px] whitespace-nowrap overflow-hidden p-0 scale-75 left-0 top-0 ${
-                      newPasswordError
-                        ? "text-(--palette-error-main)"
-                        : "text-(--palette-text-secondary)"
-                    }`}
+                    className={`font-semibold text-base leading-normal block text-ellipsis absolute origin-[left_top] z-[1] select-none pointer-events-auto max-w-[calc(133%-32px)] translate-x-3.5 translate-y-[-9px] whitespace-nowrap overflow-hidden p-0 scale-75 left-0 top-0 ${newPasswordError ? "text-(--palette-error-main)" : "text-(--palette-text-secondary)"
+                      }`}
                   >
                     New Password
-                    <span className=""> *</span>
+                    <span> *</span>
                   </label>
+
                   <div
                     className={cn(
                       "font-normal text-base leading-[1.4375em] text-(--palette-text-primary) box-border cursor-text inline-flex items-center w-full relative rounded-lg group",
-                      theme === "dark" ? "liquid-field" : "liquid-field-light",
+                      theme === "dark" ? "liquid-field" : "liquid-field-light"
                     )}
                   >
                     <input
@@ -360,71 +344,45 @@ export default function ChangePassword() {
                       id="newPassword"
                       value={newPassword}
                       onChange={(e) => setNewPassword(e.target.value)}
-                      onBlur={() =>
-                        setTouched((prev) => ({ ...prev, newPassword: true }))
-                      }
-                      aria-invalid={newPasswordError}
+                      onBlur={() => setTouched((prev) => ({ ...prev, newPassword: true }))}
+                      aria-invalid={newPasswordError ? "true" : "false"}
                       className="font-[inherit] max-[600px]:text-base placeholder:text-(--palette-text-primary) outline-0 leading-[inherit] tracking-[inherit] text-current box-content h-[1.4375em] block min-w-0 w-full text-[0.9375rem] m-0 px-3.5 py-[16.5px] border-0 bg-transparent"
                     />
+
                     <button
                       type="button"
                       onMouseDown={(e) => e.preventDefault()}
                       onClick={() => setShowNewPassword((prev) => !prev)}
-                      aria-label={
-                        showNewPassword ? "Hide password" : "Show password"
-                      }
+                      aria-label={showNewPassword ? "Hide password" : "Show password"}
                       className={cn(
                         style.btn,
-                        "absolute right-2 top-1/2 -translate-y-1/2 text-(--palette-text-secondary) cursor-pointer p-2 hover:bg-[rgba(145,158,171,0.08)] rounded-full flex justify-center items-center z-10 bg-transparent border-0",
+                        "absolute right-2 top-1/2 -translate-y-1/2 text-(--palette-text-secondary) cursor-pointer p-2 hover:bg-[rgba(145,158,171,0.08)] rounded-full flex justify-center items-center z-10 bg-transparent border-0"
                       )}
                     >
-                      {showNewPassword ? (
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="h-5 w-5"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            fill="currentColor"
-                            d="M9.75 12a2.25 2.25 0 1 1 4.5 0a2.25 2.25 0 0 1-4.5 0"
-                          ></path>
-                          <path
-                            fill="currentColor"
-                            fillRule="evenodd"
-                            d="M2 12c0 1.64.425 2.191 1.275 3.296C4.972 17.5 7.818 20 12 20s7.028-2.5 8.725-4.704C21.575 14.192 22 13.639 22 12c0-1.64-.425-2.191-1.275-3.296C19.028 6.5 16.182 4 12 4S4.972 6.5 3.275 8.704C2.425 9.81 2 10.361 2 12m10-3.75a3.75 3.75 0 1 0 0 7.5a3.75 3.75 0 0 0 0-7.5"
-                            clipRule="evenodd"
-                          ></path>
-                        </svg>
-                      ) : (
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="h-5 w-5"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            fill="currentColor"
-                            fillRule="evenodd"
-                            d="M1.606 6.08a1 1 0 0 1 1.313.526L2 7l.92-.394v-.001l.003.009l.021.045l.094.194c.086.172.219.424.4.729a13.4 13.4 0 0 0 1.67 2.237a12 12 0 0 0 .59.592C7.18 11.8 9.251 13 12 13a8.7 8.7 0 0 0 3.22-.602c1.227-.483 2.254-1.21 3.096-1.998a13 13 0 0 0 2.733-3.725l.027-.058l.005-.011a1 1 0 0 1 1.838.788L22 7l.92.394l-.003.005l-.004.008l-.011.026l-.04.087a14 14 0 0 1-.741 1.348a15.4 15.4 0 0 1-1.711 2.256l.797.797a1 1 0 0 1-1.414 1.415l-.84-.84a12 12 0 0 1-1.897 1.256l.782 1.202a1 1 0 1 1-1.676 1.091l-.986-1.514c-.679.208-1.404.355-2.176.424V16.5a1 1 0 0 1-2 0v-1.544c-.775-.07-1.5-.217-2.177-.425l-.985 1.514a1 1 0 0 1-1.676-1.09l.782-1.203c-.7-.37-1.332-.8-1.897-1.257l-.84.84a1 1 0 0 1-1.414-1.414l.797-.797a15.4 15.4 0 0 1-1.87-2.519a14 14 0 0 1-.591-1.107l-.033-.072l-.01-.021l-.002-.007l-.001-.002v-.001C1.08 7.395 1.08 7.394 2 7l-.919.395a1 1 0 0 1 .525-1.314"
-                            clipRule="evenodd"
-                          ></path>
-                        </svg>
-                      )}
+                      {showNewPassword ? <Icon name="beforeEye" width={22} height={22} /> : <Icon name="afterEye" width={22} height={22} />}
                     </button>
+
                     <fieldset
-                      className={`text-left absolute top-[-5px] group-focus-within:border-2 pointer-events-none min-w-[0%] border overflow-hidden transition-[border-color] duration ease-in-out m-0 px-2 py-0 rounded-[inherit] border-solid bottom-0 inset-x-0 ${
-                        newPasswordError
-                          ? "border-(--palette-error-main)"
-                          : "border-[rgba(var(--palette-grey-500Channel)_/_20%)] group-hover:border-(--palette-text-primary) group-focus-within:border-(--palette-text-primary)"
-                      }`}
+                      className={`text-left absolute top-[-5px] group-focus-within:border-2 pointer-events-none min-w-[0%] border overflow-hidden transition-[border-color] duration ease-in-out m-0 px-2 py-0 rounded-[inherit] border-solid bottom-0 inset-x-0 ${newPasswordError
+                        ? "border-(--palette-error-main)"
+                        : "border-[rgba(var(--palette-grey-500Channel)_/_20%)] group-hover:border-(--palette-text-primary) group-focus-within:border-(--palette-text-primary)"
+                        }`}
                     >
                       <legend className="w-[110px] overflow-hidden block h-[11px] text-[14px] invisible whitespace-nowrap max-w-full transition-[max-width] duration-100 ease-out delay-[50ms] p-0">
                         <span>New Password *</span>
                       </legend>
                     </fieldset>
                   </div>
+
                   {newPasswordError && (
                     <div className="font-normal text-xs leading-normal text-left mt-2 mb-0 mx-3.5 text-(--palette-error-main)">
-                      Can not be empty
+                      {newPassword.trim() === ""
+                        ? "New Password is required."
+                        : !passwordPattern.test(newPassword)
+                          ? "Password must be at least 8 characters and include a number."
+                          : oldPassword && newPassword === oldPassword
+                            ? "New password and Old password should not be same."
+                            : ""}
                     </div>
                   )}
                 </div>
@@ -433,19 +391,17 @@ export default function ChangePassword() {
                 <div className="inline-flex flex-col relative min-w-0 align-top w-full m-0 p-0 border-0 border-[initial]">
                   <label
                     htmlFor="confirmPassword"
-                    className={`font-semibold text-base leading-normal font-normal leading-[1.57143] block text-ellipsis absolute origin-[left_top] z-[1] select-none pointer-events-auto max-w-[calc(133%-32px)] translate-x-3.5 translate-y-[-9px] whitespace-nowrap overflow-hidden p-0 scale-75 left-0 top-0 ${
-                      confirmPasswordError
-                        ? "text-(--palette-error-main)"
-                        : "text-(--palette-text-secondary)"
-                    }`}
+                    className={`font-semibold text-base leading-normal block text-ellipsis absolute origin-[left_top] z-[1] select-none pointer-events-auto max-w-[calc(133%-32px)] translate-x-3.5 translate-y-[-9px] whitespace-nowrap overflow-hidden p-0 scale-75 left-0 top-0 ${confirmPasswordError ? "text-(--palette-error-main)" : "text-(--palette-text-secondary)"
+                      }`}
                   >
                     Re-enter New Password
-                    <span className=""> *</span>
+                    <span> *</span>
                   </label>
+
                   <div
                     className={cn(
                       "font-normal text-base leading-[1.4375em] text-(--palette-text-primary) box-border cursor-text inline-flex items-center w-full relative rounded-lg group",
-                      theme === "dark" ? "liquid-field" : "liquid-field-light",
+                      theme === "dark" ? "liquid-field" : "liquid-field-light"
                     )}
                   >
                     <input
@@ -456,117 +412,69 @@ export default function ChangePassword() {
                       value={confirmPassword}
                       onChange={(e) => setConfirmPassword(e.target.value)}
                       onBlur={() =>
-                        setTouched((prev) => ({
-                          ...prev,
-                          confirmPassword: true,
-                        }))
+                        setTouched((prev) => ({ ...prev, confirmPassword: true }))
                       }
-                      aria-invalid={confirmPasswordError}
+                      aria-invalid={confirmPasswordError ? "true" : "false"}
                       className="font-[inherit] max-[600px]:text-base placeholder:text-(--palette-text-primary) outline-0 leading-[inherit] tracking-[inherit] text-current box-content h-[1.4375em] block min-w-0 w-full text-[0.9375rem] m-0 px-3.5 py-[16.5px] border-0 bg-transparent"
                     />
+
                     <button
                       type="button"
                       onMouseDown={(e) => e.preventDefault()}
                       onClick={() => setShowConfirmPassword((prev) => !prev)}
-                      aria-label={
-                        showConfirmPassword ? "Hide password" : "Show password"
-                      }
+                      aria-label={showConfirmPassword ? "Hide password" : "Show password"}
                       className={cn(
                         style.btn,
-                        "absolute right-2 top-1/2 -translate-y-1/2 text-(--palette-text-secondary) cursor-pointer p-2 hover:bg-[rgba(145,158,171,0.08)] rounded-full flex justify-center items-center z-10 bg-transparent border-0",
+                        "absolute right-2 top-1/2 -translate-y-1/2 text-(--palette-text-secondary) cursor-pointer p-2 hover:bg-[rgba(145,158,171,0.08)] rounded-full flex justify-center items-center z-10 bg-transparent border-0"
                       )}
                     >
                       {showConfirmPassword ? (
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="h-5 w-5"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            fill="currentColor"
-                            d="M9.75 12a2.25 2.25 0 1 1 4.5 0a2.25 2.25 0 0 1-4.5 0"
-                          ></path>
-                          <path
-                            fill="currentColor"
-                            fillRule="evenodd"
-                            d="M2 12c0 1.64.425 2.191 1.275 3.296C4.972 17.5 7.818 20 12 20s7.028-2.5 8.725-4.704C21.575 14.192 22 13.639 22 12c0-1.64-.425-2.191-1.275-3.296C19.028 6.5 16.182 4 12 4S4.972 6.5 3.275 8.704C2.425 9.81 2 10.361 2 12m10-3.75a3.75 3.75 0 1 0 0 7.5a3.75 3.75 0 0 0 0-7.5"
-                            clipRule="evenodd"
-                          ></path>
-                        </svg>
+                        <Icon name="beforeEye" width={22} height={22} />
                       ) : (
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="h-5 w-5"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            fill="currentColor"
-                            fillRule="evenodd"
-                            d="M1.606 6.08a1 1 0 0 1 1.313.526L2 7l.92-.394v-.001l.003.009l.021.045l.094.194c.086.172.219.424.4.729a13.4 13.4 0 0 0 1.67 2.237a12 12 0 0 0 .59.592C7.18 11.8 9.251 13 12 13a8.7 8.7 0 0 0 3.22-.602c1.227-.483 2.254-1.21 3.096-1.998a13 13 0 0 0 2.733-3.725l.027-.058l.005-.011a1 1 0 0 1 1.838.788L22 7l.92.394l-.003.005l-.004.008l-.011.026l-.04.087a14 14 0 0 1-.741 1.348a15.4 15.4 0 0 1-1.711 2.256l.797.797a1 1 0 0 1-1.414 1.415l-.84-.84a12 12 0 0 1-1.897 1.256l.782 1.202a1 1 0 1 1-1.676 1.091l-.986-1.514c-.679.208-1.404.355-2.176.424V16.5a1 1 0 0 1-2 0v-1.544c-.775-.07-1.5-.217-2.177-.425l-.985 1.514a1 1 0 0 1-1.676-1.09l.782-1.203c-.7-.37-1.332-.8-1.897-1.257l-.84.84a1 1 0 0 1-1.414-1.414l.797-.797a15.4 15.4 0 0 1-1.87-2.519a14 14 0 0 1-.591-1.107l-.033-.072l-.01-.021l-.002-.007l-.001-.002v-.001C1.08 7.395 1.08 7.394 2 7l-.919.395a1 1 0 0 1 .525-1.314"
-                            clipRule="evenodd"
-                          ></path>
-                        </svg>
+                        <Icon name="afterEye" width={22} height={22} />
                       )}
                     </button>
+
                     <fieldset
-                      className={`text-left absolute top-[-5px] group-focus-within:border-2 pointer-events-none min-w-[0%] border overflow-hidden transition-[border-color] duration ease-in-out m-0 px-2 py-0 rounded-[inherit] border-solid bottom-0 inset-x-0 ${
-                        confirmPasswordError
-                          ? "border-(--palette-error-main)"
-                          : "border-[rgba(var(--palette-grey-500Channel)_/_20%)] group-hover:border-(--palette-text-primary) group-focus-within:border-(--palette-text-primary)"
-                      }`}
+                      className={`text-left absolute top-[-5px] group-focus-within:border-2 pointer-events-none min-w-[0%] border overflow-hidden transition-[border-color] duration ease-in-out m-0 px-2 py-0 rounded-[inherit] border-solid bottom-0 inset-x-0 ${confirmPasswordError
+                        ? "border-(--palette-error-main)"
+                        : "border-[rgba(var(--palette-grey-500Channel)_/_20%)] group-hover:border-(--palette-text-primary) group-focus-within:border-(--palette-text-primary)"
+                        }`}
                     >
                       <legend className="w-[170px] overflow-hidden block h-[11px] text-[14px] invisible whitespace-nowrap max-w-full transition-[max-width] duration-100 ease-out delay-[50ms] p-0">
                         <span>Re-enter New Password *</span>
                       </legend>
                     </fieldset>
                   </div>
-                  {confirmPasswordEmptyError ? (
+
+                  {confirmPasswordError && (
                     <div className="font-normal text-xs leading-normal text-left mt-2 mb-0 mx-3.5 text-(--palette-error-main)">
-                      Can not be empty
+                      {confirmPassword.trim() === ""
+                        ? "Confirm Password is required."
+                        : confirmPassword !== newPassword
+                          ? "Passwords do not match."
+                          : ""}
                     </div>
-                  ) : confirmPasswordMatchError ? (
-                    <div className="font-normal text-xs leading-normal text-left mt-2 mb-0 mx-3.5 text-(--palette-error-main)">
-                      Passwords do not match
-                    </div>
-                  ) : null}
+                  )}
                 </div>
 
-                {/* ✅ API Error Message UI Box */}
-                {apiError && (
-                  <div className="text-(--palette-error-main) text-sm mt-1 mb-2 font-medium bg-red-500/10 p-3 rounded-md border border-red-500/20 text-center">
-                    {apiError}
-                  </div>
-                )}
 
                 {/* Submit & Home Buttons */}
                 <div className="flex flex-col gap-3 pt-2">
                   <button
                     type="submit"
-                    disabled={!hasFormValues || isSubmitting}
                     className={cn(
                       "w-full rounded-lg relative p-[6px_12px] min-h-9 text-sm font-bold h-[48px] disabled:bg-gray-500 bg-(--primary-color) text-white cursor-pointer disabled:cursor-not-allowed",
                       hasFormValues &&
-                        !isSubmitting &&
-                        "hover:bg-(--primary-color-dark)",
+                      !isSubmitting &&
+                      "hover:bg-(--primary-color-dark)",
                     )}
                   >
                     {isSubmitting ? (
                       <span className="contents">
                         <span className="absolute visible flex -translate-x-1/2 -translate-y-1/2 left-1/2 top-1/2">
                           <span className="h-4 w-4 inline-block submitLoader">
-                            <svg
-                              className="block text-white"
-                              viewBox="22 22 44 44"
-                            >
-                              <circle
-                                className="visible text-white circleAnimation"
-                                cx="44"
-                                cy="44"
-                                r="20.2"
-                                fill="none"
-                                strokeWidth="3.6"
-                              ></circle>
-                            </svg>
+                            <Icon name="circleAnimation" />
                           </span>
                         </span>
                       </span>
