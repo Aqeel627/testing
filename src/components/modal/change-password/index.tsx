@@ -41,8 +41,8 @@ const getErrors = (form: FormState, touched: TouchedState) => {
       ? !oldPassword.trim()
         ? "Your Password is required."
         : oldPassword === newPassword
-        ? "New password and Old password should not be same."
-        : ""
+          ? "New password and Old password should not be same."
+          : ""
       : "";
 
   const newPasswordError =
@@ -50,10 +50,10 @@ const getErrors = (form: FormState, touched: TouchedState) => {
       ? !newPassword.trim()
         ? "New Password is required."
         : !PASSWORD_PATTERN.test(newPassword)
-        ? "Password must be at least 8 characters and include a number."
-        : newPassword === oldPassword
-        ? "New password and Old password should not be same."
-        : ""
+          ? "Password must be at least 8 characters and include a number."
+          : newPassword === oldPassword
+            ? "New password and Old password should not be same."
+            : ""
       : "";
 
   const confirmPasswordError =
@@ -61,8 +61,8 @@ const getErrors = (form: FormState, touched: TouchedState) => {
       ? !confirmPassword.trim()
         ? "Confirm Password is required."
         : confirmPassword !== newPassword
-        ? "Passwords do not match."
-        : ""
+          ? "Passwords do not match."
+          : ""
       : "";
 
   return { oldPasswordError, newPasswordError, confirmPasswordError };
@@ -276,16 +276,20 @@ export default function ChangePassword() {
 
                 {/* API Error */}
                 {apiError && (
-                  <p className="text-xs text-(--palette-error-main) -mt-3 mx-3.5">
-                    {apiError}
-                  </p>
+                  <div className="text-(--palette-error-lighter) bg-(--palette-error-darker) shadow-(--Paper-shadow) bg-none font-normal text-sm leading-[1.57143] flex px-4 py-1.5 rounded-lg">
+                    <div className="flex text-[22px] text-(--palette-error-light) opacity-100 mr-3 px-0 py-1.75">
+                    </div>
+                    <div className="min-w-0 overflow-auto px-0 py-2">
+                      {apiError}
+                    </div>
+                  </div>
                 )}
 
                 {/* Buttons */}
                 <div className="flex flex-col gap-3 pt-2">
                   <button
                     type="submit"
-                    disabled={!isFormValid || isSubmitting}
+                    disabled={!isFormValid}
                     className={cn(
                       "w-full rounded-lg relative p-[6px_12px] min-h-9 text-sm font-bold h-[48px] bg-(--primary-color) text-white cursor-pointer",
                       "disabled:bg-gray-500 disabled:cursor-not-allowed",
