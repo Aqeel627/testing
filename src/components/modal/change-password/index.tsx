@@ -37,6 +37,9 @@ export default function ChangePassword() {
   const [oldPassword, setOldPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const passwordPattern = /^(?=.*\d).{8,}$/; 
+
+  
 
   const [touched, setTouched] = useState({
     oldPassword: false,
