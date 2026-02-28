@@ -4,6 +4,7 @@ const BreadCrumb = dynamic(() => import("@/components/common/bread-crumb"));
 const AmlPolicyRoute = () => {
   return (
     <>
+    <div id="amlPolicyRoute.tsx">
       <BreadCrumb title="AML" showTitle={false} />
       <div className="space-y-4 mt-6">
         <p className="text-center text-[12pt] font-semibold underline font-sans">
@@ -198,6 +199,7 @@ const AmlPolicyRoute = () => {
           <li className="text-[12pt] font-sans">The Implementing Procedures and the Financial crime risk assessments – whose performed as part of the development of new products, services, functionality or addressing new customers / markets.</li>
           <li className="text-[12pt] font-sans">The operation of periodic internal controls, including monitoring, investigation and reporting of suspicious activity.</li>
         </ol>
+      </div>
       </div>
     </>
   )

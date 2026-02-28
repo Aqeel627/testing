@@ -76,6 +76,7 @@ export default function ChangePasswordPage() {
   }
 
   return (
+    <div id="changePasswordPage.tsx">
     <section className="">
       <div className="flex flex-col max-[900]:pt-12 pb-4 min-[900]:flex-row w-full flex-1 basis-auto min-[900]:h-auto">
         {/* LEFT SIDE */}
@@ -342,5 +343,6 @@ export default function ChangePasswordPage() {
         </div>
       </div>
     </section>
+    </div>
   );
 }
