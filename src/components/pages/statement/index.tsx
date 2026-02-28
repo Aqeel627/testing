@@ -325,7 +325,7 @@ const StatementPage = () => {
                                     <tr>
                                         <td
                                             colSpan={5}
-                                            className="  text-[#555] text-center text-[12px] py-[8px]"
+                                            className="  text-[#555] text-center text-[12px] py-[8px] border border-[var(--primary-color)]"
                                         >
                                             No data!
                                         </td>
@@ -342,7 +342,7 @@ const StatementPage = () => {
                             onClick={() => handlePageChange(1)}
                             disabled={isFirstPage || !hasMultiplePages}
                             className={`
-    font-semibold rounded px-3 py-1 transition-all
+    font-semibold rounded px-3 py-1 transition-all h-[32px] text-[12px]
     ${isFirstPage || !hasMultiplePages
                                     ? " bg-transparent cursor-not-allowed border border-[var(--primary-color)] text-[#757272]"
                                     : "bg-transparent border border-[var(--primary-color)] hover:opacity-80 text-[#757272]"
@@ -363,7 +363,7 @@ const StatementPage = () => {
                             onClick={() => handlePageChange(currentPage - 1)}
                             disabled={isFirstPage || !hasMultiplePages}
                             className={`
-    text-[#757272] font-semibold rounded px-3 py-1
+    text-[#757272] font-semibold rounded px-3 py-1 h-[32px] text-[12px]
     ${isFirstPage || !hasMultiplePages
                                     ? "bg-transparent cursor-not-allowed border border-[var(--primary-color)] text-[#757272]"
                                     : "bg-transparent border border-[var(--primary-color)] hover:opacity-80 text-[#757272]"
@@ -373,7 +373,7 @@ const StatementPage = () => {
                             Previous
                         </button>
 
-                        <span className="w-[23px] h-[21px] flex items-center justify-center rounded-[5px]  text-white font-bold"
+                        <span className="w-[23px] h-[32px] text-[12px] flex items-center justify-center rounded-[5px]  text-white font-bold"
                             style={{
                                 background: "var(--primary-color)",
                                 boxShadow:
@@ -385,7 +385,7 @@ const StatementPage = () => {
                             onClick={() => handlePageChange(currentPage + 1)}
                             disabled={isLastPage || !hasMultiplePages}
                             className={`
-    text-[#757272] font-semibold rounded px-3 py-1
+    text-[#757272] font-semibold rounded px-3 py-1 h-[32px] text-[12px]
     ${isLastPage || !hasMultiplePages
                                     ? "bg-transparent cursor-not-allowed border border-[var(--primary-color)] text-[#757272]"
                                     : "bg-transparent border border-[var(--primary-color)] hover:opacity-80 text-[#757272]"
@@ -398,7 +398,7 @@ const StatementPage = () => {
                             onClick={() => handlePageChange(totalPages)}
                             disabled={isLastPage || !hasMultiplePages}
                             className={`
-    text-[#757272] font-semibold rounded px-3 py-1
+    text-[#757272] font-semibold rounded px-3 py-1 h-[32px] text-[12px]
     ${isLastPage || !hasMultiplePages
                                     ? "bg-transparent cursor-not-allowed border border-[var(--primary-color)] text-[#757272]"
                                     : "bg-transparent border border-[var(--primary-color)] hover:opacity-80 text-[#757272]"
@@ -422,7 +422,7 @@ const StatementPage = () => {
                                 onClick={() => handlePageChange(1)}
                                 disabled={isFirstPage || !hasMultiplePages}
                                 className={`
-    font-semibold rounded px-3 py-1 transition-all
+    font-semibold rounded px-3 py-1 transition-all h-[32px] text-[12px]
     ${isFirstPage || !hasMultiplePages
                                         ? " bg-transparent cursor-not-allowed border border-[var(--primary-color)] text-[#757272]"
                                         : "bg-transparent border border-[var(--primary-color)] hover:opacity-80 text-[#757272]"
@@ -443,7 +443,7 @@ const StatementPage = () => {
                                 onClick={() => handlePageChange(currentPage - 1)}
                                 disabled={isFirstPage || !hasMultiplePages}
                                 className={`
-    text-[#757272] font-semibold rounded px-3 py-1
+    text-[#757272] font-semibold rounded px-3 py-1 h-[32px] text-[12px]
     ${isFirstPage || !hasMultiplePages
                                         ? "bg-transparent cursor-not-allowed border border-[var(--primary-color)] text-[#757272]"
                                         : "bg-transparent border border-[var(--primary-color)] hover:opacity-80 text-[#757272]"
@@ -453,7 +453,7 @@ const StatementPage = () => {
                                 Previous
                             </button>
 
-                            <span className="w-[23px] h-[21px] flex items-center justify-center rounded-[5px]  text-white font-bold"
+                            <span className="w-[23px] h-[32px] text-[12px] flex items-center justify-center rounded-[5px]  text-white font-bold"
                                 style={{
                                     background: "var(--primary-color)",
                                     boxShadow:
@@ -466,7 +466,7 @@ const StatementPage = () => {
                                 onClick={() => handlePageChange(currentPage + 1)}
                                 disabled={isLastPage || !hasMultiplePages}
                                 className={`
-    text-[#757272] font-semibold rounded px-3 py-1
+    text-[#757272] font-semibold rounded px-3 py-1 h-[32px] text-[12px]
     ${isLastPage || !hasMultiplePages
                                         ? "bg-transparent cursor-not-allowed border border-[var(--primary-color)] text-[#757272]"
                                         : "bg-transparent border border-[var(--primary-color)] hover:opacity-80 text-[#757272]"
@@ -480,7 +480,7 @@ const StatementPage = () => {
                                 onClick={() => handlePageChange(totalPages)}
                                 disabled={isLastPage || !hasMultiplePages}
                                 className={`
-    text-[#757272] font-semibold rounded px-3 py-1
+    text-[#757272] font-semibold rounded px-3 py-1 h-[32px] text-[12px]
     ${isLastPage || !hasMultiplePages
                                         ? "bg-transparent cursor-not-allowed border border-[var(--primary-color)] text-[#757272]"
                                         : "bg-transparent border border-[var(--primary-color)] hover:opacity-80 text-[#757272]"
