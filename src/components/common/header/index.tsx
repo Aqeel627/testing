@@ -451,7 +451,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                   <hr className="m-0 shrink-0 border-0 border-b border-dashed border-(--dotted-line)" />
 
                   {/* Logout Button */}
-                  <div className="p-2 relative">
+                  <div className="p-2 relative hidden md:block">
                     {/* 👇 Ye optional background glow hai jo corner main red light dega (bilkul image jaisa) */}
                     <div className="absolute -bottom-4 hidden md:flex -left-4 w-20 h-20 bg-[#FF5630] blur-[30px] opacity-15 pointer-events-none"></div>
 
