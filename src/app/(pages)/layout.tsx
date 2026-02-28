@@ -96,22 +96,17 @@ const shouldHideFooter = HIDE_FOOTER_ROUTES.includes(pathname);
             aria-hidden="true"
           />
 
-          <aside
-  className={`fixed top-0 sidebar-container left-0 z-[70] w-[288px] max-w-[85vw] bg-[var(--background)] overflow-y-auto no-scrollbar ${
-    isMobileSidebarOpen ? "translate-x-0 drawer" : "-translate-x-full"
-  }`}
+         <motion.aside
+  animate={{ x: isMobileSidebarOpen ? 0 : "-100%" }}
+  transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+  className="fixed top-0 sidebar-container left-0 z-[70] w-[288px] max-w-[85vw] bg-[var(--background)] overflow-y-auto no-scrollbar"
   style={{
-    height: "100dvh",                          // ✅ iPhone cut fix — dynamic viewport
-    transform: isMobileSidebarOpen 
-      ? "translate3d(0, 0, 0)"                 // ✅ GPU layer force
-      : "translate3d(-100%, 0, 0)",
-    transition: "transform 0.3s cubic-bezier(0.22, 1, 0.36, 1)",  // ✅ iOS smooth
-    WebkitOverflowScrolling: "touch" as any,   // ✅ iOS scroll fix
-    willChange: "transform",                   // ✅ GPU hint
+    height: "100dvh",
+    willChange: "transform",
   }}
 >
-            <Sidebar />
-          </aside>
+  <Sidebar />
+</motion.aside>
 
           <main className="pt-[80px] px-3 h-screen">
             {children}
