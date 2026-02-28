@@ -325,7 +325,7 @@ export default function BetHistoryComponent() {
             <div className="bh-filter-col">
               <input
                 type="date"
-                className={`input bh-date-input${os === "Android" ? " android" : ""}`}
+                className={`input bh-date-input iphone-date ${os === "Android" ? " android" : ""}`}
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
               />
@@ -334,7 +334,7 @@ export default function BetHistoryComponent() {
             <div className="bh-filter-col">
               <input
                 type="date"
-                className={`input bh-date-input${os === "Android" ? " android" : ""}`}
+                className={`input bh-date-input iphone-date ${os === "Android" ? " android" : ""}`}
                 value={endDate}
                 onChange={(e) => setEndDate(e.target.value)}
               />

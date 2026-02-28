@@ -144,7 +144,7 @@ const ProfitLossPage: React.FC = () => {
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
                 // Yahan 'input' aur 'bh-date-input' classes add ki hain
-                className="input bh-date-input w-full h-[32px] px-3 py-1 outline-none rounded-[5px] text-[12px]"
+                className="input bh-date-input w-full h-[32px] iphone-date px-3 py-1 outline-none rounded-[5px] text-[12px]"
               />
             </div>
 
@@ -155,7 +155,7 @@ const ProfitLossPage: React.FC = () => {
                 value={endDate}
                 onChange={(e) => setEndDate(e.target.value)}
                 // Same classes yahan bhi
-                className="input bh-date-input w-full h-[32px] px-3 py-1 outline-none rounded-[5px] text-[12px]"
+                className="input bh-date-input iphone-date w-full h-[32px] px-3 py-1 outline-none rounded-[5px] text-[12px]"
               />
             </div>
 
