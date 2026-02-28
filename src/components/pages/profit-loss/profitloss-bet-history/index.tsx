@@ -6,6 +6,7 @@ import { CONFIG } from '@/lib/config';
 import { useAuthStore } from '@/lib/useAuthStore';
 import http from '@/lib/axios-instance';
 import BreadCrumb from '@/components/common/bread-crumb';
+import "./../profit-loss-page/style.css";
 
 // Types define kar di hain
 interface BetHistoryItem {
@@ -125,9 +126,9 @@ const ProfitLossBetHostory: React.FC = () => {
 
                 {/* Indicators (Back/Lay/Void) */}
                 <div className="flex justify-end w-full mb-2 gap-1">
-                    <div className="bg-[var(--back-bg)] border border-[var(--back-border)] px-2 py-1 text-[11px] font-semibold text-[var(--back-price-text)] hover:bg-[var(--back-hover)]">Back</div>
-                    <div className=" border border-(--lay-border)! bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)] px-2 py-1 text-[11px] font-semibold text-[var(--lay-price-text)]">Lay</div>
-                    <div className="bg-transparent border border-(--primary-color) px-2 py-1 text-[11px] font-semibold text-(--primary-color)">Void</div>
+                    <div className="bg-[var(--back-bg)] border border-[var(--back-border)] px-2 py-[6.9px] text-[11px] rounded-[0.25rem] font-semibold text-[var(--back-price-text)] hover:bg-[var(--back-hover)]">Back</div>
+                    <div className=" border border-(--lay-border)! bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)] rounded-[0.25rem] px-2 py-1 text-[11px] font-semibold text-[var(--lay-price-text)] py-[6.9px]">Lay</div>
+                    <div className="bg-transparent border border-(--primary-color) px-2 py-1 text-[11px] font-semibold rounded-[0.25rem] text-(--primary-color) py-[6.9px]">Void</div>
                 </div>
 
                 {/* Table Section */}
@@ -169,22 +170,22 @@ const ProfitLossBetHostory: React.FC = () => {
                                                 : 'bg-[var(--lay-bg)]'}
                                         `}
                                     >
-                                        <td className="p-2 border-r border-(--dotted-line) text-[var(--palette-text-primary)]">{history.eventType?.name}</td>
-                                        <td className="p-2 border-r border-(--dotted-line) text-[var(--palette-text-primary)]">{history.event?.name}</td>
-                                        <td className="p-2 border-r border-(--dotted-line) text-(--primary-color)">{history.marketId}</td>
-                                        <td className="p-2 border-r border-(--dotted-line) text-[var(--palette-text-primary)]">{history.selectionName}</td>
-                                        <td className="p-2 border-r border-(--dotted-line) text-[var(--palette-text-primary)] font-bold">{history.bidType}</td>
-                                        <td className="p-2 border-r border-(--dotted-line) text-[var(--palette-text-primary)]">
+                                        <td className="p-2 border-r border-(--dotted-line) whitespace-nowrap text-[var(--palette-text-primary)]">{history.eventType?.name}</td>
+                                        <td className="p-2 border-r border-(--dotted-line) whitespace-nowrap  text-[var(--palette-text-primary)]">{history.event?.name}</td>
+                                        <td className="p-2 border-r border-(--dotted-line) whitespace-nowrap  text-[var(--palette-text-primary)]">{history.marketId}</td>
+                                        <td className="p-2 border-r border-(--dotted-line) whitespace-nowrap  text-[var(--palette-text-primary)]">{history.selectionName}</td>
+                                        <td className="p-2 border-r border-(--dotted-line) whitespace-nowrap  text-[var(--palette-text-primary)] font-bold">{history.bidType}</td>
+                                        <td className="p-2 border-r border-(--dotted-line) whitespace-nowrap  text-[var(--palette-text-primary)]">
                                             {Number(history.averagePrice).toFixed(2)}
                                             {history.requestedPrice && ` / ${history.requestedPrice}`}
                                         </td>
-                                        <td className="p-2 border-r border-(--dotted-line) text-[var(--palette-text-primary)]">{history.totalSizeMatched}</td>
-                                        <td className={`p-2 border-r border-(--dotted-line) font-bold ${history.profitLoss < 0 ? 'text-red-600' : 'text-green-600'
+                                        <td className="p-2 border-r border-(--dotted-line) whitespace-nowrap  text-[var(--palette-text-primary)]">{history.totalSizeMatched}</td>
+                                        <td className={`p-2 border-r border-(--dotted-line) whitespace-nowrap  font-bold ${history.profitLoss < 0 ? 'text-red-600' : 'text-green-600'
                                             }`}>
                                             {history.profitLoss}
                                         </td>
-                                        <td className="p-2 border-r border-(--dotted-line) text-[var(--palette-text-primary)]">{formatDate(history.placeDate)}</td>
-                                        <td className="p-2 text-[var(--palette-text-primary)]">{formatDate(history.matchedDate)}</td>
+                                        <td className="p-2 border-r border-(--dotted-line) whitespace-nowrap text-[var(--palette-text-primary)]">{formatDate(history.placeDate)}</td>
+                                        <td className="p-2 whitespace-nowrap  text-[var(--palette-text-primary)]">{formatDate(history.matchedDate)}</td>
                                     </tr>
                                 ))
                             ) : (
@@ -197,34 +198,104 @@ const ProfitLossBetHostory: React.FC = () => {
                 </div>
 
                 {/* Pagination Section */}
-                <div className="flex flex-col-reverse md:flex-row justify-between items-center gap-4 mt-[15px] text-[#757272]">
-                    <div className="text-[10px] order-1 w-full md:w-auto text-start text-(--secondary-text-color)">
-                        <span>Showing {startIndex} to {endIndex} of {totalRecords} entries</span>
+                <div className="bh-pagination-container">
+                    {/* Mobile buttons - Only visible on mobile */}
+                    <div className="bh-mobile-only bh-pg-buttons w-full">
+                        <button
+                            className={`pg-btn${currentPage === 1 ? " disabled" : ""}`}
+                            onClick={goToFirst}
+                        >
+                            First
+                        </button>
+                        <button
+                            className={`pg-btn${currentPage === 1 ? " disabled" : ""}`}
+                            onClick={goToPrevious}
+                        >
+                            Previous
+                        </button>
+                        <span className="pg-number active">{currentPage}</span>
+                        <button
+                            className={`pg-btn${currentPage === totalPages ? " disabled" : ""}`}
+                            onClick={goToNext}
+                        >
+                            Next
+                        </button>
+                        <button
+                            className={`pg-btn${currentPage === totalPages ? " disabled" : ""}`}
+                            onClick={goToLast}
+                        >
+                            Last
+                        </button>
                     </div>
 
-                    <div className="flex justify-center items-center gap-2 order-2 text-(--secondary-text-color)">
-                        <button onClick={goToFirst} disabled={currentPage === 1} className="text-[11px] font-semibold disabled:opacity-40 px-1">First</button>
-                        <button onClick={goToPrevious} disabled={currentPage === 1} className="text-[11px] font-semibold disabled:opacity-40 px-1">Previous</button>
-                        <span className="w-[24px] h-[21px] bg-[var(--primary-color)] text-white rounded-[5px] flex items-center justify-center font-bold text-[11px]">
-                            {currentPage}
-                        </span>
-                        <button onClick={goToNext} disabled={currentPage === totalPages} className="text-[11px] font-semibold disabled:opacity-40 px-1">Next</button>
-                        <button onClick={goToLast} disabled={currentPage === totalPages} className="text-[11px] font-semibold disabled:opacity-40 px-1">Last</button>
-                    </div>
-
-                    <div className="flex items-center gap-1 order-3 w-full md:w-auto justify-end">
-                        <span className="text-[10px] whitespace-nowrap text-(--secondary-text-color)">Jump to page</span>
+                    {/* Desktop jump - Only visible on desktop */}
+                    <div className="bh-desktop-only bh-jump">
+                        <span className="jumptext">Jump to page</span>
                         <input
-                            type="text"
+                            className="input bh-jump-input h-[32px]"
                             value={jumptoPage}
                             onChange={(e) => setJumptoPage(e.target.value)}
-                            className="text-sm text-center h-[32px] border border-(--dotted-line) bg-transparent rounded-[5px] focus:outline-none max-w-[156.78px] text-white"
+                            onKeyDown={(e) => e.key === "Enter" && JumpPage()}
                         />
-                        <button onClick={JumpPage} className="bg-[var(--primary-color)] text-white h-[32px] px-3 rounded-[5px] text-[12px] font-semibold ml-1 uppercase">Go</button>
+                        <button className="bh-jump-go-btn h-[32px]" onClick={JumpPage}>
+                            Go
+                        </button>
+                    </div>
+
+                    {/* Entries text + mobile jump logic */}
+                    <div className="bh-entries-text">
+                        <div className="bh-mobile-only bh-jump">
+                            <span className="jumptext">Jump to page</span>
+                            <input
+                                className="input bh-jump-input"
+                                value={jumptoPage}
+                                onChange={(e) => setJumptoPage(e.target.value)}
+                                onKeyDown={(e) => e.key === "Enter" && JumpPage()}
+                            />
+                            <button
+                                className="bh-jump-go-btn"
+                                onClick={JumpPage}
+                                disabled={!jumptoPage}
+                            >
+                                Go
+                            </button>
+                        </div>
+                        <span>
+                            Showing {startIndex} to {endIndex} of {totalRecords} entries
+                        </span>
+                    </div>
+
+                    {/* Desktop buttons - Only visible on desktop */}
+                    <div className="bh-desktop-only bh-pg-buttons h-[32px]">
+                        <button
+                            className={`pg-btn${currentPage === 1 ? " disabled" : ""} h-[32px]`}
+                            onClick={goToFirst}
+                        >
+                            First
+                        </button>
+                        <button
+                            className={`pg-btn${currentPage === 1 ? " disabled" : ""} h-[32px]`}
+                            onClick={goToPrevious}
+                        >
+                            Previous
+                        </button>
+                        <span className="pg-number active h-[32px]">{currentPage}</span>
+                        <button
+                            className={`pg-btn${currentPage === totalPages ? " disabled" : ""} h-[32px]`}
+                            onClick={goToNext}
+                        >
+                            Next
+                        </button>
+                        <button
+                            className={`pg-btn${currentPage === totalPages ? " disabled" : ""} h-[32px]`}
+                            onClick={goToLast}
+                        >
+                            Last
+                        </button>
                     </div>
                 </div>
 
-                
+
             </div>
         </div>
     );
