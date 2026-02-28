@@ -32,6 +32,9 @@ export const useAppStore = create<any>((set) => ({
   setOurCasinoGames: (data: any) => set({ ourCasinoGames: data }),
   setOurEvents: (data: any) => set({ ourEvents: data }),
   /* new data functions */
+slipPreview: { stake: 0, price: 0 },
+setSlipPreview: (v: { stake: number; price: number }) => 
+  set({ slipPreview: v }),
 
 
   setAllEventsList: (data: any) =>
