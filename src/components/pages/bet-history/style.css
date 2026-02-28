@@ -323,13 +323,13 @@
   flex: 1;
 }
 
-select,
-input {
+.select,
+.input {
   border: 1px solid var(--primary-color) !important;
   color: var(--primary-color) !important;
   background: transparent !important;
 }
-select:focus,
-input:focus{
+.select:focus,
+.input:focus{
  outline: none;
 }

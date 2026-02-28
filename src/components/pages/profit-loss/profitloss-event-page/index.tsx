@@ -5,6 +5,8 @@ import { useParams, useRouter } from 'next/navigation';
 import { CONFIG } from '@/lib/config';
 import { useAuthStore } from '@/lib/useAuthStore';
 import http from '@/lib/axios-instance';
+import dynamic from 'next/dynamic';
+const BreadCrumb = dynamic(() => import("@/components/common/bread-crumb"));
 
 // Types define kar di hain
 interface ProfitItem {
@@ -107,13 +109,16 @@ const ProfitLossEventPage: React.FC = () => {
   return (
     <div className="container-fluid px-4">
       {/* ✅ Image ke mutabiq Header Design */}
-      <div className="flex items-center my-4">
+      {/* <div className="flex items-center my-4">
         <div className="flex-grow border-t border-t border-dashed border-(--dotted-line)"></div>
         <span className="px-4 text-[var(--palette-text-primary)] font-bold text-[16px] whitespace-nowrap uppercase">
           Profit Loss Event
         </span>
         <div className="flex-grow border-t border-t border-dashed border-(--dotted-line)"></div>
-      </div>
+      </div> */}
+              <div className="my-4">
+            <BreadCrumb title="Profit Loss Event" />
+        </div>
 
       {/* Table Section */}
       <div className="overflow-x-auto mt-2 custom-scrollbar">
