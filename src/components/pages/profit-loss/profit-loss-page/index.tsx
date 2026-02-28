@@ -224,7 +224,7 @@ const ProfitLossPage: React.FC = () => {
                 ))
               ) : (
                 <tr>
-                  <td colSpan={4} className="p-[8px_10px] text-center bg-[var(--palette-background-paper)] border-(--secondary-text-color) text-[12px]">No data!</td>
+                  <td colSpan={4} className="p-[8px_10px] text-center bg-[var(--palette-background-paper)] border border-t-0 border-(--secondary-text-color) text-[12px]">No data!</td>
                 </tr>
               )}
             </tbody>
