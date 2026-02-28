@@ -348,7 +348,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                   {/* Links List */}
                   <ul className="my-2 px-2 flex flex-col">
                     {[
-                      { label: "Edit Password", href: "" },
+                      { label: "Change Password", href: "" },
                       { label: "Statement", href: "/statement" },
                       { label: "Profit/Loss", href: "/profit-loss" },
                       { label: "Bets History", href: "/bets-history" },
@@ -364,7 +364,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                           href={item.href}
                           // onClick={() => setIsMenuOpen(false)}
                           onClick={(e) => {
-                            if (item.label === "Edit Password") {
+                            if (item.label === "Change Password") {
                               e.preventDefault();
                               openPasswordModal();
                               setIsMenuOpen(false);
@@ -383,7 +383,6 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                     <li
                       onClick={() => {
                         setTheme(theme === "dark" ? "light" : "dark");
-                        setIsMenuOpen(false);
                       }}
                       className="mb-1 no-underline h-12 min-[600px]:h-auto text-[0.875rem] leading-[1.57143px] hover:bg-[rgba(145,158,171,0.08)] rounded-[8px]"
                     >
