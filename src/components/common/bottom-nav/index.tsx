@@ -59,6 +59,14 @@ const BottomNavbar = () => {
             prefetch={false}
             href={item.link}
             onClick={(e) => {
+              // ✅ Bets ke liye sirf login check
+              if (item.icon === "bets" && !isLoggedIn) {
+                e.preventDefault();
+                setLoginModal(true);
+                return;
+              }
+
+              // ✅ Casino ke liye special toggle logic
               if (item.icon === "casinoic") {
                 e.preventDefault();
 
