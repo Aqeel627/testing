@@ -7,9 +7,11 @@ const BreadCrumb = dynamic(() => import("@/components/common/bread-crumb"));
 const PasswordHistoryPage = () => {
   return (
     <>
-      <BreadCrumb title="Password History" />
-      <div className="w-full mx-auto flex flex-col flex-grow scroll-mt-[40px]">
-        <PasswordHistoryClient />
+      <div id="password-history.tsx">
+        <BreadCrumb title="Password History" />
+        <div className="w-full mx-auto flex flex-col flex-grow scroll-mt-[40px]">
+          <PasswordHistoryClient />
+        </div>
       </div>
     </>
   );

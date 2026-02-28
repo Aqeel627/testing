@@ -54,8 +54,9 @@ export default function PasswordHistoryClient() {
   }, []);
 
   return (
-    <div className="">
-      {/* <div className="">
+    <div id="password-history-client.tsx">
+      <div className="">
+        {/* <div className="">
         <ul className="flex justify-start  gap-3 w-full overflow-x-auto scrollbar-hide">
           <li>
             <Link
@@ -85,54 +86,55 @@ export default function PasswordHistoryClient() {
         </ul>
       </div> */}
 
-      <div className="flex mx-auto overflow-x-auto scroll-width-none max-w-3xl px-2 pb-[5px] gap-[15px]">
-        {/* Open Tab */}
-        {tabs.map((item) => (
-          <Link
-            href={item.link}
-            key={item.id}
-            className={`${styles["glass-panel"]} ${styles["nav-item"]} ${pathname===item.link&&styles.active}`}
-            
-          >
-            <p>{item.name}</p>
-          </Link>
-        ))}
-      </div>
+        <div className="flex mx-auto overflow-x-auto scroll-width-none max-w-3xl px-2 pb-[5px] gap-[15px]">
+          {/* Open Tab */}
+          {tabs.map((item) => (
+            <Link
+              href={item.link}
+              key={item.id}
+              className={`${styles["glass-panel"]} ${styles["nav-item"]} ${pathname === item.link && styles.active}`}
 
-      <div className="mt-3">
-        <h6 className="text-[14px] font-semibold text-[var(--palette-text-primary)]">
-          Password History
-        </h6>
-      </div>
+            >
+              <p>{item.name}</p>
+            </Link>
+          ))}
+        </div>
 
-      <div className="mt-[5px] overflow-x-auto overflow-y-hidden scrollbar-hide mb-[30px]">
-        <table className={styles['bh-table']}>
-          <thead>
-            <tr>
-              <th>
-                Date/Time
-              </th>
-              <th>
-                Remark
-              </th>
-            </tr>
-          </thead>
+        <div className="mt-3">
+          <h6 className="text-[14px] font-semibold text-[var(--palette-text-primary)]">
+            Password History
+          </h6>
+        </div>
 
-          {passwordChangeData?.length != 0 && (
-            <tbody>
-              {passwordChangeData.map((item: any, idx: number) => (
-                <tr key={idx} className="bg-[var(--palette-background-paper)]">
-                  <td className="text-center text-[16px] px-2 py-2 border-r border-white border-b border-white text-[var(--palette-text-primary)]">
-                    {formatDateTime(item?.createdAt)}
-                  </td>
-                  <td className="text-center text-[16px] px-2 py-2 border-r border-white border-b border-white text-[var(--palette-text-primary)]">
-                    {item?.remark || "NA"}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          )}
-        </table>
+        <div className="mt-[5px] overflow-x-auto overflow-y-hidden scrollbar-hide mb-[30px]">
+          <table className={styles['bh-table']}>
+            <thead>
+              <tr>
+                <th>
+                  Date/Time
+                </th>
+                <th>
+                  Remark
+                </th>
+              </tr>
+            </thead>
+
+            {passwordChangeData?.length != 0 && (
+              <tbody>
+                {passwordChangeData.map((item: any, idx: number) => (
+                  <tr key={idx} className="bg-[var(--palette-background-paper)]">
+                    <td className="text-center text-[16px] px-2 py-2 border-r border-white border-b border-white text-[var(--palette-text-primary)]">
+                      {formatDateTime(item?.createdAt)}
+                    </td>
+                    <td className="text-center text-[16px] px-2 py-2 border-r border-white border-b border-white text-[var(--palette-text-primary)]">
+                      {item?.remark || "NA"}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            )}
+          </table>
+        </div>
       </div>
     </div>
   );
