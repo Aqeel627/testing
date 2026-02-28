@@ -97,7 +97,7 @@ const shouldHideFooter = HIDE_FOOTER_ROUTES.includes(pathname);
           />
 
           <aside
-            className={`fixed top-0 sidebar-container left-0 z-[70] h-screen w-[288px] max-w-[85vw] bg-[var(--background)] overflow-y-auto no-scrollbar transition-transform duration-300 ease-in-out ${
+            className={`fixed top-0 sidebar-container left-0 z-[999] h-screen w-[288px] max-w-[85vw] bg-[var(--background)] overflow-y-auto no-scrollbar transition-transform duration-300 ease-in-out ${
               isMobileSidebarOpen ? "translate-x-0 drawer" : "-translate-x-full"
             }`}
           >

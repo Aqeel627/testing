@@ -218,7 +218,7 @@ const SingleMarket = ({
                             <div className="w-[7px] h-[7px] bg-[#508d0e] rounded-full"></div>
                           </div>
                         )}
-                        <p
+                        <div
                           className={`m-0 font-sans truncate whitespace-nowrap text-[10px] font-bold leading-[1rem] ${event.inplay ? "text-(--primary-color)" : "text-[var(--secondary-text-color)]"}`}
                         >
                           {event.inplay ? (
@@ -226,7 +226,7 @@ const SingleMarket = ({
                           ) : (
                             <EventTimer startTime={event?.marketStartTime} />
                           )}
-                        </p>
+                        </div>
                       </div>
                     </div>
 
@@ -266,7 +266,7 @@ const SingleMarket = ({
                     <div className="flex gap-1">
                       {/* BACK BUTTON (LEFT) */}
                       <div
-                        className={`${oddsBoxWidthClass} h-[45px] gap-[2px] rounded-[8px] border border-[var(--back-border)] ${isThisSelected(event.runnersName?.[0]?.runnerName, "back") ? "bg-[var(--back-selected)]" : "bg-[var(--back-bg)]"} hover:bg-[var(--back-hover)] flex flex-col justify-center items-center cursor-pointer select-none transition-all`}
+                        className={`${oddsBoxWidthClass} h-[45px] gap-[2px] rounded-[8px] border border-[var(--back-border)] ${isThisSelected(event.runnersName?.[0]?.runnerName, "back") ? "bg-[var(--back-selected)] hover:bg-[var(--back-selected)]" : "bg-[var(--back-bg)]"} hover:bg-[var(--back-hover)] flex flex-col justify-center items-center cursor-pointer select-none transition-all`}
                         onClick={() => {
                           const price =
                             runner0?.ex?.availableToBack?.[0]?.price;
@@ -302,7 +302,7 @@ const SingleMarket = ({
 
                       {/* LAY BUTTON (LEFT) */}
                       <div
-                        className={`${oddsBoxWidthClass} h-[45px] gap-[2px] rounded-[8px] border border-[var(--lay-border)] ${isThisSelected(event.runnersName?.[0]?.runnerName, "lay") ? "bg-[var(--lay-selected)]" : "bg-[var(--lay-bg)]"} hover:bg-[var(--lay-hover)] flex flex-col justify-center items-center cursor-pointer select-none transition-all`}
+                        className={`${oddsBoxWidthClass} h-[45px] gap-[2px] rounded-[8px] border border-[var(--lay-border)] ${isThisSelected(event.runnersName?.[0]?.runnerName, "lay") ? "bg-[var(--lay-selected)] hover:bg-[var(--lay-selected)]" : "bg-[var(--lay-bg)]"} hover:bg-[var(--lay-hover)] flex flex-col justify-center items-center cursor-pointer select-none transition-all`}
                         onClick={() => {
                           const price = runner0?.ex?.availableToLay?.[0]?.price;
                           const size = runner0?.ex?.availableToLay?.[0]?.size;
@@ -352,8 +352,8 @@ const SingleMarket = ({
                         className={`${oddsBoxWidthClass} h-[45px] gap-[2px] rounded-[8px] border-[1px] flex flex-col justify-center items-center select-none transition-all ${
                           hasThreeRunners
                             ? hasCenterBackPrice
-                              ? `border-[var(--back-border)] ${isThisSelected(event.runnersName?.[2]?.runnerName, "back") ? "bg-[var(--back-selected)]" : "bg-[var(--back-bg)]"} hover:bg-[var(--back-hover)] cursor-pointer`
-                              : `border-[var(--back-noprice-border)] ${isThisSelected(event.runnersName?.[2]?.runnerName, "back") ? "bg-[var(--back-selected)]" : "bg-[var(--back-noprice-bg)]"} hover:bg-[var(--back-hover)] cursor-pointer`
+                              ? `border-[var(--back-border)] ${isThisSelected(event.runnersName?.[2]?.runnerName, "back") ? "bg-[var(--back-selected)] hover:bg-[var(--back-selected)]" : "bg-[var(--back-bg)]"} hover:bg-[var(--back-hover)] cursor-pointer`
+                              : `border-[var(--back-noprice-border)] ${isThisSelected(event.runnersName?.[2]?.runnerName, "back") ? "bg-[var(--back-selected)] hover:bg-[var(--back-selected)]" : "bg-[var(--back-noprice-bg)]"} hover:bg-[var(--back-hover)] cursor-pointer`
                             : "border-[var(--back-disabled-border)] bg-[var(--back-disabled-bg)] cursor-default"
                         }`}
                         onClick={() => {
@@ -421,8 +421,8 @@ const SingleMarket = ({
                         className={`${oddsBoxWidthClass} h-[45px] gap-[2px] rounded-[8px] border-[1px] flex flex-col justify-center items-center select-none transition-all ${
                           hasThreeRunners
                             ? hasCenterLayPrice
-                              ? `border-[var(--lay-border)] ${isThisSelected(event.runnersName?.[2]?.runnerName, "lay") ? "bg-[var(--lay-selected)]" : "bg-[var(--lay-bg)]"} hover:bg-[var(--lay-hover)] cursor-pointer`
-                              : `border-[var(--lay-noprice-border)] ${isThisSelected(event.runnersName?.[2]?.runnerName, "lay") ? "bg-[var(--lay-selected)]" : "bg-[var(--lay-noprice-bg)]"} hover:bg-[var(--lay-hover)] cursor-pointer`
+                              ? `border-[var(--lay-border)] ${isThisSelected(event.runnersName?.[2]?.runnerName, "lay") ? "bg-[var(--lay-selected)] hover:bg-[var(--lay-selected)]" : "bg-[var(--lay-bg)]"} hover:bg-[var(--lay-hover)] cursor-pointer`
+                              : `border-[var(--lay-noprice-border)] ${isThisSelected(event.runnersName?.[2]?.runnerName, "lay") ? "bg-[var(--lay-selected)] hover:bg-[var(--lay-selected)]" : "bg-[var(--lay-noprice-bg)]"} hover:bg-[var(--lay-hover)] cursor-pointer`
                             : "border-[var(--lay-disabled-border)] bg-[var(--lay-disabled-bg)] cursor-default"
                         }`}
                         onClick={() => {
@@ -492,7 +492,7 @@ const SingleMarket = ({
                     <div className="flex gap-1">
                       {/* BACK BUTTON (RIGHT) */}
                       <div
-                        className={`${oddsBoxWidthClass} h-[45px] gap-[2px] rounded-[8px] border border-[var(--back-border)] ${isThisSelected(rightRunnerName, "back") ? "bg-[var(--back-selected)]" : "bg-[var(--back-bg)]"} hover:bg-[var(--back-hover)] flex flex-col justify-center items-center cursor-pointer select-none transition-all`}
+                        className={`${oddsBoxWidthClass} h-[45px] gap-[2px] rounded-[8px] border border-[var(--back-border)] ${isThisSelected(rightRunnerName, "back") ? "bg-[var(--back-selected)] hover:bg-[var(--back-selected)]" : "bg-[var(--back-bg)]"} hover:bg-[var(--back-hover)] flex flex-col justify-center items-center cursor-pointer select-none transition-all`}
                         onClick={() => {
                           const price =
                             rightRunner?.ex?.availableToBack?.[0]?.price;
@@ -529,7 +529,7 @@ const SingleMarket = ({
 
                       {/* LAY BUTTON (RIGHT) */}
                       <div
-                        className={`${oddsBoxWidthClass} h-[45px] gap-[2px] rounded-[8px] border border-[var(--lay-border)] ${isThisSelected(rightRunnerName, "lay") ? "bg-[var(--lay-selected)]" : "bg-[var(--lay-bg)]"} hover:bg-[var(--lay-hover)] flex flex-col justify-center items-center cursor-pointer select-none transition-all`}
+                        className={`${oddsBoxWidthClass} h-[45px] gap-[2px] rounded-[8px] border border-[var(--lay-border)] ${isThisSelected(rightRunnerName, "lay") ? "bg-[var(--lay-selected)] hover:bg-[var(--lay-selected)]" : "bg-[var(--lay-bg)]"} hover:bg-[var(--lay-hover)] flex flex-col justify-center items-center cursor-pointer select-none transition-all`}
                         onClick={() => {
                           const price =
                             rightRunner?.ex?.availableToLay?.[0]?.price;
@@ -568,7 +568,6 @@ const SingleMarket = ({
                 </div>
               </div>
 
-              {/* ✅ MBetSlip with onPreviewChange */}
               {isBetOnThisEvent && (
                 <div ref={betslipRef} className="block lg:hidden">
                   <MBetSlip />

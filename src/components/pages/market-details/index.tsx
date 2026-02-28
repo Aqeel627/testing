@@ -33,6 +33,7 @@ import {
 import Link from "next/link";
 import { eventBus } from "@/lib/eventBus";
 import http from "@/lib/axios-instance";
+import { useAuthStore } from "@/lib/useAuthStore";
 
 interface RunnerName {
   selectionId: number;
@@ -108,7 +109,7 @@ export default function MarketDetails() {
   const router = useRouter();
   const eventId = String(params.eventId ?? "");
   const sportId = String(params.sportId ?? params.marketId ?? "");
-
+  const {isLoggedIn}=useAuthStore()
   const sportNames: any = { "4": "Cricket", "2": "Tennis", "1": "Soccer" };
 
   // API states
@@ -143,34 +144,30 @@ export default function MarketDetails() {
   const [matchedBets, setMatchedBets] = useState<any[]>([]);
 
   // ── ADD: fetch PL ───────────────────────────────────────────────
-  const fetchMarketPL = useCallback(async () => {
-    if (!eventId || !sportId) return;
-    try {
-      const res: any = await http.post(CONFIG.getAllMarketplURL, {
-        eventId: String(eventId),
-        sportId: String(sportId),
-      });
-      if (res?.data?.pl) {
-        setAllMarketPl(JSON.parse(JSON.stringify(res.data.pl)));
-      }
-    } catch {
-      /* silent */
-    }
-  }, [eventId, sportId]);
 
-  // ── ADD: fetch matched/unmatched bets ───────────────────────────
-  const fetchBets = useCallback(async () => {
-    if (!eventId || !sportId) return;
-    try {
-      const res: any = await http.post(CONFIG.unmatchedBets, {
-        eventId: String(eventId),
-        sportId: String(sportId),
-      });
-      setMatchedBets(res?.data?.data?.matchedBets || []);
-    } catch {
-      /* silent */
+const fetchMarketPL = useCallback(async () => {
+  if (!eventId || !sportId || !isLoggedIn) return; 
+  try {
+    const res: any = await http.post(CONFIG.getAllMarketplURL, {
+      eventId: String(eventId),
+      sportId: String(sportId),
+    });
+    if (res?.data?.pl) {
+      setAllMarketPl(JSON.parse(JSON.stringify(res.data.pl)));
     }
-  }, [eventId, sportId]);
+  } catch { /* silent */ }
+}, [eventId, sportId, isLoggedIn]); 
+
+const fetchBets = useCallback(async () => {
+  if (!eventId || !sportId || !isLoggedIn) return; 
+  try {
+    const res: any = await http.post(CONFIG.unmatchedBets, {
+      eventId: String(eventId),
+      sportId: String(sportId),
+    });
+    setMatchedBets(res?.data?.data?.matchedBets || []);
+  } catch { /* silent */ }
+}, [eventId, sportId, isLoggedIn]); 
 
   // ── ADD: call on mount ──────────────────────────────────────────
   useEffect(() => {
@@ -1382,7 +1379,7 @@ ${
     : "border-[#5baca7] bg-[rgba(15,69,66,0.6)] hover:bg-[rgba(15,69,66,0.8)]"
 }
 
-${isBackSelected(item) ? "!bg-(--line-no-selected-bg) !border-(--line-no-selected-border)" : ""}
+${isBackSelected(item) ? "!bg-(--line-no-selected-bg) hover:bg-[var(--line-no-selected-bg)] !border-(--line-no-selected-border)" : ""}
 
 
 ${i === 2 ? "max-[464px]:hidden" : ""}
@@ -1442,10 +1439,10 @@ ${i === 1 ? "max-[346px]:hidden" : ""}
 hover:bg-[var(--back-hover)] flex-1 min-w-0 cursor-pointer text-black transition-colors ${
                                       i === 0
                                         ? isBackSelected(item)
-                                          ? "bg-[var(--back-selected)]"
+                                          ? "bg-[var(--back-selected)] hover:bg-[var(--back-selected)]"
                                           : "bg-[#0591cf] hover:bg-(--secondary-color)"
                                         : isBackSelected(item)
-                                          ? "bg-[var(--back-selected)]"
+                                          ? "bg-[var(--back-selected)] hover:bg-[var(--back-selected)]"
                                           : "bg-[#0a77a8] hover:bg-(--secondary-color)"
                                     } ${i === 2 ? "max-[464px]:hidden" : ""} ${i === 1 ? "max-[346px]:hidden" : ""}`}
                                     onClick={() => {
@@ -1522,7 +1519,7 @@ ${
     : "border-[#50d0ae] bg-[rgba(13,59,46,0.6)] hover:bg-[rgba(13,59,46,0.8)]"
 }
 
-${isLaySelected(item) ? "!bg-(--line-yes-selected-bg) !border-(--line-yes-selected-border)" : ""}
+${isLaySelected(item) ? "!bg-(--line-yes-selected-bg) hover:bg-[var(--line-yes-selected-bg)] !border-(--line-yes-selected-border)" : ""}
 
 ${i === 2 ? "max-[464px]:hidden" : ""}
 ${i === 1 ? "max-[346px]:hidden" : ""}
@@ -1580,10 +1577,10 @@ ${i === 1 ? "max-[346px]:hidden" : ""}
 bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)] flex-1 min-w-0 cursor-pointer text-black transition-colors ${
                                       i === 0
                                         ? isLaySelected(item)
-                                          ? "bg-[var(--lay-selected)]"
+                                          ? "bg-[var(--lay-selected)] hover:bg-[var(--lay-selected)]"
                                           : "bg-[#d1686d] hover:bg-[#FFA4A7]"
                                         : isLaySelected(item)
-                                          ? "bg-[var(--lay-selected)]"
+                                          ? "bg-[var(--lay-selected)] hover:bg-[var(--lay-selected)]"
                                           : "bg-[#a3555b] hover:bg-[#FFA4A7]"
                                     } ${i === 2 ? "max-[464px]:hidden" : ""} ${i === 1 ? "max-[346px]:hidden" : ""}`}
                                     onClick={() => {
@@ -1841,7 +1838,7 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)] flex-1 min-w-0 cursor-pointer tex
                   >
                     <Icon
                       name="play"
-                      className="w-5 h-5 text-(--arrow-color)!"
+                      className="w-5 h-5 min-w-5 min-h-5 text-(--arrow-color)!"
                     />
                     {eventName || "Event"}
                   </button>
