@@ -96,22 +96,27 @@ const shouldHideFooter = HIDE_FOOTER_ROUTES.includes(pathname);
             aria-hidden="true"
           />
 
-       <aside
-  className="fixed top-0 sidebar-container left-0 z-[70] w-[288px] max-w-[85vw] bg-[var(--background)] overflow-y-auto no-scrollbar"
-  style={{
-    height: "100dvh",
-    transform: isMobileSidebarOpen
-      ? "translate3d(0, 0, 0)"
-      : "translate3d(-100%, 0, 0)",
-    transition: "transform 0.35s cubic-bezier(0.22, 1, 0.36, 1)",
-    willChange: "transform",
-    backfaceVisibility: "hidden",
-    WebkitBackfaceVisibility: "hidden" as any,
-    WebkitOverflowScrolling: "touch" as any,
-  }}
->
-  <Sidebar />
-</aside>
+  <AnimatePresence>
+  {isMobileSidebarOpen && (
+    <motion.aside
+      initial={{ x: "-100%" }}
+      animate={{ x: 0 }}
+      exit={{ x: "-100%" }}
+      transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+      className="fixed top-0 sidebar-container left-0 z-[70] w-[288px] max-w-[85vw] bg-[var(--background)] overflow-y-auto no-scrollbar"
+      style={{
+        height: "100svh",
+        minHeight: "-webkit-fill-available",
+        willChange: "transform",
+        backfaceVisibility: "hidden",
+        WebkitBackfaceVisibility: "hidden" as any,
+        WebkitOverflowScrolling: "touch" as any,
+      }}
+    >
+      <Sidebar />
+    </motion.aside>
+  )}
+</AnimatePresence>
 
           <main className="pt-[80px] px-3 h-screen">
             {children}
