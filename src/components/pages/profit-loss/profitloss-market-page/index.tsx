@@ -116,7 +116,7 @@ const ProfitLossMarketPage: React.FC = () => {
           <BreadCrumb title="Profit Loss Markets" />
         </div>
 
-        <div className="overflow-x-auto mt-2 custom-scrollbar">
+        <div className="overflow-x-auto mt-2 scrollbar-hide">
           <table className="w-full border-collapse">
             <thead>
               <tr className="text-center">

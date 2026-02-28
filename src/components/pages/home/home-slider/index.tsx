@@ -48,7 +48,7 @@ const FALLBACK_BANNERS = [
   },
 ];
 const STATIC_PLACEHOLDER =
-  "https://static.assetsdelivery.net/marketing-posters/DOLLAR365COM/1771826626851646.jpeg";
+  "https://static.assetsdelivery.net/marketing-posters/DOLLAR365COM/1771826695973615.jpeg";
 
 // tilt (same direction)
 const TILT_CLASS = "transform-gpu rotate-[2deg] origin-center";
