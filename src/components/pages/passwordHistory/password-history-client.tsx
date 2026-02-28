@@ -106,13 +106,13 @@ export default function PasswordHistoryClient() {
       </div>
 
       <div className="mt-[5px] overflow-x-auto overflow-y-hidden scrollbar-hide mb-[30px]">
-        <table className="w-full border-collapse whitespace-nowrap text-[11px] rounded-[5px] overflow-hidden">
+        <table className={styles['bh-table']}>
           <thead>
             <tr>
-              <th className="text-center font-bold bg-[var(--market-header-bg)] text-[var(--palette-text-primary)] border-r border-white px-2 py-2 rounded-tl-[5px]">
+              <th>
                 Date/Time
               </th>
-              <th className="text-center font-bold bg-[var(--market-header-bg)] text-[var(--palette-text-primary)] border-r border-white px-2 py-2 rounded-tr-[5px]">
+              <th>
                 Remark
               </th>
             </tr>

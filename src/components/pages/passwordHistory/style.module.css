@@ -27,3 +27,25 @@
 .nav-item:hover {
   background: rgba(255, 255, 255, 0.1);
 }
+
+.bh-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+}
+
+.bh-table th,
+.bh-table td {
+  border: 1px solid var(--secondary-text-color);
+  padding: 0.4rem 0.6rem;
+  vertical-align: top;
+}
+.bh-table thead th {
+  background: var(--table-header-bg);
+  white-space: nowrap;
+  font-weight: 600;
+  color: var(--table-header-text);
+}
+.bh-table tbody tr:hover {
+  background: var(--primary-hover);
+}
