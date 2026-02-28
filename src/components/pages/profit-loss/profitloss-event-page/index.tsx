@@ -122,7 +122,7 @@ const ProfitLossEventPage: React.FC = () => {
         </div>
 
         {/* Table Section */}
-        <div className="overflow-x-auto mt-2 custom-scrollbar">
+        <div className="overflow-x-auto mt-2 scrollbar-hide">
           <table className="w-full border-collapse">
             <thead>
               <tr>
@@ -200,11 +200,7 @@ const ProfitLossEventPage: React.FC = () => {
           </div>
         </div>
 
-        <style jsx global>{`
-        .custom-scrollbar::-webkit-scrollbar { height: 8px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #5700a3; border-radius: 10px; border: 2px solid #ffffff; }
-        .custom-scrollbar::-webkit-scrollbar-track { background-color: #ffffff; }
-      `}</style>
+        
       </div>
     </div>
   );

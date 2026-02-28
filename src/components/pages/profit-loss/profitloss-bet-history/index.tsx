@@ -131,11 +131,11 @@ const ProfitLossBetHostory: React.FC = () => {
                 </div>
 
                 {/* Table Section */}
-                <div className="overflow-x-auto mt-2 custom-scrollbar">
+                <div className="overflow-x-auto mt-2 scrollbar-hide">
                     <table className="w-full border-collapse rounded-t-2!">
                         <thead>
                             <tr className="rounded-t-2">
-                                <th className="p-2 whitespace-nowrap bg-[var(--market-header-bg)] text-[var(--palette-text-primary)] border-r border-(--dotted-line)! text-[11px] rounded-tl-2 font-bold">Sport Name</th>
+                                <th className="p-2 whitespace-nowrap bg-[var(--market-header-bg)] text-[var(--palette-text-primary)] border-r border-(--dotted-line)! text-[11px] font-bold first:rounded-tl-[5px]">Sport Name</th>
                                 <th className="p-2 whitespace-nowrap bg-[var(--market-header-bg)] text-[var(--palette-text-primary)] border-r border-(--dotted-line)! text-[11px] font-bold min-w-[200px]">Event Name</th>
                                 <th className="p-2 whitespace-nowrap bg-[var(--market-header-bg)] text-[var(--palette-text-primary)] border-r border-(--dotted-line)! text-[11px] font-bold min-w-[120px]">Market Name</th>
                                 <th className="p-2 whitespace-nowrap bg-[var(--market-header-bg)] text-[var(--palette-text-primary)] border-r border-(--dotted-line)! text-[11px] font-bold min-w-[120px]">Selection Name</th>
@@ -224,11 +224,7 @@ const ProfitLossBetHostory: React.FC = () => {
                     </div>
                 </div>
 
-                <style jsx global>{`
-        .custom-scrollbar::-webkit-scrollbar { height: 8px; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #078dee; border-radius: 10px; border: 2px solid #ffffff; }
-        .custom-scrollbar::-webkit-scrollbar-track { background-color: #ffffff; }
-      `}</style>
+                
             </div>
         </div>
     );

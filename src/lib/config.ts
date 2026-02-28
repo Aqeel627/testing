@@ -208,11 +208,11 @@ export const CONFIG = {
   userBetList: BASE_URL + "/app/exchange/users/userBetList",
   newProfitLossMarket:
     BASE_URL + "/app/exchange/users/pl/userMarketsProfitloss",
-  newProfitLoss: BASE_URL + "/app/exchange/users/pl/userSportsProfitlossNew",
+  newProfitLoss: BASE_URL_100 + "/app/exchange/users/pl/userSportsProfitlossNew",
   newProfitLossEventMarket:
-    BASE_URL + "/app/exchange/users/pl/userEventsProfitlossNew",
+    BASE_URL_100 + "/app/exchange/users/pl/userEventsProfitlossNew",
   ProfitLossMarketNew:
-    BASE_URL + "/app/exchange/users/pl/userMarketsProfitlossNew",
+    BASE_URL_100 + "/app/exchange/users/pl/userMarketsProfitlossNew",
 };
 
 export const STACK_VALUE = [

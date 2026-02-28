@@ -154,11 +154,23 @@ const ProfitLossPage: React.FC = () => {
               />
             </div>
             <div className="col-span-12 md:col-span-4 xl:col-span-2 mt-3 md:mt-0">
-              <button
+              {/* <button
                 onClick={rerender}
                 disabled={isLoader}
                 className="w-full h-[32px] bg-[var(--primary-color)] border-[var(--primary-color)] text-[12px] font-bold rounded-[5px] uppercase disabled:opacity-50 transition-all text-white"
               >
+                Submit
+              </button> */}
+
+              <button
+                onClick={rerender}
+                disabled={isLoader}
+                className="h-[32px] px-4 font-bold rounded-[5px] uppercase text-white  text-[12px] cursor-pointer "
+                style={{
+                  background: "var(--primary-color)",
+                  boxShadow:
+                    "0 4px 20px color-mix(in srgb, var(--primary-color) 35%, transparent)",
+                }}>
                 Submit
               </button>
             </div>
@@ -166,7 +178,7 @@ const ProfitLossPage: React.FC = () => {
         </div>
 
         {/* TABLE SECTION - Design preserved */}
-        <div className="overflow-x-auto mb-[30px] custom-scrollbar">
+        <div className="overflow-x-auto mb-[30px] scrollbar-hide">
           <table className="w-full border-collapse border-none">
             <thead>
               <tr>
