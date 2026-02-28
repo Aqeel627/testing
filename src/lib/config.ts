@@ -1,18 +1,18 @@
 // const BASE_URL_API = 'http://130.172.2.149:4444';
 // const BASE_URL_V1 = "unityexch.com";
 
-// export const BASE_URL_API = "https://100exch.com";
-// const BASE_URL_V1 = "https://100exch.com";
-// const BASE_URL = "https://100exch.com";
-// const BASE_URL_APIX = "https://100exch.com";
+export const BASE_URL_API = "https://100exch.com";
+const BASE_URL_V1 = "https://100exch.com";
+const BASE_URL = "https://100exch.com";
+const BASE_URL_APIX = "https://100exch.com";
 
 export const BASE_URL_NewApi = "https://auexch.yourdesign.live";
 export const BASE_URL_100 = "https://100exch.com";
 
-export const BASE_URL_API = '';
-export const BASE_URL_V1 = "";
-export const BASE_URL = "";
-export const BASE_URL_APIX = "";
+// export const BASE_URL_API = '';
+// export const BASE_URL_V1 = "";
+// export const BASE_URL = "";
+// export const BASE_URL_APIX = "";
 
 export const BASE_URL_WS = "";
 // export const BASE_URL_WS = "http://54.228.173.228:9007"
@@ -84,7 +84,7 @@ export const CONFIG = {
   playerLogin: BASE_URL_100 + "/app/users/playerLogin",
   getIpLocation: "https://pro.ip-api.com/json/?key=qSA5ctYZHdWsx04", // done
   getUserBalance: BASE_URL_100 + "/app/exchange/users/userBalance", // done
-  changeUserPassword: BASE_URL_100 + "/app/exchange/users/userChangePassword", // done
+  changeUserPassword: BASE_URL + "/app/exchange/users/userChangePassword", // done
   getUserBetStake: BASE_URL + "/app/exchange/users/userBetStakeList", // done
   getUserBetStakeTime: 518400,
   userUpdateStackValueURL: BASE_URL + "/app/exchange/users/updateUserBetStake", // done
@@ -208,11 +208,11 @@ export const CONFIG = {
   userBetList: BASE_URL + "/app/exchange/users/userBetList",
   newProfitLossMarket:
     BASE_URL + "/app/exchange/users/pl/userMarketsProfitloss",
-  newProfitLoss: BASE_URL + "/app/exchange/users/pl/userSportsProfitlossNew",
+  newProfitLoss: BASE_URL_100 + "/app/exchange/users/pl/userSportsProfitlossNew",
   newProfitLossEventMarket:
-    BASE_URL + "/app/exchange/users/pl/userEventsProfitlossNew",
+    BASE_URL_100 + "/app/exchange/users/pl/userEventsProfitlossNew",
   ProfitLossMarketNew:
-    BASE_URL + "/app/exchange/users/pl/userMarketsProfitlossNew",
+    BASE_URL_100 + "/app/exchange/users/pl/userMarketsProfitlossNew",
 };
 
 export const STACK_VALUE = [
