@@ -271,6 +271,7 @@ export default function BetHistoryComponent() {
   // ─── Render ───────────────────────────────────────────────────────────────
   return (
     <>
+    <div id="betHistory.tsx">
         <div className="my-4">
       <BreadCrumb title="My Bets" />
 </div>
@@ -810,6 +811,7 @@ export default function BetHistoryComponent() {
             You have no bets in this time period.
           </div>
         )}
+      </div>
       </div>
     </>
   );

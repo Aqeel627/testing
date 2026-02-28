@@ -119,7 +119,7 @@ export default function SportsNav({
   };
 
   return (
-    <section>
+    <section id="sport-nav.tsx">
       <div className={`${styles["tabs-root"]} border-2 border-dashed border-(--dotted-line)`}>
         <div
           ref={scrollContainerRef}

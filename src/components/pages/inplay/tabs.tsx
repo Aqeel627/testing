@@ -129,72 +129,76 @@ export default function InplaySportNav({
   }, [navItems, activeTab, updateIndicator]);
 
   return (
-    <div
-      className={`${styles["tabs-root"]} border-2 min-[900]:mt-6 mt-3 border-dashed border-(--dotted-line)`}
-    >
+    <div id="inplay-tabs.tsx">
       <div
-        ref={scrollContainerRef}
-        className={`${styles["tabs-scroller"]} overflow-x-auto overflow-y-hidden`}
+        className={`${styles["tabs-root"]} border-2 min-[900]:mt-6 mt-3 border-dashed border-(--dotted-line)`}
       >
-        <div role="tablist" className={styles["tabs-list"]} ref={tabsListRef}>
-          {/* Sliding Indicator */}
-          <div
-            className={`${styles["sliding-indicator"]} py-3.5 ${
-              !indicatorStyle.animate ? styles["no-animation"] : ""
-            }`}
-            style={{
-              left: `${indicatorStyle.left}px`,
-              top: `${indicatorStyle.top}px`,
-              width: `${indicatorStyle.width}px`,
-              height: `${indicatorStyle.height}px`,
-              opacity: indicatorStyle.opacity,
-            }}
-          />
+        <div
+          ref={scrollContainerRef}
+          className={`${styles["tabs-scroller"]} overflow-x-auto overflow-y-hidden`}
+        >
+          <div role="tablist" className={styles["tabs-list"]} ref={tabsListRef}>
+            {/* Sliding Indicator */}
+            <div
+              className={`${styles["sliding-indicator"]} py-3.5 ${
+                !indicatorStyle.animate ? styles["no-animation"] : ""
+              }`}
+              style={{
+                left: `${indicatorStyle.left}px`,
+                top: `${indicatorStyle.top}px`,
+                width: `${indicatorStyle.width}px`,
+                height: `${indicatorStyle.height}px`,
+                opacity: indicatorStyle.opacity,
+              }}
+            />
 
-          {/* All Tab */}
-          <button
-            role="tab"
-            data-tab={"All"}
-            aria-selected={activeTab === "All"}
-            className={`${styles["tab-btn"]} ${
-              activeTab === "All" ? styles.active : ""
-            }`}
-            onClick={() => {
-              setActiveTab("All");
-            }}
-          >
-            All
-            {activeTab === "All" && (
-              <span className={styles["tab-indicator"]}></span>
-            )}
-          </button>
-
-          {/* Dynamic Tabs */}
-          {navItems.map((item, idx) => (
+            {/* All Tab */}
             <button
-              key={idx}
               role="tab"
-              data-tab={item.label}
-              aria-selected={activeTab === item.label}
+              data-tab={"All"}
+              aria-selected={activeTab === "All"}
               className={`${styles["tab-btn"]} ${
-                activeTab === item.label ? styles.active : ""
+                activeTab === "All" ? styles.active : ""
               }`}
               onClick={() => {
-                setActiveTab(item.label);
+                setActiveTab("All");
               }}
             >
-              <span
-                className={`${styles["tab-icon"]} ${
-                  styles[`icon-${item.label.toLowerCase().replace(/\s/g, "-")}`]
-                }`}
-              />
-              {item.label}
-
-              {activeTab === item.label && (
+              All
+              {activeTab === "All" && (
                 <span className={styles["tab-indicator"]}></span>
               )}
             </button>
-          ))}
+
+            {/* Dynamic Tabs */}
+            {navItems.map((item, idx) => (
+              <button
+                key={idx}
+                role="tab"
+                data-tab={item.label}
+                aria-selected={activeTab === item.label}
+                className={`${styles["tab-btn"]} ${
+                  activeTab === item.label ? styles.active : ""
+                }`}
+                onClick={() => {
+                  setActiveTab(item.label);
+                }}
+              >
+                <span
+                  className={`${styles["tab-icon"]} ${
+                    styles[
+                      `icon-${item.label.toLowerCase().replace(/\s/g, "-")}`
+                    ]
+                  }`}
+                />
+                {item.label}
+
+                {activeTab === item.label && (
+                  <span className={styles["tab-indicator"]}></span>
+                )}
+              </button>
+            ))}
+          </div>
         </div>
       </div>
     </div>
