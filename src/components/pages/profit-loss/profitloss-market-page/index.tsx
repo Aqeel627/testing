@@ -128,35 +128,35 @@ const ProfitLossMarketPage: React.FC = () => {
             </tr>
           </thead>
 
-          <tbody className="bg-[#f1f1f1]">
+          <tbody className="">
             {isLoader ? (
-              <tr>
-                <td colSpan={8} className="p-4 text-center">
-                  <div className="flex justify-center items-center gap-1.5 py-4">
-                    <div className="w-2 h-2 bg-[#428bca] rounded-full animate-bounce [animation-delay:-0.3s]"></div>
-                    <div className="w-2 h-2 bg-[#428bca] rounded-full animate-bounce [animation-delay:-0.15s]"></div>
-                    <div className="w-2 h-2 bg-[#428bca] rounded-full animate-bounce"></div>
+              <tr className="border-b border-(--secondary-text-color) bg-[var(--palette-background-paper)]">
+                <td colSpan={4} className="p-4  text-center">
+                  <div className="flex justify-center items-center gap-1.5">
+                    <div className="w-2 h-2 bg-(--primary-color) rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+                    <div className="w-2 h-2 bg-(--primary-color) rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+                    <div className="w-2 h-2 bg-(--primary-color) rounded-full animate-bounce"></div>
                   </div>
                 </td>
               </tr>
             ) : profitLossData.length > 0 ? (
               profitLossData.map((profit, index) => (
-                <tr key={index} className="text-center border-b border-white bg-[var(--palette-background-paper)]">
-                  <td className="p-[8px_10px] border-r border-white text-[11px] text-[var(--palette-text-primary)]">{profit?.eventType?.name}</td>
-                  <td className="p-[8px_10px] border-r border-white text-[11px] text-[var(--palette-text-primary)]">{profit?.event?.name}</td>
+                <tr key={index} className="text-center border-b border-(--dotted-line) bg-[var(--palette-background-paper)]">
+                  <td className="p-[8px_10px] border-r border-(--dotted-line) text-[11px] text-[var(--palette-text-primary)] whitespace-nowrap">{profit?.eventType?.name}</td>
+                  <td className="p-[8px_10px] border-r border-(--dotted-line) text-[11px] text-[var(--palette-text-primary)] whitespace-nowrap">{profit?.event?.name}</td>
                   {_sportId === '66102' && (
-                    <td className="p-[8px_10px] border-r border-white text-[11px] text-[var(--palette-text-primary)]">{profit?.marketId}</td>
+                    <td className="p-[8px_10px] border-r border-(--dotted-line) text-[11px] text-[var(--palette-text-primary)] whitespace-nowrap">{profit?.marketId}</td>
                   )}
-                  <td className="p-[8px_10px] border-r border-white text-[11px]">
-                    <Link href={`/d-profit-history/${profit?.eventType?.id}/${profit.marketId}`} className="text-[#4285f4] hover:underline font-bold">
+                  <td className="p-[8px_10px] border-r border-(--dotted-line) text-[11px]">
+                    <Link href={`/d-profit-history/${profit?.eventType?.id}/${profit.marketId}`} className="text-[#4285f4] hover:underline font-bold whitespace-nowrap cursor-pointer">
                       {profit.marketName}
                     </Link>
                   </td>
-                  <td className="p-[8px_10px] border-r border-white text-[11px] text-[var(--palette-text-primary)]">{profit.result}</td>
-                  <td className={`p-[8px_10px] border-r whitespace-nowrap border-white font-bold text-[11px] ${profit.pl <= 0 ? 'text-red-600' : 'text-green-600'}`}>
+                  <td className="p-[8px_10px] border-r border-(--dotted-line) text-[11px] text-[var(--palette-text-primary)] whitespace-nowrap">{profit.result}</td>
+                  <td className={`p-[8px_10px]  border-r whitespace-nowrap border-(--dotted-line) font-bold text-[11px] ${profit.pl <= 0 ? 'text-red-600' : 'text-green-600'}`}>
                     {profit.pl.toLocaleString()}
                   </td>
-                  <td className="p-[8px_10px] border-r whitespace-nowrap border-white text-red-600 font-bold text-[11px]">
+                  <td className="p-[8px_10px] border-r  border-(--dotted-line) text-red-600 font-bold text-[11px] whitespace-nowrap">
                     {profit.commission.toLocaleString()}
                   </td>
                   <td className="p-[8px_10px] text-[11px] whitespace-nowrap text-[var(--palette-text-primary)]">

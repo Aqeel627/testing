@@ -171,35 +171,35 @@ const ProfitLossPage: React.FC = () => {
             </tr>
           </thead>
           
-          <tbody className="bg-[#f1f1f1]">
+          <tbody className="">
             {isLoader ? (
-              <tr>
-                <td colSpan={4} className="p-4 bg-[#f1f1f1] text-center">
+              <tr className="border-b border-(--secondary-text-color) bg-[var(--palette-background-paper)]">
+                <td colSpan={4} className="p-4  text-center">
                   <div className="flex justify-center items-center gap-1.5">
-                    <div className="w-2 h-2 bg-[#428bca] rounded-full animate-bounce [animation-delay:-0.3s]"></div>
-                    <div className="w-2 h-2 bg-[#428bca] rounded-full animate-bounce [animation-delay:-0.15s]"></div>
-                    <div className="w-2 h-2 bg-[#428bca] rounded-full animate-bounce"></div>
+                    <div className="w-2 h-2 bg-(--primary-color) rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+                    <div className="w-2 h-2 bg-(--primary-color) rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+                    <div className="w-2 h-2 bg-(--primary-color) rounded-full animate-bounce"></div>
                   </div>
                 </td>
               </tr>
             ) : profitLossData.length > 0 ? (
               profitLossData.map((profit, index) => (
-                <tr key={index} className="border-b border-(--secondary-text-color) bg-[var(--palette-background-paper)]">
-                  <td className="p-[8px_10px] text-[var(--palette-text-primary)] text-center border-r border-(--secondary-text-color)">
+                <tr key={index} className="border-b border-(--dotted-line) bg-[var(--palette-background-paper)]">
+                  <td className="p-[8px_10px] text-[var(--palette-text-primary)] text-center border-r border-(--dotted-line) whitespace-nowrap">
                     <button 
                       onClick={() => goToEventPL(profit.eventType.id)}
-                      className="text-[#4285f4] font-bold text-[11px] hover:underline"
+                      className="text-[#4285f4] font-bold text-[11px] hover:underline cursor-pointer"
                     >
                       {profit.eventType.name}
                     </button>
                   </td>
-                  <td className={`p-[8px_10px] text-[var(--palette-text-primary)] text-center border-r border-(--secondary-text-color) font-bold text-[11px] ${profit.pl <= 0 ? 'text-red-600' : 'text-green-600'}`}>
+                  <td className={`p-[8px_10px] whitespace-nowrap text-[var(--palette-text-primary)] text-center border-r border-(--dotted-line) font-bold text-[11px] ${profit.pl <= 0 ? 'text-red-600' : 'text-green-600'}`}>
                     {profit.pl.toFixed(2)}
                   </td>
-                  <td className="p-[8px_10px] text-[var(--palette-text-primary)] text-center border-r border-(--secondary-text-color) text-[11px]">
+                  <td className="p-[8px_10px] text-[var(--palette-text-primary)] text-center border-r border-(--dotted-line) text-[11px] whitespace-nowrap">
                     {profit.commission.toFixed(2)}
                   </td>
-                  <td className={`p-[8px_10px] text-[var(--palette-text-primary)] text-center font-bold text-[11px] ${(profit.pl - profit.commission) <= 0 ? 'text-red-600' : 'text-green-600'}`}>
+                  <td className={`p-[8px_10px] whitespace-nowrap text-[var(--palette-text-primary)] text-center font-bold text-[11px] ${(profit.pl - profit.commission) <= 0 ? 'text-red-600' : 'text-green-600'}`}>
                     {(profit.pl - profit.commission).toFixed(2)}
                   </td>
                 </tr>
