@@ -45,6 +45,7 @@ export function AnimatedNumber({
     }).split('');
 
     return (
+        <div id="animatedNumber.tsx">
         <span className="inline-flex items-center overflow-hidden tabular-nums">
             {formattedArr.map((char, i) => {
                 const place = formattedArr.length - i;
@@ -71,5 +72,6 @@ export function AnimatedNumber({
                 );
             })}
         </span>
+        </div>
     );
 }

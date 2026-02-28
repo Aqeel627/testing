@@ -189,6 +189,7 @@ const CenterRadialButton = () => {
   const useFixed425To767 = vw >= 425 && vw <= 767;
 
   return (
+    <div id="centerRadialButton.tsx">
     <div
       ref={containerRef}
       className="relative flex items-center justify-center pointer-events-none bottom-[-11px]"
@@ -302,6 +303,7 @@ const CenterRadialButton = () => {
           </span>
         </button>
       </div>
+    </div>
     </div>
   );
 };

@@ -261,6 +261,7 @@ export default function BetSlipUI() {
 
   return (
     <>
+     <div id="betSlipUI.tsx">
       <style>{`
         .bs-circle-btn:hover { background: var(--bs-circle-btn-hover) !important; }
         .bs-quick-pill:hover { background: var(--bs-quick-pill-hover-bg) !important; border-color: var(--bs-quick-pill-hover-border) !important; }
@@ -448,6 +449,7 @@ export default function BetSlipUI() {
             </div>
           </div>
         </div>
+      </div>
       </div>
     </>
   );

@@ -247,6 +247,7 @@ export default function BetsTable() {
   return (
     <>
       {/* ===== COMPACT TABLE ===== */}
+      <div id="betsTable.tsx">
       <div className="w-full flex flex-col border-b border-dashed border-(--dotted-line)">
         <div className="flex items-center gap-4 px-4 py-2 flex-wrap">
           <button onClick={() => setIsFullScreen(true)}
@@ -273,7 +274,7 @@ export default function BetsTable() {
           </div>
         </div>
       </div>
-
+</div>
       {/* ===== FULL SCREEN MODAL ===== */}
       {isFullScreen && (
         <div className="fixed inset-0 z-[1300] flex">

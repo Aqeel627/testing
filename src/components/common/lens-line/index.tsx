@@ -1,5 +1,6 @@
 export function LensLine() {
   return (
+    <div id="lensLine.tsx">
     <div className="absolute left-1/2 -translate-x-1/2 w-[90%] bottom-[1px] pointer-events-none">
       <div className="relative w-full h-full">
         {/* Outer horizontal glow - very wide and soft */}
@@ -92,6 +93,7 @@ export function LensLine() {
           }}
         />
       </div>
+    </div>
     </div>
   );
 }
