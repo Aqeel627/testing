@@ -4,6 +4,9 @@ import { useAppStore } from "@/lib/store/store";
 import { CONFIG } from "@/lib/config";
 import { fetchData, splitMsg } from "@/lib/functions";
 import { useToast } from "@/components/common/toast/toast-context";
+import dynamic from "next/dynamic";
+
+const BreadCrumb = dynamic(() => import("@/components/common/bread-crumb"));
 
 type StakeItem = { stakeAmount: string; stakeName?: string };
 
@@ -113,8 +116,9 @@ export default function SettingsPage() {
 
   return (
     <div className="w-full py-4">
+            <BreadCrumb title="Default Stake Amount" />
       <div className="w-full max-w-[900px] flex justify-center items-center flex-col mx-auto">
-        <div className="flex items-center gap-4 mb-4">
+        {/* <div className="flex items-center gap-4 mb-4">
           <div
             className="flex-1 h-[1px]"
             style={{ background: "var(--dotted-line)" }}
@@ -129,7 +133,7 @@ export default function SettingsPage() {
             className="flex-1 h-[1px]"
             style={{ background: "var(--dotted-line)" }}
           />
-        </div>
+        </div> */}
 
         <div
           className="w-full rounded-2xl border p-6 md:p-8"

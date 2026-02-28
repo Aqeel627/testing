@@ -5,6 +5,8 @@ import axios from 'axios'; // API calls ke liye
 import { useRouter } from 'next/navigation';
 import {CONFIG} from '@/lib/config'; // API endpoints ke liye
 import http from '@/lib/axios-instance';
+import dynamic from 'next/dynamic';
+const BreadCrumb = dynamic(() => import("@/components/common/bread-crumb"));
 
 // Interfaces
 interface EventType {
@@ -120,13 +122,16 @@ const ProfitLossPage: React.FC = () => {
   return (
     <div className="container-fluid">
       {/* HEADER SECTION - Design preserved */}
-      <div className="flex items-center my-4">
+      {/* <div className="flex items-center my-4">
         <div className="flex-grow border-t border-dashed border-(--dotted-line)"></div>
         <span className="px-4 text-[var(--palette-text-primary)] font-bold text-[16px] whitespace-nowrap uppercase">
           Profit & Loss
         </span>
         <div className="flex-grow border-t border-dashed border-(--dotted-line)"></div>
-      </div>
+      </div> */}
+        <div className="my-4">
+            <BreadCrumb title="Profit & Loss" />
+        </div>
 
       {/* FILTER SECTION - Design preserved */}
       <div id="filter" className="my-[15px]">
