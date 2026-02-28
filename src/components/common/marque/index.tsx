@@ -4,9 +4,10 @@ import Icon from "@/icons/icons";
 
 export default function Marque() {
   return (
-    <div className="announcement-root flex items-center gap-3 px-4 py-[1px]  bg-[rgba(var(--palette-primary-mainChannel)_/_16%)] rounded">
-      <div className="announcement-icon flex-shrink-0">
-        {/* <svg
+    <div id="marque.tsx">
+      <div className="announcement-root flex items-center gap-3 px-4 py-[1px]  bg-[rgba(var(--palette-primary-mainChannel)_/_16%)] rounded">
+        <div className="announcement-icon flex-shrink-0">
+          {/* <svg
           xmlns="http://www.w3.org/2000/svg"
           aria-hidden="true"
           role="img"
@@ -20,13 +21,14 @@ export default function Marque() {
             />
           </g>
         </svg> */}
-        <Icon name="marque" className="h-5 w-5" />
-      </div>
+          <Icon name="marque" className="h-5 w-5" />
+        </div>
 
-      <div className="announcement-message text-sm text-[rgb(7,141,238)]">
-        First in Live Casino, Try our Real Time Chat in our casino and chat with
-        Dealer in Real Time. Live Casino Launched! Bet Now and Chase Unlimited
-        Wins!
+        <div className="announcement-message text-sm text-[rgb(7,141,238)]">
+          First in Live Casino, Try our Real Time Chat in our casino and chat
+          with Dealer in Real Time. Live Casino Launched! Bet Now and Chase
+          Unlimited Wins!
+        </div>
       </div>
     </div>
   );

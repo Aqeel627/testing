@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { CONFIG } from "@/lib/config";
 import { fetchData } from "@/lib/functions";
 import styles from '@/components/pages/passwordHistory/style.module.css'
+import { cn } from "@/lib/utils";
 
 function pad2(n: number) {
   return String(n).padStart(2, "0");
@@ -53,6 +54,7 @@ export default function ActivityLogClient() {
   }, []);
 
   return (
+    <div id="activityLogClient.tsx">
     <div className="">
       <div className="flex mx-auto overflow-x-auto scroll-width-none max-w-3xl px-2 pb-[5px] gap-[15px]">
         {/* Open Tab */}
@@ -74,22 +76,22 @@ export default function ActivityLogClient() {
       </div>
 
       <div className="mt-[5px] overflow-x-auto overflow-y-hidden scrollbar-hide mb-[30px]">
-        <table className="w-full border-collapse whitespace-nowrap text-[11px] rounded-[5px] overflow-hidden">
+        <table className={styles['bh-table']}>
           <thead>
             <tr>
-              <th className="text-center font-bold bg-[var(--market-header-bg)] text-[var(--palette-text-primary)] border-r border-white px-2 py-2 rounded-tl-[5px]">
+              <th>
                 Login Date &amp; Time
               </th>
-              <th className="text-center font-bold bg-[var(--market-header-bg)] text-[var(--palette-text-primary)] border-r border-white px-2 py-2">
+              <th>
                 Login Status
               </th>
-              <th className="text-center font-bold bg-[var(--market-header-bg)] text-[var(--palette-text-primary)] border-r border-white px-2 py-2">
+              <th>
                 IP Address
               </th>
-              <th className="text-center font-bold bg-[var(--market-header-bg)] text-[var(--palette-text-primary)] border-r border-white px-2 py-2">
+              <th>
                 ISP
               </th>
-              <th className="text-center font-bold bg-[var(--market-header-bg)] text-[var(--palette-text-primary)] border-r border-white px-2 py-2 rounded-tr-[5px]">
+              <th>
                 City / State / Country
               </th>
             </tr>
@@ -131,6 +133,7 @@ export default function ActivityLogClient() {
           </tbody>
         </table>
       </div>
+    </div>
     </div>
   );
 }

@@ -89,6 +89,7 @@
 
 .bh-table-wrap {
   overflow-x: auto;
+  scrollbar-width: none;
 }
 .bh-table {
   width: 100%;
@@ -224,7 +225,7 @@
   flex-wrap: wrap;
 }
 .pg-btn {
-  padding: 0.3rem 0.6rem;
+  padding: 6.9px 12px;
   border: 1px solid var(--primary-color);
   border-radius: 0.25rem;
   cursor: pointer;
@@ -242,7 +243,7 @@
   cursor: not-allowed;
 }
 .pg-number {
-  padding: 0.3rem 0.6rem;
+  padding: 6.9px 12px;
   background: var(--primary-color);
   color: #fff;
   border-radius: 0.25rem;
@@ -261,13 +262,13 @@
 }
 .bh-jump-input {
   width: 60px;
-  padding: 0.3rem 0.4rem;
+  padding: 6.9px 0.4rem;
   border: 1px solid #ced4da;
   border-radius: 0.25rem;
   font-size: 0.8rem;
 }
 .bh-jump-go-btn {
-  padding: 0.3rem 0.6rem;
+  padding: 6.9px 12px;
   background: var(--primary-color);
   color: #fff;
   border: none;
@@ -323,13 +324,13 @@
   flex: 1;
 }
 
-select,
-input {
+.select,
+.input {
   border: 1px solid var(--primary-color) !important;
   color: var(--primary-color) !important;
   background: transparent !important;
 }
-select:focus,
-input:focus{
+.select:focus,
+.input:focus{
  outline: none;
 }

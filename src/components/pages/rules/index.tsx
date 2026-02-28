@@ -6,7 +6,9 @@ const RulesPage = () => {
     const formattedDate = `${today.getDate()}.${today.getMonth() + 1}.${today.getFullYear()}`;
     return (
         <>
-            <BreadCrumb title="Sport Betting Rules"/>
+            <div id="rules.tsx">
+                <BreadCrumb title="Sport Betting Rules" />
+            </div>
         </>
     )
 }

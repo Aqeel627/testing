@@ -6,6 +6,7 @@ import "./custome-style.css";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import Icon from "@/icons/icons";
+import { useAuthStore } from "@/lib/useAuthStore";
 
 const clamp = (v: number, a: number, b: number) => Math.max(a, Math.min(b, v));
 const rad2deg = (r: number) => (r * 180) / Math.PI;
@@ -20,6 +21,8 @@ const CenterRadialButton = () => {
   const arcCircleRef = useRef<HTMLDivElement>(null);
   const sampleIconRef = useRef<HTMLButtonElement>(null);
   const router = useRouter();
+  const { logout } = useAuthStore();
+
 
   const [vw, setVw] = useState<number>(0);
 
@@ -178,13 +181,15 @@ const CenterRadialButton = () => {
     } else if (iconName === "stake") {
       router.push("/settings");
     } else if (iconName === "powerOff") {
-      console.log("PowerOff clicked");
+    logout();
+    router.push("/");
     }
   };
 
   const useFixed425To767 = vw >= 425 && vw <= 767;
 
   return (
+    <div id="centerRadialButton.tsx">
     <div
       ref={containerRef}
       className="relative flex items-center justify-center pointer-events-none bottom-[-11px]"
@@ -298,6 +303,7 @@ const CenterRadialButton = () => {
           </span>
         </button>
       </div>
+    </div>
     </div>
   );
 };

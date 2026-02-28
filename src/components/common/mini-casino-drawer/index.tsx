@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useEffect, useState } from "react";
@@ -15,16 +14,16 @@ export default function MiniCasinoDrawer() {
   const [iframeKey, setIframeKey] = useState(0);
   const [isSafari, setIsSafari] = useState(false);
 
-useEffect(() => {
-  const userAgent = navigator.userAgent;
+  useEffect(() => {
+    const userAgent = navigator.userAgent;
 
-  const safari =
-    userAgent.includes("Safari") &&
-    !userAgent.includes("Chrome") &&
-    !userAgent.includes("Chromium");
+    const safari =
+      userAgent.includes("Safari") &&
+      !userAgent.includes("Chrome") &&
+      !userAgent.includes("Chromium");
 
-  setIsSafari(safari);
-}, []);
+    setIsSafari(safari);
+  }, []);
 
   // 🔹 Build URL ONLY when opening
   useEffect(() => {
@@ -69,39 +68,35 @@ useEffect(() => {
 
   return (
     <>
-      {/* Overlay */}
-      <div
-        onClick={close}
-        className={cn(
-          "fixed inset-0 bg-black/40 z-40 transition-opacity duration-300",
-          isOpen ? "opacity-100" : "opacity-0 pointer-events-none"
-        )}
-      />
+      <div id="mini-casino-drawer.tsx">
+        {/* Overlay */}
+        <div
+          onClick={close}
+          className={cn(
+            "fixed inset-0 bg-black/40 z-40 transition-opacity duration-300",
+            isOpen ? "opacity-100" : "opacity-0 pointer-events-none",
+          )}
+        />
 
-      {/* Bottom Sheet */}
-<div
-  className={cn(
-    "fixed left-0 w-full h-[220px] z-50",
-    "bg-neutral-900 border-t border-neutral-700",
-    "transform transition-transform duration-500 ease-[cubic-bezier(.22,1,.36,1)]",
-    isOpen
-      ? "translate-y-0 drawer"
-      : "translate-y-[calc(100%+80px)]" // ✅ PERFECT FIX
-  )}
-style={{
-  bottom: isSafari
-    ? `${BOTTOM_NAV_HEIGHT - 12}px`
-    : `${BOTTOM_NAV_HEIGHT}px`,
-}}
->
-        {/* iframe only when open */}
-        {isOpen && iframeUrl && (
-          <iframe
-            key={iframeKey}
-            src={iframeUrl}
-            className="w-full h-full"
-          />
-        )}
+        {/* Bottom Sheet */}
+        <div
+          className={cn(
+            "fixed left-0 w-full h-[220px] z-50",
+            "bg-neutral-900 border-t border-neutral-700",
+            "transform transition-transform duration-500 ease-[cubic-bezier(.22,1,.36,1)]",
+            isOpen ? "translate-y-0 drawer" : "translate-y-[calc(100%+80px)]", // ✅ PERFECT FIX
+          )}
+          style={{
+            bottom: isSafari
+              ? `${BOTTOM_NAV_HEIGHT - 12}px`
+              : `${BOTTOM_NAV_HEIGHT}px`,
+          }}
+        >
+          {/* iframe only when open */}
+          {isOpen && iframeUrl && (
+            <iframe key={iframeKey} src={iframeUrl} className="w-full h-full" />
+          )}
+        </div>
       </div>
     </>
   );

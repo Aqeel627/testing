@@ -138,6 +138,7 @@ const LanguageToggler = () => {
   }, []);
 
   return (
+    <div id="languageToggler.tsx">
     <div
       className="flex w-fit relative"
       ref={dropdownRef}
@@ -190,6 +191,7 @@ const LanguageToggler = () => {
           </ul>
         )}
       </div>
+    </div>
     </div>
   );
 };

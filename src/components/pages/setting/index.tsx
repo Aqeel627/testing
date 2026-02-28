@@ -4,6 +4,9 @@ import { useAppStore } from "@/lib/store/store";
 import { CONFIG } from "@/lib/config";
 import { fetchData, splitMsg } from "@/lib/functions";
 import { useToast } from "@/components/common/toast/toast-context";
+import dynamic from "next/dynamic";
+
+const BreadCrumb = dynamic(() => import("@/components/common/bread-crumb"));
 
 type StakeItem = { stakeAmount: string; stakeName?: string };
 
@@ -36,13 +39,13 @@ export default function SettingsPage() {
     useState<StakeItem[]>(FALLBACK_STAKES);
   const [saving, setSaving] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string>("");
-  const {showToast}=useToast()
+  const { showToast } = useToast()
 
   useEffect(() => {
     console.log(stakeValue, "stakes")
     const stakes = stakeValue?.stake;
     if (Array.isArray(stakes) && stakes.length > 0) {
-          console.log(stakes, "data")
+      console.log(stakes, "data")
       setStackButtonArry(stakes);
     }
   }, [stakeValue]);
@@ -97,7 +100,7 @@ export default function SettingsPage() {
       setFn: (data: any) => {
         setSaving(false);
         const msg = splitMsg(data?.meta?.message);
-        showToast(msg.status,msg.title,msg.desc)
+        showToast(msg.status, msg.title, msg.desc)
         if (data?.meta?.status) {
           // ✅ Success: update store + refetch fresh stakes
           setStakeValue({ data: { stake: stackButtonArry } });
@@ -112,9 +115,11 @@ export default function SettingsPage() {
   };
 
   return (
-    <div className="w-full min-h-screen  py-4">
-      <div className="w-full max-w-[900px] mx-auto">
-        <div className="flex items-center gap-4 mb-4">
+    <div id="setting.tsx">
+      <div className="w-full py-4">
+        <BreadCrumb title="Default Stake Amount" />
+        <div className="w-full max-w-[900px] flex justify-center items-center flex-col mx-auto">
+          {/* <div className="flex items-center gap-4 mb-4">
           <div
             className="flex-1 h-[1px]"
             style={{ background: "var(--dotted-line)" }}
@@ -129,111 +134,111 @@ export default function SettingsPage() {
             className="flex-1 h-[1px]"
             style={{ background: "var(--dotted-line)" }}
           />
-        </div>
+        </div> */}
 
-        <div
-          className="w-full rounded-2xl border p-6 md:p-8"
-          style={{
-            background: "",
-            borderColor: "var(--dotted-line)",
-          }}
-        >
           <div
-            className="w-full rounded-lg px-4 py-3 mb-6 flex mx-auto justify-center items-center gap-2"
-            style={{ background: "var(--accordion-bg)" }}
+            className="w-full rounded-2xl border p-6 md:p-8"
+            style={{
+              background: "",
+              borderColor: "var(--dotted-line)",
+            }}
           >
-            <span
-              className="w-2 h-2 rounded-full flex-shrink-0"
-              style={{ background: "var(--primary-color)" }}
-            />
-            <span
-              className="text-[13px] font-semibold uppercase tracking-wider"
-              style={{ color: "var(--accordion-text)" }}
+            <div
+              className="w-full rounded-lg px-4 py-3 mb-6 flex mx-auto justify-center items-center gap-2"
+              style={{ background: "var(--accordion-bg)" }}
             >
-              Edit Your Bet Stakes
-            </span>
-          </div>
+              <span
+                className="w-2 h-2 rounded-full flex-shrink-0"
+                style={{ background: "var(--primary-color)" }}
+              />
+              <span
+                className="text-[13px] font-semibold uppercase tracking-wider"
+                style={{ color: "var(--accordion-text)" }}
+              >
+                Edit Your Bet Stakes
+              </span>
+            </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-2 gap-4 mb-8">
-            {stackButtonArry.map((item, i) => (
-              <div key={i} className="relative group">
-                <div
+            <div className="grid grid-cols-2 md:grid-cols-2 gap-4 mb-8">
+              {stackButtonArry.map((item, i) => (
+                <div key={i} className="relative group">
+                  {/* <div
                   className="absolute left-0 top-0 bottom-0 w-[3px] rounded-l-md opacity-0 group-focus-within:opacity-100 transition-opacity duration-200"
                   style={{ background: "var(--primary-color)" }}
-                />
-                <input
-                  id={`stack_value_${i}`}
-                  name={`stack_value_${i}`}
-                  type="text"
-                  inputMode="numeric"
-                  autoComplete="off"
-                  value={item.stakeAmount}
-                  onChange={(e) => handleChange(i, e.target.value)}
-                  onKeyDown={numberOnly}
-                  maxLength={9}
-                  className="w-full text-center text-[15px] md:text-[17px] font-bold rounded-md px-4 py-3 md:py-4 outline-none transition-all duration-200 focus:ring-2"
-                  style={{
-                    background: "var(--primary-hover)",
-                    border: "1px solid var(--dotted-line)",
-                    color: "var(--palette-text-primary)",
-                    // @ts-ignore
-                    "--tw-ring-color": "var(--primary-color)",
-                  }}
-                />
-              </div>
-            ))}
-          </div>
+                /> */}
+                  <input
+                    id={`stack_value_${i}`}
+                    name={`stack_value_${i}`}
+                    type="text"
+                    inputMode="numeric"
+                    autoComplete="off"
+                    value={item.stakeAmount}
+                    onChange={(e) => handleChange(i, e.target.value)}
+                    onKeyDown={numberOnly}
+                    maxLength={9}
+                    className="w-full text-center text-[15px] md:text-[17px] font-bold rounded-md px-4 py-3 md:py-4 outline-none transition-all duration-200 focus:ring-2"
+                    style={{
+                      background: "var(--primary-hover)",
+                      border: "1px solid var(--dotted-line)",
+                      color: "var(--palette-text-primary)",
+                      // @ts-ignore
+                      "--tw-ring-color": "var(--primary-color)",
+                    }}
+                  />
+                </div>
+              ))}
+            </div>
 
-          <div
-            className="w-full h-px mb-6"
-            style={{ background: "var(--dotted-line)" }}
-          />
+            <div
+              className="w-full h-px mb-6"
+              style={{ background: "var(--dotted-line)" }}
+            />
 
-          {/* ── Error Message ── */}
-          {errorMsg && (
-            <p className="text-center text-[13px] font-medium text-red-500 mb-3 -mt-2">
-              {errorMsg}
-            </p>
-          )}
+            {/* ── Error Message ── */}
+            {errorMsg && (
+              <p className="text-center text-[13px] font-medium text-red-500 mb-3 -mt-2">
+                {errorMsg}
+              </p>
+            )}
 
-          <div className="flex justify-center">
-            <button
-              onClick={updateBetSetting}
-              disabled={saving}
-              className="w-full max-w-[360px] py-3 rounded-xl text-white font-bold text-[15px] uppercase tracking-widest transition-all duration-200 hover:opacity-90 active:scale-[0.98] disabled:opacity-50 cursor-pointer shadow-lg"
-              style={{
-                background: "var(--primary-color)",
-                boxShadow:
-                  "0 4px 20px color-mix(in srgb, var(--primary-color) 35%, transparent)",
-              }}
-            >
-              {saving ? (
-                <span className="flex items-center justify-center gap-2">
-                  <svg
-                    className="animate-spin h-4 w-4"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                  >
-                    <circle
-                      className="opacity-25"
-                      cx="12"
-                      cy="12"
-                      r="10"
-                      stroke="currentColor"
-                      strokeWidth="4"
-                    />
-                    <path
-                      className="opacity-75"
-                      fill="currentColor"
-                      d="M4 12a8 8 0 018-8v8z"
-                    />
-                  </svg>
-                  Saving...
-                </span>
-              ) : (
-                "Save Changes"
-              )}
-            </button>
+            <div className="flex justify-center">
+              <button
+                onClick={updateBetSetting}
+                disabled={saving}
+                className="w-full max-w-[360px] py-3 rounded-xl hover:bg-(--primary-color-dark) bg-(--primary-color) font-bold text-[15px] uppercase tracking-widest transition-all duration-200 hover:opacity-90 active:scale-[0.98] disabled:opacity-50 cursor-pointer shadow-lg"
+                style={{
+                  boxShadow:
+                    "0 4px 20px color-mix(in srgb, var(--primary-color) 35%, transparent)",
+                }}
+              >
+                {saving ? (
+                  <span className="flex items-center justify-center gap-2">
+                    <svg
+                      className="animate-spin h-4 w-4"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                    >
+                      <circle
+                        className="opacity-25"
+                        cx="12"
+                        cy="12"
+                        r="10"
+                        stroke="currentColor"
+                        strokeWidth="4"
+                      />
+                      <path
+                        className="opacity-75"
+                        fill="currentColor"
+                        d="M4 12a8 8 0 018-8v8z"
+                      />
+                    </svg>
+                    Saving...
+                  </span>
+                ) : (
+                  "Save Changes"
+                )}
+              </button>
+            </div>
           </div>
         </div>
       </div>

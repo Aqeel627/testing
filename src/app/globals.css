@@ -185,7 +185,7 @@
   --primary-text-color: white;
   --sport-active-bg: #141a21;
 
-  --account-tab-bg:#2b3f4d;
+  --account-tab-bg:#112533;
 
   /* table header */
   --table-header-text: var(--secondary-color);
@@ -1168,4 +1168,16 @@ body:has(.drawer) {
 
 #nprogress .peg {
   box-shadow: 0 0 10px var(--primary-color), 0 0 5px var(--primary-color) !important;
+}
+.glass-header {
+      backdrop-filter: blur(4px);
+  background: linear-gradient(
+    145deg,
+    rgba(255, 255, 255, 0.08),
+    rgba(255, 255, 255, 0.02)
+  );
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.35),
+    inset 0 0px 0 rgba(255, 255, 255, 0.25),
+    inset 0 -2px 6px rgba(255, 255, 255, 0.05);
 }

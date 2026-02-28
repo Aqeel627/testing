@@ -83,16 +83,17 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
   };
 
   return (
+    <div id="header.tsx">
     <header
       className={cn(
-        "w-full glass  --palette-text-primary  sticky top-0 z-[9999999]",
+        "w-full glass-header  --palette-text-primary  sticky top-0 z-[9999999]",
         theme === "light" &&
           "backdrop-blur-[10px]! bg-linear-to-br! from-white/25! to-white/5! border-b! border-[rgb(205_192_192/0.4)]! shadow-[0_8px_32px_rgba(0,0,0,0.2)]!",
       )}
     >
       <div className="max-w-[1600px] mx-auto px-2 h-12 flex items-center justify-between">
         {/* 👇 Left: Hamburger & Logo */}
-        <div className="flex items-center gap-3 md:gap-4">
+        <div className="flex items-center gap-0 min-[321px]:gap-3 md:gap-4">
           {!hideMenuBtn && (
             <button
               type="button"
@@ -117,7 +118,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
               window.dispatchEvent(new Event("reset-sidebar"));
               clearSelectedBet();
             }}
-            className="font-[inherit]  no-underline shrink-0 text-transparent inline-flex h-[44px] w-[152px] cursor-pointer"
+            className="font-[inherit]  no-underline shrink-0 text-transparent inline-flex h-[44px] w-[120px] min-[321px]:w-[152px] cursor-pointer"
           >
             <Image
               src={theme === "dark" ? "/logo-black.svg" : "/logo-white.svg"}
@@ -348,7 +349,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                   {/* Links List */}
                   <ul className="my-2 px-2 flex flex-col">
                     {[
-                      { label: "Edit Password", href: "" },
+                      { label: "Change Password", href: "" },
                       { label: "Statement", href: "/statement" },
                       { label: "Profit/Loss", href: "/profit-loss" },
                       { label: "Bets History", href: "/bets-history" },
@@ -357,14 +358,14 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                     ].map((item, index) => (
                       <li
                         key={index}
-                        className="mb-1 hover:bg-[rgba(145,158,171,0.08)] rounded-[8px] no-underline h-12 min-[600px]:h-auto text-[0.875rem] leading-[1.57143px] "
+                                             className="mb-1 hover:bg-[rgba(145,158,171,0.08)] rounded-[8px] no-underline h-9.5 min-[600px]:h-auto text-[0.875rem] leading-[1.57143px] "
                       >
                         <Link
                           prefetch={false}
                           href={item.href}
                           // onClick={() => setIsMenuOpen(false)}
                           onClick={(e) => {
-                            if (item.label === "Edit Password") {
+                            if (item.label === "Change Password") {
                               e.preventDefault();
                               openPasswordModal();
                               setIsMenuOpen(false);
@@ -383,9 +384,8 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                     <li
                       onClick={() => {
                         setTheme(theme === "dark" ? "light" : "dark");
-                        setIsMenuOpen(false);
                       }}
-                      className="mb-1 no-underline h-12 min-[600px]:h-auto text-[0.875rem] leading-[1.57143px] hover:bg-[rgba(145,158,171,0.08)] rounded-[8px]"
+                      className="mb-1 no-underline h-9.5 min-[600px]:h-auto text-[0.875rem] leading-[1.57143px] hover:bg-[rgba(145,158,171,0.08)] rounded-[8px]"
                     >
                       <div className="flex items-center justify-between w-full px-2 text-[14px] text-[var(--dropdowntext)] hover:text-[var(--palette-text-primary)] hover:bg-white/5 transition-colors cursor-pointer">
                         <span className="ml-4">
@@ -401,7 +401,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                     </li>
 
                     <li
-                      className="mb-1 no-underline h-12 min-[600px]:h-auto text-[0.875rem] leading-[1.57143px] hover:bg-[rgba(145,158,171,0.08)] rounded-[8px]"
+                      className="mb-1 no-underline h-9.5 min-[600px]:h-auto text-[0.875rem] leading-[1.57143px] hover:bg-[rgba(145,158,171,0.08)] rounded-[8px]"
                       onClick={() => {
                         setIsMenuOpen(false);
                         router.push("/theme");
@@ -426,7 +426,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                     </li>
 
                     {/* Hide Balance Toggle */}
-                    <li className="mb-1 no-underline h-12 min-[600px]:h-[44px] text-[0.875rem] leading-[1.57143px] flex items-center hover:bg-[rgba(145,158,171,0.08)] rounded-[8px]">
+                    <li className="mb-1 no-underline h-9.5 min-[600px]:h-[44px] text-[0.875rem] leading-[1.57143px] flex items-center hover:bg-[rgba(145,158,171,0.08)] rounded-[8px]">
                       <div
                         className="flex items-center justify-between w-full px-2 text-[14px] text-[var(--dropdowntext)] hover:text-[var(--palette-text-primary)] transition-colors cursor-pointer"
                         onClick={(e) => {
@@ -452,7 +452,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                   <hr className="m-0 shrink-0 border-0 border-b border-dashed border-(--dotted-line)" />
 
                   {/* Logout Button */}
-                  <div className="p-2 relative">
+                  <div className="p-2 relative hidden md:block">
                     {/* 👇 Ye optional background glow hai jo corner main red light dega (bilkul image jaisa) */}
                     <div className="absolute -bottom-4 hidden md:flex -left-4 w-20 h-20 bg-[#FF5630] blur-[30px] opacity-15 pointer-events-none"></div>
 
@@ -558,5 +558,6 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
         </nav>
       </div>
     </header>
+    </div>
   );
 }

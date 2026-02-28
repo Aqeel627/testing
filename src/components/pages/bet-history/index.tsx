@@ -271,8 +271,10 @@ export default function BetHistoryComponent() {
   // ─── Render ───────────────────────────────────────────────────────────────
   return (
     <>
+    <div id="betHistory.tsx">
+        <div className="my-4">
       <BreadCrumb title="My Bets" />
-
+</div>
       <div className="bh-container">
         {/* Toast */}
         {toast && (
@@ -283,7 +285,7 @@ export default function BetHistoryComponent() {
           <div className="bh-filter-row">
             <div className="bh-filter-col">
               <select
-                className="bh-select"
+                className="select bh-select"
                 value={reportType}
                 onChange={(e) => setReportType(e.target.value)}
               >
@@ -297,7 +299,7 @@ export default function BetHistoryComponent() {
 
             <div className="bh-filter-col">
               <select
-                className="bh-select"
+                className="select bh-select"
                 value={betStatus}
                 onChange={(e) => setBetStatus(e.target.value)}
               >
@@ -323,7 +325,7 @@ export default function BetHistoryComponent() {
             <div className="bh-filter-col">
               <input
                 type="date"
-                className={`bh-date-input${os === "Android" ? " android" : ""}`}
+                className={`input bh-date-input${os === "Android" ? " android" : ""}`}
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
               />
@@ -332,7 +334,7 @@ export default function BetHistoryComponent() {
             <div className="bh-filter-col">
               <input
                 type="date"
-                className={`bh-date-input${os === "Android" ? " android" : ""}`}
+                className={`input bh-date-input${os === "Android" ? " android" : ""}`}
                 value={endDate}
                 onChange={(e) => setEndDate(e.target.value)}
               />
@@ -739,7 +741,7 @@ export default function BetHistoryComponent() {
               <div className="bh-desktop-only bh-jump">
                 <span className="jumptext">Jump to page</span>
                 <input
-                  className="bh-jump-input"
+                  className="input bh-jump-input"
                   value={jumptoPage}
                   onChange={(e) => setJumptoPage(e.target.value)}
                 />
@@ -753,7 +755,7 @@ export default function BetHistoryComponent() {
                 <div className="bh-mobile-only bh-jump">
                   <span className="jumptext">Jump to page</span>
                   <input
-                    className="bh-jump-input"
+                    className="input bh-jump-input"
                     value={jumptoPage}
                     onChange={(e) => setJumptoPage(e.target.value)}
                     onKeyDown={(e) => e.key === "Enter" && jumpPage()}
@@ -809,6 +811,7 @@ export default function BetHistoryComponent() {
             You have no bets in this time period.
           </div>
         )}
+      </div>
       </div>
     </>
   );

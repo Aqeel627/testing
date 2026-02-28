@@ -31,7 +31,7 @@ export default function ThemePage() {
   };
 
   return (
-    <div>
+    <div id="theme-page.tsx">
       <BreadCrumb title="Theme" showTitle={true} />
       <section className="min-h-auto w-full flex items-center justify-center">
         <div className={cn("flex flex-col rounded-2xl! w-full max-w-5xl transition-all duration-300 bg-transparent!")}>

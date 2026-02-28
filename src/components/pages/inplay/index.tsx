@@ -15,19 +15,21 @@ const InplayPage = () => {
 
   return (
     <>
-      <BreadCrumb title="Inplay" />
-      <InplaySportNav activeTab={activeTab} setActiveTab={setActiveTab} />
-      <SingleMarket
-        events={
-          activeTab === "All"
-            ? inplayEvents?.all
-            : activeTab === "Cricket"
-              ? inplayEvents[4]
-              : activeTab === "Soccer"
-                ? inplayEvents[1]
-                : inplayEvents[2]
-        }
-      />
+      <div id="inplay.tsx">
+        <BreadCrumb title="Inplay" />
+        <InplaySportNav activeTab={activeTab} setActiveTab={setActiveTab} />
+        <SingleMarket
+          events={
+            activeTab === "All"
+              ? inplayEvents?.all
+              : activeTab === "Cricket"
+                ? inplayEvents[4]
+                : activeTab === "Soccer"
+                  ? inplayEvents[1]
+                  : inplayEvents[2]
+          }
+        />
+      </div>
     </>
   );
 };

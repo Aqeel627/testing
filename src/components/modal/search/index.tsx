@@ -9,6 +9,21 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import Icon from "@/icons/icons";
 
+
+function highlight(text: string, query: string) {
+  if (!query.trim()) return text;
+  const parts = text.split(new RegExp(`(${query})`, "gi"));
+  return parts.map((part, i) =>
+    part.toLowerCase() === query.toLowerCase() ? (
+      <span key={i} style={{ color: "var(--primary-color)", fontWeight: 700 }}>
+        {part}
+      </span>
+    ) : (
+      part
+    )
+  );
+}
+
 export default function SearchModal() {
   const isOpenSearch = useUIStore((s) => s.isOpenSearch);
   const toggleSearch = useUIStore((s) => s.toggleSearch);
@@ -35,6 +50,8 @@ export default function SearchModal() {
         toggleSearch(!isOpenSearch); // 👈 better pattern
       }
     };
+
+
 
     document.addEventListener("keydown", handleKeyDown);
     return () => {
@@ -129,10 +146,12 @@ export default function SearchModal() {
                     href={`/market-details/${match.event?.id}/${match.eventType?.id}`}
                   >
                     <div className={styles.textWrap}>
-                      <p className={styles.title}>
-                        {match?.eventType?.name} | {match?.marketType}
-                      </p>
-                      <p className={styles.sub}>{match?.event?.name}</p>
+                     <p className={styles.title}>
+      {highlight(`${match?.eventType?.name} | ${match?.marketType}`, query)}
+    </p>
+    <p className={styles.sub}>
+      {highlight(match?.event?.name || "", query)}
+    </p>
                     </div>
                   </Link>
                 ))

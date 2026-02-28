@@ -149,10 +149,14 @@ const StatementPage = () => {
     const shouldEnableJumpToPage = hasMultiplePages;
     return (
         <>
-            <BreadCrumb title="Account Statement" />
-            <div className="w-full">
+            <div id="statement.tsx">
+                <div className="my-4">
+                    <BreadCrumb title="Account Statement" />
+                </div>
 
-                {/* <div className="flex items-center gap-4 mb-8">
+                <div className="w-full">
+
+                    {/* <div className="flex items-center gap-4 mb-8">
                     <div
                         className="flex-1 h-[1px]"
                         style={{ background: "var(--dotted-line)" }}
@@ -170,55 +174,11 @@ const StatementPage = () => {
                 </div> */}
 
 
-                {/* ================= FILTER ================= */}
-                {/* for desktp */}
-                <div className="my-[15px]">
-                    <div className="hidden md:flex md:flex-wrap md:gap-3">
+                    {/* ================= FILTER ================= */}
+                    {/* for desktp */}
+                    <div className="my-[15px]">
+                        <div className="hidden md:flex md:flex-wrap md:gap-3">
 
-                        <input
-                            type="date"
-                            value={startDate.toISOString().split("T")[0]}
-                            onChange={(e) => {
-                                const date = e.target.value ? new Date(e.target.value) : null;
-                                if (date) setStartDate(date);
-                            }}
-                            max={endDate ? endDate.toISOString().split("T")[0] : undefined}
-                            placeholder="From"
-                            className="h-[32px] px-3 text-[12px] bg-transparent border border-[var(--primary-color)] text-[#757272]  rounded-[5px]  focus:outline-none"
-                            readOnly={false}
-                            autoComplete="off"
-                        />
-
-                        <input
-                            type="date"
-                            value={endDate.toISOString().split("T")[0]}
-                            onChange={(e) => {
-                                const date = e.target.value ? new Date(e.target.value) : null;
-                                if (date) setEndDate(date);
-                            }}
-                            min={startDate ? startDate.toISOString().split("T")[0] : undefined}
-                            placeholder="To"
-                            className="h-[32px] px-3 text-[12px] bg-transparent border border-[var(--primary-color)] text-[#757272]  rounded-[5px]  focus:outline-none"
-                            readOnly={false}
-                            autoComplete="off"
-                        />
-
-                        <button className="h-[32px] px-4 font-bold rounded-[5px] uppercase text-white  text-[12px] cursor-pointer "
-                            style={{
-                                background: "var(--primary-color)",
-                                boxShadow:
-                                    "0 4px 20px color-mix(in srgb, var(--primary-color) 35%, transparent)",
-                            }}>
-                            Submit
-                        </button>
-                    </div>
-                </div>
-                {/* for mobile */}
-                <div className="my-[15px] md:hidden">
-                    <div className="flex flex-wrap gap-3">
-
-                        {/* Input container to keep both in one line */}
-                        <div className="flex justify-between w-full  flex-nowrap">
                             <input
                                 type="date"
                                 value={startDate.toISOString().split("T")[0]}
@@ -228,10 +188,11 @@ const StatementPage = () => {
                                 }}
                                 max={endDate ? endDate.toISOString().split("T")[0] : undefined}
                                 placeholder="From"
-                                className="h-[32px] w-[49%] px-3 text-[12px] bg-transparent border border-[var(--primary-color)] text-[#757272] rounded-[5px]   focus:outline-none"
+                                className="h-[32px] px-3 text-[12px] bg-transparent border border-[var(--primary-color)] text-[#757272]  rounded-[5px]  focus:outline-none"
                                 readOnly={false}
                                 autoComplete="off"
                             />
+
                             <input
                                 type="date"
                                 value={endDate.toISOString().split("T")[0]}
@@ -241,40 +202,81 @@ const StatementPage = () => {
                                 }}
                                 min={startDate ? startDate.toISOString().split("T")[0] : undefined}
                                 placeholder="To"
-                                className="h-[32px] w-[49%] px-3 text-[12px] bg-transparent border border-[var(--primary-color)] text-[#757272] rounded-[5px]   focus:outline-none"
+                                className="h-[32px] px-3 text-[12px] bg-transparent border border-[var(--primary-color)] text-[#757272]  rounded-[5px]  focus:outline-none"
                                 readOnly={false}
                                 autoComplete="off"
                             />
+
+                            <button className="h-[32px] px-4 font-bold rounded-[5px] hover:bg-(--primary-color-dark) bg-(--primary-color) uppercase text-white  text-[12px] cursor-pointer "
+                                style={{
+                                    boxShadow:
+                                        "0 4px 20px color-mix(in srgb, var(--primary-color) 35%, transparent)",
+                                }}>
+                                Submit
+                            </button>
                         </div>
-
-                        {/* Submit button on next line */}
-                        <button
-                            className="w-full mt-2 h-[32px] px-4 font-bold rounded-[5px] uppercase text-white text-[12px] cursor-pointer"
-                            style={{
-                                background: "var(--primary-color)",
-                                boxShadow:
-                                    "0 4px 20px color-mix(in srgb, var(--primary-color) 35%, transparent)",
-                            }}
-                        >
-                            Submit
-                        </button>
-
                     </div>
-                </div>
+                    {/* for mobile */}
+                    <div className="my-[15px] md:hidden">
+                        <div className="flex flex-wrap gap-3">
+
+                            {/* Input container to keep both in one line */}
+                            <div className="flex justify-between w-full  flex-nowrap">
+                                <input
+                                    type="date"
+                                    value={startDate.toISOString().split("T")[0]}
+                                    onChange={(e) => {
+                                        const date = e.target.value ? new Date(e.target.value) : null;
+                                        if (date) setStartDate(date);
+                                    }}
+                                    max={endDate ? endDate.toISOString().split("T")[0] : undefined}
+                                    placeholder="From"
+                                    className="h-[32px] w-[49%] px-3 text-[12px] bg-transparent border border-[var(--primary-color)] text-[#757272] rounded-[5px]   focus:outline-none"
+                                    readOnly={false}
+                                    autoComplete="off"
+                                />
+                                <input
+                                    type="date"
+                                    value={endDate.toISOString().split("T")[0]}
+                                    onChange={(e) => {
+                                        const date = e.target.value ? new Date(e.target.value) : null;
+                                        if (date) setEndDate(date);
+                                    }}
+                                    min={startDate ? startDate.toISOString().split("T")[0] : undefined}
+                                    placeholder="To"
+                                    className="h-[32px] w-[49%] px-3 text-[12px] bg-transparent border border-[var(--primary-color)] text-[#757272] rounded-[5px]   focus:outline-none"
+                                    readOnly={false}
+                                    autoComplete="off"
+                                />
+                            </div>
+
+                            {/* Submit button on next line */}
+                            <button
+                                className="w-full mt-2 h-[32px] hover:bg-(--primary-color-dark) bg-(--primary-color) px-4 font-bold rounded-[5px] uppercase text-white text-[12px] cursor-pointer"
+                                style={{
+                                    boxShadow:
+                                        "0 4px 20px color-mix(in srgb, var(--primary-color) 35%, transparent)",
+                                }}
+                            >
+                                Submit
+                            </button>
+
+                        </div>
+                    </div>
 
 
 
-                {/* ================= TABLE ================= */}
-                <div className="overflow-x-auto mb-[30px]">
+                    {/* ================= TABLE ================= */}
+                    <div className="overflow-x-auto mb-[30px]">
 
-                    <table className="w-full text-[11px] border-collapse">
-                        <thead>
-                            <tr>
-                                {["Date/Time", "Deposit", "Withdraw", "Balance", "Remark"].map(
-                                    (head, i) => (
-                                        <th
-                                            key={i}
-                                            className={`
+                        <table className="w-full text-[11px] border-collapse">
+                            <thead>
+                                <tr>
+                                    {["Date/Time", "Deposit", "Withdraw", "Balance", "Remark"].map(
+                                        (head, i) => (
+                                            <th
+                                                key={i}
+                                                className={`
   font-bold
   py-[8px] px-[10px]
   bg-transparent  border border-[var(--secondary-text-color)]
@@ -282,145 +284,65 @@ const StatementPage = () => {
   ${i === 0 ? "rounded-tl-[5px]" : ""}
   ${i === 4 ? "rounded-tr-[5px]" : ""}
 `}
-                                            
+
+                                            >
+                                                {head}
+                                            </th>
+                                        )
+                                    )}
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {statements.length > 0 ? (
+                                    statements.map((statement, index) => (
+                                        <tr
+                                            key={index}
+                                            className="  text-black text-center"
                                         >
-                                            {head}
-                                        </th>
-                                    )
-                                )}
-                            </tr>
-                        </thead>
+                                            <td className="py-[8px] px-[10px] bg-transparent  border border-[var(--secondary-text-color)] text-[#757272] whitespace-nowrap">
+                                                {formatDisplayDate(statement.createdAt)}
+                                            </td>
 
-                        <tbody>
-                            {statements.length > 0 ? (
-                                statements.map((statement, index) => (
-                                    <tr
-                                        key={index}
-                                        className="  text-black text-center"
-                                    >
-                                        <td className="py-[8px] px-[10px] bg-transparent  border border-[var(--secondary-text-color)] text-[#757272] whitespace-nowrap">
-                                            {formatDisplayDate(statement.createdAt)}
-                                        </td>
+                                            <td className="py-[8px] px-[10px] bg-transparent  border border-[var(--secondary-text-color)] text-green-600 font-bold">
+                                                {formatTwoDecimals(statement.deposit)}
+                                            </td>
 
-                                        <td className="py-[8px] px-[10px] bg-transparent  border border-[var(--secondary-text-color)] text-green-600 font-bold">
-                                            {formatTwoDecimals(statement.deposit)}
-                                        </td>
+                                            <td className="py-[8px] px-[10px] bg-transparent  border border-[var(--secondary-text-color)] text-red-600 font-bold">
+                                                {formatTwoDecimals(statement.withdraw)}
+                                            </td>
 
-                                        <td className="py-[8px] px-[10px] bg-transparent  border border-[var(--secondary-text-color)] text-red-600 font-bold">
-                                            {formatTwoDecimals(statement.withdraw)}
-                                        </td>
+                                            <td className="py-[8px] px-[10px] bg-transparent  border border-[var((--secondary-text-color)] text-[#757272] font-bold">
+                                                {formatTwoDecimals(statement.bankBalance)}
+                                            </td>
 
-                                        <td className="py-[8px] px-[10px] bg-transparent  border border-[var((--secondary-text-color)] text-[#757272] font-bold">
-                                            {formatTwoDecimals(statement.bankBalance)}
-                                        </td>
-
-                                        <td className="py-[8px] px-[10px] bg-transparent  border border-[var((--secondary-text-color)] text-[#757272] whitespace-nowrap">
-                                            {statement.remark || "-"}
+                                            <td className="py-[8px] px-[10px] bg-transparent  border border-[var((--secondary-text-color)] text-[#757272] whitespace-nowrap">
+                                                {statement.remark || "-"}
+                                            </td>
+                                        </tr>
+                                    ))
+                                ) : (
+                                    <tr>
+                                        <td
+                                            colSpan={5}
+                                            className="  text-[#555] text-center text-[12px] py-[8px] border border-[var(--primary-color)]"
+                                        >
+                                            No data!
                                         </td>
                                     </tr>
-                                ))
-                            ) : (
-                                <tr>
-                                    <td
-                                        colSpan={5}
-                                        className="  text-[#555] text-center text-[12px] py-[8px]"
-                                    >
-                                        No data!
-                                    </td>
-                                </tr>
-                            )}
-                        </tbody>
-                    </table>
-                </div>
-
-
-                {/* ================= PAGINATION ================= */}
-                <div className="flex md:hidden justify-between items-center gap-[10px] order-2">
-                    <button
-                        onClick={() => handlePageChange(1)}
-                        disabled={isFirstPage || !hasMultiplePages}
-                        className={`
-    font-semibold rounded px-3 py-1 transition-all
-    ${isFirstPage || !hasMultiplePages
-                                ? " bg-transparent cursor-not-allowed border border-[var(--primary-color)] text-[#757272]"
-                                : "bg-transparent border border-[var(--primary-color)] hover:opacity-80 text-[#757272]"
-                            }
-  `}
-                        style={
-                            !(isFirstPage || !hasMultiplePages)
-                                ? {
-                                    color: "var(--primary-color)",
-                                }
-                                : {}
-                        }
-                    >
-                        First
-                    </button>
-
-                    <button
-                        onClick={() => handlePageChange(currentPage - 1)}
-                        disabled={isFirstPage || !hasMultiplePages}
-                        className={`
-    text-[#757272] font-semibold rounded px-3 py-1
-    ${isFirstPage || !hasMultiplePages
-                                ? "bg-transparent cursor-not-allowed border border-[var(--primary-color)] text-[#757272]"
-                                : "bg-transparent border border-[var(--primary-color)] hover:opacity-80 text-[#757272]"
-                            }
-  `}
-                    >
-                        Previous
-                    </button>
-
-                    <span className="w-[23px] h-[21px] flex items-center justify-center rounded-[5px]  text-white font-bold"
-                        style={{
-                            background: "var(--primary-color)",
-                            boxShadow:
-                                "0 4px 20px color-mix(in srgb, var(--primary-color) 35%, transparent)",
-                        }}>
-                        1
-                    </span>
-                    <button
-                        onClick={() => handlePageChange(currentPage + 1)}
-                        disabled={isLastPage || !hasMultiplePages}
-                        className={`
-    text-[#757272] font-semibold rounded px-3 py-1
-    ${isLastPage || !hasMultiplePages
-                                ? "bg-transparent cursor-not-allowed border border-[var(--primary-color)] text-[#757272]"
-                                : "bg-transparent border border-[var(--primary-color)] hover:opacity-80 text-[#757272]"
-                            }
-  `}
-                    >
-                        Next
-                    </button>
-                    <button
-                        onClick={() => handlePageChange(totalPages)}
-                        disabled={isLastPage || !hasMultiplePages}
-                        className={`
-    text-[#757272] font-semibold rounded px-3 py-1
-    ${isLastPage || !hasMultiplePages
-                                ? "bg-transparent cursor-not-allowed border border-[var(--primary-color)] text-[#757272]"
-                                : "bg-transparent border border-[var(--primary-color)] hover:opacity-80 text-[#757272]"
-                            }
-  `}
-                    >
-                        Last
-                    </button>
-                </div>
-                <div className="mt-[15px] text-[11px]  flex items-center justify-between flex-row gap-[15px]">
-
-                    {/* Entries */}
-                    <div className="text-[#757272] order-1 text-[10px]">
-                        Showing {startEntry} to {endEntry}  of {totalRecords} entries
+                                )}
+                            </tbody>
+                        </table>
                     </div>
 
-                    {/* Pagination Buttons */}
-                    <div className=" hidden md:flex items-center justify-center gap-[10px] order-2">
 
+                    {/* ================= PAGINATION ================= */}
+                    <div className="flex md:hidden justify-between items-center gap-[10px] order-2">
                         <button
                             onClick={() => handlePageChange(1)}
                             disabled={isFirstPage || !hasMultiplePages}
                             className={`
-    font-semibold rounded px-3 py-1 transition-all
+    font-semibold rounded px-3 py-1 transition-all h-[32px] text-[12px]
     ${isFirstPage || !hasMultiplePages
                                     ? " bg-transparent cursor-not-allowed border border-[var(--primary-color)] text-[#757272]"
                                     : "bg-transparent border border-[var(--primary-color)] hover:opacity-80 text-[#757272]"
@@ -441,7 +363,7 @@ const StatementPage = () => {
                             onClick={() => handlePageChange(currentPage - 1)}
                             disabled={isFirstPage || !hasMultiplePages}
                             className={`
-    text-[#757272] font-semibold rounded px-3 py-1
+    text-[#757272] font-semibold rounded px-3 py-1 h-[32px] text-[12px]
     ${isFirstPage || !hasMultiplePages
                                     ? "bg-transparent cursor-not-allowed border border-[var(--primary-color)] text-[#757272]"
                                     : "bg-transparent border border-[var(--primary-color)] hover:opacity-80 text-[#757272]"
@@ -451,20 +373,19 @@ const StatementPage = () => {
                             Previous
                         </button>
 
-                        <span className="w-[23px] h-[21px] flex items-center justify-center rounded-[5px]  text-white font-bold"
+                        <span className="w-[23px] h-[32px] text-[12px] flex items-center justify-center rounded-[5px]  text-white font-bold"
                             style={{
                                 background: "var(--primary-color)",
                                 boxShadow:
                                     "0 4px 20px color-mix(in srgb, var(--primary-color) 35%, transparent)",
                             }}>
-                            {currentPage}
+                            1
                         </span>
-
                         <button
                             onClick={() => handlePageChange(currentPage + 1)}
                             disabled={isLastPage || !hasMultiplePages}
                             className={`
-    text-[#757272] font-semibold rounded px-3 py-1
+    text-[#757272] font-semibold rounded px-3 py-1 h-[32px] text-[12px]
     ${isLastPage || !hasMultiplePages
                                     ? "bg-transparent cursor-not-allowed border border-[var(--primary-color)] text-[#757272]"
                                     : "bg-transparent border border-[var(--primary-color)] hover:opacity-80 text-[#757272]"
@@ -473,12 +394,11 @@ const StatementPage = () => {
                         >
                             Next
                         </button>
-
                         <button
                             onClick={() => handlePageChange(totalPages)}
                             disabled={isLastPage || !hasMultiplePages}
                             className={`
-    text-[#757272] font-semibold rounded px-3 py-1
+    text-[#757272] font-semibold rounded px-3 py-1 h-[32px] text-[12px]
     ${isLastPage || !hasMultiplePages
                                     ? "bg-transparent cursor-not-allowed border border-[var(--primary-color)] text-[#757272]"
                                     : "bg-transparent border border-[var(--primary-color)] hover:opacity-80 text-[#757272]"
@@ -487,46 +407,129 @@ const StatementPage = () => {
                         >
                             Last
                         </button>
-
                     </div>
+                    <div className="mt-[15px] text-[11px]  flex items-center justify-between flex-row gap-[15px]">
 
-                    {/* Jump To Page */}
-                    <div className="flex items-center gap-2 text-[#757272] order-3">
+                        {/* Entries */}
+                        <div className="text-[#757272] order-1 text-[10px]">
+                            Showing {startEntry} to {endEntry}  of {totalRecords} entries
+                        </div>
 
-                        <span className="text-[#757272] text-[10px] whitespace-nowrap">
-                            Jump to page
-                        </span>
+                        {/* Pagination Buttons */}
+                        <div className=" hidden md:flex items-center justify-center gap-[10px] order-2">
 
-                        <input
-                            type="number"
-                            min={1}
-                            max={totalPages}
-                            value={jumpToPage}
-                            onChange={(e) => setJumpToPage(e.target.value)}
-                            onKeyPress={handleKeyPress}
-                            autoComplete="off"
-                            disabled={!shouldEnableJumpToPage}
-                            className="
+                            <button
+                                onClick={() => handlePageChange(1)}
+                                disabled={isFirstPage || !hasMultiplePages}
+                                className={`
+    font-semibold rounded px-3 py-1 transition-all h-[32px] text-[12px]
+    ${isFirstPage || !hasMultiplePages
+                                        ? " bg-transparent cursor-not-allowed border border-[var(--primary-color)] text-[#757272]"
+                                        : "bg-transparent border border-[var(--primary-color)] hover:opacity-80 text-[#757272]"
+                                    }
+  `}
+                                style={
+                                    !(isFirstPage || !hasMultiplePages)
+                                        ? {
+                                            color: "var(--primary-color)",
+                                        }
+                                        : {}
+                                }
+                            >
+                                First
+                            </button>
+
+                            <button
+                                onClick={() => handlePageChange(currentPage - 1)}
+                                disabled={isFirstPage || !hasMultiplePages}
+                                className={`
+    text-[#757272] font-semibold rounded px-3 py-1 h-[32px] text-[12px]
+    ${isFirstPage || !hasMultiplePages
+                                        ? "bg-transparent cursor-not-allowed border border-[var(--primary-color)] text-[#757272]"
+                                        : "bg-transparent border border-[var(--primary-color)] hover:opacity-80 text-[#757272]"
+                                    }
+  `}
+                            >
+                                Previous
+                            </button>
+
+                            <span className="w-[23px] h-[32px] text-[12px] flex items-center justify-center rounded-[5px]  text-white font-bold"
+                                style={{
+                                    background: "var(--primary-color)",
+                                    boxShadow:
+                                        "0 4px 20px color-mix(in srgb, var(--primary-color) 35%, transparent)",
+                                }}>
+                                {currentPage}
+                            </span>
+
+                            <button
+                                onClick={() => handlePageChange(currentPage + 1)}
+                                disabled={isLastPage || !hasMultiplePages}
+                                className={`
+    text-[#757272] font-semibold rounded px-3 py-1 h-[32px] text-[12px]
+    ${isLastPage || !hasMultiplePages
+                                        ? "bg-transparent cursor-not-allowed border border-[var(--primary-color)] text-[#757272]"
+                                        : "bg-transparent border border-[var(--primary-color)] hover:opacity-80 text-[#757272]"
+                                    }
+  `}
+                            >
+                                Next
+                            </button>
+
+                            <button
+                                onClick={() => handlePageChange(totalPages)}
+                                disabled={isLastPage || !hasMultiplePages}
+                                className={`
+    text-[#757272] font-semibold rounded px-3 py-1 h-[32px] text-[12px]
+    ${isLastPage || !hasMultiplePages
+                                        ? "bg-transparent cursor-not-allowed border border-[var(--primary-color)] text-[#757272]"
+                                        : "bg-transparent border border-[var(--primary-color)] hover:opacity-80 text-[#757272]"
+                                    }
+  `}
+                            >
+                                Last
+                            </button>
+
+                        </div>
+
+                        {/* Jump To Page */}
+                        <div className="flex items-center gap-2 text-[#757272] order-3">
+
+                            <span className="text-[#757272] text-[10px] whitespace-nowrap">
+                                Jump to page
+                            </span>
+
+                            <input
+                                type="number"
+                                min={1}
+                                max={totalPages}
+                                value={jumpToPage}
+                                onChange={(e) => setJumpToPage(e.target.value)}
+                                onKeyPress={handleKeyPress}
+                                autoComplete="off"
+                                disabled={!shouldEnableJumpToPage}
+                                className="
       w-[30px] sm:w-[40px] md:w-[60px]
       h-8 text-center text-[14px] 
       bg-transparent border border-[var(--primary-color)] rounded-[5px]
       disabled:opacity-50 disabled:cursor-not-allowed
     "
-                        />
+                            />
 
-                        <button
-                            onClick={handleJumpToPage}
-                            disabled={!shouldEnableJumpToPage}
-                            className="h-[32px] px-3 text-white font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
-                            style={{
-                                background: "var(--primary-color)",
-                                boxShadow: "0 4px 20px color-mix(in srgb, var(--primary-color) 35%, transparent)",
-                            }}
-                        >
-                            Go
-                        </button>
+                            <button
+                                onClick={handleJumpToPage}
+                                disabled={!shouldEnableJumpToPage}
+                                className="h-[32px] px-3 text-white font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
+                                style={{
+                                    background: "var(--primary-color)",
+                                    boxShadow: "0 4px 20px color-mix(in srgb, var(--primary-color) 35%, transparent)",
+                                }}
+                            >
+                                Go
+                            </button>
 
 
+                        </div>
                     </div>
                 </div>
             </div>

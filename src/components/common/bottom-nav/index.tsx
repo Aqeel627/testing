@@ -42,52 +42,66 @@ const BottomNavbar = () => {
   }, []);
 
   return (
-    <div
-      className={cn(
-        "md:hidden z-[40] fixed border shadow-[0_8px_32px_rgba(0,0,0,0.2)]! bottom-5 left-1/2 -translate-x-1/2 px-2 py-2 w-[84%] flex justify-around items-center rounded-full glass-blur h-15",
-        theme === "dark"
-          ? "border-[rgba(255,255,255,0.3)]"
-          : "border-[rgb(205,192,192,0.5)] ",
-        isSafari ? "bottom-2" : "bottom-5",
-      )}
-    >
-      {items.map((item, idx) => (
-        <Fragment key={idx}>
-          {idx === 2 && <CenterRadialButton />}
+    <div id="bottomNavbar.tsx">
+      <div
+        className={cn(
+          "md:hidden z-[40] fixed border shadow-[0_8px_32px_rgba(0,0,0,0.2)]! bottom-5 left-1/2 -translate-x-1/2 px-2 py-2 w-[84%] flex justify-around items-center rounded-full glass-blur h-15",
+          theme === "dark"
+            ? "border-[rgba(255,255,255,0.3)]"
+            : "border-[rgb(205,192,192,0.5)] ",
+          isSafari ? "bottom-2" : "bottom-5",
+        )}
+      >
+        {items.map((item, idx) => (
+          <Fragment key={idx}>
+            {idx === 2 && <CenterRadialButton />}
 
-          <Link
-            prefetch={false}
-            href={item.link}
-            onClick={(e) => {
-              if (item.icon === "casinoic") {
-                e.preventDefault();
-
-                if (!isLoggedIn) {
+            <Link
+              prefetch={false}
+              href={
+                item.icon === "bets" && isLoggedIn
+                  ? "/bets-history"
+                  : item.link
+              }
+              onClick={(e) => {
+                // ✅ Bets ke liye login check
+                if (item.icon === "bets" && !isLoggedIn) {
+                  e.preventDefault();
                   setLoginModal(true);
                   return;
                 }
 
-                if (isOpen) {
-                  close();
-                } else {
-                  open();
+                // ✅ Casino ke liye special toggle logic
+                if (item.icon === "casinoic") {
+                  e.preventDefault();
+
+                  if (!isLoggedIn) {
+                    setLoginModal(true);
+                    return;
+                  }
+
+                  if (isOpen) {
+                    close();
+                  } else {
+                    open();
+                  }
                 }
-              }
-            }}
-            className={cn(
-              "h-12 w-12 flex border justify-center items-center glass rounded-full",
-              pathName === item?.link
-                ? "bg-(--nav-item-root-active-bg)! text-(--nav-item-root-active-color)"
-                : "bg-(--IconButton-hoverBg)",
-              theme === "dark"
-                ? "border-[rgba(255,255,255,0.3)]"
-                : "border-[rgb(205,192,192,0.5)]",
-            )}
-          >
-            <Icon name={item.icon} width={25} height={25} />
-          </Link>
-        </Fragment>
-      ))}
+              }}
+              className={cn(
+                "h-12 w-12 flex border justify-center items-center glass rounded-full",
+                pathName === item?.link
+                  ? "bg-(--nav-item-root-active-bg)! text-(--nav-item-root-active-color)"
+                  : "bg-(--IconButton-hoverBg)",
+                theme === "dark"
+                  ? "border-[rgba(255,255,255,0.3)]"
+                  : "border-[rgb(205,192,192,0.5)]",
+              )}
+            >
+              <Icon name={item.icon} width={25} height={25} />
+            </Link>
+          </Fragment>
+        ))}
+      </div>
     </div>
   );
 };
