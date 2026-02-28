@@ -128,30 +128,30 @@ const ProfitLossEventPage: React.FC = () => {
             </tr>
           </thead>
 
-          <tbody className="bg-[#f1f1f1]">
+          <tbody className="">
             {isLoader ? (
-              <tr>
-                <td colSpan={5} className="p-4 text-center">
-                  <div className="flex justify-center items-center gap-1.5 py-4">
-                    <div className="w-2 h-2 bg-[#428bca] rounded-full animate-bounce [animation-delay:-0.3s]"></div>
-                    <div className="w-2 h-2 bg-[#428bca] rounded-full animate-bounce [animation-delay:-0.15s]"></div>
-                    <div className="w-2 h-2 bg-[#428bca] rounded-full animate-bounce"></div>
+              <tr className="border-b border-(--secondary-text-color) bg-[var(--palette-background-paper)]">
+                <td colSpan={4} className="p-4  text-center">
+                  <div className="flex justify-center items-center gap-1.5">
+                    <div className="w-2 h-2 bg-(--primary-color) rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+                    <div className="w-2 h-2 bg-(--primary-color) rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+                    <div className="w-2 h-2 bg-(--primary-color) rounded-full animate-bounce"></div>
                   </div>
                 </td>
               </tr>
             ) : profitList.length > 0 ? (
               profitList.map((profit, index) => (
-                <tr key={index} className="border-b border-(--secondary-text-color) bg-[var(--palette-background-paper)]">
-                  <td className="p-[8px_10px] text-center border-r border-(--secondary-text-color) text-[11px] text-[var(--palette-text-primary)]">{profit.eventType.name}</td>
-                  <td className="p-[8px_10px] text-center border-r border-(--secondary-text-color) text-[11px]">
-                    <button onClick={() => goToEventPL(profit.event.id)} className="text-[#4285f4] hover:underline font-bold">
+                <tr key={index} className="border-b border-(--dotted-line) bg-[var(--palette-background-paper)]">
+                  <td className="p-[8px_10px] text-center whitespace-nowrap border-r border-(--dotted-line) text-[11px] text-[var(--palette-text-primary)]">{profit.eventType.name}</td>
+                  <td className="p-[8px_10px] text-center whitespace-nowrap border-r border-(--dotted-line) text-[11px]">
+                    <button onClick={() => goToEventPL(profit.event.id)} className="text-[#4285f4] hover:underline font-bold cursor-pointer">
                       {profit.event.name}
                     </button>
                   </td>
-                  <td className={`p-[8px_10px] text-center border-r border-(--secondary-text-color) font-bold text-[11px] ${profit.pl <= 0 ? 'text-red-600' : 'text-green-600'}`}>
+                  <td className={`p-[8px_10px] whitespace-nowrap text-center border-r border-(--dotted-line) font-bold text-[11px] ${profit.pl <= 0 ? 'text-red-600' : 'text-green-600'}`}>
                     {profit.pl}
                   </td>
-                  <td className="p-[8px_10px] text-center border-r border-(--secondary-text-color) text-[11px] text-[var(--palette-text-primary)]">{profit.commission}</td>
+                  <td className="p-[8px_10px] text-center border-r border-(--dotted-line) text-[11px] text-[var(--palette-text-primary)] whitespace-nowrap">{profit.commission}</td>
                   <td className={`p-[8px_10px] text-center font-bold text-[11px] ${(profit.pl - profit.commission) <= 0 ? 'text-red-600' : 'text-green-600'}`}>
                     {(profit.pl - profit.commission).toLocaleString()}
                   </td>
