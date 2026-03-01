@@ -4,7 +4,8 @@
 export const BASE_URL = "https://gjexch.com";
 export const BASE_URL_WS = "https://gjexch.com";
 
-export const BASE_URL_100 = "https://gjexch.com";
+
+export const BASE_URL_100 = "https://100exch.com";
 
 // export const BASE_URL = "https://100exch.com";
 // export const BASE_URL_WS = "https://100exch.com";
