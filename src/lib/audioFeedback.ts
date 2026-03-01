@@ -42,30 +42,52 @@ class BetAudio {
 
   private playBuffer(buffer: AudioBuffer | null): void {
     if (!this.audioContext || !buffer) return;
-    const source = this.audioContext.createBufferSource();
-    source.buffer = buffer;
-    source.connect(this.audioContext.destination);
-    source.start(0);
+    try {
+      const source = this.audioContext.createBufferSource();
+      source.buffer = buffer;
+      source.connect(this.audioContext.destination);
+      source.start(0);
+    } catch (e) {
+      console.warn('Audio playback failed:', e);
+    }
   }
 
   /**
-   * Play success sound from /public/sounds/success.mp3
+   * Play success sound - fire and forget (no await needed)
    */
-  public async playSuccess(): Promise<void> {
+  public playSuccess(): void {
     if (typeof window === 'undefined') return;
     this.ensureContext();
-    if (!this.successBuffer) await this.preload();
-    this.playBuffer(this.successBuffer);
+    
+    // Fire and forget - don't block calling code
+    if (this.successBuffer) {
+      this.playBuffer(this.successBuffer);
+    } else {
+      // Load and play without blocking
+      this.loadSound('/sounds/success.mp3').then((buffer) => {
+        this.successBuffer = buffer;
+        this.playBuffer(buffer);
+      }).catch(() => {});
+    }
   }
 
   /**
-   * Play error sound from /public/sounds/error.mp3
+   * Play error sound - fire and forget (no await needed)
    */
-  public async playError(): Promise<void> {
+  public playError(): void {
     if (typeof window === 'undefined') return;
     this.ensureContext();
-    if (!this.errorBuffer) await this.preload();
-    this.playBuffer(this.errorBuffer);
+    
+    // Fire and forget - don't block calling code
+    if (this.errorBuffer) {
+      this.playBuffer(this.errorBuffer);
+    } else {
+      // Load and play without blocking
+      this.loadSound('/sounds/error.mp3').then((buffer) => {
+        this.errorBuffer = buffer;
+        this.playBuffer(buffer);
+      }).catch(() => {});
+    }
   }
 }
 
