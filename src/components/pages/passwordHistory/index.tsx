@@ -8,7 +8,9 @@ const PasswordHistoryPage = () => {
   return (
     <>
       <div id="password-history.tsx">
+        <div className="my-4">
         <BreadCrumb title="Password History" />
+        </div>
         <div className="w-full mx-auto flex flex-col flex-grow scroll-mt-[40px]">
           <PasswordHistoryClient />
         </div>

@@ -305,17 +305,13 @@ const SportItemComponent = ({
           {sport.id === "4" ? (
             // ✅ Cricket → use Icon component
             <Icon name="cricket" className={styles.linkIcon} />
-          ) : (
+          ) : sport.id === "1" ? (
             // ✅ Others → keep mask flow exactly same
-            <span
-              className={styles.sportImage}
-              style={
-                {
-                  backgroundImage: `url(${sport.iconUrl})`,
-                  WebkitMaskImage: `url(${sport.iconUrl})`,
-                } as CSSProperties
-              }
-            />
+            <Icon name="football" className={styles.linkIcon} />
+          ) : sport.id === "2" ? (
+            <Icon name="tennis" className={styles.linkIcon} />
+          ) : (
+            <></>
           )}
         </span>
         <span className={styles.linkText}>{sport.name}</span>

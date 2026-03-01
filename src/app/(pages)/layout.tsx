@@ -21,6 +21,7 @@ import BetSlipUI from "@/components/common/betslip";
 import BetsTable from "@/components/common/betstable";
 import { AnimatePresence, motion } from "framer-motion";
 import { usePathname } from "next/navigation";
+import { Drawer, DrawerContent } from "@/components/common/drawer";
 // const Header = dynamic(() => import("@/components/common/header"));
 // const Footer = dynamic(() => import("@/components/common/footer"));
 // const Sidebar = dynamic(() => import("@/components/common/sidebar"));
@@ -70,11 +71,14 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
       <>
         <div
           className={cn(
+            // "w-full overflow-hidden!",
             "w-full min-h-screen app-scroll-root",
             (loginModal || isMobileSidebarOpen) && "overflow-hidden!",
           )}
         >
           <div className="w-full fixed top-0 z-50">
+            {/* <Marque /> */}
+            {/* ✅ toggle via store */}
             <Header
               onMenuClick={() =>
                 isMobileSidebarOpen ? closeMobileSidebar() : openMobileSidebar()
@@ -82,41 +86,49 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
             />
           </div>
 
-          {/* ✅ Backdrop: Framer Motion se smooth opacity */}
-          <AnimatePresence>
-            {isMobileSidebarOpen && (
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                onClick={() => closeMobileSidebar()}
-                className="fixed inset-0 z-[60] bg-black/50 backdrop-blur-[2px]" // halka blur Safari pe premium lagta hai
-                aria-hidden="true"
-              />
-            )}
-          </AnimatePresence>
+          {/* ✅ backdrop closes via store */}
+          {/* <div
+            className={`fixed inset-0 z-[60] bg-black/50 transition-opacity duration-300 ${
+              isMobileSidebarOpen
+                ? "opacity-100 pointer-events-auto"
+                : "opacity-0 pointer-events-none"
+            }`}
+            onClick={() => closeMobileSidebar()}
+            aria-hidden="true"
+          />
 
-          {/* ✅ Sidebar: Framer Motion Fix */}
-          <AnimatePresence>
-            {isMobileSidebarOpen && (
-              <motion.aside
-                initial={{ x: "-100%" }}
-                animate={{ x: 0 }}
-                exit={{ x: "-100%" }}
-                transition={{ type: "spring", damping: 25, stiffness: 200 }} // iPhone pe ye bounce-free aur smooth chalta hai
-      style={{
-        height: "100svh", // keep as-is for everyone by default
-        WebkitBackfaceVisibility: "hidden",
-      }}
-                // className="fixed top-0 left-0 z-[70] w-[288px] max-w-[85vw] bg-[var(--background)] sidebar-container overflow-y-auto no-scrollbar shadow-2xl"
-                  className="fixed top-0 left-0 z-[70] w-[288px] max-w-[85vw] bg-[var(--background)] sidebar-drawer shadow-2xl"
-              >
-                <div className="sidebar-drawer-scroll">
-                <Sidebar />
-                </div>
-              </motion.aside>
-            )}
-          </AnimatePresence>
+          <aside
+            className="fixed top-0 sidebar-container left-0 z-[70] w-[288px] max-w-[85vw] bg-[var(--background)] overflow-y-auto no-scrollbar"
+            style={{
+              height: "100svh",
+              transform: isMobileSidebarOpen
+                ? "translate3d(0, 0, 0)"
+                : "translate3d(-100%, 0, 0)",
+              transition: "transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)", // ✅ Material easing — iOS pe smooth
+              willChange: "transform",
+              backfaceVisibility: "hidden",
+              WebkitBackfaceVisibility: "hidden" as any,
+              WebkitTransform: isMobileSidebarOpen
+                ? "translate3d(0, 0, 0)"
+                : "translate3d(-100%, 0, 0)",
+              WebkitTransition:
+                "-webkit-transform 0.4s cubic-bezier(0.4, 0, 0.2, 1)" as any, // ✅ webkit prefix with -webkit-transform
+            }}
+          >
+            <Sidebar />
+          </aside> */}
+          <Drawer
+            open={isMobileSidebarOpen}
+            direction="left"
+            onOpenChange={() =>
+              isMobileSidebarOpen ? closeMobileSidebar() : openMobileSidebar()
+            }
+            dismissible
+          >
+            <DrawerContent className="border-none rounded-0! w-[288px]! max-w-[85vw]!">
+              <Sidebar />
+            </DrawerContent>
+          </Drawer>
 
           <main className="pt-[80px] px-3 h-screen">
             {children}
@@ -140,7 +152,6 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
           </div>
 
           <div className="flex h-full w-full">
-
             <motion.aside
               animate={{ width: isSidebarOpen ? 300 : 0 }}
               transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
@@ -192,7 +203,6 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
                 )}
               </AnimatePresence>
             </ResizablePanelGroup>
-
           </div>
         </div>
         {loginModal && <LoginModal />}

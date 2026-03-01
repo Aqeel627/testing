@@ -175,19 +175,14 @@ export default function ChangePassword() {
         // Reset form
         setForm({ oldPassword: "", newPassword: "", confirmPassword: "" });
         setTouched({ oldPassword: false, newPassword: false, confirmPassword: false });
-
-        if (typeof window !== "undefined") {
-          localStorage.clear();
-          sessionStorage.clear();
-        }
-
+        closePasswordModal()
         router.push("/");
       } else {
         const errParts = splitMsg(res?.meta?.message ?? "");
-        setApiError(errParts.title || "Failed to change password. Please check your current password.");
+        setApiError(errParts?.title || "Failed to change password. Please check your current password.");
       }
     } catch (err) {
-      console.error("ERROR in changePassword:", err);
+      console.log("ERROR in changePassword:", err);
       setApiError("Something went wrong. Please try again.");
     } finally {
       setIsSubmitting(false);

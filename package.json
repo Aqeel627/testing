@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.15",
+    "@radix-ui/react-tooltip": "^1.2.8",
     "@tailwindcss/container-queries": "^0.1.1",
     "axios": "^1.13.2",
     "clsx": "^2.1.1",
@@ -29,8 +30,8 @@
     "swiper": "^12.1.1",
     "tailwind-merge": "^3.4.1",
     "universe-code": "^0.0.94",
-    "zustand": "^5.0.11",
-    "@radix-ui/react-tooltip": "^1.2.8"
+    "vaul": "^1.1.2",
+    "zustand": "^5.0.11"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
