@@ -3,6 +3,11 @@
     margin-bottom: 0.5rem;
 }
 
+.bh-table-wrap {
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
 .bh-header-line {
     border-bottom: 2px solid #e0e0e0;
     padding-bottom: 0.25rem;
