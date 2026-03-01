@@ -104,13 +104,16 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
                 animate={{ x: 0 }}
                 exit={{ x: "-100%" }}
                 transition={{ type: "spring", damping: 25, stiffness: 200 }} // iPhone pe ye bounce-free aur smooth chalta hai
-                style={{
-                  height: "100svh",
-                  WebkitBackfaceVisibility: "hidden", // Safari optimization
-                }}
-                className="fixed top-0 left-0 z-[70] w-[288px] max-w-[85vw] bg-[var(--background)] sidebar-container overflow-y-auto no-scrollbar shadow-2xl"
+      style={{
+        height: "100svh", // keep as-is for everyone by default
+        WebkitBackfaceVisibility: "hidden",
+      }}
+                // className="fixed top-0 left-0 z-[70] w-[288px] max-w-[85vw] bg-[var(--background)] sidebar-container overflow-y-auto no-scrollbar shadow-2xl"
+                  className="fixed top-0 left-0 z-[70] w-[288px] max-w-[85vw] bg-[var(--background)] sidebar-drawer shadow-2xl"
               >
+                <div className="sidebar-drawer-scroll">
                 <Sidebar />
+                </div>
               </motion.aside>
             )}
           </AnimatePresence>

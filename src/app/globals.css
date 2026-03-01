@@ -1202,3 +1202,26 @@ body:has(.drawer) {
 .border-t-0{
     border-top-width: 0px;
 }
+
+
+/* default: keep your existing behavior */
+.sidebar-drawer-scroll {
+  height: 100%;
+}
+
+/* iOS only (iPhone/iPad browsers) */
+@supports (-webkit-overflow-scrolling: touch) {
+  .sidebar-drawer {
+    top: 0;
+    bottom: 0;       /* <- key: stretch to real visible viewport */
+    height: auto;    /* <- overrides 100svh only on iOS */
+    overflow: hidden; /* <- key: don't scroll on the transformed element */
+  }
+
+  .sidebar-drawer-scroll {
+    height: 100%;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: calc(env(safe-area-inset-bottom) + 12px);
+  }
+}
