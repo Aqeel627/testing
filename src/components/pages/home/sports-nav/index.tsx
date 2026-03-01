@@ -1,10 +1,18 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef, useMemo, useTransition } from "react";
+import {
+  useState,
+  useEffect,
+  useCallback,
+  useRef,
+  useMemo,
+  useTransition,
+} from "react";
 import styles from "./style.module.css";
 import { useAppStore } from "@/lib/store/store";
 import { cn } from "@/lib/utils";
 import { useRouter } from "next/navigation";
+import { useIndexManagerStore } from "@/lib/store/indexManagerStore";
 
 type NavItem = { label: string; href: string; id: string };
 
@@ -15,7 +23,8 @@ export default function SportsNav({
 }: {
   setSelectedEvent: (value: string) => void;
 }) {
-  const { menuList } = useAppStore();
+  // const { menuList } = useAppStore();
+  const { eventTypes } = useIndexManagerStore();
   const router = useRouter();
 
   const [activeTab, setActiveTab] = useState<string>("");
@@ -32,17 +41,35 @@ export default function SportsNav({
     opacity: 0,
   });
 
-  const navItems = useMemo<NavItem[]>(() => {
-    if (!menuList?.eventTypes) return [];
+  // const navItems = useMemo<NavItem[]>(() => {
+  //   if (!menuList?.eventTypes) return [];
 
-    const dynamicItems = menuList.eventTypes
-      .filter((item: any) =>
-        NAV_DATA.includes(item?.eventType?.name?.toLowerCase())
-      )
-      .map((item: any) => ({
-        label: item?.eventType?.name,
-        href: `/game-list/${item?.eventType?.name}/${item?.eventType?.id}`,
-        id: item?.eventType?.id,
+  //   const dynamicItems = menuList.eventTypes
+  //     .filter((item: any) =>
+  //       NAV_DATA.includes(item?.eventType?.name?.toLowerCase())
+  //     )
+  //     .map((item: any) => ({
+  //       label: item?.eventType?.name,
+  //       href: `/game-list/${item?.eventType?.name}/${item?.eventType?.id}`,
+  //       id: item?.eventType?.id,
+  //     }));
+
+  //   // ✅ Static Horse Racing Add
+  //   const horseRacingItem: NavItem = {
+  //     label: "Horse Racing",
+  //     href: "/horse-racing",
+  //     id: "4339",
+  //   };
+
+  //   return [...dynamicItems, horseRacingItem];
+  // }, [menuList?.eventTypes]);
+  const navItems = useMemo<NavItem[]>(() => {
+    if (!eventTypes) return [];
+
+    const dynamicItems = eventTypes?.map((item: any) => ({
+        label: item?.name,
+        href: `/game-list/${item?.name}/${item?.id}`,
+        id: item?.id,
       }));
 
     // ✅ Static Horse Racing Add
@@ -53,12 +80,14 @@ export default function SportsNav({
     };
 
     return [...dynamicItems, horseRacingItem];
-  }, [menuList?.eventTypes]);
+  }, [eventTypes]);
 
   // Set default tab on load
   useEffect(() => {
     if (navItems.length > 0 && !activeTab) {
-      const cricketTab = navItems.find((item) => item.label.toLowerCase() === "cricket");
+      const cricketTab = navItems.find(
+        (item) => item.label.toLowerCase() === "cricket",
+      );
       const defaultTab = cricketTab ?? navItems[0];
 
       setActiveTab(defaultTab.label);
@@ -72,7 +101,7 @@ export default function SportsNav({
   const updateIndicator = useCallback(() => {
     if (!tabsListRef.current || !activeTab) return;
     const activeBtn = tabsListRef.current.querySelector(
-      `button[data-tab="${activeTab}"]`
+      `button[data-tab="${activeTab}"]`,
     ) as HTMLElement;
 
     if (!activeBtn) return;
@@ -99,9 +128,11 @@ export default function SportsNav({
   }, [updateIndicator]);
 
   // ⚡ SUPER FAST CLICK HANDLER
-  const handleTabClick = (e: React.MouseEvent<HTMLButtonElement>, item: NavItem) => {
+  const handleTabClick = (
+    e: React.MouseEvent<HTMLButtonElement>,
+    item: NavItem,
+  ) => {
     if (activeTab === item.label) return;
-
 
     // ✅ If Horse Racing → Direct Route
     if (item.label === "Horse Racing") {
@@ -123,7 +154,8 @@ export default function SportsNav({
     // 2. Instantly adjust scroll container to keep active tab in view
     if (scrollContainerRef.current) {
       const container = scrollContainerRef.current;
-      const scrollLeft = target.offsetLeft - container.offsetWidth / 2 + target.offsetWidth / 2;
+      const scrollLeft =
+        target.offsetLeft - container.offsetWidth / 2 + target.offsetWidth / 2;
       container.scrollTo({ left: scrollLeft, behavior: "smooth" });
     }
 
@@ -138,13 +170,18 @@ export default function SportsNav({
 
   return (
     <section id="sport-nav.tsx">
-      <div className={`${styles["tabs-root"]} border-2 border-dashed border-(--dotted-line)`}>
+      <div
+        className={`${styles["tabs-root"]} border-2 border-dashed border-(--dotted-line)`}
+      >
         <div
           ref={scrollContainerRef}
           className={`${styles["tabs-scroller"]} overflow-x-auto overflow-y-hidden`}
         >
-          <div role="tablist" className={cn(styles["tabs-list"], "w-full h-full")} ref={tabsListRef}>
-
+          <div
+            role="tablist"
+            className={cn(styles["tabs-list"], "w-full h-full")}
+            ref={tabsListRef}
+          >
             <div
               className={`${styles["sliding-indicator"]} py-[14.5px]`}
               style={{
@@ -166,7 +203,7 @@ export default function SportsNav({
                 aria-selected={activeTab === item.label}
                 className={cn(
                   styles["tab-btn"],
-                  activeTab === item.label && styles.active
+                  activeTab === item.label && styles.active,
                 )}
                 onClick={(e) => handleTabClick(e, item)}
               >
@@ -179,8 +216,11 @@ export default function SportsNav({
                   />
                 ) : (
                   <span
-                    className={`${styles["tab-icon"]} ${styles[`icon-${item.label.toLowerCase().replace(/\s/g, "-")}`]
-                      }`}
+                    className={`${styles["tab-icon"]} ${
+                      styles[
+                        `icon-${item.label.toLowerCase().replace(/\s/g, "-")}`
+                      ]
+                    }`}
                   />
                 )}
 
