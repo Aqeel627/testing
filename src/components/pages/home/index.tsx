@@ -1,8 +1,10 @@
 "use client";
 import { useAppStore } from "@/lib/store/store";
-import React, { useMemo, useState, useTransition } from "react";
+import React, { useEffect, useMemo, useState, useTransition } from "react";
 import dynamic from "next/dynamic";
 import CasinoGames from "./casino-games";
+import MarketLoader from "@/components/common/market-loader";
+import { useIndexManagerStore } from "@/lib/store/indexManagerStore";
 
 const SportsNav = dynamic(() => import("@/components/pages/home/sports-nav"));
 const HomeSlider = dynamic(() => import("@/components/pages/home/home-slider"));
@@ -11,6 +13,8 @@ const SingleMarket = dynamic(() => import("@/components/common/single-market"));
 export default function HomePage() {
   const { allEventsList } = useAppStore();
   const [selectedEvent, setSelectedEvent] = useState("4");
+  const {eventsByApi}=useIndexManagerStore()
+
 
   const handleActiveIdChange = React.useCallback((id: string) => {
     setSelectedEvent((prev) => (prev === id ? prev : id));
@@ -20,6 +24,9 @@ export default function HomePage() {
     return allEventsList?.[selectedEvent] || [];
   }, [allEventsList, selectedEvent]);
 
+    useEffect(() => {
+    console.log("✅ eventsByApi1111:", eventsByApi);
+  }, [eventsByApi]);
   return (
     <div id="home.tsx">
       <HomeSlider />
@@ -31,7 +38,7 @@ export default function HomePage() {
 
       <div className="mb-4">
         {/* Optional: Show a loading state while transitioning */}
-        <SingleMarket events={marketEvents} className="mt-2!" />
+        <SingleMarket events={eventsByApi} className="mt-2!" />
       </div>
 
       <CasinoGames />
