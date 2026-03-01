@@ -136,25 +136,28 @@ const GlobalApisCall = () => {
             });
           },
         },
-        // {
-        //   storeAs: "allEventsList",
-        //   fromKey: "events",
-        //   setFn: setAllEventsList,
-        //   filterFn: (data: any) => {
-        //     return data?.reduce((acc: any, item: any) => {
-        //       const id = item?.eventType?.id;
+        {
+          storeAs: "allEventsList",
+          fromKey: "events",
+          setFn: setAllEventsList,
+          filterFn: (data: any) => {
+            // socket ([data]).  id 
+            // socket 
+            // socketData = ""
+            return data?.reduce((acc: any, item: any) => {
+              const id = item?.eventType?.id;
 
-        //       if (id) {
-        //         if (!acc[id]) {
-        //           acc[id] = [];
-        //         }
-        //         acc[id].push(item);
-        //       }
+              if (id) {
+                if (!acc[id]) {
+                  acc[id] = [];
+                }
+                acc[id].push(item);
+              }
 
-        //       return acc;
-        //     }, {});
-        //   },
-        // },
+              return acc;
+            }, {});
+          },
+        },
       ],
     });
   }, []);
