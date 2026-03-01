@@ -2408,76 +2408,89 @@ const RenderFancyTable = ({ data, eventName, eventId, sportId }: any) => {
             <table className="w-full border-collapse text-left bg-(--market-bg)">
               <thead>
                 <tr className="h-8 border-b border-(--dotted-line)">
-                  <th className="px-3 text-[12px] font-bold text-(--accordion-text) w-auto md:w-[60%]"></th>
-                  <th className="w-[10%] text-center md:hidden"></th>
-                  {/* Headers matching Market Details Style */}
-                  <th className="p-0 w-[62.38px] md:w-[57.5px]">
-                    <div className="flex items-center justify-center font-semibold rounded-[2px] text-black text-[14px] border h-6 mx-[2px] border-[var(--lay-border)] bg-(--market-header-lay-bg)">
-                      No
+                  {/* 1. Name & Icon Header Combined */}
+                  <th className="px-3 text-[12px] font-bold text-(--accordion-text) w-auto"></th>
+
+                  {/* 2. NO/YES Labels Container (Right Aligned) */}
+                  <th colSpan={2} className="p-0">
+                    <div className="flex flex-row items-center justify-end pr-[4px] gap-1">
+                      <div className="w-[62.38px] md:w-[57.5px] flex items-center justify-center font-semibold rounded-[2px] text-black text-[14px] border h-6 border-[var(--lay-border)] bg-(--market-header-lay-bg)">
+                        No
+                      </div>
+                      <div className="w-[62.38px] md:w-[57.5px] flex items-center justify-center font-semibold rounded-[2px] text-black text-[14px] border h-6 border-[var(--back-border)] bg-(--market-header-back-bg)">
+                        Yes
+                      </div>
                     </div>
                   </th>
-                  <th className="p-0 w-[62.38px] md:w-[57.5px]">
-                    <div className="flex items-center justify-center font-semibold rounded-[2px] text-black text-[14px] border h-6 mx-[2px] border-[var(--back-border)] bg-(--market-header-back-bg)">
-                      Yes
-                    </div>
-                  </th>
-                  <th className="px-3 text-center text-[12px] font-bold text-(--accordion-text) hidden sm:table-cell">Min/Max</th>
+
+                  {/* 3. Min/Max Header */}
+                  <th className="px-3 text-center text-[12px] font-bold text-(--accordion-text) hidden sm:table-cell w-[100px]">Min/Max</th>
                 </tr>
               </thead>
+
               <tbody className="px-1 min-[900px]:px-2">
                 {data.map((item: any) => {
                   const isNoSelected = selectedBet?.selectionId === item.selectionId && selectedBet?.type === "no";
-                  const isYesSelected = selectedBet?.selectionId === item.selectionId && selectedBet?.type === "yes";
+                  const isYesSelected = selectedBet?.type === "yes" && selectedBet?.selectionId === item.selectionId;
+
                   return (
                     <React.Fragment key={item.selectionId}>
                       <tr className="border-b border-dashed border-(--dotted-line)">
+                        {/* 1. Combined Name & Icon Column - FIXED ALIGNMENT */}
                         <td className="pl-1.5 py-2">
-                          <span className="text-[14px] font-[500] leading-[1] block break-words">
-                            {item.name}
-                          </span>
-                        </td>
-                        <td className="text-center">
-                          <Icon name="book" className="w-5 h-5 text-(--primary-color) inline-block cursor-pointer" />
-                        </td>
-
-                        {/* NO Box - Matches Market Details Dimensions & Rounding */}
-                        <td className="p-[2px] align-middle">
-                          <div
-                            className={`flex flex-col items-center justify-center w-full h-[45px] rounded-[8px] border border-[var(--lay-border)] bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)] cursor-pointer transition-colors ${
-                              isNoSelected ? "!bg-(--lay-selected) !border-(--line-no-selected-border)" : ""
-                            }`}
-                            onClick={() => onFancyBetClick(item, 'no')}
-                          >
-                            <span className={`text-[13px] font-bold leading-[1.1] truncate ${isNoSelected ? "text-white" : "text-[var(--lay-price-text)]"}`}>
-                              {item.layPrice}
+                          <div className="flex items-center justify-between w-full">
+                            {/* Name */}
+                            <span className="text-[14px] font-[500] leading-[1.2] block break-words pr-2">
+                              {item.name}
                             </span>
-                            <span className={`text-[10px] font-normal leading-[1] truncate ${isNoSelected ? "text-white" : "text-[var(--lay-size-text)]"}`}>
-                              {item.laySize}
-                            </span>
+                            {/* Icon - Same row as name, but pushed to the right of the name area */}
+                            <Icon
+                              name="book"
+                              className="w-5 h-5 text-(--primary-color) cursor-pointer shrink-0"
+                            />
                           </div>
                         </td>
 
-                        {/* YES Box - Matches Market Details Dimensions & Rounding */}
-                        <td className="p-[2px] align-middle">
-                          <div
-                            className={`flex flex-col items-center justify-center w-full h-[45px] rounded-[8px] border border-[var(--back-border)] bg-[var(--back-bg)] hover:bg-[var(--back-hover)] cursor-pointer transition-colors ${
-                              isYesSelected ? "!bg-(--back-selected) !border-(--line-yes-selected-border)" : ""
-                            }`}
-                            onClick={() => onFancyBetClick(item, 'yes')}
-                          >
-                            <span className={`text-[13px] font-bold leading-[1.1] truncate ${isYesSelected ? "text-white" : "text-[var(--back-price-text)]"}`}>
-                              {item.backPrice}
-                            </span>
-                            <span className={`text-[10px] font-normal leading-[1] truncate ${isYesSelected ? "text-white" : "text-[var(--back-size-text)]"}`}>
-                              {item.backSize}
-                            </span>
+                        {/* 2. Price Boxes Container (Right Aligned) */}
+                        <td colSpan={2} className="p-0 w-[130px] md:w-[120px]">
+                          <div className="flex flex-row items-center justify-end pr-[4px] gap-1">
+                            {/* NO Box */}
+                            <div
+                              className={`flex flex-col items-center justify-center w-[62.38px] md:w-[57.5px] h-[45px] rounded-[8px] border border-[var(--lay-border)] bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)] cursor-pointer transition-colors ${isNoSelected ? "!bg-(--lay-selected) !border-(--line-no-selected-border)" : ""
+                                }`}
+                              onClick={() => onFancyBetClick(item, 'no')}
+                            >
+                              <span className={`text-[13px] font-bold leading-[1.1] truncate ${isNoSelected ? "text-white" : "text-[var(--lay-price-text)]"}`}>
+                                {item.layPrice}
+                              </span>
+                              <span className={`text-[10px] font-normal leading-[1] truncate ${isNoSelected ? "text-white" : "text-[var(--lay-size-text)]"}`}>
+                                {item.laySize}
+                              </span>
+                            </div>
+
+                            {/* YES Box */}
+                            <div
+                              className={`flex flex-col items-center justify-center w-[62.38px] md:w-[57.5px] h-[45px] rounded-[8px] border border-[var(--back-border)] bg-[var(--back-bg)] hover:bg-[var(--back-hover)] cursor-pointer transition-colors ${isYesSelected ? "!bg-(--back-selected) !border-(--line-yes-selected-border)" : ""
+                                }`}
+                              onClick={() => onFancyBetClick(item, 'yes')}
+                            >
+                              <span className={`text-[13px] font-bold leading-[1.1] truncate ${isYesSelected ? "text-white" : "text-[var(--back-price-text)]"}`}>
+                                {item.backPrice}
+                              </span>
+                              <span className={`text-[10px] font-normal leading-[1] truncate ${isYesSelected ? "text-white" : "text-[var(--back-size-text)]"}`}>
+                                {item.backSize}
+                              </span>
+                            </div>
                           </div>
                         </td>
 
-                        <td className="hidden sm:table-cell text-center text-[11px] text-(--secondary-text-color)">
+                        {/* 3. Limits */}
+                        <td className="hidden sm:table-cell text-center text-[11px] text-(--secondary-text-color) w-[100px]">
                           {item.min}-{item.max}
                         </td>
                       </tr>
+
+                      {/* Mobile Betslip Row */}
                       {(isNoSelected || isYesSelected) && (
                         <tr>
                           <td colSpan={5} className="p-0 border-none lg:hidden">
