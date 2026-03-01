@@ -125,8 +125,13 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
             }
             dismissible
           >
-            <DrawerContent className="border-none rounded-0! w-[288px]! max-w-[85vw]!">
-              <Sidebar />
+            <DrawerContent
+              className="border-none rounded-none! w-[288px]! max-w-[85vw]!"
+              style={{ backgroundColor: "var(--background)" }}
+            >
+              <div style={{ backgroundColor: "var(--background)", minHeight: "100%", transform: "translateZ(0)" }}>
+                <Sidebar />
+              </div>
             </DrawerContent>
           </Drawer>
 
