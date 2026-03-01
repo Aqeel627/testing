@@ -1,8 +1,8 @@
-export const BASE_URL = "";
-export const BASE_URL_WS = "";
+// export const BASE_URL = "";
+// export const BASE_URL_WS = "";
 
-// export const BASE_URL = "https://gjexch.com";
-// export const BASE_URL_WS = "https://gjexch.com";
+export const BASE_URL = "https://gjexch.com";
+export const BASE_URL_WS = "https://gjexch.com";
 
 // export const BASE_URL = "https://100exch.com";
 // export const BASE_URL_WS = "https://100exch.com";
@@ -12,7 +12,7 @@ export const CONFIG = {
   siteKey: "10",
 
   // new api's start
-  events: BASE_URL + "/app/v1/events",
+  events: BASE_URL + "/api/v1/events",
   eventsTime: 300,
   // new api's end
 
