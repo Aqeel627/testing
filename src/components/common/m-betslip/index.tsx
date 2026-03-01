@@ -208,7 +208,7 @@ export default function MBetSlip() {
       const msg = splitMsg(rawMessage);
 
       if (ok) {
-        betAudio.playSuccess();
+         setTimeout(() => betAudio.playSuccess(), 0);
         showToast(
           msg.status,
           msg.title,
@@ -233,7 +233,8 @@ export default function MBetSlip() {
           eventId: selectedBet.eventId,
         });
       } else {
-        betAudio.playError();
+        // betAudio.playError();
+         setTimeout(() => betAudio.playError(), 0);
         showToast(
           "error",
           msg.title || "Failed",
@@ -241,7 +242,7 @@ export default function MBetSlip() {
         );
       }
     } catch (err: any) {
-      betAudio.playError();
+      setTimeout(() => betAudio.playError(), 0);
       const msg = splitMsg(err?.meta?.message);
       if (msg.title && msg.status && msg.desc) {
         showToast(msg.status, msg.title, msg.desc);
