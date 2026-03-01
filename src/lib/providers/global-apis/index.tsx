@@ -178,6 +178,7 @@ const socketStartedRef = React.useRef<boolean>(false);
               return {
                 competition: item.competition,
                 eventType: item.eventType,
+                event: item.event,
               };
             });
           },
