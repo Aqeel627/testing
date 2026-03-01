@@ -68,7 +68,7 @@ export async function indexManager({
 
           // ✅ APPLY FILTER IF PROVIDED
           if (typeof filterFn === "function") {
-            dataToStore = filterFn(dataToStore);
+            dataToStore = await filterFn(dataToStore);
           }
 
           await saveData(storeAs, dataToStore);

@@ -37,7 +37,7 @@ export const useIndexManagerStore = create<any>((set) => ({
       result.totalLength = all.length;
 
       return {
-        allEventsList: data,
+        eventsBySocket: data,
         inplayEvents: result,
       };
     }),

@@ -226,7 +226,7 @@ const mergeSocketWithApi = (apiData: any[], socketData: any[]) => {
           },
         },
         {
-          storeAs: "allEventsList",
+          storeAs: "eventsBySocket",
           fromKey: "events",
           setFn: setEventsBySocket,
           filterFn: async (data: any) => {
