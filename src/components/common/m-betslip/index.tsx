@@ -204,7 +204,6 @@ export default function MBetSlip() {
 
       const ok = res?.data?.meta?.status === true || res?.data?.status === true;
       const rawMessage = res?.data?.meta?.message || res?.data?.message || "";
-      // console.log(rawMessage, "raw");
       const msg = splitMsg(rawMessage);
 
       if (ok) {
@@ -227,13 +226,11 @@ export default function MBetSlip() {
           /* silent */
         }
 
-        // ✅ 2. Tell parent to refresh PL + bets
         eventBus.emit("REFRESH_AFTER_PLACE", {
           sportId: selectedBet.sportId,
           eventId: selectedBet.eventId,
         });
       } else {
-        // betAudio.playError();
          setTimeout(() => betAudio.playError(), 0);
         showToast(
           "error",
@@ -243,20 +240,29 @@ export default function MBetSlip() {
       }
     } catch (err: any) {
       setTimeout(() => betAudio.playError(), 0);
-      const msg = splitMsg(err?.meta?.message);
-      if (msg.title && msg.status && msg.desc) {
-        showToast(msg.status, msg.title, msg.desc);
-      } else {
-        showToast("error", "Error", err?.meta?.message);
-      }
+
+    // ✅ FIXED: Correct error path with fallbacks
+    const raw = 
+      err?.response?.data?.meta?.message || 
+      err?.meta?.message || 
+      err?.message || 
+      "Network error. Please try again.";
+    
+    const msg = splitMsg(raw);
+    
+    if (msg?.title && msg?.status && msg?.desc) {
+      showToast(msg.status, msg.title, msg.desc);
+    } else {
+      showToast("error", "Error", raw);
+    }
 
       // if (err?.meta?.status_code === 401) {
       //   setLoginModal(true);
       // }
-    } finally {
-      setPlacing(false);
-    }
-  };
+  } finally {
+    setPlacing(false);
+  }
+};
 
   const MIN_STAKE = 2;
   const isPlaceDisabled = placing || stake < MIN_STAKE || odds <= 1;
