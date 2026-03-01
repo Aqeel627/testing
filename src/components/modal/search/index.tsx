@@ -9,7 +9,6 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import Icon from "@/icons/icons";
 
-
 function highlight(text: string, query: string) {
   if (!query.trim()) return text;
   const parts = text.split(new RegExp(`(${query})`, "gi"));
@@ -30,36 +29,61 @@ export default function SearchModal() {
   const { allEventsList, selectedEventTypeId } = useAppStore();
 
   const inputRef = useRef<HTMLInputElement>(null);
+  const modalRef = useRef<HTMLDivElement>(null); // 👈 Modal reference
   const [query, setQuery] = useState("");
   const closeMobileSidebar = useUIStore((s) => s.closeSidebar);
 
   const close = () => {
     toggleSearch(false);
-      // closeMobileSidebar(); 
-
   };
+
   useEffect(() => {
     // console.log(allEventsList, "events all in search modal");
     // console.log("type:", typeof allEventsList);
   }, [allEventsList]);
 
-  /* -------------------- BODY SCROLL + FOCUS -------------------- */
+  /* -------------------- CMD+K SHORTCUT -------------------- */
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
         e.preventDefault();
-        toggleSearch(!isOpenSearch); // 👈 better pattern
+        toggleSearch(!isOpenSearch);
+      }
+      // ESC key to close
+      if (e.key === "Escape" && isOpenSearch) {
+        close();
       }
     };
-
-
 
     document.addEventListener("keydown", handleKeyDown);
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [toggleSearch]);
-  //
+  }, [toggleSearch, isOpenSearch]);
+
+  /* -------------------- OUTSIDE CLICK DETECTION -------------------- */
+  useEffect(() => {
+    if (!isOpenSearch) return;
+
+    const handleClickOutside = (e: MouseEvent) => {
+      // Agar click modal ke bahar hua hai, to close karo
+      if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
+        close();
+      }
+    };
+
+    // Thoda delay do taake modal render ho jaye pehle
+    const timeoutId = setTimeout(() => {
+      document.addEventListener("mousedown", handleClickOutside);
+    }, 100);
+
+    return () => {
+      clearTimeout(timeoutId);
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isOpenSearch]);
+
+  /* -------------------- BODY SCROLL + FOCUS -------------------- */
   useEffect(() => {
     if (isOpenSearch) {
       requestAnimationFrame(() => {
@@ -77,11 +101,9 @@ export default function SearchModal() {
   }, [isOpenSearch]);
 
   /* -------------------- DATA -------------------- */
-
   const filteredResults = useMemo(() => {
-    // Merge all arrays into a single array safely
     const eventsArray: any[] = Object.values(allEventsList || {})
-      .filter(Array.isArray) // only arrays
+      .filter(Array.isArray)
       .flat();
 
     if (!query.trim()) return eventsArray;
@@ -99,11 +121,9 @@ export default function SearchModal() {
   return (
     <Dialog.Root open={isOpenSearch} onOpenChange={toggleSearch}>
       <Dialog.Portal>
-        {/* ---------- OVERLAY ---------- */}
-<Dialog.Overlay 
-  className={styles.overlay} 
-  onClick={close}  
-/>
+        {/* ---------- OVERLAY (NO CLICK HANDLER) ---------- */}
+        <Dialog.Overlay className={styles.overlay} />
+
         {/* ---------- CONTENT ---------- */}
         <Dialog.Content
           className={styles.content}
@@ -111,12 +131,11 @@ export default function SearchModal() {
           onInteractOutside={(e) => {
             e.preventDefault();
           }}
-          onPointerDown={(e) => {
-            if (e.target === e.currentTarget) close();
-          }}
         >
           <Dialog.Title> </Dialog.Title>
-          <div className={styles.paper}>
+          
+          {/* 👇 Modal paper with ref for outside click detection */}
+          <div className={styles.paper} ref={modalRef}>
             {/* ---------- HEADER ---------- */}
             <div className={styles.header}>
               <Icon name="searchIcon" className={styles.searchIcon} />
@@ -129,7 +148,11 @@ export default function SearchModal() {
                 onChange={(e) => setQuery(e.target.value)}
               />
 
-              <button type="button" className={styles.esc} onClick={()=>toggleSearch(false)}>
+              <button
+                type="button"
+                className={styles.esc}
+                onClick={() => toggleSearch(false)}
+              >
                 Esc
               </button>
             </div>
@@ -137,26 +160,29 @@ export default function SearchModal() {
             <div className={styles.divider} />
 
             {/* ---------- LIST ---------- */}
-            {/* ---------- LIST ---------- */}
             <div className={styles.list}>
               {filteredResults.length > 0 ? (
                 filteredResults.map((match: any, index: number) => (
                   <Link
                     key={index}
                     className={styles.item}
- onClick={() => {
-    close();
-    closeMobileSidebar();
-  }}                    tabIndex={0}
+                    onClick={() => {
+                      close();
+                      closeMobileSidebar();
+                    }}
+                    tabIndex={0}
                     href={`/market-details/${match.event?.id}/${match.eventType?.id}`}
                   >
                     <div className={styles.textWrap}>
-                     <p className={styles.title}>
-      {highlight(`${match?.eventType?.name} | ${match?.marketType}`, query)}
-    </p>
-    <p className={styles.sub}>
-      {highlight(match?.event?.name || "", query)}
-    </p>
+                      <p className={styles.title}>
+                        {highlight(
+                          `${match?.eventType?.name} | ${match?.marketType}`,
+                          query
+                        )}
+                      </p>
+                      <p className={styles.sub}>
+                        {highlight(match?.event?.name || "", query)}
+                      </p>
                     </div>
                   </Link>
                 ))
