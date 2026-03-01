@@ -125,12 +125,12 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
             }
             dismissible
           >
-            <DrawerContent className="border-none rounded-0! w-[288px]! h-[100dvh]! max-w-[85vw]!">
+            <DrawerContent className="border-none rounded-0! w-[288px]! max-w-[85vw]!">
               <Sidebar />
             </DrawerContent>
           </Drawer>
 
-          <main className="pt-[80px] px-3  min-h-[100dvh]">
+          <main className="pt-[80px] px-3 h-screen">
             {children}
             {!shouldHideFooter && <Footer />}
             <div className="md:hidden h-25"></div>
