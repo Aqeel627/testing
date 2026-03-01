@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect, useCallback } from 'react';
-import { useParams, useRouter } from 'next/navigation';
-import Link from 'next/link';
-import { CONFIG } from '@/lib/config';
-import { useAuthStore } from '@/lib/useAuthStore';
-import http from '@/lib/axios-instance';
-import BreadCrumb from '@/components/common/bread-crumb';
+import React, { useState, useEffect, useCallback } from "react";
+import { useParams, useRouter } from "next/navigation";
+import Link from "next/link";
+import { CONFIG } from "@/lib/config";
+import { useAuthStore } from "@/lib/useAuthStore";
+import http from "@/lib/axios-instance";
+import BreadCrumb from "@/components/common/bread-crumb";
 import "./../profit-loss-page/style.css";
 
 interface MarketProfitItem {
@@ -31,7 +31,7 @@ const ProfitLossMarketPage: React.FC = () => {
   const [totalRecords, setTotalRecords] = useState(0);
   const [startIndex, setStartIndex] = useState(1);
   const [endIndex, setEndIndex] = useState(10);
-  const [jumptoPage, setJumptoPage] = useState('');
+  const [jumptoPage, setJumptoPage] = useState("");
   const eventId = params.id || params.eventId;
   const _sportId = params.sportId;
 
@@ -45,16 +45,16 @@ const ProfitLossMarketPage: React.FC = () => {
     const payload = {
       eventId: _sportId,
       page: activePage,
-      limit: limit
+      limit: limit,
     };
 
     try {
       const resp = await http.post(CONFIG.ProfitLossMarketNew, payload, {
         headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
         },
-        withCredentials: true
+        withCredentials: true,
       });
 
       console.log("✅ Market P&L Raw Response:", resp.data);
@@ -68,9 +68,11 @@ const ProfitLossMarketPage: React.FC = () => {
         setTotalRecords(responseData.total || 0);
         setTotalPages(responseData.totalPages || 1);
 
-        const sIdx = ((responseData.currentPage - 1) * limit) + 1;
+        const sIdx = (responseData.currentPage - 1) * limit + 1;
         setStartIndex(sIdx);
-        setEndIndex(Math.min(sIdx + actualData.length - 1, responseData.total || 0));
+        setEndIndex(
+          Math.min(sIdx + actualData.length - 1, responseData.total || 0),
+        );
       }
     } catch (error: any) {
       console.error("❌ API Error Log:", error.response?.data || error.message);
@@ -84,9 +86,9 @@ const ProfitLossMarketPage: React.FC = () => {
   }, []);
 
   const formatDate = (dateStr: string) => {
-    if (!dateStr) return '-';
+    if (!dateStr) return "-";
     const date = new Date(dateStr);
-    return date.toLocaleString('en-GB').replace(',', '');
+    return date.toLocaleString("en-GB").replace(",", "");
   };
 
   // Pagination Handlers
@@ -98,14 +100,36 @@ const ProfitLossMarketPage: React.FC = () => {
     }
   };
 
-  const goToFirst = () => { if (currentPage !== 1) { setCurrentPage(1); profitLossByMarket(1); } };
-  const goToLast = () => { if (currentPage !== totalPages) { setCurrentPage(totalPages); profitLossByMarket(totalPages); } };
-  const goToNext = () => { if (currentPage < totalPages) { const p = currentPage + 1; setCurrentPage(p); profitLossByMarket(p); } };
-  const goToPrevious = () => { if (currentPage > 1) { const p = currentPage - 1; setCurrentPage(p); profitLossByMarket(p); } };
+  const goToFirst = () => {
+    if (currentPage !== 1) {
+      setCurrentPage(1);
+      profitLossByMarket(1);
+    }
+  };
+  const goToLast = () => {
+    if (currentPage !== totalPages) {
+      setCurrentPage(totalPages);
+      profitLossByMarket(totalPages);
+    }
+  };
+  const goToNext = () => {
+    if (currentPage < totalPages) {
+      const p = currentPage + 1;
+      setCurrentPage(p);
+      profitLossByMarket(p);
+    }
+  };
+  const goToPrevious = () => {
+    if (currentPage > 1) {
+      const p = currentPage - 1;
+      setCurrentPage(p);
+      profitLossByMarket(p);
+    }
+  };
 
   return (
     <div id="profitloss-market-page.tsx">
-      <div className="container-fluid px-4">
+      <div className="container-fluid">
         {/* <div className="flex items-center my-4">
         <div className="flex-grow border-t border-dashed border-(--dotted-line)"></div>
         <span className="px-4 text-[var(--palette-text-primary)] font-bold text-[16px] whitespace-nowrap uppercase">
@@ -117,27 +141,25 @@ const ProfitLossMarketPage: React.FC = () => {
           <BreadCrumb title="Profit Loss Markets" />
         </div>
 
-        <div className="overflow-x-auto mt-2 scrollbar-hide">
-          <table className="w-full border-collapse">
+        <div className="mt-2 bh-table-wrap">
+          <table className="bh-table">
             <thead>
-              <tr className="text-center">
-                <th className="p-[8px_10px] text-center text-[11px] font-bold bg-[var(--market-header-bg)] text-[var(--palette-text-primary)] border-r border-(--dotted-line)! first:rounded-tl-[5px] whitespace-nowrap">Sport Name</th>
-                <th className="p-[8px_10px] text-center text-[11px] font-bold bg-[var(--market-header-bg)] text-[var(--palette-text-primary)] border-r border-(--dotted-line)! whitespace-nowrap min-w-[230px]">Event Name</th>
-                {_sportId === '66102' && (
-                  <th className="p-[8px_10px] text-center text-[11px] font-bold bg-[var(--market-header-bg)] text-[var(--palette-text-primary)] border-r border-(--dotted-line)! whitespace-nowrap">Market Id</th>
-                )}
-                <th className="p-[8px_10px] text-center text-[11px] font-bold bg-[var(--market-header-bg)] text-[var(--palette-text-primary)] border-r border-(--dotted-line)! whitespace-nowrap">Market Name</th>
-                <th className="p-[8px_10px] text-center text-[11px] font-bold bg-[var(--market-header-bg)] text-[var(--palette-text-primary)] border-r border-(--dotted-line)! whitespace-nowrap">Result</th>
-                <th className="p-[8px_10px] text-center text-[11px] font-bold bg-[var(--market-header-bg)] text-[var(--palette-text-primary)] border-r border-(--dotted-line)! whitespace-nowrap">Profit/Loss</th>
-                <th className="p-[8px_10px] text-center text-[11px] font-bold bg-[var(--market-header-bg)] text-[var(--palette-text-primary)] border-r border-(--dotted-line)! whitespace-nowrap">Commission</th>
-                <th className="p-[8px_10px] text-center text-[11px] font-bold bg-[var(--market-header-bg)] text-[var(--palette-text-primary)] last:rounded-tr-[5px] whitespace-nowrap">Settle Time</th>
+              <tr>
+                <th>Sport Name</th>
+                <th>Event Name</th>
+                {_sportId === "66102" && <th>Market Id</th>}
+                <th>Market Name</th>
+                <th>Result</th>
+                <th>Profit/Loss</th>
+                <th>Commission</th>
+                <th>Settle Time</th>
               </tr>
             </thead>
 
             <tbody className="">
               {isLoader ? (
-                <tr className="border-b border-(--secondary-text-color) bg-[var(--palette-background-paper)]">
-                  <td colSpan={4} className="p-4  text-center">
+                <tr>
+                  <td colSpan={_sportId === "66102"?8:7} className="p-4  text-center">
                     <div className="flex justify-center items-center gap-1.5">
                       <div className="w-2 h-2 bg-(--primary-color) rounded-full animate-bounce [animation-delay:-0.3s]"></div>
                       <div className="w-2 h-2 bg-(--primary-color) rounded-full animate-bounce [animation-delay:-0.15s]"></div>
@@ -147,32 +169,53 @@ const ProfitLossMarketPage: React.FC = () => {
                 </tr>
               ) : profitLossData.length > 0 ? (
                 profitLossData.map((profit, index) => (
-                  <tr key={index} className="text-center border-b border-(--dotted-line) bg-[var(--palette-background-paper)]">
-                    <td className="p-[8px_10px] border-r border-(--dotted-line) text-[11px] text-[var(--palette-text-primary)] whitespace-nowrap">{profit?.eventType?.name}</td>
-                    <td className="p-[8px_10px] border-r border-(--dotted-line) text-[11px] text-[var(--palette-text-primary)] whitespace-nowrap">{profit?.event?.name}</td>
-                    {_sportId === '66102' && (
-                      <td className="p-[8px_10px] border-r border-(--dotted-line) text-[11px] text-[var(--palette-text-primary)] whitespace-nowrap">{profit?.marketId}</td>
+                  <tr
+                    key={index}
+                    className="text-center"
+                  >
+                    <td className="whitespace-nowrap">
+                      {profit?.eventType?.name}
+                    </td>
+                    <td className="whitespace-nowrap">
+                      {profit?.event?.name}
+                    </td>
+                    {_sportId === "66102" && (
+                      <td className="whitespace-nowrap">
+                        {profit?.marketId}
+                      </td>
                     )}
-                    <td className="p-[8px_10px] border-r border-(--dotted-line) text-[11px]">
-                      <Link href={`/d-profit-history/${profit?.eventType?.id}/${profit.marketId}`} className="text-(--primary-color) hover:underline font-bold whitespace-nowrap cursor-pointer">
+                    <td>
+                      <Link
+                        href={`/d-profit-history/${profit?.eventType?.id}/${profit.marketId}`}
+                        className="text-(--primary-color) hover:underline font-bold whitespace-nowrap cursor-pointer"
+                      >
                         {profit.marketName}
                       </Link>
                     </td>
-                    <td className="p-[8px_10px] border-r border-(--dotted-line) text-[11px] text-[var(--palette-text-primary)] whitespace-nowrap">{profit.result}</td>
-                    <td className={`p-[8px_10px]  border-r whitespace-nowrap border-(--dotted-line) font-bold text-[11px] ${profit.pl <= 0 ? 'text-red-600' : 'text-green-600'}`}>
+                    <td className="whitespace-nowrap">
+                      {profit.result}
+                    </td>
+                    <td
+                      className={`font-bold ${profit.pl <= 0 ? "text-red-600" : "text-green-600"}`}
+                    >
                       {profit.pl.toLocaleString()}
                     </td>
-                    <td className="p-[8px_10px] border-r  border-(--dotted-line) text-red-600 font-bold text-[11px] whitespace-nowrap">
+                    <td className="font-bold">
                       {profit.commission.toLocaleString()}
                     </td>
-                    <td className="p-[8px_10px] text-[11px] whitespace-nowrap text-[var(--palette-text-primary)]">
+                    <td className="whitespace-nowrap">
                       {formatDate(profit.createdAt)}
                     </td>
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td colSpan={8} className="p-[8px_10px] text-center bg-[var(--palette-background-paper)] text-[12px] text-[var(--palette-text-primary)]">No data!</td>
+                  <td
+                    colSpan={_sportId === "66102"?8:7}
+                    className="text-center"
+                  >
+                    No data!
+                  </td>
                 </tr>
               )}
             </tbody>

@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { CONFIG } from "@/lib/config";
 import { fetchData } from "@/lib/functions";
 import styles from '@/components/pages/passwordHistory/style.module.css'
+import '../profit-loss/profit-loss-page/style.css'
 import { cn } from "@/lib/utils";
 
 function pad2(n: number) {
@@ -75,8 +76,8 @@ export default function ActivityLogClient() {
         </h6>
       </div>
 
-      <div className="mt-[5px] overflow-x-auto overflow-y-hidden scrollbar-hide mb-[30px]">
-        <table className={styles['bh-table']}>
+      <div className="mt-[5px] bh-table-wrap mb-[30px]">
+        <table className={'bh-table'}>
           <thead>
             <tr>
               <th>
@@ -99,14 +100,13 @@ export default function ActivityLogClient() {
 
           <tbody>
             {activityList?.map((log: any, idx: number) => (
-              <tr key={idx} className="bg-[var(--palette-background-paper)]">
-                <td className="text-center text-[16px] px-2 py-2 border-r border-white border-b border-white text-[var(--palette-text-primary)]">
+              <tr key={idx} className="text-center">
+                <td>
                   {formatDateTime(log?.createdAt)}
                 </td>
 
                 <td
                   className={[
-                    "text-center text-[16px] px-2 py-2 border-r border-white border-b border-white text-[var(--palette-text-primary)]",
                     log?.logMessage === "Login Failed" ? "text-red-500" : "",
                     log?.logMessage === "Login Successful"
                       ? "text-green-500"
@@ -116,15 +116,15 @@ export default function ActivityLogClient() {
                   {log?.logMessage}
                 </td>
 
-                <td className="text-center text-[16px] font-bold px-2 py-2 border-r border-white border-b border-white text-[var(--palette-text-primary)]">
+                <td>
                   {log?.ip ? log?.ip : "-"}
                 </td>
 
-                <td className="text-center text-[16px] px-2 py-2 border-r border-white border-b border-white text-[var(--palette-text-primary)]">
+                <td>
                   {log?.isp ? log?.isp : "-"}
                 </td>
 
-                <td className="text-center text-[16px] font-bold px-2 py-2 border-r border-white border-b border-white text-[var(--palette-text-primary)]">
+                <td className="font-bold">
                   {log?.city ? log?.city : "-"} / {log?.state ? log?.state : "-"}{" "}
                   / {log?.country ? log?.country : "-"}
                 </td>

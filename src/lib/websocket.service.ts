@@ -2,7 +2,7 @@
 
 import { io, Socket } from "socket.io-client";
 // import { CONFIG } from "@/config";
-import { BASE_URL_API } from "./config";
+import { BASE_URL } from "./config";
 
 type SubscribePayload = any;
 const SOCKET_PATH = "/market-based-sports";
@@ -36,7 +36,7 @@ class WebSocketService {
         if (this.socket) return; // already exists
         if (typeof window === "undefined") return; // SSR guard
 
-        this.socket = io(BASE_URL_API, {
+        this.socket = io(BASE_URL, {
             path: SOCKET_PATH,
             transports: ["websocket"],
             autoConnect: false,
