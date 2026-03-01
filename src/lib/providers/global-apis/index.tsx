@@ -14,7 +14,7 @@ const GlobalApisCall = () => {
   const {
     setCasinoEvents,
     setMenuList,
-    setAllEventsList,
+    // setAllEventsList,
     setStakeValue,
     // setOurBanners,
     // setOurCasinoGames,
@@ -23,15 +23,15 @@ const GlobalApisCall = () => {
   const {
     setBanners,
     setCasinoGames,
-    // setAllEventsList,
+    setEventsBySocket,
     setCompetitions,
     setEventsByApi,
     setEventTypes,
   } = useIndexManagerStore();
   const { checkLogin } = useAuthStore();
-  const handleAllEvents = (data: any) => {
-    setAllEventsList(data);
-  };
+  // const handleAllEvents = (data: any) => {
+  //   setAllEventsList(data);
+  // };
   const socketDataRef = React.useRef<any[]>([]);
   const socketStartedRef = React.useRef<boolean>(false);
   useDisableTouchGestures();
@@ -86,17 +86,29 @@ const GlobalApisCall = () => {
     });
   };
 
+  const mergeSocketWithApi = (apiData: any, socketData: any[]) => {
+    if (!socketData || socketData.length === 0) return apiData;
+
+    return apiData?.map((apiItem: any) => {
+      const socketUpdate = socketData.find(
+        (sItem: any) => sItem?.marketId === apiItem?.marketId,
+      );
+
+      return socketUpdate ? { ...apiItem, ...socketUpdate } : apiItem;
+    });
+  };
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     checkLogin(token || "");
 
-    fetchData({
-      url: CONFIG.getAllEventsList,
-      payload: { key: CONFIG.siteKey },
-      cachedKey: "allEventsList",
-      setFn: handleAllEvents,
-      expireIn: CONFIG.getAllEventsListTime,
-    });
+    // fetchData({
+    //   url: CONFIG.getAllEventsList,
+    //   payload: { key: CONFIG.siteKey },
+    //   cachedKey: "allEventsList",
+    //   setFn: handleAllEvents,
+    //   expireIn: CONFIG.getAllEventsListTime,
+    // });
 
     fetchData({
       url: CONFIG.getTopCasinoGame,
@@ -190,9 +202,8 @@ const GlobalApisCall = () => {
         {
           storeAs: "allEventsList",
           fromKey: "events",
-          setFn: setAllEventsList,
+          setFn: setEventsBySocket,
           filterFn: async (data: any) => {
-
             if (!data || data.length === 0) return {};
 
             // ✅ Extract all marketIds
@@ -203,24 +214,25 @@ const GlobalApisCall = () => {
 
             console.log("✅ Extracted MarketIds:", marketIds);
 
+            let socketData: any[] = [];
             // ✅ Start socket only once
             if (!socketStartedRef.current && marketIds.length) {
               socketStartedRef.current = true;
-              const data = await startSocketFlow(marketIds);
-              console.log(data, 'data data data');
-              
+              socketData = await startSocketFlow(marketIds);
+              console.log(data, "data data data");
             }
 
             // ✅ Use socketData instead of original data
-            const sourceData =
-              socketDataRef.current.length > 0
-                ? socketDataRef.current
-                : data;
+            // const sourceData =
+            //   socketDataRef.current.length > 0
+            //     ? socketDataRef.current
+            //     : data;
 
-            console.log(sourceData, 'sourceData');
+            const finalData=mergeSocketWithApi(data, socketData);
 
+            console.log(finalData, "finalData");
 
-            return sourceData.reduce((acc: any, item: any) => {
+            return finalData.reduce((acc: any, item: any) => {
               const id = item?.eventType?.id;
 
               if (id) {
@@ -231,7 +243,7 @@ const GlobalApisCall = () => {
               return acc;
             }, {});
           },
-        }
+        },
       ],
     });
   }, []);

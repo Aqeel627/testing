@@ -376,12 +376,9 @@ export default function Sidebar({ config }: SidebarProps) {
   const [openTournamentKey, setOpenTournamentKey] = useState<string | null>(
     null,
   );
-  const {
-    inplayEvents,
-    // menuList
-  } = useAppStore();
+  // const { inplayEvents, menuList } = useAppStore();
 
-  const { eventTypes, competitions } = useIndexManagerStore();
+  const { eventTypes, competitions, inplayEvents } = useIndexManagerStore();
   const toggleSearch = useUIStore((s) => s.toggleSearch);
   const closeSidebar = useUIStore((s) => s.closeSidebar);
 
@@ -538,7 +535,7 @@ export default function Sidebar({ config }: SidebarProps) {
         };
       })
       .filter((sport) => sport.count > 0);
-  }, [eventTypes,competitions]);
+  }, [eventTypes, competitions]);
 
   const sidebarConfig: SidebarConfig = config || {
     sports: dynamicSportsConfig,
