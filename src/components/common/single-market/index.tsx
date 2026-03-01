@@ -1007,7 +1007,7 @@
 // };
 
 // export default SingleMarket;
-// components/common/single-market/index.tsx
+
 "use client";
 import { shortNumber } from "@/lib/functions";
 import { useAppStore } from "@/lib/store/store";
@@ -1015,7 +1015,7 @@ import style from "@/components/common/single-market/style.module.css";
 import { AnimatedNumber } from "@/components/common/animatied-number";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import { useEffect, useRef, useState, useCallback, memo, useMemo } from "react";
+import { useEffect, useRef, useState, useCallback, memo } from "react";
 import { EventTimer } from "./event-timer";
 import Icon from "@/icons/icons";
 import MBetSlip from "@/components/common/m-betslip";
@@ -1024,13 +1024,11 @@ import { http } from "@/lib/axios-instance";
 import { CONFIG } from "@/lib/config";
 import { eventBus } from "@/lib/eventBus";
 import { useParams } from "next/navigation";
-import { webSocketService } from "@/lib/websocket.service"; // 👈 Import service
-import { useIndexManagerStore } from "@/lib/store/indexManagerStore";
 
 const MarketLoader = dynamic(() => import("@/components/common/market-loader"));
 
 // ─────────────────────────────────────────────
-// EventRow component (same as before - no changes)
+// Single Event Row — fully memoized
 // ─────────────────────────────────────────────
 const EventRow = memo(
   ({
@@ -1044,7 +1042,6 @@ const EventRow = memo(
     setSelectedBet: (bet: any) => void;
     betslipRef: React.RefObject<HTMLDivElement | null>;
   }) => {
-    // ... your existing EventRow code remains exactly the same ...
     const runner0 = event.runners?.[0];
     const runner1 = event.runners?.[1];
     const runner2 = event.runners?.[2];
@@ -1367,22 +1364,24 @@ const EventRow = memo(
     );
   },
   (prev, next) => {
-    const runnersEqual = JSON.stringify(prev.event.runners) === JSON.stringify(next.event.runners);
+    const sameEvent = prev.event === next.event;
     const sameBet =
       prev.selectedBet?.eventName === next.selectedBet?.eventName &&
       prev.selectedBet?.teamName === next.selectedBet?.teamName &&
       prev.selectedBet?.type === next.selectedBet?.type;
-    return runnersEqual && sameBet;
+    return sameEvent && sameBet;
   },
 );
 
 EventRow.displayName = "EventRow";
 
 // ─────────────────────────────────────────────
-// Main Component with Socket Integration
+// Main Component
 // ─────────────────────────────────────────────
+const BATCH_SIZE = 30;
+
 const SingleMarket = ({
-  events: initialEvents,
+  events,
   className,
 }: {
   events: any;
@@ -1390,96 +1389,23 @@ const SingleMarket = ({
 }) => {
   const { setSelectedBet, selectedBet } = useAppStore();
   const betslipRef = useRef<HTMLDivElement | null>(null);
-  const socketCleanupRef = useRef<(() => void) | null>(null);
-  const {eventByApi}=useIndexManagerStore()
 
   const params = useParams();
   const eventId = (params as any)?.eventId || "";
   const sportId = (params as any)?.sportId || "";
 
-  // Local state for live events
-  const [events, setEvents] = useState<any[]>(initialEvents || []);
-const [hasFetchedOdds, setHasFetchedOdds] = useState(false);
-
   const sportKey = events?.[0]?.eventType?.id ?? "none";
-  const [visibleCount, setVisibleCount] = useState(40);
 
+  // Initial count ko thoda bada rakhein taaki "Above the fold" foran dikhe
+  const [visibleCount, setVisibleCount] = useState(40); 
 
-
-
-useEffect(() => {
-  if (initialEvents) {
-    setEvents(initialEvents);
-  }
-}, [initialEvents]);
-const marketIds = useMemo(() => {
-  if (!events || events.length === 0) return [];
-  return events
-    .map((item: any) => item.marketId)
-    .filter(Boolean)
-    .map(String);
-}, [events]);
-
-// useEffect(() => {
-//   if (marketIds.length === 0) return;
-//   if (hasFetchedOdds) return;
-
-//   console.log("✅ Subscribing for:", marketIds);
-
-//   const receivedMarketIds = new Set<string>();
-//   const allMarketsData: any[] = [];
-
-//   webSocketService.subscribeMarket(marketIds, "home-multi");
-
-//   const offOdds = webSocketService.onEvent("odds", (raw: any) => {
-//     try {
-//       let payload = raw;
-//       if (typeof raw === "string") {
-//         payload = JSON.parse(raw);
-//       }
-
-//       const marketId = payload?.marketId;
-//       if (!marketId) return;
-
-//       // ✅ Avoid duplicate push
-//       if (!receivedMarketIds.has(String(marketId))) {
-//         receivedMarketIds.add(String(marketId));
-//         allMarketsData.push(payload);
-//       }
-
-//       console.log("📦 Received:", marketId);
-//       console.log("📊 Current Combined Array:", allMarketsData);
-
-//       // ✅ When ALL markets received
-//       if (receivedMarketIds.size === marketIds.length) {
-//         console.log("✅ ALL MARKET DATA RECEIVED");
-//         console.log("🔥 FINAL COMBINED ARRAY:", allMarketsData);
-
-//         // ✅ Stop socket
-//         webSocketService.unsubscribeMarket(marketIds);
-//         offOdds();
-//         setHasFetchedOdds(true);
-
-//         // ✅ Yahan tum IndexedDB store kar sakte ho
-//         // saveToIndexedDB(allMarketsData);
-//       }
-
-//     } catch (err) {
-//       console.log("❌ Parse error:", err);
-//     }
-//   });
-
-//   return () => {
-//     webSocketService.unsubscribeMarket(marketIds);
-//     offOdds();
-//   };
-// }, [marketIds, hasFetchedOdds]);
-  // ─────────────────────────────────────────────
-  // Rest of existing logic
-  // ─────────────────────────────────────────────
-
+  // Jab sport change ho, toh foran reset aur update karein
   useEffect(() => {
+    // 1. Pehla batch turant dikhao
     setVisibleCount(40);
+
+    // 2. Agar events zyada hain, toh agle frame mein baaki sab dikha do
+    // requestIdleCallback ki jagah requestAnimationFrame fast hai
     if (events?.length > 40) {
       const frame = requestAnimationFrame(() => {
         setVisibleCount(events.length);
@@ -1512,6 +1438,7 @@ const marketIds = useMemo(() => {
     return unsub;
   }, [eventId, sportId]);
 
+  // Scroll to betslip
   useEffect(() => {
     if (selectedBet?.eventName && betslipRef.current) {
       requestAnimationFrame(() => {
@@ -1544,4 +1471,4 @@ const marketIds = useMemo(() => {
   );
 };
 
-export default SingleMarket;
+export default SingleMarket
