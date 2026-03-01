@@ -562,8 +562,8 @@ export default function Sidebar({ config }: SidebarProps) {
 
   const isSportActive = (sportIndex: number) =>
     active.type === "sport" && active.sportIndex === sportIndex;
-
-  const handleSearchToggle = () => toggleSearch(true);
+const isOpenSearch = useUIStore((s) => s.isOpenSearch);
+const handleSearchToggle = () => toggleSearch(!isOpenSearch);
 
   const handleKeyDown = (e: React.KeyboardEvent, callback: () => void) => {
     if (e.key === "Enter" || e.key === " ") {
