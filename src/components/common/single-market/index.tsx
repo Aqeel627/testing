@@ -583,8 +583,6 @@
 
 // export default SingleMarket;
 
-
-
 // "use client";
 // import { shortNumber } from "@/lib/functions";
 // import { useAppStore } from "@/lib/store/store";
@@ -1127,30 +1125,50 @@ const EventRow = memo(
               : "bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)] border-[var(--lay-border)] cursor-pointer";
 
       const priceTextClass = disabled
-        ? isBack ? "text-[var(--back-price-text-disabled)]" : "text-[var(--lay-price-text-disabled)]"
+        ? isBack
+          ? "text-[var(--back-price-text-disabled)]"
+          : "text-[var(--lay-price-text-disabled)]"
         : selected
-          ? isBack ? "text-[var(--back-price-text)] dark:text-white" : "text-[var(--lay-price-text)] dark:text-white"
+          ? isBack
+            ? "text-[var(--back-price-text)] dark:text-white"
+            : "text-[var(--lay-price-text)] dark:text-white"
           : noPrice
-            ? isBack ? "text-[var(--back-price-text-noprice)]" : "text-[var(--lay-price-text)]"
-            : isBack ? "text-[var(--back-price-text)]" : "text-[var(--lay-price-text)]";
+            ? isBack
+              ? "text-[var(--back-price-text-noprice)]"
+              : "text-[var(--lay-price-text)]"
+            : isBack
+              ? "text-[var(--back-price-text)]"
+              : "text-[var(--lay-price-text)]";
 
       const sizeTextClass = disabled
-        ? isBack ? "text-[var(--back-size-text-disabled)]" : "text-[var(--lay-price-text-disabled)]"
+        ? isBack
+          ? "text-[var(--back-size-text-disabled)]"
+          : "text-[var(--lay-price-text-disabled)]"
         : selected
-          ? isBack ? "text-[var(--back-size-text)] dark:text-white" : "text-[var(--lay-price-text)] dark:text-white"
+          ? isBack
+            ? "text-[var(--back-size-text)] dark:text-white"
+            : "text-[var(--lay-price-text)] dark:text-white"
           : noPrice
-            ? isBack ? "text-[var(--back-size-text-noprice)]" : "text-[var(--lay-price-text)]"
-            : isBack ? "text-[var(--back-size-text)]" : "text-[var(--lay-price-text)]";
+            ? isBack
+              ? "text-[var(--back-size-text-noprice)]"
+              : "text-[var(--lay-price-text)]"
+            : isBack
+              ? "text-[var(--back-size-text)]"
+              : "text-[var(--lay-price-text)]";
 
       return (
         <div
           className={`${oddsBoxWidthClass} h-[45px] gap-[2px] rounded-[8px] border flex flex-col justify-center items-center select-none transition-all ${bgClass}`}
           onClick={() => !disabled && handleBet(runner, runnerName, betType)}
         >
-          <span className={`block whitespace-nowrap font-bold price leading-[1.1] ${priceTextClass}`}>
+          <span
+            className={`block whitespace-nowrap font-bold price leading-[1.1] ${priceTextClass}`}
+          >
             {disabled ? "" : (price ?? "-")}
           </span>
-          <span className={`block size whitespace-nowrap font-normal text-[10px] leading-[1] ${sizeTextClass}`}>
+          <span
+            className={`block size whitespace-nowrap font-normal text-[10px] leading-[1] ${sizeTextClass}`}
+          >
             {disabled ? "" : (shortNumber(size) ?? "")}
           </span>
         </div>
@@ -1163,24 +1181,38 @@ const EventRow = memo(
           {/* LEFT CONTENT */}
           <div className="w-full p-[5px]">
             <div className="flex flex-row whitespace-nowrap items-center max-w-full min-h-[1.125rem] overflow-hidden -mt-1 mr-5 -mb-1 -ml-1 text-[9px] font-bold tracking-[0.7px] uppercase text-[#098DEE]">
-              <Link href={`/sport/${event?.eventType?.name}`} className="m-0 [font:inherit] [letter-spacing:inherit] text-(--primary-color) no-underline relative rounded-[8px] py-1 px-0 inline-block">
+              <Link
+                href={`/sport/${event?.eventType?.name}`}
+                className="m-0 [font:inherit] [letter-spacing:inherit] text-(--primary-color) no-underline relative rounded-[8px] py-1 px-0 inline-block"
+              >
                 <div className="rounded-1 px-1">{event.eventType?.name}</div>
               </Link>
               <span className="h-1 w-1 rounded-full bg-[rgb(99,115,129)]"></span>
-              <Link href={`/sport/${event?.eventType?.name}/${event?.competition?.id}`} className="m-0 [font:inherit] [letter-spacing:inherit] text-(--primary-color) no-underline relative rounded-[8px] py-1 px-0 inline-block">
+              <Link
+                href={`/sport/${event?.eventType?.name}/${event?.competition?.id}`}
+                className="m-0 [font:inherit] [letter-spacing:inherit] text-(--primary-color) no-underline relative rounded-[8px] py-1 px-0 inline-block"
+              >
                 <div className="rounded-1 px-1">{event.competition?.name}</div>
               </Link>
             </div>
 
-            <Link href={`/market-details/${event.event?.id}/${event.eventType.id}`} className="flex flex-col w-full min-w-0 flex-auto no-underline">
+            <Link
+              href={`/market-details/${event.event?.id}/${event.eventType.id}`}
+              className="flex flex-col w-full min-w-0 flex-auto no-underline"
+            >
               <div className="flex flex-row gap-1.5 overflow-hidden justify-between items-center">
                 <div className="flex flex-row gap-1.5 items-center">
                   <p className="m-0 font-sans truncate text-[13px] font-bold leading-[1.3rem] text-[var(--palette-text-primary)]">
                     {event.runnersName?.[0]?.runnerName}
                   </p>
-                  {event.inplay && isCricket && runner0?.status === "ACTIVE" && (
-                    <Icon name="bat" className="w-5 h-5 text-(--primary-color)" />
-                  )}
+                  {event.inplay &&
+                    isCricket &&
+                    runner0?.status === "ACTIVE" && (
+                      <Icon
+                        name="bat"
+                        className="w-5 h-5 text-(--primary-color)"
+                      />
+                    )}
                 </div>
               </div>
 
@@ -1189,9 +1221,14 @@ const EventRow = memo(
                   <p className="m-0 font-sans truncate text-[13px] font-bold leading-[1.3rem] text-[var(--palette-text-primary)]">
                     {rightRunnerName}
                   </p>
-                  {event.inplay && isCricket && rightRunner?.status === "ACTIVE" && (
-                    <Icon name="bat" className="w-5 h-5 text-(--primary-color)" />
-                  )}
+                  {event.inplay &&
+                    isCricket &&
+                    rightRunner?.status === "ACTIVE" && (
+                      <Icon
+                        name="bat"
+                        className="w-5 h-5 text-(--primary-color)"
+                      />
+                    )}
                 </div>
                 <div className="flex flex-row gap-1.5">
                   <span className="text-[#68cdf9] text-[12px] bg-[#078dee29] min-w-12 px-4 h-4.5 inline-flex justify-center items-center rounded-[4px] font-bold">
@@ -1205,12 +1242,20 @@ const EventRow = memo(
               <div className="min-w-9.5">
                 <div className="flex gap-1.5">
                   {event.inplay && (
-                    <div className={`flex justify-center items-center ${style.animateLiveBlink}`}>
+                    <div
+                      className={`flex justify-center items-center ${style.animateLiveBlink}`}
+                    >
                       <div className="w-[7px] h-[7px] bg-[#508d0e] rounded-full"></div>
                     </div>
                   )}
-                  <div className={`m-0 font-sans truncate whitespace-nowrap text-[10px] font-bold leading-[1rem] ${event.inplay ? "text-(--primary-color)" : "text-[var(--secondary-text-color)]"}`}>
-                    {event.inplay ? "In-Play" : <EventTimer startTime={event?.marketStartTime} />}
+                  <div
+                    className={`m-0 font-sans truncate whitespace-nowrap text-[10px] font-bold leading-[1rem] ${event.inplay ? "text-(--primary-color)" : "text-[var(--secondary-text-color)]"}`}
+                  >
+                    {event.inplay ? (
+                      "In-Play"
+                    ) : (
+                      <EventTimer startTime={event?.marketStartTime} />
+                    )}
                   </div>
                 </div>
               </div>
@@ -1229,7 +1274,10 @@ const EventRow = memo(
                 <p className="m-0 font-sans whitespace-nowrap text-[var(--secondary-text-color)] text-[10px] font-bold uppercase leading-4 truncate overflow-hidden">
                   Matched :{" "}
                   <span className="text-[10px] font-bold text-[var(--primary-text-color)] leading-[1rem]">
-                    <AnimatedNumber value={event.totalMatched} inplay={event.inplay} />
+                    <AnimatedNumber
+                      value={event.totalMatched}
+                      inplay={event.inplay}
+                    />
                   </span>
                 </p>
               </div>
@@ -1240,34 +1288,68 @@ const EventRow = memo(
           <div className="flex flex-row gap-2 items-center whitespace-nowrap relative w-full @md:min-w-fit leading-[1.125rem] text-xs p-[5px] overflow-hidden @min-[700px]:flex-[1_0_20rem]">
             {/* Team 1 */}
             <div className="flex flex-col gap-0.5 w-[33.3%]">
-              <span className={`block h-[1.125rem] text-(--palette-text-primary) font-bold text-center truncate overflow-hidden ${oddsRowLabelWidthClass}`}>
+              <span
+                className={`block h-[1.125rem] text-(--palette-text-primary) font-bold text-center truncate overflow-hidden ${oddsRowLabelWidthClass}`}
+              >
                 {event.runnersName?.[0]?.runnerName}
               </span>
               <div className="flex gap-1">
-                <OddsBox runner={runner0} runnerName={event.runnersName?.[0]?.runnerName} betType="back" />
-                <OddsBox runner={runner0} runnerName={event.runnersName?.[0]?.runnerName} betType="lay" />
+                <OddsBox
+                  runner={runner0}
+                  runnerName={event.runnersName?.[0]?.runnerName}
+                  betType="back"
+                />
+                <OddsBox
+                  runner={runner0}
+                  runnerName={event.runnersName?.[0]?.runnerName}
+                  betType="lay"
+                />
               </div>
             </div>
 
             {/* Draw */}
             <div className="flex flex-col gap-0.5 w-[33.3%]">
-              <span className={`block h-[1.125rem] text-(--palette-text-primary) font-bold text-center truncate overflow-hidden ${oddsRowLabelWidthClass}`}>
+              <span
+                className={`block h-[1.125rem] text-(--palette-text-primary) font-bold text-center truncate overflow-hidden ${oddsRowLabelWidthClass}`}
+              >
                 {hasThreeRunners ? event.runnersName?.[2]?.runnerName : ""}
               </span>
               <div className="flex gap-1">
-                <OddsBox runner={hasThreeRunners ? runner2 : null} runnerName={event.runnersName?.[2]?.runnerName} betType="back" disabled={!hasThreeRunners} noPrice={hasThreeRunners && !hasCenterBackPrice} />
-                <OddsBox runner={hasThreeRunners ? runner2 : null} runnerName={event.runnersName?.[2]?.runnerName} betType="lay" disabled={!hasThreeRunners} noPrice={hasThreeRunners && !hasCenterLayPrice} />
+                <OddsBox
+                  runner={hasThreeRunners ? runner2 : null}
+                  runnerName={event.runnersName?.[2]?.runnerName}
+                  betType="back"
+                  disabled={!hasThreeRunners}
+                  noPrice={hasThreeRunners && !hasCenterBackPrice}
+                />
+                <OddsBox
+                  runner={hasThreeRunners ? runner2 : null}
+                  runnerName={event.runnersName?.[2]?.runnerName}
+                  betType="lay"
+                  disabled={!hasThreeRunners}
+                  noPrice={hasThreeRunners && !hasCenterLayPrice}
+                />
               </div>
             </div>
 
             {/* Team 2 */}
             <div className="flex flex-col gap-0.5 w-[33.3%]">
-              <span className={`block h-[1.125rem] font-bold text-(--palette-text-primary) text-center truncate overflow-hidden ${oddsRowLabelWidthClass}`}>
+              <span
+                className={`block h-[1.125rem] font-bold text-(--palette-text-primary) text-center truncate overflow-hidden ${oddsRowLabelWidthClass}`}
+              >
                 {rightRunnerName}
               </span>
               <div className="flex gap-1">
-                <OddsBox runner={rightRunner} runnerName={rightRunnerName} betType="back" />
-                <OddsBox runner={rightRunner} runnerName={rightRunnerName} betType="lay" />
+                <OddsBox
+                  runner={rightRunner}
+                  runnerName={rightRunnerName}
+                  betType="back"
+                />
+                <OddsBox
+                  runner={rightRunner}
+                  runnerName={rightRunnerName}
+                  betType="lay"
+                />
               </div>
             </div>
           </div>
@@ -1312,28 +1394,26 @@ const SingleMarket = ({
   const eventId = (params as any)?.eventId || "";
   const sportId = (params as any)?.sportId || "";
 
-  // ✅ Sport switch detect karne ke liye stable key
-  // Jab sport badlegi toh pehla event ka eventType.id change hoga
   const sportKey = events?.[0]?.eventType?.id ?? "none";
 
-  const [visibleCount, setVisibleCount] = useState(BATCH_SIZE);
+  // Initial count ko thoda bada rakhein taaki "Above the fold" foran dikhe
+  const [visibleCount, setVisibleCount] = useState(40); 
 
-  // ✅ Sport change hone par — pehle reset karo
+  // Jab sport change ho, toh foran reset aur update karein
   useEffect(() => {
-    setVisibleCount(BATCH_SIZE);
-  }, [sportKey]);
+    // 1. Pehla batch turant dikhao
+    setVisibleCount(40);
 
-  // ✅ Phir idle time mein baaki load karo
-  useEffect(() => {
-    if (!events || events.length <= BATCH_SIZE) return;
-    const id = requestIdleCallback(
-      () => setVisibleCount(events.length),
-      { timeout: 600 },
-    );
-    return () => cancelIdleCallback(id);
-  }, [sportKey]); // sirf sport change hone par — infinite loop nahi
+    // 2. Agar events zyada hain, toh agle frame mein baaki sab dikha do
+    // requestIdleCallback ki jagah requestAnimationFrame fast hai
+    if (events?.length > 40) {
+      const frame = requestAnimationFrame(() => {
+        setVisibleCount(events.length);
+      });
+      return () => cancelAnimationFrame(frame);
+    }
+  }, [sportKey, events?.length]);
 
-  // REFRESH_AFTER_PLACE
   useEffect(() => {
     const unsub = eventBus.on(
       "REFRESH_AFTER_PLACE",
@@ -1391,4 +1471,4 @@ const SingleMarket = ({
   );
 };
 
-export default SingleMarket;
+export default SingleMarket
