@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback, useRef, useMemo, useTransition } from
 import styles from "./style.module.css";
 import { useAppStore } from "@/lib/store/store";
 import { cn } from "@/lib/utils";
+import { useRouter } from "next/navigation";
 
 type NavItem = { label: string; href: string; id: string };
 
@@ -15,13 +16,14 @@ export default function SportsNav({
   setSelectedEvent: (value: string) => void;
 }) {
   const { menuList } = useAppStore();
-  
+  const router = useRouter();
+
   const [activeTab, setActiveTab] = useState<string>("");
   const [isPending, startTransition] = useTransition();
 
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const tabsListRef = useRef<HTMLDivElement>(null);
-  
+
   const [indicatorStyle, setIndicatorStyle] = useState({
     left: 0,
     top: 0,
@@ -33,7 +35,7 @@ export default function SportsNav({
   const navItems = useMemo<NavItem[]>(() => {
     if (!menuList?.eventTypes) return [];
 
-    return menuList.eventTypes
+    const dynamicItems = menuList.eventTypes
       .filter((item: any) =>
         NAV_DATA.includes(item?.eventType?.name?.toLowerCase())
       )
@@ -42,6 +44,15 @@ export default function SportsNav({
         href: `/game-list/${item?.eventType?.name}/${item?.eventType?.id}`,
         id: item?.eventType?.id,
       }));
+
+    // ✅ Static Horse Racing Add
+    const horseRacingItem: NavItem = {
+      label: "Horse Racing",
+      href: "/horse-racing",
+      id: "4339",
+    };
+
+    return [...dynamicItems, horseRacingItem];
   }, [menuList?.eventTypes]);
 
   // Set default tab on load
@@ -49,7 +60,7 @@ export default function SportsNav({
     if (navItems.length > 0 && !activeTab) {
       const cricketTab = navItems.find((item) => item.label.toLowerCase() === "cricket");
       const defaultTab = cricketTab ?? navItems[0];
-      
+
       setActiveTab(defaultTab.label);
       startTransition(() => {
         setSelectedEvent(defaultTab.id);
@@ -78,7 +89,7 @@ export default function SportsNav({
   // Attach resize listener
   useEffect(() => {
     // Thoda delay sirf initial load pe theek se render hone ke liye
-    const timeout = setTimeout(updateIndicator, 50); 
+    const timeout = setTimeout(updateIndicator, 50);
     window.addEventListener("resize", updateIndicator);
 
     return () => {
@@ -90,6 +101,13 @@ export default function SportsNav({
   // ⚡ SUPER FAST CLICK HANDLER
   const handleTabClick = (e: React.MouseEvent<HTMLButtonElement>, item: NavItem) => {
     if (activeTab === item.label) return;
+
+
+    // ✅ If Horse Racing → Direct Route
+    if (item.label === "Horse Racing") {
+      router.push("/horse-racing");
+      return;
+    }
 
     const target = e.currentTarget;
 
@@ -111,10 +129,10 @@ export default function SportsNav({
 
     // 3. Update active tab UI state
     setActiveTab(item.label);
-    
+
     // 4. Load the heavy 600-item list in the background
     startTransition(() => {
-      setSelectedEvent(item.id); 
+      setSelectedEvent(item.id);
     });
   };
 
@@ -126,7 +144,7 @@ export default function SportsNav({
           className={`${styles["tabs-scroller"]} overflow-x-auto overflow-y-hidden`}
         >
           <div role="tablist" className={cn(styles["tabs-list"], "w-full h-full")} ref={tabsListRef}>
-            
+
             <div
               className={`${styles["sliding-indicator"]} py-[14.5px]`}
               style={{
@@ -136,7 +154,7 @@ export default function SportsNav({
                 height: `${indicatorStyle.height}px`,
                 opacity: indicatorStyle.opacity,
                 // ⚡ Smooth hardware-accelerated transition
-                transition: "all 0.25s cubic-bezier(0.4, 0, 0.2, 1)", 
+                transition: "all 0.25s cubic-bezier(0.4, 0, 0.2, 1)",
               }}
             />
 
@@ -151,7 +169,7 @@ export default function SportsNav({
                   activeTab === item.label && styles.active
                 )}
                 // ⚡ Pass the event (e) to the handler
-                onClick={(e) => handleTabClick(e, item)} 
+                onClick={(e) => handleTabClick(e, item)}
               >
                 <span
                   className={`${styles["tab-icon"]} ${styles[`icon-${item.label.toLowerCase().replace(/\s/g, "-")}`]}`}
