@@ -32,55 +32,59 @@ const GlobalApisCall = () => {
   const handleAllEvents = (data: any) => {
     setAllEventsList(data);
   };
-const socketDataRef = React.useRef<any[]>([]);
-const socketStartedRef = React.useRef<boolean>(false);
+  const socketDataRef = React.useRef<any[]>([]);
+  const socketStartedRef = React.useRef<boolean>(false);
   useDisableTouchGestures();
   DisableWheelZoom();
   DisableZoom();
 
-  const startSocketFlow = (marketIds: string[]) => {
-  console.log("🚀 Starting socket for:", marketIds);
+  const startSocketFlow = (marketIds: string[]): Promise<any[]> => {
+    console.log("🚀 Starting socket for:", marketIds);
 
-  const received = new Set<string>();
-  const combined: any[] = [];
+    return new Promise((resolve, reject) => {
+      const received = new Set<string>();
+      const combined: any[] = [];
 
-  webSocketService.subscribeMarket(marketIds, "global-socket");
+      webSocketService.subscribeMarket(marketIds, "global-socket");
 
-  const offOdds = webSocketService.onEvent("odds", (raw: any) => {
-    try {
-      let payload = raw;
-      if (typeof raw === "string") {
-        payload = JSON.parse(raw);
-      }
+      webSocketService.onEvent("odds", (raw: any) => {
+        try {
+          let payload = raw;
 
-      const marketId = payload?.marketId;
-      if (!marketId) return;
+          if (typeof raw === "string") {
+            payload = JSON.parse(raw);
+          }
 
-      if (!received.has(String(marketId))) {
-        received.add(String(marketId));
-        combined.push(payload);
-      }
+          const marketId = payload?.marketId;
+          if (!marketId) return;
 
-      console.log("📦 Received:", marketId);
+          if (!received.has(String(marketId))) {
+            received.add(String(marketId));
+            combined.push(payload);
+          }
 
-      // ✅ When ALL market data received
-      if (received.size === marketIds.length) {
-        console.log("✅ ALL MARKET DATA RECEIVED ✅");
-        console.log("🔥 FINAL SOCKET DATA:", combined);
+          console.log("📦 Received:", marketId);
 
-        socketDataRef.current = combined;
+          // ✅ When ALL market data received
+          if (received.size === marketIds.length) {
+            console.log("✅ ALL MARKET DATA RECEIVED ✅");
+            console.log("🔥 FINAL SOCKET DATA:", combined);
 
-        webSocketService.unsubscribeMarket(marketIds);
-        offOdds();
+            socketDataRef.current = combined;
 
-        console.log("🛑 Socket closed.");
-      }
+            webSocketService.unsubscribeMarket(marketIds);
+            console.log("🛑 Socket closed.");
 
-    } catch (err) {
-      console.log("❌ Parse error:", err);
-    }
-  });
-};
+            // ⭐ RETURN DATA HERE
+            resolve(combined);
+          }
+        } catch (err) {
+          console.log("❌ Parse error:", err);
+          reject(err);
+        }
+      });
+    });
+  };
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -187,7 +191,7 @@ const socketStartedRef = React.useRef<boolean>(false);
           storeAs: "allEventsList",
           fromKey: "events",
           setFn: setAllEventsList,
-          filterFn: (data: any) => {
+          filterFn: async (data: any) => {
 
             if (!data || data.length === 0) return {};
 
@@ -202,7 +206,9 @@ const socketStartedRef = React.useRef<boolean>(false);
             // ✅ Start socket only once
             if (!socketStartedRef.current && marketIds.length) {
               socketStartedRef.current = true;
-              startSocketFlow(marketIds);
+              const data = await startSocketFlow(marketIds);
+              console.log(data, 'data data data');
+              
             }
 
             // ✅ Use socketData instead of original data
@@ -210,6 +216,9 @@ const socketStartedRef = React.useRef<boolean>(false);
               socketDataRef.current.length > 0
                 ? socketDataRef.current
                 : data;
+
+            console.log(sourceData, 'sourceData');
+
 
             return sourceData.reduce((acc: any, item: any) => {
               const id = item?.eventType?.id;
