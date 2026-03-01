@@ -157,28 +157,28 @@ const SportsBreadCrumb = ({ title, subtitle }: BreadCrumbProps) => {
               <ul className="absolute left-2 p-1 top-full mt-0 -ml-1 max-h-50 glass backdrop-blur-[2px]!  rounded-sm shadow-lg bg-[rgba(var(--palette-background-paperChannel)/90%)] text-(--palette-text-primary) z-40 overflow-y-auto no-scrollbar">
                 {/* {menuList?.eventTypes?.map((item: any) => ( */}
                 {eventTypes?.map((item: any) => (
-                  <li key={item.eventType.id}>
+                  <li key={item?.id}>
                     <button
                       type="button"
                       onClick={(e) => {
                         e.preventDefault();
                         e.stopPropagation();
-                        setSelectedEventType(item.eventType.name);
+                        setSelectedEventType(item?.name);
                         setSelectedCompetition("");
-                        filterCompetitions(item.eventType.id);
+                        filterCompetitions(item?.id);
                         setIsEventTypeOpen(false);
-                        navigateToMarket(item.eventType.name);
+                        navigateToMarket(item?.name);
                       }}
                       className={`text-sm w-full text-nowrap text-left relative bg-transparent cursor-pointer gap-2 font-semibold transition px-2 py-1.5 rounded-[6px] ${
                         (selectedEventType &&
-                          selectedEventType === item.eventType.name) ||
+                          selectedEventType === item?.name) ||
                         (!selectedEventType &&
-                          defaultSportName === item.eventType.name)
+                          defaultSportName === item?.name)
                           ? "bg-[rgba(255,255,255,0.25)]! text-(--primary-color)"
                           : "hover:bg-[rgba(255,255,255,0.25)]"
                       }`}
                     >
-                      {item.eventType.name}
+                      {item?.name}
                     </button>
                   </li>
                 ))}

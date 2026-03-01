@@ -1,8 +1,8 @@
-// export const BASE_URL = "";
-// export const BASE_URL_WS = "";
+export const BASE_URL = "";
+export const BASE_URL_WS = "";
 
-export const BASE_URL = "https://gjexch.com";
-export const BASE_URL_WS = "https://gjexch.com";
+// export const BASE_URL = "https://gjexch.com";
+// export const BASE_URL_WS = "https://gjexch.com";
 
 export const CONFIG = {
   SiteName: "exchange",
