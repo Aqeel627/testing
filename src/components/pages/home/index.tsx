@@ -4,13 +4,15 @@ import React, { useMemo, useState, useTransition } from "react";
 import dynamic from "next/dynamic";
 import CasinoGames from "./casino-games";
 import MarketLoader from "@/components/common/market-loader";
+import { useIndexManagerStore } from "@/lib/store/indexManagerStore";
 
 const SportsNav = dynamic(() => import("@/components/pages/home/sports-nav"));
 const HomeSlider = dynamic(() => import("@/components/pages/home/home-slider"));
 const SingleMarket = dynamic(() => import("@/components/common/single-market"));
 
 export default function HomePage() {
-  const { allEventsList } = useAppStore();
+  // const { allEventsList } = useAppStore();
+  const { eventsBySocket } = useIndexManagerStore();
   const [selectedEvent, setSelectedEvent] = useState("4");
 
   const handleActiveIdChange = React.useCallback((id: string) => {
@@ -18,8 +20,8 @@ export default function HomePage() {
   }, []);
 
   const marketEvents = useMemo(() => {
-    return allEventsList?.[selectedEvent] || [];
-  }, [allEventsList, selectedEvent]);
+    return eventsBySocket?.[selectedEvent] || [];
+  }, [eventsBySocket, selectedEvent]);
 
   return (
     <div id="home.tsx">

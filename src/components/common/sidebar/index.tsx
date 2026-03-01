@@ -11,6 +11,7 @@ import { usePathname } from "next/navigation";
 import { useUIStore } from "@/lib/store/ui-store";
 import dynamic from "next/dynamic";
 import Icon from "@/icons/icons";
+import { useIndexManagerStore } from "@/lib/store/indexManagerStore";
 
 // ─────────────────────────────────────────────
 // Types
@@ -375,7 +376,9 @@ export default function Sidebar({ config }: SidebarProps) {
   const [openTournamentKey, setOpenTournamentKey] = useState<string | null>(
     null,
   );
-  const { inplayEvents, menuList } = useAppStore();
+  // const { inplayEvents, menuList } = useAppStore();
+
+  const { eventTypes, competitions, inplayEvents } = useIndexManagerStore();
   const toggleSearch = useUIStore((s) => s.toggleSearch);
   const closeSidebar = useUIStore((s) => s.closeSidebar);
 
@@ -397,27 +400,94 @@ export default function Sidebar({ config }: SidebarProps) {
     };
   }, []);
   // 👆 ---------------------------------------------------- 👆
-  const dynamicSportsConfig: Sport[] = useMemo(() => {
-    if (!menuList) return [];
+  // const dynamicSportsConfig: Sport[] = useMemo(() => {
+  //   if (!menuList) return [];
 
-    // 1. Dono arrays nikaalein
-    const { eventTypes = [], events = [] } = menuList;
+  //   // 1. Dono arrays nikaalein
+  //   const { eventTypes = [], events = [] } = menuList;
+
+  //   const sportMap = new Map<string, any>();
+
+  //   eventTypes.forEach((item: any) => {
+  //     const sId = item.eventType.id;
+  //     sportMap.set(sId, {
+  //       name: item.eventType.name,
+  //       id: sId,
+  //       tournaments: new Map(),
+  //     });
+  //   });
+
+  //   // 3. Ab events ko unke respective sports mein daalein
+  //   events.forEach((event: any) => {
+  //     const sportId = event?.eventType?.id || "";
+  //     const compId = event?.competition?.id || "";
+  //     const compName = event?.competition?.name || "";
+  //     const eventId = event?.event?.id || "";
+  //     const eventName = event?.event?.name || "";
+
+  //     if (!sportId || !compId || !eventId || !sportMap.has(sportId)) return;
+
+  //     const sport = sportMap.get(sportId)!;
+
+  //     if (!sport.tournaments.has(compId)) {
+  //       sport.tournaments.set(compId, {
+  //         name: compName,
+  //         id: compId,
+  //         events: [],
+  //       });
+  //     }
+
+  //     sport.tournaments
+  //       .get(compId)!
+  //       .events.push({ id: eventId, name: eventName });
+  //   });
+
+  //   // 4. Return formatted data (Insertion order will be preserved)
+  //   return Array.from(sportMap.values())
+  //     .map((sport) => {
+  //       const tournaments: Tournament[] = Array.from(
+  //         sport.tournaments.values(),
+  //       ).map((comp: any) => ({
+  //         name: comp.name,
+  //         count: comp.events.length,
+  //         href: undefined,
+  //         thirdItems: comp.events.map((evt: any) => ({
+  //           name: evt.name,
+  //           count: 1,
+  //           href: `/market-details/${evt.id}/${sport.id}`,
+  //         })),
+  //       }));
+
+  //       return {
+  //         id: sport.id,
+  //         name: sport.name,
+  //         iconUrl: SPORT_ICONS[sport.id] || "/sidebar/ic_default.svg",
+  //         count: tournaments.reduce((sum, t) => sum + t.count, 0),
+  //         tournaments,
+  //         href: undefined,
+  //       };
+  //     })
+  //     .filter((sport) => sport.count > 0);
+  // }, [menuList]);
+
+  const dynamicSportsConfig: Sport[] = useMemo(() => {
+    if (!eventTypes || !competitions) return [];
 
     const sportMap = new Map<string, any>();
 
     eventTypes.forEach((item: any) => {
-      const sId = item.eventType.id;
+      const sId = item?.id;
       sportMap.set(sId, {
-        name: item.eventType.name,
+        name: item?.name,
         id: sId,
         tournaments: new Map(),
       });
     });
 
     // 3. Ab events ko unke respective sports mein daalein
-    events.forEach((event: any) => {
+    competitions?.forEach((event: any) => {
       const sportId = event?.eventType?.id || "";
-      const compId = event?.competition?.id || "";
+      const compId = event?.competition?.name || "";
       const compName = event?.competition?.name || "";
       const eventId = event?.event?.id || "";
       const eventName = event?.event?.name || "";
@@ -465,7 +535,7 @@ export default function Sidebar({ config }: SidebarProps) {
         };
       })
       .filter((sport) => sport.count > 0);
-  }, [menuList]);
+  }, [eventTypes, competitions]);
 
   const sidebarConfig: SidebarConfig = config || {
     sports: dynamicSportsConfig,
@@ -562,8 +632,8 @@ export default function Sidebar({ config }: SidebarProps) {
 
   const isSportActive = (sportIndex: number) =>
     active.type === "sport" && active.sportIndex === sportIndex;
-const isOpenSearch = useUIStore((s) => s.isOpenSearch);
-const handleSearchToggle = () => toggleSearch(!isOpenSearch);
+  const isOpenSearch = useUIStore((s) => s.isOpenSearch);
+  const handleSearchToggle = () => toggleSearch(!isOpenSearch);
 
   const handleKeyDown = (e: React.KeyboardEvent, callback: () => void) => {
     if (e.key === "Enter" || e.key === " ") {

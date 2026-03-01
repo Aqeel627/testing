@@ -2,10 +2,11 @@
 import { useAppStore } from "@/lib/store/store";
 import { useState, useMemo, use } from "react";
 import dynamic from "next/dynamic";
+import { useIndexManagerStore } from "@/lib/store/indexManagerStore";
 const SingleMarket = dynamic(() => import("@/components/common/single-market"));
 const SportsBreadCrumb = dynamic(() => import("@/components/common/sports-bread-crumb"));
 
-// Sport ID mapping — matches allEventsList keys
+// Sport ID mapping — matches eventsBySocket keys
 const SPORT_IDS: Record<string, string> = {
   cricket: "4",
   soccer: "1",
@@ -18,17 +19,17 @@ interface SportPageProps {
 
 const SportPage = ({ params }: SportPageProps) => {
   const { sport } = use(params); // e.g. "cricket", "soccer", "tennis"
-  const { allEventsList } = useAppStore();
+  const { eventsBySocket } = useIndexManagerStore();
   const [activeTab, setActiveTab] = useState("All");
 
   const sportId = SPORT_IDS[sport.toLowerCase()];
   const sportName = sport.charAt(0).toUpperCase() + sport.slice(1);
 
-  // Pull events from allEventsList[sportId] — same pattern as SingleMarket
+  // Pull events from eventsBySocket[sportId] — same pattern as SingleMarket
   const sportEvents: any[] = useMemo(() => {
-    if (!sportId || !allEventsList) return [];
-    return allEventsList[sportId] ?? [];
-  }, [allEventsList, sportId]);
+    if (!sportId || !eventsBySocket) return [];
+    return eventsBySocket[sportId] ?? [];
+  }, [eventsBySocket, sportId]);
 
   // Derive unique competition names for tab filtering
   const competitions = useMemo(() => {
@@ -52,7 +53,7 @@ const SportPage = ({ params }: SportPageProps) => {
     );
   }, [activeTab, sportEvents]);
 
-  if (!allEventsList) return <p className="text-white p-4">Loading...</p>;
+  if (!eventsBySocket) return <p className="text-white p-4">Loading...</p>;
   // if (!sportEvents.length)
     // return ;
 

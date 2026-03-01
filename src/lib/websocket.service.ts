@@ -14,13 +14,13 @@ class WebSocketService {
     private coreListenersBound = false;
     private lastPayloads?: SubscribePayload;
     private lastSubscribeKey = "";
-    private isLoggedIn = false;
+    // private isLoggedIn = false;
 
     private constructor() {
         // Initial login state (simple localStorage check, like Angular)
-        if (typeof window !== "undefined") {
-            this.isLoggedIn = !!localStorage.getItem("token");
-        }
+        // if (typeof window !== "undefined") {
+        //     this.isLoggedIn = !!localStorage.getItem("token");
+        // }
     }
 
     // 🧊 Singleton instance
@@ -81,25 +81,25 @@ class WebSocketService {
     }
 
     /** External login hook (optional) */
-    setLoggedIn(flag: boolean) {
-        this.isLoggedIn = flag;
-        if (flag) {
-            this.connect();
-        } else {
-            this.disconnect();
-        }
-    }
+    // setLoggedIn(flag: boolean) {
+    //     this.isLoggedIn = flag;
+    //     if (flag) {
+    //         this.connect();
+    //     } else {
+    //         this.disconnect();
+    //     }
+    // }
 
     /** Connect manually if needed */
     connect(): void {
-        if (typeof window !== "undefined") {
-            this.isLoggedIn = !!localStorage.getItem("token");
-        }
+        // if (typeof window !== "undefined") {
+        //     this.isLoggedIn = !!localStorage.getItem("token");
+        // }
 
-        if (!this.isLoggedIn) {
-            // console.warn("[SOCKET] not logged in; skipping connect");
-            return;
-        }
+        // if (!this.isLoggedIn) {
+        //     // console.warn("[SOCKET] not logged in; skipping connect");
+        //     return;
+        // }
 
         this.createSocket();
         if (this.socket && !this.socket.connected) {

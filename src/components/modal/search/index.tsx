@@ -8,6 +8,7 @@ import { useAppStore } from "@/lib/store/store";
 import Link from "next/link";
 import dynamic from "next/dynamic";
 import Icon from "@/icons/icons";
+import { useIndexManagerStore } from "@/lib/store/indexManagerStore";
 
 function highlight(text: string, query: string) {
   if (!query.trim()) return text;
@@ -26,7 +27,7 @@ function highlight(text: string, query: string) {
 export default function SearchModal() {
   const isOpenSearch = useUIStore((s) => s.isOpenSearch);
   const toggleSearch = useUIStore((s) => s.toggleSearch);
-  const { allEventsList, selectedEventTypeId } = useAppStore();
+  const { eventsBySocket } = useIndexManagerStore();
 
   const inputRef = useRef<HTMLInputElement>(null);
   const modalRef = useRef<HTMLDivElement>(null); // 👈 Modal reference
@@ -38,9 +39,9 @@ export default function SearchModal() {
   };
 
   useEffect(() => {
-    // console.log(allEventsList, "events all in search modal");
-    // console.log("type:", typeof allEventsList);
-  }, [allEventsList]);
+    // console.log(eventsBySocket, "events all in search modal");
+    // console.log("type:", typeof eventsBySocket);
+  }, [eventsBySocket]);
 
   /* -------------------- CMD+K SHORTCUT -------------------- */
   useEffect(() => {
@@ -102,7 +103,7 @@ export default function SearchModal() {
 
   /* -------------------- DATA -------------------- */
   const filteredResults = useMemo(() => {
-    const eventsArray: any[] = Object.values(allEventsList || {})
+    const eventsArray: any[] = Object.values(eventsBySocket || {})
       .filter(Array.isArray)
       .flat();
 
@@ -116,7 +117,7 @@ export default function SearchModal() {
         item?.eventType?.name?.toLowerCase().includes(q) ||
         item?.marketType?.toLowerCase().includes(q),
     );
-  }, [query, allEventsList]);
+  }, [query, eventsBySocket]);
 
   return (
     <Dialog.Root open={isOpenSearch} onOpenChange={toggleSearch}>
