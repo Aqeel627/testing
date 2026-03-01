@@ -149,13 +149,21 @@ export default function MarketDetails() {
   const [isEventsDropDown, setIsEventsDropDown] = useState(false);
   const [streamCounter, setStreamCounter] = useState(0);
   const { resolvedTheme, theme } = useTheme();
+  const subTabsListRef = useRef<HTMLDivElement>(null);
+  const [subActiveTab, setSubActiveTab] = useState<"FANCY" | "SPORTSBOOK">("FANCY");
+  const [subIndicatorStyle, setSubIndicatorStyle] = useState({
+    left: 0,
+    top: 0,
+    width: 0,
+    height: 0,
+    opacity: 0,
+  });
 
   const [matchedBets, setMatchedBets] = useState<any[]>([]);
   const handleAllEvents = (data: any) => {
     setAllEventsList(data);
     router.push("/");
   };
-
   // ── ADD: fetch PL ───────────────────────────────────────────────
 
   const fetchMarketPL = useCallback(async () => {
@@ -329,6 +337,7 @@ export default function MarketDetails() {
   const tabsListRef = useRef<HTMLDivElement>(null);
   const [activeTab, setActiveTab] = useState<TabKey>("POPULAR");
   const [isMarketSectionOpen, setIsMarketSectionOpen] = useState(true);
+  const [subMarketSectionOpen, setSubMarketSectionOpen] = useState(true);
   const [isLineSectionOpen, setIsLineSectionOpen] = useState(true);
   const [indicatorStyle, setIndicatorStyle] = useState({
     left: 0,
@@ -968,27 +977,68 @@ export default function MarketDetails() {
   const updateIndicator = useCallback(() => {
     if (!tabsListRef.current || !activeTab) return;
 
-    const activeBtn = tabsListRef.current.querySelector(
-      `button[data-tab="${activeTab}"]`,
-    ) as HTMLElement;
+    // Thoda delay taake DOM render ho jaye
+    const timer = setTimeout(() => {
+      const activeBtn = tabsListRef.current?.querySelector(
+        `button[data-tab="${activeTab}"]`
+      ) as HTMLElement;
 
-    if (!activeBtn) return;
-
-    setIndicatorStyle({
-      left: activeBtn.offsetLeft,
-      top: activeBtn.offsetTop,
-      width: activeBtn.offsetWidth,
-      height: activeBtn.offsetHeight,
-      opacity: 1,
-      animate: true,
-    });
-
+      if (activeBtn) {
+        setIndicatorStyle({
+          left: activeBtn.offsetLeft,
+          top: activeBtn.offsetTop + activeBtn.offsetHeight / 2, // Vertically center
+          width: activeBtn.offsetWidth,
+          height: 32,
+          opacity: 1,
+          animate: true,
+        });
+      }
+    }, 100);
+    return () => clearTimeout(timer);
   }, [activeTab]);
 
   // ----- Effect to run after navItems or tab change -----
   useEffect(() => {
     scrollToActiveTab();
   }, [activeTab]);
+
+
+  const updateSubIndicator = useCallback(() => {
+    setTimeout(() => {
+      if (!subTabsListRef.current || !subActiveTab) return;
+
+      const activeBtn = subTabsListRef.current.querySelector(
+        `button[data-subtab="${subActiveTab}"]`
+      ) as HTMLElement;
+
+      if (activeBtn) {
+        setSubIndicatorStyle({
+          left: activeBtn.offsetLeft,
+          top: activeBtn.offsetTop + activeBtn.offsetHeight / 2,
+          width: activeBtn.offsetWidth,
+          height: 32,
+          opacity: 1,
+        });
+      }
+    }, 50);
+  }, [subActiveTab]);
+
+  useEffect(() => {
+    if (!isLoading) {
+      updateIndicator();
+      updateSubIndicator();
+    }
+
+    window.addEventListener("resize", () => {
+      updateIndicator();
+      updateSubIndicator();
+    });
+
+    return () => window.removeEventListener("resize", () => {
+      updateIndicator();
+      updateSubIndicator();
+    });
+  }, [updateIndicator, updateSubIndicator, isLoading, allMarkets, popularMarkets]);
 
   // const updateIndicator = useCallback(() => {
   //   if (!tabsListRef.current || !activeTab) return;
@@ -1040,6 +1090,14 @@ export default function MarketDetails() {
   }, [activeTab, allMarkets, popularMarkets]);
 
   const oddsMarketsForAccordion = useMemo(() => {
+
+    let baseMarkets = [...accordionMarkets];
+    if (subActiveTab === "FANCY") {
+      baseMarkets = baseMarkets.filter(m => m.marketType === "FANCY" || m.marketName?.toUpperCase().includes("FANCY"));
+    } else {
+      baseMarkets = baseMarkets.filter(m => m.marketType === "SPORTSBOOK" || m.marketName?.toUpperCase().includes("SPORTSBOOK"));
+    }
+
     return [...accordionMarkets]
       .filter((m: any) => !isLineMarketFn(m))
       .sort(
@@ -2196,9 +2254,329 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)] flex-1 min-w-0 cursor-pointer tex
                 No markets available
               </div>
             )}
+
+
+            <div className="mt-1 min-[900px]:mt-2 flex dark:bg-[#28323D] rounded-[8px] min-h-[48px] overflow-hidden w-full max-w-full">
+              <div className="relative flex items-center flex-1 overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+                <div
+                  ref={subTabsListRef}
+                  className="flex p-2 !pb-[6px] relative z-[1] *:text-nowrap w-full items-center"
+                >
+                  {/* Dynamic Sliding Indicator */}
+                  <div
+                    className="absolute bg-(--tab-active-bg) rounded-[8px] transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] z-0"
+                    style={{
+                      left: `${subIndicatorStyle.left}px`,
+                      top: `${subIndicatorStyle.top}px`,
+                      transform: "translateY(-50%)",
+                      width: `${subIndicatorStyle.width}px`,
+                      height: `${subIndicatorStyle.height}px`,
+                      opacity: subIndicatorStyle.opacity,
+                    }}
+                  />
+
+                  {/* Fancy Tab */}
+                  <button
+                    data-subtab="FANCY"
+                    onClick={() => setSubActiveTab("FANCY")}
+                    className={`inline-flex items-center justify-center bg-transparent border-none cursor-pointer text-[0.875rem] px-4 py-1.5 transition-colors duration-200 leading-[1.57143] relative z-10 top-[-1px] ${subActiveTab === "FANCY"
+                      ? "text-(--tab-active-text) font-semibold"
+                      : "text-(--tab-default-text) font-medium"
+                      }`}
+                  >
+                    Fancy
+                  </button>
+
+                  {/* SportsBook Tab */}
+                  <button
+                    data-subtab="SPORTSBOOK"
+                    onClick={() => setSubActiveTab("SPORTSBOOK")}
+                    className={`inline-flex items-center justify-center bg-transparent border-none cursor-pointer text-[0.875rem] px-4 py-1.5 transition-colors duration-200 leading-[1.57143] relative z-10 top-[-1px] ${subActiveTab === "SPORTSBOOK"
+                      ? "text-(--tab-active-text) font-semibold"
+                      : "text-(--tab-default-text) font-medium"
+                      }`}
+                  >
+                    SportsBook
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {(subActiveTab === "FANCY" || subActiveTab === "SPORTSBOOK") && (
+              <>
+                {/* Fancy Section */}
+                {subActiveTab === "FANCY" && (
+                  <div className="mt-1">
+                    <RenderFancyTable
+                      data={dummyFancyData}
+                      eventName={eventName}
+                      eventId={eventId}
+                      sportId={sportId}
+                    />
+                  </div>
+                )}
+
+                {/* SportsBook Section */}
+                {subActiveTab === "SPORTSBOOK" && (
+                  <div className="mt-1">
+                    <RenderSportsBookTable
+                      data={dummySportsBookData}
+                      eventName={eventName}
+                      eventId={eventId}
+                      sportId={sportId}
+                    />
+                  </div>
+                )}
+              </>
+
+
+            )}
+
+
           </>
         )}
       </div>
     </div>
   );
 }
+
+const dummyFancyData = [
+  { name: "AUS W Only 40th Over Runs", layPrice: 9, laySize: 115, backPrice: 9, backSize: 85, min: 100, max: 25000, selectionId: 101, marketId: 'fancy1' },
+  { name: "AUS W 40 Over Runs", layPrice: 305, laySize: 100, backPrice: 306, backSize: 100, min: 100, max: 200000, selectionId: 102, marketId: 'fancy2' },
+  { name: "AUS W 50 Over Runs ADV", layPrice: 404, laySize: 100, backPrice: 406, backSize: 100, min: 100, max: 100000, selectionId: 103, marketId: 'fancy3' },
+  { name: "1st Innings 40 Over Line", layPrice: 305, laySize: 100, backPrice: 306, backSize: 100, min: 100, max: 50000, selectionId: 104, marketId: 'fancy4' },
+];
+
+const dummySportsBookData = [
+  { name: "0", price: 9.6, size: "100K", selectionId: 501, marketId: 'sb1' },
+  { name: "1", price: 9.6, size: "99.8K", selectionId: 502, marketId: 'sb2' },
+  { name: "2", price: 9.6, size: "99.1K", selectionId: 503, marketId: 'sb3' },
+  { name: "3", price: 9.6, size: "99.6K", selectionId: 504, marketId: 'sb4' },
+  { name: "4", price: 9.6, size: "98.7K", selectionId: 505, marketId: 'sb5' },
+];
+
+const RenderFancyTable = ({ data, eventName, eventId, sportId }: any) => {
+  const { setSelectedBet, selectedBet } = useAppStore();
+  const [isOpen, setIsOpen] = React.useState(true);
+
+  const onFancyBetClick = (item: any, type: 'yes' | 'no') => {
+    const price = type === 'no' ? item.layPrice : item.backPrice;
+    if (selectedBet?.selectionId === item.selectionId && selectedBet?.type === type) {
+      setSelectedBet(null);
+      return;
+    }
+    setSelectedBet({
+      type,
+      odds: price + 0.5,
+      teamName: item.name,
+      eventName,
+      marketType: "FANCY",
+      selectionId: item.selectionId,
+      marketId: item.marketId,
+      eventId,
+      sportId,
+      isLineMarket: true
+    });
+  };
+
+  return (
+    <div className="w-full">
+      {/* Accordion Header */}
+      <div
+        onClick={() => setIsOpen(!isOpen)}
+        className="px-1 min-[900px]:px-2 rounded-t-md bg-(--accordion-bg) flex flex-col justify-center w-full font-bold h-8 relative cursor-pointer"
+      >
+        <div className="flex flex-row items-center h-8 justify-between w-full">
+          <div className="text-[14px] text-(--accordion-text) font-[500] leading-[14px]">
+            Fancy
+          </div>
+          <span className={`transition-transform duration-300 ${isOpen ? "rotate-90" : "rotate-0"}`}>
+            <Icon name="downArrow" width={20} className="text-(--accordion-text)" />
+          </span>
+        </div>
+      </div>
+
+      {/* Table Content */}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            className="overflow-hidden border border-dashed border-(--dotted-line) rounded-b-[4px]"
+          >
+            <table className="w-full border-collapse text-left bg-(--market-bg)">
+              <thead>
+                <tr className="h-8 border-b border-(--dotted-line)">
+                  <th className="px-3 text-[12px] font-bold text-(--accordion-text) w-auto md:w-[60%]"></th>
+                  <th className="w-[10%] text-center md:hidden"></th>
+                  {/* Headers matching Market Details Style */}
+                  <th className="p-0 w-[62.38px] md:w-[57.5px]">
+                    <div className="flex items-center justify-center font-semibold rounded-[2px] text-black text-[14px] border h-6 mx-[2px] border-[var(--lay-border)] bg-(--market-header-lay-bg)">
+                      No
+                    </div>
+                  </th>
+                  <th className="p-0 w-[62.38px] md:w-[57.5px]">
+                    <div className="flex items-center justify-center font-semibold rounded-[2px] text-black text-[14px] border h-6 mx-[2px] border-[var(--back-border)] bg-(--market-header-back-bg)">
+                      Yes
+                    </div>
+                  </th>
+                  <th className="px-3 text-center text-[12px] font-bold text-(--accordion-text) hidden sm:table-cell">Min/Max</th>
+                </tr>
+              </thead>
+              <tbody className="px-1 min-[900px]:px-2">
+                {data.map((item: any) => {
+                  const isNoSelected = selectedBet?.selectionId === item.selectionId && selectedBet?.type === "no";
+                  const isYesSelected = selectedBet?.selectionId === item.selectionId && selectedBet?.type === "yes";
+                  return (
+                    <React.Fragment key={item.selectionId}>
+                      <tr className="border-b border-dashed border-(--dotted-line)">
+                        <td className="pl-1.5 py-2">
+                          <span className="text-[14px] font-[500] leading-[1] block break-words">
+                            {item.name}
+                          </span>
+                        </td>
+                        <td className="text-center">
+                          <Icon name="book" className="w-5 h-5 text-(--primary-color) inline-block cursor-pointer" />
+                        </td>
+
+                        {/* NO Box - Matches Market Details Dimensions & Rounding */}
+                        <td className="p-[2px] align-middle">
+                          <div
+                            className={`flex flex-col items-center justify-center w-full h-[45px] rounded-[8px] border border-[var(--lay-border)] bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)] cursor-pointer transition-colors ${
+                              isNoSelected ? "!bg-(--lay-selected) !border-(--line-no-selected-border)" : ""
+                            }`}
+                            onClick={() => onFancyBetClick(item, 'no')}
+                          >
+                            <span className={`text-[13px] font-bold leading-[1.1] truncate ${isNoSelected ? "text-white" : "text-[var(--lay-price-text)]"}`}>
+                              {item.layPrice}
+                            </span>
+                            <span className={`text-[10px] font-normal leading-[1] truncate ${isNoSelected ? "text-white" : "text-[var(--lay-size-text)]"}`}>
+                              {item.laySize}
+                            </span>
+                          </div>
+                        </td>
+
+                        {/* YES Box - Matches Market Details Dimensions & Rounding */}
+                        <td className="p-[2px] align-middle">
+                          <div
+                            className={`flex flex-col items-center justify-center w-full h-[45px] rounded-[8px] border border-[var(--back-border)] bg-[var(--back-bg)] hover:bg-[var(--back-hover)] cursor-pointer transition-colors ${
+                              isYesSelected ? "!bg-(--back-selected) !border-(--line-yes-selected-border)" : ""
+                            }`}
+                            onClick={() => onFancyBetClick(item, 'yes')}
+                          >
+                            <span className={`text-[13px] font-bold leading-[1.1] truncate ${isYesSelected ? "text-white" : "text-[var(--back-price-text)]"}`}>
+                              {item.backPrice}
+                            </span>
+                            <span className={`text-[10px] font-normal leading-[1] truncate ${isYesSelected ? "text-white" : "text-[var(--back-size-text)]"}`}>
+                              {item.backSize}
+                            </span>
+                          </div>
+                        </td>
+
+                        <td className="hidden sm:table-cell text-center text-[11px] text-(--secondary-text-color)">
+                          {item.min}-{item.max}
+                        </td>
+                      </tr>
+                      {(isNoSelected || isYesSelected) && (
+                        <tr>
+                          <td colSpan={5} className="p-0 border-none lg:hidden">
+                            <MBetSlip />
+                          </td>
+                        </tr>
+                      )}
+                    </React.Fragment>
+                  );
+                })}
+              </tbody>
+            </table>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
+
+const RenderSportsBookTable = ({ data, eventName, eventId, sportId }: any) => {
+  const { setSelectedBet, selectedBet } = useAppStore();
+  const [isOpen, setIsOpen] = React.useState(true);
+
+  const onSportsBookClick = (item: any) => {
+    if (selectedBet?.selectionId === item.selectionId) {
+      setSelectedBet(null);
+      return;
+    }
+    setSelectedBet({
+      type: "back",
+      odds: item.price,
+      teamName: item.name,
+      eventName,
+      marketType: "SPORTSBOOK",
+      selectionId: item.selectionId,
+      marketId: item.marketId,
+      eventId,
+      sportId,
+      isLineMarket: false
+    });
+  };
+
+  return (
+    <div className="w-full">
+      {/* Accordion Header */}
+      <div
+        onClick={() => setIsOpen(!isOpen)}
+        className="px-1 min-[900px]:px-2 rounded-t-md bg-(--accordion-bg) flex flex-col justify-center w-full font-bold h-8 relative cursor-pointer"
+      >
+        <div className="flex flex-row items-center h-8 justify-between w-full">
+          <div className="text-[14px] text-(--accordion-text) font-[500] leading-[14px] truncate pr-4">
+            IND W 30 Over Total Runs (Odds / Evens)
+          </div>
+          <span className={`transition-transform duration-300 ${isOpen ? "rotate-90" : "rotate-0"}`}>
+            <Icon name="downArrow" width={20} className="text-(--accordion-text)" />
+          </span>
+        </div>
+      </div>
+
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            className="overflow-hidden border border-dashed border-(--dotted-line) rounded-b-[4px]"
+          >
+            <table className="w-full border-collapse bg-(--market-bg)">
+              <tbody>
+                {data.map((item: any) => {
+                  const isSelected = selectedBet?.selectionId === item.selectionId && selectedBet?.marketType === "SPORTSBOOK";
+                  return (
+                    <React.Fragment key={item.selectionId}>
+                      <tr className="border-b border-dashed border-(--dotted-line) hover:bg-(--primary-hover) h-[50px] py-1">
+                        <td className="pl-4 py-2 text-left">
+                          <span className="text-[14px] font-bold text-(--palette-text-primary)">{item.name}</span>
+                        </td>
+                        <td className="w-[57px] md:w-[57px] p-0 rounded-[8px]!">
+                          <div
+                            className={`cursor-pointer rounded-[8px]! h-[44px] flex flex-col items-center justify-center border-l bg-[#72dbb3] hover:bg-[#5fc7a0] border-(--dotted-line) ${isSelected ? "!bg-[#50d0ae]" : ""}`}
+                            onClick={() => onSportsBookClick(item)}
+                          >
+                            <span className="text-[14px] font-bold text-black">{item.price}</span>
+                            <span className="text-[10px] text-black">{item.size}</span>
+                          </div>
+                        </td>
+                        <td className="w-[20%] hidden md:table-cell"></td>
+                      </tr>
+                      {isSelected && (
+                        <tr><td colSpan={3} className="p-0 border-none lg:hidden"><MBetSlip /></td></tr>
+                      )}
+                    </React.Fragment>
+                  );
+                })}
+              </tbody>
+            </table>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
