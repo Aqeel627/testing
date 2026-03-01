@@ -117,32 +117,18 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
           >
             <Sidebar />
           </aside> */}
-                    <Drawer
-  open={isMobileSidebarOpen}
-  direction="left"
-  onOpenChange={() =>
-    isMobileSidebarOpen ? closeMobileSidebar() : openMobileSidebar()
-  }
-  dismissible
->
-  <DrawerContent
-    className="border-none rounded-none! w-[288px]! max-w-[85vw]! inset-y-0! top-0! bottom-0! mt-0!"
-    style={{
-      height: "100svh",
-      maxHeight: "100svh",
-    }}
-  >
-    <div
-      style={{
-        height: "100svh",
-        overflowY: "auto",
-        WebkitOverflowScrolling: "touch" as any,
-      }}
-    >
-      <Sidebar />
-    </div>
-  </DrawerContent>
-</Drawer>
+          <Drawer
+            open={isMobileSidebarOpen}
+            direction="left"
+            onOpenChange={() =>
+              isMobileSidebarOpen ? closeMobileSidebar() : openMobileSidebar()
+            }
+            dismissible
+          >
+            <DrawerContent className="border-none rounded-0! w-[288px]! max-w-[85vw]!">
+              <Sidebar />
+            </DrawerContent>
+          </Drawer>
 
           <main className="pt-[80px] px-3 h-screen">
             {children}
