@@ -86,17 +86,43 @@ const GlobalApisCall = () => {
     });
   };
 
-  const mergeSocketWithApi = (apiData: any, socketData: any[]) => {
-    if (!socketData || socketData.length === 0) return apiData;
+const mergeSocketWithApi = (apiData: any[], socketData: any[]) => {
+  if (!socketData || socketData.length === 0) return apiData;
 
-    return apiData?.map((apiItem: any) => {
-      const socketUpdate = socketData.find(
-        (sItem: any) => sItem?.marketId === apiItem?.marketId,
-      );
+  return apiData.map((apiItem: any) => {
+    const socketUpdate = socketData.find(
+      (sItem: any) => sItem.marketId === apiItem.marketId
+    );
 
-      return socketUpdate ? { ...apiItem, ...socketUpdate } : apiItem;
+    if (!socketUpdate) return apiItem;
+
+    // ✅ Extract runners from socket payload
+    const exMap = socketUpdate.ex || {};
+    const ptMap = socketUpdate.pt || {};
+
+    const runners = Object.keys(exMap).map((selectionId) => {
+      const exEntry = exMap[selectionId];
+
+      return {
+        selectionId: Number(selectionId),
+        status: exEntry.status || "ACTIVE",
+        lastPriceTraded: exEntry.lastPriceTraded || 0,
+        totalMatched: exEntry.totalMatched || 0,
+        ex: {
+          availableToBack: exEntry.availableToBack || [],
+          availableToLay: exEntry.availableToLay || [],
+        },
+      };
     });
-  };
+
+    return {
+      ...apiItem,
+      status: socketUpdate.status || apiItem.status,
+      totalMatched: socketUpdate.totalMatched || apiItem.totalMatched,
+      runners, // ✅ FULL runners array injected here
+    };
+  });
+};
 
   useEffect(() => {
     const token = localStorage.getItem("token");
