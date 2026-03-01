@@ -9,6 +9,7 @@ import { useToast } from "@/components/common/toast/toast-context";
 import { useAuthStore } from "@/lib/useAuthStore";
 import { useCacheStore } from "@/lib/store/cacheStore";
 import { splitMsg } from "@/lib/functions";
+import { betAudio } from "@/lib/audioFeedback";
 
 // ────────────────────────────────────────────────────────────────
 
@@ -207,6 +208,7 @@ export default function MBetSlip() {
       const msg = splitMsg(rawMessage);
 
       if (ok) {
+        betAudio.playSuccess();
         showToast(
           msg.status,
           msg.title,
@@ -231,6 +233,7 @@ export default function MBetSlip() {
           eventId: selectedBet.eventId,
         });
       } else {
+        betAudio.playError();
         showToast(
           "error",
           msg.title || "Failed",
@@ -238,6 +241,7 @@ export default function MBetSlip() {
         );
       }
     } catch (err: any) {
+      betAudio.playError();
       const msg = splitMsg(err?.meta?.message);
       if (msg.title && msg.status && msg.desc) {
         showToast(msg.status, msg.title, msg.desc);
