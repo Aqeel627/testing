@@ -32,7 +32,7 @@ export default function HomePage() {
 
       <div className="mb-4">
         {/* Optional: Show a loading state while transitioning */}
-        {/* <SingleMarket events={marketEvents} className="mt-2!" /> */}
+        <SingleMarket events={marketEvents} className="mt-2!" />
       </div>
 
       <CasinoGames />
