@@ -416,7 +416,7 @@ export default function MarketDetails() {
     try {
       const req = {
         eventId: String(params?.eventId ?? ""),
-        sportId: String(params?.sportId ?? params?.marketId ?? ""),
+        eventTypeId: String(params?.sportId ?? params?.marketId ?? ""),
         key: "10",
       };
 
