@@ -137,7 +137,7 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
               <div
                 style={{
                   backgroundColor: "var(--background)",
-                  minHeight: "100%",
+                  minHeight: "100vh",
                   transform: "translateZ(0)",
                 }}
               >
