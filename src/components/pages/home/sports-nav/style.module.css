@@ -76,7 +76,8 @@
   font-family: Inter, sans-serif;
   transition: color 0.2s ease;
   line-height: 1.57143;
-  position: relative; /* 👈 Zaroori */
+  position: relative;
+  /* 👈 Zaroori */
   z-index: 1;
 }
 
@@ -97,6 +98,21 @@
   mask-position: center;
 }
 
+.tab-icon1 {
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
+  display: inline-flex;
+  /* background-color: currentColor; */
+  background-color: transparent;
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  mask-position: center;
+  /* color: #919eab ; */
+  color: #919eab ;
+
+}
+
 .icon-cricket {
   mask-image: url("/ic_cricket.svg");
 }
@@ -108,4 +124,3 @@
 .icon-tennis {
   mask-image: url("/ic_tennis.svg");
 }
-

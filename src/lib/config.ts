@@ -1,27 +1,11 @@
-<<<<<<< HEAD
-// const BASE_URL_API = 'http://130.172.2.149:4444';
-// const BASE_URL_V1 = "unityexch.com";
-
-export const BASE_URL_API = "https://100exch.com";
-const BASE_URL_V1 = "https://100exch.com";
-const BASE_URL = "https://100exch.com";
-const BASE_URL_APIX = "https://100exch.com";
-
-export const BASE_URL_NewApi = "https://auexch.yourdesign.live";
-export const BASE_URL_100 = "https://100exch.com";
-
-// export const BASE_URL_API = '';
-// export const BASE_URL_V1 = "";
-// export const BASE_URL = "";
-// export const BASE_URL_APIX = "";
-
-=======
 export const BASE_URL = "";
->>>>>>> 7b072ba0b2e268e4589d47c8bedf18eb387e1b43
 export const BASE_URL_WS = "";
 
 // export const BASE_URL = "https://gjexch.com";
 // export const BASE_URL_WS = "https://gjexch.com";
+
+// export const BASE_URL = "https://100exch.com";
+// export const BASE_URL_WS = "https://100exch.com";
 
 export const CONFIG = {
   SiteName: "exchange",

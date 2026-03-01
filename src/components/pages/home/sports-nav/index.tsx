@@ -168,13 +168,26 @@ export default function SportsNav({
                   styles["tab-btn"],
                   activeTab === item.label && styles.active
                 )}
-                // ⚡ Pass the event (e) to the handler
                 onClick={(e) => handleTabClick(e, item)}
               >
-                <span
-                  className={`${styles["tab-icon"]} ${styles[`icon-${item.label.toLowerCase().replace(/\s/g, "-")}`]}`}
-                />
+                {/* Icon: Horse Racing ke liye SVG, baaki ke liye existing span */}
+                {item.label === "Horse Racing" ? (
+                  <img
+                    src="/horse-racing.svg"
+                    alt="Horse Racing"
+                    className={styles["tab-icon1"]}
+                  />
+                ) : (
+                  <span
+                    className={`${styles["tab-icon"]} ${styles[`icon-${item.label.toLowerCase().replace(/\s/g, "-")}`]
+                      }`}
+                  />
+                )}
+
+                {/* Label */}
                 {item.label}
+
+                {/* Active Indicator */}
                 {activeTab === item.label && (
                   <span className={styles["tab-indicator"]}></span>
                 )}
