@@ -9,6 +9,7 @@ import { useToast } from "@/components/common/toast/toast-context";
 import { useAuthStore } from "@/lib/useAuthStore";
 import { useCacheStore } from "@/lib/store/cacheStore";
 import { usePathname } from "next/navigation";
+import { betAudio } from "@/lib/audioFeedback";
 
 function parseMsg(raw: string) {
   const parts = String(raw || "")
@@ -222,6 +223,7 @@ export default function BetSlipUI() {
       const msg = parseMsg(rawMessage);
 
       if (ok) {
+    setTimeout(() => betAudio.playSuccess(), 0);
         showToast(
           msg.status,
           msg.title,
@@ -243,6 +245,7 @@ export default function BetSlipUI() {
           eventId: selectedBet.eventId,
         });
       } else {
+        setTimeout(() => betAudio.playError(), 0);
         showToast(
           "error",
           msg.title || "Failed",
@@ -250,6 +253,7 @@ export default function BetSlipUI() {
         );
       }
     } catch (err: any) {
+       setTimeout(() => betAudio.playError(), 0);
       const raw =
         err?.response?.data?.meta?.message || err?.message || "Network error.";
       const msg = parseMsg(raw);
