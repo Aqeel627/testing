@@ -1186,3 +1186,16 @@ body:has(.drawer) {
 .border-t-0 {
   border-top-width: 0px;
 }
+
+.test111 {
+  position: absolute !important;
+}
+
+[vaul-drawer] {
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1) !important;
+  will-change: transform;
+}
+
+[vaul-overlay] {
+  transition: opacity 0.4s cubic-bezier(0.22, 1, 0.36, 1) !important;
+}

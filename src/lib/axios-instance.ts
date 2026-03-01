@@ -1,10 +1,10 @@
 import axios, { AxiosError, AxiosHeaders, InternalAxiosRequestConfig } from "axios";
-import { BASE_URL_API } from "./config";
+import { BASE_URL } from "./config";
 import { useAuthStore } from "./useAuthStore";
 import Router from "next/router";
 
 export const http = axios.create({
-  baseURL: BASE_URL_API,
+  baseURL: BASE_URL,
   headers: {
     "x-Requested-With": "XMLHttpRequest",
     "Content-Type": "application/json",

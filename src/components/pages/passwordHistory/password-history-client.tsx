@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { CONFIG } from "@/lib/config";
 import { fetchData } from "@/lib/functions";
 import styles from "./style.module.css";
+import "../profit-loss/profit-loss-page/style.css";
 
 function pad2(n: number) {
   return String(n).padStart(2, "0");
@@ -56,36 +57,6 @@ export default function PasswordHistoryClient() {
   return (
     <div id="password-history-client.tsx">
       <div className="">
-        {/* <div className="">
-        <ul className="flex justify-start  gap-3 w-full overflow-x-auto scrollbar-hide">
-          <li>
-            <Link
-              href="/activity"
-              className={
-                pathname === "/activity"
-                  ? "flex items-center justify-center px-6 py-3 rounded-[16px] whitespace-nowrap text-[14px] font-medium transition-all duration-200 backdrop-blur-[20px]  border bg-[rgba(var(--palette-primary-mainChannel)_/_14%)] border-(--primary-color) text-(--primary-color)"
-                  : "flex items-center justify-center px-6 py-3 rounded-[16px] whitespace-nowrap text-[14px] font-medium transition-all duration-200 backdrop-blur-[12px] border border-(--secondary-text-color) text-(--secondary-text-color) shadow-[0_0_0_1px_rgba(var(--palette-grey-500Channel)_/_18%)] hover:border-[rgba(var(--palette-primary-mainChannel)_/_30%)]"
-              }
-            >
-              Activity Log
-            </Link>
-          </li>
-
-          <li>
-            <Link
-              href="/password-history"
-              className={
-                pathname === "/password-history"
-                  ? "flex items-center justify-center px-6 py-3 rounded-[16px] whitespace-nowrap text-[14px] font-medium transition-all duration-200 backdrop-blur-[20px]  border bg-[rgba(var(--palette-primary-mainChannel)_/_14%)] border-(--primary-color) text-(--primary-color)"
-                  : "flex items-center justify-center px-6 py-3 rounded-[16px] whitespace-nowrap text-[14px] font-medium transition-all duration-200 backdrop-blur-[12px] border border-(--secondary-text-color) text-(--secondary-text-color) shadow-[0_0_0_1px_rgba(var(--palette-grey-500Channel)_/_18%)] hover:border-[rgba(var(--palette-primary-mainChannel)_/_30%)]"
-              }
-            >
-              Password History
-            </Link>
-          </li>
-        </ul>
-      </div> */}
-
         <div className="flex mx-auto overflow-x-auto scroll-width-none max-w-3xl px-2 pb-[5px] gap-[15px]">
           {/* Open Tab */}
           {tabs.map((item) => (
@@ -93,7 +64,6 @@ export default function PasswordHistoryClient() {
               href={item.link}
               key={item.id}
               className={`${styles["glass-panel"]} ${styles["nav-item"]} ${pathname === item.link && styles.active}`}
-
             >
               <p>{item.name}</p>
             </Link>
@@ -106,29 +76,21 @@ export default function PasswordHistoryClient() {
           </h6>
         </div>
 
-        <div className="mt-[5px] overflow-x-auto overflow-y-hidden scrollbar-hide mb-[30px]">
-          <table className={styles['bh-table']}>
+        <div className="mt-[5px] bh-table-wrap mb-[30px]">
+          <table className="bh-table">
             <thead>
               <tr>
-                <th>
-                  Date/Time
-                </th>
-                <th>
-                  Remark
-                </th>
+                <th>Date/Time</th>
+                <th>Remark</th>
               </tr>
             </thead>
 
             {passwordChangeData?.length != 0 && (
               <tbody>
                 {passwordChangeData.map((item: any, idx: number) => (
-                  <tr key={idx} className="bg-[var(--palette-background-paper)]">
-                    <td className="text-center text-[16px] px-2 py-2 border-r border-white border-b border-white text-[var(--palette-text-primary)]">
-                      {formatDateTime(item?.createdAt)}
-                    </td>
-                    <td className="text-center text-[16px] px-2 py-2 border-r border-white border-b border-white text-[var(--palette-text-primary)]">
-                      {item?.remark || "NA"}
-                    </td>
+                  <tr key={idx} className="text-center">
+                    <td>{formatDateTime(item?.createdAt)}</td>
+                    <td>{item?.remark || "NA"}</td>
                   </tr>
                 ))}
               </tbody>
