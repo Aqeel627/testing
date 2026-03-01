@@ -1420,60 +1420,60 @@ const marketIds = useMemo(() => {
     .map(String);
 }, [events]);
 
-useEffect(() => {
-  if (marketIds.length === 0) return;
-  if (hasFetchedOdds) return;
+// useEffect(() => {
+//   if (marketIds.length === 0) return;
+//   if (hasFetchedOdds) return;
 
-  console.log("✅ Subscribing for:", marketIds);
+//   console.log("✅ Subscribing for:", marketIds);
 
-  const receivedMarketIds = new Set<string>();
-  const allMarketsData: any[] = [];
+//   const receivedMarketIds = new Set<string>();
+//   const allMarketsData: any[] = [];
 
-  webSocketService.subscribeMarket(marketIds, "home-multi");
+//   webSocketService.subscribeMarket(marketIds, "home-multi");
 
-  const offOdds = webSocketService.onEvent("odds", (raw: any) => {
-    try {
-      let payload = raw;
-      if (typeof raw === "string") {
-        payload = JSON.parse(raw);
-      }
+//   const offOdds = webSocketService.onEvent("odds", (raw: any) => {
+//     try {
+//       let payload = raw;
+//       if (typeof raw === "string") {
+//         payload = JSON.parse(raw);
+//       }
 
-      const marketId = payload?.marketId;
-      if (!marketId) return;
+//       const marketId = payload?.marketId;
+//       if (!marketId) return;
 
-      // ✅ Avoid duplicate push
-      if (!receivedMarketIds.has(String(marketId))) {
-        receivedMarketIds.add(String(marketId));
-        allMarketsData.push(payload);
-      }
+//       // ✅ Avoid duplicate push
+//       if (!receivedMarketIds.has(String(marketId))) {
+//         receivedMarketIds.add(String(marketId));
+//         allMarketsData.push(payload);
+//       }
 
-      console.log("📦 Received:", marketId);
-      console.log("📊 Current Combined Array:", allMarketsData);
+//       console.log("📦 Received:", marketId);
+//       console.log("📊 Current Combined Array:", allMarketsData);
 
-      // ✅ When ALL markets received
-      if (receivedMarketIds.size === marketIds.length) {
-        console.log("✅ ALL MARKET DATA RECEIVED");
-        console.log("🔥 FINAL COMBINED ARRAY:", allMarketsData);
+//       // ✅ When ALL markets received
+//       if (receivedMarketIds.size === marketIds.length) {
+//         console.log("✅ ALL MARKET DATA RECEIVED");
+//         console.log("🔥 FINAL COMBINED ARRAY:", allMarketsData);
 
-        // ✅ Stop socket
-        webSocketService.unsubscribeMarket(marketIds);
-        offOdds();
-        setHasFetchedOdds(true);
+//         // ✅ Stop socket
+//         webSocketService.unsubscribeMarket(marketIds);
+//         offOdds();
+//         setHasFetchedOdds(true);
 
-        // ✅ Yahan tum IndexedDB store kar sakte ho
-        // saveToIndexedDB(allMarketsData);
-      }
+//         // ✅ Yahan tum IndexedDB store kar sakte ho
+//         // saveToIndexedDB(allMarketsData);
+//       }
 
-    } catch (err) {
-      console.log("❌ Parse error:", err);
-    }
-  });
+//     } catch (err) {
+//       console.log("❌ Parse error:", err);
+//     }
+//   });
 
-  return () => {
-    webSocketService.unsubscribeMarket(marketIds);
-    offOdds();
-  };
-}, [marketIds, hasFetchedOdds]);
+//   return () => {
+//     webSocketService.unsubscribeMarket(marketIds);
+//     offOdds();
+//   };
+// }, [marketIds, hasFetchedOdds]);
   // ─────────────────────────────────────────────
   // Rest of existing logic
   // ─────────────────────────────────────────────
