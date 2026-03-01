@@ -35,6 +35,12 @@
   --casino-tab-nonactive-border: rgb(7, 141, 238);
   --casino-tab-nonactive-text: rgb(145, 158, 171);
 
+  --card-bg: linear-gradient(135deg, rgba(35, 48, 67, 0.6) 0%, rgba(18, 24, 34, 0.8) 100%);
+  --card-border: rgba(255, 255, 255, 0.15);
+  --time-pill-border: rgba(255, 255, 255, 0.08);
+  --filter-item-border: #ffffff1a;
+
+
   --palette-primary-mainChannel: 7 141 238;
   --palette-error-lighter: #ffe9d5;
   --palette-error-light: #ffac82;
@@ -79,6 +85,11 @@
   --market-header-back-bg: #99d5f1;
   --market-header-lay-bg: #f3b9bf;
   --market-bg: #f0f2f5;
+
+  --card-bg: #ffffff;
+  --card-border: var(--secondary-text-color);
+  --time-pill-border: var(--card-border);
+  --filter-item-border: var(--card-border);
 
   /* market loader */
   --market-loader-bg: #c1c4c8;

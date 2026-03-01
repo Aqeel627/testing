@@ -246,7 +246,7 @@ export default function MBetSlip() {
       err?.response?.data?.meta?.message || 
       err?.meta?.message || 
       err?.message || 
-      "Network error. Please try again.";
+      "Network error.";
     
     const msg = splitMsg(raw);
     
