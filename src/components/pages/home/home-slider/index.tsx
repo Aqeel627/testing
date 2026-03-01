@@ -9,6 +9,7 @@ import { Autoplay } from "swiper/modules";
 import "swiper/css";
 import { useAppStore } from "@/lib/store/store";
 import { useEffect, useState } from "react";
+import { useIndexManagerStore } from "@/lib/store/indexManagerStore";
 
 interface SlideItem {
   src: string;
@@ -87,13 +88,14 @@ const CENTER_BREAKPOINTS: Record<
 };
 
 export default function HomeSlider() {
-  const { ourBanners } = useAppStore();
+  // const { ourBanners } = useAppStore();
+  const { banners } = useIndexManagerStore();
   const [finalSlides, setFinalSlides] = useState<any[]>([]);
 
   useEffect(() => {
     async function verifyAndPrepare() {
       const baseData =
-        ourBanners && ourBanners.length > 0 ? ourBanners : FALLBACK_BANNERS;
+        banners && banners.length > 0 ? banners : FALLBACK_BANNERS;
 
       const verifiedData = await Promise.all(
         baseData.map(async (item: any) => {
@@ -116,11 +118,7 @@ export default function HomeSlider() {
     }
 
     verifyAndPrepare();
-  }, [ourBanners]);
-
-  useEffect(() => {
-    console.log(ourBanners, "ourBanners");
-  }, [ourBanners]);
+  }, [banners]);
 
   const pairedSlides: any[] = [];
   if (finalSlides.length > 0) {

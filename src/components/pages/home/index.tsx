@@ -3,7 +3,6 @@ import { useAppStore } from "@/lib/store/store";
 import React, { useMemo, useState, useTransition } from "react";
 import dynamic from "next/dynamic";
 import CasinoGames from "./casino-games";
-import MarketLoader from "@/components/common/market-loader";
 
 const SportsNav = dynamic(() => import("@/components/pages/home/sports-nav"));
 const HomeSlider = dynamic(() => import("@/components/pages/home/home-slider"));

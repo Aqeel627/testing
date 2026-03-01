@@ -10,11 +10,19 @@ import { indexManager } from "@/lib/index-manager";
 import { useIndexManagerStore } from "@/lib/store/indexManagerStore";
 
 const GlobalApisCall = () => {
-  const { setCasinoEvents, setMenuList, setStakeValue } = useAppStore();
+  const {
+    setCasinoEvents,
+    setMenuList,
+    setAllEventsList,
+    setStakeValue,
+    // setOurBanners,
+    // setOurCasinoGames,
+    // setOurEvents,
+  } = useAppStore();
   const {
     setBanners,
     setCasinoGames,
-    setAllEventsList,
+    // setAllEventsList,
     setCompetitions,
     setEventsByApi,
     setEventTypes,
