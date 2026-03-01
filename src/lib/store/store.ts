@@ -13,10 +13,6 @@ export const useAppStore = create<any>((set) => ({
   selectedBet: null,
   inplayEvents: null,
   /* new data variables */
-  ourBanners: null,
-  ourCasinoGames: null,
-  ourEvents: null,
-  /* new data variables */
 
   setCasinoEvents: (data: any) => set({ casinoEvents: data }),
   setExchangeTypeList: (data: any) => set({ exchangeTypeList: data }),
@@ -27,10 +23,6 @@ export const useAppStore = create<any>((set) => ({
   setSelectedEventTypeId: (id: string) => set({ selectedEventTypeId: id }),
   setSelectedBet: (data: any) => set({ selectedBet: data }),
   clearSelectedBet: () => set({ selectedBet: null }),
-  /* new data functions */
-  setOurBanners: (data: any) => set({ ourBanners: data }),
-  setOurCasinoGames: (data: any) => set({ ourCasinoGames: data }),
-  setOurEvents: (data: any) => set({ ourEvents: data }),
   /* new data functions */
 slipPreview: { stake: 0, price: 0 },
 setSlipPreview: (v: { stake: number; price: number }) => 
