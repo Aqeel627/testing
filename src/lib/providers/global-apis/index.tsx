@@ -132,6 +132,7 @@ const GlobalApisCall = () => {
               return {
                 competition: item.competition,
                 eventType: item.eventType,
+                event: item.event,
               };
             });
           },

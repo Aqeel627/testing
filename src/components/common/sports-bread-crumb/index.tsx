@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useAppStore } from "@/lib/store/store";
 import dynamic from "next/dynamic";
 import Icon from "@/icons/icons";
+import { useIndexManagerStore } from "@/lib/store/indexManagerStore";
 
 interface BreadCrumbProps {
   /** Override the page title shown above the crumbs. Defaults to last segment. */
@@ -28,7 +29,8 @@ function toSportSlug(name: string): string {
 const SportsBreadCrumb = ({ title, subtitle }: BreadCrumbProps) => {
   const pathname = usePathname();
   const router = useRouter();
-  const { menuList } = useAppStore();
+  // const { menuList } = useAppStore();
+  const { eventTypes, competitions } = useIndexManagerStore();
   const eventTypeRef = useRef<HTMLSpanElement | null>(null);
   const competitionRef = useRef<HTMLSpanElement | null>(null);
   const [isEventTypeOpen, setIsEventTypeOpen] = useState(false);
@@ -62,8 +64,12 @@ const SportsBreadCrumb = ({ title, subtitle }: BreadCrumbProps) => {
   const defaultSportName = title || slugToLabel(sportSlug);
 
   function filterCompetitions(eventTypeId: string | number) {
+    // const filtered =
+    //   menuList?.competitions?.filter(
+    //     (item: any) => String(item?.eventType?.id) === String(eventTypeId),
+    //   ) ?? [];
     const filtered =
-      menuList?.competitions?.filter(
+      competitions?.filter(
         (item: any) => String(item?.eventType?.id) === String(eventTypeId),
       ) ?? [];
     setCompetition(filtered);
@@ -71,9 +77,15 @@ const SportsBreadCrumb = ({ title, subtitle }: BreadCrumbProps) => {
   }
 
   useEffect(() => {
-    if (!menuList?.eventTypes?.length) return;
+    // if (!menuList?.eventTypes?.length) return;
+    if (!eventTypes?.length) return;
 
-    const selectedEvent = menuList.eventTypes.find(
+    // const selectedEvent = menuList.eventTypes.find(
+    //   (item: any) =>
+    //     String(item?.eventType?.name || "").toLowerCase() ===
+    //     String(defaultSportName || "").toLowerCase(),
+    // );
+    const selectedEvent = eventTypes?.find(
       (item: any) =>
         String(item?.eventType?.name || "").toLowerCase() ===
         String(defaultSportName || "").toLowerCase(),
@@ -83,7 +95,8 @@ const SportsBreadCrumb = ({ title, subtitle }: BreadCrumbProps) => {
 
     setSelectedEventType(selectedEvent.eventType.name);
     filterCompetitions(selectedEvent.eventType.id);
-  }, [menuList, defaultSportName]);
+  // }, [menuList, defaultSportName]);
+  }, [eventTypes, defaultSportName]);
 
   useEffect(() => {
     const onDocClick = (e: MouseEvent) => {
@@ -142,7 +155,8 @@ const SportsBreadCrumb = ({ title, subtitle }: BreadCrumbProps) => {
 
             {isEventTypeOpen && (
               <ul className="absolute left-2 p-1 top-full mt-0 -ml-1 max-h-50 glass backdrop-blur-[2px]!  rounded-sm shadow-lg bg-[rgba(var(--palette-background-paperChannel)/90%)] text-(--palette-text-primary) z-40 overflow-y-auto no-scrollbar">
-                {menuList?.eventTypes?.map((item: any) => (
+                {/* {menuList?.eventTypes?.map((item: any) => ( */}
+                {eventTypes?.map((item: any) => (
                   <li key={item.eventType.id}>
                     <button
                       type="button"
