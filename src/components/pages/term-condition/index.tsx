@@ -2,18 +2,10 @@ import dynamic from "next/dynamic";
 const BreadCrumb = dynamic(() => import("@/components/common/bread-crumb"));
 
 const KPolicy = () => {
-  const today = new Date();
-  const formattedDate = `${today.getDate()}.${today.getMonth() + 1}.${today.getFullYear()}`;
   return (
     <>
       <div id="term-condition.tsx">
-        <BreadCrumb title="Terms & Conditions" showTitle={false} />
-        <div className="w-full mx-auto flex flex-col flex-grow scroll-mt-[40px]">
-          <h1 className="text-2xl md:text-[24px] font-bold leading-normal">
-            Terms & Conditions
-          </h1>
-          <h6 className="text-[16px]">Last updated: {formattedDate}</h6>
-        </div>
+        <BreadCrumb title="Terms & Conditions"  />
         <div className="v-card__text page-content-html">
           <p className="mt-2 mb-2 text-center">
             <span className="text-[11pt]">

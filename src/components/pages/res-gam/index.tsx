@@ -2,24 +2,15 @@ import dynamic from "next/dynamic";
 const BreadCrumb = dynamic(() => import("@/components/common/bread-crumb"));
 
 const RasGamRoute = () => {
-  const today = new Date();
-  const formattedDate = `${today.getDate()}.${today.getMonth() + 1}.${today.getFullYear()}`;
 
   return (
     <>
       <div id="res-gam.tsx">
 
-        <BreadCrumb title="Responsible Gambling" showTitle={false} />
+        <BreadCrumb title="Responsible Gambling" />
 
         <div className="w-full mx-auto flex flex-col flex-grow scroll-mt-[40px] px-4 md:px-0">
 
-          <h1 className="text-2xl md:text-[24px] font-bold leading-normal">
-            Gambling with responsibility
-          </h1>
-
-          <h6 className="text-[16px] mt-2 mb-4">
-            Last updated: {formattedDate}
-          </h6>
 
           <div className="container mx-auto px-1 text-sm">
 

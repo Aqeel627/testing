@@ -4,8 +4,8 @@ const BreadCrumb = dynamic(() => import("@/components/common/bread-crumb"));
 const fairnessPolicyRoute = () => {
   return (
     <div id="fairness.tsx">
-      <div className="mt-8 md-mt-7 min-[960px]:mt-0 min-[1200px]:mt-5">
-        <BreadCrumb title="Fairness & RNG Testing Methods" showTitle={false} />
+      <div  >
+        <BreadCrumb title="Fairness & RNG Testing Methods" />
         <div className="w-full mx-auto flex flex-col flex-grow scroll-mt-[40px] py-4 mt-4 md:mt-[-8px] min-[900px]:mt-6 min-[1200px]:mt-6">
           <h1 className="text-2xl md:text-[16px] underline font-bold leading-normal flex items-center justify-center uppercase md:my-4">
             Fairness & RNG Testing Methods
