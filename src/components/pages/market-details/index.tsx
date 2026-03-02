@@ -106,12 +106,8 @@ const shortNumber = (value: any): string => {
 };
 
 export default function MarketDetails() {
-  const {
-    setSelectedBet,
-    selectedBet,
-    slipPreview,
-    setAllEventsList,
-  } = useAppStore();
+  const { setSelectedBet, selectedBet, slipPreview, setAllEventsList } =
+    useAppStore();
 
   const { eventTypes, competitions } = useIndexManagerStore();
   const [isLoading, setIsLoading] = useState(true);
@@ -144,7 +140,7 @@ export default function MarketDetails() {
   const [marketTime, setMarketTime] = useState("");
   const [ruleContent, setRuleContent] = useState<any>(null);
   const [isOpen, setIsOpen] = useState(false);
-  const [competition, setCompetition] = useState([]);
+  const [competition, setCompetition] = useState<any[]>([]);
   const [openRules, setOpenRules] = useState(false);
   const [isEventTypeOpen, setIsEventTypeOpen] = useState(false);
   const [isCompetitionOpen, setIsCompetitionOpen] = useState(false);
@@ -235,7 +231,7 @@ export default function MarketDetails() {
   }
 
   const dynamicSportsConfig = useMemo(() => {
-    if (!eventTypes||!competitions) return [];
+    if (!eventTypes || !competitions) return [];
 
     const sportMap = new Map<string, any>();
 
@@ -251,7 +247,7 @@ export default function MarketDetails() {
     // 3. Ab events ko unke respective sports mein daalein
     competitions?.forEach((event: any) => {
       const sportId = event?.eventType?.id || "";
-      const compId = event?.competition?.name || "";
+      const compId = event?.competition?.id || "";
       const compName = event?.competition?.name || "";
       const eventId = event?.event?.id || "";
       const eventName = event?.event?.name || "";
@@ -1161,7 +1157,13 @@ export default function MarketDetails() {
         (item: any) => String(item.eventType.id) === String(eventTypeId),
       ) ?? [];
 
-    setCompetition(filtered);
+    const uniqueCompetitions = [
+      ...new Map(
+        filtered?.map((item: any) => [item?.competition?.id, item]),
+      )?.values(),
+    ];
+
+    setCompetition(uniqueCompetitions);
 
     // open competitions after selecting event type
     setIsEventTypeOpen(false);
@@ -1832,8 +1834,7 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)] flex-1 min-w-0 cursor-pointer tex
                             className={`text-sm w-full text-nowrap text-left relative bg-transparent cursor-pointer gap-2 font-semibold transition px-2 py-1.5 rounded-[6px] ${
                               (selectedEventType &&
                                 selectedEventType === item?.name) ||
-                              (!selectedEventType &&
-                                sportName === item?.name)
+                              (!selectedEventType && sportName === item?.name)
                                 ? "bg-[rgba(255,255,255,0.25)]! text-(--primary-color)"
                                 : "hover:bg-[rgba(255,255,255,0.25)]"
                             }`}
@@ -2525,7 +2526,7 @@ const RenderFancyTable = ({ data, eventName, eventId, sportId }: any) => {
 
                   return (
                     <React.Fragment key={item.selectionId}>
-<tr className="border-b border-dashed border-(--dotted-line) h-[53px]">
+                      <tr className="border-b border-dashed border-(--dotted-line) h-[53px]">
                         {/* 1. Combined Name & Icon Column - FIXED ALIGNMENT */}
                         <td className="pl-1.5 py-2">
                           <div className="flex items-center justify-between w-full">

@@ -4,20 +4,18 @@ import { create } from "zustand";
 export const useIndexManagerStore = create<any>((set) => ({
   banners: null,
   casinoGames: null,
-  eventsBySocket: null,
   inplayEvents: null,
   competitions: null,
-  eventsByApi: null,
+  allEventsList: null,
   eventTypes: null,
 
   setBanners: (data: any) => set({ banners: data }),
   setCasinoGames: (data: any) => set({ casinoGames: data }),
   setCompetitions: (data: any) => set({ competitions: data }),
-  setEventsByApi: (data: any) => set({ eventsByApi: data }),
   setEventTypes: (data: any) => set({ eventTypes: data }),
-  setEventsBySocket: (data: any) =>
+  setAllEventsList: (data: any) =>
     set(() => {
-      if (!data) return { eventsBySocket: data, inplayEvents: null };
+      if (!data) return { allEventsList: data, inplayEvents: null };
 
       // descending keys order: 4 → 2 → 1
       const keys = Object.keys(data)
@@ -37,7 +35,7 @@ export const useIndexManagerStore = create<any>((set) => ({
       result.totalLength = all.length;
 
       return {
-        eventsBySocket: data,
+        allEventsList: data,
         inplayEvents: result,
       };
     }),

@@ -416,7 +416,7 @@ export default function Sidebar({ config }: SidebarProps) {
     // 3. Ab events ko unke respective sports mein daalein
     competitions?.forEach((event: any) => {
       const sportId = event?.eventType?.id || "";
-      const compId = event?.competition?.name || "";
+      const compId = event?.competition?.id || "";
       const compName = event?.competition?.name || "";
       const eventId = event?.event?.id || "";
       const eventName = event?.event?.name || "";

@@ -12,7 +12,7 @@ const SingleMarket = dynamic(() => import("@/components/common/single-market"));
 
 export default function HomePage() {
   // const { allEventsList } = useAppStore();
-  const { eventsBySocket } = useIndexManagerStore();
+  const { allEventsList } = useIndexManagerStore();
   const [selectedEvent, setSelectedEvent] = useState("4");
 
   const handleActiveIdChange = React.useCallback((id: string) => {
@@ -20,8 +20,8 @@ export default function HomePage() {
   }, []);
 
   const marketEvents = useMemo(() => {
-    return eventsBySocket?.[selectedEvent] || [];
-  }, [eventsBySocket, selectedEvent]);
+    return allEventsList?.[selectedEvent] || [];
+  }, [allEventsList, selectedEvent]);
 
   return (
     <div id="home.tsx">
