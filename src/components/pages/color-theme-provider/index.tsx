@@ -185,10 +185,7 @@ export const applyThemeColors = (
     root.style.setProperty("--sidebar-badge-text", primary);
     root.style.setProperty("--accordion-text", primary);
     root.style.setProperty("--palette-background-default", bgColor);
-    root.style.setProperty("--market-bg", bgColor);
-
-    root.style.setProperty("--palette-background-default", bgColor);
-    root.style.setProperty("--market-bg", bgColor);
+    // root.style.setProperty("--market-bg", bgColor);
     root.style.setProperty("--account-tab-color", accountTab.color);
     root.style.setProperty(
       "--account-tab-bg",
