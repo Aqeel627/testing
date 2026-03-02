@@ -14,19 +14,18 @@ export async function indexManager({
   headers?: Record<string, string>;
   expireIn?: number;
   forceApiCall?: boolean;
-
   storeMap?: {
     storeAs: string;
     fromKey: string;
     setFn?: (value: any) => void;
-    filterFn?: (data: any) => any; // ✅ NEW
+    filterFn?: (data: any) => any;
   }[];
 }) {
   let shouldFetch = forceApiCall;
 
   /* ---------------- CHECK CACHE ---------------- */
   if (storeMap && !forceApiCall) {
-    let allFresh = true;
+    let anyExpired = false;
 
     for (const config of storeMap) {
       const { storeAs, setFn } = config;
@@ -36,22 +35,26 @@ export async function indexManager({
       if (cached) {
         const diff = (Date.now() - cached.timestamp) / 1000;
 
-        if (diff < expireIn) {
-          setFn?.(cached.data);
-        } else {
-          allFresh = false;
+        // ✅ Always show cached data immediately
+        setFn?.(cached.data);
+
+        // Check expiry
+        if (diff >= expireIn) {
+          anyExpired = true;
         }
       } else {
-        allFresh = false;
+        anyExpired = true;
       }
     }
 
-    if (allFresh) return;
+    // If nothing expired → no need to call API
+    if (!anyExpired) return;
 
+    // If expired → fetch in background
     shouldFetch = true;
   }
 
-  /* ---------------- API CALL ---------------- */
+  /* ---------------- API CALL (BACKGROUND SAFE) ---------------- */
   if (shouldFetch) {
     try {
       const response: any = await http.post(url, payload, { headers });
@@ -63,15 +66,15 @@ export async function indexManager({
           const { storeAs, fromKey, setFn, filterFn } = config;
 
           let dataToStore = apiData?.[fromKey];
-
           if (dataToStore === undefined) continue;
 
-          // ✅ APPLY FILTER IF PROVIDED
           if (typeof filterFn === "function") {
             dataToStore = await filterFn(dataToStore);
           }
 
           await saveData(storeAs, dataToStore);
+
+          // ✅ Update UI with fresh data
           setFn?.(dataToStore);
         }
       }
@@ -79,7 +82,6 @@ export async function indexManager({
       return apiData;
     } catch (error) {
       console.error("Dynamic Fetch Error:", error);
-      throw error;
     }
   }
 }

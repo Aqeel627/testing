@@ -16,6 +16,7 @@ import { useCacheStore } from "@/lib/store/cacheStore";
 import dynamic from "next/dynamic";
 import { useUIStore } from "@/lib/store/ui-store";
 import Icon from "@/icons/icons";
+import { Ripple } from "primereact/ripple";
 
 type HeaderProps = {
   onMenuClick?: () => void;
@@ -88,7 +89,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
         className={cn(
           "w-full glass-header  --palette-text-primary  sticky top-0 z-[9999999]",
           theme === "light" &&
-          "backdrop-blur-[10px]! bg-linear-to-br! from-white/25! to-white/5! border-b! border-[rgb(205_192_192/0.4)]! shadow-[0_8px_32px_rgba(0,0,0,0.2)]!",
+            "backdrop-blur-[10px]! bg-linear-to-br! from-white/25! to-white/5! border-b! border-[rgb(205_192_192/0.4)]! shadow-[0_8px_32px_rgba(0,0,0,0.2)]!",
         )}
       >
         <div className="max-w-[1600px] mx-auto px-2 h-12 flex items-center justify-between">
@@ -224,12 +225,44 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
 
           <div className="flex items-center gap-2 sm:gap-[6px]">
             {isLoggedIn && (
-              <button
-                onClick={toggleBets}
-                className="inline-flex items-center justify-center relative box-border cursor-pointer select-none align-middle appearance-none font-sans font-bold leading-[1.71429] normal-case min-w-[64px] text-[0.8125rem] h-[30px] outline-none m-0 no-underline rounded-lg border border-solid py-[3px] px-1 min-[600px]:px-[8px] transition-all duration-[250ms] ease-[cubic-bezier(0.4,0,0.2,1)] bg-transparent hover:border-[1px] hover:border-[#078dee] text-[#078DEE] border-[#078dee7a] hover:bg-blue-600/5 hover:shadow-[0px_0px_0px_0.75px_currentColor]"
-              >
-                Bets
-              </button>
+              // <button
+              //   onClick={toggleBets}
+              //   className="inline-flex items-center justify-center relative box-border cursor-pointer select-none align-middle appearance-none font-sans font-bold leading-[1.71429] normal-case min-w-[64px] text-[0.8125rem] h-[30px] outline-none m-0 no-underline rounded-lg border border-solid py-[3px] px-1 min-[600px]:px-[8px] transition-all duration-[250ms] ease-[cubic-bezier(0.4,0,0.2,1)] bg-transparent hover:border-[1px] hover:border-[#078dee] text-[#078DEE] border-[#078dee7a] hover:bg-blue-600/5 hover:shadow-[0px_0px_0px_0.75px_currentColor]"
+              // >
+              //   Bets
+              // </button>
+              <div className="relative inline-flex items-center justify-center h-[29px] rounded-[8px] p-[1px] overflow-hidden bg-transparent group cursor-pointer max-w-16">
+                <span
+                  className="absolute inset-0 m-auto w-full h-full rounded-[inherit] content-[''] pointer-events-none 
+        [mask:linear-gradient(#fff_0_0)_content-box_xor,linear-gradient(#fff_0_0)] 
+        -webkit-[mask:linear-gradient(#fff_0_0)_content-box_xor,linear-gradient(#fff_0_0)]"
+                >
+                  <span className="absolute inset-0 bg-white/10 opacity-20"></span>
+
+                  {/* 👇 Dono shapes with exact colors */}
+                  <span
+                    className={`${styles.movingShape} ${styles.shapeGold}`}
+                  ></span>
+                  <span
+                    className={`${styles.movingShape} ${styles.shapeBlue}`}
+                  ></span>
+                </span>
+                <button className="p-ripple relative z-10 flex flex-col items-center justify-center px-4 py-1 bg-[var(--background)] hover:bg-[var(--head-hover)] h-[28px] rounded-[7px] w-full h-full min-w-[62px] cursor-pointer">
+                  <span className="text-[0.6rem] text-[#919EAB] font-semibold leading-[1] uppercase tracking-[1px]">
+                    Exp
+                  </span>
+                  <span className="text-[10px] font-bold leading-[1] text-[var(--palette-text-primary)]">
+                    {userBalance?.exposure ?? 0}
+                  </span>
+                  <Ripple
+                    pt={{
+                      root: {
+                        style: { background: "rgba(145, 158, 171, 0.4)" },
+                      },
+                    }}
+                  />
+                </button>
+              </div>
             )}
             {!isLoggedIn && (
               <div className="hidden md:block">
@@ -262,9 +295,16 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
               // </Link>
               <div
                 onClick={() => setLoginModal(true)}
-                className="text-sm leading-[1.71429] cursor-pointer [text-transform:unset] min-w-16 py-[5px] px-3 flex justify-center items-center text-sm border-1 border-[rgba(var(--palette-grey-500Channel)_/_32%)] rounded-[8px] --palette-text-primary  rounded-lg  hover:bg-[rgba(145,158,171,0.08)]   font-bold transition-all duration-300 mr-1"
+                className="p-ripple text-sm leading-[1.71429] cursor-pointer [text-transform:unset] min-w-16 py-[5px] px-3 flex justify-center items-center text-sm border-1 border-[rgba(var(--palette-grey-500Channel)_/_32%)] rounded-[8px] --palette-text-primary  rounded-lg  hover:bg-[rgba(145,158,171,0.08)]   font-bold transition-all duration-300 mr-1"
               >
                 Login
+                <Ripple
+                  pt={{
+                    root: {
+                      style: { background: "rgba(145, 158, 171, 0.4)" },
+                    },
+                  }}
+                />
               </div>
             )}
             {isLoggedIn && (
@@ -288,7 +328,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                       className={`${styles.movingShape} ${styles.shapeBlue}`}
                     ></span>
                   </span>
-                  <button className="relative z-10 flex flex-col items-center justify-center px-4 py-1 bg-[var(--background)] hover:bg-[var(--head-hover)] h-[28px] rounded-[7px] w-full h-full min-w-[62px] cursor-pointer">
+                  <button className="p-ripple relative z-10 flex flex-col items-center justify-center px-4 py-1 bg-[var(--background)] hover:bg-[var(--head-hover)] h-[28px] rounded-[7px] w-full h-full min-w-[62px] cursor-pointer">
                     <span className="text-[0.6rem] text-[#919EAB] font-semibold leading-[1] uppercase tracking-[1px]">
                       Pts
                     </span>
@@ -296,28 +336,54 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                       {hideBalance
                         ? "-"
                         : (
-                          (userBalance?.bankBalance ?? 0) -
-                          (userBalance?.exposure ?? 0)
-                        ).toFixed(2)}
+                            (userBalance?.bankBalance ?? 0) -
+                            (userBalance?.exposure ?? 0)
+                          ).toFixed(2)}
                     </span>
+                    <Ripple
+                      pt={{
+                        root: {
+                          style: { background: "rgba(145, 158, 171, 0.4)" },
+                        },
+                      }}
+                    />
                   </button>
                 </div>
 
                 {isMenuOpen && (
                   <div className="absolute top-0 md:top-[16px] md:top-[38px] right-0 md:right-[10px] w-[250px] bg-[var(--dropdownBg)] rounded-xl  z-[9999999] flex flex-col var(--palette-text-primary) overflow-hidden overflow-y-auto max-md:h-[100vh] md:max-h-[calc(100vh-32px)] border border-[#919eab29] scrollbar-hide">
                     <div className="absolute -top-10 -right-10 w-20 h-20 bg-[#078dee] blur-[60px] opacity-[0.50] pointer-events-none z-0 rounded-full"></div>
-                    <div className="px-4 pt-4 pb-2">
+                    <div
+                      className={cn(
+                        theme === "dark"
+                          ? "shadow-[0_8px_32px_rgba(0,0,0,0.35),_inset_0_0px_0_rgba(255,255,255,0.25),_inset_0_-2px_6px_rgba(255,255,255,0.05)]"
+                          : "shadow-[0_8px_32px_rgba(0,0,0,0.2)]",
+                        "px-4 pt-4 pb-[9px]",
+                      )}
+                    >
                       <h6 className="text-[0.875rem] font-semibold text-[var(--palette-text-primary)] truncate leading-[1.57143]">
                         {userName}
                       </h6>
-                      <p className="text-[0.875rem] leading-[1.57143] text-[var(--dropdowntext)] truncate">
-                        {userName}
-                      </p>
                     </div>
 
                     <hr className="m-0 shrink-0 border-0 border-b border-dashed border-(--dotted-line)" />
 
-                    <div className="flex flex-col gap-2 px-4 pb-4 pt-2">
+                    <div className="flex flex-col gap-2 px-4 py-2.5">
+                      <div className="rounded-[16px] shadow-[0_1px_2px_0_rgb(0_0_0_/_16%)] border-(--dropdown-balance-border) border-[1px]">
+                        <div className="flex flex-col p-2 items-center cursor-pointer">
+                          <p className="text-[0.875rem] leading-[1.25] text-(--secondary-text-color) font-[500] uppercase">
+                            Balance
+                          </p>
+                          <p className="text-[1rem] font-semibold leading-[1.5]">
+                            {hideBalance
+                              ? "-"
+                              : (
+                                  (userBalance?.bankBalance ?? 0) -
+                                  (userBalance?.exposure ?? 0)
+                                ).toFixed(2)}
+                          </p>
+                        </div>
+                      </div>
                       <div className="rounded-[16px] shadow-[0_1px_2px_0_rgb(0_0_0_/_16%)] border-(--dropdown-balance-border) border-[1px]">
                         <div className="flex flex-col p-2 items-center cursor-pointer">
                           <p className="text-[0.875rem] leading-[1.25] text-(--secondary-text-color) font-[500] uppercase">
@@ -328,21 +394,6 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                           </p>
                         </div>
                       </div>
-                      <div className="rounded-[16px] shadow-[0_1px_2px_0_rgb(0_0_0_/_16%)] border-(--dropdown-balance-border) border-[1px]">
-                        <div className="flex flex-col p-2 items-center cursor-pointer">
-                          <p className="text-[0.875rem] leading-[1.25] text-(--secondary-text-color) font-[500] uppercase">
-                            Balance
-                          </p>
-                          <p className="text-[1rem] font-semibold leading-[1.5]">
-                            {hideBalance
-                              ? "-"
-                              : (
-                                (userBalance?.bankBalance ?? 0) -
-                                (userBalance?.exposure ?? 0)
-                              ).toFixed(2)}
-                          </p>
-                        </div>
-                      </div>
                     </div>
 
                     <hr className="m-0 shrink-0 border-0 border-b border-dashed border-(--dotted-line)" />
@@ -350,21 +401,44 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                     {/* Links List */}
                     <ul className="my-2 px-2 flex flex-col">
                       {[
-                        { label: "Change Password", href: "" },
-                        { label: "Statement", href: "/statement" },
-                        { label: "Profit/Loss", href: "/profit-loss" },
-                        { label: "Bets History", href: "/bets-history" },
-                        { label: "Settings", href: "/settings" },
-                        { label: "Activity", href: "/activity" },
+                        {
+                          label: "Change Password",
+                          href: "",
+                          icon: "changepassword",
+                        },
+                        {
+                          label: "Statement",
+                          href: "/statement",
+                          icon: "statement",
+                        },
+                        {
+                          label: "Profit/Loss",
+                          href: "/profit-loss",
+                          icon: "profitloss",
+                        },
+                        {
+                          label: "Bets History",
+                          href: "/bets-history",
+                          icon: "bethistory",
+                        },
+                        {
+                          label: "Settings",
+                          href: "/settings",
+                          icon: "settings",
+                        },
+                        {
+                          label: "Activity",
+                          href: "/activity",
+                          icon: "activity",
+                        },
                       ].map((item, index) => (
                         <li
                           key={index}
-                          className="mb-1 hover:bg-[rgba(145,158,171,0.08)] rounded-[8px] no-underline h-9.5 min-[600px]:h-auto text-[0.875rem] leading-[1.57143px] "
+                          className="p-ripple mb-1 hover:bg-[rgba(145,158,171,0.08)] rounded-[8px]"
                         >
                           <Link
                             prefetch={false}
                             href={item.href}
-                            // onClick={() => setIsMenuOpen(false)}
                             onClick={(e) => {
                               if (item.label === "Change Password") {
                                 e.preventDefault();
@@ -374,9 +448,24 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                                 setIsMenuOpen(false);
                               }
                             }}
-                            className="flex items-center w-full px-2 py-2 text-[0.875rem] leading-[1.57143px] text-[var(--dropdowntext)] hover:text-[var(--palette-text-primary)] hover:bg-transparent transition-colors h-[34px]"
+                            className="flex items-center justify-between w-full px-4 py-2 text-[0.875rem] text-[var(--dropdowntext)] hover:text-[var(--palette-text-primary)] transition-colors h-[34px]"
                           >
-                            <span className="ml-4">{item.label}</span>
+                            {/* Text + 5px space + Icon */}
+                            <div className="flex items-center">
+                              <span>{item.label}</span>
+                              <span className="ml-[5px] flex items-center">
+                                <Icon name={item.icon} className="h-4 w-4" />
+                              </span>
+                            </div>
+                            <Ripple
+                              pt={{
+                                root: {
+                                  style: {
+                                    background: "rgba(145, 158, 171, 0.4)",
+                                  },
+                                },
+                              }}
+                            />
                           </Link>
                         </li>
                       ))}
@@ -386,9 +475,9 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                         onClick={() => {
                           setTheme(theme === "dark" ? "light" : "dark");
                         }}
-                        className="mb-1 no-underline hidden md:block h-9.5 min-[600px]:h-auto text-[0.875rem] leading-[1.57143px] hover:bg-[rgba(145,158,171,0.08)] rounded-[8px]"
+                        className="p-ripple mb-1 no-underline hidden md:block h-9.5 min-[600px]:h-auto text-[0.875rem] leading-[1.57143px] hover:bg-[rgba(145,158,171,0.08)] rounded-[8px]"
                       >
-                        <div className="flex items-center justify-between w-full px-2 text-[14px] text-[var(--dropdowntext)] hover:text-[var(--palette-text-primary)] hover:bg-white/5 transition-colors cursor-pointer">
+                        <div className="flex items-center justify-between w-full px-2 pl-1! text-[14px] text-[var(--dropdowntext)] hover:text-[var(--palette-text-primary)] hover:bg-white/5 transition-colors cursor-pointer">
                           <span className="ml-4">
                             {typeof window !== "undefined" &&
                               (localStorage.getItem("theme") === "dark"
@@ -399,16 +488,23 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                             <ThemeToggle />
                           </span>
                         </div>
+                        <Ripple
+                          pt={{
+                            root: {
+                              style: { background: "rgba(145, 158, 171, 0.4)" },
+                            },
+                          }}
+                        />
                       </li>
 
                       <li
-                        className="mb-1 no-underline hidden md:block h-9.5 min-[600px]:h-auto text-[0.875rem] leading-[1.57143px] hover:bg-[rgba(145,158,171,0.08)] rounded-[8px]"
+                        className="p-ripple mb-1 no-underline  hidden md:block h-9.5 min-[600px]:h-auto text-[0.875rem] leading-[1.57143px] hover:bg-[rgba(145,158,171,0.08)] rounded-[8px]"
                         onClick={() => {
                           setIsMenuOpen(false);
                           router.push("/theme");
                         }}
                       >
-                        <div className="flex items-center justify-between w-full px-2 py-2 text-[14px] text-[var(--dropdowntext)] hover:text-[var(--palette-text-primary)] hover:bg-white/5 transition-colors cursor-pointer">
+                        <div className="flex items-center justify-between w-full px-2 pl-1! py-2 text-[14px] text-[var(--dropdowntext)] hover:text-[var(--palette-text-primary)] hover:bg-white/5 transition-colors cursor-pointer">
                           <span className="ml-4">Theme</span>
                           <span>
                             {theme === "dark" ? (
@@ -424,17 +520,24 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                             )}
                           </span>
                         </div>
+                        <Ripple
+                          pt={{
+                            root: {
+                              style: { background: "rgba(145, 158, 171, 0.4)" },
+                            },
+                          }}
+                        />
                       </li>
 
                       {/* Hide Balance Toggle */}
-                      <li className="mb-1 no-underline h-9.5 min-[600px]:h-[44px] text-[0.875rem] leading-[1.57143px] flex items-center hover:bg-[rgba(145,158,171,0.08)] rounded-[8px]">
-                        <div
-                          className="flex items-center justify-between w-full px-2 text-[14px] text-[var(--dropdowntext)] hover:text-[var(--palette-text-primary)] transition-colors cursor-pointer"
-                          onClick={(e) => {
-                            e.stopPropagation(); // Prevent menu from closing
-                            setHideBalance(!hideBalance);
-                          }}
-                        >
+                      <li
+                        onClick={() => {
+                          // Prevent menu from closing
+                          setHideBalance(!hideBalance);
+                        }}
+                        className="p-ripple mb-1 no-underline h-9.5 min-[600px]:h-[44px] text-[0.875rem] leading-[1.57143px] flex items-center hover:bg-[rgba(145,158,171,0.08)] rounded-[8px]"
+                      >
+                        <div className="flex items-center justify-between w-full px-2 text-[14px] text-[var(--dropdowntext)] hover:text-[var(--palette-text-primary)] transition-colors cursor-pointer">
                           <span className="ml-4">Hide Balance</span>
                           {/* Custom Tailwind Switch */}
                           <span className="w-[58px] h-[38px] flex justify-end items-center">
@@ -447,6 +550,13 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                             </div>
                           </span>
                         </div>
+                        <Ripple
+                          pt={{
+                            root: {
+                              style: { background: "rgba(145, 158, 171, 0.4)" },
+                            },
+                          }}
+                        />
                       </li>
                     </ul>
 
@@ -459,9 +569,16 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
 
                       <button
                         onClick={handleLogout}
-                        className="relative z-10 w-full text-left px-2 py-2 text-[14px] font-bold text-(--dropdown-logout-color) hover:bg-(--dropdown-logout-bg-hover) rounded-lg transition-colors cursor-pointer "
+                        className="p-ripple relative z-10 w-full text-left px-2 py-2 text-[14px] font-bold text-(--dropdown-logout-color) hover:bg-(--dropdown-logout-bg-hover) rounded-lg transition-colors cursor-pointer "
                       >
                         Logout
+                        <Ripple
+                          pt={{
+                            root: {
+                              style: { background: "rgba(145, 158, 171, 0.4)" },
+                            },
+                          }}
+                        />
                       </button>
                     </div>
                   </div>
@@ -501,7 +618,9 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
               >
                 <Icon name="exchange" className="h-4.5 w-4.5 " />
               </span>
-              <span className="relative !top-[-0.5px] ml-[0.3px]">Exchange</span>
+              <span className="relative !top-[-0.5px] ml-[0.3px]">
+                Exchange
+              </span>
             </Link>
 
             <Link
@@ -524,7 +643,8 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
               {/* Live Casino Icon */}
               <span
                 className={cn(
-                  pathName === "/live-casino" && "active text-(--primary-color)",
+                  pathName === "/live-casino" &&
+                    "active text-(--primary-color)",
                   " group-hover:--palette-text-primary  transition-colors mr-[1.8px] ",
                 )}
               >

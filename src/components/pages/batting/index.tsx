@@ -13,7 +13,7 @@ const BettingRoute = () => {
 
   return (
     <div id="bettingRoute.tsx">
-    <div className='mt-8 md-mt-7 min-[960px]:mt-0 min-[1200px]:mt-5'>
+    <div  >
       {/* Breadcrumb jaisa aapne likha tha */}
       <BreadCrumb title="Sport Betting Rules"/>
       
