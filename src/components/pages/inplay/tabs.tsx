@@ -52,11 +52,6 @@ export default function InplaySportNav({
 
         return hasNavMatch && hasEvents;
       })
-      .sort((a: any, b: any) => {
-        const aIndex = navData.indexOf(a?.name?.toLowerCase());
-        const bIndex = navData.indexOf(b?.name?.toLowerCase());
-        return aIndex - bIndex;
-      })
       .map((item: any) => ({
         label: item?.name,
         href: `/game-list/${item?.name}/${item?.id}`,
