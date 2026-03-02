@@ -49,7 +49,7 @@ const FALLBACK_BANNERS = [
   },
 ];
 const STATIC_PLACEHOLDER =
-  "/home-slider/slider-6.jpeg";
+  "/home-slider/slider-6a.jpeg";
 
 // tilt (same direction)
 const TILT_CLASS = "transform-gpu rotate-[2deg] origin-center";
@@ -166,7 +166,7 @@ export default function HomeSlider() {
                     >
                       <div className="relative h-full w-full">
                         <Image
-                        loading="lazy"
+                        priority
                           src={s.verifiedImage}
                           alt={`slide-${i}`}
                           fill
@@ -222,7 +222,7 @@ export default function HomeSlider() {
                     >
                       <div className="relative h-full w-full">
                         <Image
-                        loading="lazy"
+                        priority
                           src={pair.top.verifiedImage}
                           alt={`slide-top-${i}`}
                           fill
@@ -246,7 +246,7 @@ export default function HomeSlider() {
                     >
                       <div className="relative h-full w-full">
                         <Image
-                        loading="lazy"
+                        priority
                           src={pair.bottom.verifiedImage}
                           alt={`slide-bottom-${i}`}
                           fill

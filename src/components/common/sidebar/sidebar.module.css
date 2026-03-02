@@ -453,7 +453,7 @@
   overflow: hidden;
 }
 /* Base State */
-.link,
+/* .link,
 .navLink {
   position: relative;
   overflow: hidden;
@@ -462,37 +462,26 @@
 .navLink::after {
   content: "";
   position: absolute;
-
-  /* Mouse position variables from JS */
   left: var(--x, 50%);
   top: var(--y, 50%);
-
-  /* Circle size */
   width: 20px;
   height: 20px;
   background: rgba(145, 158, 171, 0.4);
   border-radius: 50%;
-
-  /* 1. Start State: Chota dot aur invisible */
   transform: translate(-50%, -50%) scale(0);
   opacity: 0;
-
-  /* Release hone par wapas chota hone ki animation (smooth exit) */
   pointer-events: none;
 }
 
-/* 2. Active State: Jab mouse daba hua ho */
+
 .link:active::after,
 .navLink:active::after {
-  /* Expand hokar bada ho jaye */
   transform: translate(-50%, -50%) scale(20);
   opacity: 1;
-
-  /* Expansion ki speed yahan se control hogi (0.4s mein bada hoga) */
   transition:
     transform 0.2s ease-out,
     opacity 0.1s ease-out;
-}
+} */
 .linkActive .linkText {
   font-weight: 600;
 }

@@ -1,0 +1,132 @@
+.pageWrap {
+  width: 100%;
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 0 0 120px; /* bottom navbar space */
+}
+
+.tabsWrap {
+  margin-bottom: 8px;
+}
+
+/* ---- Tabs: SAME as your password history feel ---- */
+.glass-panel {
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--dotted-line);
+  background: color-mix(in srgb, var(--accordion-bg) 18%, transparent);
+}
+
+.nav-item {
+  padding: 8px 25px;        /* ✅ same as old */
+  border-radius: 15px;      /* ✅ same as old */
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;          /* ✅ same size */
+  font-weight: 500;         /* ✅ same weight */
+  color: var(--tab-default-text);
+  transition: 0.3s;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.nav-item p { margin: 0; }
+
+.active {
+  background: var(--tab-active-bg) !important;
+  color: var(--tab-active-text) !important;
+  border: 1px solid color-mix(in srgb, var(--primary-color) 60%, transparent);
+}
+
+.nav-item:hover {
+  background: color-mix(in srgb, var(--primary-color) 10%, transparent);
+}
+
+/* ---- List area: NO CARD, full width rows ---- */
+.listWrap {
+  width: 100%;
+  padding: 0;
+}
+
+/* each row separated */
+.rowWrap {
+  width: 100%;
+  border-bottom: 1px solid var(--dotted-line);
+}
+
+/* row expanded content padding */
+.rowBody {
+  padding: 8px 0 10px;
+  background: transparent;
+}
+
+
+.nav-link{
+  display: block;
+  width: 100%;
+  cursor: pointer;
+  text-decoration: none;
+
+  color: var(--palette-text-primary);
+  background: transparent;
+
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.4;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+
+  padding: 14px 62px 14px 14px !important;
+  position: relative;
+
+  transition: background 180ms ease, color 180ms ease;
+    --navArrowBtn: clamp(34px, 6.4vw, 44px);     /* old jaisa responsive */
+  --navArrowIcon: clamp(18px, 3.2vw, 24px);
+}
+
+/* Right square button */
+.nav-link::before{
+  content:"";
+  position:absolute;
+  right:14px;
+  top:50%;
+  transform: translateY(-50%);
+
+  width: var(--navArrowBtn);
+  height: var(--navArrowBtn);
+  border-radius: 10px;
+  border: 1px solid var(--dotted-line);
+
+  background: var(--palette-background-paper);
+  box-shadow: 0 1px 0 rgba(0,0,0,0.04);
+}
+
+/* Chevron icon (same as old project / 2nd image) */
+.nav-link::after{
+  content:"";
+  position:absolute;
+  right:14px;
+  top:50%;
+  transform: translateY(-50%);
+
+  width: var(--navArrowBtn);
+  height: var(--navArrowBtn);
+
+  /* ✅ theme color */
+  background-color: var(--arrow-color, var(--palette-text-primary));
+
+  /* ✅ old chevron path (not triangle) */
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' fill-rule='evenodd' d='M9.718 5L17 12l-7.282 7L8 17.348 13.592 12 8 6.652'/%3E%3C/svg%3E")
+    center / var(--navArrowIcon) var(--navArrowIcon) no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' fill-rule='evenodd' d='M9.718 5L17 12l-7.282 7L8 17.348 13.592 12 8 6.652'/%3E%3C/svg%3E")
+    center / var(--navArrowIcon) var(--navArrowIcon) no-repeat;
+
+  transition: transform 180ms ease;
+}
+
+/* rotate when expanded (same behavior) */
+.nav-link.activesport::after{
+  transform: translateY(-50%) rotate(90deg);
+}

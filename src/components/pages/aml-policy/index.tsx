@@ -5,7 +5,7 @@ const AmlPolicyRoute = () => {
   return (
     <>
     <div id="amlPolicyRoute.tsx">
-      <BreadCrumb title="AML" showTitle={false} />
+      <BreadCrumb title="AML" />
       <div className="space-y-4 mt-6">
         <p className="text-center text-[12pt] font-semibold underline font-sans">
           ANTI-MONEY LAUNDERING

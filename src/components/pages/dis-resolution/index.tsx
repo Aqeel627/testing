@@ -9,10 +9,10 @@ const DisResolutionRoute = () => {
     <>
       <div id="dis-resolution.tsx">
         {/* Breadcrumb */}
-        <BreadCrumb title="Dispute Resolution" showTitle={false} />
+        <BreadCrumb title="Dispute Resolution"/>
 
         {/* Main Content */}
-        <div className="w-full mt-6  mx-auto flex flex-col flex-grow scroll-mt-[40px] px-4 md:px-6">
+        <div className="w-full mt-6  mx-auto flex flex-col flex-grow scroll-mt-[40px] px-4 md:px-4">
           {/* Page Heading */}
           <h1 className="text-2xl md:text-[16px] underline font-bold leading-normal text-center mb-6">
             COMPLAINTS AND NOTICES

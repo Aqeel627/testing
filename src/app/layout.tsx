@@ -15,10 +15,15 @@ import { Closebetslip } from "@/components/common/m-betslip/close-betslip";
 import { ToastProvider } from "@/components/common/toast/toast-context";
 import { ToastConnector } from "@/components/common/toast/toast-connector";
 import { ToastContainer } from "@/components/common/toast";
+import { PrimeReactProvider } from "primereact/api";
 // import SearchModal from "@/components/modal/search";
-const MiniCasinoDrawer = dynamic(() => import("@/components/common/mini-casino-drawer"));
+const MiniCasinoDrawer = dynamic(
+  () => import("@/components/common/mini-casino-drawer"),
+);
 const GlobalApisCall = dynamic(() => import("@/lib/providers/global-apis"));
-const NavigationLoader = dynamic(() => import("@/lib/providers/navigation-loader"));
+const NavigationLoader = dynamic(
+  () => import("@/lib/providers/navigation-loader"),
+);
 const SearchModal = dynamic(() => import("@/components/modal/search"));
 
 export const metadata: Metadata = {
@@ -66,6 +71,9 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const value = {
+    ripple: true,
+  };
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
@@ -83,7 +91,10 @@ export default function RootLayout({
         /> */}
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="mobile-web-app-capable" content="yes" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, viewport-fit=cover" />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, viewport-fit=cover"
+        />
       </head>
       <body
         className={`
@@ -107,21 +118,22 @@ export default function RootLayout({
           strategy="afterInteractive"
         />
         {/* <Script src="/js/gestures.js" strategy="afterInteractive"/> */}
-                <ToastProvider>
-
-        <Suspense>
-          <Closebetslip/>
-          <NavigationLoader />
-          <GlobalApisCall />
-          <AuExchThemeProvider>
-             <ToastConnector />
-                    <ToastContainer />
-            {children}
-            <MiniCasinoDrawer />
-            <SearchModal />
-          </AuExchThemeProvider>
-        </Suspense>
-        </ToastProvider>
+        <PrimeReactProvider value={value}>
+          <ToastProvider>
+            <Suspense>
+              <Closebetslip />
+              <NavigationLoader />
+              <GlobalApisCall />
+              <AuExchThemeProvider>
+                <ToastConnector />
+                <ToastContainer />
+                {children}
+                <MiniCasinoDrawer />
+                <SearchModal />
+              </AuExchThemeProvider>
+            </Suspense>
+          </ToastProvider>
+        </PrimeReactProvider>
       </body>
     </html>
   );
