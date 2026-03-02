@@ -13,7 +13,6 @@ import { webSocketService } from "@/lib/websocket.service";
 const GlobalApisCall = () => {
   const {
     setCasinoEvents,
-    setMenuList,
     // setAllEventsList,
     setStakeValue,
     // setOurBanners,
@@ -144,20 +143,6 @@ const mergeSocketWithApi = (apiData: any[], socketData: any[]) => {
       expireIn: CONFIG.getTopCasinoGameTime,
     });
 
-    fetchData({
-      url: CONFIG.menuList,
-      payload: { key: CONFIG.siteKey },
-      cachedKey: "menuList",
-      setFn: setMenuList,
-      expireIn: CONFIG.menuListTime,
-    });
-    fetchData({
-      url: CONFIG.getUserBetStake,
-      payload: { key: CONFIG.siteKey },
-      cachedKey: "betStake",
-      setFn: setStakeValue,
-      expireIn: CONFIG.getUserBetStakeTime,
-    });
     // fetchData({
     //   url: CONFIG.events,
     //   payload: { key: CONFIG.siteKey },
