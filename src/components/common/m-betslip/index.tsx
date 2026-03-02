@@ -92,23 +92,22 @@ export default function MBetSlip() {
   const isBack = type === "back" || type === "yes";
   const isLay = type === "lay" || type === "no";
 
-  const accentVar =
-    type === "yes"
-      ? "#50d0ae"
-      : type === "no"
-        ? "#5baca7"
-        : isBack
-          ? "var(--bs-back-accent)"
-          : "var(--bs-lay-accent)";
+ const isSportsBook = selectedBet?.marketType === "SPORTSBOOK";
+const isLineMarket = selectedBet?.isLineMarket === true && selectedBet?.marketType !== "FANCY";
 
-  const accentBg15 =
-    type === "yes"
-      ? "#50d0ae26"
-      : type === "no"
-        ? "#5baca726"
-        : isBack
-          ? "var(--bs-back-accent-bg15)"
-          : "var(--bs-lay-accent-bg15)";
+const accentVar =
+  isSportsBook || isLineMarket
+    ? isBack ? "#50d0ae" : "#5baca7"
+    : isBack
+      ? "var(--bs-back-accent)"
+      : "var(--bs-lay-accent)";
+
+const accentBg15 =
+  isSportsBook || isLineMarket
+    ? isBack ? "#50d0ae26" : "#5baca726"
+    : isBack
+      ? "var(--bs-back-accent-bg15)"
+      : "var(--bs-lay-accent-bg15)";
 
   const profitOrLiability =
     stake > 0 && odds > 1 ? ((odds - 1) * stake).toFixed(2) : "0.00";
