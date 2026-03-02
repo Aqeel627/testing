@@ -224,12 +224,37 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
 
           <div className="flex items-center gap-2 sm:gap-[6px]">
             {isLoggedIn && (
-              <button
-                onClick={toggleBets}
-                className="inline-flex items-center justify-center relative box-border cursor-pointer select-none align-middle appearance-none font-sans font-bold leading-[1.71429] normal-case min-w-[64px] text-[0.8125rem] h-[30px] outline-none m-0 no-underline rounded-lg border border-solid py-[3px] px-1 min-[600px]:px-[8px] transition-all duration-[250ms] ease-[cubic-bezier(0.4,0,0.2,1)] bg-transparent hover:border-[1px] hover:border-[#078dee] text-[#078DEE] border-[#078dee7a] hover:bg-blue-600/5 hover:shadow-[0px_0px_0px_0.75px_currentColor]"
-              >
-                Bets
-              </button>
+              // <button
+              //   onClick={toggleBets}
+              //   className="inline-flex items-center justify-center relative box-border cursor-pointer select-none align-middle appearance-none font-sans font-bold leading-[1.71429] normal-case min-w-[64px] text-[0.8125rem] h-[30px] outline-none m-0 no-underline rounded-lg border border-solid py-[3px] px-1 min-[600px]:px-[8px] transition-all duration-[250ms] ease-[cubic-bezier(0.4,0,0.2,1)] bg-transparent hover:border-[1px] hover:border-[#078dee] text-[#078DEE] border-[#078dee7a] hover:bg-blue-600/5 hover:shadow-[0px_0px_0px_0.75px_currentColor]"
+              // >
+              //   Bets
+              // </button>
+              <div className="relative inline-flex items-center justify-center h-[29px] rounded-[8px] p-[1px] overflow-hidden bg-transparent group cursor-pointer max-w-16">
+                <span
+                  className="absolute inset-0 m-auto w-full h-full rounded-[inherit] content-[''] pointer-events-none 
+        [mask:linear-gradient(#fff_0_0)_content-box_xor,linear-gradient(#fff_0_0)] 
+        -webkit-[mask:linear-gradient(#fff_0_0)_content-box_xor,linear-gradient(#fff_0_0)]"
+                >
+                  <span className="absolute inset-0 bg-white/10 opacity-20"></span>
+
+                  {/* 👇 Dono shapes with exact colors */}
+                  <span
+                    className={`${styles.movingShape} ${styles.shapeGold}`}
+                  ></span>
+                  <span
+                    className={`${styles.movingShape} ${styles.shapeBlue}`}
+                  ></span>
+                </span>
+                <button className="relative z-10 flex flex-col items-center justify-center px-4 py-1 bg-[var(--background)] hover:bg-[var(--head-hover)] h-[28px] rounded-[7px] w-full h-full min-w-[62px] cursor-pointer">
+                  <span className="text-[0.6rem] text-[#919EAB] font-semibold leading-[1] uppercase tracking-[1px]">
+                    Exp
+                  </span>
+                  <span className="text-[10px] font-bold leading-[1] text-[var(--palette-text-primary)]">
+                    {userBalance?.exposure ?? 0}
+                  </span>
+                </button>
+              </div>
             )}
             {!isLoggedIn && (
               <div className="hidden md:block">
