@@ -57,7 +57,7 @@ export default function LoginPage() {
 
   return (
     <section className="drawer">
-      <div className="flex justify-between items-center px-4 min-[600]:px-6 h-12">
+      <div className="flex relative justify-between items-center px-4 min-[600]:px-6 h-12">
         <Link href="/">
           <Image
             src={
@@ -68,6 +68,7 @@ export default function LoginPage() {
             alt="GJEXCH Logo"
             width={152}
             height={1000}
+            loading="lazy"
             className="object-contain h-13 min-[600]:mx-2 mx-1"
           />
         </Link>
@@ -92,7 +93,7 @@ export default function LoginPage() {
           }}
 
         >
-          <h2 className="text-[32px] font-bold">Hi, Welcome back</h2>
+          <h2 className="relative text-[32px] font-bold">Hi, Welcome back</h2>
           <Image
             src={
               theme === "dark"
@@ -102,6 +103,7 @@ export default function LoginPage() {
             alt="GJEXCH Logo"
             width={304}
             height={1000}
+            loading="lazy"
             className="object-contain aspect-4/3"
           />
         </div>
