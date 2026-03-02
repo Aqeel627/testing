@@ -88,7 +88,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
         className={cn(
           "w-full glass-header  --palette-text-primary  sticky top-0 z-[9999999]",
           theme === "light" &&
-          "backdrop-blur-[10px]! bg-linear-to-br! from-white/25! to-white/5! border-b! border-[rgb(205_192_192/0.4)]! shadow-[0_8px_32px_rgba(0,0,0,0.2)]!",
+            "backdrop-blur-[10px]! bg-linear-to-br! from-white/25! to-white/5! border-b! border-[rgb(205_192_192/0.4)]! shadow-[0_8px_32px_rgba(0,0,0,0.2)]!",
         )}
       >
         <div className="max-w-[1600px] mx-auto px-2 h-12 flex items-center justify-between">
@@ -321,9 +321,9 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                       {hideBalance
                         ? "-"
                         : (
-                          (userBalance?.bankBalance ?? 0) -
-                          (userBalance?.exposure ?? 0)
-                        ).toFixed(2)}
+                            (userBalance?.bankBalance ?? 0) -
+                            (userBalance?.exposure ?? 0)
+                          ).toFixed(2)}
                     </span>
                   </button>
                 </div>
@@ -331,7 +331,14 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                 {isMenuOpen && (
                   <div className="absolute top-0 md:top-[16px] md:top-[38px] right-0 md:right-[10px] w-[250px] bg-[var(--dropdownBg)] rounded-xl  z-[9999999] flex flex-col var(--palette-text-primary) overflow-hidden overflow-y-auto max-md:h-[100vh] md:max-h-[calc(100vh-32px)] border border-[#919eab29] scrollbar-hide">
                     <div className="absolute -top-10 -right-10 w-20 h-20 bg-[#078dee] blur-[60px] opacity-[0.50] pointer-events-none z-0 rounded-full"></div>
-                    <div className="px-4 pt-4 pb-[9px]">
+                    <div
+                      className={cn(
+                        theme === "dark"
+                          ? "shadow-[0_8px_32px_rgba(0,0,0,0.35),_inset_0_0px_0_rgba(255,255,255,0.25),_inset_0_-2px_6px_rgba(255,255,255,0.05)]"
+                          : "shadow-[0_8px_32px_rgba(0,0,0,0.2)]",
+                        "px-4 pt-4 pb-[9px]",
+                      )}
+                    >
                       <h6 className="text-[0.875rem] font-semibold text-[var(--palette-text-primary)] truncate leading-[1.57143]">
                         {userName}
                       </h6>
@@ -349,9 +356,9 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                             {hideBalance
                               ? "-"
                               : (
-                                (userBalance?.bankBalance ?? 0) -
-                                (userBalance?.exposure ?? 0)
-                              ).toFixed(2)}
+                                  (userBalance?.bankBalance ?? 0) -
+                                  (userBalance?.exposure ?? 0)
+                                ).toFixed(2)}
                           </p>
                         </div>
                       </div>
@@ -523,7 +530,9 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
               >
                 <Icon name="exchange" className="h-4.5 w-4.5 " />
               </span>
-              <span className="relative !top-[-0.5px] ml-[0.3px]">Exchange</span>
+              <span className="relative !top-[-0.5px] ml-[0.3px]">
+                Exchange
+              </span>
             </Link>
 
             <Link
@@ -546,7 +555,8 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
               {/* Live Casino Icon */}
               <span
                 className={cn(
-                  pathName === "/live-casino" && "active text-(--primary-color)",
+                  pathName === "/live-casino" &&
+                    "active text-(--primary-color)",
                   " group-hover:--palette-text-primary  transition-colors mr-[1.8px] ",
                 )}
               >
