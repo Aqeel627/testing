@@ -400,51 +400,75 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
 
                     {/* Links List */}
                     <ul className="my-2 px-2 flex flex-col">
-  {[
-    { label: "Change Password", href: "", icon: "changepassword" },
-    { label: "Statement", href: "/statement", icon: "statement" },
-    { label: "Profit/Loss", href: "/profit-loss", icon: "profitloss" },
-    { label: "Bets History", href: "/bets-history", icon: "bethistory" },
-    { label: "Settings", href: "/settings", icon: "settings" },
-    { label: "Activity", href: "/activity", icon: "activity" },
-  ].map((item, index) => (
-    <li
-      key={index}
-      className="p-ripple mb-1 hover:bg-[rgba(145,158,171,0.08)] rounded-[8px]"
-    >
-      <Link
-        prefetch={false}
-        href={item.href}
-        onClick={(e) => {
-          if (item.label === "Change Password") {
-            e.preventDefault();
-            openPasswordModal();
-            setIsMenuOpen(false);
-          } else {
-            setIsMenuOpen(false);
-          }
-        }}
-        className="flex items-center justify-between w-full px-4 py-2 text-[0.875rem] text-[var(--dropdowntext)] hover:text-[var(--palette-text-primary)] transition-colors h-[34px]"
-      >
-        {/* Text + 5px space + Icon */}
-        <div className="flex items-center">
-          <span>{item.label}</span>
-          <span className="ml-[5px] flex items-center">
-            <Icon name={item.icon} className="h-4 w-4" />
-          </span>
-        </div>
-        <Ripple
-                            pt={{
-                              root: {
-                                style: {
-                                  background: "rgba(145, 158, 171, 0.4)",
-                                },
-                              },
+                      {[
+                        {
+                          label: "Change Password",
+                          href: "",
+                          icon: "changepassword",
+                        },
+                        {
+                          label: "Statement",
+                          href: "/statement",
+                          icon: "statement",
+                        },
+                        {
+                          label: "Profit/Loss",
+                          href: "/profit-loss",
+                          icon: "profitloss",
+                        },
+                        {
+                          label: "Bets History",
+                          href: "/bets-history",
+                          icon: "bethistory",
+                        },
+                        {
+                          label: "Settings",
+                          href: "/settings",
+                          icon: "settings",
+                        },
+                        {
+                          label: "Activity",
+                          href: "/activity",
+                          icon: "activity",
+                        },
+                      ].map((item, index) => (
+                        <li
+                          key={index}
+                          className="p-ripple mb-1 hover:bg-[rgba(145,158,171,0.08)] rounded-[8px]"
+                        >
+                          <Link
+                            prefetch={false}
+                            href={item.href}
+                            onClick={(e) => {
+                              if (item.label === "Change Password") {
+                                e.preventDefault();
+                                openPasswordModal();
+                                setIsMenuOpen(false);
+                              } else {
+                                setIsMenuOpen(false);
+                              }
                             }}
-                          />
-      </Link>
-    </li>
-  ))}
+                            className="flex items-center justify-between w-full px-4 py-2 text-[0.875rem] text-[var(--dropdowntext)] hover:text-[var(--palette-text-primary)] transition-colors h-[34px]"
+                          >
+                            {/* Text + 5px space + Icon */}
+                            <div className="flex items-center">
+                              <span>{item.label}</span>
+                              <span className="ml-[5px] flex items-center">
+                                <Icon name={item.icon} className="h-4 w-4" />
+                              </span>
+                            </div>
+                            <Ripple
+                              pt={{
+                                root: {
+                                  style: {
+                                    background: "rgba(145, 158, 171, 0.4)",
+                                  },
+                                },
+                              }}
+                            />
+                          </Link>
+                        </li>
+                      ))}
 
                       {/* Theme Option (Static Icon for now) */}
                       <li
@@ -474,7 +498,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                       </li>
 
                       <li
-                        className="p-ripple mb-1 no-underline hidden md:block h-9.5 min-[600px]:h-auto text-[0.875rem] leading-[1.57143px] hover:bg-[rgba(145,158,171,0.08)] rounded-[8px]"
+                        className="p-ripple mb-1 no-underline  hidden md:block h-9.5 min-[600px]:h-auto text-[0.875rem] leading-[1.57143px] hover:bg-[rgba(145,158,171,0.08)] rounded-[8px]"
                         onClick={() => {
                           setIsMenuOpen(false);
                           router.push("/theme");
@@ -504,7 +528,11 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                           }}
                         />
                       </li>
+
                       {/* Hide Balance Toggle */}
+                      <li
+                        onClick={() => {
+                          // Prevent menu from closing
                           setHideBalance(!hideBalance);
                         }}
                         className="p-ripple mb-1 no-underline h-9.5 min-[600px]:h-[44px] text-[0.875rem] leading-[1.57143px] flex items-center hover:bg-[rgba(145,158,171,0.08)] rounded-[8px]"
