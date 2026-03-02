@@ -1,0 +1,283 @@
+/* src/components/common/my-bets/match-odd.module.css */
+
+.root {
+  width: 100%;
+  color: var(--palette-text-primary);
+}
+
+.scrollArea {
+  width: 100%;
+}
+
+/* Market header bar */
+.odds-header {
+  padding: 8px 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  font-size: 14px;
+  font-weight: 800;
+  text-decoration: none;
+  cursor: pointer;
+
+  height: 38px;
+
+  background: var(--market-header-bg);
+  color: var(--table-header-text);
+  border: 1px solid var(--dotted-line);
+  border-left: 0;
+  border-right: 0;
+}
+
+.odds-header i {
+  color: var(--arrow-color);
+}
+
+/* Row wrapper */
+.unmatch-wrapper {
+  padding: 10px 12px;
+  background: var(--palette-background-paper);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  border-bottom: 1px solid var(--dotted-line);
+  font-size: 14px;
+}
+
+.unmatch-heading-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--palette-text-primary);
+  font-weight: 800;
+}
+
+.Cancel {
+  color: var(--palette-text-primary);
+  font-weight: 900;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.count {
+  padding: 2px 6px;
+  background-color: var(--palette-error-main);
+  border-radius: 6px;
+  color: #fff;
+  font-weight: 900;
+  font-size: 12px;
+}
+
+/* Bet row */
+.market-icon-wrapper {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  color: var(--palette-text-primary);
+  cursor: pointer;
+  width: 100%;
+  position: relative;
+}
+
+.market-icon {
+  font-size: 12px;
+  color: var(--arrow-color);
+}
+
+.unmatch-market {
+  display: flex;
+  flex-direction: column;
+  color: var(--palette-text-primary);
+  font-weight: 800;
+  min-width: 0;
+}
+
+.market-name {
+  opacity: 0.9;
+  line-height: 16px;
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.market-price {
+  line-height: 16px;
+  font-size: 12px;
+  font-weight: 600;
+  opacity: 0.9;
+}
+
+.market-price span {
+  font-weight: 900;
+}
+
+/* Keep Back/Lay colors SAME */
+.back-clr {
+  color: #03b2ff;
+}
+.Lay-clr {
+  color: #ff7a7f;
+}
+
+.market-detail {
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--palette-text-secondary);
+}
+
+/* toggle row */
+.check-box-wrapper {
+  display: flex;
+  gap: 10px;
+  color: var(--palette-text-primary);
+  align-items: center;
+  font-weight: 700;
+}
+
+.form-check {
+  min-height: 1.1em !important;
+}
+
+/* Toggle switch (Average Odds) theme based */
+.form-check-input {
+  width: 42px;
+  height: 22px;
+  border-radius: 999px;
+  border: 1px solid var(--dotted-line);
+  background-color: color-mix(in srgb, var(--accordion-bg) 35%, transparent);
+  appearance: none;
+  -webkit-appearance: none;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.form-check-input::before {
+  content: "";
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--primary-color) 55%, #9aa4ad);
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  transition: transform 0.2s ease;
+}
+
+.form-check-input:checked {
+  border-color: color-mix(in srgb, var(--primary-color) 70%, transparent);
+  background-color: color-mix(in srgb, var(--primary-color) 18%, transparent);
+}
+
+.form-check-input:checked::before {
+  transform: translateX(20px);
+  background: var(--primary-color);
+}
+
+/* Left border accents same */
+.market-back-border {
+  border-left: 3px solid #03b2ff;
+}
+
+.market-lay-border {
+  border-left: 3px solid #ff7a7f;
+}
+
+.rotate-arrow {
+  transform: rotate(180deg) !important;
+}
+
+.transition {
+  transition: 300ms all;
+}
+
+.hr {
+  color: var(--dotted-line);
+  height: 4px;
+  margin: 0px;
+}
+
+/* footer button */
+.viewMarket {
+  color: var(--palette-text-primary);
+  text-decoration: none;
+  font-size: 14px;
+  height: 40px;
+  background: color-mix(in srgb, var(--accordion-bg) 25%, transparent);
+  align-items: center;
+  padding: 10px 12px;
+  border-top: 1px solid var(--dotted-line);
+  cursor: pointer;
+}
+
+.view-market-text {
+  width: 100%;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.cancelPosition {
+  position: absolute;
+  right: 10px;
+}
+
+/* matched badge green same */
+.matched-count {
+  background-color: #269b54;
+}
+
+.mt-1 {
+  margin-top: 4px;
+}
+
+.hideDesktop {
+  display: block;
+}
+
+@media screen and (min-width: 992px) {
+  .hideDesktop {
+    display: none !important;
+  }
+}
+.viewMarketRow{
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  padding: 14px 44px 14px 14px; /* right side only arrow space */
+  border-top: 1px solid var(--dotted-line);
+
+  background: var(--palette-background-paper);
+  color: var(--palette-text-primary);
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.viewMarketText{
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--palette-text-primary);
+}
+
+/* ✅ Only chevron on right (no square box) */
+.viewMarketRow::after{
+  content:"";
+  position:absolute;
+  right:16px;
+  top:50%;
+  transform: translateY(-50%);
+
+  width: 22px;
+  height: 22px;
+
+  background-color: var(--arrow-color, var(--palette-text-primary));
+
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' fill-rule='evenodd' d='M9.718 5L17 12l-7.282 7L8 17.348 13.592 12 8 6.652'/%3E%3C/svg%3E")
+    center / 22px 22px no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' fill-rule='evenodd' d='M9.718 5L17 12l-7.282 7L8 17.348 13.592 12 8 6.652'/%3E%3C/svg%3E")
+    center / 22px 22px no-repeat;
+}
