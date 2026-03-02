@@ -21,7 +21,7 @@ interface CompetitionPageProps {
 
 const CompetitionPage = ({ params }: CompetitionPageProps) => {
   const { sport, competition } = use(params);
-  const { eventsBySocket } = useIndexManagerStore();
+  const { allEventsList } = useIndexManagerStore();
 
   const sportId = SPORT_IDS[sport.toLowerCase()];
   const sportName = sport.charAt(0).toUpperCase() + sport.slice(1);
@@ -30,9 +30,9 @@ const CompetitionPage = ({ params }: CompetitionPageProps) => {
   const competitionId = decodeURIComponent(competition);
 
   const sportEvents: any[] = useMemo(() => {
-    if (!sportId || !eventsBySocket) return [];
-    return eventsBySocket[sportId] ?? [];
-  }, [eventsBySocket, sportId]);
+    if (!sportId || !allEventsList) return [];
+    return allEventsList[sportId] ?? [];
+  }, [allEventsList, sportId]);
 
   // ✅ Filter by competition.id instead of name
   const competitionEvents = useMemo(() => {
@@ -44,7 +44,7 @@ const CompetitionPage = ({ params }: CompetitionPageProps) => {
   // Get competition display name from first matched event
   const displayName = competitionEvents[0]?.competition?.name || "Competition";
 
-  if (!eventsBySocket) return <p className="text-white p-4">Loading...</p>;
+  if (!allEventsList) return <p className="text-white p-4">Loading...</p>;
 
   if (!competitionEvents.length)
     return (

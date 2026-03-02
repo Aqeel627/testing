@@ -27,7 +27,7 @@ function highlight(text: string, query: string) {
 export default function SearchModal() {
   const isOpenSearch = useUIStore((s) => s.isOpenSearch);
   const toggleSearch = useUIStore((s) => s.toggleSearch);
-  const { eventsBySocket } = useIndexManagerStore();
+  const { allEventsList } = useIndexManagerStore();
 
   const inputRef = useRef<HTMLInputElement>(null);
   const modalRef = useRef<HTMLDivElement>(null); // 👈 Modal reference
@@ -39,9 +39,9 @@ export default function SearchModal() {
   };
 
   useEffect(() => {
-    // console.log(eventsBySocket, "events all in search modal");
-    // console.log("type:", typeof eventsBySocket);
-  }, [eventsBySocket]);
+    // console.log(allEventsList, "events all in search modal");
+    // console.log("type:", typeof allEventsList);
+  }, [allEventsList]);
 
   /* -------------------- CMD+K SHORTCUT -------------------- */
   useEffect(() => {
@@ -103,7 +103,7 @@ export default function SearchModal() {
 
   /* -------------------- DATA -------------------- */
   const filteredResults = useMemo(() => {
-    const eventsArray: any[] = Object.values(eventsBySocket || {})
+    const eventsArray: any[] = Object.values(allEventsList || {})
       .filter(Array.isArray)
       .flat();
 
@@ -117,7 +117,7 @@ export default function SearchModal() {
         item?.eventType?.name?.toLowerCase().includes(q) ||
         item?.marketType?.toLowerCase().includes(q),
     );
-  }, [query, eventsBySocket]);
+  }, [query, allEventsList]);
 
   return (
     <Dialog.Root open={isOpenSearch} onOpenChange={toggleSearch}>

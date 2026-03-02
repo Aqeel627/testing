@@ -67,7 +67,10 @@ const SportsBreadCrumb = ({ title, subtitle }: BreadCrumbProps) => {
       competitions?.filter(
         (item: any) => String(item?.eventType?.id) === String(eventTypeId),
       ) ?? [];
-    setCompetition(filtered);
+    const uniqueCompetitions = [
+      ...new Map(filtered?.map((item:any) => [item?.competition?.id, item]))?.values(),
+    ];
+    setCompetition(uniqueCompetitions);
     return filtered;
   }
 
@@ -75,14 +78,13 @@ const SportsBreadCrumb = ({ title, subtitle }: BreadCrumbProps) => {
     if (!eventTypes?.length) return;
     const selectedEvent = eventTypes?.find(
       (item: any) =>
-        String(item?.eventType?.name || "").toLowerCase() ===
+        String(item?.name || "").toLowerCase() ===
         String(defaultSportName || "").toLowerCase(),
     );
-
     if (!selectedEvent) return;
 
-    setSelectedEventType(selectedEvent.eventType.name);
-    filterCompetitions(selectedEvent.eventType.id);
+    setSelectedEventType(selectedEvent?.name);
+    filterCompetitions(selectedEvent?.id);
   }, [eventTypes, defaultSportName]);
 
   useEffect(() => {
@@ -158,8 +160,7 @@ const SportsBreadCrumb = ({ title, subtitle }: BreadCrumbProps) => {
                       className={`text-sm w-full text-nowrap text-left relative bg-transparent cursor-pointer gap-2 font-semibold transition px-2 py-1.5 rounded-[6px] ${
                         (selectedEventType &&
                           selectedEventType === item?.name) ||
-                        (!selectedEventType &&
-                          defaultSportName === item?.name)
+                        (!selectedEventType && defaultSportName === item?.name)
                           ? "bg-[rgba(255,255,255,0.25)]! text-(--primary-color)"
                           : "hover:bg-[rgba(255,255,255,0.25)]"
                       }`}
