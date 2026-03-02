@@ -96,6 +96,15 @@ const GlobalApisCall = () => {
 
       if (!socketUpdate) return apiItem;
 
+      // old 
+      //   return apiData?.map((apiItem: any) => {
+      //   const socketUpdate = socketData.find(
+      //     (sItem: any) => sItem?.marketId === apiItem?.marketId,
+      //   );
+
+      //   return socketUpdate ? { ...apiItem, ...socketUpdate } : apiItem;
+      // });  // old
+
       // ✅ Extract runners from socket payload
       const exMap = socketUpdate.ex || {};
       const ptMap = socketUpdate.pt || {};
