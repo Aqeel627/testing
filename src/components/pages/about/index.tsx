@@ -93,10 +93,10 @@ export default function About() {
         <Section id="contact-us" title="Contact Us">
           Have questions? Reach out anytime at{" "}
           <a
-            href="mailto:support@dollar365.com"
+            href="mailto:support@gjexch.com"
             className="text-blue-500 underline"
           >
-            {/* support@dollar365.com */}
+            {/* support@gjexch.com */}
           </a>
         </Section>
       </div>
