@@ -38,7 +38,7 @@ const GlobalApisCall = () => {
   DisableZoom();
 
   const startSocketFlow = (marketIds: string[]): Promise<any[]> => {
-    console.log("🚀 Starting socket for:", marketIds);
+    // console.log("🚀 Starting socket for:", marketIds);
 
     return new Promise((resolve, reject) => {
       const received = new Set<string>();
@@ -62,17 +62,18 @@ const GlobalApisCall = () => {
             combined.push(payload);
           }
 
-          console.log("📦 Received:", marketId);
+          // console.log("📦 Received:", marketId);
 
           // ✅ When ALL market data received
-          if (received.size === marketIds.length) {
-            console.log("✅ ALL MARKET DATA RECEIVED ✅");
-            console.log("🔥 FINAL SOCKET DATA:", combined);
+          if (received.size) {
+            // if (received.size === marketIds.length) {
+            // console.log("✅ ALL MARKET DATA RECEIVED ✅");
+            // console.log("🔥 FINAL SOCKET DATA:", combined);
 
             socketDataRef.current = combined;
 
             webSocketService.unsubscribeMarket(marketIds);
-            console.log("🛑 Socket closed.");
+            // console.log("🛑 Socket closed.");
 
             // ⭐ RETURN DATA HERE
             resolve(combined);
@@ -85,43 +86,43 @@ const GlobalApisCall = () => {
     });
   };
 
-const mergeSocketWithApi = (apiData: any[], socketData: any[]) => {
-  if (!socketData || socketData.length === 0) return apiData;
+  const mergeSocketWithApi = (apiData: any[], socketData: any[]) => {
+    if (!socketData || socketData.length === 0) return apiData;
 
-  return apiData.map((apiItem: any) => {
-    const socketUpdate = socketData.find(
-      (sItem: any) => sItem.marketId === apiItem.marketId
-    );
+    return apiData.map((apiItem: any) => {
+      const socketUpdate = socketData.find(
+        (sItem: any) => sItem.marketId === apiItem.marketId
+      );
 
-    if (!socketUpdate) return apiItem;
+      if (!socketUpdate) return apiItem;
 
-    // ✅ Extract runners from socket payload
-    const exMap = socketUpdate.ex || {};
-    const ptMap = socketUpdate.pt || {};
+      // ✅ Extract runners from socket payload
+      const exMap = socketUpdate.ex || {};
+      const ptMap = socketUpdate.pt || {};
 
-    const runners = Object.keys(exMap).map((selectionId) => {
-      const exEntry = exMap[selectionId];
+      const runners = Object.keys(exMap).map((selectionId) => {
+        const exEntry = exMap[selectionId];
+
+        return {
+          selectionId: Number(selectionId),
+          status: exEntry.status || "ACTIVE",
+          lastPriceTraded: exEntry.lastPriceTraded || 0,
+          totalMatched: exEntry.totalMatched || 0,
+          ex: {
+            availableToBack: exEntry.availableToBack || [],
+            availableToLay: exEntry.availableToLay || [],
+          },
+        };
+      });
 
       return {
-        selectionId: Number(selectionId),
-        status: exEntry.status || "ACTIVE",
-        lastPriceTraded: exEntry.lastPriceTraded || 0,
-        totalMatched: exEntry.totalMatched || 0,
-        ex: {
-          availableToBack: exEntry.availableToBack || [],
-          availableToLay: exEntry.availableToLay || [],
-        },
+        ...apiItem,
+        status: socketUpdate.status || apiItem.status,
+        totalMatched: socketUpdate.totalMatched || apiItem.totalMatched,
+        runners, // ✅ FULL runners array injected here
       };
     });
-
-    return {
-      ...apiItem,
-      status: socketUpdate.status || apiItem.status,
-      totalMatched: socketUpdate.totalMatched || apiItem.totalMatched,
-      runners, // ✅ FULL runners array injected here
-    };
-  });
-};
+  };
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -223,14 +224,14 @@ const mergeSocketWithApi = (apiData: any[], socketData: any[]) => {
               .filter(Boolean)
               .map(String);
 
-            console.log("✅ Extracted MarketIds:", marketIds);
+            // console.log("✅ Extracted MarketIds:", marketIds);
 
             let socketData: any[] = [];
             // ✅ Start socket only once
             if (!socketStartedRef.current && marketIds.length) {
               socketStartedRef.current = true;
               socketData = await startSocketFlow(marketIds);
-              console.log(data, "data data data");
+              // console.log(data, "data data data");
             }
 
             // ✅ Use socketData instead of original data
@@ -239,9 +240,9 @@ const mergeSocketWithApi = (apiData: any[], socketData: any[]) => {
             //     ? socketDataRef.current
             //     : data;
 
-            const finalData=mergeSocketWithApi(data, socketData);
+            const finalData = mergeSocketWithApi(data, socketData);
 
-            console.log(finalData, "finalData");
+            console.log(finalData, "get finalData from socket");
 
             return finalData.reduce((acc: any, item: any) => {
               const id = item?.eventType?.id;
