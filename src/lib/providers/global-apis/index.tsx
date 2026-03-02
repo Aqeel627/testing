@@ -105,6 +105,17 @@ const GlobalApisCall = () => {
       //   return socketUpdate ? { ...apiItem, ...socketUpdate } : apiItem;
       // });  // old
 
+      // 
+      apiData?.map((apiItem: any) => {
+        const socketUpdate = socketData.find(
+          (sItem: any) => sItem?.marketId === apiItem?.marketId,
+        );
+
+        const beforeMergeRunners = socketUpdate ? { ...apiItem, ...socketUpdate } : apiItem;
+        console.log(beforeMergeRunners, "data before merge runners");
+      });
+      // 
+
       // ✅ Extract runners from socket payload
       const exMap = socketUpdate.ex || {};
       const ptMap = socketUpdate.pt || {};
