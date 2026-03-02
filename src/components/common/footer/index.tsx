@@ -28,6 +28,10 @@ export default function Footer() {
                   100% SAFE
                 </p>
 
+                <p className="mt-[0px] text-[13px] mb-[1px] font-semibold leading-[19px] dark:text-[white]">
+                  Version 1.0.0
+                </p>
+
                 <p className="mb-[7px] max-[899px]:mb-[9px] text-[13px] leading-[19px] dark:text-[white] lg:mb-2  max-[900px]:w-[176px]">
                   Protected connection and encrypted data.
                 </p>

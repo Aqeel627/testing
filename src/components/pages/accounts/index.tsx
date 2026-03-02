@@ -276,8 +276,8 @@ const accountData = [
 const AccountPage = () => {
   return (
     <div id="accountPage.tsx">
-    <div className='mt-8 md-mt-7 min-[960px]:mt-0 min-[1200px]:mt-5'>
-      <BreadCrumb title="Accounts" showTitle={false} />
+    <div  >
+      <BreadCrumb title="Accounts" />
       <div className="w-full mx-auto flex flex-col flex-grow scroll-mt-[40px] py-4 mt-4 md:mt-[-8px] min-[900px]:mt-6 min-[1200px]:mt-10">
 
         <div className="MuiBox-root css-0 text-(--primary-text-color)">

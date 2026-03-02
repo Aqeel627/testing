@@ -53,8 +53,8 @@ const exclusionData = [
 const ExclusionPage = () => {
   return (
     <div id="exclusion.tsx">
-      <div className="mt-8 md-mt-7 min-[900px]:mt-0 min-[1200px]:mt-5">
-        <BreadCrumb title="Self Exclusion" showTitle={false} />
+      <div className="">
+        <BreadCrumb title="Self Exclusion"/>
         <div className="w-full mx-auto flex flex-col flex-grow scroll-mt-[40px] py-4 mt-4 min-[900px]:mt-6 min-[1200px]:mt-6">
           <div className="MuiBox-root css-0 text-(--primary-text-color)">
             {/* Mapping the array to render paragraphs dynamically */}

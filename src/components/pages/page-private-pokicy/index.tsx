@@ -149,8 +149,8 @@ const PrivatPolicyPage = () => {
 
   return (
     <div id="private-policy.tsx">
-      <div className="mt-8 md-mt-7 min-[960px]:mt-0 min-[1200px]:mt-5">
-        <BreadCrumb title="Privacy Policy" showTitle={false} />
+      <div  >
+        <BreadCrumb title="Privacy Policy" />
         <div className="w-full mx-auto flex flex-col flex-grow scroll-mt-[40px] py-4 mt-4 md:mt-[-8px] min-[900px]:mt-6 min-[1200px]:mt-6">
           <h1 className="text-[16px] text-center font-bold leading-normal underline uppercase flex items-center justify-center md:my-4 mb-4">
             PRIVACY AND MANAGEMENT OF PERSONAL DATA
