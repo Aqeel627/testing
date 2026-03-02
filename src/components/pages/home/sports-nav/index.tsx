@@ -23,7 +23,6 @@ export default function SportsNav({
 }: {
   setSelectedEvent: (value: string) => void;
 }) {
-  // const { menuList } = useAppStore();
   const { eventTypes } = useIndexManagerStore();
   const router = useRouter();
 
@@ -40,29 +39,6 @@ export default function SportsNav({
     height: 0,
     opacity: 0,
   });
-
-  // const navItems = useMemo<NavItem[]>(() => {
-  //   if (!menuList?.eventTypes) return [];
-
-  //   const dynamicItems = menuList.eventTypes
-  //     .filter((item: any) =>
-  //       NAV_DATA.includes(item?.eventType?.name?.toLowerCase())
-  //     )
-  //     .map((item: any) => ({
-  //       label: item?.eventType?.name,
-  //       href: `/game-list/${item?.eventType?.name}/${item?.eventType?.id}`,
-  //       id: item?.eventType?.id,
-  //     }));
-
-  //   // ✅ Static Horse Racing Add
-  //   const horseRacingItem: NavItem = {
-  //     label: "Horse Racing",
-  //     href: "/horse-racing",
-  //     id: "4339",
-  //   };
-
-  //   return [...dynamicItems, horseRacingItem];
-  // }, [menuList?.eventTypes]);
   const navItems = useMemo<NavItem[]>(() => {
     if (!eventTypes) return [];
 

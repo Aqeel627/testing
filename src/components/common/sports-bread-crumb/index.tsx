@@ -29,7 +29,6 @@ function toSportSlug(name: string): string {
 const SportsBreadCrumb = ({ title, subtitle }: BreadCrumbProps) => {
   const pathname = usePathname();
   const router = useRouter();
-  // const { menuList } = useAppStore();
   const { eventTypes, competitions } = useIndexManagerStore();
   const eventTypeRef = useRef<HTMLSpanElement | null>(null);
   const competitionRef = useRef<HTMLSpanElement | null>(null);
@@ -64,10 +63,6 @@ const SportsBreadCrumb = ({ title, subtitle }: BreadCrumbProps) => {
   const defaultSportName = title || slugToLabel(sportSlug);
 
   function filterCompetitions(eventTypeId: string | number) {
-    // const filtered =
-    //   menuList?.competitions?.filter(
-    //     (item: any) => String(item?.eventType?.id) === String(eventTypeId),
-    //   ) ?? [];
     const filtered =
       competitions?.filter(
         (item: any) => String(item?.eventType?.id) === String(eventTypeId),
@@ -77,14 +72,7 @@ const SportsBreadCrumb = ({ title, subtitle }: BreadCrumbProps) => {
   }
 
   useEffect(() => {
-    // if (!menuList?.eventTypes?.length) return;
     if (!eventTypes?.length) return;
-
-    // const selectedEvent = menuList.eventTypes.find(
-    //   (item: any) =>
-    //     String(item?.eventType?.name || "").toLowerCase() ===
-    //     String(defaultSportName || "").toLowerCase(),
-    // );
     const selectedEvent = eventTypes?.find(
       (item: any) =>
         String(item?.eventType?.name || "").toLowerCase() ===
@@ -95,7 +83,6 @@ const SportsBreadCrumb = ({ title, subtitle }: BreadCrumbProps) => {
 
     setSelectedEventType(selectedEvent.eventType.name);
     filterCompetitions(selectedEvent.eventType.id);
-  // }, [menuList, defaultSportName]);
   }, [eventTypes, defaultSportName]);
 
   useEffect(() => {
@@ -155,7 +142,6 @@ const SportsBreadCrumb = ({ title, subtitle }: BreadCrumbProps) => {
 
             {isEventTypeOpen && (
               <ul className="absolute left-2 p-1 top-full mt-0 -ml-1 max-h-50 glass backdrop-blur-[2px]!  rounded-sm shadow-lg bg-[rgba(var(--palette-background-paperChannel)/90%)] text-(--palette-text-primary) z-40 overflow-y-auto no-scrollbar">
-                {/* {menuList?.eventTypes?.map((item: any) => ( */}
                 {eventTypes?.map((item: any) => (
                   <li key={item?.id}>
                     <button

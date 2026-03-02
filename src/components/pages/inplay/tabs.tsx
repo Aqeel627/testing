@@ -15,7 +15,6 @@ export default function InplaySportNav({
   activeTab: string;
   setActiveTab: (value: string) => void;
 }) {
-  // const { menuList, inplayEvents } = useAppStore();
   const { eventTypes, inplayEvents } = useIndexManagerStore();
   const [navItems, setNavItems] = useState<NavItem[]>([]);
   const router = useRouter();
@@ -36,38 +35,6 @@ export default function InplaySportNav({
     opacity: 0,
     animate: false,
   });
-
-  // ----- Build nav items from menuList -----
-  // useEffect(() => {
-  //   const eventsType = menuList?.eventTypes;
-  //   if (!eventsType || !inplayEvents) {
-  //     setNavItems([]);
-  //     return;
-  //   }
-
-  //   const newItems: NavItem[] = eventsType
-  //     .filter((item: any) => {
-  //       const name = item?.eventType?.name?.toLowerCase();
-  //       const id = item?.eventType?.id;
-
-  //       const hasNavMatch = navData.includes(name);
-  //       const hasEvents = inplayEvents[id]?.length > 0;
-
-  //       return hasNavMatch && hasEvents;
-  //     })
-  //     .sort((a: any, b: any) => {
-  //       const aIndex = navData.indexOf(a?.eventType?.name?.toLowerCase());
-  //       const bIndex = navData.indexOf(b?.eventType?.name?.toLowerCase());
-  //       return aIndex - bIndex;
-  //     })
-  //     .map((item: any) => ({
-  //       label: item?.eventType?.name,
-  //       href: `/game-list/${item?.eventType?.name}/${item?.eventType?.id}`,
-  //       id: item?.eventType?.id,
-  //     }));
-
-  //   setNavItems(newItems);
-  // }, [menuList, inplayEvents]);
 
   useEffect(() => {
     if (!eventTypes || !inplayEvents) {

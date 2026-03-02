@@ -1,8 +1,8 @@
-export const BASE_URL = "";
-export const BASE_URL_WS = "";
+// export const BASE_URL = "";
+// export const BASE_URL_WS = "";
 
-// export const BASE_URL = "https://gjexch.com";
-// export const BASE_URL_WS = "https://gjexch.com";
+export const BASE_URL = "https://gjexch.com";
+export const BASE_URL_WS = "https://gjexch.com";
 
 export const CONFIG = {
   SiteName: "exchange",
@@ -186,9 +186,6 @@ export const CONFIG = {
     BASE_URL + "/v1/exchange/users/uploadPaymentDetails",
 
   claimAmountURL: BASE_URL + "/v1/exchange/users/userClaim",
-
-  menuList: BASE_URL + "/api/navigation/menuList",
-  menuListTime: 1440,
 
   marketBookLine: BASE_URL + "/app/exchange/users/pl/marketBook",
   userBetList: BASE_URL + "/app/exchange/users/userBetList",

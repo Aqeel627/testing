@@ -108,7 +108,6 @@ const shortNumber = (value: any): string => {
 export default function MarketDetails() {
   const {
     setSelectedBet,
-    // menuList,
     selectedBet,
     slipPreview,
     setAllEventsList,
