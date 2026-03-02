@@ -61,7 +61,7 @@ const BreadCrumb = ({
           </div>
         </div>
           )}
-          <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm leading-normal">
+          {/* <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm leading-normal">
             <Link href={"/"} className="leading-[1.57143] hover:underline">
               Home
             </Link>
@@ -69,7 +69,7 @@ const BreadCrumb = ({
             <p className="text-(--palette-text-disabled) leading-[1.57143]">
               {title} 
             </p>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

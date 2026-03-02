@@ -273,7 +273,7 @@ export default function BetHistoryComponent() {
     <>
     <div id="betHistory.tsx">
         <div className="my-4">
-      <BreadCrumb title="My Bets" />
+      <BreadCrumb title="My History" />
 </div>
       <div className="bh-container">
         {/* Toast */}
