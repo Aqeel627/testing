@@ -16,6 +16,7 @@ import { useCacheStore } from "@/lib/store/cacheStore";
 import dynamic from "next/dynamic";
 import { useUIStore } from "@/lib/store/ui-store";
 import Icon from "@/icons/icons";
+import { Ripple } from "primereact/ripple";
 
 type HeaderProps = {
   onMenuClick?: () => void;
@@ -246,13 +247,20 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                     className={`${styles.movingShape} ${styles.shapeBlue}`}
                   ></span>
                 </span>
-                <button className="relative z-10 flex flex-col items-center justify-center px-4 py-1 bg-[var(--background)] hover:bg-[var(--head-hover)] h-[28px] rounded-[7px] w-full h-full min-w-[62px] cursor-pointer">
+                <button className="p-ripple relative z-10 flex flex-col items-center justify-center px-4 py-1 bg-[var(--background)] hover:bg-[var(--head-hover)] h-[28px] rounded-[7px] w-full h-full min-w-[62px] cursor-pointer">
                   <span className="text-[0.6rem] text-[#919EAB] font-semibold leading-[1] uppercase tracking-[1px]">
                     Exp
                   </span>
                   <span className="text-[10px] font-bold leading-[1] text-[var(--palette-text-primary)]">
                     {userBalance?.exposure ?? 0}
                   </span>
+                  <Ripple
+                    pt={{
+                      root: {
+                        style: { background: "rgba(145, 158, 171, 0.4)" },
+                      },
+                    }}
+                  />
                 </button>
               </div>
             )}
@@ -287,9 +295,16 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
               // </Link>
               <div
                 onClick={() => setLoginModal(true)}
-                className="text-sm leading-[1.71429] cursor-pointer [text-transform:unset] min-w-16 py-[5px] px-3 flex justify-center items-center text-sm border-1 border-[rgba(var(--palette-grey-500Channel)_/_32%)] rounded-[8px] --palette-text-primary  rounded-lg  hover:bg-[rgba(145,158,171,0.08)]   font-bold transition-all duration-300 mr-1"
+                className="p-ripple text-sm leading-[1.71429] cursor-pointer [text-transform:unset] min-w-16 py-[5px] px-3 flex justify-center items-center text-sm border-1 border-[rgba(var(--palette-grey-500Channel)_/_32%)] rounded-[8px] --palette-text-primary  rounded-lg  hover:bg-[rgba(145,158,171,0.08)]   font-bold transition-all duration-300 mr-1"
               >
                 Login
+                <Ripple
+                  pt={{
+                    root: {
+                      style: { background: "rgba(145, 158, 171, 0.4)" },
+                    },
+                  }}
+                />
               </div>
             )}
             {isLoggedIn && (
@@ -313,7 +328,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                       className={`${styles.movingShape} ${styles.shapeBlue}`}
                     ></span>
                   </span>
-                  <button className="relative z-10 flex flex-col items-center justify-center px-4 py-1 bg-[var(--background)] hover:bg-[var(--head-hover)] h-[28px] rounded-[7px] w-full h-full min-w-[62px] cursor-pointer">
+                  <button className="p-ripple relative z-10 flex flex-col items-center justify-center px-4 py-1 bg-[var(--background)] hover:bg-[var(--head-hover)] h-[28px] rounded-[7px] w-full h-full min-w-[62px] cursor-pointer">
                     <span className="text-[0.6rem] text-[#919EAB] font-semibold leading-[1] uppercase tracking-[1px]">
                       Pts
                     </span>
@@ -325,6 +340,13 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                             (userBalance?.exposure ?? 0)
                           ).toFixed(2)}
                     </span>
+                    <Ripple
+                      pt={{
+                        root: {
+                          style: { background: "rgba(145, 158, 171, 0.4)" },
+                        },
+                      }}
+                    />
                   </button>
                 </div>
 
@@ -388,7 +410,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                       ].map((item, index) => (
                         <li
                           key={index}
-                          className="mb-1 hover:bg-[rgba(145,158,171,0.08)] rounded-[8px] no-underline h-9.5 min-[600px]:h-auto text-[0.875rem] leading-[1.57143px] "
+                          className="mb-1 p-ripple hover:bg-[rgba(145,158,171,0.08)] rounded-[8px] no-underline h-9.5 min-[600px]:h-auto text-[0.875rem] leading-[1.57143px] "
                         >
                           <Link
                             prefetch={false}
@@ -407,6 +429,15 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                           >
                             <span className="ml-4">{item.label}</span>
                           </Link>
+                          <Ripple
+                            pt={{
+                              root: {
+                                style: {
+                                  background: "rgba(145, 158, 171, 0.4)",
+                                },
+                              },
+                            }}
+                          />
                         </li>
                       ))}
 
@@ -415,7 +446,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                         onClick={() => {
                           setTheme(theme === "dark" ? "light" : "dark");
                         }}
-                        className="mb-1 no-underline hidden md:block h-9.5 min-[600px]:h-auto text-[0.875rem] leading-[1.57143px] hover:bg-[rgba(145,158,171,0.08)] rounded-[8px]"
+                        className="p-ripple mb-1 no-underline hidden md:block h-9.5 min-[600px]:h-auto text-[0.875rem] leading-[1.57143px] hover:bg-[rgba(145,158,171,0.08)] rounded-[8px]"
                       >
                         <div className="flex items-center justify-between w-full px-2 text-[14px] text-[var(--dropdowntext)] hover:text-[var(--palette-text-primary)] hover:bg-white/5 transition-colors cursor-pointer">
                           <span className="ml-4">
@@ -428,10 +459,17 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                             <ThemeToggle />
                           </span>
                         </div>
+                        <Ripple
+                          pt={{
+                            root: {
+                              style: { background: "rgba(145, 158, 171, 0.4)" },
+                            },
+                          }}
+                        />
                       </li>
 
                       <li
-                        className="mb-1 no-underline hidden md:block h-9.5 min-[600px]:h-auto text-[0.875rem] leading-[1.57143px] hover:bg-[rgba(145,158,171,0.08)] rounded-[8px]"
+                        className="p-ripple mb-1 no-underline hidden md:block h-9.5 min-[600px]:h-auto text-[0.875rem] leading-[1.57143px] hover:bg-[rgba(145,158,171,0.08)] rounded-[8px]"
                         onClick={() => {
                           setIsMenuOpen(false);
                           router.push("/theme");
@@ -453,17 +491,24 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                             )}
                           </span>
                         </div>
+                        <Ripple
+                          pt={{
+                            root: {
+                              style: { background: "rgba(145, 158, 171, 0.4)" },
+                            },
+                          }}
+                        />
                       </li>
 
                       {/* Hide Balance Toggle */}
-                      <li className="mb-1 no-underline h-9.5 min-[600px]:h-[44px] text-[0.875rem] leading-[1.57143px] flex items-center hover:bg-[rgba(145,158,171,0.08)] rounded-[8px]">
-                        <div
-                          className="flex items-center justify-between w-full px-2 text-[14px] text-[var(--dropdowntext)] hover:text-[var(--palette-text-primary)] transition-colors cursor-pointer"
-                          onClick={(e) => {
-                            e.stopPropagation(); // Prevent menu from closing
-                            setHideBalance(!hideBalance);
-                          }}
-                        >
+                      <li
+                        onClick={() => {
+                          // Prevent menu from closing
+                          setHideBalance(!hideBalance);
+                        }}
+                        className="p-ripple mb-1 no-underline h-9.5 min-[600px]:h-[44px] text-[0.875rem] leading-[1.57143px] flex items-center hover:bg-[rgba(145,158,171,0.08)] rounded-[8px]"
+                      >
+                        <div className="flex items-center justify-between w-full px-2 text-[14px] text-[var(--dropdowntext)] hover:text-[var(--palette-text-primary)] transition-colors cursor-pointer">
                           <span className="ml-4">Hide Balance</span>
                           {/* Custom Tailwind Switch */}
                           <span className="w-[58px] h-[38px] flex justify-end items-center">
@@ -476,6 +521,13 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                             </div>
                           </span>
                         </div>
+                        <Ripple
+                          pt={{
+                            root: {
+                              style: { background: "rgba(145, 158, 171, 0.4)" },
+                            },
+                          }}
+                        />
                       </li>
                     </ul>
 
@@ -488,9 +540,16 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
 
                       <button
                         onClick={handleLogout}
-                        className="relative z-10 w-full text-left px-2 py-2 text-[14px] font-bold text-(--dropdown-logout-color) hover:bg-(--dropdown-logout-bg-hover) rounded-lg transition-colors cursor-pointer "
+                        className="p-ripple relative z-10 w-full text-left px-2 py-2 text-[14px] font-bold text-(--dropdown-logout-color) hover:bg-(--dropdown-logout-bg-hover) rounded-lg transition-colors cursor-pointer "
                       >
                         Logout
+                        <Ripple
+                          pt={{
+                            root: {
+                              style: { background: "rgba(145, 158, 171, 0.4)" },
+                            },
+                          }}
+                        />
                       </button>
                     </div>
                   </div>

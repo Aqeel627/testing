@@ -3,6 +3,7 @@ import { useTheme } from "next-themes";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import Icon from "@/icons/icons";
+import { Ripple } from 'primereact/ripple';
 
 export function ThemeToggle() {
   const [mounted, setMounted] = useState(false);
@@ -18,7 +19,7 @@ export function ThemeToggle() {
     <div id="theme-toggler.tsx">
       <button
         onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-        className="dark:text-gray-400 h-10 w-10 flex items-center  justify-center transition-colors p-1 cursor-pointer rounded-full hover:scale-[1.04] hover:bg-[rgba(145,158,171,0.08)]"
+        className="p-ripple dark:text-gray-400 h-10 w-10 flex items-center  justify-center transition-colors p-1 cursor-pointer rounded-full hover:scale-[1.04] hover:bg-[rgba(145,158,171,0.08)]"
         aria-label="Toggle color scheme"
       >
         {theme === "dark" ? (
@@ -27,6 +28,13 @@ export function ThemeToggle() {
           <Icon name="moonOutline" className="w-6 h-6" />
         )}
         <span className="sr-only">Toggle theme</span>
+        <Ripple
+          pt={{
+            root: {
+              style: { background: "rgba(145, 158, 171, 0.4)" },
+            },
+          }}
+        />
       </button>
     </div>
   );

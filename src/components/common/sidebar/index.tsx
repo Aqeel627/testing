@@ -12,6 +12,7 @@ import { useUIStore } from "@/lib/store/ui-store";
 import dynamic from "next/dynamic";
 import Icon from "@/icons/icons";
 import { useIndexManagerStore } from "@/lib/store/indexManagerStore";
+import { Ripple } from "primereact/ripple";
 
 // ─────────────────────────────────────────────
 // Types
@@ -80,15 +81,15 @@ interface QuickLinkItemProps {
   onClose: () => void;
 }
 // Sidebar component ke andar ye function add karein
-const handleRipple = (e: React.MouseEvent<HTMLElement>) => {
-  const rect = e.currentTarget.getBoundingClientRect();
-  const x = e.clientX - rect.left; // Mouse X position inside element
-  const y = e.clientY - rect.top; // Mouse Y position inside element
+// const handleRipple = (e: React.MouseEvent<HTMLElement>) => {
+//   const rect = e.currentTarget.getBoundingClientRect();
+//   const x = e.clientX - rect.left; // Mouse X position inside element
+//   const y = e.clientY - rect.top; // Mouse Y position inside element
 
-  // Ye dono values hum CSS variables (--x, --y) mein set kar rahe hain
-  e.currentTarget.style.setProperty("--x", `${x}px`);
-  e.currentTarget.style.setProperty("--y", `${y}px`);
-};
+//   // Ye dono values hum CSS variables (--x, --y) mein set kar rahe hain
+//   e.currentTarget.style.setProperty("--x", `${x}px`);
+//   e.currentTarget.style.setProperty("--y", `${y}px`);
+// };
 const QuickLinkItem = ({
   label,
   href,
@@ -102,8 +103,8 @@ const QuickLinkItem = ({
     <Link
       href={href}
       prefetch={false}
-      onMouseDown={handleRipple}
-      className={cn(styles.link, isActive && styles.linkActive)}
+      // onMouseDown={handleRipple}
+      className={cn(styles.link, isActive && styles.linkActive, "p-ripple")}
       onClick={() => {
         onActivate();
         onClose(); // close sidebar on quicklink navigation
@@ -122,6 +123,13 @@ const QuickLinkItem = ({
       <span className={styles.badgeWrap}>
         <span className={styles.badge}>{count}</span>
       </span>
+      <Ripple
+        pt={{
+          root: {
+            style: { background: "rgba(145, 158, 171, 0.4)" },
+          },
+        }}
+      />
     </Link>
   </li>
 );
@@ -146,8 +154,8 @@ const ThirdItemComponent = ({
     <li className={styles.navItemLi}>
       <Link
         href={item.href || "#"}
-        onMouseDown={handleRipple} // <-- Ye line add karein
-        className={`${styles.navLink}${isActive ? ` ${styles.activeSubItem}` : ""}`}
+        // onMouseDown={handleRipple} // <-- Ye line add karein
+        className={`p-ripple ${styles.navLink}${isActive ? ` ${styles.activeSubItem}` : ""}`}
         onClick={() => {
           onActivate();
           closeSidebar(); // navigate to market-details → close sidebar
@@ -157,6 +165,13 @@ const ThirdItemComponent = ({
         <span className={styles.badgeWrap}>
           <span className={styles.badge}>{item.count}</span>
         </span>
+        <Ripple
+          pt={{
+            root: {
+              style: { background: "rgba(145, 158, 171, 0.4)" },
+            },
+          }}
+        />
       </Link>
     </li>
   );
@@ -199,10 +214,11 @@ const TournamentItemComponent = ({
       {/* Always use button-like behaviour — no href navigation for tournaments */}
       <a
         href="#"
-        onMouseDown={handleRipple} // <-- Ye line add karein
+        // onMouseDown={handleRipple} // <-- Ye line add karein
         className={cn(
           styles.navLink,
           isTournamentActive && styles.activeSubItem,
+          "p-ripple",
         )}
         onClick={(e) => onTournamentClick(e, sportIndex, tournamentIndex)}
       >
@@ -216,6 +232,13 @@ const TournamentItemComponent = ({
             className={`${styles.navArrow} ${openTournamentKey === tKey ? styles.navArrowOpen : ""}`}
           />
         )}
+        <Ripple
+          pt={{
+            root: {
+              style: { background: "rgba(145, 158, 171, 0.4)" },
+            },
+          }}
+        />
       </a>
 
       {hasThirdItems && (
@@ -289,8 +312,12 @@ const SportItemComponent = ({
       {/* Always use href="#" — sport click only toggles dropdown, never navigates */}
       <a
         href="#"
-        onMouseDown={handleRipple} // <-- Ye line add karein
-        className={cn(styles.link, isSportActive && styles.linkActive)}
+        // onMouseDown={handleRipple} // <-- Ye line add karein
+        className={cn(
+          styles.link,
+          isSportActive && styles.linkActive,
+          "p-ripple",
+        )}
         onClick={(e) => onSportClick(e, sportIndex)}
       >
         {/* <span className={styles.linkIconWrap}>
@@ -322,6 +349,13 @@ const SportItemComponent = ({
         <Icon
           name={"chevronRight"}
           className={`${styles.navArrow} ${isOpen ? styles.navArrowOpen : ""}`}
+        />
+        <Ripple
+          pt={{
+            root: {
+              style: { background: "rgba(145, 158, 171, 0.4)" },
+            },
+          }}
         />
       </a>
 
