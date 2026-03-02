@@ -82,71 +82,51 @@
   position: relative;
 
   transition: background 180ms ease, color 180ms ease;
+    --navArrowBtn: clamp(34px, 6.4vw, 44px);     /* old jaisa responsive */
+  --navArrowIcon: clamp(18px, 3.2vw, 24px);
 }
 
-/* Right button container (unique glass button) */
+/* Right square button */
 .nav-link::before{
-  content: "";
-  position: absolute;
-  right: 14px;
-  top: 50%;
+  content:"";
+  position:absolute;
+  right:14px;
+  top:50%;
   transform: translateY(-50%);
-  width: 40px;
-  height: 40px;
-  border-radius: 16px;
 
-  border: 1px solid color-mix(in srgb, var(--dotted-line) 85%, transparent);
+  width: var(--navArrowBtn);
+  height: var(--navArrowBtn);
+  border-radius: 10px;
+  border: 1px solid var(--dotted-line);
 
-  /* premium glass */
-  background: linear-gradient(
-    180deg,
-    color-mix(in srgb, var(--accordion-bg) 40%, transparent),
-    color-mix(in srgb, var(--accordion-bg) 12%, transparent)
-  );
-
-  box-shadow:
-    0 10px 24px rgba(0,0,0,0.25),
-    inset 0 1px 0 rgba(255,255,255,0.18),
-    inset 0 -1px 0 rgba(0,0,0,0.25);
+  background: var(--palette-background-paper);
+  box-shadow: 0 1px 0 rgba(0,0,0,0.04);
 }
 
-/* Arrow icon (crisp + centered) */
+/* Chevron icon (same as old project / 2nd image) */
 .nav-link::after{
-  content: "";
-  position: absolute;
-  right: 14px;
-  top: 50%;
+  content:"";
+  position:absolute;
+  right:14px;
+  top:50%;
   transform: translateY(-50%);
 
-  background-color: var(--arrow-color);
+  width: var(--navArrowBtn);
+  height: var(--navArrowBtn);
 
-  width: 40px;
-  height: 40px;
+  /* ✅ theme color */
+  background-color: var(--arrow-color, var(--palette-text-primary));
 
-  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M10 17l5-5-5-5v10z'/%3E%3C/svg%3E")
-    center / 22px 22px no-repeat;
-  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' d='M10 17l5-5-5-5v10z'/%3E%3C/svg%3E")
-    center / 22px 22px no-repeat;
+  /* ✅ old chevron path (not triangle) */
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' fill-rule='evenodd' d='M9.718 5L17 12l-7.282 7L8 17.348 13.592 12 8 6.652'/%3E%3C/svg%3E")
+    center / var(--navArrowIcon) var(--navArrowIcon) no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' fill-rule='evenodd' d='M9.718 5L17 12l-7.282 7L8 17.348 13.592 12 8 6.652'/%3E%3C/svg%3E")
+    center / var(--navArrowIcon) var(--navArrowIcon) no-repeat;
 
-  transition: transform 200ms ease, opacity 200ms ease;
-  opacity: 0.95;
+  transition: transform 180ms ease;
 }
 
-/* Active (expanded) arrow rotate */
+/* rotate when expanded (same behavior) */
 .nav-link.activesport::after{
   transform: translateY(-50%) rotate(90deg);
-}
-
-/* Active row highlight */
-.activesport{
-  background: color-mix(in srgb, var(--primary-color) 10%, transparent);
-}
-
-/* Optional: hover polish */
-.nav-link:hover{
-  background: color-mix(in srgb, var(--primary-color) 8%, transparent);
-}
-
-.nav-link:hover::before{
-  border-color: color-mix(in srgb, var(--primary-color) 45%, var(--dotted-line));
 }

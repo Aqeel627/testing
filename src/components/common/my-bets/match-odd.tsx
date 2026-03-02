@@ -619,9 +619,9 @@ export default function MatchOdd({
 
             {/* View Market button (same) */}
 {onViewMarket ? (
-  <a className={styles.viewMarketRow} onClick={onViewMarket}>
-    <span className={styles.viewMarketText}>View Market</span>
-  </a>
+<a className={styles.viewMarketRow} onClick={onViewMarket}>
+  <span className={styles.viewMarketText}>View Market</span>
+</a>
 ) : null}
           </div>
         </div>
