@@ -1199,3 +1199,10 @@ body:has(.drawer) {
 [vaul-overlay] {
   transition: opacity 0.4s cubic-bezier(0.22, 1, 0.36, 1) !important;
 }
+.scroll-width-none {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+}
+.scroll-width-none::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
+}

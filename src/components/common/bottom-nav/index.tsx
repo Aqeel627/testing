@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { useTheme } from "next-themes";
 import React, { Fragment, useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useMiniCasinoStore } from "@/lib/store/miniCasinoStore";
 import { useCacheStore } from "@/lib/store/cacheStore";
 import dynamic from "next/dynamic";
@@ -17,6 +17,7 @@ const BottomNavbar = () => {
   const [isSafari, setIsSafari] = useState(false);
 
   const pathName = usePathname();
+  const router = useRouter();
   const { theme } = useTheme();
 
   const { isLoggedIn } = useAuthStore();
@@ -70,6 +71,32 @@ const BottomNavbar = () => {
                   setLoginModal(true);
                   return;
                 }
+
+                  // ✅ BETS
+  if (item.icon === "bets") {
+    e.preventDefault();
+
+    if (!isLoggedIn) {
+      setLoginModal(true);
+      return;
+    }
+
+    // agar market-details pe ho to Open Bets mode
+    if (pathName?.includes("/market-details/")) {
+      const segs = pathName.split("/").filter(Boolean);
+      const eventId = segs?.[1];
+      const sportId = segs?.[2];
+
+      if (eventId && sportId) {
+        router.push(`/my-bets?eventId=${eventId}&sportId=${sportId}`);
+        return;
+      }
+    }
+
+    // normal My Bets
+    router.push("/my-bets");
+    return;
+  }
 
                 // ✅ Casino ke liye special toggle logic
                 if (item.icon === "casinoic") {
