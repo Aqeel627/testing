@@ -331,28 +331,15 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                 {isMenuOpen && (
                   <div className="absolute top-0 md:top-[16px] md:top-[38px] right-0 md:right-[10px] w-[250px] bg-[var(--dropdownBg)] rounded-xl  z-[9999999] flex flex-col var(--palette-text-primary) overflow-hidden overflow-y-auto max-md:h-[100vh] md:max-h-[calc(100vh-32px)] border border-[#919eab29] scrollbar-hide">
                     <div className="absolute -top-10 -right-10 w-20 h-20 bg-[#078dee] blur-[60px] opacity-[0.50] pointer-events-none z-0 rounded-full"></div>
-                    <div className="px-4 pt-4 pb-2">
+                    <div className="px-4 pt-4 pb-[9px]">
                       <h6 className="text-[0.875rem] font-semibold text-[var(--palette-text-primary)] truncate leading-[1.57143]">
                         {userName}
                       </h6>
-                      <p className="text-[0.875rem] leading-[1.57143] text-[var(--dropdowntext)] truncate">
-                        {userName}
-                      </p>
                     </div>
 
                     <hr className="m-0 shrink-0 border-0 border-b border-dashed border-(--dotted-line)" />
 
-                    <div className="flex flex-col gap-2 px-4 pb-4 pt-2">
-                      <div className="rounded-[16px] shadow-[0_1px_2px_0_rgb(0_0_0_/_16%)] border-(--dropdown-balance-border) border-[1px]">
-                        <div className="flex flex-col p-2 items-center cursor-pointer">
-                          <p className="text-[0.875rem] leading-[1.25] text-(--secondary-text-color) font-[500] uppercase">
-                            Exposure
-                          </p>
-                          <p className="text-[1rem] font-semibold leading-[1.5]">
-                            {userBalance?.exposure ?? 0}
-                          </p>
-                        </div>
-                      </div>
+                    <div className="flex flex-col gap-2 px-4 py-2.5">
                       <div className="rounded-[16px] shadow-[0_1px_2px_0_rgb(0_0_0_/_16%)] border-(--dropdown-balance-border) border-[1px]">
                         <div className="flex flex-col p-2 items-center cursor-pointer">
                           <p className="text-[0.875rem] leading-[1.25] text-(--secondary-text-color) font-[500] uppercase">
@@ -365,6 +352,16 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                                 (userBalance?.bankBalance ?? 0) -
                                 (userBalance?.exposure ?? 0)
                               ).toFixed(2)}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="rounded-[16px] shadow-[0_1px_2px_0_rgb(0_0_0_/_16%)] border-(--dropdown-balance-border) border-[1px]">
+                        <div className="flex flex-col p-2 items-center cursor-pointer">
+                          <p className="text-[0.875rem] leading-[1.25] text-(--secondary-text-color) font-[500] uppercase">
+                            Exposure
+                          </p>
+                          <p className="text-[1rem] font-semibold leading-[1.5]">
+                            {userBalance?.exposure ?? 0}
                           </p>
                         </div>
                       </div>
