@@ -7,7 +7,7 @@ export default function ContactUs() {
     <div id="contactUs.tsx">
       <BreadCrumb title="Contact Us" />
 
-      <div className="container mx-auto mt-9 flex flex-col gap-8">
+      <div className="container mx-auto mt-2 flex flex-col gap-8">
 
         {/* Section: Happy to Help */}
         <div id="happy-to-help">
