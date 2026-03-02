@@ -2526,7 +2526,7 @@ const RenderFancyTable = ({ data, eventName, eventId, sportId }: any) => {
 
                   return (
                     <React.Fragment key={item.selectionId}>
-                      <tr className="border-b border-dashed border-(--dotted-line)">
+<tr className="border-b border-dashed border-(--dotted-line) h-[53px]">
                         {/* 1. Combined Name & Icon Column - FIXED ALIGNMENT */}
                         <td className="pl-1.5 py-2">
                           <div className="flex items-center justify-between w-full">
@@ -2677,7 +2677,7 @@ const RenderSportsBookTable = ({ data, eventName, eventId, sportId }: any) => {
                     selectedBet?.marketType === "SPORTSBOOK";
                   return (
                     <React.Fragment key={item.selectionId}>
-                      <tr className="border-b border-dashed border-(--dotted-line) hover:bg-(--primary-hover) h-[50px] py-1">
+                      <tr className="border-b border-dashed border-(--dotted-line) hover:bg-(--primary-hover) h-[53px] py-1">
                         <td className="pl-4 py-2 text-left">
                           <span className="text-[14px] font-bold text-(--palette-text-primary)">
                             {item.name}
@@ -2685,7 +2685,7 @@ const RenderSportsBookTable = ({ data, eventName, eventId, sportId }: any) => {
                         </td>
                         <td className="w-[57px] md:w-[57px] p-0 rounded-[8px]!">
                           <div
-                            className={`cursor-pointer rounded-[8px]! h-[44px] flex flex-col items-center justify-center border-l bg-[#72dbb3] hover:bg-[#5fc7a0] border-(--dotted-line) ${isSelected ? "!bg-[#50d0ae]" : ""}`}
+                            className={`cursor-pointer rounded-[8px]! h-[45px] flex flex-col items-center justify-center border-l bg-[#72dbb3] hover:bg-[#5fc7a0] border-(--dotted-line) ${isSelected ? "!bg-[#50d0ae]" : ""}`}
                             onClick={() => onSportsBookClick(item)}
                           >
                             <span className="text-[14px] font-bold text-black">
