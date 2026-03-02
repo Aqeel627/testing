@@ -66,9 +66,9 @@ export default function TwoFASetupModal({ onComplete, onSkip }: TwoFASetupModalP
         <div className="min-[900px]:mx-auto min-[900px]:max-w-[1120px] min-[900px]:min-h-[calc(100vh-96px)] min-[900px]:flex min-[900px]:flex-col">
 
           {/* HEADER — mobile only, identical to LoginModal */}
-          <div className="flex justify-between items-center px-4 min-[600]:px-6 h-12 min-[900px]:hidden">
+          <div className="relative flex justify-between items-center px-4 min-[600]:px-6 h-12 min-[900px]:hidden">
             <Link href="/" onClick={() => setLoginModal(false)} className="flex items-center">
-              <Image src={theme === "dark" ? "/logo-black.svg" : "/logo-white.svg"} alt="100exch Logo" width={152} height={1000} className="object-contain h-13 min-[600]:mx-2 mx-1" />
+              <Image src={theme === "dark" ? "/logo-black.svg" : "/logo-white.svg"} alt="100exch Logo" width={152} height={1000}   loading="lazy" className="object-contain h-13 min-[600]:mx-2 mx-1" />
             </Link>
           </div>
 
@@ -97,9 +97,9 @@ export default function TwoFASetupModal({ onComplete, onSkip }: TwoFASetupModalP
                   backgroundRepeat: "no-repeat", backgroundSize: "cover", backgroundPosition: "center",
                 }}
               >
-                <div className="w-full flex flex-col justify-center gap-10">
+                <div className="w-full relative flex flex-col justify-center gap-10">
                   <h2 className="text-[40px] leading-[1.08] font-extrabold tracking-tight">Hi, Welcome back</h2>
-                  <Image src={theme === "dark" ? "/logo-black.svg" : "/logo-white.svg"} alt="100exch Logo" width={360} height={110} className="object-contain w-auto h-20" priority />
+                  <Image src={theme === "dark" ? "/logo-black.svg" : "/logo-white.svg"} alt="100exch Logo" width={360} height={110} loading="lazy"  className="object-contain w-auto h-20" priority />
                 </div>
               </div>
 

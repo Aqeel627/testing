@@ -91,6 +91,7 @@ const HorsePage = () => {
                   alt={item}
                   width={14}
                   height={14}
+                  loading="lazy"
                   className={styles["flag-icon"]}
                 />
               )}
