@@ -115,7 +115,7 @@ export default function TwoFAModal({
             <Link
               href="/"
               onClick={() => setLoginModal(false)}
-              className="flex items-center"
+              className="relative flex items-center"
             >
               <Image
                 src={
@@ -126,6 +126,7 @@ export default function TwoFAModal({
                 alt="GJEXCH Logo"
                 width={152}
                 height={1000}
+                loading="lazy"
                 className="object-contain h-13 min-[600]:mx-2 mx-1"
               />
             </Link>
@@ -165,7 +166,7 @@ export default function TwoFAModal({
                   backgroundPosition: "center",
                 }}
               >
-                <div className="w-full flex flex-col justify-center gap-10">
+                <div className="relative w-full flex flex-col justify-center gap-10">
                   <h2 className="text-[40px] leading-[1.08] font-extrabold tracking-tight">
                     Hi, Welcome back
                   </h2>
@@ -179,7 +180,7 @@ export default function TwoFAModal({
                     width={360}
                     height={110}
                     className="object-contain w-auto h-20"
-                    priority
+                    loading="lazy"
                   />
                 </div>
               </div>

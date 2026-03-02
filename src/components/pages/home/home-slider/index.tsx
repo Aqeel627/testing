@@ -24,32 +24,32 @@ interface PairedSlide {
 const FALLBACK_BANNERS = [
   {
     image:
-      "https://static.assetsdelivery.net/marketing-posters/DOLLAR365COM/1771826626851646.jpeg",
+      "/home-slider/slider-1.jpeg",
     link: "#",
   },
   {
     image:
-      "https://static.assetsdelivery.net/marketing-posters/DOLLAR365COM/1772203568592330.jpeg",
+      "/home-slider/slider-2.jpeg",
     link: "#",
   },
   {
     image:
-      "https://static.assetsdelivery.net/marketing-posters/DOLLAR365COM/1772203567348202.jpeg",
+      "/home-slider/slider-3.jpeg",
     link: "#",
   },
   {
     image:
-      "https://static.assetsdelivery.net/marketing-posters/DOLLAR365COM/1771826695973615.jpeg",
+      "/home-slider/slider-4.jpeg",
     link: "#",
   },
   {
     image:
-      "https://static.assetsdelivery.net/marketing-posters/DOLLAR365COM/1771826724369720.jpeg",
+    "/home-slider/slider-5.jpeg",
     link: "#",
   },
 ];
 const STATIC_PLACEHOLDER =
-  "https://static.assetsdelivery.net/marketing-posters/DOLLAR365COM/1771826695973615.jpeg";
+  "/home-slider/slider-6.jpeg";
 
 // tilt (same direction)
 const TILT_CLASS = "transform-gpu rotate-[2deg] origin-center";
@@ -166,6 +166,7 @@ export default function HomeSlider() {
                     >
                       <div className="relative h-full w-full">
                         <Image
+                        loading="lazy"
                           src={s.verifiedImage}
                           alt={`slide-${i}`}
                           fill
@@ -221,6 +222,7 @@ export default function HomeSlider() {
                     >
                       <div className="relative h-full w-full">
                         <Image
+                        loading="lazy"
                           src={pair.top.verifiedImage}
                           alt={`slide-top-${i}`}
                           fill
@@ -244,6 +246,7 @@ export default function HomeSlider() {
                     >
                       <div className="relative h-full w-full">
                         <Image
+                        loading="lazy"
                           src={pair.bottom.verifiedImage}
                           alt={`slide-bottom-${i}`}
                           fill
