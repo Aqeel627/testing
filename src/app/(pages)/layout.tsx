@@ -126,7 +126,7 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
             dismissible
           >
             <DrawerContent
-              className="border-none rounded-none! w-[288px]! max-w-[85vw]!"
+              className="border-none rounded-none! w-[288px]! max-w-[85vw]! overflow-y-auto no-scrollbar"
               style={{
                 backgroundColor: "var(--background)",
                 willChange: "transform",
@@ -173,7 +173,7 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
               transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
               className="h-full pt-[50px] shrink-0 overflow-hidden border-r border-white/5"
             >
-              <div className="w-[300px] h-full">
+              <div className="w-[300px] h-full overflow-y-auto no-scrollbar">
                 <Sidebar />
               </div>
             </motion.aside>
