@@ -3,91 +3,73 @@ import { useEffect, useRef, useState } from "react";
 import { parseCookies, setCookie } from "nookies";
 
 const COOKIE_NAME = "googtrans";
+
 interface LanguageDescriptor {
   name: string;
   title: string;
 }
-declare global {
-  namespace globalThis {
-    var __GOOGLE_TRANSLATION_CONFIG__: {
-      languages: LanguageDescriptor[];
-      defaultLanguage: string;
-    };
-  }
-}
+
 interface GoogleTranslationConfig {
   languages: LanguageDescriptor[];
   defaultLanguage: string;
-  countryLanguages: Record<string, string>; // <-- add this
+  countryLanguages?: Record<string, string>;
 }
-const translationConfig =
-  globalThis.__GOOGLE_TRANSLATION_CONFIG__ as GoogleTranslationConfig;
+
+declare global {
+  interface Window {
+    __GOOGLE_TRANSLATION_CONFIG__?: GoogleTranslationConfig;
+  }
+}
 
 const LanguageToggler = () => {
-  const [languageConfig, setLanguageConfig] = useState<any>();
-  const [language, setLanguage] = useState("English");
-  const [open, setOpen] = useState(false);
+  const [languageConfig, setLanguageConfig] = useState<LanguageDescriptor[]>([]);
+  const [language, setLanguage] = useState<string>("English");
+  const [open, setOpen] = useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
 
-  async function getUserCountry(): Promise<string> {
-    try {
-      const res = await fetch(
-        "https://pro.ip-api.com/json/?key=qSA5ctYZHdWsx04",
-      );
-      const data = await res.json();
-      // console.log('User country code:', data.countryCode);
-      return data.countryCode;
-    } catch (err) {
-      console.error("Failed to detect country", err);
-      return "US";
-    }
-  }
-  function reorderLanguagesByCountry(
-    languages: LanguageDescriptor[],
-    countryCode: string,
-  ) {
-    const defaultLang = translationConfig?.defaultLanguage || "en";
-    const localLang = translationConfig?.countryLanguages[countryCode] || "";
-    const english = languages?.find((l) => l.name === defaultLang);
-    const local =
-      localLang && localLang !== defaultLang
-        ? languages?.find((l) => l.name === localLang)
-        : null;
-    const others = languages?.filter(
-      (l) => l.name !== defaultLang && l.name !== localLang,
-    );
-    return [english, local, ...(others?.length ? others : [])].filter(Boolean);
+  function reorderLanguages(languages: LanguageDescriptor[]) {
+    const defaultLang =
+      window.__GOOGLE_TRANSLATION_CONFIG__?.defaultLanguage || "en";
+
+    const english = languages.find((l) => l.name === defaultLang);
+    const others = languages.filter((l) => l.name !== defaultLang);
+
+    return [english, ...others].filter(Boolean) as LanguageDescriptor[];
   }
 
-  const handleSelectLanguage = (lang: any, name: any) => {
-    setLanguage(lang);
+  const handleSelectLanguage = (title: string, langCode: string) => {
+    setLanguage(title);
     setOpen(false);
 
-    // Expire old googtrans cookie
     const expire = "expires=Thu, 01 Jan 1970 00:00:00 GMT";
 
+    // Remove old cookie
     document.cookie = `googtrans=; ${expire}; path=/;`;
-    document.cookie = `googtrans=; ${expire}; domain=.yourdesign.live; path=/;`;
+    document.cookie = `googtrans=; ${expire}; path=/;`;
 
-    // Set new googtrans cookie
-    const cookieValue = `/auto/${name}`;
+    // Set new cookie
+    const cookieValue = `/auto/${langCode}`;
     document.cookie = `googtrans=${cookieValue}; path=/;`;
-    document.cookie = `googtrans=${cookieValue}; domain=.yourdesign.live; path=/;`;
 
-    // Also store in your app’s cookie (if you want)
     setCookie(null, COOKIE_NAME, cookieValue, { path: "/" });
 
-    // Refresh to apply translation
     window.location.reload();
   };
 
   useEffect(() => {
-    // console.log('Translation config:', language);
+    if (!window.__GOOGLE_TRANSLATION_CONFIG__) return;
+
+    const { languages, defaultLanguage } =
+      window.__GOOGLE_TRANSLATION_CONFIG__;
+
+    const reordered = reorderLanguages(languages);
+    setLanguageConfig(reordered);
 
     const cookies = parseCookies();
     const existingLanguageCookieValue = cookies[COOKIE_NAME];
 
-    let languageValue: any;
+    let languageValue: string | undefined;
+
     if (existingLanguageCookieValue) {
       const sp = existingLanguageCookieValue.split("/");
       if (sp.length > 2) {
@@ -95,25 +77,18 @@ const LanguageToggler = () => {
       }
     }
 
-    if (globalThis.__GOOGLE_TRANSLATION_CONFIG__ && !languageValue) {
-      languageValue = globalThis.__GOOGLE_TRANSLATION_CONFIG__?.defaultLanguage;
+    if (!languageValue) {
+      languageValue = defaultLanguage;
     }
+
     const languageTitle =
-      globalThis.__GOOGLE_TRANSLATION_CONFIG__?.languages?.find(
-        (lang) => lang.name === languageValue,
-      )?.title || languageValue;
+      languages.find((lang) => lang.name === languageValue)?.title ||
+      languageValue;
 
-    if (languageValue) {
-      setLanguage(languageTitle);
-      // console.log("Set language from cookie or default:", languageTitle);
-    }
+    setLanguage(languageTitle);
+  }, []);
 
-    if (globalThis.__GOOGLE_TRANSLATION_CONFIG__) {
-      setLanguageConfig(globalThis.__GOOGLE_TRANSLATION_CONFIG__);
-    }
-    if (globalThis.__GOOGLE_TRANSLATION_CONFIG__) {
-      // console.log('Loaded languages:', globalThis.__GOOGLE_TRANSLATION_CONFIG__.languages);
-    }
+  useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
         dropdownRef.current &&
@@ -130,60 +105,60 @@ const LanguageToggler = () => {
   }, []);
 
   return (
-    <div id="languageToggler.tsx">
-    <div
-      className="flex w-fit relative"
-      ref={dropdownRef}
-    >
-      <div className="relative">
-        {open && (
-          <div
-            className="arrow"
-            style={{
-              position: "absolute",
-              left: "50%",
-              top: "48px",
-              transform: "translateX(-50%)",
-            }}
-          ></div>
-        )}
-        <button
-          type="button"
-          onClick={() => setOpen(!open)}
-          className="flex flex-col justify-between items-center px-3 py-0.5 border bg-transparent border-[rgba(145,158,171,0.2)] dark:border-gray-600 rounded-[8px] text-sm font-medium text-[#919EAB] dark:text-[#637381] transition hover:bg-[rgba(145,158,171,0.12)]"
-        >
-          <p className="text-[12px] text-(--palette-text-secondary)">
-            Language
-          </p>
-          <p className="text-[14px] text-(--palette-text-primary)">
-            {language}
-          </p>
-        </button>
+    <div id="languageToggler">
+      <div className="flex w-fit relative" ref={dropdownRef}>
+        <div className="relative">
+          {open && (
+            <div
+              className="arrow"
+              style={{
+                position: "absolute",
+                left: "50%",
+                top: "48px",
+                transform: "translateX(-50%)",
+              }}
+            ></div>
+          )}
 
-        {/* Dropdown Menu */}
-        {open && (
-          <ul
-            translate="no"
-            className="absolute mt-2 -ml-1 h-30! rounded-sm shadow-lg bg-[rgba(var(--palette-background-paperChannel)/90%)]  text-(--palette-text-primary) z-50 overflow-y-auto no-scrollbar"
+          <button
+            type="button"
+            onClick={() => setOpen(!open)}
+            className="flex flex-col justify-between items-center px-3 py-0.5 border bg-transparent border-[rgba(145,158,171,0.2)] dark:border-gray-600 rounded-[8px] text-sm font-medium text-[#919EAB] dark:text-[#637381] transition hover:bg-[rgba(145,158,171,0.12)]"
           >
-            {languageConfig?.map((lang: any) => (
-              <li key={lang.title}>
-                <button
-                  onClick={() => handleSelectLanguage(lang.title, lang.name)}
-                  className={`text-sm w-full text-left relative bg-transparent cursor-pointer gap-2 font-semibold  transition p-3 rounded-none  
-                           ${language === lang.title
-                      ? "bg-[#2e3e49]! text-white"
-                      : "hover:bg-[rgba(145,158,171,0.08)]"
-                    }`}
-                >
-                  {lang.title}
-                </button>
-              </li>
-            ))}
-          </ul>
-        )}
+            <p className="text-[12px] text-(--palette-text-secondary)">
+              Language
+            </p>
+            <p className="text-[14px] text-(--palette-text-primary)">
+              {language}
+            </p>
+          </button>
+
+          {open && (
+            <ul
+              translate="no"
+              className="absolute mt-2 -ml-1 max-h-40 rounded-sm shadow-lg bg-[rgba(var(--palette-background-paperChannel)/90%)] text-(--palette-text-primary) z-50 overflow-y-auto no-scrollbar"
+            >
+              {languageConfig.map((lang) => (
+                <li key={lang.name}>
+                  <button
+                    onClick={() =>
+                      handleSelectLanguage(lang.title, lang.name)
+                    }
+                    className={`text-sm w-full text-left bg-transparent cursor-pointer font-semibold transition p-3 rounded-none
+                      ${
+                        language === lang.title
+                          ? "bg-[#2e3e49] text-white"
+                          : "hover:bg-[rgba(145,158,171,0.08)]"
+                      }`}
+                  >
+                    {lang.title}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
       </div>
-    </div>
     </div>
   );
 };
