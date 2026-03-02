@@ -187,9 +187,6 @@ export const CONFIG = {
 
   claimAmountURL: BASE_URL + "/v1/exchange/users/userClaim",
 
-  menuList: BASE_URL + "/api/navigation/menuList",
-  menuListTime: 1440,
-
   marketBookLine: BASE_URL + "/app/exchange/users/pl/marketBook",
   userBetList: BASE_URL + "/app/exchange/users/userBetList",
   newProfitLossMarket:

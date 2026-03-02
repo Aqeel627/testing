@@ -42,10 +42,10 @@ export default function SettingsPage() {
   const { showToast } = useToast()
 
   useEffect(() => {
-    console.log(stakeValue, "stakes")
+    // console.log(stakeValue, "stakes")
     const stakes = stakeValue?.stake;
     if (Array.isArray(stakes) && stakes.length > 0) {
-      console.log(stakes, "data")
+      // console.log(stakes, "data")
       setStackButtonArry(stakes);
     }
   }, [stakeValue]);
