@@ -74,9 +74,7 @@ const closeMyBets = useMyBetsDrawerStore((s) => s.close);
 
             <Link
               prefetch={false}
-              href={
-                item.icon === "bets" && isLoggedIn ? "/bets-history" : item.link
-              }
+href={item.icon === "bets" || item.icon === "casinoic" ? "#" : item.link}
               onClick={(e) => {
                 // ✅ Bets ke liye login check
                 if (item.icon === "bets" && !isLoggedIn) {
@@ -84,6 +82,10 @@ const closeMyBets = useMyBetsDrawerStore((s) => s.close);
                   setLoginModal(true);
                   return;
                 }
+                    if (isBetsOpen) {
+    closeMyBets();
+    return;
+  }
 
                 // ✅ BETS
                 // if (item.icon === "bets") {
@@ -117,10 +119,6 @@ if (item.icon === "bets") {
 
   if (!isLoggedIn) {
     setLoginModal(true);
-    return;
-  }
-    if (isBetsOpen) {
-    closeMyBets();
     return;
   }
 

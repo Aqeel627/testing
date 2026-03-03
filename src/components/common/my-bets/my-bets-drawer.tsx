@@ -125,19 +125,16 @@ export default function MyBetsDrawer() {
   return (
     <div id="my-bets-drawer.tsx">
       {/* Overlay (does NOT cover bottom nav area) */}
-      <div
-        onClick={close}
-        className={cn(
-          "fixed left-0 right-0 top-0 bg-black/40 transition-opacity duration-300",
-          isOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none",
-        )}
-        style={{
-          bottom: `${bottomGap}px`,
-          zIndex: 9998,
-        }}
-      />
-
-      {/* Bottom Sheet (full height above bottom nav) */}
+<div
+  onClick={close}
+  className={cn(
+    "fixed inset-0 bg-black/40 transition-opacity duration-300",
+    isOpen
+      ? "opacity-100 pointer-events-auto"
+      : "opacity-0 pointer-events-none",
+  )}
+  style={{ zIndex: 9998 }}
+/>
       <div
         className={cn(
           "fixed left-0 w-full z-[9999]",
@@ -157,6 +154,7 @@ export default function MyBetsDrawer() {
           boxShadow:
             "0 8px 32px #00000059, inset 0 0 #ffffff40, inset 0 -2px 6px #ffffff0d",
         }}
+         onClick={(e) => e.stopPropagation()}
       >
         {/* Header exactly like page (breadcrumb), with close on top-right */}
         <div className="relative px-3">
