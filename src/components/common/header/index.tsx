@@ -387,9 +387,9 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
   transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
   style={{
     position: "fixed",
-    top: "48px",
+    top: "0px",
     right: 0,
-    height: "calc(100% - 48px)",
+    height: "calc(100% - 0px)",
     zIndex: 999999999,
     willChange: "transform",
     backfaceVisibility: "hidden",
