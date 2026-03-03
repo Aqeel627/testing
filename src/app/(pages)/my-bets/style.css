@@ -1,0 +1,59 @@
+.mb-wrap{
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 14px 120px; /* bottom navbar space */
+}
+
+.mb-card{
+  border: 1px solid var(--dotted-line);
+  background: var(--accordion-bg);
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.mb-list{
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.mb-acc{
+  border: 1px solid var(--dotted-line);
+  border-radius: 14px;
+  overflow: hidden;
+  background: var(--accordion-bg);
+}
+
+.mb-acc-head{
+  width: 100%;
+  padding: 12px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: transparent;
+  color: var(--palette-text-primary);
+}
+
+.mb-acc-name{
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+}
+
+.mb-acc-arrow{
+  opacity: .75;
+  font-size: 12px;
+}
+
+.mb-acc-body{
+  border-top: 1px solid var(--dotted-line);
+  padding: 10px;
+}
+
+.mb-empty{
+  text-align: center;
+  padding: 26px 10px;
+  color: var(--palette-text-primary);
+  opacity: .7;
+}
