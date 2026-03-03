@@ -6,6 +6,7 @@ import http from "@/lib/axios-instance";
 import { CONFIG } from "@/lib/config";
 import MatchOdd from "./match-odd";
 import { useRouter } from "next/navigation";
+import { useAppStore } from "@/lib/store/store";
 
 type ExposureItem = {
   event: { id: string; name: string };
@@ -43,12 +44,11 @@ export default function MyBets({
   sportId: string | null;
 }) {
   const router = useRouter();
+  const { userExposureList } = useAppStore();
 
   const isOpenBetsMode = !!eventId && !!sportId;
 
   const [hasLogin, setHasLogin] = useState(false);
-
-  const [userExposureList, setUserExposureList] = useState<ExposureItem[]>([]);
   const [activeSportIndex, setActiveSportIndex] = useState<number | null>(null);
 
   const [unmatchedBets, setUnmatchedBets] = useState<Bet[]>([]);
@@ -62,12 +62,16 @@ export default function MyBets({
 
   const loopRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const [exposureFetched, setExposureFetched] = useState(false);
-const [betsFetched, setBetsFetched] = useState(false);
+  const [betsFetched, setBetsFetched] = useState(false);
 
   const tabs = [
     { id: "open", name: "Open", icon: <span className="fa fa-folder-open" /> },
     { id: "settled", name: "Settled", icon: <span className="fa fa-check" /> },
-    { id: "multiples", name: "Multiples", icon: <span className="fa fa-layer-group" /> },
+    {
+      id: "multiples",
+      name: "Multiples",
+      icon: <span className="fa fa-layer-group" />,
+    },
   ];
 
   useEffect(() => {
@@ -83,8 +87,8 @@ const [betsFetched, setBetsFetched] = useState(false);
     setShowMatchOdd(true);
     setIsMatchOddLoading(false);
 
-      setExposureFetched(false);
-  setBetsFetched(false);
+    setExposureFetched(false);
+    setBetsFetched(false);
   }, []);
 
   const clearLoop = () => {
@@ -95,7 +99,10 @@ const [betsFetched, setBetsFetched] = useState(false);
   };
 
   const groupMatchedByMarket = (rawMatched: Bet[]): MarketGroup[] => {
-    const grouped: Record<string, { marketName: string; BACK: Bet[]; LAY: Bet[] }> = {};
+    const grouped: Record<
+      string,
+      { marketName: string; BACK: Bet[]; LAY: Bet[] }
+    > = {};
 
     (rawMatched || []).forEach((bet) => {
       if (!bet.marketId) return;
@@ -136,7 +143,6 @@ const [betsFetched, setBetsFetched] = useState(false);
   };
 
   const getUnMatchedBetList = useCallback(
-    
     async (
       sId?: string | null,
       eId?: string | null,
@@ -144,7 +150,7 @@ const [betsFetched, setBetsFetched] = useState(false);
     ) => {
       if (!sId || !eId) return false;
       if (!localStorage.getItem("token")) return false;
-  setBetsFetched(false);   
+      setBetsFetched(false);
       setIsMatchOddLoading(true);
 
       try {
@@ -174,28 +180,11 @@ const [betsFetched, setBetsFetched] = useState(false);
         return false;
       } finally {
         setIsMatchOddLoading(false);
-           setBetsFetched(true);
+        setBetsFetched(true);
       }
     },
     [isOpenBetsMode],
   );
-
-  const getUserExposureEventName = useCallback(async () => {
-    if (!hasLogin) return;
-
-    setExposureFetched(false);
-
-    try {
-      const res = await http.post(CONFIG.getExposureListURL, {});
-      const list = res?.data?.data ?? res?.data ?? [];
-      setUserExposureList(list);
-    } catch {
-      setUserExposureList([]);
-    }
-    finally {
-    setExposureFetched(true); // ✅ after call
-  }
-  }, [hasLogin]);
 
   // INIT: Open Bets mode OR My Bets mode
   useEffect(() => {
@@ -208,9 +197,6 @@ const [betsFetched, setBetsFetched] = useState(false);
       // Open Bets: direct call
       setSelectedMarketKey(`${sportId},${eventId}`);
       getUnMatchedBetList(sportId, eventId, { schedule: true });
-    } else {
-      // My Bets: exposure list
-      getUserExposureEventName();
     }
 
     return () => clearLoop();
@@ -220,7 +206,6 @@ const [betsFetched, setBetsFetched] = useState(false);
     eventId,
     sportId,
     resetBetsState,
-    getUserExposureEventName,
     getUnMatchedBetList,
   ]);
 
@@ -258,90 +243,89 @@ const [betsFetched, setBetsFetched] = useState(false);
   };
 
   // ===== RENDER (same structure like old) =====
-return (
-  <div className={styles["pageWrap"]}>
-    {/* ✅ Tabs outside (same as password history) */}
-    {!isOpenBetsMode && userExposureList.length > 0 && (
-      <div className={styles["tabsWrap"]}>
-        <div className="flex mx-auto overflow-x-auto scroll-width-none max-w-3xl px-2 pb-[5px] gap-[15px]">
-          {tabs.map((item) => (
-            <div
-              key={item.id}
-              onClick={() => setMarketTabs(item.id)}
-              className={`${styles["glass-panel"]} ${styles["nav-item"]} ${
-                marketTabs === item.id ? styles["active"] : ""
-              }`}
-            >
-              <span className="flex items-center justify-center gap-1">
-                {item.icon}
-                <p>{item.name}</p>
-              </span>
-            </div>
-          ))}
-        </div>
-      </div>
-    )}
-
-    {/* ✅ Open Bets mode => direct matchodd full width */}
-{isOpenBetsMode && showMatchOdd ? (
-  <div className={styles["listWrap"]}>
-    {!betsFetched || isMatchOddLoading ? null : (
-      <MatchOdd
-        unmatchedBets={unmatchedBets}
-        matchedBets={matchedBets}
-        onCancelUnmatchedRefresh={handleCancelUnmatchedRefresh}
-        onViewMarket={viewMarket}
-      />
-    )}
-  </div>
-) : (
-      /* ✅ My Bets => full width rows (NO card) */
-      <div className={styles["listWrap"]}>
-{exposureFetched && !userExposureList?.length ? (
-  <div className={styles["empty"]}>No bets available</div>
-) : (
-          userExposureList.map((item, i) => {
-            const isActive = activeSportIndex === i;
-            const thisMarketKey = `${item.eventType?.id},${item.event?.id}`;
-            const showThisMatchOdd =
-              hasLogin &&
-              showMatchOdd &&
-              selectedMarketKey === thisMarketKey &&
-              !isMatchOddLoading;
-
-            return (
+  return (
+    <div className={styles["pageWrap"]}>
+      {/* ✅ Tabs outside (same as password history) */}
+      {!isOpenBetsMode && userExposureList?.length > 0 && (
+        <div className={styles["tabsWrap"]}>
+          <div className="flex mx-auto overflow-x-auto scroll-width-none max-w-3xl px-2 pb-[5px] gap-[15px]">
+            {tabs.map((item) => (
               <div
-                key={item.event.id || i}
-                className={styles["rowWrap"]}
+                key={item.id}
+                onClick={() => setMarketTabs(item.id)}
+                className={`${styles["glass-panel"]} ${styles["nav-item"]} ${
+                  marketTabs === item.id ? styles["active"] : ""
+                }`}
               >
-                <a
-                  className={`${styles["nav-link"]} ${
-                    isActive ? styles["activesport"] : ""
-                  }`}
-                  onClick={() => onMarketClick(item, i)}
-                >
-                  <span className={styles["bet-marketname"]}>
-                    {item.event.name}
-                    {item.betCounts ? ` (${item.betCounts})` : ""}
-                  </span>
-                </a>
-
-                {showThisMatchOdd && (
-                  <div className={styles["rowBody"]}>
-                    <MatchOdd
-                      unmatchedBets={unmatchedBets}
-                      matchedBets={matchedBets}
-                      onCancelUnmatchedRefresh={handleCancelUnmatchedRefresh}
-                      onViewMarket={viewMarket}
-                    />
-                  </div>
-                )}
+                <span className="flex items-center justify-center gap-1">
+                  {item.icon}
+                  <p>{item.name}</p>
+                </span>
               </div>
-            );
-          })
-        )}
-      </div>
-    )}
-  </div>
-);
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* ✅ Open Bets mode => direct matchodd full width */}
+      {isOpenBetsMode && showMatchOdd ? (
+        <div className={styles["listWrap"]}>
+          {!betsFetched || isMatchOddLoading ? null : (
+            <MatchOdd
+              unmatchedBets={unmatchedBets}
+              matchedBets={matchedBets}
+              onCancelUnmatchedRefresh={handleCancelUnmatchedRefresh}
+              onViewMarket={viewMarket}
+            />
+          )}
+        </div>
+      ) : (
+        /* ✅ My Bets => full width rows (NO card) */
+        <div className={styles["listWrap"]}>
+          {!userExposureList?.length ? (
+            <div className="py-6 text-center text-gray-500 text-sm">
+              No bets available
+            </div>
+          ) : (
+            userExposureList?.map((item: any, i: number) => {
+              const isActive = activeSportIndex === i;
+              const thisMarketKey = `${item.eventType?.id},${item.event?.id}`;
+              const showThisMatchOdd =
+                hasLogin &&
+                showMatchOdd &&
+                selectedMarketKey === thisMarketKey &&
+                !isMatchOddLoading;
+
+              return (
+                <div key={item.event.id || i} className={styles["rowWrap"]}>
+                  <a
+                    className={`${styles["nav-link"]} ${
+                      isActive ? styles["activesport"] : ""
+                    }`}
+                    onClick={() => onMarketClick(item, i)}
+                  >
+                    <span className={styles["bet-marketname"]}>
+                      {item.event.name}
+                      {item.betCounts ? ` (${item.betCounts})` : ""}
+                    </span>
+                  </a>
+
+                  {showThisMatchOdd && (
+                    <div className={styles["rowBody"]}>
+                      <MatchOdd
+                        unmatchedBets={unmatchedBets}
+                        matchedBets={matchedBets}
+                        onCancelUnmatchedRefresh={handleCancelUnmatchedRefresh}
+                        onViewMarket={viewMarket}
+                      />
+                    </div>
+                  )}
+                </div>
+              );
+            })
+          )}
+        </div>
+      )}
+    </div>
+  );
 }

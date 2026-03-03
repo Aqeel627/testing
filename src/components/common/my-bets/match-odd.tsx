@@ -306,7 +306,7 @@ export default function MatchOdd({
         <div className="border-t-[unset] relative overflow-x-hidden overflow-y-auto -mt-px ">
           <div className="pb-[5px]">
             {/* Optional global cancel all (old feature) */}
-            {(unmatchedBets?.length || 0) > 0 ? (
+            {/* {(unmatchedBets?.length || 0) > 0 ? (
               <div className="px-2 py-2">
                 <button
                   onClick={cancelBetsAllUnmatchedBets}
@@ -319,7 +319,7 @@ export default function MatchOdd({
                   Cancel All Unmatched
                 </button>
               </div>
-            ) : null}
+            ) : null} */}
 
             {marketFlows.map((market, marketIndex) => {
               const isOpen = openMarkets[market.marketId] ?? true;
