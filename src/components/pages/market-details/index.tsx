@@ -106,8 +106,13 @@ const shortNumber = (value: any): string => {
 };
 
 export default function MarketDetails() {
-  const { setSelectedBet, selectedBet, slipPreview, setAllEventsList } =
-    useAppStore();
+  const {
+    setSelectedBet,
+    selectedBet,
+    slipPreview,
+    setAllEventsList,
+    setMatchedUnmatchedTotal,
+  } = useAppStore();
 
   const { eventTypes, competitions } = useIndexManagerStore();
   const [isLoading, setIsLoading] = useState(true);
@@ -188,7 +193,12 @@ export default function MarketDetails() {
         eventId: String(eventId),
         sportId: String(sportId),
       });
+      const data = res?.data?.data ?? res?.data ?? {};
+      const unmatched:any = data?.unmatchedBets || [];
+      const matchedRaw:any = data?.matchedBets || [];
       setMatchedBets(res?.data?.data?.matchedBets || []);
+      const totalMatchUnmatched = unmatched?.length + matchedRaw?.length;
+      setMatchedUnmatchedTotal(totalMatchUnmatched);
     } catch {
       /* silent */
     }

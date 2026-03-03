@@ -4,12 +4,13 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { useTheme } from "next-themes";
 import React, { Fragment, useEffect, useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useMiniCasinoStore } from "@/lib/store/miniCasinoStore";
 import { useCacheStore } from "@/lib/store/cacheStore";
 import dynamic from "next/dynamic";
 import Icon from "@/icons/icons";
 import { useAppStore } from "@/lib/store/store";
+import { useMyBetsDrawerStore } from "@/lib/store/myBetsDrawerStore";
 const CenterRadialButton = dynamic(
   () => import("@/components/common/bottom-nav/center-radial-btn"),
 );
@@ -18,13 +19,16 @@ const BottomNavbar = () => {
   const [isSafari, setIsSafari] = useState(false);
 
   const pathName = usePathname();
+  const params = useSearchParams();
   const router = useRouter();
   const { theme } = useTheme();
 
   const { isLoggedIn } = useAuthStore();
-  const { userExposureList } = useAppStore();
+  const { userExposureList, matchedUnmatchedTotal } = useAppStore();
   const { setLoginModal } = useCacheStore();
   const { isOpen, open, close } = useMiniCasinoStore();
+  const openMyBets = useMyBetsDrawerStore((s) => s.openMyBets);
+const openOpenBets = useMyBetsDrawerStore((s) => s.openOpenBets);
 
   const items = [
     { icon: "house", link: "/" },
@@ -43,6 +47,12 @@ const BottomNavbar = () => {
 
     setIsSafari(safari);
   }, []);
+
+  const segs = pathName.split("/").filter(Boolean);
+  const eventId = segs?.[1] || params.get("eventId");
+  const sportId = segs?.[2] || params.get("sportId");
+
+  console.log(eventId, sportId, "asdf");
 
   return (
     <div id="bottomNavbar.tsx">
@@ -73,32 +83,54 @@ const BottomNavbar = () => {
                 }
 
                 // ✅ BETS
-                if (item.icon === "bets") {
-                  e.preventDefault();
+                // if (item.icon === "bets") {
+                //   e.preventDefault();
 
-                  if (!isLoggedIn) {
-                    setLoginModal(true);
-                    return;
-                  }
+                //   if (!isLoggedIn) {
+                //     setLoginModal(true);
+                //     return;
+                //   }
 
-                  // agar market-details pe ho to Open Bets mode
-                  if (pathName?.includes("/market-details/")) {
-                    const segs = pathName.split("/").filter(Boolean);
-                    const eventId = segs?.[1];
-                    const sportId = segs?.[2];
+                //   // agar market-details pe ho to Open Bets mode
+                //   if (pathName?.includes("/market-details/")) {
+                //     const segs = pathName.split("/").filter(Boolean);
+                //     const eventId = segs?.[1];
+                //     const sportId = segs?.[2];
 
-                    if (eventId && sportId) {
-                      router.push(
-                        `/my-bets?eventId=${eventId}&sportId=${sportId}`,
-                      );
-                      return;
-                    }
-                  }
+                //     if (eventId && sportId) {
+                //       router.push(
+                //         `/my-bets?eventId=${eventId}&sportId=${sportId}`,
+                //       );
+                //       return;
+                //     }
+                //   }
 
-                  // normal My Bets
-                  router.push("/my-bets");
-                  return;
-                }
+                //   // normal My Bets
+                //   router.push("/my-bets");
+                //   return;
+                // }
+if (item.icon === "bets") {
+  e.preventDefault();
+
+  if (!isLoggedIn) {
+    setLoginModal(true);
+    return;
+  }
+
+  // ✅ exact page-like behavior
+  if (pathName?.includes("/market-details/")) {
+    const segs = pathName.split("/").filter(Boolean);
+    const eventId = segs?.[1];
+    const sportId = segs?.[2];
+    if (eventId && sportId) {
+      openOpenBets(eventId, sportId);
+      return;
+    }
+  }
+
+  openMyBets();
+  return;
+}
 
                 // ✅ Casino ke liye special toggle logic
                 if (item.icon === "casinoic") {
@@ -129,9 +161,13 @@ const BottomNavbar = () => {
               <Icon name={item.icon} width={25} height={25} />
               {item.icon === "bets" &&
                 isLoggedIn &&
-                userExposureList?.length > 0 && (
+                (eventId && sportId
+                  ? matchedUnmatchedTotal > 0
+                  : userExposureList?.totalExposure > 0) && (
                   <span className="absolute top-0 right-0 w-4 h-4 bg-red-500 rounded-full text-xs flex justify-center items-center text-white">
-                    {userExposureList?.length || 0}
+                    {eventId && sportId
+                      ? matchedUnmatchedTotal
+                      : userExposureList?.totalExposure || 0}
                   </span>
                 )}
             </Link>
