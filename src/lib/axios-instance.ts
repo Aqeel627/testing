@@ -37,15 +37,16 @@ if (typeof window !== "undefined") {
         (error: AxiosError) => {
             // 401 Unauthorized Handling
             if (error.response?.status === 401) {
+                // 1. Clear Zustand state
                 const logout = useAuthStore.getState().logout;
                 logout();
+
+                // 2. 🔥 Fire a custom event instead of reloading the window
+                if (typeof window !== "undefined") {
+                    window.dispatchEvent(new CustomEvent("auth-unauthorized"));
+                }
             }
-
-            // 🔥 Yahan hum Axios error ki jagah API ka custom error nikal rahe hain
-            // Backend se mostly error 'error.response.data' mein aata hai
             const apiError = error.response?.data || error.message || "Something went wrong";
-
-            // Ab try/catch block mein direct backend ka error milega
             return Promise.reject(apiError);
         }
     );
