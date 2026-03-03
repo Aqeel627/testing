@@ -453,10 +453,11 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                           >
                             {/* Text + 5px space + Icon */}
                             <div className="flex items-center">
-                              <span>{item.label}</span>
-                              <span className="ml-[5px] flex items-center">
+                              <span className="flex items-center">
                                 <Icon name={item.icon} className="h-4 w-4" />
                               </span>
+                                                            <span className="ml-[5px] ">{item.label}</span>
+
                             </div>
                             <Ripple
                               pt={{
@@ -470,13 +471,14 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                           </Link>
                         </li>
                       ))}
+                      <hr className="m-0 shrink-0 border-0 p-0! my-2! border-b border-dashed border-(--dotted-line) max-md:hidden"></hr>
 
                       {/* Theme Option (Static Icon for now) */}
                       <li
                         onClick={() => {
                           setTheme(theme === "dark" ? "light" : "dark");
                         }}
-                        className="p-ripple mb-1 no-underline hidden md:block h-9.5 min-[600px]:h-auto text-[0.875rem] leading-[1.57143px] hover:bg-[rgba(145,158,171,0.08)] rounded-[8px]"
+                        className="p-ripple  mb-1 no-underline hidden md:block h-9.5 min-[600px]:h-auto text-[0.875rem] leading-[1.57143px] hover:bg-[rgba(145,158,171,0.08)] rounded-[8px]"
                       >
                         <div className="flex items-center justify-between w-full  text-[14px] text-[var(--dropdowntext)] hover:text-[var(--palette-text-primary)] hover:bg-white/5 transition-colors cursor-pointer">
                           <span className="ml-4">
@@ -529,8 +531,11 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                           }}
                         />
                       </li>
-
+   
                       {/* Hide Balance Toggle */}
+
+                                            <hr className="m-0 shrink-0 border-0 p-0! my-2! border-b border-dashed border-(--dotted-line) min-md:hidden"></hr>
+
                       <li
                         onClick={() => {
                           // Prevent menu from closing
