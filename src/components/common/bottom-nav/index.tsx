@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { useTheme } from "next-themes";
 import React, { Fragment, useEffect, useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useMiniCasinoStore } from "@/lib/store/miniCasinoStore";
 import { useCacheStore } from "@/lib/store/cacheStore";
 import dynamic from "next/dynamic";
@@ -18,11 +18,12 @@ const BottomNavbar = () => {
   const [isSafari, setIsSafari] = useState(false);
 
   const pathName = usePathname();
+  const params = useSearchParams();
   const router = useRouter();
   const { theme } = useTheme();
 
   const { isLoggedIn } = useAuthStore();
-  const { userExposureList } = useAppStore();
+  const { userExposureList, matchedUnmatchedTotal } = useAppStore();
   const { setLoginModal } = useCacheStore();
   const { isOpen, open, close } = useMiniCasinoStore();
 
@@ -43,6 +44,12 @@ const BottomNavbar = () => {
 
     setIsSafari(safari);
   }, []);
+
+  const segs = pathName.split("/").filter(Boolean);
+  const eventId = segs?.[1] || params.get("eventId");
+  const sportId = segs?.[2] || params.get("sportId");
+
+  console.log(eventId, sportId, "asdf");
 
   return (
     <div id="bottomNavbar.tsx">
@@ -129,9 +136,13 @@ const BottomNavbar = () => {
               <Icon name={item.icon} width={25} height={25} />
               {item.icon === "bets" &&
                 isLoggedIn &&
-                userExposureList?.totalExposure > 0 && (
+                (eventId && sportId
+                  ? matchedUnmatchedTotal > 0
+                  : userExposureList?.totalExposure > 0) && (
                   <span className="absolute top-0 right-0 w-4 h-4 bg-red-500 rounded-full text-xs flex justify-center items-center text-white">
-                    {userExposureList?.totalExposure || 0}
+                    {eventId && sportId
+                      ? matchedUnmatchedTotal
+                      : userExposureList?.totalExposure || 0}
                   </span>
                 )}
             </Link>

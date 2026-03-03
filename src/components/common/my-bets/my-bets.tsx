@@ -44,7 +44,7 @@ export default function MyBets({
   sportId: string | null;
 }) {
   const router = useRouter();
-  const { userExposureList } = useAppStore();
+  const { userExposureList, setMatchedUnmatchedTotal } = useAppStore();
 
   const isOpenBetsMode = !!eventId && !!sportId;
 
@@ -163,8 +163,11 @@ export default function MyBets({
         const unmatched: Bet[] = data?.unmatchedBets || [];
         const matchedRaw: Bet[] = data?.matchedBets || [];
 
+        const totalMatchUnmatched = unmatched?.length + matchedRaw?.length;
+
         setUnmatchedBets(unmatched);
         setMatchedBets(groupMatchedByMarket(matchedRaw));
+        setMatchedUnmatchedTotal(totalMatchUnmatched);
 
         const hasData = unmatched.length > 0 || matchedRaw.length > 0;
 
