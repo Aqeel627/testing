@@ -540,7 +540,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                               <div className="flex items-center justify-between w-full text-[14px] text-[var(--dropdowntext)] hover:text-[var(--palette-text-primary)] transition-colors cursor-pointer">
                                 <span className="ml-4">Hide Balance</span>
                                 <span className="w-[58px] h-[38px] flex justify-end items-center">
-                                  <div className={`relative w-[34px] h-5 mr-[10px] rounded-full transition-colors ${hideBalance ? "bg-[#078dee]" : "bg-gray-600"}`}>
+                                  <div className={`relative w-[34px] h-5 mr-[10px] rounded-full transition-colors ${hideBalance ? "bg-[var(--primary-color)]" : "bg-gray-600"}`}>
                                     <div className={`absolute top-[3px] left-[3px] bg-white w-3.5 h-3.5 rounded-full transition-transform ${hideBalance ? "translate-x-[14px]" : "translate-x-0"}`} />
                                   </div>
                                 </span>
