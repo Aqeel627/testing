@@ -27,8 +27,11 @@ const BottomNavbar = () => {
   const { userExposureList, matchedUnmatchedTotal } = useAppStore();
   const { setLoginModal } = useCacheStore();
   const { isOpen, open, close } = useMiniCasinoStore();
+  const isBetsOpen = useMyBetsDrawerStore((s) => s.isOpen);
   const openMyBets = useMyBetsDrawerStore((s) => s.openMyBets);
 const openOpenBets = useMyBetsDrawerStore((s) => s.openOpenBets);
+const closeMyBets = useMyBetsDrawerStore((s) => s.close);
+
 
   const items = [
     { icon: "house", link: "/" },
@@ -114,6 +117,10 @@ if (item.icon === "bets") {
 
   if (!isLoggedIn) {
     setLoginModal(true);
+    return;
+  }
+    if (isBetsOpen) {
+    closeMyBets();
     return;
   }
 
