@@ -39,9 +39,11 @@ type MarketGroup = {
 export default function MyBets({
   eventId,
   sportId,
+  onRequestClose,
 }: {
   eventId: string | null;
   sportId: string | null;
+   onRequestClose?: () => void;
 }) {
   const router = useRouter();
   const { userExposureList, setMatchedUnmatchedTotal } = useAppStore();
@@ -239,11 +241,15 @@ export default function MyBets({
     getUnMatchedBetList(sId, eId, { schedule: isOpenBetsMode });
   };
 
-  const viewMarket = () => {
-    const sId = isOpenBetsMode ? sportId : localStorage.getItem("sportId");
-    const eId = isOpenBetsMode ? eventId : localStorage.getItem("eventId");
-    if (sId && eId) router.push(`/market-details/${eId}/${sId}`);
-  };
+const viewMarket = () => {
+  const sId = isOpenBetsMode ? sportId : localStorage.getItem("sportId");
+  const eId = isOpenBetsMode ? eventId : localStorage.getItem("eventId");
+
+  if (sId && eId) {
+    onRequestClose?.(); // ✅ close modal first (page-like)
+    router.push(`/market-details/${eId}/${sId}`);
+  }
+};
 
   // ===== RENDER (same structure like old) =====
   return (
