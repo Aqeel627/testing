@@ -129,9 +129,9 @@ const BottomNavbar = () => {
               <Icon name={item.icon} width={25} height={25} />
               {item.icon === "bets" &&
                 isLoggedIn &&
-                userExposureList?.length > 0 && (
+                userExposureList?.totalExposure > 0 && (
                   <span className="absolute top-0 right-0 w-4 h-4 bg-red-500 rounded-full text-xs flex justify-center items-center text-white">
-                    {userExposureList?.length || 0}
+                    {userExposureList?.totalExposure || 0}
                   </span>
                 )}
             </Link>

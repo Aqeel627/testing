@@ -34,7 +34,12 @@ const GlobalApisCall = () => {
       fetchData({
         url: CONFIG.getExposureListURL,
         payload: {},
-        setFn: setUserExposureList,
+        setFn: (data) => {
+          const totalExposure = data?.reduce((acc: number, item: any) => {
+            return acc + (item?.betCounts || 0);
+          }, 0);
+          setUserExposureList({ data, totalExposure });
+        },
       });
     }
 

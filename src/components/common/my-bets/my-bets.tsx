@@ -246,7 +246,7 @@ export default function MyBets({
   return (
     <div className={styles["pageWrap"]}>
       {/* ✅ Tabs outside (same as password history) */}
-      {!isOpenBetsMode && userExposureList?.length > 0 && (
+      {!isOpenBetsMode && userExposureList?.data?.length > 0 && (
         <div className={styles["tabsWrap"]}>
           <div className="flex mx-auto overflow-x-auto scroll-width-none max-w-3xl px-2 pb-[5px] gap-[15px]">
             {tabs.map((item) => (
@@ -270,24 +270,22 @@ export default function MyBets({
       {/* ✅ Open Bets mode => direct matchodd full width */}
       {isOpenBetsMode && showMatchOdd ? (
         <div className={styles["listWrap"]}>
-          {!betsFetched || isMatchOddLoading ? null : (
-            <MatchOdd
-              unmatchedBets={unmatchedBets}
-              matchedBets={matchedBets}
-              onCancelUnmatchedRefresh={handleCancelUnmatchedRefresh}
-              onViewMarket={viewMarket}
-            />
-          )}
+          <MatchOdd
+            unmatchedBets={unmatchedBets}
+            matchedBets={matchedBets}
+            onCancelUnmatchedRefresh={handleCancelUnmatchedRefresh}
+            onViewMarket={viewMarket}
+          />
         </div>
       ) : (
         /* ✅ My Bets => full width rows (NO card) */
         <div className={styles["listWrap"]}>
-          {!userExposureList?.length ? (
+          {!userExposureList?.data?.length ? (
             <div className="py-6 text-center text-gray-500 text-sm">
               No bets available
             </div>
           ) : (
-            userExposureList?.map((item: any, i: number) => {
+            userExposureList?.data?.map((item: any, i: number) => {
               const isActive = activeSportIndex === i;
               const thisMarketKey = `${item.eventType?.id},${item.event?.id}`;
               const showThisMatchOdd =
