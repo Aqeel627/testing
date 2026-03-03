@@ -183,7 +183,7 @@ export default function MyBetsDrawer() {
         {/* Body */}
         <div className="h-[calc(100%-64px)] overflow-y-auto px-3 pb-4">
           {/* ✅ Your existing flow unchanged */}
-          <MyBets eventId={eventId} sportId={sportId} />
+          <MyBets eventId={eventId} sportId={sportId} onRequestClose={close} />
         </div>
       </div>
     </div>
