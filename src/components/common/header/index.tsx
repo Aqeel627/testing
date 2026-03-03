@@ -89,7 +89,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
         className={cn(
           "w-full glass-header  --palette-text-primary  sticky top-0 z-[9999999]",
           theme === "light" &&
-            "backdrop-blur-[10px]! bg-linear-to-br! from-white/25! to-white/5! border-b! border-[rgb(205_192_192/0.4)]! shadow-[0_8px_32px_rgba(0,0,0,0.2)]!",
+          "backdrop-blur-[10px]! bg-linear-to-br! from-white/25! to-white/5! border-b! border-[rgb(205_192_192/0.4)]! shadow-[0_8px_32px_rgba(0,0,0,0.2)]!",
         )}
       >
         <div className="max-w-[1600px] mx-auto px-2 h-12 flex items-center justify-between">
@@ -231,7 +231,11 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
               // >
               //   Bets
               // </button>
-              <div className="relative inline-flex items-center justify-center h-[29px] rounded-[8px] p-[1px] overflow-hidden bg-transparent group cursor-pointer max-w-16">
+
+              <div
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className="relative inline-flex items-center justify-center h-[29px] rounded-[8px] p-[1px] overflow-hidden bg-transparent group cursor-pointer max-w-16"
+              >
                 <span
                   className="absolute inset-0 m-auto w-full h-full rounded-[inherit] content-[''] pointer-events-none 
         [mask:linear-gradient(#fff_0_0)_content-box_xor,linear-gradient(#fff_0_0)] 
@@ -249,10 +253,15 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                 </span>
                 <button className="p-ripple relative z-10 flex flex-col items-center justify-center px-4 py-1 bg-[var(--background)] hover:bg-[var(--head-hover)] h-[28px] rounded-[7px] w-full h-full min-w-[62px] cursor-pointer">
                   <span className="text-[0.6rem] text-[#919EAB] font-semibold leading-[1] uppercase tracking-[1px]">
-                    Exp
+                    Pts
                   </span>
                   <span className="text-[10px] font-bold leading-[1] text-[var(--palette-text-primary)]">
-                    {userBalance?.exposure ?? 0}
+                    {hideBalance
+                      ? "-"
+                      : (
+                        (userBalance?.bankBalance ?? 0) -
+                        (userBalance?.exposure ?? 0)
+                      ).toFixed(2)}
                   </span>
                   <Ripple
                     pt={{
@@ -309,10 +318,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
             )}
             {isLoggedIn && (
               <div className="flex items-center gap-2 mr-1" ref={menuRef}>
-                <div
-                  onClick={() => setIsMenuOpen(!isMenuOpen)}
-                  className="relative inline-flex items-center justify-center h-[29px] rounded-[8px] p-[1px] overflow-hidden bg-transparent group cursor-pointer max-w-16"
-                >
+                <div className="relative inline-flex items-center justify-center h-[29px] rounded-[8px] p-[1px] overflow-hidden bg-transparent group cursor-pointer max-w-16">
                   <span
                     className="absolute inset-0 m-auto w-full h-full rounded-[inherit] content-[''] pointer-events-none 
         [mask:linear-gradient(#fff_0_0)_content-box_xor,linear-gradient(#fff_0_0)] 
@@ -330,15 +336,10 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                   </span>
                   <button className="p-ripple relative z-10 flex flex-col items-center justify-center px-4 py-1 bg-[var(--background)] hover:bg-[var(--head-hover)] h-[28px] rounded-[7px] w-full h-full min-w-[62px] cursor-pointer">
                     <span className="text-[0.6rem] text-[#919EAB] font-semibold leading-[1] uppercase tracking-[1px]">
-                      Pts
+                      Exp
                     </span>
                     <span className="text-[10px] font-bold leading-[1] text-[var(--palette-text-primary)]">
-                      {hideBalance
-                        ? "-"
-                        : (
-                            (userBalance?.bankBalance ?? 0) -
-                            (userBalance?.exposure ?? 0)
-                          ).toFixed(2)}
+                      {userBalance?.exposure ?? 0}
                     </span>
                     <Ripple
                       pt={{
@@ -378,9 +379,9 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                             {hideBalance
                               ? "-"
                               : (
-                                  (userBalance?.bankBalance ?? 0) -
-                                  (userBalance?.exposure ?? 0)
-                                ).toFixed(2)}
+                                (userBalance?.bankBalance ?? 0) -
+                                (userBalance?.exposure ?? 0)
+                              ).toFixed(2)}
                           </p>
                         </div>
                       </div>
@@ -649,7 +650,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
               <span
                 className={cn(
                   pathName === "/live-casino" &&
-                    "active text-(--primary-color)",
+                  "active text-(--primary-color)",
                   " group-hover:--palette-text-primary  transition-colors mr-[1.8px] ",
                 )}
               >
