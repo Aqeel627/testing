@@ -452,10 +452,11 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                           >
                             {/* Text + 5px space + Icon */}
                             <div className="flex items-center">
-                              <span>{item.label}</span>
-                              <span className="ml-[5px] flex items-center">
+                              <span className="flex items-center">
                                 <Icon name={item.icon} className="h-4 w-4" />
                               </span>
+                                                            <span className="ml-[5px] ">{item.label}</span>
+
                             </div>
                             <Ripple
                               pt={{
