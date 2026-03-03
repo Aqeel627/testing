@@ -20,6 +20,7 @@ import { Ripple } from "primereact/ripple";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
 
+
 type HeaderProps = {
   onMenuClick?: () => void;
   hideMenuBtn?: boolean;
@@ -40,6 +41,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
   const { clearSelectedBet } = useAppStore();
   const pathName = usePathname();
   const router = useRouter();
+  const pathname = usePathname();
   const userName =
     token && typeof window !== "undefined"
       ? JSON.parse(localStorage.getItem("userDetail") || "null")?.userName || ""
@@ -353,186 +355,218 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                   </button>
                 </div>
 
-             {typeof window !== "undefined" && createPortal(
-  <AnimatePresence>
-    {isMenuOpen && (
-      <>
-        {/* ── Full-viewport Backdrop ── */}
-        <motion.div
-          key="menu-backdrop"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.25, ease: "easeOut" }}
-          style={{ position: "fixed", inset: 0, zIndex: 999999998 }}
-          className="bg-black/40 backdrop-blur-[2px]"
-          onMouseDown={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            setIsMenuOpen(false);
-          }}
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-          }}
-          aria-hidden="true"
-        />
+                {typeof window !== "undefined" && createPortal(
+                  <AnimatePresence>
+                    {isMenuOpen && (
+                      <>
+                        {/* ── Full-viewport Backdrop ── */}
+                        <motion.div
+                          key="menu-backdrop"
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          exit={{ opacity: 0 }}
+                          transition={{ duration: 0.25, ease: "easeOut" }}
+                          style={{ position: "fixed", inset: 0, zIndex: 999999998 }}
+                          className="bg-black/40 backdrop-blur-[2px]"
+                          onMouseDown={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            setIsMenuOpen(false);
+                          }}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            e.stopPropagation();
+                          }}
+                          aria-hidden="true"
+                        />
 
-        {/* ── Menu Panel — slides in from right ── */}
-        <motion.div
-  key="menu-panel"
-  initial={{ x: "100%" }}
-  animate={{ x: 0 }}
-  exit={{ x: "100%" }}
-  transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-  style={{
-    position: "fixed",
-    top: "0px",
-    right: 0,
-    height: "calc(100% - 0px)",
-    zIndex: 999999999,
-    willChange: "transform",
-    backfaceVisibility: "hidden",
-    WebkitBackfaceVisibility: "hidden",
-  }}
-  className="w-[250px] bg-[var(--dropdownBg)] flex flex-col overflow-hidden overflow-y-auto border-l border-[#919eab29] scrollbar-hide shadow-[-8px_0_32px_rgba(0,0,0,0.25)]"
-  onClick={(e) => e.stopPropagation()}
-  onMouseDown={(e) => e.stopPropagation()}
->
-          <div className="absolute -top-10 -right-10 w-20 h-20 bg-[#078dee] blur-[60px] opacity-[0.50] pointer-events-none z-0 rounded-full" />
-          <div
-            className={cn(
-              theme === "dark"
-                ? "shadow-[0_8px_32px_rgba(0,0,0,0.35),_inset_0_0px_0_rgba(255,255,255,0.25),_inset_0_-2px_6px_rgba(255,255,255,0.05)]"
-                : "shadow-[0_8px_32px_rgba(0,0,0,0.2)]",
-              "px-4 pt-4 pb-[9px]",
-            )}
-          >
-            <h6 className="text-[0.875rem] font-semibold text-[var(--palette-text-primary)] truncate leading-[1.57143]">
-              {userName}
-            </h6>
-          </div>
+                        {/* ── Menu Panel — slides in from right ── */}
+                        <motion.div
+                          key="menu-panel"
+                          initial={{ x: "100%" }}
+                          animate={{ x: 0 }}
+                          exit={{ x: "100%" }}
+                          transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+                          style={{
+                            position: "fixed",
+                            top: "0px",
+                            right: 0,
+                            height: "calc(100% - 0px)",
+                            zIndex: 999999999,
+                            willChange: "transform",
+                            backfaceVisibility: "hidden",
+                            WebkitBackfaceVisibility: "hidden",
+                          }}
+                          className="w-[250px] bg-[var(--dropdownBg)] flex flex-col overflow-hidden overflow-y-auto border-l border-[#919eab29] scrollbar-hide shadow-[-8px_0_32px_rgba(0,0,0,0.25)]"
+                          onClick={(e) => e.stopPropagation()}
+                          onMouseDown={(e) => e.stopPropagation()}
+                        >
+                          <div className="absolute -top-10 -right-10 w-20 h-20 bg-[#078dee] blur-[60px] opacity-[0.50] pointer-events-none z-0 rounded-full" />
+                          <div
+                            className={cn(
+                              theme === "dark"
+                                ? "shadow-[0_8px_32px_rgba(0,0,0,0.35),_inset_0_0px_0_rgba(255,255,255,0.25),_inset_0_-2px_6px_rgba(255,255,255,0.05)]"
+                                : "shadow-[0_8px_32px_rgba(0,0,0,0.2)]",
+                              "px-4 pt-4 pb-[9px]",
+                            )}
+                          >
+                            <h6 className="text-[0.875rem] font-semibold text-[var(--palette-text-primary)] truncate leading-[1.57143]">
+                              {userName}
+                            </h6>
+                          </div>
 
-          <hr className="m-0 shrink-0 border-0 border-b border-dashed border-(--dotted-line)" />
+                          <hr className="m-0 shrink-0 border-0 border-b border-dashed border-(--dotted-line)" />
 
-          <div className="flex flex-col gap-2 px-4 py-2.5">
-            <div className="rounded-[16px] shadow-[0_1px_2px_0_rgb(0_0_0_/_16%)] border-(--dropdown-balance-border) border-[1px]">
-              <div className="flex flex-col p-2 items-center cursor-pointer">
-                <p className="text-[0.875rem] leading-[1.25] text-(--secondary-text-color) font-[500] uppercase">Balance</p>
-                <p className="text-[1rem] font-semibold leading-[1.5]">
-                  {hideBalance ? "-" : ((userBalance?.bankBalance ?? 0) - (userBalance?.exposure ?? 0)).toFixed(2)}
-                </p>
-              </div>
-            </div>
-            <div className="rounded-[16px] shadow-[0_1px_2px_0_rgb(0_0_0_/_16%)] border-(--dropdown-balance-border) border-[1px]">
-              <div className="flex flex-col p-2 items-center cursor-pointer">
-                <p className="text-[0.875rem] leading-[1.25] text-(--secondary-text-color) font-[500] uppercase">Exposure</p>
-                <p className="text-[1rem] font-semibold leading-[1.5]">{userBalance?.exposure ?? 0}</p>
-              </div>
-            </div>
-          </div>
+                          <div className="flex flex-col gap-2 px-4 py-2.5">
+                            <h6 className="text-[0.875rem] flex items-center justify-center font-semibold text-[var(--dropdowntext)] truncate leading-[1.57143]">
+                              {userName}
+                            </h6>
+                            <div className="rounded-[16px] shadow-[0_1px_2px_0_rgb(0_0_0_/_16%)] border-(--primary-color) border-[1px]">
+                              <div className="flex flex-col p-2 items-center cursor-pointer">
+                                <p className="text-[0.875rem] leading-[1.25] text-(--primary-color) font-[500] uppercase">Balance</p>
+                                <p className="text-[1rem] font-semibold leading-[1.5]">
+                                  {hideBalance ? "-" : ((userBalance?.bankBalance ?? 0) - (userBalance?.exposure ?? 0)).toFixed(2)}
+                                </p>
+                              </div>
+                            </div>
+                            <div className="rounded-[16px] shadow-[0_1px_2px_0_rgb(0_0_0_/_16%)] border-(--primary-color) border-[1px]">
+                              <div className="flex flex-col p-2 items-center cursor-pointer">
+                                <p className="text-[0.875rem] leading-[1.25] text-(--primary-color) font-[500] uppercase">Exposure</p>
+                                <p className="text-[1rem] font-semibold leading-[1.5]">{userBalance?.exposure ?? 0}</p>
+                              </div>
+                            </div>
+                          </div>
 
-          <hr className="m-0 shrink-0 border-0 border-b border-dashed border-(--dotted-line)" />
+                          <hr className="m-0 shrink-0 border-0 border-b border-dashed border-(--dotted-line)" />
 
-          <ul className="my-2 px-2 flex flex-col">
-            {[
-              { label: "Change Password", href: "", icon: "changepassword" },
-              { label: "Statement", href: "/statement", icon: "statement" },
-              { label: "Profit/Loss", href: "/profit-loss", icon: "profitloss" },
-              { label: "Bets History", href: "/bets-history", icon: "bethistory" },
-              { label: "Settings", href: "/settings", icon: "settings" },
-              { label: "Light", href: "/activity", icon: "activity" },
-            ].map((item, index) => (
-              <li key={index} className="p-ripple mb-1 hover:bg-[rgba(145,158,171,0.08)] rounded-[8px]">
-                <Link
-                  prefetch={false}
-                  href={item.href}
-                  onClick={(e) => {
-                    if (item.label === "Change Password") {
-                      e.preventDefault();
-                      openPasswordModal();
-                      setIsMenuOpen(false);
-                    } else {
-                      setIsMenuOpen(false);
-                    }
-                  }}
-                  className="flex items-center justify-between w-full px-4 py-2 text-[0.875rem] text-[var(--dropdowntext)] hover:text-[var(--palette-text-primary)] transition-colors h-[34px]"
-                >
-                  <div className="flex items-center">
-                    <span className="flex items-center"><Icon name={item.icon} className="h-4 w-4" /></span>
-                    <span className="ml-[5px]">{item.label}</span>
-                  </div>
-                  <Ripple pt={{ root: { style: { background: "rgba(145, 158, 171, 0.4)" } } }} />
-                </Link>
-              </li>
-            ))}
+                          <ul className="my-2 px-2 flex flex-col">
+                            {[
+                              { label: "Change Password", href: "", icon: "changepassword" },
+                              { label: "Statement", href: "/statement", icon: "statement" },
+                              { label: "Profit/Loss", href: "/profit-loss", icon: "profitloss" },
+                              { label: "Bets History", href: "/bets-history", icon: "bethistory" },
+                              { label: "Settings", href: "/settings", icon: "settings" },
+                              { label: "Light", href: "/activity", icon: "activity" },
+                            ].map((item, index) => (
+                              <li
+                                key={index}
+                                className={cn(
+                                  "relative  p-ripple mb-1 hover:bg-[rgba(145,158,171,0.08)] rounded-[8px]",
+                                  pathname === item.href &&
+                                  "bg-[rgba(7,141,238,0.08)]"
+                                )}
+                              >
+                                {pathname === item.href && (
+                                  <span className="absolute  left-0 top-0 h-full w-[3px] bg-[var(--primary-color)] rounded-l-md" />
+                                )}
 
-            <hr className="m-0 shrink-0 border-0 p-0! my-2! border-b border-dashed border-(--dotted-line) max-md:hidden" />
+                                <Link
+                                  prefetch={false}
+                                  href={item.href}
+                                  onClick={(e) => {
+                                    if (item.label === "Change Password") {
+                                      e.preventDefault();
+                                      openPasswordModal();
+                                      setIsMenuOpen(false);
+                                    } else {
+                                      setIsMenuOpen(false);
+                                    }
+                                  }}
+                                  className="flex items-center justify-between w-full px-4 py-2 text-[0.875rem] text-[var(--dropdowntext)] hover:text-[var(--palette-text-primary)] transition-colors h-[34px]"
+                                >
+                                  <div className="flex items-center gap-[4px]">
+                                    <span className="flex items-center text-(--primary-color)">
+                                      <Icon name={item.icon} className="h-[22px] w-[22px]" />
+                                    </span>
+                                    <span className="ml-[5px]">{item.label}</span>
+                                  </div>
+                                </Link>
+                              </li>
+                            ))}
 
-            <li
-              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-              className="p-ripple mb-1 no-underline hidden md:block h-9.5 min-[600px]:h-auto text-[0.875rem] leading-[1.57143px] hover:bg-[rgba(145,158,171,0.08)] rounded-[8px]"
-            >
-              <div className="flex items-center justify-between w-full text-[14px] text-[var(--dropdowntext)] hover:text-[var(--palette-text-primary)] hover:bg-white/5 transition-colors cursor-pointer">
-                <span className="ml-4">
-                  {typeof window !== "undefined" && (localStorage.getItem("theme") === "dark" ? "Light" : "Dark")}
-                </span>
-                <span><ThemeToggle /></span>
-              </div>
-              <Ripple pt={{ root: { style: { background: "rgba(145, 158, 171, 0.4)" } } }} />
-            </li>
+                            <hr className="m-0 shrink-0 border-0 p-0! my-2! border-b border-dashed border-(--dotted-line) max-md:hidden" />
 
-            <li
-              className="p-ripple mb-1 no-underline hidden md:block h-9.5 min-[600px]:h-auto text-[0.875rem] leading-[1.57143px] hover:bg-[rgba(145,158,171,0.08)] rounded-[8px]"
-              onClick={() => { setIsMenuOpen(false); router.push("/theme"); }}
-            >
-              <div className="flex items-center justify-between w-full py-2 text-[14px] text-[var(--dropdowntext)] hover:text-[var(--palette-text-primary)] hover:bg-white/5 transition-colors cursor-pointer">
-                <span className="ml-4">Theme</span>
-                <span>
-                  {theme === "dark"
-                    ? <Icon name="themeSettingDark" className="h-5 w-5 mr-2" />
-                    : <Icon name="themeSettingLight" className="h-5 w-5 mr-2" />}
-                </span>
-              </div>
-              <Ripple pt={{ root: { style: { background: "rgba(145, 158, 171, 0.4)" } } }} />
-            </li>
+                            <li
+                              onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
+                              className="p-ripple mb-1 no-underline hidden md:block h-9.5 min-[600px]:h-auto text-[0.875rem] leading-[1.57143px] hover:bg-[rgba(145,158,171,0.08)] rounded-[8px]"
+                            >
+                              <div className="flex items-center justify-between w-full text-[14px] text-[var(--dropdowntext)] hover:text-[var(--palette-text-primary)] hover:bg-white/5 transition-colors cursor-pointer">
+                                <span className="ml-4">
+                                  {typeof window !== "undefined" && (localStorage.getItem("theme") === "dark" ? "Light" : "Dark")}
+                                </span>
+                                <span><ThemeToggle /></span>
+                              </div>
+                              <Ripple pt={{ root: { style: { background: "rgba(145, 158, 171, 0.4)" } } }} />
+                            </li>
 
-            <hr className="m-0 shrink-0 border-0 p-0! my-2! border-b border-dashed border-(--dotted-line) min-md:hidden" />
+                            <li
+                              className={cn(
+                                "relative p-ripple mb-1 no-underline hidden md:block h-9.5 min-[600px]:h-auto text-[0.875rem] leading-[1.57143px] hover:bg-[rgba(145,158,171,0.08)] rounded-[8px]",
+                                pathname === "/theme" && "bg-[rgba(7,141,238,0.08)]"
+                              )}
+                              onClick={() => {
+                                setIsMenuOpen(false);
+                                router.push("/theme");
+                              }}
+                            >
+                              {pathname === "/theme" && (
+                                <span className="absolute left-0 top-0 h-full w-[3px] bg-[var(--primary-color)] rounded-l-md" />
+                              )}
 
-            <li
-              onClick={() => setHideBalance(!hideBalance)}
-              className="p-ripple mb-1 no-underline h-9.5 min-[600px]:h-[44px] text-[0.875rem] leading-[1.57143px] flex items-center hover:bg-[rgba(145,158,171,0.08)] rounded-[8px]"
-            >
-              <div className="flex items-center justify-between w-full text-[14px] text-[var(--dropdowntext)] hover:text-[var(--palette-text-primary)] transition-colors cursor-pointer">
-                <span className="ml-4">Hide Balance</span>
-                <span className="w-[58px] h-[38px] flex justify-end items-center">
-                  <div className={`relative w-[34px] h-5 mr-[10px] rounded-full transition-colors ${hideBalance ? "bg-[#078dee]" : "bg-gray-600"}`}>
-                    <div className={`absolute top-[3px] left-[3px] bg-white w-3.5 h-3.5 rounded-full transition-transform ${hideBalance ? "translate-x-[14px]" : "translate-x-0"}`} />
-                  </div>
-                </span>
-              </div>
-              <Ripple pt={{ root: { style: { background: "rgba(145, 158, 171, 0.4)" } } }} />
-            </li>
-          </ul>
+                              <div className="flex items-center justify-between w-full py-2 text-[14px] text-[var(--dropdowntext)] hover:text-[var(--palette-text-primary)] hover:bg-white/5 transition-colors cursor-pointer">
+                                <span className="ml-4">Theme</span>
+                                <span>
+                                  {theme === "dark" ? (
+                                    <Icon name="themeSettingDark" className="h-5 w-5 mr-2" />
+                                  ) : (
+                                    <Icon name="themeSettingLight" className="h-5 w-5 mr-2" />
+                                  )}
+                                </span>
+                              </div>
 
-          <hr className="m-0 shrink-0 border-0 border-b border-dashed border-(--dotted-line) max-md:hidden" />
+                              <Ripple
+                                pt={{
+                                  root: { style: { background: "rgba(145, 158, 171, 0.4)" } },
+                                }}
+                              />
+                            </li>
 
-          <div className="p-2 relative hidden md:block">
-            <div className="absolute -bottom-4 hidden md:flex -left-4 w-20 h-20 bg-[#FF5630] blur-[30px] opacity-15 pointer-events-none" />
-            <button
-              onClick={handleLogout}
-              className="p-ripple relative z-10 w-full text-left px-2 py-2 text-[14px] font-bold text-(--dropdown-logout-color) hover:bg-(--dropdown-logout-bg-hover) rounded-lg transition-colors cursor-pointer"
-            >
-              Logout
-              <Ripple pt={{ root: { style: { background: "rgba(145, 158, 171, 0.4)" } } }} />
-            </button>
-          </div>
-        </motion.div>
-      </>
-    )}
-  </AnimatePresence>,
-  document.body
-)}
+                            <hr className="m-0 shrink-0 border-0 p-0! my-2! border-b border-dashed border-(--dotted-line) min-md:hidden" />
+
+                            <li
+                              onClick={() => setHideBalance(!hideBalance)}
+                              className="p-ripple mb-1 no-underline h-9.5 min-[600px]:h-[44px] text-[0.875rem] leading-[1.57143px] flex items-center hover:bg-[rgba(145,158,171,0.08)] rounded-[8px]"
+                            >
+                              <div className="flex items-center justify-between w-full text-[14px] text-[var(--dropdowntext)] hover:text-[var(--palette-text-primary)] transition-colors cursor-pointer">
+                                <span className="ml-4">Hide Balance</span>
+                                <span className="w-[58px] h-[38px] flex justify-end items-center">
+                                  <div className={`relative w-[34px] h-5 mr-[10px] rounded-full transition-colors ${hideBalance ? "bg-[#078dee]" : "bg-gray-600"}`}>
+                                    <div className={`absolute top-[3px] left-[3px] bg-white w-3.5 h-3.5 rounded-full transition-transform ${hideBalance ? "translate-x-[14px]" : "translate-x-0"}`} />
+                                  </div>
+                                </span>
+                              </div>
+                              <Ripple pt={{ root: { style: { background: "rgba(145, 158, 171, 0.4)" } } }} />
+                            </li>
+                          </ul>
+
+                          <hr className="m-0 shrink-0 border-0 border-b border-dashed border-(--dotted-line) max-md:hidden" />
+
+                          <div className="p-2 relative hidden md:block">
+                            <div className="absolute -bottom-4 hidden md:flex -left-4 w-20 h-20 bg-[#FF5630] blur-[30px] opacity-15 pointer-events-none" />
+                            <button
+                              onClick={handleLogout}
+                              className="p-ripple relative z-10 w-full text-left px-2 py-2 text-[14px] font-bold text-(--dropdown-logout-color) hover:bg-(--dropdown-logout-bg-hover) rounded-lg transition-colors cursor-pointer"
+                            >
+                              Logout
+                              <Ripple pt={{ root: { style: { background: "rgba(145, 158, 171, 0.4)" } } }} />
+                            </button>
+                          </div>
+                        </motion.div>
+                      </>
+                    )}
+                  </AnimatePresence>,
+                  document.body
+                )}
               </div>
             )}
           </div>
