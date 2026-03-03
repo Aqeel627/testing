@@ -60,6 +60,7 @@ const SportsBreadCrumb = ({ title, subtitle }: BreadCrumbProps) => {
     [pathname],
   );
   const sportSlug = pathSegments[1] || "";
+  const tourId = pathSegments?.length === 3 ? pathSegments[2] : "";
   const defaultSportName = title || slugToLabel(sportSlug);
 
   function filterCompetitions(eventTypeId: string | number) {
@@ -68,9 +69,15 @@ const SportsBreadCrumb = ({ title, subtitle }: BreadCrumbProps) => {
         (item: any) => String(item?.eventType?.id) === String(eventTypeId),
       ) ?? [];
     const uniqueCompetitions = [
-      ...new Map(filtered?.map((item:any) => [item?.competition?.id, item]))?.values(),
+      ...new Map(
+        filtered?.map((item: any) => [item?.competition?.id, item]),
+      )?.values(),
     ];
     setCompetition(uniqueCompetitions);
+    const defaultComp: any = uniqueCompetitions?.find(
+      (item: any) => String(item?.competition?.id) === String(tourId),
+    );
+    setSelectedCompetition(defaultComp?.competition?.name || "");
     return filtered;
   }
 
@@ -152,10 +159,12 @@ const SportsBreadCrumb = ({ title, subtitle }: BreadCrumbProps) => {
                         e.preventDefault();
                         e.stopPropagation();
                         setSelectedEventType(item?.name);
+                        if (selectedEventType !== item?.name) {
+                          navigateToMarket(item?.name);
+                        }
                         setSelectedCompetition("");
                         filterCompetitions(item?.id);
                         setIsEventTypeOpen(false);
-                        navigateToMarket(item?.name);
                       }}
                       className={`text-sm w-full text-nowrap text-left relative bg-transparent cursor-pointer gap-2 font-semibold transition px-2 py-1.5 rounded-[6px] ${
                         (selectedEventType &&
@@ -203,10 +212,12 @@ const SportsBreadCrumb = ({ title, subtitle }: BreadCrumbProps) => {
                           e.stopPropagation();
                           setSelectedCompetition(item.competition.name);
                           setIsCompetitionOpen(false);
-                          navigateToMarketComp(
-                            item.eventType.name,
-                            item.competition.id,
-                          );
+                          if (selectedCompetition !== item?.competition?.name) {
+                            navigateToMarketComp(
+                              item.eventType.name,
+                              item.competition.id,
+                            );
+                          }
                         }}
                         className={`text-sm w-full text-nowrap text-left relative bg-transparent cursor-pointer gap-2 font-semibold transition px-2 py-1.5 rounded-[6px] ${
                           (selectedCompetition &&

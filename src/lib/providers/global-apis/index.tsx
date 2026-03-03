@@ -8,16 +8,11 @@ import React, { useEffect } from "react";
 import { DisableWheelZoom, DisableZoom } from "../disable-zoom";
 import { indexManager } from "@/lib/index-manager";
 import { useIndexManagerStore } from "@/lib/store/indexManagerStore";
+import { useRouter } from "next/navigation";
 
 const GlobalApisCall = () => {
-  const {
-    setCasinoEvents,
-    // setAllEventsList,
-    setStakeValue,
-    // setOurBanners,
-    // setOurCasinoGames,
-    // setOurEvents,
-  } = useAppStore();
+  const { setCasinoEvents, setUserExposureList } = useAppStore();
+  [];
   const {
     setBanners,
     setCasinoGames,
@@ -25,12 +20,9 @@ const GlobalApisCall = () => {
     setCompetitions,
     setEventTypes,
   } = useIndexManagerStore();
-  const { checkLogin } = useAuthStore();
-  // const handleAllEvents = (data: any) => {
-  //   setAllEventsList(data);
-  // };
-  const socketDataRef = React.useRef<any[]>([]);
-  const socketStartedRef = React.useRef<boolean>(false);
+  const { checkLogin, isLoggedIn } = useAuthStore();
+  const router = useRouter();
+
   useDisableTouchGestures();
   DisableWheelZoom();
   DisableZoom();
@@ -38,14 +30,13 @@ const GlobalApisCall = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     checkLogin(token || "");
-
-    // fetchData({
-    //   url: CONFIG.getAllEventsList,
-    //   payload: { key: CONFIG.siteKey },
-    //   cachedKey: "allEventsList",
-    //   setFn: handleAllEvents,
-    //   expireIn: CONFIG.getAllEventsListTime,
-    // });
+    if (isLoggedIn) {
+      fetchData({
+        url: CONFIG.getExposureListURL,
+        payload: {},
+        setFn: setUserExposureList,
+      });
+    }
 
     fetchData({
       url: CONFIG.getTopCasinoGame,
@@ -54,19 +45,6 @@ const GlobalApisCall = () => {
       setFn: setCasinoEvents,
       expireIn: CONFIG.getTopCasinoGameTime,
     });
-
-    // fetchData({
-    //   url: CONFIG.events,
-    //   payload: { key: CONFIG.siteKey },
-    //   cachedKey: "events",
-    //   setFn: (data: any) => {
-    //     const { banners, casinoGames, events } = data ?? [];
-    //     setOurBanners(banners);
-    //     setOurCasinoGames(casinoGames);
-    //     setOurEvents(events);
-    //   },
-    //   expireIn: CONFIG.eventsTime,
-    // });
 
     indexManager({
       url: CONFIG.events,
