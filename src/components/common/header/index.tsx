@@ -427,7 +427,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                           icon: "settings",
                         },
                         {
-                          label: "Activity",
+                          label: "Light",
                           href: "/activity",
                           icon: "activity",
                         },
@@ -477,7 +477,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                         }}
                         className="p-ripple mb-1 no-underline hidden md:block h-9.5 min-[600px]:h-auto text-[0.875rem] leading-[1.57143px] hover:bg-[rgba(145,158,171,0.08)] rounded-[8px]"
                       >
-                        <div className="flex items-center justify-between w-full px-2 pl-1! text-[14px] text-[var(--dropdowntext)] hover:text-[var(--palette-text-primary)] hover:bg-white/5 transition-colors cursor-pointer">
+                        <div className="flex items-center justify-between w-full  text-[14px] text-[var(--dropdowntext)] hover:text-[var(--palette-text-primary)] hover:bg-white/5 transition-colors cursor-pointer">
                           <span className="ml-4">
                             {typeof window !== "undefined" &&
                               (localStorage.getItem("theme") === "dark"
@@ -504,7 +504,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                           router.push("/theme");
                         }}
                       >
-                        <div className="flex items-center justify-between w-full px-2 pl-1! py-2 text-[14px] text-[var(--dropdowntext)] hover:text-[var(--palette-text-primary)] hover:bg-white/5 transition-colors cursor-pointer">
+                        <div className="flex items-center justify-between w-full  py-2 text-[14px] text-[var(--dropdowntext)] hover:text-[var(--palette-text-primary)] hover:bg-white/5 transition-colors cursor-pointer">
                           <span className="ml-4">Theme</span>
                           <span>
                             {theme === "dark" ? (
@@ -537,7 +537,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                         }}
                         className="p-ripple mb-1 no-underline h-9.5 min-[600px]:h-[44px] text-[0.875rem] leading-[1.57143px] flex items-center hover:bg-[rgba(145,158,171,0.08)] rounded-[8px]"
                       >
-                        <div className="flex items-center justify-between w-full px-2 text-[14px] text-[var(--dropdowntext)] hover:text-[var(--palette-text-primary)] transition-colors cursor-pointer">
+                        <div className="flex items-center justify-between w-full  text-[14px] text-[var(--dropdowntext)] hover:text-[var(--palette-text-primary)] transition-colors cursor-pointer">
                           <span className="ml-4">Hide Balance</span>
                           {/* Custom Tailwind Switch */}
                           <span className="w-[58px] h-[38px] flex justify-end items-center">
