@@ -576,8 +576,13 @@ export default function Sidebar({ config }: SidebarProps) {
 
   const isQuickLinkActive = (label: string, href: string) => {
     if (active.type === "sport") return false;
-    if (active.type === "quicklink" && active.qlLabel === label) return true;
-    if (href !== "#" && pathName?.includes(href)) return true;
+    // if (active.type === "quicklink" && active.qlLabel === label) return true;
+    if (active.type === "quicklink") {
+      return active.qlLabel === label;
+    }
+    if (href !== "#" && pathName === href) {
+      return true;
+    }
     return false;
   };
 

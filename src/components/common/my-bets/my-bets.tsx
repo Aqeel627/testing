@@ -39,12 +39,14 @@ type MarketGroup = {
 export default function MyBets({
   eventId,
   sportId,
+  onRequestClose,
 }: {
   eventId: string | null;
   sportId: string | null;
+   onRequestClose?: () => void;
 }) {
   const router = useRouter();
-  const { userExposureList } = useAppStore();
+  const { userExposureList, setMatchedUnmatchedTotal } = useAppStore();
 
   const isOpenBetsMode = !!eventId && !!sportId;
 
@@ -163,8 +165,11 @@ export default function MyBets({
         const unmatched: Bet[] = data?.unmatchedBets || [];
         const matchedRaw: Bet[] = data?.matchedBets || [];
 
+        const totalMatchUnmatched = unmatched?.length + matchedRaw?.length;
+
         setUnmatchedBets(unmatched);
         setMatchedBets(groupMatchedByMarket(matchedRaw));
+        setMatchedUnmatchedTotal(totalMatchUnmatched);
 
         const hasData = unmatched.length > 0 || matchedRaw.length > 0;
 
@@ -236,17 +241,21 @@ export default function MyBets({
     getUnMatchedBetList(sId, eId, { schedule: isOpenBetsMode });
   };
 
-  const viewMarket = () => {
-    const sId = isOpenBetsMode ? sportId : localStorage.getItem("sportId");
-    const eId = isOpenBetsMode ? eventId : localStorage.getItem("eventId");
-    if (sId && eId) router.push(`/market-details/${eId}/${sId}`);
-  };
+const viewMarket = () => {
+  const sId = isOpenBetsMode ? sportId : localStorage.getItem("sportId");
+  const eId = isOpenBetsMode ? eventId : localStorage.getItem("eventId");
+
+  if (sId && eId) {
+    onRequestClose?.(); // ✅ close modal first (page-like)
+    router.push(`/market-details/${eId}/${sId}`);
+  }
+};
 
   // ===== RENDER (same structure like old) =====
   return (
     <div className={styles["pageWrap"]}>
       {/* ✅ Tabs outside (same as password history) */}
-      {!isOpenBetsMode && userExposureList?.length > 0 && (
+      {!isOpenBetsMode && userExposureList?.data?.length > 0 && (
         <div className={styles["tabsWrap"]}>
           <div className="flex mx-auto overflow-x-auto scroll-width-none max-w-3xl px-2 pb-[5px] gap-[15px]">
             {tabs.map((item) => (
@@ -270,24 +279,22 @@ export default function MyBets({
       {/* ✅ Open Bets mode => direct matchodd full width */}
       {isOpenBetsMode && showMatchOdd ? (
         <div className={styles["listWrap"]}>
-          {!betsFetched || isMatchOddLoading ? null : (
-            <MatchOdd
-              unmatchedBets={unmatchedBets}
-              matchedBets={matchedBets}
-              onCancelUnmatchedRefresh={handleCancelUnmatchedRefresh}
-              onViewMarket={viewMarket}
-            />
-          )}
+          <MatchOdd
+            unmatchedBets={unmatchedBets}
+            matchedBets={matchedBets}
+            onCancelUnmatchedRefresh={handleCancelUnmatchedRefresh}
+            onViewMarket={viewMarket}
+          />
         </div>
       ) : (
         /* ✅ My Bets => full width rows (NO card) */
         <div className={styles["listWrap"]}>
-          {!userExposureList?.length ? (
+          {!userExposureList?.data?.length ? (
             <div className="py-6 text-center text-gray-500 text-sm">
               No bets available
             </div>
           ) : (
-            userExposureList?.map((item: any, i: number) => {
+            userExposureList?.data?.map((item: any, i: number) => {
               const isActive = activeSportIndex === i;
               const thisMarketKey = `${item.eventType?.id},${item.event?.id}`;
               const showThisMatchOdd =

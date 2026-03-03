@@ -27,7 +27,7 @@ const HorsePage = () => {
     setActiveTimes((prev) => ({ ...prev, [sectionIndex]: time }));
   };
 
-  const items = ["ALL", "GB", "RSA", "UAE", "NZ", "FRA", "IN", "IE", "TODAY"];
+  const items = ["ALL", "GB", "RSA", "UAE", "NZ", "FRA", "IN", "IE"];
 
   const sections = [
     { title: "Southwell", times: ["1:00", "1:30", "2:00", "0:00", "0:30"] },

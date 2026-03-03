@@ -16,6 +16,8 @@ import { ToastProvider } from "@/components/common/toast/toast-context";
 import { ToastConnector } from "@/components/common/toast/toast-connector";
 import { ToastContainer } from "@/components/common/toast";
 import { PrimeReactProvider } from "primereact/api";
+import AuthListener from "@/lib/providers/auth-listener";
+import MyBetsDrawer from "@/components/common/my-bets/my-bets-drawer";
 // import SearchModal from "@/components/modal/search";
 const MiniCasinoDrawer = dynamic(
   () => import("@/components/common/mini-casino-drawer"),
@@ -121,9 +123,11 @@ export default function RootLayout({
         <PrimeReactProvider value={value}>
           <ToastProvider>
             <Suspense>
+              <AuthListener />
               <Closebetslip />
               <NavigationLoader />
               <GlobalApisCall />
+              <MyBetsDrawer />
               <AuExchThemeProvider>
                 <ToastConnector />
                 <ToastContainer />
