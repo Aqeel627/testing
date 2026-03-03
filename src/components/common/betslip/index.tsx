@@ -226,29 +226,32 @@ export default function BetSlipUI() {
       const rawMessage = res?.data?.meta?.message || res?.data?.message || "";
       const msg = parseMsg(rawMessage);
 
-      if (ok) {
-        setTimeout(() => betAudio.playSuccess(), 0);
-        showToast(
-          msg.status,
-          msg.title,
-          msg.desc || "Bet placed successfully.",
-        );
-        clearSelectedBet();
-        setStake(0);
-        setSlipPreview({ stake: 0, price: 0 });
+     if (ok) {
+  setTimeout(() => betAudio.playSuccess(), 0);
 
-        try {
-          const balRes: any = await http.post(CONFIG.getUserBalance, {});
-          if (balRes?.data?.data) setUserBalance(balRes.data.data);
-        } catch {
-          /* silent */
-        }
+  showToast(
+    msg.status,
+    msg.title,
+    msg.desc || "Bet placed successfully."
+  );
 
-        eventBus.emit("REFRESH_AFTER_PLACE", {
-          sportId: selectedBet.sportId,
-          eventId: selectedBet.eventId,
-        });
-      } else {
+  // 👇 Close slip AFTER small delay
+  setTimeout(() => {
+    clearSelectedBet();
+    setStake(0);
+    setSlipPreview({ stake: 0, price: 0 });
+  }, 500); 
+
+  try {
+    const balRes: any = await http.post(CONFIG.getUserBalance, {});
+    if (balRes?.data?.data) setUserBalance(balRes.data.data);
+  } catch {}
+
+  eventBus.emit("REFRESH_AFTER_PLACE", {
+    sportId: selectedBet.sportId,
+    eventId: selectedBet.eventId,
+  });
+} else {
         setTimeout(() => betAudio.playError(), 0);
         showToast(
           "error",
