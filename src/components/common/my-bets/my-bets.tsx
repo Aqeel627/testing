@@ -193,27 +193,27 @@ const hasLogin = isLoggedIn;
     },
     [isOpenBetsMode],
   );
-  useEffect(() => {
-  if (!hasLogin) return;
-  if (isOpenBetsMode) return;
-  if (userExposureList?.data?.length) return;
+//   useEffect(() => {
+//   if (!hasLogin) return;
+//   if (isOpenBetsMode) return;
+//   if (userExposureList?.data?.length) return;
 
-  (async () => {
-    try {
-      const res = await http.post(CONFIG.getExposureListURL, {});
-      const list = res?.data?.data ?? res?.data ?? [];
-      const arr = Array.isArray(list) ? list : [];
+//   (async () => {
+//     try {
+//       const res = await http.post(CONFIG.getExposureListURL, {});
+//       const list = res?.data?.data ?? res?.data ?? [];
+//       const arr = Array.isArray(list) ? list : [];
 
-      const totalExposure = arr.reduce(
-        (sum: number, it: any) => sum + Number(it?.betCounts || 0),
-        0
-      );
+//       const totalExposure = arr.reduce(
+//         (sum: number, it: any) => sum + Number(it?.betCounts || 0),
+//         0
+//       );
 
-      setUserExposureList({ data: arr, totalExposure });
-    } catch {
-    }
-  })();
-}, [hasLogin, isOpenBetsMode, userExposureList?.data?.length, setUserExposureList]);
+//       setUserExposureList({ data: arr, totalExposure });
+//     } catch {
+//     }
+//   })();
+// }, [hasLogin, isOpenBetsMode, userExposureList?.data?.length, setUserExposureList]);
 
   // INIT: Open Bets mode OR My Bets mode
   useEffect(() => {
