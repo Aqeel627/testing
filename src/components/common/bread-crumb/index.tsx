@@ -4,14 +4,17 @@ import React from "react";
 const BreadCrumb = ({
   title,
   showTitle = true,
+  parentClass = "",
 }: {
   title: string;
   showTitle?: boolean;
+  parentClass?: string;
 }) => {
 
   return (
     <div id="breadCrumb.tsx">
-    <div className="mb-2 min-[900]:mb-2 flex flex-col gap-4 my-4">
+    <div className={`mb-2 min-[900]:mb-2 flex flex-col gap-4 my-4 ${parentClass}`}>
+
       <div className="flex flex-wrap gap-4 items-start justify-end">
         <div className="flex flex-col gap-4 flex-1 basis-auto">
           {showTitle && (
