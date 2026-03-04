@@ -128,11 +128,13 @@ export default function SearchModal() {
         {/* ---------- CONTENT ---------- */}
         <Dialog.Content
           className={styles.content}
+            aria-describedby={undefined}
           onOpenAutoFocus={(e) => e.preventDefault()}
           onInteractOutside={(e) => {
             e.preventDefault();
           }}
         >
+          
           <Dialog.Title> </Dialog.Title>
           
           {/* 👇 Modal paper with ref for outside click detection */}
