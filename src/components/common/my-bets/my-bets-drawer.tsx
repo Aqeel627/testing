@@ -138,7 +138,7 @@ export default function MyBetsDrawer() {
       <div
         className={cn(
           "fixed left-0 w-full z-[9999]",
-          "transform transition-transform duration-500 ease-[cubic-bezier(.22,1,.36,1)]",
+          "transform transition-transform duration-500 ease-[cubic-bezier(.22,1,.36,1)] overflow-hidden",
           isOpen ? "translate-y-0 drawer" : "",
         )}
         style={{
