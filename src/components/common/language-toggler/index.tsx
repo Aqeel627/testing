@@ -157,7 +157,7 @@ const handleSelectLanguage = (title: string, langCode: string) => {
                     className={`text-sm w-full text-left bg-transparent cursor-pointer font-semibold transition p-3 rounded-none
                       ${
                         language === lang.title
-                          ? "bg-[#2e3e49] text-white"
+                          ? "bg-[#2e3e49]! text-white"
                           : "hover:bg-[rgba(145,158,171,0.08)]"
                       }`}
                   >
