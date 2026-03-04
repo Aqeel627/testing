@@ -6,6 +6,7 @@ import http from "@/lib/axios-instance";
 import { CONFIG } from "@/lib/config";
 import { splitMsg } from "@/lib/functions";
 import { useToast } from "@/components/common/toast/toast-context";
+import { eventBus } from "@/lib/eventBus";
 
 export interface Bet {
   marketId?: string;
@@ -169,6 +170,7 @@ export default function MatchOdd({
       const res = await http.post(CONFIG.cancelBetsAllUnmatchedBets, req);
       showMetaToast(res?.data, "All unmatched bets cancelled");
       onCancelUnmatchedRefresh();
+      eventBus.emit("REFRESH_AFTER_PLACE");
     } catch (e: any) {
       showToast("error", "Error", e?.message || "Something went wrong");
     }
@@ -188,6 +190,7 @@ export default function MatchOdd({
       const res = await http.post(CONFIG.cancelBetsAllUnmatchedBets, req);
       showMetaToast(res?.data, "All unmatched bets cancelled");
       onCancelUnmatchedRefresh();
+      eventBus.emit("REFRESH_AFTER_PLACE");
     } catch (e: any) {
       showToast("error", "Error", e?.message || "Something went wrong");
     }
@@ -201,6 +204,7 @@ export default function MatchOdd({
       const res = await http.post(CONFIG.cancelBetsAllUnmatchedBets, req);
       showMetaToast(res?.data, "Bet cancelled");
       onCancelUnmatchedRefresh();
+      eventBus.emit("REFRESH_AFTER_PLACE");
     } catch (e: any) {
       showToast("error", "Error", e?.message || "Something went wrong");
     }
