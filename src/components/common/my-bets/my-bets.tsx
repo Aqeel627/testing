@@ -7,6 +7,7 @@ import { CONFIG } from "@/lib/config";
 import MatchOdd from "./match-odd";
 import { useRouter } from "next/navigation";
 import { useAppStore } from "@/lib/store/store";
+import { useAuthStore } from "@/lib/useAuthStore";
 
 type ExposureItem = {
   event: { id: string; name: string };
@@ -46,11 +47,11 @@ export default function MyBets({
    onRequestClose?: () => void;
 }) {
   const router = useRouter();
-  const { userExposureList, setMatchedUnmatchedTotal } = useAppStore();
+  const { userExposureList, setMatchedUnmatchedTotal,setUserExposureList } = useAppStore();
 
   const isOpenBetsMode = !!eventId && !!sportId;
 
-  const [hasLogin, setHasLogin] = useState(false);
+  // const [hasLogin, setHasLogin] = useState(false);
   const [activeSportIndex, setActiveSportIndex] = useState<number | null>(null);
 
   const [unmatchedBets, setUnmatchedBets] = useState<Bet[]>([]);
@@ -76,10 +77,12 @@ export default function MyBets({
     },
   ];
 
-  useEffect(() => {
-    // token-based login same like old
-    setHasLogin(!!localStorage.getItem("token"));
-  }, []);
+  // useEffect(() => {
+  //   // token-based login same like old
+  //   setHasLogin(!!localStorage.getItem("token"));
+  // }, []);
+  const { isLoggedIn } = useAuthStore();
+const hasLogin = isLoggedIn; 
 
   const resetBetsState = useCallback(() => {
     setSelectedMarketKey("");
@@ -190,6 +193,27 @@ export default function MyBets({
     },
     [isOpenBetsMode],
   );
+  useEffect(() => {
+  if (!hasLogin) return;
+  if (isOpenBetsMode) return;
+  if (userExposureList?.data?.length) return;
+
+  (async () => {
+    try {
+      const res = await http.post(CONFIG.getExposureListURL, {});
+      const list = res?.data?.data ?? res?.data ?? [];
+      const arr = Array.isArray(list) ? list : [];
+
+      const totalExposure = arr.reduce(
+        (sum: number, it: any) => sum + Number(it?.betCounts || 0),
+        0
+      );
+
+      setUserExposureList({ data: arr, totalExposure });
+    } catch {
+    }
+  })();
+}, [hasLogin, isOpenBetsMode, userExposureList?.data?.length, setUserExposureList]);
 
   // INIT: Open Bets mode OR My Bets mode
   useEffect(() => {
