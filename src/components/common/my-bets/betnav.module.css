@@ -13,6 +13,7 @@
 .glass-panel {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
+  color: var(--secondary-text-color) !important;
   border: 1px solid var(--secondary-text-color);
   background: color-mix(in srgb, var(--accordion-bg) 18%, transparent);
 }
