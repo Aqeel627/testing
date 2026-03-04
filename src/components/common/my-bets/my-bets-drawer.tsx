@@ -158,8 +158,8 @@ export default function MyBetsDrawer() {
       >
         {/* Header exactly like page (breadcrumb), with close on top-right */}
         <div className="relative px-3 flex flex-col-reverse">
-          <div className="my-4 pr-0">
-            <BreadCrumb title={title} />
+          <div className="mt-4 pr-0">
+            <BreadCrumb title={title} parentClass="mb-0!" />
           </div>
 
           <button
