@@ -19,6 +19,7 @@ import Icon from "@/icons/icons";
 import { Ripple } from "primereact/ripple";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
+import RightSidebar from "../right-sidebar";
 
 
 type HeaderProps = {
@@ -355,11 +356,10 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                   </button>
                 </div>
 
-                {typeof window !== "undefined" && createPortal(
+                {/* {typeof window !== "undefined" && createPortal(
                   <AnimatePresence>
                     {isMenuOpen && (
                       <>
-                        {/* ── Full-viewport Backdrop ── */}
                         <motion.div
                           key="menu-backdrop"
                           initial={{ opacity: 0 }}
@@ -380,7 +380,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                           aria-hidden="true"
                         />
 
-                        {/* ── Menu Panel — slides in from right ── */}
+                        
                         <motion.div
                           key="menu-panel"
                           initial={{ x: "100%" }}
@@ -566,7 +566,8 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                     )}
                   </AnimatePresence>,
                   document.body
-                )}
+                )} */}
+                <RightSidebar isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} hideBalance={hideBalance} setHideBalance={setHideBalance} />
               </div>
             )}
           </div>
