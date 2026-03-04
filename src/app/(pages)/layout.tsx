@@ -82,9 +82,12 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
             {/* <Marque /> */}
             {/* ✅ toggle via store */}
             <Header
-              onMenuClick={() =>
-                isMobileSidebarOpen ? closeMobileSidebar() : openMobileSidebar()
-              }
+              onMenuClick={() => {
+                (document.activeElement as HTMLElement)?.blur(); // ✅ release focus before drawer opens
+                isMobileSidebarOpen
+                  ? closeMobileSidebar()
+                  : openMobileSidebar();
+              }}
             />
           </div>
 
@@ -126,8 +129,7 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
               isMobileSidebarOpen ? closeMobileSidebar() : openMobileSidebar()
             }
             dismissible
-              aria-describedby={undefined}  
-
+            aria-describedby={undefined}
           >
             <DrawerContent
               className="border-none rounded-none! w-[288px]! max-w-[85vw]! overflow-y-auto no-scrollbar"
@@ -136,12 +138,11 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
                 willChange: "transform",
                 transition: "transform 0.4s cubic-bezier(0.22, 1, 0.36, 1)",
                 backfaceVisibility: "hidden",
-                
               }}
-                aria-describedby={undefined}  
+              aria-describedby={undefined}
             >
-                        <Dialog.Title> </Dialog.Title>
-              
+              <Dialog.Title> </Dialog.Title>
+
               <div
                 style={{
                   backgroundColor: "var(--background)",
