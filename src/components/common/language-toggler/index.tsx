@@ -37,25 +37,35 @@ const LanguageToggler = () => {
     return [english, ...others].filter(Boolean) as LanguageDescriptor[];
   }
 
-  const handleSelectLanguage = (title: string, langCode: string) => {
-    setLanguage(title);
-    setOpen(false);
+const handleSelectLanguage = (title: string, langCode: string) => {
+  setLanguage(title);
+  setOpen(false);
 
-    const expire = "expires=Thu, 01 Jan 1970 00:00:00 GMT";
+  const hostname = window.location.hostname;
+  const domain =
+    hostname === "localhost"
+      ? "localhost"
+      : `.${hostname.split(".").slice(-2).join(".")}`;
 
-    // Remove old cookie
-    document.cookie = `googtrans=; ${expire}; path=/;`;
-    document.cookie = `googtrans=; ${expire}; path=/;`;
+  const expireStr = "Thu, 01 Jan 1970 00:00:00 GMT";
 
-    // Set new cookie
+  // ✅ Clear cookie for ALL possible domain variations
+  document.cookie = `googtrans=; expires=${expireStr}; path=/;`;
+  document.cookie = `googtrans=; expires=${expireStr}; path=/; domain=${hostname};`;
+  document.cookie = `googtrans=; expires=${expireStr}; path=/; domain=${domain};`;
+
+  const defaultLanguage =
+    window.__GOOGLE_TRANSLATION_CONFIG__?.defaultLanguage || "en";
+
+  if (langCode !== defaultLanguage) {
     const cookieValue = `/auto/${langCode}`;
     document.cookie = `googtrans=${cookieValue}; path=/;`;
-
+    document.cookie = `googtrans=${cookieValue}; path=/; domain=${hostname};`;
     setCookie(null, COOKIE_NAME, cookieValue, { path: "/" });
+  }
 
-    window.location.reload();
-  };
-
+  window.location.reload();
+};
   useEffect(() => {
     if (!window.__GOOGLE_TRANSLATION_CONFIG__) return;
 
