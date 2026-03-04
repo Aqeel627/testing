@@ -47,6 +47,7 @@ export default function MBetSlip() {
     }
     return ["25", "50", "75", "100"];
   }, [stakeValue]);
+  const MAX_ODDS = 1000;
 
   const lowerUpperArray = [
     { increment: 0.01, lowerBound: 1.01, upperBound: 2 },
@@ -124,7 +125,8 @@ const accentBg15 =
   // ── Odds handlers ──────────────────────────────────────────────
   const handleIncrease = () => {
     const inc = getIncrement(odds);
-    const nv = odds + inc;
+    let nv = odds + inc;
+    if (nv > MAX_ODDS) nv = MAX_ODDS;
     setOdds(formatTwoDecimals(nv));
     setInputValue(nv.toFixed(2));
   };
@@ -142,8 +144,9 @@ const accentBg15 =
     setInputValue(e.target.value);
 
   const handleBlur = () => {
-    const val = parseFloat(inputValue);
+    let val = parseFloat(inputValue);
     if (!isNaN(val)) {
+       if (val > MAX_ODDS) val = MAX_ODDS;
       setOdds(val);
       setInputValue(formatTwoDecimals(val).toString());
     } else {

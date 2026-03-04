@@ -72,6 +72,7 @@ export default function BetSlipUI() {
   const [inputValue, setInputValue] = useState<string>("0.00");
   const [stake, setStake] = useState<number>(0);
   const [placing, setPlacing] = useState(false);
+    const MAX_ODDS = 1000;
 
   // ── Sync preview to store ───────────────────────────────────────
   useEffect(() => {
@@ -148,7 +149,11 @@ export default function BetSlipUI() {
 
   const handleIncrease = () => {
     const inc = getIncrement(odds);
-    const nv = Number((odds + inc).toFixed(2));
+      const nv = Math.min(
+    Number((odds + inc).toFixed(2)),
+    MAX_ODDS
+  );
+
     setOdds(nv);
     setInputValue(nv.toFixed(2));
   };
@@ -166,10 +171,14 @@ export default function BetSlipUI() {
     setInputValue(e.target.value);
 
   const handleOddsBlur = () => {
-    const val = parseFloat(inputValue);
+    let val = parseFloat(inputValue);
     if (!isNaN(val)) {
-      setOdds(Number(val.toFixed(2)));
-      setInputValue(val.toFixed(2));
+    if (val > MAX_ODDS) val = MAX_ODDS;
+    if (val < 1.01) val = 1.01;
+
+    const finalVal = Number(val.toFixed(2));
+    setOdds(finalVal);
+    setInputValue(finalVal.toFixed(2));
     } else {
       setOdds(1.01);
       setInputValue("1.01");
