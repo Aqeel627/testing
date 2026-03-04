@@ -120,7 +120,7 @@ export default function RightSidebar({
               zIndex: 999999999,
               willChange: "transform",
             }}
-            className="w-[300px] bg-[var(--dropdownBg)] flex flex-col shadow-[-8px_0_32px_rgba(0,0,0,0.5)] overflow-y-auto overflow-x-hidden"
+            className="w-[280px] bg-[var(--dropdownBg)] flex flex-col shadow-[-8px_0_32px_rgba(0,0,0,0.5)] overflow-y-auto overflow-x-hidden"
             onClick={(e) => e.stopPropagation()}
             onMouseDown={(e) => e.stopPropagation()}
           >
