@@ -55,7 +55,6 @@ const closeMyBets = useMyBetsDrawerStore((s) => s.close);
   const eventId = segs?.[1] || params.get("eventId");
   const sportId = segs?.[2] || params.get("sportId");
 
-  console.log(eventId, sportId, "asdf");
 
   return (
     <div id="bottomNavbar.tsx">

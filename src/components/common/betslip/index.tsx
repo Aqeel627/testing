@@ -147,16 +147,17 @@ export default function BetSlipUI() {
 
   const isPlaceDisabled = placing || stake < MIN_STAKE || odds <= 1;
 
-  const handleIncrease = () => {
-    const inc = getIncrement(odds);
-      const nv = Math.min(
+const handleIncrease = () => {
+  const inc = getIncrement(odds);
+
+  const nv = Math.min(
     Number((odds + inc).toFixed(2)),
     MAX_ODDS
   );
 
-    setOdds(nv);
-    setInputValue(nv.toFixed(2));
-  };
+  setOdds(nv);
+  setInputValue(nv.toFixed(2));
+};
 
   const handleDecrease = () => {
     if (!odds || odds <= 1.01) return;
@@ -167,23 +168,45 @@ export default function BetSlipUI() {
     setInputValue(nv.toFixed(2));
   };
 
-  const handleOddsChange = (e: React.ChangeEvent<HTMLInputElement>) =>
-    setInputValue(e.target.value);
+  // const handleOddsChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+  //   setInputValue(e.target.value);
+  const handleOddsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  let val = e.target.value;
 
-  const handleOddsBlur = () => {
-    let val = parseFloat(inputValue);
-    if (!isNaN(val)) {
+  // allow empty while typing
+  if (val === "") {
+    setInputValue("");
+    return;
+  }
+
+  // allow only valid decimal pattern
+  if (!/^\d*\.?\d*$/.test(val)) return;
+
+  const num = Number(val);
+
+  // ✅ HARD LIMIT — cannot exceed 1000
+  if (!isNaN(num) && num > MAX_ODDS) {
+    val = MAX_ODDS.toString();
+  }
+
+  setInputValue(val);
+};
+
+const handleOddsBlur = () => {
+  let val = parseFloat(inputValue);
+
+  if (!isNaN(val)) {
     if (val > MAX_ODDS) val = MAX_ODDS;
     if (val < 1.01) val = 1.01;
 
     const finalVal = Number(val.toFixed(2));
     setOdds(finalVal);
     setInputValue(finalVal.toFixed(2));
-    } else {
-      setOdds(1.01);
-      setInputValue("1.01");
-    }
-  };
+  } else {
+    setOdds(1.01);
+    setInputValue("1.01");
+  }
+};
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) =>
     e.key === "Enter" && handleOddsBlur();

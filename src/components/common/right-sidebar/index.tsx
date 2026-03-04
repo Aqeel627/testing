@@ -135,10 +135,10 @@ export default function RightSidebar({
 
             {/* Stats Cards (Balance & Exposure) */}
             <div className="flex gap-4 px-4 py-5 shrink-0">
-              <div className="flex-1 flex flex-col items-center justify-center py-4 rounded-xl border-2 border-[var(--primary-color)] dark:border-[var(--secondary-color)] shadow-[0_0_12px_0px_var(--primary-color)] dark:shadow-[0_0_12px_0px_var(--secondary-color)]">
+              <div className="flex-1 flex flex-col items-center justify-center py-4 rounded-xl border-2 border-[var(--primary-color)] shadow-[0_0_12px_0px_var(--primary-color)]">
                 <Icon
                   name={"wallet"}
-                  className="w-8 h-8 mb-2 text-(--primary-color) dark:text-[var(--secondary-color)]"
+                  className="w-8 h-8 mb-2 text-(--primary-color) "
                 />
                 <span className="text-[10px] text-(--tab-default-text) mb-1 tracking-widest uppercase font-semibold">
                   Balance
@@ -153,10 +153,10 @@ export default function RightSidebar({
                 </span>
               </div>
 
-              <div className="flex-1 flex flex-col items-center justify-center py-4 rounded-xl border-2 border-[var(--primary-color)] dark:border-[var(--secondary-color)] shadow-[0_0_12px_0px_var(--primary-color)] dark:shadow-[0_0_12px_0px_var(--secondary-color)]">
+              <div className="flex-1 flex flex-col items-center justify-center py-4 rounded-xl border-2 border-[var(--primary-color)] shadow-[0_0_12px_0px_var(--primary-color)]">
                 <Icon
                   name={"exp"}
-                  className="w-8 h-8 mb-2 text-(--primary-color) dark:text-[var(--secondary-color)]"
+                  className="w-8 h-8 mb-2 text-(--primary-color)"
                 />
                 <span className="text-[10px] text-(--tab-default-text) mb-1 tracking-widest uppercase font-semibold">
                   Exposure
@@ -189,12 +189,12 @@ export default function RightSidebar({
                       className={cn(
                         "relative flex items-center gap-4 px-4 py-3 rounded-lg transition-all w-full",
                         isActive
-                          ? "bg-[linear-gradient(90deg,var(--background)_0%,var(--primary-color)_90%)] dark:bg-[linear-gradient(90deg,var(--background)_25%,var(--secondary-color)_90%)] before:content-[''] before:absolute before:-left-[8px] before:top-0 before:h-full before:w-[4px] before:bg-[var(--primary-color)] dark:before:bg-[var(--secondary-color)] before:rounded-[4px]"
+                          ? "bg-[linear-gradient(90deg,var(--background)_0%,var(--primary-color)_90%)] dark:bg-[linear-gradient(90deg,var(--background)_25%,var(--primary-color)_90%)] before:content-[''] before:absolute before:-left-[8px] before:top-0 before:h-full before:w-[4px] before:bg-[var(--primary-color)] before:rounded-[4px]"
                           : "hover:bg-(--primary-hover) border-l-[3px] border-transparent",
                       )}
                     >
                       <Icon
-                        className={`w-[22px] h-[22px] text-(--primary-color) dark:text-[var(--secondary-color)]`}
+                        className={`w-[22px] h-[22px] text-(--primary-color)`}
                         name={item.icon}
                       />
                       <span className={`text-[15px] text-(--tab-default-text)`}>
@@ -249,12 +249,12 @@ export default function RightSidebar({
                   className={cn(
                     "relative flex items-center gap-4 px-4 py-3 rounded-lg transition-all w-full",
                     pathname === "/theme"
-                      ? "bg-[linear-gradient(90deg,var(--background)_0%,var(--primary-color)_90%)] dark:bg-[linear-gradient(90deg,var(--background)_25%,var(--secondary-color)_90%)] before:content-[''] before:absolute before:-left-[8px] before:top-0 before:h-full before:w-[4px] before:bg-[var(--primary-color)] dark:before:bg-[var(--secondary-color)] before:rounded-[4px]"
+                      ? "bg-[linear-gradient(90deg,var(--background)_0%,var(--primary-color)_90%)] dark:bg-[linear-gradient(90deg,var(--background)_25%,var(--primary-color)_90%)] before:content-[''] before:absolute before:-left-[8px] before:top-0 before:h-full before:w-[4px] before:bg-[var(--primary-color)] before:rounded-[4px]"
                       : "hover:bg-(--primary-hover) border-l-[3px] border-transparent",
                   )}
                 >
                   <Icon
-                    className={`w-[22px]! h-[22px]! text-(--primary-color) dark:text-[var(--secondary-color)]`}
+                    className={`w-[22px]! h-[22px]! text-(--primary-color)`}
                     name={
                       theme === "dark"
                         ? "themeSettingDark"
@@ -276,7 +276,7 @@ export default function RightSidebar({
                   }
                 >
                   <Icon
-                    className={`w-[22px] h-[22px] text-(--primary-color) dark:text-[var(--secondary-color)]`}
+                    className={`w-[22px] h-[22px] text-(--primary-color)`}
                     name={"hideBalance"}
                   />
                   <span className="text-[15px] text-(--tab-default-text)">
@@ -285,7 +285,7 @@ export default function RightSidebar({
                   <div
                     className={`w-11 ml-auto rounded-full p-1 flex items-center transition-colors ${
                       hideBalance
-                        ? "bg-[var(--secondary-color)]"
+                        ? "bg-[var(--primary-color)]"
                         : "bg-gray-600"
                     }`}
                   >
