@@ -11,7 +11,7 @@ import { useIndexManagerStore } from "@/lib/store/indexManagerStore";
 import { useRouter } from "next/navigation";
 
 const GlobalApisCall = () => {
-  const { setCasinoEvents, setUserExposureList } = useAppStore();
+  const { setCasinoEvents, setUserExposureList,userExposureList } = useAppStore();
   [];
   const {
     setBanners,
@@ -27,21 +27,46 @@ const GlobalApisCall = () => {
   DisableWheelZoom();
   DisableZoom();
 
+  // 1) token check only once
+useEffect(() => {
+  const token = localStorage.getItem("token");
+  checkLogin(token || "");
+}, [checkLogin]);
+
+// 2) exposure fetch whenever isLoggedIn becomes true
+useEffect(() => {
+  if (!isLoggedIn) return;
+
+  // optional guard: if already loaded, don't call again
+  if (userExposureList?.data?.length) return;
+
+  fetchData({
+    url: CONFIG.getExposureListURL,
+    payload: {},
+    setFn: (data) => {
+      const totalExposure = (data || []).reduce(
+        (acc: number, item: any) => acc + Number(item?.betCounts || 0),
+        0
+      );
+      setUserExposureList({ data, totalExposure });
+    },
+  });
+}, [isLoggedIn, userExposureList?.data?.length, setUserExposureList]);
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    checkLogin(token || "");
-    if (isLoggedIn) {
-      fetchData({
-        url: CONFIG.getExposureListURL,
-        payload: {},
-        setFn: (data) => {
-          const totalExposure = data?.reduce((acc: number, item: any) => {
-            return acc + (item?.betCounts || 0);
-          }, 0);
-          setUserExposureList({ data, totalExposure });
-        },
-      });
-    }
+    // const token = localStorage.getItem("token");
+    // checkLogin(token || "");
+    // if (isLoggedIn) {
+    //   fetchData({
+    //     url: CONFIG.getExposureListURL,
+    //     payload: {},
+    //     setFn: (data) => {
+    //       const totalExposure = data?.reduce((acc: number, item: any) => {
+    //         return acc + (item?.betCounts || 0);
+    //       }, 0);
+    //       setUserExposureList({ data, totalExposure });
+    //     },
+    //   });
+    // }
 
     fetchData({
       url: CONFIG.getTopCasinoGame,
