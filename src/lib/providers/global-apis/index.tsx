@@ -4,11 +4,12 @@ import { fetchData } from "@/lib/functions";
 import { useDisableTouchGestures } from "@/lib/hooks/use-disable-touch-gestures";
 import { useAppStore } from "@/lib/store/store";
 import { useAuthStore } from "@/lib/useAuthStore";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { DisableWheelZoom, DisableZoom } from "../disable-zoom";
 import { indexManager } from "@/lib/index-manager";
 import { useIndexManagerStore } from "@/lib/store/indexManagerStore";
 import { useRouter } from "next/navigation";
+import http from "@/lib/axios-instance";
 
 const GlobalApisCall = () => {
   const { setCasinoEvents, setUserExposureList,userExposureList } = useAppStore();
@@ -27,30 +28,38 @@ const GlobalApisCall = () => {
   DisableWheelZoom();
   DisableZoom();
 
-  // 1) token check only once
+const didFetchExposureRef = useRef(false);
+
 useEffect(() => {
   const token = localStorage.getItem("token");
   checkLogin(token || "");
 }, [checkLogin]);
-
-// 2) exposure fetch whenever isLoggedIn becomes true
 useEffect(() => {
-  if (!isLoggedIn) return;
-
-  // optional guard: if already loaded, don't call again
+  if (!isLoggedIn) {
+    didFetchExposureRef.current = false;
+    return;
+  }
   if (userExposureList?.data?.length) return;
+  if (didFetchExposureRef.current) return;
 
-  fetchData({
-    url: CONFIG.getExposureListURL,
-    payload: {},
-    setFn: (data) => {
-      const totalExposure = (data || []).reduce(
+  didFetchExposureRef.current = true;
+
+  (async () => {
+    try {
+      const res = await http.post(CONFIG.getExposureListURL, {});
+      const list = res?.data?.data ?? res?.data ?? [];
+      const data = Array.isArray(list) ? list : [];
+
+      const totalExposure = data.reduce(
         (acc: number, item: any) => acc + Number(item?.betCounts || 0),
         0
       );
+
       setUserExposureList({ data, totalExposure });
-    },
-  });
+    } catch (e) {
+      // optional: didFetchExposureRef.current = false; (retry allow)
+    }
+  })();
 }, [isLoggedIn, userExposureList?.data?.length, setUserExposureList]);
   useEffect(() => {
     // const token = localStorage.getItem("token");
