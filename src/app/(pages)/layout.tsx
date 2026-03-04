@@ -22,6 +22,8 @@ import BetsTable from "@/components/common/betstable";
 import { AnimatePresence, motion } from "framer-motion";
 import { usePathname } from "next/navigation";
 import { Drawer, DrawerContent } from "@/components/common/drawer";
+import * as Dialog from "@radix-ui/react-dialog";
+
 // const Header = dynamic(() => import("@/components/common/header"));
 // const Footer = dynamic(() => import("@/components/common/footer"));
 // const Sidebar = dynamic(() => import("@/components/common/sidebar"));
@@ -124,6 +126,8 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
               isMobileSidebarOpen ? closeMobileSidebar() : openMobileSidebar()
             }
             dismissible
+              aria-describedby={undefined}  
+
           >
             <DrawerContent
               className="border-none rounded-none! w-[288px]! max-w-[85vw]! overflow-y-auto no-scrollbar"
@@ -132,8 +136,12 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
                 willChange: "transform",
                 transition: "transform 0.4s cubic-bezier(0.22, 1, 0.36, 1)",
                 backfaceVisibility: "hidden",
+                
               }}
+                aria-describedby={undefined}  
             >
+                        <Dialog.Title> </Dialog.Title>
+              
               <div
                 style={{
                   backgroundColor: "var(--background)",
