@@ -157,15 +157,15 @@ export default function MyBetsDrawer() {
          onClick={(e) => e.stopPropagation()}
       >
         {/* Header exactly like page (breadcrumb), with close on top-right */}
-        <div className="relative px-3">
-          <div className="my-4 pr-12">
+        <div className="relative px-3 flex flex-col-reverse">
+          <div className="my-4 pr-0">
             <BreadCrumb title={title} />
           </div>
 
           <button
             type="button"
             onClick={close}
-            className="absolute right-3 top-4 h-8 w-8 rounded-[10px] border flex items-center justify-center"
+            className="absolute right-3 top-[13px] h-8 w-8 rounded-[10px] border flex items-center justify-center"
             style={{
               borderColor: "color-mix(in srgb, var(--primary-color) 90%, transparent)",
               background: "color-mix(in srgb, var(--accordion-bg) 18%, transparent)",
