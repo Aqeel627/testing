@@ -20,7 +20,7 @@ function highlight(text: string, query: string) {
       </span>
     ) : (
       part
-    )
+    ),
   );
 }
 
@@ -128,15 +128,14 @@ export default function SearchModal() {
         {/* ---------- CONTENT ---------- */}
         <Dialog.Content
           className={styles.content}
-            aria-describedby={undefined}
+          aria-describedby={undefined}
           onOpenAutoFocus={(e) => e.preventDefault()}
           onInteractOutside={(e) => {
             e.preventDefault();
           }}
         >
-          
           <Dialog.Title> </Dialog.Title>
-          
+
           {/* 👇 Modal paper with ref for outside click detection */}
           <div className={styles.paper} ref={modalRef}>
             {/* ---------- HEADER ---------- */}
@@ -145,6 +144,7 @@ export default function SearchModal() {
 
               <input
                 ref={inputRef}
+                id="search-input"
                 className={styles.input}
                 placeholder="Search..."
                 value={query}
@@ -180,7 +180,7 @@ export default function SearchModal() {
                       <p className={styles.title}>
                         {highlight(
                           `${match?.eventType?.name} | ${match?.marketType}`,
-                          query
+                          query,
                         )}
                       </p>
                       <p className={styles.sub}>
