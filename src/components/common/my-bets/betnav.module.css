@@ -2,7 +2,7 @@
   width: 100%;
   max-width: 980px;
   margin: 0 auto;
-  padding: 0 0 120px; /* bottom navbar space */
+  padding: 0 0 9dvw; /* bottom navbar space */
 }
 
 .tabsWrap {
@@ -13,7 +13,8 @@
 .glass-panel {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
-  border: 1px solid var(--dotted-line);
+  color: var(--secondary-text-color) !important;
+  border: 1px solid var(--secondary-text-color);
   background: color-mix(in srgb, var(--accordion-bg) 18%, transparent);
 }
 
