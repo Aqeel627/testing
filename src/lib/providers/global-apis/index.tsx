@@ -4,15 +4,16 @@ import { fetchData } from "@/lib/functions";
 import { useDisableTouchGestures } from "@/lib/hooks/use-disable-touch-gestures";
 import { useAppStore } from "@/lib/store/store";
 import { useAuthStore } from "@/lib/useAuthStore";
-import React, { useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import { DisableWheelZoom, DisableZoom } from "../disable-zoom";
 import { indexManager } from "@/lib/index-manager";
 import { useIndexManagerStore } from "@/lib/store/indexManagerStore";
 import { useRouter } from "next/navigation";
 import http from "@/lib/axios-instance";
+import { eventBus } from "@/lib/eventBus";
 
 const GlobalApisCall = () => {
-  const { setCasinoEvents, setUserExposureList,userExposureList } = useAppStore();
+  const { setCasinoEvents, setUserExposureList, userExposureList } = useAppStore();
   [];
   const {
     setBanners,
@@ -28,23 +29,17 @@ const GlobalApisCall = () => {
   DisableWheelZoom();
   DisableZoom();
 
-const didFetchExposureRef = useRef(false);
+  const didFetchExposureRef = useRef(false);
+  const inFlightRef = useRef(false);
 
-useEffect(() => {
-  const token = localStorage.getItem("token");
-  checkLogin(token || "");
-}, [checkLogin]);
-useEffect(() => {
-  if (!isLoggedIn) {
-    didFetchExposureRef.current = false;
-    return;
-  }
-  if (userExposureList?.data?.length) return;
-  if (didFetchExposureRef.current) return;
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    checkLogin(token || "");
+  }, [checkLogin]);
+  const refreshExposure = useCallback(async () => {
+    if (inFlightRef.current) return;
+    inFlightRef.current = true;
 
-  didFetchExposureRef.current = true;
-
-  (async () => {
     try {
       const res = await http.post(CONFIG.getExposureListURL, {});
       const list = res?.data?.data ?? res?.data ?? [];
@@ -56,11 +51,28 @@ useEffect(() => {
       );
 
       setUserExposureList({ data, totalExposure });
-    } catch (e) {
-      // optional: didFetchExposureRef.current = false; (retry allow)
+    } finally {
+      inFlightRef.current = false;
     }
-  })();
-}, [isLoggedIn, userExposureList?.data?.length, setUserExposureList]);
+  }, [setUserExposureList]);
+
+  useEffect(() => {
+    if (!isLoggedIn) return;
+    refreshExposure().catch(() => { });
+  }, [isLoggedIn, refreshExposure]);
+
+  // ✅ bet place/cancel ke baad auto refresh (home badge update)
+  useEffect(() => {
+    if (!isLoggedIn) return;
+
+    const handler = () => refreshExposure().catch(() => { });
+    const unsubscribe = eventBus.on("REFRESH_AFTER_PLACE", handler);
+
+    return () => {
+      unsubscribe();
+    };
+  }, [isLoggedIn, refreshExposure]);
+
   useEffect(() => {
     // const token = localStorage.getItem("token");
     // checkLogin(token || "");
