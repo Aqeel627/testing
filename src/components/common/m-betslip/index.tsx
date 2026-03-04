@@ -140,8 +140,30 @@ const accentBg15 =
     setInputValue(nv.toFixed(2));
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
-    setInputValue(e.target.value);
+  // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
+  //   setInputValue(e.target.value);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  let val = e.target.value;
+
+  // allow empty while typing
+  if (val === "") {
+    setInputValue("");
+    return;
+  }
+
+  // allow only numbers + decimal
+  if (!/^\d*\.?\d*$/.test(val)) return;
+
+  let num = Number(val);
+
+  // ✅ HARD MAX LIMIT
+  if (!isNaN(num) && num > MAX_ODDS) {
+    num = MAX_ODDS;
+    val = MAX_ODDS.toString();
+  }
+
+  setInputValue(val);
+};
 
   const handleBlur = () => {
     let val = parseFloat(inputValue);
