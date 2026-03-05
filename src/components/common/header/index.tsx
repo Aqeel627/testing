@@ -130,7 +130,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                 src={theme === "dark" ? "/logo-black.svg" : "/logo-white.svg"}
                 alt="GJEXCH Logo"
                 fill
-                loading="lazy"
+                loading="eager"
                 className="object-contain relative! mx-1 "
               />
             </Link>

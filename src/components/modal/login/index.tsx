@@ -327,7 +327,7 @@ export default function LoginModal() {
                             placeholder="Password"
                             name="password"
                             id="password"
-                            autoComplete="password"
+                            autoComplete="current-password"
                             value={password}
                             onChange={(e) => {
                               setPassword(e.target.value);

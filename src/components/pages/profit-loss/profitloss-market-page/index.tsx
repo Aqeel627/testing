@@ -258,6 +258,7 @@ const ProfitLossMarketPage: React.FC = () => {
             <span className="jumptext">Jump to page</span>
             <input
               className="input bh-jump-input h-[32px]"
+              id="jump_desk"
               value={jumptoPage}
               onChange={(e) => setJumptoPage(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && JumpPage()}
@@ -274,6 +275,7 @@ const ProfitLossMarketPage: React.FC = () => {
               <input
                 className="input bh-jump-input"
                 value={jumptoPage}
+                id="jump_mbl"
                 onChange={(e) => setJumptoPage(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && JumpPage()}
               />

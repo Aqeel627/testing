@@ -148,6 +148,7 @@ const ProfitLossPage: React.FC = () => {
             {/* Start Date */}
             <div className="col-span-6 md:col-span-4 xl:col-span-2">
               <input
+                id="start_date"
                 type="date"
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
@@ -160,6 +161,7 @@ const ProfitLossPage: React.FC = () => {
             <div className="col-span-6 md:col-span-4 xl:col-span-2">
               <input
                 type="date"
+                id="end_date"
                 value={endDate}
                 onChange={(e) => setEndDate(e.target.value)}
                 // Same classes yahan bhi
@@ -284,6 +286,7 @@ const ProfitLossPage: React.FC = () => {
             <span className="jumptext">Jump to page</span>
             <input
               className="input bh-jump-input h-[32px]"
+              id="jump_desk"
               value={jumptoPage}
               onChange={(e) => setJumptoPage(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && JumpPage()}
@@ -299,6 +302,7 @@ const ProfitLossPage: React.FC = () => {
               <span className="jumptext">Jump to page</span>
               <input
                 className="input bh-jump-input"
+                id="jump_mbl"
                 value={jumptoPage}
                 onChange={(e) => setJumptoPage(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && JumpPage()}

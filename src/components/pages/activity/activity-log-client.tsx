@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import { CONFIG } from "@/lib/config";
 import { fetchData } from "@/lib/functions";
-import styles from '@/components/pages/passwordHistory/style.module.css'
+import styles from '@/components/pages/password-history/style.module.css'
 import '../profit-loss/profit-loss-page/style.css'
 import { cn } from "@/lib/utils";
 

@@ -1,4 +1,4 @@
-import PasswordHistory from "@/components/pages/passwordHistory";
+import PasswordHistory from "@/components/pages/password-history";
 import RequireAuth from "@/lib/require-auth";
 
 const PasswordHistoryRoute = () => {
