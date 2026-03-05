@@ -2693,7 +2693,7 @@ const RenderSportsBookTable = ({ data, eventName, eventId, sportId }: any) => {
                             {item.name}
                           </span>
                         </td>
-                        <td className="w-[57px] md:w-[57px] p-0 rounded-[8px]!">
+                        <td className="w-[134px]  md:w-[57px] p-0 rounded-[8px]! pr-[4px]">
                           <div
                             className={`cursor-pointer rounded-[8px]! h-[45px] flex flex-col items-center justify-center border-l bg-[#72dbb3] hover:bg-[#5fc7a0] border-(--dotted-line) ${isSelected ? "!bg-[#50d0ae]" : ""}`}
                             onClick={() => onSportsBookClick(item)}
