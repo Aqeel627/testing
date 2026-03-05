@@ -4,6 +4,7 @@ import { CONFIG } from "@/lib/config";
 import dynamic from "next/dynamic";
 import "../profit-loss/profit-loss-page/style.css";
 import React, { useState, useEffect, useRef } from "react";
+import { useToast } from "@/components/common/toast/toast-context";
 
 const BreadCrumb = dynamic(() => import("@/components/common/bread-crumb"));
 
@@ -39,6 +40,7 @@ const StatementPage = () => {
   const [statements, setStatements] = useState<StatementRecord[]>([]);
   const [totalPages, setTotalPages] = useState(1);
   const [jumpToPage, setJumpToPage] = useState(""); // Empty by default
+  const { showToast } = useToast();
 
   // const { showLoading, hideLoading } = useLoading();
 
@@ -121,10 +123,15 @@ const StatementPage = () => {
 
   const handleJumpToPage = () => {
     const pageNum = parseInt(jumpToPage);
-    if (!isNaN(pageNum) && pageNum >= 1 && pageNum <= totalPages) {
+
+    if (jumpToPage === "" || isNaN(pageNum)) return;
+
+    if (pageNum >= 1 && pageNum <= totalPages) {
       setCurrentPage(pageNum);
       setJumpToPage(""); // Reset to empty after jump
       fetchStatements(pageNum, pageLength);
+    } else {
+      showToast("error", "Invalid Page", `Please enter a page number between 1 and ${totalPages}.`);
     }
   };
 
@@ -224,7 +231,7 @@ const StatementPage = () => {
               {/* Input container to keep both in one line */}
               <div className="flex justify-between w-full  flex-nowrap">
                 <input
-                id="start_date_mbl"
+                  id="start_date_mbl"
                   type="date"
                   value={startDate.toISOString().split("T")[0]}
                   onChange={(e) => {
@@ -387,12 +394,12 @@ const StatementPage = () => {
                 onChange={(e) => setJumpToPage(e.target.value)}
                 onKeyPress={handleKeyPress}
                 autoComplete="off"
-                disabled={!shouldEnableJumpToPage}
+                disabled={totalPages <= 1}
               />
               <button
                 className="bh-jump-go-btn"
                 onClick={handleJumpToPage}
-                disabled={!shouldEnableJumpToPage}
+                disabled={totalPages <= 1}
               >
                 Go
               </button>
@@ -411,12 +418,12 @@ const StatementPage = () => {
                   onChange={(e) => setJumpToPage(e.target.value)}
                   onKeyPress={handleKeyPress}
                   autoComplete="off"
-                  disabled={!shouldEnableJumpToPage}
+                  disabled={totalPages <= 1}
                 />
                 <button
                   className="bh-jump-go-btn"
                   onClick={handleJumpToPage}
-                  disabled={!shouldEnableJumpToPage}
+                  disabled={totalPages <= 1}
                 >
                   Go
                 </button>

@@ -6,6 +6,7 @@ import { CONFIG } from "@/lib/config";
 import { useAuthStore } from "@/lib/useAuthStore";
 import http from "@/lib/axios-instance";
 import dynamic from "next/dynamic";
+import { useToast } from "@/components/common/toast/toast-context"; // ✅ Toast import kiya
 import "./../profit-loss-page/style.css";
 const BreadCrumb = dynamic(() => import("@/components/common/bread-crumb"));
 
@@ -20,6 +21,9 @@ interface ProfitItem {
 const ProfitLossEventPage: React.FC = () => {
   const params = useParams();
   const router = useRouter();
+  
+  // ✅ Toast hook initialize kiya
+  const { showToast } = useToast();
 
   // ✅ Store se direct 'token' nikalna (userDetail ke andar nahi hai)
   const { token } = useAuthStore();
@@ -74,15 +78,21 @@ const ProfitLossEventPage: React.FC = () => {
         if (data) {
           setProfitList(data);
           setTotalRecords(resp.data.total || 0);
-          setTotalPages(Math.ceil((resp.data.total || 0) / limit));
-          setCurrentPage(resp.data.currentPage);
+          setTotalPages(Math.ceil((resp.data.total || 0) / limit) || 1);
+          setCurrentPage(resp.data.currentPage || 1);
 
-          const sIdx = (resp.data.currentPage - 1) * limit + 1;
+          const sIdx = ((resp.data.currentPage || 1) - 1) * limit + 1;
           setStartIndex(sIdx);
           setEndIndex(Math.min(sIdx + data.length - 1, resp.data.total || 0));
         }
       } catch (error: any) {
         console.error("❌ API Error:", error.response?.data || error.message);
+        setProfitList([]);
+        setTotalRecords(0);
+        setTotalPages(1);
+        setCurrentPage(1);
+        setStartIndex(0);
+        setEndIndex(0);
       } finally {
         setIsLoader(false);
       }
@@ -93,14 +103,24 @@ const ProfitLossEventPage: React.FC = () => {
   useEffect(() => {
     // Sirf tabhi call karein jab token aur sportsId mil jayein
     if (token && sportsId) {
-      profitLossByEvent();
+      profitLossByEvent(1);
     }
   }, [token, sportsId, profitLossByEvent]);
 
   // --- Handlers ---
   const JumpPage = () => {
     const p = parseInt(jumptoPage);
-    if (p > 0 && p <= totalPages) profitLossByEvent(p);
+
+    if (jumptoPage === "" || isNaN(p)) return;
+
+    if (p >= 1 && p <= totalPages) {
+      setCurrentPage(p);
+      profitLossByEvent(p);
+      setJumptoPage(""); // ✅ Jump hone ke baad input clear
+    } else {
+      // ✅ Agar invalid page ho to Toast error
+      showToast("error", "Invalid Page", `Please enter a page number between 1 and ${totalPages}.`);
+    }
   };
 
   const goToFirst = () => {
@@ -123,14 +143,6 @@ const ProfitLossEventPage: React.FC = () => {
   return (
     <div id="profitloss-event-page.tsx">
       <div className="container-fluid">
-        {/* ✅ Image ke mutabiq Header Design */}
-        {/* <div className="flex items-center my-4">
-        <div className="flex-grow border-t border-t border-dashed border-(--dotted-line)"></div>
-        <span className="px-4 text-[var(--palette-text-primary)] font-bold text-[16px] whitespace-nowrap uppercase">
-          Profit Loss Event
-        </span>
-        <div className="flex-grow border-t border-t border-dashed border-(--dotted-line)"></div>
-      </div> */}
         <div className="my-4">
           <BreadCrumb title="Profit Loss Event" />
         </div>
@@ -151,7 +163,7 @@ const ProfitLossEventPage: React.FC = () => {
             <tbody className="">
               {isLoader ? (
                 <tr>
-                  <td colSpan={4} className="p-4  text-center">
+                  <td colSpan={5} className="p-4  text-center">
                     <div className="flex justify-center items-center gap-1.5">
                       <div className="w-2 h-2 bg-(--primary-color) rounded-full animate-bounce [animation-delay:-0.3s]"></div>
                       <div className="w-2 h-2 bg-(--primary-color) rounded-full animate-bounce [animation-delay:-0.15s]"></div>
@@ -235,8 +247,13 @@ const ProfitLossEventPage: React.FC = () => {
               value={jumptoPage}
               onChange={(e) => setJumptoPage(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && JumpPage()}
+              disabled={totalPages <= 1} // ✅ Disable condition
             />
-            <button className="bh-jump-go-btn h-[32px]" onClick={JumpPage}>
+            <button 
+              className="bh-jump-go-btn h-[32px]" 
+              onClick={JumpPage}
+              disabled={totalPages <= 1 || !jumptoPage} // ✅ Disable condition
+            >
               Go
             </button>
           </div>
@@ -251,11 +268,12 @@ const ProfitLossEventPage: React.FC = () => {
                 id="jump_mbl"
                 onChange={(e) => setJumptoPage(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && JumpPage()}
+                disabled={totalPages <= 1} // ✅ Disable condition
               />
               <button
                 className="bh-jump-go-btn"
                 onClick={JumpPage}
-                disabled={!jumptoPage}
+                disabled={totalPages <= 1 || !jumptoPage} // ✅ Disable condition
               >
                 Go
               </button>

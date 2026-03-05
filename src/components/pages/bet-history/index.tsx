@@ -173,6 +173,7 @@ export default function BetHistoryComponent() {
   const getBetHistoryUser = useCallback(
     async (page?: number) => {
       setApiCalled(false);
+
       const payload: any = {
         startDate: getStartDate(startDate),
         endDate: getEndDate(endDate),
@@ -191,8 +192,10 @@ export default function BetHistoryComponent() {
         if (resp?.data) {
           const msg = splitMsg(resp?.meta?.message);
           showToast(msg.status, msg.title, msg.desc);
+
           setApiCalled(true);
           setBetTypeStatus(betStatus);
+
           if (betStatus === "MATCHED") {
             const data = resp?.data?.map((obj: any) => {
               const profitStr = String(obj?.profitLoss ?? "");
@@ -257,8 +260,15 @@ export default function BetHistoryComponent() {
 
   const jumpPage = () => {
     const p = Number(jumptoPage);
-    if (jumptoPage !== "" && p >= 1 && p <= totalPages) {
+
+    if (jumptoPage === "" || isNaN(p)) return;
+
+    if (p >= 1 && p <= totalPages) {
+      setCurrentPage(p);
       getBetHistoryUser(p);
+      setJumptoPage("");
+    } else {
+      showToast("error", "Invalid Page", `Please enter a page number between 1 and ${totalPages}.`);
     }
   };
 
@@ -589,21 +599,21 @@ export default function BetHistoryComponent() {
                         <div className="fw-bold">Liability</div>
                         {(betTypeStatus === "UNMATCHED" ||
                           betTypeStatus === "MATCHED") && (
-                          <div className="pl-neg fw-bold">
-                            {formatNumber(item.liability, 1, 2, 2)}
-                          </div>
-                        )}
+                            <div className="pl-neg fw-bold">
+                              {formatNumber(item.liability, 1, 2, 2)}
+                            </div>
+                          )}
                         {(betTypeStatus === "SETTLED" ||
                           betTypeStatus === "CANCELLED" ||
                           betTypeStatus === "LAPSED") && (
-                          <div className="pl-neg fw-bold">
-                            {item.liability ? (
-                              formatNumber(item.liability, 1, 0, 2)
-                            ) : (
-                              <span className="muted">--</span>
-                            )}
-                          </div>
-                        )}
+                            <div className="pl-neg fw-bold">
+                              {item.liability ? (
+                                formatNumber(item.liability, 1, 0, 2)
+                              ) : (
+                                <span className="muted">--</span>
+                              )}
+                            </div>
+                          )}
                       </div>
 
                       {/* Potential Profit */}
@@ -617,22 +627,22 @@ export default function BetHistoryComponent() {
                                 (item.bidType === "LAY"
                                   ? item.totalSizeRemaining
                                   : formatNumber(
-                                      ((item.requestedPrice ?? 0) - 1) *
-                                        (item.totalSizeRemaining ?? 0),
-                                      1,
-                                      0,
-                                      2,
-                                    ))}
+                                    ((item.requestedPrice ?? 0) - 1) *
+                                    (item.totalSizeRemaining ?? 0),
+                                    1,
+                                    0,
+                                    2,
+                                  ))}
                               {betTypeStatus === "LAPSED" &&
                                 (item.bidType === "LAY"
                                   ? item.totalSizeLapsed
                                   : formatNumber(
-                                      ((item.requestedPrice ?? 0) - 1) *
-                                        (item.totalSizeLapsed ?? 0),
-                                      1,
-                                      0,
-                                      2,
-                                    ))}
+                                    ((item.requestedPrice ?? 0) - 1) *
+                                    (item.totalSizeLapsed ?? 0),
+                                    1,
+                                    0,
+                                    2,
+                                  ))}
                             </div>
                           </div>
                         )}
@@ -766,8 +776,9 @@ export default function BetHistoryComponent() {
                     id="jump_desk"
                     value={jumptoPage}
                     onChange={(e) => setJumptoPage(e.target.value)}
+                    disabled={totalPages <= 1}
                   />
-                  <button className="bh-jump-go-btn" onClick={jumpPage}>
+                  <button className="bh-jump-go-btn" onClick={jumpPage} disabled={totalPages <= 1 || !jumptoPage}>
                     Go
                   </button>
                 </div>
@@ -782,11 +793,12 @@ export default function BetHistoryComponent() {
                       value={jumptoPage}
                       onChange={(e) => setJumptoPage(e.target.value)}
                       onKeyDown={(e) => e.key === "Enter" && jumpPage()}
+                      disabled={totalPages <= 1}
                     />
                     <button
                       className="bh-jump-go-btn"
                       onClick={jumpPage}
-                      disabled={!jumptoPage}
+                      disabled={totalPages <= 1 || !jumptoPage}
                     >
                       Go
                     </button>

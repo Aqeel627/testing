@@ -258,7 +258,7 @@ export default function BetsTable() {
             Bets
           </button>
           <div className="relative flex-1 min-w-0">
-            <input type="search" placeholder="Search bets..." value={search} onChange={(e) => setSearch(e.target.value)}
+            <input type="search" id="search" name="search-input" placeholder="Search bets..." value={search} onChange={(e) => setSearch(e.target.value)}
               className="w-full h-8 text-[0.9375rem] bg-transparent pl-3 pr-3 rounded-[8px] border border-[rgba(145,158,171,0.2)] text-[var(--palette-text-primary)] placeholder:text-[var(--palette-text-secondary)] focus:outline-none focus:border-[rgba(145,158,171,0.4)] transition-colors" />
           </div>
         </div>
@@ -315,7 +315,7 @@ export default function BetsTable() {
                 {openMenu === "export" && <DropdownMenu items={exportItems} onClose={() => setOpenMenu(null)} style={{ top: "36px", right: 0 }} />}
               </div>
               <div className="relative flex-1 min-w-[200px] max-w-[400px]">
-                <input type="search" placeholder="Search bets..." value={search} onChange={(e) => setSearch(e.target.value)}
+                <input type="search" id="search2" name="search-input2" placeholder="Search bets..." value={search} onChange={(e) => setSearch(e.target.value)}
                   className="w-full h-8 bg-transparent pl-3 pr-3 rounded-[8px] border border-[rgba(145,158,171,0.2)] text-[var(--palette-text-primary)] placeholder:text-[var(--palette-text-secondary)] focus:outline-none transition-colors" />
               </div>
             </div>
