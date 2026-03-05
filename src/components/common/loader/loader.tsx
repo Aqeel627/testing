@@ -57,7 +57,7 @@ const Loader = () => {
                   alt="brand logo"
                   width={152}
                   height={44}
-                  loading="lazy"
+                  loading="eager"
                   sizes="152px"
                   className={styles.LoaderImg}
                 />
