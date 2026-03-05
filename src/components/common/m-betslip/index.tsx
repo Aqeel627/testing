@@ -93,22 +93,27 @@ export default function MBetSlip() {
   const isBack = type === "back" || type === "yes";
   const isLay = type === "lay" || type === "no";
 
- const isSportsBook = selectedBet?.marketType === "SPORTSBOOK";
-const isLineMarket = selectedBet?.isLineMarket === true && selectedBet?.marketType !== "FANCY";
+  const isSportsBook = selectedBet?.marketType === "SPORTSBOOK";
+  const isLineMarket =
+    selectedBet?.isLineMarket === true && selectedBet?.marketType !== "FANCY";
 
-const accentVar =
-  isSportsBook || isLineMarket
-    ? isBack ? "#50d0ae" : "#5baca7"
-    : isBack
-      ? "var(--bs-back-accent)"
-      : "var(--bs-lay-accent)";
+  const accentVar =
+    isSportsBook || isLineMarket
+      ? isBack
+        ? "#50d0ae"
+        : "#5baca7"
+      : isBack
+        ? "var(--bs-back-accent)"
+        : "var(--bs-lay-accent)";
 
-const accentBg15 =
-  isSportsBook || isLineMarket
-    ? isBack ? "#50d0ae26" : "#5baca726"
-    : isBack
-      ? "var(--bs-back-accent-bg15)"
-      : "var(--bs-lay-accent-bg15)";
+  const accentBg15 =
+    isSportsBook || isLineMarket
+      ? isBack
+        ? "#50d0ae26"
+        : "#5baca726"
+      : isBack
+        ? "var(--bs-back-accent-bg15)"
+        : "var(--bs-lay-accent-bg15)";
 
   const profitOrLiability =
     stake > 0 && odds > 1 ? ((odds - 1) * stake).toFixed(2) : "0.00";
@@ -143,32 +148,32 @@ const accentBg15 =
   // const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
   //   setInputValue(e.target.value);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  let val = e.target.value;
+    let val = e.target.value;
 
-  // allow empty while typing
-  if (val === "") {
-    setInputValue("");
-    return;
-  }
+    // allow empty while typing
+    if (val === "") {
+      setInputValue("");
+      return;
+    }
 
-  // allow only numbers + decimal
-  if (!/^\d*\.?\d*$/.test(val)) return;
+    // allow only numbers + decimal
+    if (!/^\d*\.?\d*$/.test(val)) return;
 
-  let num = Number(val);
+    let num = Number(val);
 
-  // ✅ HARD MAX LIMIT
-  if (!isNaN(num) && num > MAX_ODDS) {
-    num = MAX_ODDS;
-    val = MAX_ODDS.toString();
-  }
+    // ✅ HARD MAX LIMIT
+    if (!isNaN(num) && num > MAX_ODDS) {
+      num = MAX_ODDS;
+      val = MAX_ODDS.toString();
+    }
 
-  setInputValue(val);
-};
+    setInputValue(val);
+  };
 
   const handleBlur = () => {
     let val = parseFloat(inputValue);
     if (!isNaN(val)) {
-       if (val > MAX_ODDS) val = MAX_ODDS;
+      if (val > MAX_ODDS) val = MAX_ODDS;
       setOdds(val);
       setInputValue(formatTwoDecimals(val).toString());
     } else {
@@ -231,7 +236,7 @@ const accentBg15 =
       const msg = splitMsg(rawMessage);
 
       if (ok) {
-         setTimeout(() => betAudio.playSuccess(), 0);
+        setTimeout(() => betAudio.playSuccess(), 0);
         showToast(
           msg.status,
           msg.title,
@@ -255,7 +260,7 @@ const accentBg15 =
           eventId: selectedBet.eventId,
         });
       } else {
-         setTimeout(() => betAudio.playError(), 0);
+        setTimeout(() => betAudio.playError(), 0);
         showToast(
           "error",
           msg.title || "Failed",
@@ -265,28 +270,28 @@ const accentBg15 =
     } catch (err: any) {
       setTimeout(() => betAudio.playError(), 0);
 
-    // ✅ FIXED: Correct error path with fallbacks
-    const raw = 
-      err?.response?.data?.meta?.message || 
-      err?.meta?.message || 
-      err?.message || 
-      "Network error.";
-    
-    const msg = splitMsg(raw);
-    
-    if (msg?.title && msg?.status && msg?.desc) {
-      showToast(msg.status, msg.title, msg.desc);
-    } else {
-      showToast("error", "Error", raw);
-    }
+      // ✅ FIXED: Correct error path with fallbacks
+      const raw =
+        err?.response?.data?.meta?.message ||
+        err?.meta?.message ||
+        err?.message ||
+        "Network error.";
+
+      const msg = splitMsg(raw);
+
+      if (msg?.title && msg?.status && msg?.desc) {
+        showToast(msg.status, msg.title, msg.desc);
+      } else {
+        showToast("error", "Error", raw);
+      }
 
       // if (err?.meta?.status_code === 401) {
       //   setLoginModal(true);
       // }
-  } finally {
-    setPlacing(false);
-  }
-};
+    } finally {
+      setPlacing(false);
+    }
+  };
 
   const MIN_STAKE = 2;
   const isPlaceDisabled = placing || stake < MIN_STAKE || odds <= 1;
@@ -320,6 +325,7 @@ const accentBg15 =
               {/* Odds */}
               <div className="flex-1 min-w-0 flex flex-col gap-1.5">
                 <label
+                  htmlFor="odds_input"
                   className="text-[11px] ml-2.5"
                   style={{ color: "var(--bs-label)" }}
                 >
@@ -344,6 +350,7 @@ const accentBg15 =
                     <Minus className="w-3 h-3" />
                   </button>
                   <input
+                    id="odds_input"
                     value={inputValue}
                     inputMode="numeric"
                     type="number"
@@ -371,6 +378,7 @@ const accentBg15 =
               {/* Stake */}
               <div className="flex-1 min-w-0 flex flex-col gap-1.5">
                 <label
+                  htmlFor="stake_input"
                   className="text-[11px] ml-2.5"
                   style={{ color: "var(--bs-label)" }}
                 >
@@ -392,6 +400,7 @@ const accentBg15 =
                     <Minus className="w-3 h-3" />
                   </button>
                   <input
+                    id="stake_input"
                     value={stake !== 0 ? stake : ""}
                     placeholder="0"
                     inputMode="numeric"

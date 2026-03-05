@@ -177,6 +177,7 @@ const StatementPage = () => {
             <div className="hidden md:flex md:flex-wrap md:gap-3">
               <input
                 type="date"
+                id="start_date_desk"
                 value={startDate.toISOString().split("T")[0]}
                 onChange={(e) => {
                   const date = e.target.value ? new Date(e.target.value) : null;
@@ -191,6 +192,7 @@ const StatementPage = () => {
 
               <input
                 type="date"
+                id="end_date_desk"
                 value={endDate.toISOString().split("T")[0]}
                 onChange={(e) => {
                   const date = e.target.value ? new Date(e.target.value) : null;
@@ -222,6 +224,7 @@ const StatementPage = () => {
               {/* Input container to keep both in one line */}
               <div className="flex justify-between w-full  flex-nowrap">
                 <input
+                id="start_date_mbl"
                   type="date"
                   value={startDate.toISOString().split("T")[0]}
                   onChange={(e) => {
@@ -240,6 +243,7 @@ const StatementPage = () => {
                 />
                 <input
                   type="date"
+                  id="end_date_mbl"
                   value={endDate.toISOString().split("T")[0]}
                   onChange={(e) => {
                     const date = e.target.value
@@ -377,6 +381,7 @@ const StatementPage = () => {
               <input
                 className="input bh-jump-input"
                 min={1}
+                id="jump_desk"
                 max={totalPages}
                 value={jumpToPage}
                 onChange={(e) => setJumpToPage(e.target.value)}
@@ -398,6 +403,7 @@ const StatementPage = () => {
               <div className="bh-mobile-only bh-jump">
                 <span className="jumptext">Jump to page</span>
                 <input
+                  id="jump_mbl"
                   className="input bh-jump-input"
                   min={1}
                   max={totalPages}

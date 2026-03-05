@@ -1,4 +1,5 @@
 "use client";
+import { useTheme } from "next-themes";
 import React, { useState, useEffect } from "react";
 
 export interface Toast {
@@ -13,11 +14,9 @@ export interface ToastComponentProps {
   onClose: (id: string) => void;
 }
 
-const ToastComponent: React.FC<ToastComponentProps> = ({
-  toast,
-  onClose,
-}) => {
+const ToastComponent: React.FC<ToastComponentProps> = ({ toast, onClose }) => {
   const [show, setShow] = useState(false);
+  const { theme } = useTheme();
   useEffect(() => {
     const showTimer = setTimeout(() => setShow(true), 100);
     const hideTimer = setTimeout(() => {
@@ -45,7 +44,7 @@ const ToastComponent: React.FC<ToastComponentProps> = ({
 
   const toastStyle: React.CSSProperties = {
     marginTop: "15px",
-    background: "white",
+    background: "var(--background)",
     borderRadius: "12px",
     padding: "2px 20px 10px",
     marginBottom: "15px",
@@ -54,10 +53,10 @@ const ToastComponent: React.FC<ToastComponentProps> = ({
       toast.type === "success"
         ? "#28a745"
         : toast.type === "error"
-        ? "#dc3545"
-        : toast.type === "info"
-        ? "#17a2b8"
-        : "#ffc107"
+          ? "#dc3545"
+          : toast.type === "info"
+            ? "#17a2b8"
+            : "#ffc107"
     }`,
     opacity: show ? 1 : 0,
     transform: show ? "translateX(0)" : "translateX(100%)",
@@ -81,10 +80,10 @@ const ToastComponent: React.FC<ToastComponentProps> = ({
       toast.type === "success"
         ? "#28a745"
         : toast.type === "error"
-        ? "#dc3545"
-        : toast.type === "info"
-        ? "#17a2b8"
-        : "#856404",
+          ? "#dc3545"
+          : toast.type === "info"
+            ? "#17a2b8"
+            : "#856404",
   };
 
   const closeStyle: React.CSSProperties = {
@@ -92,14 +91,12 @@ const ToastComponent: React.FC<ToastComponentProps> = ({
     border: "none",
     fontSize: "18px",
     cursor: "pointer",
-    color: "#999",
     padding: "0",
     marginLeft: "auto",
   };
 
   const messageStyle: React.CSSProperties = {
     fontSize: "13px",
-    color: "#333",
     lineHeight: "1.4",
   };
 
@@ -112,10 +109,10 @@ const ToastComponent: React.FC<ToastComponentProps> = ({
       toast.type === "success"
         ? "#28a745"
         : toast.type === "error"
-        ? "#dc3545"
-        : toast.type === "info"
-        ? "#17a2b8"
-        : "#856404",
+          ? "#dc3545"
+          : toast.type === "info"
+            ? "#17a2b8"
+            : "#856404",
     animation: "progress 4s linear forwards",
     width: "100%",
   };
@@ -147,4 +144,4 @@ const ToastComponent: React.FC<ToastComponentProps> = ({
   );
 };
 
-export default ToastComponent
+export default ToastComponent;

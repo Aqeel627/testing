@@ -125,7 +125,7 @@ export default function RightSidebar({
             onMouseDown={(e) => e.stopPropagation()}
           >
             {/* Header / Username */}
-            <div className="px-4 pt-4 pb-[9px]">
+            <div className="px-4 py-[13px]">
               <h6 className="text-[0.875rem] font-semibold text-[var(--palette-text-primary)] truncate leading-[1.57143]">
                 {userName}
               </h6>

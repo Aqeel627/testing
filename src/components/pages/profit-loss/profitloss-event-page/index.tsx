@@ -161,13 +161,8 @@ const ProfitLossEventPage: React.FC = () => {
                 </tr>
               ) : profitList.length > 0 ? (
                 profitList.map((profit, index) => (
-                  <tr
-                    key={index}
-                    
-                  >
-                    <td className="text-center">
-                      {profit.eventType.name}
-                    </td>
+                  <tr key={index}>
+                    <td className="text-center">{profit.eventType.name}</td>
                     <td className="text-center whitespace-nowrap">
                       <button
                         onClick={() => goToEventPL(profit.event.id)}
@@ -181,9 +176,7 @@ const ProfitLossEventPage: React.FC = () => {
                     >
                       {profit.pl}
                     </td>
-                    <td className="text-center">
-                      {profit.commission}
-                    </td>
+                    <td className="text-center">{profit.commission}</td>
                     <td
                       className={`text-center font-bold ${profit.pl - profit.commission <= 0 ? "text-red-600" : "text-green-600"}`}
                     >
@@ -193,10 +186,7 @@ const ProfitLossEventPage: React.FC = () => {
                 ))
               ) : (
                 <tr>
-                  <td
-                    colSpan={5}
-                    className="text-center"
-                  >
+                  <td colSpan={5} className="text-center">
                     No data!
                   </td>
                 </tr>
@@ -240,6 +230,7 @@ const ProfitLossEventPage: React.FC = () => {
           <div className="bh-desktop-only bh-jump">
             <span className="jumptext">Jump to page</span>
             <input
+              id="jump_desk"
               className="input bh-jump-input h-[32px]"
               value={jumptoPage}
               onChange={(e) => setJumptoPage(e.target.value)}
@@ -257,6 +248,7 @@ const ProfitLossEventPage: React.FC = () => {
               <input
                 className="input bh-jump-input"
                 value={jumptoPage}
+                id="jump_mbl"
                 onChange={(e) => setJumptoPage(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && JumpPage()}
               />
