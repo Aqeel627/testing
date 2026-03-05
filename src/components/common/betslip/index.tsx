@@ -10,6 +10,7 @@ import { useAuthStore } from "@/lib/useAuthStore";
 import { useCacheStore } from "@/lib/store/cacheStore";
 import { usePathname } from "next/navigation";
 import { betAudio } from "@/lib/audioFeedback";
+import { splitMsg } from "@/lib/functions";
 
 function parseMsg(raw: string) {
   const parts = String(raw || "")
@@ -72,7 +73,7 @@ export default function BetSlipUI() {
   const [inputValue, setInputValue] = useState<string>("0.00");
   const [stake, setStake] = useState<number>(0);
   const [placing, setPlacing] = useState(false);
-    const MAX_ODDS = 1000;
+  const MAX_ODDS = 1000;
 
   // ── Sync preview to store ───────────────────────────────────────
   useEffect(() => {
@@ -147,17 +148,14 @@ export default function BetSlipUI() {
 
   const isPlaceDisabled = placing || stake < MIN_STAKE || odds <= 1;
 
-const handleIncrease = () => {
-  const inc = getIncrement(odds);
+  const handleIncrease = () => {
+    const inc = getIncrement(odds);
 
-  const nv = Math.min(
-    Number((odds + inc).toFixed(2)),
-    MAX_ODDS
-  );
+    const nv = Math.min(Number((odds + inc).toFixed(2)), MAX_ODDS);
 
-  setOdds(nv);
-  setInputValue(nv.toFixed(2));
-};
+    setOdds(nv);
+    setInputValue(nv.toFixed(2));
+  };
 
   const handleDecrease = () => {
     if (!odds || odds <= 1.01) return;
@@ -171,42 +169,42 @@ const handleIncrease = () => {
   // const handleOddsChange = (e: React.ChangeEvent<HTMLInputElement>) =>
   //   setInputValue(e.target.value);
   const handleOddsChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  let val = e.target.value;
+    let val = e.target.value;
 
-  // allow empty while typing
-  if (val === "") {
-    setInputValue("");
-    return;
-  }
+    // allow empty while typing
+    if (val === "") {
+      setInputValue("");
+      return;
+    }
 
-  // allow only valid decimal pattern
-  if (!/^\d*\.?\d*$/.test(val)) return;
+    // allow only valid decimal pattern
+    if (!/^\d*\.?\d*$/.test(val)) return;
 
-  const num = Number(val);
+    const num = Number(val);
 
-  // ✅ HARD LIMIT — cannot exceed 1000
-  if (!isNaN(num) && num > MAX_ODDS) {
-    val = MAX_ODDS.toString();
-  }
+    // ✅ HARD LIMIT — cannot exceed 1000
+    if (!isNaN(num) && num > MAX_ODDS) {
+      val = MAX_ODDS.toString();
+    }
 
-  setInputValue(val);
-};
+    setInputValue(val);
+  };
 
-const handleOddsBlur = () => {
-  let val = parseFloat(inputValue);
+  const handleOddsBlur = () => {
+    let val = parseFloat(inputValue);
 
-  if (!isNaN(val)) {
-    if (val > MAX_ODDS) val = MAX_ODDS;
-    if (val < 1.01) val = 1.01;
+    if (!isNaN(val)) {
+      if (val > MAX_ODDS) val = MAX_ODDS;
+      if (val < 1.01) val = 1.01;
 
-    const finalVal = Number(val.toFixed(2));
-    setOdds(finalVal);
-    setInputValue(finalVal.toFixed(2));
-  } else {
-    setOdds(1.01);
-    setInputValue("1.01");
-  }
-};
+      const finalVal = Number(val.toFixed(2));
+      setOdds(finalVal);
+      setInputValue(finalVal.toFixed(2));
+    } else {
+      setOdds(1.01);
+      setInputValue("1.01");
+    }
+  };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) =>
     e.key === "Enter" && handleOddsBlur();
@@ -258,32 +256,32 @@ const handleOddsBlur = () => {
       const rawMessage = res?.data?.meta?.message || res?.data?.message || "";
       const msg = parseMsg(rawMessage);
 
-     if (ok) {
-  setTimeout(() => betAudio.playSuccess(), 0);
+      if (ok) {
+        setTimeout(() => betAudio.playSuccess(), 0);
 
-  showToast(
-    msg.status,
-    msg.title,
-    msg.desc || "Bet placed successfully."
-  );
+        showToast(
+          msg.status,
+          msg.title,
+          msg.desc || "Bet placed successfully.",
+        );
 
-  // 👇 Close slip AFTER small delay
-  setTimeout(() => {
-    clearSelectedBet();
-    setStake(0);
-    setSlipPreview({ stake: 0, price: 0 });
-  }, 500); 
+        // 👇 Close slip AFTER small delay
+        setTimeout(() => {
+          clearSelectedBet();
+          setStake(0);
+          setSlipPreview({ stake: 0, price: 0 });
+        }, 500);
 
-  try {
-    const balRes: any = await http.post(CONFIG.getUserBalance, {});
-    if (balRes?.data?.data) setUserBalance(balRes.data.data);
-  } catch {}
+        try {
+          const balRes: any = await http.post(CONFIG.getUserBalance, {});
+          if (balRes?.data?.data) setUserBalance(balRes.data.data);
+        } catch {}
 
-  eventBus.emit("REFRESH_AFTER_PLACE", {
-    sportId: selectedBet.sportId,
-    eventId: selectedBet.eventId,
-  });
-} else {
+        eventBus.emit("REFRESH_AFTER_PLACE", {
+          sportId: selectedBet.sportId,
+          eventId: selectedBet.eventId,
+        });
+      } else {
         setTimeout(() => betAudio.playError(), 0);
         showToast(
           "error",
@@ -293,10 +291,20 @@ const handleOddsBlur = () => {
       }
     } catch (err: any) {
       setTimeout(() => betAudio.playError(), 0);
+
       const raw =
-        err?.response?.data?.meta?.message || err?.message || "Network error.";
-      const msg = parseMsg(raw);
-      showToast("error", msg.title || "Error", msg.desc || raw);
+        err?.response?.data?.meta?.message ||
+        err?.meta?.message || // ✅ was missing this
+        err?.message ||
+        "Network error.";
+
+      const msg = splitMsg(raw); // ✅ use splitMsg like mobile
+
+      if (msg?.title && msg?.status && msg?.desc) {
+        showToast(msg.status, msg.title, msg.desc);
+      } else {
+        showToast("error", "Error", raw);
+      }
     } finally {
       setPlacing(false);
     }
@@ -355,6 +363,8 @@ const handleOddsBlur = () => {
                       <Minus className="w-3 h-3" />
                     </button>
                     <input
+                      id="odds-input"
+                      name="odds"
                       value={inputValue}
                       type="text"
                       inputMode="decimal"
@@ -402,9 +412,11 @@ const handleOddsBlur = () => {
                       <Minus className="w-3 h-3" />
                     </button>
                     <input
+                      id="stake-input"
+                      name="stake"
                       value={stake !== 0 ? stake : ""}
                       placeholder="0"
-                       type="text"
+                      type="text"
                       inputMode="decimal"
                       onChange={handleStakeChange}
                       className="bs-stake-input flex-1 min-w-0 w-0 bg-transparent border-none text-center text-[14px] font-semibold outline-none"
