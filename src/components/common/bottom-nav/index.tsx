@@ -34,10 +34,10 @@ const closeMyBets = useMyBetsDrawerStore((s) => s.close);
 
 
   const items = [
-    { icon: "house", link: "/" },
-    { icon: "inplay", link: "/inplay" },
-    { icon: "bets", link: "#" },
-    { icon: "casinoic", link: "#" },
+    { icon: "house", link: "/",label: "Home" },
+    { icon: "inplay", link: "/inplay",label: "In Play" },
+    { icon: "bets", link: "#",label: "My Bets" },
+    { icon: "casinoic", link: "#",label: "Casino" },
   ];
 
   useEffect(() => {
@@ -73,6 +73,7 @@ const closeMyBets = useMyBetsDrawerStore((s) => s.close);
 
             <Link
               prefetch={false}
+              aria-label={item.label}
 href={item.icon === "bets" || item.icon === "casinoic" ? "#" : item.link}
               onClick={(e) => {
                 // ✅ Bets ke liye login check
