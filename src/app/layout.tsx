@@ -113,11 +113,11 @@ export default function RootLayout({
         cz-shortcut-listen="true"
       >
         <Script src="/language/translateicon.js" strategy="afterInteractive" />
-        <Script src="/language/lang-config.js" strategy="afterInteractive" />
-        <Script src="/language/translation.js" strategy="afterInteractive" />
+        <Script src="/language/lang-config.js" strategy="beforeInteractive" />
+        <Script src="/language/translation.js" strategy="beforeInteractive" />
         <Script
-          src="https://translate.google.com/translate_a/element.js?cb=TranslateInit"
-          strategy="lazyOnload"
+          src="//translate.google.com/translate_a/element.js?cb=TranslateInit"
+          strategy="afterInteractive"
         />
         {/* <Script src="/js/gestures.js" strategy="afterInteractive"/> */}
         <PrimeReactProvider value={value}>
