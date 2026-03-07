@@ -1,15 +1,15 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import axios from "axios"; // API calls ke liye
 import { useRouter } from "next/navigation";
-import { CONFIG } from "@/lib/config"; // API endpoints ke liye
+import { CONFIG } from "@/lib/config";
 import http from "@/lib/axios-instance";
 import dynamic from "next/dynamic";
+import { useToast } from "@/components/common/toast/toast-context"; // Toast import kiya
 import "./style.css";
+
 const BreadCrumb = dynamic(() => import("@/components/common/bread-crumb"));
 
-// Interfaces
 interface EventType {
   id: string | number;
   name: string;
@@ -23,6 +23,7 @@ interface ProfitLossData {
 
 const ProfitLossPage: React.FC = () => {
   const router = useRouter();
+  const { showToast } = useToast(); // Toast hook initialize kiya
 
   // --- Logic States ---
   const [startDate, setStartDate] = useState<string>("");
@@ -38,19 +39,19 @@ const ProfitLossPage: React.FC = () => {
   const [startIndex, setStartIndex] = useState<number>(1);
   const [endIndex, setEndIndex] = useState<number>(10);
 
-  // --- 1. Initial Setup (ngOnInit replacement) ---
+  // --- 1. Initial Setup ---
   useEffect(() => {
-    updateDate(); // Dates set karega
+    updateDate();
   }, []);
 
   // Jab startDate aur endDate set ho jayein, tab data fetch karein
   useEffect(() => {
     if (startDate && endDate) {
-      getProfitLoss();
+      getProfitLoss(1); // Reset to page 1 on date change
     }
   }, [startDate, endDate]);
 
-  // --- 2. Date Handling (updateDate replacement) ---
+  // --- 2. Date Handling ---
   const updateDate = () => {
     const today = new Date();
     const end = today.toISOString().substring(0, 10);
@@ -63,7 +64,7 @@ const ProfitLossPage: React.FC = () => {
     setStartDate(startStr);
   };
 
-  // --- 3. API Call (getProfitLoss replacement) ---
+  // --- 3. API Call ---
   const getProfitLoss = async (pageNumber?: number) => {
     setIsLoader(true);
 
@@ -71,8 +72,8 @@ const ProfitLossPage: React.FC = () => {
     const limit = 25;
 
     const reqBody = {
-      startDate: `${startDate} 00:00:00`, // Angular's getStartDate logic simplified
-      endDate: `${endDate} 23:59:59`, // Angular's getEndDate logic simplified
+      startDate: `${startDate} 00:00:00`,
+      endDate: `${endDate} 23:59:59`,
       page: page,
       limit: limit,
     };
@@ -84,16 +85,30 @@ const ProfitLossPage: React.FC = () => {
       if (data) {
         setProfitLossData(data);
         setTotalRecords(resp.data.total || 0);
-        setTotalPages(Math.ceil((resp.data.total || 0) / limit));
-        setCurrentPage(resp.data.currentPage);
+        setTotalPages(Math.ceil((resp.data.total || 0) / limit) || 1); // Fallback to 1 if 0
+        setCurrentPage(resp.data.currentPage || 1);
 
         // Index calculation
-        const sIndex = (resp.data.currentPage - 1) * limit + 1;
+        const sIndex = ((resp.data.currentPage || 1) - 1) * limit + 1;
         setStartIndex(sIndex);
         setEndIndex(Math.min(sIndex + data.length - 1, resp.data.total || 0));
+      } else {
+        // Clear logic if no data
+        setProfitLossData([]);
+        setTotalRecords(0);
+        setTotalPages(1);
+        setCurrentPage(1);
+        setStartIndex(0);
+        setEndIndex(0);
       }
     } catch (error) {
       console.error("Error fetching P&L data", error);
+      setProfitLossData([]);
+      setTotalRecords(0);
+      setTotalPages(1);
+      setCurrentPage(1);
+      setStartIndex(0);
+      setEndIndex(0);
     } finally {
       setIsLoader(false);
     }
@@ -101,44 +116,42 @@ const ProfitLossPage: React.FC = () => {
 
   // --- 4. Navigation & Actions ---
   const goToEventPL = (sportid: any) => {
-    // Angular: /profitloss-event/${sportid}/${start}/${end}
     router.push(`/profitloss-events/${sportid}/${startDate}/${endDate}`);
   };
 
-  const JumpPage = () => {
-    const pageNum = parseInt(jumptoPage);
-    if (pageNum > 0 && pageNum <= totalPages) {
-      getProfitLoss(pageNum);
-    }
-  };
+  const rerender = () => getProfitLoss(1);
 
-  const rerender = () => getProfitLoss();
-
-  // Pagination Handlers
+  // --- Pagination Handlers (Same as BetHistory) ---
   const goToFirst = () => {
     if (currentPage !== 1) getProfitLoss(1);
   };
-  const goToLast = () => {
-    if (currentPage !== totalPages) getProfitLoss(totalPages);
+  const goToPrevious = () => {
+    if (currentPage > 1) getProfitLoss(currentPage - 1);
   };
   const goToNext = () => {
     if (currentPage < totalPages) getProfitLoss(currentPage + 1);
   };
-  const goToPrevious = () => {
-    if (currentPage > 1) getProfitLoss(currentPage - 1);
+  const goToLast = () => {
+    if (currentPage !== totalPages) getProfitLoss(totalPages);
+  };
+
+  const JumpPage = () => {
+    const pageNum = parseInt(jumptoPage);
+
+    if (jumptoPage === "" || isNaN(pageNum)) return;
+
+    if (pageNum >= 1 && pageNum <= totalPages) {
+      setCurrentPage(pageNum);
+      getProfitLoss(pageNum);
+      setJumptoPage(""); // Jump hone ke baad field clear karna
+    } else {
+      showToast("error", "Invalid Page", `Please enter a page number between 1 and ${totalPages}.`);
+    }
   };
 
   return (
     <div id="profit-loss-page.tsx">
       <div className="container-fluid">
-        {/* HEADER SECTION - Design preserved */}
-        {/* <div className="flex items-center my-4">
-        <div className="flex-grow border-t border-dashed border-(--dotted-line)"></div>
-        <span className="px-4 text-[var(--palette-text-primary)] font-bold text-[16px] whitespace-nowrap uppercase">
-          Profit & Loss
-        </span>
-        <div className="flex-grow border-t border-dashed border-(--dotted-line)"></div>
-      </div> */}
         <div className="my-4">
           <BreadCrumb title="Profit & Loss" />
         </div>
@@ -152,7 +165,6 @@ const ProfitLossPage: React.FC = () => {
                 type="date"
                 value={startDate}
                 onChange={(e) => setStartDate(e.target.value)}
-                // Yahan 'input' aur 'bh-date-input' classes add ki hain
                 className="input bh-date-input w-full h-[32px] iphone-date px-3 py-1 outline-none rounded-[5px] text-[12px]"
               />
             </div>
@@ -164,7 +176,6 @@ const ProfitLossPage: React.FC = () => {
                 id="end_date"
                 value={endDate}
                 onChange={(e) => setEndDate(e.target.value)}
-                // Same classes yahan bhi
                 className="input bh-date-input iphone-date w-full h-[32px] px-3 py-1 outline-none rounded-[5px] text-[12px]"
               />
             </div>
@@ -174,7 +185,6 @@ const ProfitLossPage: React.FC = () => {
               <button
                 onClick={rerender}
                 disabled={isLoader}
-                // Yahan 'bh-submit-btn' class add ki hai
                 className="bh-submit-btn h-[32px] px-4 font-[400] bg-(--primary-color) hover:bg-(--primary-color-dark) rounded-[5px] uppercase text-white text-[12px] cursor-pointer"
                 style={{
                   boxShadow:
@@ -187,7 +197,7 @@ const ProfitLossPage: React.FC = () => {
           </div>
         </div>
 
-        {/* TABLE SECTION - Design preserved */}
+        {/* TABLE SECTION */}
         <div className=" mb-[30px] bh-table-wrap">
           <table className="bh-table">
             <thead>
@@ -252,7 +262,7 @@ const ProfitLossPage: React.FC = () => {
 
         {/* PAGINATION SECTION */}
         <div className="bh-pagination-container">
-          {/* Mobile buttons - Only visible on mobile */}
+          {/* Mobile buttons */}
           <div className="bh-mobile-only bh-pg-buttons w-full">
             <button
               className={`pg-btn${currentPage === 1 ? " disabled" : ""}`}
@@ -281,7 +291,7 @@ const ProfitLossPage: React.FC = () => {
             </button>
           </div>
 
-          {/* Desktop jump - Only visible on desktop */}
+          {/* Desktop jump */}
           <div className="bh-desktop-only bh-jump">
             <span className="jumptext">Jump to page</span>
             <input
@@ -290,8 +300,13 @@ const ProfitLossPage: React.FC = () => {
               value={jumptoPage}
               onChange={(e) => setJumptoPage(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && JumpPage()}
+              disabled={totalPages <= 1}
             />
-            <button className="bh-jump-go-btn h-[32px]" onClick={JumpPage}>
+            <button
+              className="bh-jump-go-btn h-[32px]"
+              onClick={JumpPage}
+              disabled={totalPages <= 1 || !jumptoPage}
+            >
               Go
             </button>
           </div>
@@ -306,11 +321,12 @@ const ProfitLossPage: React.FC = () => {
                 value={jumptoPage}
                 onChange={(e) => setJumptoPage(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && JumpPage()}
+                disabled={totalPages <= 1}
               />
               <button
                 className="bh-jump-go-btn"
                 onClick={JumpPage}
-                disabled={!jumptoPage}
+                disabled={totalPages <= 1 || !jumptoPage}
               >
                 Go
               </button>
@@ -320,7 +336,7 @@ const ProfitLossPage: React.FC = () => {
             </span>
           </div>
 
-          {/* Desktop buttons - Only visible on desktop */}
+          {/* Desktop buttons */}
           <div className="bh-desktop-only bh-pg-buttons h-[32px]">
             <button
               className={`pg-btn${currentPage === 1 ? " disabled" : ""} h-[32px]`}
