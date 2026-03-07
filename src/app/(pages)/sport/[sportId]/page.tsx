@@ -11,6 +11,13 @@ const SPORT_IDS: Record<string, string> = {
   cricket: "4",
   soccer: "1",
   tennis: "2",
+  austraianRules: "61420",
+  basketball:"7522",
+  esports:"27454571",
+  handball:"468328",
+  mixMartialArts:"26420387",
+  rugbyUnion:"5",
+  rugbyLeague:"1477",
 };
 
 interface SportPageProps {
