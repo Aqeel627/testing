@@ -2,7 +2,11 @@ import Image from "next/image";
 import { CONFIG } from "@/lib/config";
 import Link from "next/link";
 import dynamic from "next/dynamic";
-const LanguageToggler = dynamic(() => import("@/components/common/language-toggler"));
+// const LanguageToggler = dynamic(() => import("@/components/common/language-toggler"));
+const LanguageToggler = dynamic(
+  () => import("@/components/common/language-toggler"),
+  { ssr: false }
+);
 
 export default function Footer() {
   return (
@@ -20,7 +24,7 @@ export default function Footer() {
                   alt="Secure"
                   width={106}
                   height={54}
-                  loading="lazy"
+                   priority={false}
                   className="mb-[0px] lg:mb-0  mx-auto w-[106px] h-[54px]"
                 />
 
@@ -63,7 +67,7 @@ export default function Footer() {
               {/* LINKS */}
 
               {/* DESCRIPTION */}
-              <div className="min-[900px]:pt-2   max-[900]:text-xs  text-[13px] leading-[20px] text-(--palette-text-secondary) dark:border-[rgba(145,158,171,0.2)] ">
+              <div className="min-[900px]:pt-2   max-[900]:text-xs  text-[13px] leading-[20px] text-(--palette-text-secondary) dark:border-[rgba(145,158,171,0.2)] " style={{ contentVisibility: "auto" }}>
                 This website is operated by{" "}
                 <span className="text-[14px] text-(--primary-color)">
                   Rich Able Developments Limited

@@ -1,6 +1,6 @@
 "use client";
 
-import { useLayoutEffect, useState, type ReactNode } from "react";
+import { useEffect, useLayoutEffect, useState, type ReactNode } from "react";
 import dynamic from "next/dynamic";
 import { useUIStore } from "@/lib/store/ui-store";
 import { cn } from "@/lib/utils";
@@ -14,7 +14,7 @@ import {
 import ChangePassword from "@/components/modal/change-password";
 import Header from "@/components/common/header";
 import Sidebar from "@/components/common/sidebar";
-import Footer from "@/components/common/footer";
+// import Footer from "@/components/common/footer";
 import BottomNavbar from "@/components/common/bottom-nav";
 import LoginModal from "@/components/modal/login";
 import BetSlipUI from "@/components/common/betslip";
@@ -31,6 +31,10 @@ import * as Dialog from "@radix-ui/react-dialog";
 // const BottomNavbar = dynamic(() => import("@/components/common/bottom-nav"));
 // const LoginModal = dynamic(() => import("@/components/modal/login"));
 // const BetsTable = dynamic(() => import("@/components/common/betstable"));
+
+const Footer = dynamic(() => import("@/components/common/footer"), {
+  ssr: false,
+});
 
 const MAIN_WIDTH_STORAGE_KEY = "pages-layout-main-width";
 
@@ -55,12 +59,13 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
 
   const shouldHideFooter = HIDE_FOOTER_ROUTES.includes(pathname);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const checkDevice = () => {
       setIsMobile(window.innerWidth < 1200);
     };
 
-    checkDevice(); // 👈 run before paint
+    checkDevice();
+
     window.addEventListener("resize", checkDevice);
 
     return () => window.removeEventListener("resize", checkDevice);
