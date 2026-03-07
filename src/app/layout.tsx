@@ -79,10 +79,10 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <link
+        {/* <link
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-        />
+        /> */}
         {/* <meta
           name="viewport"
           content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
@@ -113,11 +113,11 @@ export default function RootLayout({
         cz-shortcut-listen="true"
       >
         <Script src="/language/translateicon.js" strategy="afterInteractive" />
-        <Script src="/language/lang-config.js" strategy="afterInteractive" />
-        <Script src="/language/translation.js" strategy="afterInteractive" />
+        <Script src="/language/lang-config.js" strategy="beforeInteractive" />
+        <Script src="/language/translation.js" strategy="beforeInteractive" />
         <Script
-          src="https://translate.google.com/translate_a/element.js?cb=TranslateInit"
-          strategy="lazyOnload"
+          src="//translate.google.com/translate_a/element.js?cb=TranslateInit"
+          strategy="afterInteractive"
         />
         {/* <Script src="/js/gestures.js" strategy="afterInteractive"/> */}
         <PrimeReactProvider value={value}>
