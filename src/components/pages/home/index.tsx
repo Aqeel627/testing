@@ -1,13 +1,11 @@
 "use client";
-import { useAppStore } from "@/lib/store/store";
-import React, { useMemo, useState, useTransition } from "react";
+import React, { useMemo, useState } from "react";
 import dynamic from "next/dynamic";
 import CasinoGames from "./casino-games";
-import MarketLoader from "@/components/common/market-loader";
 import { useIndexManagerStore } from "@/lib/store/indexManagerStore";
 
 const SportsNav = dynamic(() => import("@/components/pages/home/sports-nav"));
-const HomeSlider = dynamic(() => import("@/components/pages/home/home-slider"));
+const HomeSlider = dynamic(() => import("@/components/pages/home/home-slider"),{ssr: false});
 const SingleMarket = dynamic(() => import("@/components/common/single-market"));
 
 export default function HomePage() {
