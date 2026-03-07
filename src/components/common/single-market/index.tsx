@@ -1186,14 +1186,14 @@ const EventRow = memo(
             <div className="flex flex-row whitespace-nowrap items-center max-w-full min-h-[1.125rem] overflow-hidden -mt-1 mr-5 -mb-1 -ml-1 text-[9px] font-bold tracking-[0.7px] uppercase text-[#098DEE]">
               <span
                 onClick={(() => router.push(`/sport/${event?.eventType?.id}`))}
-                className="m-0 [font:inherit] [letter-spacing:inherit] text-(--primary-color) no-underline relative rounded-[8px] py-1 px-0 inline-block"
+                className="m-0 cursor-pointer [font:inherit] [letter-spacing:inherit] text-(--primary-color) no-underline relative rounded-[8px] py-1 px-0 inline-block"
               >
                 <div className="rounded-1 px-1">{event.eventType?.name}</div>
               </span>
               <span className="h-1 w-1 rounded-full bg-[rgb(99,115,129)]"></span>
               <span
                 onClick={(() => router.push(`/sport/${event?.eventType?.id}/${event?.competition?.id}`))}
-                className="m-0 [font:inherit] [letter-spacing:inherit] text-(--primary-color) no-underline relative rounded-[8px] py-1 px-0 inline-block"
+                className="m-0 cursor-pointer [font:inherit] [letter-spacing:inherit] text-(--primary-color) no-underline relative rounded-[8px] py-1 px-0 inline-block"
               >
                 <div className="rounded-1 pl-[2] pr-1 text-[9px]">{event.competition?.name}</div>
               </span>
