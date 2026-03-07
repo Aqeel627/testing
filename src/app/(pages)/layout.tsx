@@ -1,6 +1,6 @@
 "use client";
 
-import { useLayoutEffect, useState, type ReactNode } from "react";
+import { useEffect, useLayoutEffect, useState, type ReactNode } from "react";
 import dynamic from "next/dynamic";
 import { useUIStore } from "@/lib/store/ui-store";
 import { cn } from "@/lib/utils";
@@ -32,7 +32,6 @@ import * as Dialog from "@radix-ui/react-dialog";
 // const LoginModal = dynamic(() => import("@/components/modal/login"));
 // const BetsTable = dynamic(() => import("@/components/common/betstable"));
 
-
 const Footer = dynamic(() => import("@/components/common/footer"), {
   ssr: false,
 });
@@ -60,12 +59,13 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
 
   const shouldHideFooter = HIDE_FOOTER_ROUTES.includes(pathname);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const checkDevice = () => {
       setIsMobile(window.innerWidth < 1200);
     };
 
-    checkDevice(); // 👈 run before paint
+    checkDevice();
+
     window.addEventListener("resize", checkDevice);
 
     return () => window.removeEventListener("resize", checkDevice);
