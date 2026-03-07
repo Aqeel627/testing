@@ -54,8 +54,6 @@ export default function InplaySportNav({
         id: item?.id,
       }));
 
-      console.log(newItems,'asdjad')
-
     setNavItems(newItems);
   }, [eventTypes, inplayEvents]); 
 
