@@ -9,7 +9,8 @@ interface MCasinoTabsProps {
 const MCasinoTabs = ({ tabs }: MCasinoTabsProps) => {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const activeTab = searchParams.get("tab") ?? "Popular";
+  // const activeTab = searchParams.get("tab") ?? "Popular";
+  const activeTab = searchParams.get("tab") ?? tabs[0]?.id ?? ""; 
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
