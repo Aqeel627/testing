@@ -19,8 +19,6 @@ export default function InplaySportNav({
   const [navItems, setNavItems] = useState<NavItem[]>([]);
   const router = useRouter();
 
-  const navData = ["cricket", "soccer", "tennis"];
-
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const tabsListRef = useRef<HTMLDivElement>(null);
 
@@ -46,17 +44,17 @@ export default function InplaySportNav({
       .filter((item: any) => {
         const name = item?.name?.toLowerCase();
         const id = item?.id;
-
-        const hasNavMatch = navData.includes(name);
         const hasEvents = inplayEvents[id]?.length > 0;
 
-        return hasNavMatch && hasEvents;
+        return hasEvents;
       })
       .map((item: any) => ({
         label: item?.name,
         href: `/game-list/${item?.name}/${item?.id}`,
         id: item?.id,
       }));
+
+      console.log(newItems,'asdjad')
 
     setNavItems(newItems);
   }, [eventTypes, inplayEvents]); 
@@ -169,13 +167,13 @@ export default function InplaySportNav({
               <button
                 key={idx}
                 role="tab"
-                data-tab={item.label}
-                aria-selected={activeTab === item.label}
+                data-tab={item.id}
+                aria-selected={activeTab === item.id}
                 className={`${styles["tab-btn"]} ${
-                  activeTab === item.label ? styles.active : ""
+                  activeTab === item.id ? styles.active : ""
                 }`}
                 onClick={() => {
-                  setActiveTab(item.label);
+                  setActiveTab(item.id);
                 }}
               >
                 <span
@@ -187,7 +185,7 @@ export default function InplaySportNav({
                 />
                 {item.label}
 
-                {activeTab === item.label && (
+                {activeTab === item.id && (
                   <span className={styles["tab-indicator"]}></span>
                 )}
               </button>

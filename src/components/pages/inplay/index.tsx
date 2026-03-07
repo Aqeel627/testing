@@ -24,11 +24,7 @@ const InplayPage = () => {
           events={
             activeTab === "All"
               ? inplayEvents?.all
-              : activeTab === "Cricket"
-                ? inplayEvents[4]
-                : activeTab === "Soccer"
-                  ? inplayEvents[1]
-                  : inplayEvents[2]
+              : inplayEvents?.[activeTab] || []
           }
         />
       </div>

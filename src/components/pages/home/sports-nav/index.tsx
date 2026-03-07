@@ -187,7 +187,7 @@ export default function SportsNav({
                 {item.label === "Horse Racing" ? (
                   <img
                     src="/horse-racing.svg"
-                    alt="Horse Racing"
+                    alt="Horse Racing icon" aria-hidden="true"
                     className={styles["tab-icon1"]}
                   />
                 ) : (

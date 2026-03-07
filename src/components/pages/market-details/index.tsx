@@ -122,7 +122,7 @@ export default function MarketDetails() {
   const eventId = String(params.eventId ?? "");
   const sportId = String(params.sportId ?? params.marketId ?? "");
   const { isLoggedIn } = useAuthStore();
-  const sportNames: any = { "4": "Cricket", "2": "Tennis", "1": "Soccer" };
+  const sportNames: any = eventTypes?.find((et: any) => String(et.id) === String(sportId))?.name || {};
 
   // API states
   const [allMarketPl, setAllMarketPl] = useState<
@@ -1786,8 +1786,8 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)] flex-1 min-w-0 cursor-pointer tex
     router.push(`/sport/${path}`);
   }
 
-  function navigateToMarketComp(sportName: any, id: string) {
-    router.push(`/sport/${sportName}/${id}`);
+  function navigateToMarketComp(sportId: any, id: string) {
+    router.push(`/sport/${sportId}/${id}`);
   }
 
   const toggleStreaming = () => {
@@ -1832,7 +1832,7 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)] flex-1 min-w-0 cursor-pointer tex
                       name="play"
                       className="w-5 h-5 text-(--arrow-color)!"
                     />
-                    {sportNames[sportId]}
+                    {sportNames}
                   </button>
 
                   {/* ORIGINAL TEXT */}
@@ -1850,7 +1850,7 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)] flex-1 min-w-0 cursor-pointer tex
                               setSelectedEventType(item?.name);
                               filterCompetitions(item?.id);
                               setIsEventTypeOpen(false);
-                              navigateToMarket(item?.name);
+                              navigateToMarket(item?.id);
                             }}
                             className={`text-sm w-full text-nowrap text-left relative bg-transparent cursor-pointer gap-2 font-semibold transition px-2 py-1.5 rounded-[6px] ${(selectedEventType &&
                               selectedEventType === item?.name) ||
@@ -1904,7 +1904,7 @@ bg-[var(--lay-bg)] hover:bg-[var(--lay-hover)] flex-1 min-w-0 cursor-pointer tex
                                 setSelectedCompetition(item.competition.name);
                                 setIsCompetitionOpen(false);
                                 navigateToMarketComp(
-                                  item.eventType.name,
+                                  item.eventType.id,
                                   item.competition.id,
                                 );
                               }}

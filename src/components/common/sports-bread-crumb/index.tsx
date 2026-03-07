@@ -160,7 +160,7 @@ const SportsBreadCrumb = ({ title, subtitle }: BreadCrumbProps) => {
                         e.stopPropagation();
                         setSelectedEventType(item?.name);
                         if (selectedEventType !== item?.name) {
-                          navigateToMarket(item?.name);
+                          navigateToMarket(item?.id);
                         }
                         setSelectedCompetition("");
                         filterCompetitions(item?.id);
@@ -214,7 +214,7 @@ const SportsBreadCrumb = ({ title, subtitle }: BreadCrumbProps) => {
                           setIsCompetitionOpen(false);
                           if (selectedCompetition !== item?.competition?.name) {
                             navigateToMarketComp(
-                              item.eventType.name,
+                              item.eventType.id,
                               item.competition.id,
                             );
                           }
