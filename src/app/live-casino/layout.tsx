@@ -32,7 +32,9 @@ export default function CasinoLayout({ children }: { children: ReactNode }) {
 
   const router = useRouter();
   const searchParams = useSearchParams();
-  const activeTab = searchParams.get("tab") ?? "Popular";
+  // const activeTab = searchParams.get("tab") ?? "Popular";
+  const activeTab =
+  searchParams.get("tab") ?? casinoEvents?.menu?.[0]?.menuName ?? "";
 
   const dynamicTabs =
     casinoEvents?.menu?.map((m: any) => ({

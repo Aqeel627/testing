@@ -14,7 +14,7 @@ export default function Footer() {
         <div className="mt-5">
           <div className="w-full flex flex-col  max-[900px]:rounded-[16px] rounded-xl bg-(--palette-background-paper) text-(--palette-text-primary) border  border-[rgba(145,158,171,0.2)] p-2 max-[900px]:p-4 max-[900px]:pb-0 overflow-hidden">
             {/* TOP SECTION */}
-            <div className="flex flex-col-reverse mb-[7px]  max-[900px]:justify-center min-[900px]:gap-[11px]  min-[900px]:flex-row">
+            <div className="font-bold flex flex-col-reverse mb-[7px]  max-[900px]:justify-center min-[900px]:gap-[11px]  min-[900px]:flex-row">
               {/* LEFT BLOCK */}
               <div className="min-[900px]:w-62.5 w-full min-w-[250px] flex items-center justify-center">
                 <div className="md:mb-[3.5px] text-center w-44 mx-auto lg:mb-0  max-[900px]:flex max-[900px]:flex-col max-[900px]:justify-center">
@@ -27,7 +27,7 @@ export default function Footer() {
                     className="mb-[0px] lg:mb-0  mx-auto w-[106px] h-[54px]"
                   />
 
-                  <p className="mt-[9px] text-[13px] mb-[1px] font-semibold leading-[19px] dark:text-[white] lg:mt-2">
+                  <p className="mt-[9px] font-bold text-[13px] mb-[1px] font-semibold leading-[19px] dark:text-[white] lg:mt-2">
                     100% SAFE
                   </p>
 
@@ -67,23 +67,23 @@ export default function Footer() {
 
                 {/* DESCRIPTION */}
                 <div
-                  className="min-[900px]:pt-2   max-[900]:text-xs  text-[13px] leading-[20px] text-(--palette-text-secondary) dark:border-[rgba(145,158,171,0.2)] "
+                  className="min-[900px]:pt-2 font-bold  max-[900]:text-xs  text-[13px] leading-[20px] text-(--palette-text-secondary) dark:border-[rgba(145,158,171,0.2)] "
                   style={{ contentVisibility: "auto" }}
                 >
                   This website is operated by{" "}
-                  <span className="text-[14px] text-(--primary-color)">
+                  <span className="text-[14px] font-bold text-(--primary-color)">
                     Rich Able Developments Limited
                   </span>
                   , registered under No. 92605 at{" "}
-                  <span className="text-[14px] text-(--primary-color)">
+                  <span className="text-[14px] font-bold text-(--primary-color)">
                     Samoa
                   </span>
                   . website is licensed and regulated by{" "}
-                  <span className="text-[14px] text-(--primary-color)">
+                  <span className="text-[14px] font-bold text-(--primary-color)">
                     Anjouan eGaming
                   </span>{" "}
                   , license No.{" "}
-                  <span className="text-[14px] text-(--primary-color)">
+                  <span className="text-[14px] font-bold text-(--primary-color)">
                     ALSI-202510012-FI1
                   </span>
                   <span>
@@ -142,12 +142,12 @@ export default function Footer() {
             </div>
 
             {/* COPYRIGHT */}
-            <div className="mt-1 max-[900]:-mx-4 flex justify-center bg-[#919EAB29] py-1 max-[900px]:mt-[16px] text-xs font-bold text-(--palette-text-secondary)">
+            <div className="mt-1 max-[900]:-mx-4 flex justify-center bg-[#919EAB29] py-1 max-[900px]:mt-[16px] text-xs font-bold text-(--palette-text-secondary) dark:text-gray-200">
               <p className="flex gap-[2px]">
                 Copyright © {new Date().getFullYear()} &nbsp;
                 <a
                   href={CONFIG.domain}
-                  className="cursor-pointer text-(--primary-color) hover:underline relative left-[1px]"
+                  className="font-bold cursor-pointer text-(--primary-color) hover:underline relative left-[1px]"
                 >
                   GJEXCH.
                 </a>{" "}

@@ -128,6 +128,10 @@ export const CONFIG = {
 
   getTopCasinoGame: BASE_URL + "/api/navigation/casinoEvents", // =---=  Done
   getTopCasinoGameTime: 1440,
+
+  casinoEvents: BASE_URL + "/api/v1/casinoEvents", 
+  casinoEventsTime: 1440,
+
   getFaqListURL: BASE_URL + "/app/exchange/faq/faqList", // =---=Done
   getFaqListURLTime: 1440,
   getPromotionsListURL: BASE_URL + "/app/exchange/promotion/promotionsList", // =---= Done

@@ -1024,6 +1024,7 @@ import { http } from "@/lib/axios-instance";
 import { CONFIG } from "@/lib/config";
 import { eventBus } from "@/lib/eventBus";
 import { useParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 const MarketLoader = dynamic(() => import("@/components/common/market-loader"));
 
@@ -1042,6 +1043,8 @@ const EventRow = memo(
     setSelectedBet: (bet: any) => void;
     betslipRef: React.RefObject<HTMLDivElement | null>;
   }) => {
+
+    const router = useRouter();
     const runner0 = event.runners?.[0];
     const runner1 = event.runners?.[1];
     const runner2 = event.runners?.[2];
@@ -1192,7 +1195,7 @@ const EventRow = memo(
                 href={`/sport/${event?.eventType?.id}/${event?.competition?.id}`}
                 className="m-0 [font:inherit] [letter-spacing:inherit] text-(--primary-color) no-underline relative rounded-[8px] py-1 px-0 inline-block"
               >
-                <div className="rounded-1 px-1">{event.competition?.name}</div>
+                <div className="rounded-1 pl-[2] pr-1 text-[9px]">{event.competition?.name}</div>
               </Link>
             </div>
 
@@ -1397,7 +1400,7 @@ const SingleMarket = ({
   const sportKey = events?.[0]?.eventType?.id ?? "none";
 
   // Initial count ko thoda bada rakhein taaki "Above the fold" foran dikhe
-  const [visibleCount, setVisibleCount] = useState(40); 
+  const [visibleCount, setVisibleCount] = useState(40);
 
   // Jab sport change ho, toh foran reset aur update karein
   useEffect(() => {
@@ -1426,13 +1429,13 @@ const SingleMarket = ({
             eventId: String(eIdToUse),
             sportId: String(sIdToUse),
           });
-        } catch {}
+        } catch { }
         try {
           await http.post(CONFIG.unmatchedBets, {
             eventId: String(eIdToUse),
             sportId: String(sIdToUse),
           });
-        } catch {}
+        } catch { }
       },
     );
     return unsub;

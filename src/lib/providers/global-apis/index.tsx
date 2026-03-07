@@ -89,13 +89,22 @@ const GlobalApisCall = () => {
     //   });
     // }
 
-    fetchData({
-      url: CONFIG.getTopCasinoGame,
-      payload: { key: CONFIG.siteKey },
-      cachedKey: "casinoEvents",
-      setFn: setCasinoEvents,
-      expireIn: CONFIG.getTopCasinoGameTime,
-    });
+    // fetchData({
+    //   url: CONFIG.casinoEvents,
+    //   payload: { key: CONFIG.siteKey },
+    //   cachedKey: "casinoEvents",
+    //   setFn: setCasinoEvents,
+    //   expireIn: CONFIG.casinoEventsTime,
+    // });
+fetchData({
+  url: CONFIG.casinoEvents,
+  payload: { key: CONFIG.siteKey },
+  cachedKey: "casinoEvents",
+  setFn: (data: any) => {
+    setCasinoEvents(data);
+  },
+  expireIn: CONFIG.casinoEventsTime,
+});
 
     indexManager({
       url: CONFIG.events,
