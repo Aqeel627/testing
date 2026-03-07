@@ -329,19 +329,27 @@ const SportItemComponent = ({
   } as CSSProperties}
           />
         </span> */}
-        <span className={styles.linkIconWrap}>
-          {sport.id === "4" ? (
-            // ✅ Cricket → use Icon component
-            <Icon name="cricket" className={styles.linkIcon} />
-          ) : sport.id === "1" ? (
-            // ✅ Others → keep mask flow exactly same
-            <Icon name="football" className={styles.linkIcon} />
-          ) : sport.id === "2" ? (
-            <Icon name="tennis" className={styles.linkIcon} />
-          ) : (
-            <></>
-          )}
-        </span>
+<span className={styles.linkIconWrap}>
+  {sport.id === "4" ? (
+    <Icon name="cricket" className={styles.linkIcon} />
+  ) : sport.id === "1" ? (
+    <Icon name="football" className={styles.linkIcon} />
+  ) : sport.id === "2" ? (
+    <Icon name="tennis" className={styles.linkIcon} />
+  ) : sport.id === "7522" ? (
+    <Icon name="basketball" className={styles.linkIcon} />
+  ) : sport.id === "5" ? (
+    <Icon name="rugbyUnion" className={styles.linkIcon} />
+  ) : sport.id === "468328" ? (
+    <Icon name="handball" className={styles.linkIcon} />
+  ) : sport.id === "1477" ? (
+    <Icon name="rugbyLeague" className={styles.linkIcon} />
+  ) : sport.id === "26420387" ? (
+    <Icon name="mixMartialArts" className={styles.linkIcon} />
+  ) : (
+    <></>
+  )}
+</span>
         <span className={styles.linkText}>{sport.name}</span>
         <span className={styles.badgeWrap}>
           <span className={styles.badge}>{sport.count}</span>
