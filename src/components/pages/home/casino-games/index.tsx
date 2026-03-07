@@ -10,7 +10,8 @@ export default function CasinoGames({
   hideHeading?: boolean;
 }) {
   // const { ourCasinoGames } = useAppStore();
-  const { casinoGames } = useIndexManagerStore();
+  // const { casinoGames } = useIndexManagerStore();
+    const { casinoEvents } = useAppStore();
 
   return (
     <div id="casino-games.tsx">
@@ -64,7 +65,7 @@ export default function CasinoGames({
 
         {/* 🟢 CARDS GRID SECTION 🟢 */}
         <ul className="grid grid-cols-3 md:grid-cols-4 gap-1 list-none px-2 m-0 max-[350px]:gap-2">
-          {casinoGames?.lobbies?.map((item: any, index: number) => (
+          {casinoEvents?.lobbies?.map((item: any, index: number) => (
             <li key={index} className="w-full">
               <article className="relative w-full aspect-[2/2.5] max-md:min-h-37.5 min-h-41.5 rounded-xl overflow-hidden shadow-2xl transition-transform duration-300 [transform:perspective(1000px)_rotateY(5deg)_skewX(-5deg)] border border-white/10 cursor-pointer group">
                 {/* Background Image */}
