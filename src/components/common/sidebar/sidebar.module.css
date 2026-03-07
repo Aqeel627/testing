@@ -522,3 +522,10 @@
   transform-origin: top;
   will-change: transform, opacity;
 } */
+ /* sidebar.module.css */
+.newSportIcon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  display: inline-flex;
+}

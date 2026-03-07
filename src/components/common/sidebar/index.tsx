@@ -67,6 +67,8 @@ const SPORT_ICONS: Record<string, string> = {
   "1": "/sidebar/ic_football.svg",
   "2": "/ic_tennis.svg",
 };
+const NEW_SPORT_ICON_IDS = new Set(["7522", "5", "468328", "1477", "26420387"]);
+
 
 // ─────────────────────────────────────────────
 // QuickLinkItem
@@ -329,7 +331,13 @@ const SportItemComponent = ({
   } as CSSProperties}
           />
         </span> */}
-<span className={styles.linkIconWrap}>
+        
+<span
+  className={cn(
+    styles.linkIconWrap,
+    NEW_SPORT_ICON_IDS.has(sport.id) && styles.newSportIcon
+  )}
+>
   {sport.id === "4" ? (
     <Icon name="cricket" className={styles.linkIcon} />
   ) : sport.id === "1" ? (
