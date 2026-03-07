@@ -14,16 +14,14 @@ const SPORT_IDS: Record<string, string> = {
 };
 
 interface SportPageProps {
-  params: Promise<{ sport: string }>;
+  params: Promise<{ sportId: string }>;
 }
 
 const SportPage = ({ params }: SportPageProps) => {
-  const { sport } = use(params); // e.g. "cricket", "soccer", "tennis"
-  const { allEventsList } = useIndexManagerStore();
+  const { sportId } = use(params);
+  const { allEventsList,eventTypes } = useIndexManagerStore();
   const [activeTab, setActiveTab] = useState("All");
-
-  const sportId = SPORT_IDS[sport.toLowerCase()];
-  const sportName = sport.charAt(0).toUpperCase() + sport.slice(1);
+  const sportName = eventTypes?.find((type:any) => type.id === sportId)?.name || "Sport";
 
   // Pull events from allEventsList[sportId] — same pattern as SingleMarket
   const sportEvents: any[] = useMemo(() => {

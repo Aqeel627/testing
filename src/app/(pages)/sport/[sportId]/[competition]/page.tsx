@@ -14,17 +14,15 @@ const SPORT_IDS: Record<string, string> = {
 
 interface CompetitionPageProps {
   params: Promise<{
-    sport: string;
+    sportId: string;
     competition: string; // now this will be competition.id
   }>;
 }
 
 const CompetitionPage = ({ params }: CompetitionPageProps) => {
-  const { sport, competition } = use(params);
-  const { allEventsList } = useIndexManagerStore();
-
-  const sportId = SPORT_IDS[sport.toLowerCase()];
-  const sportName = sport.charAt(0).toUpperCase() + sport.slice(1);
+  const { sportId, competition } = use(params);
+  const { allEventsList,eventTypes } = useIndexManagerStore();
+  const sportName = eventTypes?.find((type:any) => type.id === sportId)?.name || "Sport";
 
   // Treat competition param as ID
   const competitionId = decodeURIComponent(competition);
