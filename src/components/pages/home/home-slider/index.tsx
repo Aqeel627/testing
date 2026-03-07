@@ -23,33 +23,27 @@ interface PairedSlide {
 
 const FALLBACK_BANNERS = [
   {
-    image:
-      "/home-slider/slider-1.jpeg",
+    image: "/home-slider/slider-1.jpeg",
     link: "#",
   },
   {
-    image:
-      "/home-slider/slider-2.jpeg",
+    image: "/home-slider/slider-2.jpeg",
     link: "#",
   },
   {
-    image:
-      "/home-slider/slider-3.jpeg",
+    image: "/home-slider/slider-3.jpeg",
     link: "#",
   },
   {
-    image:
-      "/home-slider/slider-4.jpeg",
+    image: "/home-slider/slider-4.jpeg",
     link: "#",
   },
   {
-    image:
-    "/home-slider/slider-5.jpeg",
+    image: "/home-slider/slider-5.jpeg",
     link: "#",
   },
 ];
-const STATIC_PLACEHOLDER =
-  "/home-slider/slider-6a.jpeg";
+const STATIC_PLACEHOLDER = "/home-slider/slider-6a.jpeg";
 
 // tilt (same direction)
 const TILT_CLASS = "transform-gpu rotate-[2deg] origin-center";
@@ -166,14 +160,14 @@ export default function HomeSlider() {
                     >
                       <div className="relative h-full w-full">
                         <Image
-                        priority
+                          priority={i === 0}
                           src={s.verifiedImage}
                           alt={`slide-${i}`}
                           fill
+                          sizes="(max-width:768px) 100vw, 480px"
                           className="object-cover"
                           draggable={false}
-                          unoptimized
-                          onError={(e: any) => {
+                          onError={(e) => {
                             e.currentTarget.src = STATIC_PLACEHOLDER;
                           }}
                         />
@@ -222,14 +216,14 @@ export default function HomeSlider() {
                     >
                       <div className="relative h-full w-full">
                         <Image
-                        priority
+                          priority={i === 0}
                           src={pair.top.verifiedImage}
-                          alt={`slide-top-${i}`}
+                          alt={`slide-${i}`}
                           fill
+                          sizes="(max-width:768px) 100vw, 480px"
                           className="object-cover"
                           draggable={false}
-                          unoptimized
-                          onError={(e: any) => {
+                          onError={(e) => {
                             e.currentTarget.src = STATIC_PLACEHOLDER;
                           }}
                         />
@@ -246,14 +240,14 @@ export default function HomeSlider() {
                     >
                       <div className="relative h-full w-full">
                         <Image
-                        priority
+                          priority={i === 0}
                           src={pair.bottom.verifiedImage}
-                          alt={`slide-bottom-${i}`}
+                          alt={`slide-${i}`}
                           fill
+                          sizes="(max-width:768px) 100vw, 480px"
                           className="object-cover"
                           draggable={false}
-                          unoptimized
-                          onError={(e: any) => {
+                          onError={(e) => {
                             e.currentTarget.src = STATIC_PLACEHOLDER;
                           }}
                         />

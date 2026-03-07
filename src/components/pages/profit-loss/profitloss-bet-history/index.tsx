@@ -6,6 +6,7 @@ import { CONFIG } from "@/lib/config";
 import { useAuthStore } from "@/lib/useAuthStore";
 import http from "@/lib/axios-instance";
 import BreadCrumb from "@/components/common/bread-crumb";
+import { useToast } from "@/components/common/toast/toast-context"; // ✅ Toast import kiya
 import "./../profit-loss-page/style.css";
 
 // Types define kar di hain
@@ -26,6 +27,7 @@ interface BetHistoryItem {
 const ProfitLossBetHostory: React.FC = () => {
   const params = useParams();
   const { token } = useAuthStore();
+  const { showToast } = useToast(); // ✅ Toast initialize kiya
 
   // States
   const [historyList, setHistoryList] = useState<BetHistoryItem[]>([]);
@@ -65,13 +67,13 @@ const ProfitLossBetHostory: React.FC = () => {
         });
 
         const responseData = resp.data;
-        if (responseData?.data) {
+        if (responseData?.data && responseData.data.length > 0) {
           setHistoryList(responseData.data);
           setTotalRecords(responseData.total || 0);
-          setTotalPages(Math.ceil((responseData.total || 0) / limit));
+          setTotalPages(Math.ceil((responseData.total || 0) / limit) || 1); // ✅ Fallback to 1
           setCurrentPage(responseData.currentPage || activePage);
 
-          const sIdx = (responseData.currentPage - 1) * limit + 1;
+          const sIdx = ((responseData.currentPage || activePage) - 1) * limit + 1;
           setStartIndex(sIdx);
           setEndIndex(
             Math.min(
@@ -79,12 +81,27 @@ const ProfitLossBetHostory: React.FC = () => {
               responseData.total || 0,
             ),
           );
+        } else {
+          // ✅ Agar koi data nahi hai toh proper reset karein
+          setHistoryList([]);
+          setTotalRecords(0);
+          setTotalPages(1);
+          setCurrentPage(1);
+          setStartIndex(0);
+          setEndIndex(0);
         }
       } catch (error: any) {
         console.error(
           "❌ Error fetching Bet History:",
           error.response?.data || error.message,
         );
+        // ✅ API error pe bhi fallback
+        setHistoryList([]);
+        setTotalRecords(0);
+        setTotalPages(1);
+        setCurrentPage(1);
+        setStartIndex(0);
+        setEndIndex(0);
       } finally {
         setIsLoader(false);
       }
@@ -93,7 +110,7 @@ const ProfitLossBetHostory: React.FC = () => {
   );
 
   useEffect(() => {
-    getHistory();
+    getHistory(1);
   }, [getHistory]);
 
   // Formatting helpers
@@ -111,12 +128,19 @@ const ProfitLossBetHostory: React.FC = () => {
       .replace(",", "");
   };
 
-  // Pagination Handlers
+  // --- Pagination Handlers ---
   const JumpPage = () => {
     const p = parseInt(jumptoPage);
-    if (p > 0 && p <= totalPages) {
+
+    if (jumptoPage === "" || isNaN(p)) return;
+
+    if (p >= 1 && p <= totalPages) {
       setCurrentPage(p);
       getHistory(p);
+      setJumptoPage(""); // ✅ Jump hone ke baad input clear
+    } else {
+      // ✅ Invalid page pe toast error
+      showToast("error", "Invalid Page", `Please enter a page number between 1 and ${totalPages}.`);
     }
   };
 
@@ -136,15 +160,6 @@ const ProfitLossBetHostory: React.FC = () => {
   return (
     <div id="profitloss-bet-history.tsx">
       <div className="container-fluid">
-        {/* Header Section */}
-        {/* <div className="flex items-center my-4">
-                    <div className="flex-grow border-t border-t border-dashed border-(--dotted-line)"></div>
-                    <span className="px-4 text-[var(--palette-text-primary)] font-bold text-[16px] whitespace-nowrap uppercase">
-                        Bet History
-                    </span>
-                    <div className="flex-grow border-t border-t border-dashed border-(--dotted-line)"></div>
-                </div> */}
-
         <div className="my-4">
           <BreadCrumb title="Bet History" />
         </div>
@@ -290,8 +305,13 @@ const ProfitLossBetHostory: React.FC = () => {
               value={jumptoPage}
               onChange={(e) => setJumptoPage(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && JumpPage()}
+              disabled={totalPages <= 1} // ✅ Disabled condition
             />
-            <button className="bh-jump-go-btn h-[32px]" onClick={JumpPage}>
+            <button 
+              className="bh-jump-go-btn h-[32px]" 
+              onClick={JumpPage}
+              disabled={totalPages <= 1 || !jumptoPage} // ✅ Disabled condition
+            >
               Go
             </button>
           </div>
@@ -306,11 +326,12 @@ const ProfitLossBetHostory: React.FC = () => {
                 id="jump_mbl"
                 onChange={(e) => setJumptoPage(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && JumpPage()}
+                disabled={totalPages <= 1} // ✅ Disabled condition
               />
               <button
                 className="bh-jump-go-btn"
                 onClick={JumpPage}
-                disabled={!jumptoPage}
+                disabled={totalPages <= 1 || !jumptoPage} // ✅ Disabled condition
               >
                 Go
               </button>

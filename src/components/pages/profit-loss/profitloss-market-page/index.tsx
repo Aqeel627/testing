@@ -7,6 +7,7 @@ import { CONFIG } from "@/lib/config";
 import { useAuthStore } from "@/lib/useAuthStore";
 import http from "@/lib/axios-instance";
 import BreadCrumb from "@/components/common/bread-crumb";
+import { useToast } from "@/components/common/toast/toast-context"; // ✅ Toast import kiya
 import "./../profit-loss-page/style.css";
 
 interface MarketProfitItem {
@@ -23,6 +24,7 @@ interface MarketProfitItem {
 const ProfitLossMarketPage: React.FC = () => {
   const params = useParams();
   const { token } = useAuthStore();
+  const { showToast } = useToast(); // ✅ Toast initialize kiya
 
   const [isLoader, setIsLoader] = useState(false);
   const [profitLossData, setProfitLossData] = useState<MarketProfitItem[]>([]);
@@ -63,26 +65,40 @@ const ProfitLossMarketPage: React.FC = () => {
       const actualData = responseData?.data;
 
       if (actualData && Array.isArray(actualData)) {
-        console.log("📊 Array of Items:", actualData); // Sirf table ka data log karein
+        console.log("📊 Array of Items:", actualData);
         setProfitLossData(actualData);
         setTotalRecords(responseData.total || 0);
         setTotalPages(responseData.totalPages || 1);
+        setCurrentPage(responseData.currentPage || 1); // ✅ Active page state update ki
 
-        const sIdx = (responseData.currentPage - 1) * limit + 1;
+        const sIdx = ((responseData.currentPage || 1) - 1) * limit + 1;
         setStartIndex(sIdx);
         setEndIndex(
           Math.min(sIdx + actualData.length - 1, responseData.total || 0),
         );
+      } else {
+        setProfitLossData([]);
+        setTotalRecords(0);
+        setTotalPages(1);
+        setCurrentPage(1);
+        setStartIndex(0);
+        setEndIndex(0);
       }
     } catch (error: any) {
       console.error("❌ API Error Log:", error.response?.data || error.message);
+      setProfitLossData([]);
+      setTotalRecords(0);
+      setTotalPages(1);
+      setCurrentPage(1);
+      setStartIndex(0);
+      setEndIndex(0);
     } finally {
       setIsLoader(false);
     }
   };
 
   useEffect(() => {
-    profitLossByMarket();
+    profitLossByMarket(1);
   }, []);
 
   const formatDate = (dateStr: string) => {
@@ -91,12 +107,19 @@ const ProfitLossMarketPage: React.FC = () => {
     return date.toLocaleString("en-GB").replace(",", "");
   };
 
-  // Pagination Handlers
+  // --- Pagination Handlers ---
   const JumpPage = () => {
     const p = parseInt(jumptoPage);
-    if (p > 0 && p <= totalPages) {
+
+    if (jumptoPage === "" || isNaN(p)) return;
+
+    if (p >= 1 && p <= totalPages) {
       setCurrentPage(p);
       profitLossByMarket(p);
+      setJumptoPage(""); // ✅ Jump hone ke baad input box clear kar diya
+    } else {
+      // ✅ Invalid page number dalne par Error Toast
+      showToast("error", "Invalid Page", `Please enter a page number between 1 and ${totalPages}.`);
     }
   };
 
@@ -130,13 +153,6 @@ const ProfitLossMarketPage: React.FC = () => {
   return (
     <div id="profitloss-market-page.tsx">
       <div className="container-fluid">
-        {/* <div className="flex items-center my-4">
-        <div className="flex-grow border-t border-dashed border-(--dotted-line)"></div>
-        <span className="px-4 text-[var(--palette-text-primary)] font-bold text-[16px] whitespace-nowrap uppercase">
-          Profit Loss Markets
-        </span>
-        <div className="flex-grow border-t border-dashed border-(--dotted-line)"></div>
-      </div> */}
         <div className="my-4">
           <BreadCrumb title="Profit Loss Markets" />
         </div>
@@ -159,7 +175,7 @@ const ProfitLossMarketPage: React.FC = () => {
             <tbody className="">
               {isLoader ? (
                 <tr>
-                  <td colSpan={_sportId === "66102"?8:7} className="p-4  text-center">
+                  <td colSpan={_sportId === "66102" ? 8 : 7} className="p-4  text-center">
                     <div className="flex justify-center items-center gap-1.5">
                       <div className="w-2 h-2 bg-(--primary-color) rounded-full animate-bounce [animation-delay:-0.3s]"></div>
                       <div className="w-2 h-2 bg-(--primary-color) rounded-full animate-bounce [animation-delay:-0.15s]"></div>
@@ -169,20 +185,13 @@ const ProfitLossMarketPage: React.FC = () => {
                 </tr>
               ) : profitLossData.length > 0 ? (
                 profitLossData.map((profit, index) => (
-                  <tr
-                    key={index}
-                    className="text-center"
-                  >
+                  <tr key={index} className="text-center">
                     <td className="whitespace-nowrap">
                       {profit?.eventType?.name}
                     </td>
-                    <td className="whitespace-nowrap">
-                      {profit?.event?.name}
-                    </td>
+                    <td className="whitespace-nowrap">{profit?.event?.name}</td>
                     {_sportId === "66102" && (
-                      <td className="whitespace-nowrap">
-                        {profit?.marketId}
-                      </td>
+                      <td className="whitespace-nowrap">{profit?.marketId}</td>
                     )}
                     <td>
                       <Link
@@ -192,9 +201,7 @@ const ProfitLossMarketPage: React.FC = () => {
                         {profit.marketName}
                       </Link>
                     </td>
-                    <td className="whitespace-nowrap">
-                      {profit.result}
-                    </td>
+                    <td className="whitespace-nowrap">{profit.result}</td>
                     <td
                       className={`font-bold ${profit.pl <= 0 ? "text-red-600" : "text-green-600"}`}
                     >
@@ -211,7 +218,7 @@ const ProfitLossMarketPage: React.FC = () => {
               ) : (
                 <tr>
                   <td
-                    colSpan={_sportId === "66102"?8:7}
+                    colSpan={_sportId === "66102" ? 8 : 7}
                     className="text-center"
                   >
                     No data!
@@ -224,7 +231,7 @@ const ProfitLossMarketPage: React.FC = () => {
 
         {/* Pagination View */}
         <div className="bh-pagination-container">
-          {/* Mobile buttons - Only visible on mobile */}
+          {/* Mobile buttons */}
           <div className="bh-mobile-only bh-pg-buttons w-full">
             <button
               className={`pg-btn${currentPage === 1 ? " disabled" : ""}`}
@@ -253,7 +260,7 @@ const ProfitLossMarketPage: React.FC = () => {
             </button>
           </div>
 
-          {/* Desktop jump - Only visible on desktop */}
+          {/* Desktop jump */}
           <div className="bh-desktop-only bh-jump">
             <span className="jumptext">Jump to page</span>
             <input
@@ -262,8 +269,13 @@ const ProfitLossMarketPage: React.FC = () => {
               value={jumptoPage}
               onChange={(e) => setJumptoPage(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && JumpPage()}
+              disabled={totalPages <= 1} // ✅ Disabled condition
             />
-            <button className="bh-jump-go-btn h-[32px]" onClick={JumpPage}>
+            <button 
+              className="bh-jump-go-btn h-[32px]" 
+              onClick={JumpPage}
+              disabled={totalPages <= 1 || !jumptoPage} // ✅ Disabled condition
+            >
               Go
             </button>
           </div>
@@ -278,11 +290,12 @@ const ProfitLossMarketPage: React.FC = () => {
                 id="jump_mbl"
                 onChange={(e) => setJumptoPage(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && JumpPage()}
+                disabled={totalPages <= 1} // ✅ Disabled condition
               />
               <button
                 className="bh-jump-go-btn"
                 onClick={JumpPage}
-                disabled={!jumptoPage}
+                disabled={totalPages <= 1 || !jumptoPage} // ✅ Disabled condition
               >
                 Go
               </button>
@@ -292,7 +305,7 @@ const ProfitLossMarketPage: React.FC = () => {
             </span>
           </div>
 
-          {/* Desktop buttons - Only visible on desktop */}
+          {/* Desktop buttons */}
           <div className="bh-desktop-only bh-pg-buttons h-[32px]">
             <button
               className={`pg-btn${currentPage === 1 ? " disabled" : ""} h-[32px]`}
