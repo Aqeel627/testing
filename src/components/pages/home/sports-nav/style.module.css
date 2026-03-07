@@ -124,3 +124,49 @@
 .icon-tennis {
   mask-image: url("/ic_tennis.svg");
 }
+.icon-australian-rules {
+  mask-image: url("/ic_australian_rules.svg");
+  -webkit-mask-image: url("/ic_australian_rules.svg");
+    width: 20px;
+  height: 20px;
+}
+.icon-basketball {
+  mask-image: url("/ic_basketball.svg");
+  -webkit-mask-image: url("/ic_basketball.svg");
+      width: 20px;
+  height: 20px;
+}
+.icon-handball {
+  mask-image: url("/ic_handball.svg");
+  -webkit-mask-image: url("/ic_handball.svg");
+      width: 20px;
+  height: 20px;
+
+}
+
+.icon-rugby-union {
+  mask-image: url("/ic_rugby_union.svg");
+  -webkit-mask-image: url("/ic_rugby_union.svg");
+        width: 20px;
+  height: 20px;
+}
+
+.icon-rugby-league {
+  mask-image: url("/ic_rugby_league.svg");
+  -webkit-mask-image: url("/ic_rugby_league.svg");
+        width: 20px;
+  height: 20px;
+}
+
+.icon-mixed-martial-arts {
+  mask-image: url("/ic_mixed_martial_arts.svg");
+  -webkit-mask-image: url("/ic_mixed_martial_arts.svg");
+        width: 20px;
+  height: 20px;
+}
+.icon-esports {
+  mask-image: url("/ic_esports.svg");
+  -webkit-mask-image: url("/ic_esports.svg");
+        width: 20px;
+  height: 20px;
+}

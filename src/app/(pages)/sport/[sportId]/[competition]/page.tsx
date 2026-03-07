@@ -10,6 +10,7 @@ const SPORT_IDS: Record<string, string> = {
   cricket: "4",
   soccer: "1",
   tennis: "2",
+  austraianRules: "61420",
 };
 
 interface CompetitionPageProps {
