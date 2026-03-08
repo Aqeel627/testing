@@ -116,8 +116,8 @@ export default function RootLayout({
         <Script src="/language/lang-config.js" strategy="beforeInteractive" />
         <Script src="/language/translation.js" strategy="beforeInteractive" />
         <Script
-          src="//translate.google.com/translate_a/element.js?cb=TranslateInit"
-          strategy="afterInteractive"
+            src="https://translate.google.com/translate_a/element.js?cb=TranslateInit"
+  strategy="lazyOnload"
         />
         {/* <Script src="/js/gestures.js" strategy="afterInteractive"/> */}
         <PrimeReactProvider value={value}>
