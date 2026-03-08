@@ -23,33 +23,27 @@ interface PairedSlide {
 
 const FALLBACK_BANNERS = [
   {
-    image:
-      "/home-slider/slider-1.jpeg",
+    image: "/home-slider/slider-1.jpeg",
     link: "#",
   },
   {
-    image:
-      "/home-slider/slider-2.jpeg",
+    image: "/home-slider/slider-2.jpeg",
     link: "#",
   },
   {
-    image:
-      "/home-slider/slider-3.jpeg",
+    image: "/home-slider/slider-3.jpeg",
     link: "#",
   },
   {
-    image:
-      "/home-slider/slider-4.jpeg",
+    image: "/home-slider/slider-4.jpeg",
     link: "#",
   },
   {
-    image:
-    "/home-slider/slider-5.jpeg",
+    image: "/home-slider/slider-5.jpeg",
     link: "#",
   },
 ];
-const STATIC_PLACEHOLDER =
-  "/home-slider/slider-6b.jpeg";
+const STATIC_PLACEHOLDER = "/home-slider/slider-6b.jpeg";
 
 // tilt (same direction)
 const TILT_CLASS = "transform-gpu rotate-[2deg] origin-center";
@@ -169,10 +163,12 @@ export default function HomeSlider() {
                           src={s.verifiedImage}
                           alt={`slide-${i}`}
                           fill
+                          priority
+                          loading="eager"
+                          fetchPriority="high"
                           className="object-cover"
                           draggable={false}
                           sizes="(max-width: 768px) 33vw, (max-width: 1200px) 25vw, 200px"
-                          priority={i < 4}
                           onError={(e: any) => {
                             e.currentTarget.src = STATIC_PLACEHOLDER;
                           }}
@@ -225,10 +221,12 @@ export default function HomeSlider() {
                           src={pair.top.verifiedImage}
                           alt={`slide-top-${i}`}
                           fill
+                          priority
+                          loading="eager"
+                          fetchPriority="high"
                           className="object-cover"
                           draggable={false}
                           sizes="(max-width: 768px) 33vw, (max-width: 1200px) 25vw, 200px"
-                          priority={i < 4}
                           onError={(e: any) => {
                             e.currentTarget.src = STATIC_PLACEHOLDER;
                           }}
@@ -249,10 +247,12 @@ export default function HomeSlider() {
                           src={pair.bottom.verifiedImage}
                           alt={`slide-bottom-${i}`}
                           fill
+                          priority
+                          loading="eager"
+                          fetchPriority="high"
                           className="object-cover"
-                          sizes="(max-width: 768px) 33vw, (max-width: 1200px) 25vw, 200px"
-                          priority={i < 4}
                           draggable={false}
+                          sizes="(max-width: 768px) 33vw, (max-width: 1200px) 25vw, 200px"
                           onError={(e: any) => {
                             e.currentTarget.src = STATIC_PLACEHOLDER;
                           }}

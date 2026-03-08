@@ -5,7 +5,7 @@ import CasinoGames from "./casino-games";
 import { useIndexManagerStore } from "@/lib/store/indexManagerStore";
 
 const SportsNav = dynamic(() => import("@/components/pages/home/sports-nav"));
-const HomeSlider = dynamic(() => import("@/components/pages/home/home-slider"));
+const HomeSlider = dynamic(() => import("@/components/pages/home/home-slider"),{ssr: false});
 const SingleMarket = dynamic(() => import("@/components/common/single-market"));
 
 export default function HomePage() {
