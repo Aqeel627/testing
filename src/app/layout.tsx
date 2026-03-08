@@ -18,6 +18,7 @@ import { ToastContainer } from "@/components/common/toast";
 import { PrimeReactProvider } from "primereact/api";
 import AuthListener from "@/lib/providers/auth-listener";
 import MyBetsDrawer from "@/components/common/my-bets/my-bets-drawer";
+import LazyTranslateLoader from "@/components/common/lazy-translate-loader";
 // import SearchModal from "@/components/modal/search";
 const MiniCasinoDrawer = dynamic(
   () => import("@/components/common/mini-casino-drawer"),
@@ -115,10 +116,12 @@ export default function RootLayout({
         <Script src="/language/translateicon.js" strategy="afterInteractive" />
         <Script src="/language/lang-config.js" strategy="beforeInteractive" />
         <Script src="/language/translation.js" strategy="beforeInteractive" />
-        <Script
+        <LazyTranslateLoader />
+
+        {/* <Script
             src="https://translate.google.com/translate_a/element.js?cb=TranslateInit"
   strategy="lazyOnload"
-        />
+        /> */}
         {/* <Script src="/js/gestures.js" strategy="afterInteractive"/> */}
         <PrimeReactProvider value={value}>
           <ToastProvider>
