@@ -6,7 +6,7 @@ import { fetchData, splitMsg } from "@/lib/functions";
 import { useToast } from "@/components/common/toast/toast-context";
 import dynamic from "next/dynamic";
 import http from "@/lib/axios-instance";
-import { getData } from "@/lib/index-db";
+import { getData, saveData } from "@/lib/index-db";
 
 const BreadCrumb = dynamic(() => import("@/components/common/bread-crumb"));
 
@@ -41,10 +41,6 @@ export default function SettingsPage() {
   const [saving, setSaving] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string>("");
   const { showToast } = useToast();
-
-  useEffect(() => {
-    refetchStakes();
-  }, []);
 
   useEffect(() => {
     const stakes = stakeValue?.stake ?? stakeValue?.data?.stake;
@@ -93,8 +89,19 @@ export default function SettingsPage() {
       return;
     }
 
-    const respRes: Record<string, string> = {};
-    values.forEach((v) => (respRes[v] = v));
+    const respRes: Record<string, number> = {};
+    stackButtonArry.forEach((item) => {
+      const amount = Number(item.stakeAmount);
+      respRes[amount] = amount;
+    });
+
+    const formattedStakes = stackButtonArry.map((item) => {
+      const amount = Number(item.stakeAmount); // convert to int
+      return {
+        stakeName: amount.toString(), // always match name with updated value
+        stakeAmount: amount, // keep as number
+      };
+    });
 
     setErrorMsg("");
     setSaving(true);
@@ -111,20 +118,20 @@ export default function SettingsPage() {
 
       if (data?.meta?.status) {
         // ✅ Success
-        // const oldData = await getData("betStake");
-        // const newData = {
-        //   data: {
-        //     stake: stackButtonArry,
-        //     userId: oldData?.data?.userId || "",
-        //   },
-        //   timestamp: oldData?.timestamp || Date.now(),
-        // };
+        const oldData = await getData("betStake");
+        const newData = {
+          stake: formattedStakes,
+          userId: oldData?.data?.userId || "",
+        };
 
-        // console.log(oldData, "old");
-        // console.log(newData, "new");
-        console.log(stackButtonArry, "new");
-        console.log(respRes, "resp");
-        setStakeValue({ data: { stake: stackButtonArry } });
+        await saveData("betStake", newData);
+
+        console.log(oldData, "old");
+        console.log(newData, "new");
+
+        console.log(values, "value");
+
+        setStakeValue(newData);
         // refetchStakes();
       } else {
         // ❌ Failure
@@ -147,9 +154,9 @@ export default function SettingsPage() {
 
   return (
     <div id="setting.tsx">
-      <div className="w-full py-4">
+      <div className="w-full">
         <BreadCrumb title="Default Stake Amount" />
-        <div className="w-full max-w-[900px] flex justify-center items-center flex-col mx-auto">
+        <div className="w-full max-w-[900px] py-2 flex justify-center items-center flex-col mx-auto">
           {/* <div className="flex items-center gap-4 mb-4">
           <div
             className="flex-1 h-[1px]"
