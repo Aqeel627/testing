@@ -182,7 +182,7 @@ export default function ChangePassword() {
         setApiError(errParts?.title || "Failed to change password. Please check your current password.");
       }
     } catch (err) {
-      console.log("ERROR in changePassword:", err);
+      // console.log("ERROR in changePassword:", err);
       setApiError("Something went wrong. Please try again.");
     } finally {
       setIsSubmitting(false);

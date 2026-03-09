@@ -106,7 +106,7 @@ export default function LoginModal() {
             ? "Username or password incorrect. Check your details! 🤔"
             : msg.desc || "Invalid username or password",
         );
-        console.log(msg.desc, "api response of error msg decrypted");
+        // console.log(msg.desc, "api response of error msg decrypted");
       }
     } catch (error: any) {
       const errorMsg =

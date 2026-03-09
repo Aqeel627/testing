@@ -59,13 +59,13 @@ const ProfitLossMarketPage: React.FC = () => {
         withCredentials: true,
       });
 
-      console.log("✅ Market P&L Raw Response:", resp.data);
+      // console.log("✅ Market P&L Raw Response:", resp.data);
 
       const responseData = resp.data;
       const actualData = responseData?.data;
 
       if (actualData && Array.isArray(actualData)) {
-        console.log("📊 Array of Items:", actualData);
+        // console.log("📊 Array of Items:", actualData);
         setProfitLossData(actualData);
         setTotalRecords(responseData.total || 0);
         setTotalPages(responseData.totalPages || 1);

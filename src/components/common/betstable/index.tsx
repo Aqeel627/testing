@@ -1,6 +1,7 @@
 "use client";
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import { createPortal } from "react-dom";
+import DesktopOpenBetsRightNav from "./desktop-open-bets";
 
 const DEFAULT_COLUMNS = [
   { label: "Selection", width: 100, align: "left" },
@@ -262,9 +263,8 @@ export default function BetsTable() {
               className="w-full h-8 text-[0.9375rem] bg-transparent pl-3 pr-3 rounded-[8px] border border-[rgba(145,158,171,0.2)] text-[var(--palette-text-primary)] placeholder:text-[var(--palette-text-secondary)] focus:outline-none focus:border-[rgba(145,158,171,0.4)] transition-colors" />
           </div>
         </div>
-
+{/* 
         <div className="w-full overflow-x-auto [scrollbar-width:thin] pl-1 border-b border-dashed border-(--dotted-line)">
-          {/* ✅ showControls=false — no 3-dot in compact */}
           <div className="flex border-b border-dashed border-(--dotted-line) bg-[rgba(145,158,171,0.08)]" style={{ minWidth: "max-content" }}>
             {renderColumns(false)}
           </div>
@@ -272,7 +272,15 @@ export default function BetsTable() {
             style={{ position: "sticky", left: 0, width: "100vw", maxWidth: "100%" }}>
             No rows
           </div>
-        </div>
+        </div> */}
+        {/* ✅ Below your SAME header bar */}
+<div className="border-b border-dashed border-(--dotted-line)" />
+
+<div className="px-4 py-2 text-[0.875rem] font-bold text-[var(--palette-text-primary)]">
+  Open Bets
+</div>
+
+<DesktopOpenBetsRightNav />
       </div>
 </div>
       {/* ===== FULL SCREEN MODAL ===== */}
@@ -289,47 +297,13 @@ export default function BetsTable() {
               </button>
             </div>
             <div className="border-b border-dashed border-(--dotted-line)" />
-            <div className="flex items-center gap-2 p-4 flex-wrap">
-              <button className="inline-flex items-center gap-1.5 h-[30px] px-1 text-[0.8125rem] font-bold text-[var(--palette-text-primary)] bg-transparent hover:bg-[var(--primary-hover)] rounded-[8px] transition-colors">
-                <svg className="w-5 h-5" viewBox="0 0 24 24"><path fill="currentColor" d="M9.75 12a2.25 2.25 0 1 1 4.5 0a2.25 2.25 0 0 1-4.5 0"/><path fill="currentColor" fillRule="evenodd" d="M2 12c0 1.64.425 2.191 1.275 3.296C4.972 17.5 7.818 20 12 20c4.182 0 7.028-2.5 8.725-4.704C21.575 14.192 22 13.639 22 12c0-1.64-.425-2.191-1.275-3.296C19.028 6.5 16.182 4 12 4C7.818 4 4.972 6.5 3.275 8.704C2.425 9.81 2 10.361 2 12m10-3.75a3.75 3.75 0 1 0 0 7.5a3.75 3.75 0 0 0 0-7.5" clipRule="evenodd"/></svg>
-                Columns
-              </button>
-              <button className="inline-flex items-center gap-1.5 h-[30px] px-1 text-[0.8125rem] font-bold text-[var(--palette-text-primary)] bg-transparent hover:bg-[var(--primary-hover)] rounded-[8px] transition-colors">
-                <svg className="w-5 h-5" viewBox="0 0 24 24"><path fill="currentColor" d="M19 3H5c-1.414 0-2.121 0-2.56.412C2 3.824 2 4.488 2 5.815v.69c0 1.037 0 1.556.26 1.986c.26.43.733.698 1.682 1.232l2.913 1.64c.636.358.955.537 1.183.735c.474.411.766.895.898 1.49c.064.284.064.618.064 1.285v2.67c0 .909 0 1.364.252 1.718c.252.355.7.53 1.594.88c1.879.734 2.818 1.101 3.486.683c.668-.417.668-1.372.668-3.282v-2.67c0-.666 0-1 .064-1.285a2.68 2.68 0 0 1 .899-1.49c.227-.197.546-.376 1.182-.735l2.913-1.64c.948-.533 1.423-.8 1.682-1.23c.26-.43.26-.95.26-1.988v-.69c0-1.326 0-1.99-.44-2.402C21.122 3 20.415 3 19 3"/></svg>
-                Filters
-              </button>
-              <div className="relative">
-                <button onClick={() => setOpenMenu(openMenu === "density" ? null : "density")}
-                  className="inline-flex items-center gap-1.5 h-[30px] px-1 text-[0.8125rem] font-bold text-[var(--palette-text-primary)] bg-transparent hover:bg-[var(--primary-hover)] rounded-[8px] transition-colors">
-                  <svg className="w-5 h-5" viewBox="0 0 24 24"><path fill="currentColor" d="M4 15.5q-.425 0-.712-.288T3 14.5V14q0-.425.288-.712T4 13h16q.425 0 .713.288T21 14v.5q0 .425-.288.713T20 15.5zM4 11q-.425 0-.712-.288T3 10v-.5q0-.425.288-.712T4 8.5h16q.425 0 .713.288T21 9.5v.5q0 .425-.288.713T20 11zm0-4.5q-.425 0-.712-.288T3 5.5V5q0-.425.288-.712T4 4h16q.425 0 .713.288T21 5v.5q0 .425-.288.713T20 6.5zM4 20q-.425 0-.712-.288T3 19v-.5q0-.425.288-.712T4 17.5h16q.425 0 .713.288T21 18.5v.5q0 .425-.288.713T20 20z"/></svg>
-                  Density
-                </button>
-                {openMenu === "density" && <DropdownMenu items={densityItems} onClose={() => setOpenMenu(null)} style={{ top: "36px", left: 0 }} />}
-              </div>
-              <div className="relative">
-                <button onClick={() => setOpenMenu(openMenu === "export" ? null : "export")}
-                  className="inline-flex items-center gap-1.5 h-[30px] px-1 text-[0.8125rem] font-bold text-[var(--palette-text-primary)] bg-transparent hover:bg-[var(--primary-hover)] rounded-[8px] transition-colors">
-                  <svg className="w-5 h-5" viewBox="0 0 24 24"><path fill="currentColor" fillRule="evenodd" d="M8.845 7.905a.75.75 0 0 0 1.06 0l1.72-1.72v8.19a.75.75 0 0 0 1.5 0v-8.19l1.72 1.72a.75.75 0 1 0 1.06-1.06l-3-3a.75.75 0 0 0-1.06 0l-3 3a.75.75 0 0 0 0 1.06" clipRule="evenodd"/><path fill="currentColor" d="M12.375 20.375a8 8 0 0 0 8-8h-3.75c-.943 0-1.414 0-1.707.293c-.293.293-.293.764-.293 1.707a2.25 2.25 0 0 1-4.5 0c0-.943 0-1.414-.293-1.707c-.293-.293-.764-.293-1.707-.293h-3.75a8 8 0 0 0 8 8"/></svg>
-                  Export
-                </button>
-                {openMenu === "export" && <DropdownMenu items={exportItems} onClose={() => setOpenMenu(null)} style={{ top: "36px", right: 0 }} />}
-              </div>
-              <div className="relative flex-1 min-w-[200px] max-w-[400px]">
-                <input type="search" id="search2" name="search-input2" placeholder="Search bets..." value={search} onChange={(e) => setSearch(e.target.value)}
-                  className="w-full h-8 bg-transparent pl-3 pr-3 rounded-[8px] border border-[rgba(145,158,171,0.2)] text-[var(--palette-text-primary)] placeholder:text-[var(--palette-text-secondary)] focus:outline-none transition-colors" />
-              </div>
-            </div>
-            <div className="flex-1 flex flex-col overflow-hidden">
-              <div className="w-full overflow-x-auto [scrollbar-width:thin]">
-                <div className="border-b border-dashed border-(--dotted-line)">
-                  {/* ✅ showControls=true — 3-dot only in modal */}
-                  {renderColumns(true)}
-                </div>
-              </div>
-              <div className="flex-1 flex items-center justify-center text-[var(--palette-text-secondary)] text-[0.875rem]">
-                No rows
-              </div>
-            </div>
+<div className="px-4 py-2 text-[0.875rem] font-bold text-[var(--palette-text-primary)]">
+  Open Bets
+</div>
+
+{/* Open Bets RightNav (old flow) */}
+<DesktopOpenBetsRightNav />
+
           </div>
         </div>
       )}
