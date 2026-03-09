@@ -35,21 +35,24 @@ function parseErrorMsg(raw: string): string {
 
 export default function SettingsPage() {
   const { stakeValue, setStakeValue } = useAppStore();
-  const [stackButtonArry, setStackButtonArry] =
-    useState<StakeItem[]>(FALLBACK_STAKES);
+const [stackButtonArry, setStackButtonArry] =
+  useState<StakeItem[]>([]);
   const [saving, setSaving] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string>("");
   const { showToast } = useToast()
 
-  useEffect(() => {
-    // console.log(stakeValue, "stakes")
-    const stakes = stakeValue?.stake;
-    if (Array.isArray(stakes) && stakes.length > 0) {
-      // console.log(stakes, "data")
-      setStackButtonArry(stakes);
-    }
-  }, [stakeValue]);
+useEffect(() => {
+  refetchStakes();
+}, []);
 
+useEffect(() => {
+  const stakes = stakeValue?.stake ?? stakeValue?.data?.stake;
+  if (Array.isArray(stakes) && stakes.length > 0) {
+    setStackButtonArry(stakes);
+  } else if (!stakeValue) {
+    setStackButtonArry(FALLBACK_STAKES);
+  }
+}, [stakeValue]);
   const numberOnly = (e: React.KeyboardEvent<HTMLInputElement>) => {
     const ch = e.key;
     if (["Backspace", "Delete", "ArrowLeft", "ArrowRight", "Tab"].includes(ch))
