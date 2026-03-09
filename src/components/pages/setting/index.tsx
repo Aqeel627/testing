@@ -5,6 +5,8 @@ import { CONFIG } from "@/lib/config";
 import { fetchData, splitMsg } from "@/lib/functions";
 import { useToast } from "@/components/common/toast/toast-context";
 import dynamic from "next/dynamic";
+import http from "@/lib/axios-instance";
+import { getData } from "@/lib/index-db";
 
 const BreadCrumb = dynamic(() => import("@/components/common/bread-crumb"));
 
@@ -35,24 +37,23 @@ function parseErrorMsg(raw: string): string {
 
 export default function SettingsPage() {
   const { stakeValue, setStakeValue } = useAppStore();
-const [stackButtonArry, setStackButtonArry] =
-  useState<StakeItem[]>([]);
+  const [stackButtonArry, setStackButtonArry] = useState<StakeItem[]>([]);
   const [saving, setSaving] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string>("");
-  const { showToast } = useToast()
+  const { showToast } = useToast();
 
-useEffect(() => {
-  refetchStakes();
-}, []);
+  useEffect(() => {
+    refetchStakes();
+  }, []);
 
-useEffect(() => {
-  const stakes = stakeValue?.stake ?? stakeValue?.data?.stake;
-  if (Array.isArray(stakes) && stakes.length > 0) {
-    setStackButtonArry(stakes);
-  } else if (!stakeValue) {
-    setStackButtonArry(FALLBACK_STAKES);
-  }
-}, [stakeValue]);
+  useEffect(() => {
+    const stakes = stakeValue?.stake ?? stakeValue?.data?.stake;
+    if (Array.isArray(stakes) && stakes.length > 0) {
+      setStackButtonArry(stakes);
+    } else if (!stakeValue) {
+      setStackButtonArry(FALLBACK_STAKES);
+    }
+  }, [stakeValue]);
   const numberOnly = (e: React.KeyboardEvent<HTMLInputElement>) => {
     const ch = e.key;
     if (["Backspace", "Delete", "ArrowLeft", "ArrowRight", "Tab"].includes(ch))
@@ -84,8 +85,9 @@ useEffect(() => {
     });
   };
 
-  const updateBetSetting = () => {
+  const updateBetSetting = async () => {
     const values = stackButtonArry.map((x) => x.stakeAmount);
+
     if (values.some((v) => !v)) {
       setErrorMsg("Please enter all stake values.");
       return;
@@ -97,24 +99,50 @@ useEffect(() => {
     setErrorMsg("");
     setSaving(true);
 
-    fetchData({
-      url: CONFIG.userUpdateStackValueURL,
-      payload: { stake: JSON.stringify(respRes) },
-      setFn: (data: any) => {
-        setSaving(false);
-        const msg = splitMsg(data?.meta?.message);
-        showToast(msg.status, msg.title, msg.desc)
-        if (data?.meta?.status) {
-          // ✅ Success: update store + refetch fresh stakes
-          setStakeValue({ data: { stake: stackButtonArry } });
-          refetchStakes();
-        } else {
-          // ❌ Failure: parse and show error
-          const raw = data?.meta?.message || "Something went wrong.";
-          setErrorMsg(parseErrorMsg(raw));
-        }
-      },
-    });
+    try {
+      const response = await http.post(CONFIG.userUpdateStackValueURL, {
+        stake: JSON.stringify(respRes),
+      });
+
+      const data = response.data;
+
+      const msg = splitMsg(data?.meta?.message);
+      showToast(msg.status, msg.title, msg.desc);
+
+      if (data?.meta?.status) {
+        // ✅ Success
+        // const oldData = await getData("betStake");
+        // const newData = {
+        //   data: {
+        //     stake: stackButtonArry,
+        //     userId: oldData?.data?.userId || "",
+        //   },
+        //   timestamp: oldData?.timestamp || Date.now(),
+        // };
+
+        // console.log(oldData, "old");
+        // console.log(newData, "new");
+        console.log(stackButtonArry, "new");
+        console.log(respRes, "resp");
+        setStakeValue({ data: { stake: stackButtonArry } });
+        // refetchStakes();
+      } else {
+        // ❌ Failure
+        const raw = data?.meta?.message || "Something went wrong.";
+        setErrorMsg(parseErrorMsg(raw));
+      }
+    } catch (error: any) {
+      console.error("Update stake error:", error);
+
+      const errMsg =
+        error?.response?.data?.meta?.message ||
+        error?.message ||
+        "Network error occurred.";
+
+      setErrorMsg(parseErrorMsg(errMsg));
+    } finally {
+      setSaving(false);
+    }
   };
 
   return (
