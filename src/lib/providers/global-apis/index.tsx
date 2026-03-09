@@ -13,7 +13,12 @@ import http from "@/lib/axios-instance";
 import { eventBus } from "@/lib/eventBus";
 
 const GlobalApisCall = () => {
-  const { setCasinoEvents, setUserExposureList, userExposureList } = useAppStore();
+  const {
+    setCasinoEvents,
+    setUserExposureList,
+    userExposureList,
+    setStakeValue,
+  } = useAppStore();
   [];
   const {
     setBanners,
@@ -47,7 +52,7 @@ const GlobalApisCall = () => {
 
       const totalExposure = data.reduce(
         (acc: number, item: any) => acc + Number(item?.betCounts || 0),
-        0
+        0,
       );
 
       setUserExposureList({ data, totalExposure });
@@ -58,14 +63,14 @@ const GlobalApisCall = () => {
 
   useEffect(() => {
     if (!isLoggedIn) return;
-    refreshExposure().catch(() => { });
+    refreshExposure().catch(() => {});
   }, [isLoggedIn, refreshExposure]);
 
   // ✅ bet place/cancel ke baad auto refresh (home badge update)
   useEffect(() => {
     if (!isLoggedIn) return;
 
-    const handler = () => refreshExposure().catch(() => { });
+    const handler = () => refreshExposure().catch(() => {});
     const unsubscribe = eventBus.on("REFRESH_AFTER_PLACE", handler);
 
     return () => {
@@ -74,37 +79,26 @@ const GlobalApisCall = () => {
   }, [isLoggedIn, refreshExposure]);
 
   useEffect(() => {
-    // const token = localStorage.getItem("token");
-    // checkLogin(token || "");
-    // if (isLoggedIn) {
-    //   fetchData({
-    //     url: CONFIG.getExposureListURL,
-    //     payload: {},
-    //     setFn: (data) => {
-    //       const totalExposure = data?.reduce((acc: number, item: any) => {
-    //         return acc + (item?.betCounts || 0);
-    //       }, 0);
-    //       setUserExposureList({ data, totalExposure });
-    //     },
-    //   });
-    // }
-
-    // fetchData({
-    //   url: CONFIG.casinoEvents,
-    //   payload: { key: CONFIG.siteKey },
-    //   cachedKey: "casinoEvents",
-    //   setFn: setCasinoEvents,
-    //   expireIn: CONFIG.casinoEventsTime,
-    // });
-fetchData({
-  url: CONFIG.casinoEvents,
-  payload: { key: CONFIG.siteKey },
-  cachedKey: "casinoEvents",
-  setFn: (data: any) => {
-    setCasinoEvents(data);
-  },
-  expireIn: CONFIG.casinoEventsTime,
-});
+    const token = localStorage.getItem("token");
+    checkLogin(token || "");
+    if (isLoggedIn) {
+      fetchData({
+        url: CONFIG.getUserBetStake,
+        payload: { key: CONFIG.siteKey },
+        cachedKey: "betStake",
+        setFn: setStakeValue,
+        expireIn: CONFIG.getUserBetStakeTime,
+      });
+    }
+    fetchData({
+      url: CONFIG.casinoEvents,
+      payload: { key: CONFIG.siteKey },
+      cachedKey: "casinoEvents",
+      setFn: (data: any) => {
+        setCasinoEvents(data);
+      },
+      expireIn: CONFIG.casinoEventsTime,
+    });
 
     indexManager({
       url: CONFIG.events,
