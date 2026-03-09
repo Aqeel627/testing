@@ -199,11 +199,16 @@ export default function ChangePassword() {
     }
   };
 
-  const handleLogout = () => {
+  const handleLogout = (errorMsg?: string) => {
     closePasswordModal();
     logout();
     localStorage.removeItem("token");
-    setLoginModal(true);  
+    showToast(
+      "error",
+      "error",
+      errorMsg || "Something went wrong. Please try again."
+    );
+    setLoginModal(true);
   };
 
   /* ---------------------- RENDER ---------------------- */
