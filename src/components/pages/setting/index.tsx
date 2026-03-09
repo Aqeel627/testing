@@ -126,10 +126,10 @@ export default function SettingsPage() {
 
         await saveData("betStake", newData);
 
-        console.log(oldData, "old");
-        console.log(newData, "new");
+        // console.log(oldData, "old");
+        // console.log(newData, "new");
 
-        console.log(values, "value");
+        // console.log(values, "value");
 
         setStakeValue(newData);
         // refetchStakes();
