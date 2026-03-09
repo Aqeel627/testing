@@ -270,7 +270,7 @@ const ProfitLossMarketPage: React.FC = () => {
           <div className="bh-desktop-only bh-jump">
             <span className="jumptext">Jump to page</span>
             <input
-              className="input bh-jump-input h-[32px]"
+              className={`input bh-jump-input h-[32px] ${totalPages <= 1 ? "disabled opacity-[.5]" : ""}`}
               id="jump_desk"
               value={jumptoPage}
               onChange={(e) => setJumptoPage(e.target.value)}
@@ -291,7 +291,7 @@ const ProfitLossMarketPage: React.FC = () => {
             <div className="bh-mobile-only bh-jump">
               <span className="jumptext">Jump to page</span>
               <input
-                className="input bh-jump-input"
+                className={`input bh-jump-input ${totalPages <= 1 ? "disabled opacity-[.5]" : ""}`}
                 value={jumptoPage}
                 id="jump_mbl"
                 onChange={(e) => setJumptoPage(e.target.value)}

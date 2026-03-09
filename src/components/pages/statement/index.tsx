@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import "../profit-loss/profit-loss-page/style.css";
 import React, { useState, useEffect, useRef } from "react";
 import { useToast } from "@/components/common/toast/toast-context";
+import { splitMsg } from "@/lib/functions";
 
 const BreadCrumb = dynamic(() => import("@/components/common/bread-crumb"));
 
@@ -72,7 +73,6 @@ const StatementPage = () => {
     page: number = 1,
     limit: number = pageLength,
   ) => {
-    // showLoading();
     try {
       const payload = {
         startDate: formatDate(startDate),
@@ -83,22 +83,28 @@ const StatementPage = () => {
 
       const response = await axiosInstance.post<ApiResponse>(
         CONFIG.userAccountStatement,
-        payload,
+        payload
       );
 
-      const data = response.data;
+      const data: any = response.data;
+
       setStatements(data.data || []);
       setTotalRecords(data.total || 0);
       setTotalPages(data.totalPages || 1);
       setCurrentPage(data.currentPage || 1);
+
+      // ✅ agar table empty ho aur submit click hua ho
+      if (data?.data) {
+        const msg = splitMsg(data?.meta?.message);
+        showToast(msg.status, msg.title, msg.desc);
+      }
+
     } catch (err) {
       console.error("❌ API Error:", err);
       setStatements([]);
       setTotalRecords(0);
       setTotalPages(1);
       setCurrentPage(1);
-    } finally {
-      // hideLoading();
     }
   };
 
@@ -110,7 +116,7 @@ const StatementPage = () => {
   const handleGetStatement = () => {
     setCurrentPage(1);
     setJumpToPage(""); // Reset to empty
-    fetchStatements(1, pageLength);
+    fetchStatements(1, pageLength,);
   };
 
   const handlePageChange = (newPage: number) => {
@@ -131,7 +137,7 @@ const StatementPage = () => {
     if (currentPage > 1) {
       const p = currentPage - 1;
       setCurrentPage(p);
-      fetchStatements(p,pageLength);
+      fetchStatements(p, pageLength);
     }
   };
   const goToNext = () => {
@@ -429,7 +435,7 @@ const StatementPage = () => {
             <div className="bh-desktop-only bh-jump">
               <span className="jumptext">Jump to page</span>
               <input
-                className="input bh-jump-input"
+                className={`input bh-jump-input ${totalPages <= 1 ? "disabled opacity-[.5]" : ""}`}
                 min={1}
                 id="jump_desk"
                 max={totalPages}
@@ -440,7 +446,7 @@ const StatementPage = () => {
                 disabled={totalPages <= 1}
               />
               <button
-                className="bh-jump-go-btn"
+                className={`bh-jump-go-btn ${totalPages <= 1 ? "disabled" : ""}`}
                 onClick={handleJumpToPage}
                 disabled={totalPages <= 1}
               >
@@ -454,7 +460,7 @@ const StatementPage = () => {
                 <span className="jumptext">Jump to page</span>
                 <input
                   id="jump_mbl"
-                  className="input bh-jump-input"
+                  className={`input bh-jump-input ${totalPages <= 1 ? "disabled opacity-[.5]" : ""}`}
                   min={1}
                   max={totalPages}
                   value={jumpToPage}
@@ -464,7 +470,7 @@ const StatementPage = () => {
                   disabled={totalPages <= 1}
                 />
                 <button
-                  className="bh-jump-go-btn"
+                  className={`bh-jump-go-btn ${totalPages <= 1 ? "disabled" : ""}`}
                   onClick={handleJumpToPage}
                   disabled={totalPages <= 1}
                 >

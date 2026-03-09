@@ -249,7 +249,7 @@ const ProfitLossEventPage: React.FC = () => {
             <span className="jumptext">Jump to page</span>
             <input
               id="jump_desk"
-              className="input bh-jump-input h-[32px]"
+              className={`input bh-jump-input h-[32px] ${totalPages <= 1 ? "disabled opacity-[.5]" : ""}`}
               value={jumptoPage}
               onChange={(e) => setJumptoPage(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && JumpPage()}
@@ -269,7 +269,7 @@ const ProfitLossEventPage: React.FC = () => {
             <div className="bh-mobile-only bh-jump">
               <span className="jumptext">Jump to page</span>
               <input
-                className="input bh-jump-input"
+                className={`input bh-jump-input ${totalPages <= 1 ? "disabled opacity-[.5]" : ""}`}
                 value={jumptoPage}
                 id="jump_mbl"
                 onChange={(e) => setJumptoPage(e.target.value)}
