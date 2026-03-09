@@ -105,7 +105,7 @@ const StatementPage = () => {
   // Initial load and when filters change
   useEffect(() => {
     fetchStatements(1, pageLength);
-  }, [startDate, endDate]);
+  }, []);
 
   const handleGetStatement = () => {
     setCurrentPage(1);
@@ -121,17 +121,58 @@ const StatementPage = () => {
     }
   };
 
+  const goToFirst = () => {
+    if (currentPage !== 1) {
+      setCurrentPage(1);
+      fetchStatements(1, pageLength);
+    }
+  };
+  const goToPrevious = () => {
+    if (currentPage > 1) {
+      const p = currentPage - 1;
+      setCurrentPage(p);
+      fetchStatements(p,pageLength);
+    }
+  };
+  const goToNext = () => {
+    if (currentPage < totalPages) {
+      const p = currentPage + 1;
+      setCurrentPage(p);
+      fetchStatements(p, pageLength);
+    }
+  };
+  const goToLast = () => {
+    if (currentPage !== totalPages) {
+      setCurrentPage(totalPages);
+      fetchStatements(totalPages, pageLength);
+    }
+  };
+
   const handleJumpToPage = () => {
     const pageNum = parseInt(jumpToPage);
 
     if (jumpToPage === "" || isNaN(pageNum)) return;
+
+    if (pageNum === currentPage) {
+      showToast(
+        "error",
+        "Already on same page",
+        `You are already on page ${pageNum}.`,
+      );
+      setJumpToPage("");
+      return;
+    }
 
     if (pageNum >= 1 && pageNum <= totalPages) {
       setCurrentPage(pageNum);
       setJumpToPage(""); // Reset to empty after jump
       fetchStatements(pageNum, pageLength);
     } else {
-      showToast("error", "Invalid Page", `Please enter a page number between 1 and ${totalPages}.`);
+      showToast(
+        "error",
+        "Invalid Page",
+        `Please enter a page number between 1 and ${totalPages}.`,
+      );
     }
   };
 
@@ -215,6 +256,7 @@ const StatementPage = () => {
               />
 
               <button
+                onClick={handleGetStatement}
                 className="h-[32px] px-4 font-bold rounded-[5px] hover:bg-(--primary-color-dark) bg-(--primary-color) uppercase text-white  text-[12px] cursor-pointer "
                 style={{
                   boxShadow:
@@ -272,6 +314,7 @@ const StatementPage = () => {
 
               {/* Submit button on next line */}
               <button
+                onClick={handleGetStatement}
                 className="w-full mt-2 h-[32px] hover:bg-(--primary-color-dark) bg-(--primary-color) px-4 font-bold rounded-[5px] uppercase text-white text-[12px] cursor-pointer"
                 style={{
                   boxShadow:
@@ -357,26 +400,26 @@ const StatementPage = () => {
             <div className="bh-mobile-only bh-pg-buttons w-full">
               <button
                 className={`pg-btn${currentPage === 1 ? " disabled" : ""}`}
-                onClick={() => handlePageChange(1)}
+                onClick={goToFirst}
               >
                 First
               </button>
               <button
                 className={`pg-btn${currentPage === 1 ? " disabled" : ""}`}
-                onClick={() => handlePageChange(currentPage - 1)}
+                onClick={goToPrevious}
               >
                 Previous
               </button>
               <span className="pg-number active">{currentPage}</span>
               <button
                 className={`pg-btn${currentPage === totalPages ? " disabled" : ""}`}
-                onClick={() => handlePageChange(currentPage + 1)}
+                onClick={goToNext}
               >
                 Next
               </button>
               <button
                 className={`pg-btn${currentPage === totalPages ? " disabled" : ""}`}
-                onClick={() => handlePageChange(totalPages)}
+                onClick={goToLast}
               >
                 Last
               </button>
@@ -437,26 +480,26 @@ const StatementPage = () => {
             <div className="bh-desktop-only bh-pg-buttons">
               <button
                 className={`pg-btn${currentPage === 1 ? " disabled" : ""}`}
-                onClick={() => handlePageChange(1)}
+                onClick={goToFirst}
               >
                 First
               </button>
               <button
                 className={`pg-btn${currentPage === 1 ? " disabled" : ""}`}
-                onClick={() => handlePageChange(currentPage - 1)}
+                onClick={goToPrevious}
               >
                 Previous
               </button>
               <span className="pg-number active">{currentPage}</span>
               <button
                 className={`pg-btn${currentPage === totalPages ? " disabled" : ""}`}
-                onClick={() => handlePageChange(currentPage + 1)}
+                onClick={goToNext}
               >
                 Next
               </button>
               <button
                 className={`pg-btn${currentPage === totalPages ? " disabled" : ""}`}
-                onClick={() => handlePageChange(totalPages)}
+                onClick={goToLast}
               >
                 Last
               </button>
