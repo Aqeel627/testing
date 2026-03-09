@@ -113,6 +113,12 @@ const ProfitLossMarketPage: React.FC = () => {
 
     if (jumptoPage === "" || isNaN(p)) return;
 
+    if (p === currentPage) {
+      showToast("error", "Already on same page", `You are already on page ${p}.`);
+      setJumptoPage("");
+      return;
+    }
+
     if (p >= 1 && p <= totalPages) {
       setCurrentPage(p);
       profitLossByMarket(p);
@@ -271,8 +277,8 @@ const ProfitLossMarketPage: React.FC = () => {
               onKeyDown={(e) => e.key === "Enter" && JumpPage()}
               disabled={totalPages <= 1} // ✅ Disabled condition
             />
-            <button 
-              className="bh-jump-go-btn h-[32px]" 
+            <button
+              className="bh-jump-go-btn h-[32px]"
               onClick={JumpPage}
               disabled={totalPages <= 1 || !jumptoPage} // ✅ Disabled condition
             >

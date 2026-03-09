@@ -140,6 +140,12 @@ const ProfitLossPage: React.FC = () => {
 
     if (jumptoPage === "" || isNaN(pageNum)) return;
 
+    if (pageNum === currentPage) {
+      showToast("error", "Already on same page", `You are already on page ${pageNum}.`);
+      setJumptoPage("");
+      return;
+    }
+
     if (pageNum >= 1 && pageNum <= totalPages) {
       setCurrentPage(pageNum);
       getProfitLoss(pageNum);
