@@ -131,7 +131,7 @@ const StatementPage = () => {
     if (currentPage > 1) {
       const p = currentPage - 1;
       setCurrentPage(p);
-      fetchStatements(p,pageLength);
+      fetchStatements(p, pageLength);
     }
   };
   const goToNext = () => {
@@ -429,7 +429,7 @@ const StatementPage = () => {
             <div className="bh-desktop-only bh-jump">
               <span className="jumptext">Jump to page</span>
               <input
-                className="input bh-jump-input"
+                className={`input bh-jump-input ${totalPages <= 1 ? "disabled opacity-[.5]" : ""}`}
                 min={1}
                 id="jump_desk"
                 max={totalPages}
@@ -440,7 +440,7 @@ const StatementPage = () => {
                 disabled={totalPages <= 1}
               />
               <button
-                className="bh-jump-go-btn"
+                className={`bh-jump-go-btn ${totalPages <= 1 ? "disabled" : ""}`}
                 onClick={handleJumpToPage}
                 disabled={totalPages <= 1}
               >
@@ -454,7 +454,7 @@ const StatementPage = () => {
                 <span className="jumptext">Jump to page</span>
                 <input
                   id="jump_mbl"
-                  className="input bh-jump-input"
+                  className={`input bh-jump-input ${totalPages <= 1 ? "disabled opacity-[.5]" : ""}`}
                   min={1}
                   max={totalPages}
                   value={jumpToPage}
@@ -464,7 +464,7 @@ const StatementPage = () => {
                   disabled={totalPages <= 1}
                 />
                 <button
-                  className="bh-jump-go-btn"
+                  className={`bh-jump-go-btn ${totalPages <= 1 ? "disabled" : ""}`}
                   onClick={handleJumpToPage}
                   disabled={totalPages <= 1}
                 >
