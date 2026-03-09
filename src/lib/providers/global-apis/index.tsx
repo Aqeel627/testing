@@ -83,24 +83,13 @@ const GlobalApisCall = () => {
     checkLogin(token || "");
     if (isLoggedIn) {
       fetchData({
-        url: CONFIG.getExposureListURL,
-        payload: {},
-        setFn: (data) => {
-          const totalExposure = data?.reduce((acc: number, item: any) => {
-            return acc + (item?.betCounts || 0);
-          }, 0);
-          setUserExposureList({ data, totalExposure });
-        },
+        url: CONFIG.getUserBetStake,
+        payload: { key: CONFIG.siteKey },
+        cachedKey: "betStake",
+        setFn: setStakeValue,
+        expireIn: CONFIG.getUserBetStakeTime,
       });
     }
-
-    fetchData({
-      url: CONFIG.getUserBetStake,
-      payload: { key: CONFIG.siteKey },
-      cachedKey: "betStake",
-      setFn: setStakeValue,
-      expireIn: CONFIG.getUserBetStakeTime,
-    });
     fetchData({
       url: CONFIG.casinoEvents,
       payload: { key: CONFIG.siteKey },
