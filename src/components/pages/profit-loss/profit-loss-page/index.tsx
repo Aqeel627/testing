@@ -49,7 +49,7 @@ const ProfitLossPage: React.FC = () => {
     if (startDate && endDate) {
       getProfitLoss(1); // Reset to page 1 on date change
     }
-  }, [startDate, endDate]);
+  }, []);
 
   // --- 2. Date Handling ---
   const updateDate = () => {
