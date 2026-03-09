@@ -134,6 +134,12 @@ const ProfitLossBetHostory: React.FC = () => {
 
     if (jumptoPage === "" || isNaN(p)) return;
 
+    if (p === currentPage) {
+      showToast("error", "Already on same page", `You are already on page ${p}.`);
+      setJumptoPage("");
+      return;
+    }
+
     if (p >= 1 && p <= totalPages) {
       setCurrentPage(p);
       getHistory(p);
@@ -235,11 +241,10 @@ const ProfitLossBetHostory: React.FC = () => {
                       {history.totalSizeMatched}
                     </td>
                     <td
-                      className={`font-bold ${
-                        history.profitLoss < 0
+                      className={`font-bold ${history.profitLoss < 0
                           ? "text-red-600"
                           : "text-green-600"
-                      }`}
+                        }`}
                     >
                       {history.profitLoss}
                     </td>
@@ -307,8 +312,8 @@ const ProfitLossBetHostory: React.FC = () => {
               onKeyDown={(e) => e.key === "Enter" && JumpPage()}
               disabled={totalPages <= 1} // ✅ Disabled condition
             />
-            <button 
-              className="bh-jump-go-btn h-[32px]" 
+            <button
+              className="bh-jump-go-btn h-[32px]"
               onClick={JumpPage}
               disabled={totalPages <= 1 || !jumptoPage} // ✅ Disabled condition
             >

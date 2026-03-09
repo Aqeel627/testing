@@ -263,6 +263,12 @@ export default function BetHistoryComponent() {
 
     if (jumptoPage === "" || isNaN(p)) return;
 
+    if (p === currentPage) {
+      showToast("error", "Already on same page", `You are already on page ${p}.`);
+      setJumptoPage("");
+      return; 
+    }
+
     if (p >= 1 && p <= totalPages) {
       setCurrentPage(p);
       getBetHistoryUser(p);

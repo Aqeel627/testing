@@ -737,11 +737,11 @@ export default function Sidebar({ config }: SidebarProps) {
               transition={DROPDOWN_TRANSITION}
             >
               <ul className={styles.subList}>
-                {sidebarConfig.sports.length === 0 && (
+                {/* {sidebarConfig.sports.length === 0 && (
                   <li className="px-4 py-2 text-sm text-gray-500">
                     Loading sports...
                   </li>
-                )}
+                )} */}
                 {sidebarConfig.sports.map((sport, sportIndex) => (
                   <SportItemComponent
                     key={sport.name + sportIndex}
