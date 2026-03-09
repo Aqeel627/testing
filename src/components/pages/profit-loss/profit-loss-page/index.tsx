@@ -49,7 +49,7 @@ const ProfitLossPage: React.FC = () => {
     if (startDate && endDate) {
       getProfitLoss(1); // Reset to page 1 on date change
     }
-  }, [startDate, endDate]);
+  }, []);
 
   // --- 2. Date Handling ---
   const updateDate = () => {
@@ -301,7 +301,7 @@ const ProfitLossPage: React.FC = () => {
           <div className="bh-desktop-only bh-jump">
             <span className="jumptext">Jump to page</span>
             <input
-              className="input bh-jump-input h-[32px]"
+              className={`input bh-jump-input h-[32px] ${totalPages <= 1 ? "disabled opacity-[.5]" : ""}`}
               id="jump_desk"
               value={jumptoPage}
               onChange={(e) => setJumptoPage(e.target.value)}
@@ -322,7 +322,7 @@ const ProfitLossPage: React.FC = () => {
             <div className="bh-mobile-only bh-jump">
               <span className="jumptext">Jump to page</span>
               <input
-                className="input bh-jump-input"
+                className={`input bh-jump-input ${totalPages <= 1 ? "disabled opacity-[.5]" : ""}`}
                 id="jump_mbl"
                 value={jumptoPage}
                 onChange={(e) => setJumptoPage(e.target.value)}
