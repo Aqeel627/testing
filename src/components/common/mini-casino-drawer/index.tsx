@@ -58,7 +58,7 @@ export default function MiniCasinoDrawer() {
       }
 
       if (event.data === "getBalance") {
-        console.log("Call balance API here");
+        // console.log("Call balance API here");
       }
     };
 

@@ -124,7 +124,7 @@ export default function MarketDetails() {
   const { isLoggedIn } = useAuthStore();
   const sportNames: any =
     eventTypes?.find((et: any) => String(et.id) === String(sportId))?.name ||
-    {};
+    "";
 
   // API states
   const [allMarketPl, setAllMarketPl] = useState<
