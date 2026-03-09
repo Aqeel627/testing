@@ -13,6 +13,7 @@ import Icon from "@/icons/icons";
 import Loader from "@/components/common/loader/loader";
 import { useToast } from "@/components/common/toast/toast-context";
 import { splitMsg } from "@/lib/functions";
+import { useAuthStore } from "@/lib/useAuthStore";
 
 /* ---------------------- PASSWORD RULES ---------------------- */
 // ✅ Ek jagah define karo - pehle duplicate tha (component ke bahar aur andar dono jagah)
@@ -83,6 +84,8 @@ export default function ChangePassword() {
   const [showOldPassword, setShowOldPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const { logout } = useAuthStore();
+  const { setLoginModal } = useCacheStore();
 
   // ✅ Single form state object - ek jagah manage karo
   const [form, setForm] = useState<FormState>({
@@ -131,6 +134,8 @@ export default function ChangePassword() {
     []
   );
 
+
+
   /* ---------------------- LOADER ---------------------- */
   useEffect(() => {
     const timer = setTimeout(() => setIsLoading(false), 1000);
@@ -165,6 +170,11 @@ export default function ChangePassword() {
         body: JSON.stringify(finalPayload),
       });
 
+      if (response.status === 401) {
+        handleLogout();
+        return;
+      }
+
       const encryptedRes = await response.json();
       const res = await CryptoService.decryptApiResponse(encryptedRes);
       const msg = splitMsg(res?.meta?.message);
@@ -187,6 +197,13 @@ export default function ChangePassword() {
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const handleLogout = () => {
+    closePasswordModal();
+    logout();
+    localStorage.removeItem("token");
+    setLoginModal(true);  
   };
 
   /* ---------------------- RENDER ---------------------- */
