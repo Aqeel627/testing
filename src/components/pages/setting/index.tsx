@@ -89,6 +89,29 @@ export default function SettingsPage() {
       return;
     }
 
+    const normalizedValues = values.map((v) => String(Number(v)));
+    if (new Set(normalizedValues).size !== normalizedValues.length) {
+      showToast("error", "Invalid input", "Duplicate values not allowed.");
+      return;
+    }
+
+    // ✅ Check for duplicates in IndexedDB
+    const oldData = await getData("betStake");
+    const existingStakes: number[] =
+      oldData?.stake?.map((s: any) => Number(s.stakeAmount)) || [];
+
+    for (let val of values.map(Number)) {
+      if (existingStakes.includes(val)) {
+        showToast(
+          "error",
+          "Duplicate Value",
+          `Stake value ${val} already exists!`,
+        );
+        return; // stop update, don't call API
+      }
+    }
+
+    // Prepare payload for API
     const respRes: Record<string, number> = {};
     stackButtonArry.forEach((item) => {
       const amount = Number(item.stakeAmount);
@@ -117,8 +140,7 @@ export default function SettingsPage() {
       showToast(msg.status, msg.title, msg.desc);
 
       if (data?.meta?.status) {
-        // ✅ Success
-        const oldData = await getData("betStake");
+        // ✅ Success: Save updated stakes to IndexedDB
         const newData = {
           stake: formattedStakes,
           userId: oldData?.data?.userId || "",
@@ -126,15 +148,8 @@ export default function SettingsPage() {
 
         await saveData("betStake", newData);
 
-        // console.log(oldData, "old");
-        // console.log(newData, "new");
-
-        // console.log(values, "value");
-
         setStakeValue(newData);
-        // refetchStakes();
       } else {
-        // ❌ Failure
         const raw = data?.meta?.message || "Something went wrong.";
         setErrorMsg(parseErrorMsg(raw));
       }
