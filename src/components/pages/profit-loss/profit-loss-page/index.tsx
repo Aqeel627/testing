@@ -7,6 +7,7 @@ import http from "@/lib/axios-instance";
 import dynamic from "next/dynamic";
 import { useToast } from "@/components/common/toast/toast-context"; // Toast import kiya
 import "./style.css";
+import { splitMsg } from "@/lib/functions";
 
 const BreadCrumb = dynamic(() => import("@/components/common/bread-crumb"));
 
@@ -21,13 +22,37 @@ interface ProfitLossData {
   commission: number;
 }
 
+const formatDate = (date: Date, endOfDay: boolean = false) => {
+  const local = new Date(date);
+  const year = local.getFullYear();
+  const month = String(local.getMonth() + 1).padStart(2, "0");
+  const day = String(local.getDate()).padStart(2, "0");
+  const time = endOfDay ? "23:59:00" : "00:00:00";
+  return `${year}-${month}-${day}T${time}+05:00`;
+};
+
+export const formatDateParams = (input: string | Date): string => {
+  const date = new Date(input);
+
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
+};
+
 const ProfitLossPage: React.FC = () => {
   const router = useRouter();
   const { showToast } = useToast(); // Toast hook initialize kiya
 
   // --- Logic States ---
-  const [startDate, setStartDate] = useState<string>("");
-  const [endDate, setEndDate] = useState<string>("");
+  const [startDate, setStartDate] = useState<Date>(() => {
+    const today = new Date();
+    const tenDaysAgo = new Date(today);
+    tenDaysAgo.setDate(today.getDate() - 10);
+    return tenDaysAgo;
+  });
+  const [endDate, setEndDate] = useState<Date>(() => new Date());
   const [isLoader, setIsLoader] = useState<boolean>(false);
   const [profitLossData, setProfitLossData] = useState<ProfitLossData[]>([]);
 
@@ -38,31 +63,12 @@ const ProfitLossPage: React.FC = () => {
   const [totalPages, setTotalPages] = useState<number>(1);
   const [startIndex, setStartIndex] = useState<number>(1);
   const [endIndex, setEndIndex] = useState<number>(10);
-
-  // --- 1. Initial Setup ---
-  useEffect(() => {
-    updateDate();
-  }, []);
+  const [firstRender, setFirstRender] = useState<boolean>(true); // First render ke liye state
 
   // Jab startDate aur endDate set ho jayein, tab data fetch karein
   useEffect(() => {
-    if (startDate && endDate) {
-      getProfitLoss(1); // Reset to page 1 on date change
-    }
+    getProfitLoss(1);
   }, []);
-
-  // --- 2. Date Handling ---
-  const updateDate = () => {
-    const today = new Date();
-    const end = today.toISOString().substring(0, 10);
-
-    const start = new Date();
-    start.setDate(today.getDate() - 10);
-    const startStr = start.toISOString().substring(0, 10);
-
-    setEndDate(end);
-    setStartDate(startStr);
-  };
 
   // --- 3. API Call ---
   const getProfitLoss = async (pageNumber?: number) => {
@@ -72,8 +78,8 @@ const ProfitLossPage: React.FC = () => {
     const limit = 25;
 
     const reqBody = {
-      startDate: `${startDate} 00:00:00`,
-      endDate: `${endDate} 23:59:59`,
+      startDate: formatDate(startDate),
+      endDate: formatDate(endDate, true),
       page: page,
       limit: limit,
     };
@@ -81,6 +87,9 @@ const ProfitLossPage: React.FC = () => {
     try {
       const resp = await http.post(CONFIG.newProfitLoss, reqBody);
       const data = resp.data?.data;
+
+      const msg = splitMsg(resp?.data?.meta?.message);
+      showToast(msg.status, msg.title, msg.desc);
 
       if (data) {
         setProfitLossData(data);
@@ -116,7 +125,7 @@ const ProfitLossPage: React.FC = () => {
 
   // --- 4. Navigation & Actions ---
   const goToEventPL = (sportid: any) => {
-    router.push(`/profitloss-events/${sportid}/${startDate}/${endDate}`);
+    router.push(`/profitloss-events/${sportid}/${formatDateParams(startDate)}/${formatDateParams(endDate)}`);
   };
 
   const rerender = () => getProfitLoss(1);
@@ -141,7 +150,11 @@ const ProfitLossPage: React.FC = () => {
     if (jumptoPage === "" || isNaN(pageNum)) return;
 
     if (pageNum === currentPage) {
-      showToast("error", "Already on same page", `You are already on page ${pageNum}.`);
+      showToast(
+        "error",
+        "Already on same page",
+        `You are already on page ${pageNum}.`,
+      );
       setJumptoPage("");
       return;
     }
@@ -151,7 +164,11 @@ const ProfitLossPage: React.FC = () => {
       getProfitLoss(pageNum);
       setJumptoPage(""); // Jump hone ke baad field clear karna
     } else {
-      showToast("error", "Invalid Page", `Please enter a page number between 1 and ${totalPages}.`);
+      showToast(
+        "error",
+        "Invalid Page",
+        `Please enter a page number between 1 and ${totalPages}.`,
+      );
     }
   };
 
@@ -169,8 +186,11 @@ const ProfitLossPage: React.FC = () => {
               <input
                 id="start_date"
                 type="date"
-                value={startDate}
-                onChange={(e) => setStartDate(e.target.value)}
+                value={startDate.toISOString().split("T")[0]}
+                onChange={(e) => {
+                  const date = e.target.value ? new Date(e.target.value) : null;
+                  if (date) setStartDate(date);
+                }}
                 className="input bh-date-input w-full h-[32px] iphone-date px-3 py-1 outline-none rounded-[5px] text-[12px]"
               />
             </div>
@@ -180,8 +200,11 @@ const ProfitLossPage: React.FC = () => {
               <input
                 type="date"
                 id="end_date"
-                value={endDate}
-                onChange={(e) => setEndDate(e.target.value)}
+                value={endDate.toISOString().split("T")[0]}
+                onChange={(e) => {
+                  const date = e.target.value ? new Date(e.target.value) : null;
+                  if (date) setEndDate(date);
+                }}
                 className="input bh-date-input iphone-date w-full h-[32px] px-3 py-1 outline-none rounded-[5px] text-[12px]"
               />
             </div>
