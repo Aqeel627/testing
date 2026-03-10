@@ -495,6 +495,7 @@ export default function DesktopOpenBetsRightNav() {
           <select
             value={selectedMarketValue}
             onChange={onMarketChange}
+            id="openBets"
             className="w-full h-9 rounded-[10px] px-3 text-[14px] font-semibold
               border border-[rgba(145,158,171,0.2)]
               bg-[color-mix(in_srgb,var(--palette-background-paper)_85%,transparent)]
