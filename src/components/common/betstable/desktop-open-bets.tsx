@@ -349,7 +349,7 @@ export default function DesktopOpenBetsRightNav() {
   const [matchedBets, setMatchedBets] = useState<MarketGroup[]>([]);
   const [loading, setLoading] = useState(false);
 
-  const uniqueSelectId = useId();
+  const selectTriggerId = useId();
 
   const loopRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -528,28 +528,28 @@ export default function DesktopOpenBetsRightNav() {
     <div className="w-full">
       {!isMarketDetails && (
         <div className="px-4 py-3 border-b border-dashed border-(--dotted-line)">
-      <Select
-      id={uniqueSelectId}
-  value={selectedMarketValue === "" ? "__empty__" : selectedMarketValue}
-  onValueChange={(value) => {
-    const val = value === "__empty__" ? "" : value;
-    setSelectedMarketValue(val);
-    if (!val) {
-      setUnmatchedBets([]);
-      setMatchedBets([]);
-      clearLoop();
-      return;
-    }
-    const [sportId, eventId] = val.split(",");
-    if (sportId && eventId) {
-      localStorage.setItem("sportId", sportId);
-      localStorage.setItem("eventId", eventId);
-      getUnMatchedBetList(sportId, eventId, { schedule: false });
-    }
-  }}
-  disabled={!isLoggedIn}
->
+          <Select
+            value={selectedMarketValue === "" ? "__empty__" : selectedMarketValue}
+            onValueChange={(value) => {
+              const val = value === "__empty__" ? "" : value;
+              setSelectedMarketValue(val);
+              if (!val) {
+                setUnmatchedBets([]);
+                setMatchedBets([]);
+                clearLoop();
+                return;
+              }
+              const [sportId, eventId] = val.split(",");
+              if (sportId && eventId) {
+                localStorage.setItem("sportId", sportId);
+                localStorage.setItem("eventId", eventId);
+                getUnMatchedBetList(sportId, eventId, { schedule: false });
+              }
+            }}
+            disabled={!isLoggedIn}
+          >
             <SelectTrigger
+              id={selectTriggerId}
               className="w-full h-9 rounded-[10px] px-3 text-[14px]
       font-semibold border border-[rgba(145,158,171,0.2)]
       bg-[color-mix(in_srgb,var(--palette-background-paper)_85%,transparent)]
@@ -568,25 +568,25 @@ export default function DesktopOpenBetsRightNav() {
       text-[var(--palette-text-primary)]
       border border-[rgba(145,158,171,0.2)] "
             >
-           <SelectItem value="__empty__"
-  className="data-[state=checked]:bg-[var(--market-header-bg)] data-[state=checked]:text-[var(--table-header-text)]">
-  Select Market
-</SelectItem>
+              <SelectItem value="__empty__"
+                className="data-[state=checked]:bg-[var(--market-header-bg)] data-[state=checked]:text-[var(--table-header-text)]">
+                Select Market
+              </SelectItem>
 
-{exposureList.map((item: any, i: number) => {
-  const label = item?.event?.name ?? item?.eventName ?? "Unknown Market";
-  const sportId = item?.eventType?.id ?? item?.sportId ?? "";
-  const eventId = item?.event?.id ?? item?.eventId ?? "";
-  const value = `${sportId},${eventId}`;
-  return (
-    <SelectItem 
-      key={eventId || i} 
-      value={value}
-      className="data-[state=checked]:bg-[var(--market-header-bg)] data-[state=checked]:text-[var(--table-header-text)]">
-      {label}{item?.betCounts ? ` (${item.betCounts})` : ""}
-    </SelectItem>
-  );
-})}
+              {exposureList.map((item: any, i: number) => {
+                const label = item?.event?.name ?? item?.eventName ?? "Unknown Market";
+                const sportId = item?.eventType?.id ?? item?.sportId ?? "";
+                const eventId = item?.event?.id ?? item?.eventId ?? "";
+                const value = `${sportId},${eventId}`;
+                return (
+                  <SelectItem
+                    key={eventId || i}
+                    value={value}
+                    className="data-[state=checked]:bg-[var(--market-header-bg)] data-[state=checked]:text-[var(--table-header-text)]">
+                    {label}{item?.betCounts ? ` (${item.betCounts})` : ""}
+                  </SelectItem>
+                );
+              })}
             </SelectContent>
           </Select>
         </div>
