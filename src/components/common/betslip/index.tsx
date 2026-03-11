@@ -338,7 +338,7 @@ export default function BetSlipUI() {
               {/* ODDS + STAKE */}
               <div className="flex gap-2">
                 <div className="flex-1 min-w-0 flex flex-col gap-1.5">
-                  <label
+                  <label htmlFor="odds-input"
                     className="text-[11px] ml-2.5"
                     style={{ color: "var(--bs-label)" }}
                   >
@@ -391,6 +391,7 @@ export default function BetSlipUI() {
 
                 <div className="flex-1 min-w-0 flex flex-col gap-1.5">
                   <label
+                    htmlFor="stake-input"
                     className="text-[11px] ml-2.5"
                     style={{ color: "var(--bs-label)" }}
                   >
