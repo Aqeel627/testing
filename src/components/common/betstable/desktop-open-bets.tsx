@@ -500,7 +500,7 @@ export default function DesktopOpenBetsRightNav() {
               border border-[rgba(145,158,171,0.2)]
               bg-[color-mix(in_srgb,var(--palette-background-paper)_85%,transparent)]
               text-[var(--palette-text-primary)]
-              focus:outline-none focus:border-[rgba(145,158,171,0.4)]"
+              focus:outline-none focus:border-[rgba(145,158,171,0.4)] cursor-pointer"
             disabled={!isLoggedIn}
           >
             <option value="">{isLoggedIn ? "Select Market" : "Login to view"}</option>

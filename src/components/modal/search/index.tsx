@@ -10,7 +10,7 @@ import dynamic from "next/dynamic";
 import Icon from "@/icons/icons";
 import { useIndexManagerStore } from "@/lib/store/indexManagerStore";
 
-function highlight(text: string, query: string) {
+export function highlight(text: string, query: string) {
   if (!query.trim()) return text;
   const parts = text.split(new RegExp(`(${query})`, "gi"));
   return parts.map((part, i) =>
