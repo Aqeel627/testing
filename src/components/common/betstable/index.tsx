@@ -252,7 +252,7 @@ export default function BetsTable() {
       <div className="w-full flex flex-col border-b border-dashed border-(--dotted-line)">
         <div className="flex items-center gap-4 px-4 py-2 flex-wrap">
           <button onClick={() => setIsFullScreen(true)}
-            className="inline-flex items-center gap-1.5 h-[30px] px-2 text-[0.8125rem] font-bold border border-[rgba(145,158,171,0.32)] rounded-[8px] text-[var(--palette-text-primary)] bg-transparent hover:bg-[var(--primary-hover)] transition-colors duration-200">
+            className="inline-flex items-center gap-1.5 h-[30px] px-2 text-[0.8125rem] cursor-pointer font-bold border border-[rgba(145,158,171,0.32)] rounded-[8px] text-[var(--palette-text-primary)] bg-transparent hover:bg-[var(--primary-hover)] transition-colors duration-200">
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="w-5 h-5">
               <path fill="currentColor" d="M7 14H5v5h5v-2H7zm-2-4h2V7h3V5H5zm12 7h-3v2h5v-5h-2zM14 5v2h3v3h2V5z"/>
             </svg>
@@ -290,7 +290,7 @@ export default function BetsTable() {
           <div className="relative w-full h-full bg-[var(--palette-background-default)] flex flex-col">
             <div className="flex items-center justify-between p-2">
               <h2 className="text-[18px] font-semibold p-6"><span className="text-(--primary-color)">Bets</span></h2>
-              <button onClick={() => setIsFullScreen(false)} className="w-9 h-9 flex items-center justify-center rounded-full hover:bg-[var(--primary-hover)] transition-colors text-[var(--palette-text-primary)]">
+              <button onClick={() => setIsFullScreen(false)} className="w-9 h-9 flex cursor-pointer items-center justify-center rounded-full hover:bg-[var(--primary-hover)] transition-colors text-[var(--palette-text-primary)]">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" className="w-5 h-5">
                   <path fill="currentColor" d="m12 13.414l5.657 5.657a1 1 0 0 0 1.414-1.414L13.414 12l5.657-5.657a1 1 0 0 0-1.414-1.414L12 10.586L6.343 4.929A1 1 0 0 0 4.93 6.343L10.586 12l-5.657 5.657a1 1 0 1 0 1.414 1.414z"/>
                 </svg>
