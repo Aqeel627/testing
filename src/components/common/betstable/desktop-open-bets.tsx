@@ -282,7 +282,7 @@
 // src/components/common/betstable/desktop-open-bets.tsx
 "use client";
 
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 import { usePathname } from "next/navigation";
 import http from "@/lib/axios-instance";
 import { CONFIG } from "@/lib/config";
@@ -337,6 +337,8 @@ export default function DesktopOpenBetsRightNav() {
   const [unmatchedBets, setUnmatchedBets] = useState<Bet[]>([]);
   const [matchedBets, setMatchedBets] = useState<MarketGroup[]>([]);
   const [loading, setLoading] = useState(false);
+
+  const uniqueSelectId = useId();
 
   const loopRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -495,7 +497,7 @@ export default function DesktopOpenBetsRightNav() {
           <select
             value={selectedMarketValue}
             onChange={onMarketChange}
-            id="openBets"
+            id={uniqueSelectId}
             className="w-full h-9 rounded-[10px] px-3 text-[14px] font-semibold
               border border-[rgba(145,158,171,0.2)]
               bg-[color-mix(in_srgb,var(--palette-background-paper)_85%,transparent)]

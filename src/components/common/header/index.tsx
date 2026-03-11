@@ -131,7 +131,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
                 alt="GJEXCH Logo"
                 fill
                 loading="eager"
-                className="object-contain relative! mx-1 "
+                className="object-contain relative! mx-1 h-auto"
               />
             </Link>
             {/* </div> */}
