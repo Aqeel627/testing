@@ -278,18 +278,29 @@
 //   );
 // }
 
-
 // src/components/common/betstable/desktop-open-bets.tsx
 "use client";
 
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useId, useMemo,
+  useRef,
+  useState,
+} from "react";
 import { usePathname } from "next/navigation";
 import http from "@/lib/axios-instance";
 import { CONFIG } from "@/lib/config";
 import MatchOdd from "@/components/common/my-bets/match-odd";
 import { eventBus } from "@/lib/eventBus";
 import { useAuthStore } from "@/lib/useAuthStore";
-
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/common/select";
 type ExposureItem = {
   event?: { id: string; name: string };
   eventType?: { id: string; name: string };
@@ -338,6 +349,8 @@ export default function DesktopOpenBetsRightNav() {
   const [matchedBets, setMatchedBets] = useState<MarketGroup[]>([]);
   const [loading, setLoading] = useState(false);
 
+  const selectTriggerId = useId();
+
   const loopRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const clearLoop = () => {
@@ -348,11 +361,18 @@ export default function DesktopOpenBetsRightNav() {
   };
 
   const groupMatchedByMarket = (rawMatched: Bet[]): MarketGroup[] => {
-    const grouped: Record<string, { marketName: string; BACK: Bet[]; LAY: Bet[] }> = {};
+    const grouped: Record<
+      string,
+      { marketName: string; BACK: Bet[]; LAY: Bet[] }
+    > = {};
     (rawMatched || []).forEach((bet) => {
       if (!bet.marketId) return;
       if (!grouped[bet.marketId]) {
-        grouped[bet.marketId] = { marketName: bet.marketName || "", BACK: [], LAY: [] };
+        grouped[bet.marketId] = {
+          marketName: bet.marketName || "",
+          BACK: [],
+          LAY: [],
+        };
       }
       const sideKey = (bet.side as "BACK" | "LAY") || "BACK";
       grouped[bet.marketId][sideKey].push(bet);
@@ -367,7 +387,11 @@ export default function DesktopOpenBetsRightNav() {
   };
 
   const getUnMatchedBetList = useCallback(
-    async (sportId?: string | null, eventId?: string | null, opts?: { schedule?: boolean }) => {
+    async (
+      sportId?: string | null,
+      eventId?: string | null,
+      opts?: { schedule?: boolean },
+    ) => {
       if (!sportId || !eventId) return false;
       if (!localStorage.getItem("token")) return false;
 
@@ -420,7 +444,13 @@ export default function DesktopOpenBetsRightNav() {
     }
 
     return () => clearLoop();
-  }, [isLoggedIn, isMarketDetails, routeEventId, routeSportId, getUnMatchedBetList]);
+  }, [
+    isLoggedIn,
+    isMarketDetails,
+    routeEventId,
+    routeSportId,
+    getUnMatchedBetList,
+  ]);
 
   // ✅ Dropdown exposure list only when NOT market-details
   useEffect(() => {
@@ -454,7 +484,13 @@ export default function DesktopOpenBetsRightNav() {
     return () => {
       if (typeof unsub === "function") unsub();
     };
-  }, [isMarketDetails, routeSportId, routeEventId, selectedMarketValue, getUnMatchedBetList]);
+  }, [
+    isMarketDetails,
+    routeSportId,
+    routeEventId,
+    selectedMarketValue,
+    getUnMatchedBetList,
+  ]);
 
   const onMarketChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
@@ -492,31 +528,67 @@ export default function DesktopOpenBetsRightNav() {
     <div className="w-full">
       {!isMarketDetails && (
         <div className="px-4 py-3 border-b border-dashed border-(--dotted-line)">
-          <select
-            value={selectedMarketValue}
-            onChange={onMarketChange}
-            id="openBets"
-            className="w-full h-9 rounded-[10px] px-3 text-[14px] font-semibold
-              border border-[rgba(145,158,171,0.2)]
-              bg-[color-mix(in_srgb,var(--palette-background-paper)_85%,transparent)]
-              text-[var(--palette-text-primary)]
-              focus:outline-none focus:border-[rgba(145,158,171,0.4)] cursor-pointer"
+          <Select
+            value={selectedMarketValue === "" ? "__empty__" : selectedMarketValue}
+            onValueChange={(value) => {
+              const val = value === "__empty__" ? "" : value;
+              setSelectedMarketValue(val);
+              if (!val) {
+                setUnmatchedBets([]);
+                setMatchedBets([]);
+                clearLoop();
+                return;
+              }
+              const [sportId, eventId] = val.split(",");
+              if (sportId && eventId) {
+                localStorage.setItem("sportId", sportId);
+                localStorage.setItem("eventId", eventId);
+                getUnMatchedBetList(sportId, eventId, { schedule: false });
+              }
+            }}
             disabled={!isLoggedIn}
           >
-            <option value="">{isLoggedIn ? "Select Market" : "Login to view"}</option>
-            {exposureList.map((item: any, i: number) => {
-              const label = item?.event?.name ?? item?.eventName ?? "Unknown Market";
-              const sportId = item?.eventType?.id ?? item?.sportId ?? "";
-              const eventId = item?.event?.id ?? item?.eventId ?? "";
-              const value = `${sportId},${eventId}`;
-              return (
-                <option key={eventId || i} value={value}>
-                  {label}
-                  {item?.betCounts ? ` (${item.betCounts})` : ""}
-                </option>
-              );
-            })}
-          </select>
+            <SelectTrigger
+              id={selectTriggerId}
+              className="w-full h-9 rounded-[10px] px-3 text-[14px]
+      font-semibold border border-[rgba(145,158,171,0.2)]
+      bg-[color-mix(in_srgb,var(--palette-background-paper)_85%,transparent)]
+      text-[var(--palette-text-primary)] focus:ring-0"
+            >
+              <SelectValue
+                placeholder={isLoggedIn ? "Select Market" : "Login to view"}
+              />
+            </SelectTrigger>
+
+            <SelectContent
+              position="popper"
+              sideOffset={-35}
+              className="w-[var(--radix-select-trigger-width)]
+      bg-[var(--palette-background-paper)]
+      text-[var(--palette-text-primary)]
+      border border-[rgba(145,158,171,0.2)] "
+            >
+              <SelectItem value="__empty__"
+                className="data-[state=checked]:bg-[var(--market-header-bg)] data-[state=checked]:text-[var(--table-header-text)]">
+                Select Market
+              </SelectItem>
+
+              {exposureList.map((item: any, i: number) => {
+                const label = item?.event?.name ?? item?.eventName ?? "Unknown Market";
+                const sportId = item?.eventType?.id ?? item?.sportId ?? "";
+                const eventId = item?.event?.id ?? item?.eventId ?? "";
+                const value = `${sportId},${eventId}`;
+                return (
+                  <SelectItem
+                    key={eventId || i}
+                    value={value}
+                    className="data-[state=checked]:bg-[var(--market-header-bg)] data-[state=checked]:text-[var(--table-header-text)]">
+                    {label}{item?.betCounts ? ` (${item.betCounts})` : ""}
+                  </SelectItem>
+                );
+              })}
+            </SelectContent>
+          </Select>
         </div>
       )}
 
