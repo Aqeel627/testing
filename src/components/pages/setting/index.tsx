@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useAppStore } from "@/lib/store/store";
-import { CONFIG } from "@/lib/config";
+import { CONFIG, STACK_VALUE } from "@/lib/config";
 import { fetchData, splitMsg } from "@/lib/functions";
 import { useToast } from "@/components/common/toast/toast-context";
 import dynamic from "next/dynamic";
@@ -11,17 +11,6 @@ import { getData, saveData } from "@/lib/index-db";
 const BreadCrumb = dynamic(() => import("@/components/common/bread-crumb"));
 
 type StakeItem = { stakeAmount: string; stakeName?: string };
-
-const FALLBACK_STAKES: StakeItem[] = [
-  { stakeAmount: "1000" },
-  { stakeAmount: "5000" },
-  { stakeAmount: "10000" },
-  { stakeAmount: "25000" },
-  { stakeAmount: "50000" },
-  { stakeAmount: "100000" },
-  { stakeAmount: "200000" },
-  { stakeAmount: "500000" },
-];
 
 function parseErrorMsg(raw: string): string {
   try {
@@ -42,14 +31,16 @@ export default function SettingsPage() {
   const [errorMsg, setErrorMsg] = useState<string>("");
   const { showToast } = useToast();
 
-  useEffect(() => {
-    const stakes = stakeValue?.stake ?? stakeValue?.data?.stake;
-    if (Array.isArray(stakes) && stakes.length > 0) {
-      setStackButtonArry(stakes);
-    } else if (!stakeValue) {
-      setStackButtonArry(FALLBACK_STAKES);
-    }
-  }, [stakeValue]);
+ useEffect(() => {
+  const stakes = stakeValue?.stake ?? stakeValue?.data?.stake;
+  if (Array.isArray(stakes) && stakes.length > 0) {
+    setStackButtonArry(stakes);
+  } else if (!stakeValue) {
+    // ✅ use STACK_VALUE from config as fallback
+    setStackButtonArry(STACK_VALUE.map((s) => ({ stakeAmount: s.stakeAmount, stakeName: s.stakeName })));
+  }
+}, [stakeValue]);
+
   const numberOnly = (e: React.KeyboardEvent<HTMLInputElement>) => {
     const ch = e.key;
     if (["Backspace", "Delete", "ArrowLeft", "ArrowRight", "Tab"].includes(ch))

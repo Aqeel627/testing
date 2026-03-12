@@ -81,15 +81,7 @@ const GlobalApisCall = () => {
   useEffect(() => {
     const token = localStorage.getItem("token");
     checkLogin(token || "");
-    if (isLoggedIn) {
-      fetchData({
-        url: CONFIG.getUserBetStake,
-        payload: { key: CONFIG.siteKey },
-        cachedKey: "betStake",
-        setFn: setStakeValue,
-        expireIn: CONFIG.getUserBetStakeTime,
-      });
-    }
+
     fetchData({
       url: CONFIG.casinoEvents,
       payload: { key: CONFIG.siteKey },
@@ -192,6 +184,29 @@ const GlobalApisCall = () => {
       ],
     });
   }, []);
+const inFlightStakeRef = useRef(false);
+
+const refreshStake = useCallback(async () => {
+  if (inFlightStakeRef.current) return;
+  inFlightStakeRef.current = true;
+  try {
+    fetchData({
+      url: CONFIG.getUserBetStake,
+      payload: { key: CONFIG.siteKey },
+      cachedKey: "betStake",
+      setFn: setStakeValue,
+      expireIn: CONFIG.getUserBetStakeTime,
+    });
+  } finally {
+    inFlightStakeRef.current = false;
+  }
+}, [setStakeValue]);
+
+useEffect(() => {
+  if (!isLoggedIn) return;
+  refreshStake();
+}, [isLoggedIn, refreshStake]);
+  
   return null;
 };
 
