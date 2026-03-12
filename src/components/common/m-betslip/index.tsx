@@ -10,6 +10,7 @@ import { useAuthStore } from "@/lib/useAuthStore";
 import { useCacheStore } from "@/lib/store/cacheStore";
 import { splitMsg } from "@/lib/functions";
 import { betAudio } from "@/lib/audioFeedback";
+import {  STACK_VALUE } from "@/lib/config";
 
 // ────────────────────────────────────────────────────────────────
 
@@ -40,13 +41,13 @@ export default function MBetSlip() {
   const [stake, setStake] = useState<number>(0);
   const [placing, setPlacing] = useState(false);
 
-  const quickValues = useMemo(() => {
-    const stakes = stakeValue?.stake ?? stakeValue?.data?.stake ?? [];
-    if (Array.isArray(stakes) && stakes.length > 0) {
-      return stakes.map((s: any) => String(s.stakeAmount));
-    }
-    return ["25", "50", "75", "100"];
-  }, [stakeValue]);
+const quickValues = useMemo(() => {
+  const stakes = stakeValue?.stake ?? stakeValue?.data?.stake ?? [];
+  if (Array.isArray(stakes) && stakes.length > 0) {
+    return stakes.map((s: any) => String(s.stakeAmount));
+  }
+  return STACK_VALUE.map((s) => String(s.stakeAmount));
+}, [stakeValue]);
   const MAX_ODDS = 1000;
 
   const lowerUpperArray = [
