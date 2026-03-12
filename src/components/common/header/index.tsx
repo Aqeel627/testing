@@ -127,6 +127,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
               className="relative font-[inherit]  no-underline shrink-0 text-transparent inline-flex h-[44px] w-[120px] min-[321px]:w-[152px] cursor-pointer"
             >
               <Image
+              key={theme}
                 src={theme === "dark" ? "/logo-black.svg" : "/logo-white.svg"}
                 alt="GJEXCH Logo"
                 fill
