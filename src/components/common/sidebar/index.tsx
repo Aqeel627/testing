@@ -69,7 +69,6 @@ const SPORT_ICONS: Record<string, string> = {
 };
 const NEW_SPORT_ICON_IDS = new Set(["7522", "5", "468328", "1477", "26420387", "61420", "3503", "998917"]);
 
-
 // ─────────────────────────────────────────────
 // QuickLinkItem
 // ─────────────────────────────────────────────
@@ -331,39 +330,39 @@ const SportItemComponent = ({
   } as CSSProperties}
           />
         </span> */}
-        
-<span
-  className={cn(
-    styles.linkIconWrap,
-    NEW_SPORT_ICON_IDS.has(sport.id) && styles.newSportIcon
-  )}
->
-  {sport.id === "4" ? (
-    <Icon name="cricket" className={styles.linkIcon} />
-  ) : sport.id === "1" ? (
-    <Icon name="football" className={styles.linkIcon} />
-  ) : sport.id === "2" ? (
-    <Icon name="tennis" className={styles.linkIcon} />
-  ) : sport.id === "7522" ? (
-    <Icon name="basketball" className={styles.linkIcon} />
-  ) : sport.id === "5" ? (
-    <Icon name="rugbyUnion" className={styles.linkIcon} />
-  ) : sport.id === "468328" ? (
-    <Icon name="handball" className={styles.linkIcon} />
-  ) : sport.id === "1477" ? (
-    <Icon name="rugbyLeague" className={styles.linkIcon} />
-  ) : sport.id === "26420387" ? (
-    <Icon name="mixMartialArts" className={styles.linkIcon} />
-  ) : sport.id === "61420" ? (
-    <Icon name="australianRules" className={styles.linkIcon} />
-  ) : sport.id === "3503" ? (
-    <Icon name="darts" className={styles.linkIcon} />
-  ) : sport.id === "998917" ? (
-    <Icon name="volleyball" className={styles.linkIcon} />
-  ) : (
-    <></>
-  )}
-</span>
+
+        <span
+          className={cn(
+            styles.linkIconWrap,
+            NEW_SPORT_ICON_IDS.has(sport.id) && styles.newSportIcon,
+          )}
+        >
+          {sport.id === "4" ? (
+            <Icon name="cricket" className={styles.linkIcon} />
+          ) : sport.id === "1" ? (
+            <Icon name="football" className={styles.linkIcon} />
+          ) : sport.id === "2" ? (
+            <Icon name="tennis" className={styles.linkIcon} />
+          ) : sport.id === "7522" ? (
+            <Icon name="basketball" className={styles.linkIcon} />
+          ) : sport.id === "5" ? (
+            <Icon name="rugbyUnion" className={styles.linkIcon} />
+          ) : sport.id === "468328" ? (
+            <Icon name="handball" className={styles.linkIcon} />
+          ) : sport.id === "1477" ? (
+            <Icon name="rugbyLeague" className={styles.linkIcon} />
+          ) : sport.id === "26420387" ? (
+            <Icon name="mixMartialArts" className={styles.linkIcon} />
+          ) : sport.id === "61420" ? (
+            <Icon name="australianRules" className={styles.linkIcon} />
+          ) : sport.id === "3503" ? (
+            <Icon name="darts" className={styles.linkIcon} />
+          ) : sport.id === "998917" ? (
+            <Icon name="volleyball" className={styles.linkIcon} />
+          ) : (
+            <></>
+          )}
+        </span>
         <span className={styles.linkText}>{sport.name}</span>
         <span className={styles.badgeWrap}>
           <span className={styles.badge}>{sport.count}</span>
@@ -634,7 +633,7 @@ export default function Sidebar({ config }: SidebarProps) {
 
   return (
     <div id="sidebar.tsx">
-      <div className={styles.container}>
+      <div className={cn(styles.container, "pb-10")}>
         <ul className={styles.list}>
           {/* Mobile Search */}
           <div
