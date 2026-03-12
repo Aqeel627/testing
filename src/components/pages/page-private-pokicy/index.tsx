@@ -152,7 +152,7 @@ const PrivatPolicyPage = () => {
       <div  >
         <BreadCrumb title="Privacy Policy" />
         <div className="w-full mx-auto flex flex-col flex-grow scroll-mt-[40px] py-4 mt-4 md:mt-[-8px] min-[900px]:mt-6 min-[1200px]:mt-6">
-          <h1 className="text-[16px] text-center font-bold leading-normal underline uppercase flex items-center justify-center md:my-4 mb-4">
+          <h1 className="text-[16px] text-(--primary-color) text-center font-bold leading-normal underline uppercase flex items-center justify-center md:my-4 mb-4">
             PRIVACY AND MANAGEMENT OF PERSONAL DATA
           </h1>
 
@@ -165,7 +165,7 @@ const PrivatPolicyPage = () => {
                     {/* Agar Main Heading hai to Bold aur Underline */}
                     {item.isHeading && (
                       <strong>
-                        <u>
+                        <u className="text-(--primary-color)">
                           <span>{item.text}</span>
                         </u>
                       </strong>

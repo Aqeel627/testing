@@ -14,7 +14,7 @@ const DisResolutionRoute = () => {
         {/* Main Content */}
         <div className="w-full mt-6  mx-auto flex flex-col flex-grow scroll-mt-[40px] px-4 md:px-4">
           {/* Page Heading */}
-          <h1 className="text-2xl md:text-[16px] underline font-bold leading-normal text-center mb-6">
+          <h1 className="text-2xl md:text-[16px] underline font-bold leading-normal text-center mb-6 text-(--primary-color)">
             COMPLAINTS AND NOTICES
           </h1>
 
@@ -98,7 +98,7 @@ const DisResolutionRoute = () => {
             </li>
           </ol>
 
-          <h1 className="text-2xl md:text-[16px] underline font-bold leading-normal text-center mb-6">
+          <h1 className="text-2xl md:text-[16px] underline font-bold leading-normal text-center mb-6 text-(--primary-color)">
             TRANSFER OF RIGHTS AND OBLIGATIONS{" "}
           </h1>
 
@@ -117,7 +117,7 @@ const DisResolutionRoute = () => {
             </li>
           </ol>
 
-          <h1 className="text-2xl md:text-[16px] underline font-bold leading-normal text-center mb-6">
+          <h1 className="text-2xl md:text-[16px] underline font-bold leading-normal text-center mb-6 text-(--primary-color)">
             EVENTS OUTSIDE OF OUR CONTROL{" "}
           </h1>
 
@@ -144,7 +144,7 @@ const DisResolutionRoute = () => {
           </ol>
 
           {/* Page Heading */}
-          <h1 className="text-2xl md:text-[16px] underline font-bold leading-normal text-center mb-6">
+          <h1 className="text-2xl md:text-[16px] underline font-bold leading-normal text-center mb-6 text-(--primary-color)">
             LEGAL ASPECTS{" "}
           </h1>
 

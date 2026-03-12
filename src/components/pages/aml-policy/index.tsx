@@ -11,7 +11,7 @@ const AmlPolicyRoute = () => {
           ANTI-MONEY LAUNDERING
         </p>
 
-        <p className="text-[12pt] font-semibold underline font-sans">
+        <p className="text-[12pt] font-semibold underline font-sans text-(--primary-color)">
           1. Introduction
         </p>
 
@@ -19,7 +19,7 @@ const AmlPolicyRoute = () => {
           Being a remote gaming entity authorized under the Remote Gaming Regulations, Ace Gaming N.V. deemed to be carrying out “relevant financial business” in terms of the Prevention of Money Laundering and Funding of Terrorism Regulations and thus Ace Gaming N.V. is a subject-person in terms of said Regulations. As such, it is required to abide by the applicable legislation and guidance relating to the prevention of money laundering and funding of terrorism and is subject to the supervision of the competent supervisory authority, the Financial Intelligence Analysis Unit.
         </p>
 
-        <p className="text-[12pt] font-semibold underline font-sans">
+        <p className="text-[12pt] font-semibold underline font-sans text-(--primary-color)">
           2. Scope
         </p>
 
@@ -31,7 +31,7 @@ const AmlPolicyRoute = () => {
           This Process provides guidance detailing responsibility with regard to the prevention of money laundering and funding of terrorism from the perspective of the legal framework of Curaçao and internationally accepted regulations in this area.
         </p>
 
-        <p className="text-[12pt] font-semibold underline font-sans">
+        <p className="text-[12pt] font-semibold underline font-sans text-(--primary-color)">
           3. Law, Regulations and Rules
         </p>
 
@@ -61,7 +61,7 @@ const AmlPolicyRoute = () => {
           The Company is also obliged to ensure that employees are made aware of applicable AML/CFT legislation as well as the subject person’s policies and measures in this regard. Employees must undergo appropriate due diligence procedures prior to their engagement and are also expected to be provided with training regarding the recognition and handling of transactions carried out by, or on behalf of, any person who may have been, is, or appears to be engaged in money laundering or the funding of terrorism.
         </p>
 
-        <p className="text-[12pt] font-semibold underline font-sans">
+        <p className="text-[12pt] font-semibold underline font-sans text-(--primary-color)">
           4. Policy
         </p>
 
@@ -71,13 +71,13 @@ const AmlPolicyRoute = () => {
           The ultimate responsibility for the anti-money laundering policy of Ace Gaming N.V. is with the MLRO.
         </p>
 
-        <p className="text-[12pt] font-semibold font-sans">AML policies and procedures</p>
+        <p className="text-[12pt] font-semibold font-sans text-(--primary-color)">AML policies and procedures</p>
 
         <p className="text-[12pt] font-sans">
           The policies and procedures operated by Ace Gaming N.V. in order to meet applicable AML and CFT regulatory requirements are documented in this Manual. Policies and procedures will be regularly reviewed to ensure that they continue to meet regulatory requirements and the changing risk environment as per Ace Gaming N.V. as far as applicable.
         </p>
 
-        <p className="text-[12pt] font-semibold font-sans">AML Risk</p>
+        <p className="text-[12pt] font-semibold font-sans text-(--primary-color)">AML Risk</p>
 
         <p className="text-[12pt] font-sans">
           Ace Gaming N.V. uses the following guidance as a base for its AML risk model:
@@ -95,7 +95,7 @@ const AmlPolicyRoute = () => {
           The procedures contained in this Manual reflect the Ace Gaming N.V. AML Policy in general must be adhered to by all staff of Ace Gaming N.V.
         </p>
 
-        <p className="text-[12pt] font-semibold font-sans">AML risk factors</p>
+        <p className="text-[12pt] font-semibold font-sans text-(--primary-color)">AML risk factors</p>
 
         <p className="text-[12pt] font-sans">
           An AML business risk assessment overview will be maintained in order to allocate and track the components of the separate risk classifications. Ace Gaming N.V. categorizes overall AML risk into:
@@ -108,11 +108,11 @@ const AmlPolicyRoute = () => {
           <li className="text-[12pt] font-sans">Geographical risk</li>
         </ul>
 
-        <p className="text-[12pt] font-semibold underline font-sans">
+        <p className="text-[12pt] font-semibold underline font-sans text-(--primary-color)">
           5. Risk Assessment, Management and Risk-Based Approach
         </p>
 
-        <p className="text-[12pt] font-sans">Risk Assessment</p>
+        <p className="text-[12pt] font-sans text-(--primary-color)">Risk Assessment</p>
 
         <p className="text-[12pt] font-sans">
           The Implementing Procedures state that the purpose of the risk-assessment procedures is to enable the Company to be in a position to identify and assess the ML/FT risks that the subject person is or may become exposed to and thereby determine:
@@ -124,7 +124,7 @@ const AmlPolicyRoute = () => {
           <li className="text-[12pt] font-sans">Whether a customer presents a low risk of ML/FT for the purposes of delaying the performance of verification proceedings to after the commencement of a business relationship.</li>
         </ul>
 
-        <p className="text-[12pt] font-semibold font-sans">Risk-based approach</p>
+        <p className="text-[12pt] font-semibold font-sans text-(--primary-color)">Risk-based approach</p>
 
         <p className="text-[12pt] font-sans">
           Ace Gaming N.V. operates a risk-based approach to developing and operating its systems and controls designed to prevent financial crime.
@@ -146,7 +146,7 @@ const AmlPolicyRoute = () => {
           The risk-based approach to the prevention of financial crime is reflected in the Ace Gaming N.V.’s approach to the operation and development of the systems and controls designed to minimize the risk of the Ace Gaming N.V. being used for the purposes of financial crime. Risk is central to the development of the business, new products, development of product functionality or the operation in new markets.
         </p>
 
-        <p className="text-[12pt] font-semibold font-sans">Financial crime risk assessment</p>
+        <p className="text-[12pt] font-semibold font-sans text-(--primary-color)">Financial crime risk assessment</p>
 
         <p className="text-[12pt] font-sans">
           Where a new service, customer group or new geography is addressed by Ace Gaming N.V., the financial crime risk assessment will be updated during development/launch (to ensure that AML processes can support the new activities).
@@ -165,13 +165,13 @@ const AmlPolicyRoute = () => {
           The results of the financial crime risk assessment will be used to support the development of appropriate systems and controls (policies and procedures) designed to minimize the risk of Ace Gaming N.V. being used for the purposes of financial crime. Developments will be reported to the Board.
         </p>
 
-        <p className="text-[12pt] font-semibold font-sans">Risk mitigation</p>
+        <p className="text-[12pt] font-semibold font-sans text-(--primary-color)">Risk mitigation</p>
 
         <p className="text-[12pt] font-sans">
           Ace Gaming N.V. seeks to minimize the opportunities for carrying out financial crime, i.e. money laundering or funding of terrorism, and to then address and mitigate any risks.
         </p>
 
-        <p className="text-[12pt] font-sans">Internal controls focus on:</p>
+        <p className="text-[12pt] font-sans text-(--primary-color)">Internal controls focus on:</p>
 
         <ul className="list-disc pl-4 space-y-1">
           <li className="text-[12pt] font-sans">Due diligence of clients, including levels of enhanced due diligence based on risk assessments of each customer;</li>
@@ -184,7 +184,7 @@ const AmlPolicyRoute = () => {
           Existing systems and controls will be reviewed and where necessary amended to reflect changes in assessed risk and identified vulnerabilities.
         </p>
 
-        <p className="text-[12pt] font-semibold font-sans">Monitoring controls</p>
+        <p className="text-[12pt] font-semibold font-sans text-(--primary-color)">Monitoring controls</p>
 
         <p className="text-[12pt] font-sans">
           The Provisions and Guidelines state that it is essential that the controls to manage and mitigate the identified risks are constantly monitored. This should be done so that in the event of a change in circumstances, which might mitigate or exacerbate a particular risk, the respective control is modified accordingly.

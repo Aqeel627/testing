@@ -23,14 +23,14 @@ const BettingRoute = () => {
         <div className="mb-4 bg-(--palette-background-paper) rounded-[16px] overflow-hidden shadow-md">
           {/* Header */}
           <div 
-            className="flex justify-between items-center px-4 py-4 cursor-pointer text-(--primary-text-color) hover:bg-(--primary-hover) transition-colors"
+            className="flex justify-between items-center px-4 py-4 cursor-pointer text-(--primary-color) hover:bg-(--primary-hover) transition-colors"
             onClick={() => toggleTab('cricket')}
           >
-            <span className="font-bold text-[14px]  tracking-wide text-(--primary-text-color)">Cricket</span>
+            <span className="font-bold text-[14px]  tracking-wide text-(--primary-color)">Cricket</span>
             
             {/* Right Chevron Icon (>) - Bilkul image jaisa */}
             <svg 
-              className={`w-4 h-4 text-(--primary-text-color) mr-4 font-bold transition-transform duration-300 ${openTab === 'cricket' ? 'rotate-90' : 'rotate-0'}`} 
+              className={`w-4 h-4 text-(--primary-color) mr-4 font-bold transition-transform duration-300 ${openTab === 'cricket' ? 'rotate-90' : 'rotate-0'}`} 
               xmlns="http://www.w3.org/2000/svg" 
               fill="none" 
               viewBox="0 0 24 24" 
@@ -166,14 +166,14 @@ const BettingRoute = () => {
         <div className="mb-4 bg-(--palette-background-paper) rounded-[16px] overflow-hidden shadow-md">
           {/* Header */}
           <div 
-            className="flex justify-between items-center px-4 py-4 cursor-pointer text-(--primary-text-color) hover:bg-(--primary-hover) transition-colors"
+            className="flex justify-between items-center px-4 py-4 cursor-pointer text-(--primary-color) hover:bg-(--primary-hover) transition-colors"
             onClick={() => toggleTab('casino')}
           >
-            <span className="font-bold text-[14px] tracking-widetext-(--primary-text-color)">Casino</span>
+            <span className="font-bold text-[14px] tracking-widetext-(--primary-color)">Casino</span>
             
             {/* Right Chevron Icon (>) */}
             <svg 
-              className={`w-4 h-4 text-(--primary-text-color) mr-4 font-bold transition-transform duration-300 ${openTab === 'casino' ? 'rotate-90' : 'rotate-0'}`} 
+              className={`w-4 h-4 text-(--primary-color) mr-4 font-bold transition-transform duration-300 ${openTab === 'casino' ? 'rotate-90' : 'rotate-0'}`} 
               xmlns="http://www.w3.org/2000/svg" 
               fill="none" 
               viewBox="0 0 24 24" 
