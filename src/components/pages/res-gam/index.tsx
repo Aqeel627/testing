@@ -99,7 +99,7 @@ function Section({
   return (
     <div id={id} className="scroll-mt-[35px] py-3">
       <h5 className="text-base font-semibold mb-2 text-[19px]">
-        <a href={`#${id}`} className="underline text-[#9E9EFF] cursor-pointer">
+        <a href={`#${id}`} className="underline text-(--primary-color) cursor-pointer">
           {title}
         </a>
       </h5>

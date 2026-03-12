@@ -12,7 +12,7 @@ const KPolicy = () => {
               <span className="leading-normal">
                 <span className="font-[Calibri,sans-serif]">
                   <b>
-                    <span className="font-aptos">
+                    <span className="font-aptos text-(--primary-color)">
                       GENERAL TERMS AND CONDITIONS
                     </span>
                   </b>
@@ -149,7 +149,7 @@ const KPolicy = () => {
                 <span className="font-[Calibri,sans-serif]">
                   <b>
                     <u>
-                      <span className="font-aptos">YOUR GJEXCH ACCOUNT</span>
+                      <span className="font-aptos text-(--primary-color)">YOUR GJEXCH ACCOUNT</span>
                     </u>
                   </b>
                 </span>
@@ -157,7 +157,7 @@ const KPolicy = () => {
             </span>
           </p>
           <ol className="mt-2 mb-2">
-            <li className="mt-2 mb-2">
+            <li className="mt-2 mb-2 text-(--primary-color)">
               <span className="text-[11pt]">
                 <span className="leading-normal">
                   <span className="font-sans">
@@ -303,7 +303,7 @@ const KPolicy = () => {
                 <span className="leading-normal">
                   <span className="font-[Calibri,sans-serif]">
                     <b>
-                      <span className="font-aptos">Account Details</span>
+                      <span className="font-aptos text-(--primary-color)">Account Details</span>
                     </b>
                   </span>
                 </span>
@@ -405,13 +405,13 @@ const KPolicy = () => {
             </li>
           </ol>
           <p className="mt-2 mb-2 ml-16">&nbsp;</p>
-          <ol className="mt-2 mb-2 list-decimal" start={3}>
+          <ol className="mt-2 mb-2 list-none">
             <li className="mt-2 mb-2">
               <span className="text-[11pt]">
                 <span className="leading-normal">
                   <span className="font-[Calibri,sans-serif]">
                     <b>
-                      <span className="font-aptos">Personal Details</span>
+                      <span className="font-aptos text-(--primary-color)">Personal Details</span>
                     </b>
                   </span>
                 </span>
@@ -420,7 +420,7 @@ const KPolicy = () => {
           </ol>
           <div className="mt-2 mb-2 ml-6">&nbsp;</div>
           <ol className="mt-2 mb-2">
-            <li className="list-none">
+            <li className="">
               <ol>
                 <li className="mt-2 mb-2">
                   <span className="text-[11pt]">
@@ -438,13 +438,13 @@ const KPolicy = () => {
             </li>
           </ol>
           <p className="mt-2 mb-2 ml-16">&nbsp;</p>
-          <ol start={4} className="mt-2 mb-2 list-decimal">
+          <ol className="mt-2 mb-2 list-none">
             <li className="mt-2 mb-2">
               <span className="text-[11pt]">
                 <span className="leading-normal">
                   <span className="font-[Calibri,sans-serif]">
                     <b>
-                      <span className="font-aptos">Suspension and Closure</span>
+                      <span className="font-aptos text-(--primary-color)">Suspension and Closure</span>
                     </b>
                   </span>
                 </span>
@@ -580,7 +580,7 @@ const KPolicy = () => {
                   <span className="font-[Calibri,sans-serif]">
                     <b>
                       <u>
-                        <span className="font-[Aptos]">YOUR FINANCES</span>
+                        <span className="font-[Aptos] text-(--primary-color)">YOUR FINANCES</span>
                       </u>
                     </b>
                   </span>
@@ -597,7 +597,7 @@ const KPolicy = () => {
                     <span className="leading-normal">
                       <span className="font-[Calibri,sans-serif]">
                         <b>
-                          <span className="font-[Aptos]">Deposits and Bets</span>
+                          <span className="font-[Aptos] text-(--primary-color)">Deposits and Bets</span>
                         </b>
                       </span>
                     </span>
@@ -782,7 +782,7 @@ const KPolicy = () => {
                     <span className="leading-normal">
                       <span className="font-[Calibri,sans-serif]">
                         <b>
-                          <span className="font-[Aptos]">Withdrawals</span>
+                          <span className="font-[Aptos] text-(--primary-color)">Withdrawals</span>
                         </b>
                       </span>
                     </span>
@@ -855,7 +855,7 @@ const KPolicy = () => {
                     <span className="leading-normal">
                       <span className="font-[Calibri,sans-serif]">
                         <b>
-                          <span className="font-[Aptos]">Other</span>
+                          <span className="font-[Aptos] text-(--primary-color)">Other</span>
                         </b>
                       </span>
                     </span>
@@ -939,7 +939,7 @@ const KPolicy = () => {
                     <span className="leading-normal">
                       <span className="font-[Calibri,sans-serif]">
                         <b>
-                          <span className="font-[Aptos]">Placing Bets</span>
+                          <span className="font-[Aptos] text-(--primary-color)">Placing Bets</span>
                         </b>
                       </span>
                     </span>
@@ -1028,7 +1028,7 @@ const KPolicy = () => {
                     <span className="leading-normal">
                       <span className="font-[Calibri,sans-serif]">
                         <b>
-                          <span className="font-[Aptos]">Bet Confirmation</span>
+                          <span className="font-[Aptos] text-(--primary-color)">Bet Confirmation</span>
                         </b>
                       </span>
                     </span>
@@ -1129,7 +1129,7 @@ const KPolicy = () => {
                     <span className="leading-normal">
                       <span className="font-[Calibri,sans-serif]">
                         <b>
-                          <span className="font-[Aptos]">Offers</span>
+                          <span className="font-[Aptos] text-(--primary-color)">Offers</span>
                         </b>
                       </span>
                     </span>
@@ -1235,7 +1235,7 @@ const KPolicy = () => {
                     <span className="leading-normal">
                       <span className="font-[Calibri,sans-serif]">
                         <b>
-                          <span className="font-[Aptos]">
+                          <span className="font-[Aptos] text-(--primary-color)">
                             Settlement and Payouts
                           </span>
                         </b>
@@ -1467,7 +1467,7 @@ const KPolicy = () => {
                     <span className="leading-normal">
                       <span className="font-[Calibri,sans-serif]">
                         <b>
-                          <span className="font-[Aptos]">Errors</span>
+                          <span className="font-[Aptos] text-(--primary-color)">Errors</span>
                         </b>
                       </span>
                     </span>
@@ -1560,7 +1560,7 @@ const KPolicy = () => {
                   <span className="font-[Calibri,sans-serif]">
                     <b>
                       <u>
-                        <span className="font-[Aptos]">USE OF THE WEBSITE</span>
+                        <span className="font-[Aptos] text-(--primary-color)">USE OF THE WEBSITE</span>
                       </u>
                     </b>
                   </span>
@@ -1577,7 +1577,7 @@ const KPolicy = () => {
                     <span className="leading-normal">
                       <span className="font-[Calibri,sans-serif]">
                         <b>
-                          <span className="font-[Aptos]">
+                          <span className="font-[Aptos] text-(--primary-color)">
                             Information and Content
                           </span>
                         </b>
@@ -1628,7 +1628,7 @@ const KPolicy = () => {
                     <span className="leading-normal">
                       <span className="font-[Calibri,sans-serif]">
                         <b>
-                          <span className="font-[Aptos]">Your Equipment</span>
+                          <span className="font-[Aptos] text-(--primary-color)">Your Equipment</span>
                         </b>
                       </span>
                     </span>
@@ -1696,7 +1696,7 @@ const KPolicy = () => {
                     <span className="leading-normal">
                       <span className="font-[Calibri,sans-serif]">
                         <b>
-                          <span className="font-[Aptos]">Fair Use</span>
+                          <span className="font-[Aptos] text-(--primary-color)">Fair Use</span>
                         </b>
                       </span>
                     </span>
@@ -1773,7 +1773,7 @@ const KPolicy = () => {
                     <span className="leading-normal">
                       <span className="font-[Calibri,sans-serif]">
                         <b>
-                          <span className="font-[Aptos]">
+                          <span className="font-[Aptos] text-(--primary-color)">
                             Software and Technology Issues
                           </span>
                         </b>
@@ -2080,7 +2080,7 @@ const KPolicy = () => {
                     <span className="leading-normal">
                       <span className="font-[Calibri,sans-serif]">
                         <b>
-                          <span className="font-[Aptos]">
+                          <span className="font-[Aptos] text-(--primary-color)">
                             Third Party Content
                           </span>
                         </b>
@@ -2180,7 +2180,7 @@ const KPolicy = () => {
                     <span className="leading-normal">
                       <span className="font-[Calibri,sans-serif]">
                         <b>
-                          <span className="font-[Aptos]">Errors</span>
+                          <span className="font-[Aptos] text-(--primary-color)">Errors</span>
                         </b>
                       </span>
                     </span>
@@ -2412,8 +2412,8 @@ const KPolicy = () => {
                   <span className="text-[11pt]">
                     <span className="leading-normal">
                       <span className="font-[Calibri,sans-serif]">
-                        <b>
-                          <span className="font-[Aptos]">Other</span>
+                        <b> 
+                          <span className="font-[Aptos] text-(--primary-color)">Other</span>
                         </b>
                       </span>
                     </span>
@@ -2493,7 +2493,7 @@ const KPolicy = () => {
                 <span className="leading-normal">
                   <span className="font-[Calibri,sans-serif]">
                     <b>
-                      <span className="font-aptos">OUR LIABILITY</span>
+                      <span className="font-aptos text-(--primary-color)">OUR LIABILITY</span>
                     </b>
                   </span>
                 </span>
@@ -2616,7 +2616,7 @@ const KPolicy = () => {
                       <span className="text-[11pt]">
                         <span className="leading-normal">
                           <span className="font-[Calibri,sans-serif]">
-                            <span className="font-[Aptos]">loss of profits;</span>
+                            <span className="font-[Aptos] ">loss of profits;</span>
                           </span>
                         </span>
                       </span>
@@ -2807,7 +2807,7 @@ const KPolicy = () => {
                 <span className="leading-normal">
                   <span className="font-[Calibri,sans-serif]">
                     <b>
-                      <span className="font-aptos">OTHER PROVISIONS</span>
+                      <span className="font-aptos text-(--primary-color)">OTHER PROVISIONS</span>
                     </b>
                   </span>
                 </span>
@@ -3031,7 +3031,7 @@ const KPolicy = () => {
                 <span className="leading-normal">
                   <span className="font-[Calibri,sans-serif]">
                     <b>
-                      <span className="font-aptos">
+                      <span className="font-aptos text-(--primary-color)">
                         COMPLAINTS, DISPUTES, GOVERNING LAW AND JURISDICTION
                       </span>
                     </b>
@@ -3502,7 +3502,7 @@ const KPolicy = () => {
               <span className="leading-normal">
                 <span className="font-[Calibri,sans-serif]">
                   <b>
-                    <span className="font-aptos">Protection of Information</span>
+                    <span className="font-aptos text-(--primary-color)">Protection of Information</span>
                   </b>
                 </span>
               </span>
