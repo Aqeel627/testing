@@ -1,7 +1,7 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useAppStore } from "@/lib/store/store";
-import { CONFIG } from "@/lib/config";
+import { CONFIG, STACK_VALUE } from "@/lib/config";
 import { fetchData, splitMsg } from "@/lib/functions";
 import { useToast } from "@/components/common/toast/toast-context";
 import dynamic from "next/dynamic";
@@ -11,17 +11,6 @@ import { getData, saveData } from "@/lib/index-db";
 const BreadCrumb = dynamic(() => import("@/components/common/bread-crumb"));
 
 type StakeItem = { stakeAmount: string; stakeName?: string };
-
-const FALLBACK_STAKES: StakeItem[] = [
-  { stakeAmount: "1000" },
-  { stakeAmount: "5000" },
-  { stakeAmount: "10000" },
-  { stakeAmount: "25000" },
-  { stakeAmount: "50000" },
-  { stakeAmount: "100000" },
-  { stakeAmount: "200000" },
-  { stakeAmount: "500000" },
-];
 
 function parseErrorMsg(raw: string): string {
   try {
@@ -47,9 +36,16 @@ export default function SettingsPage() {
     if (Array.isArray(stakes) && stakes.length > 0) {
       setStackButtonArry(stakes);
     } else if (!stakeValue) {
-      setStackButtonArry(FALLBACK_STAKES);
+      // ✅ use STACK_VALUE from config as fallback
+      setStackButtonArry(
+        STACK_VALUE.map((s) => ({
+          stakeAmount: s.stakeAmount,
+          stakeName: s.stakeName,
+        })),
+      );
     }
   }, [stakeValue]);
+
   const numberOnly = (e: React.KeyboardEvent<HTMLInputElement>) => {
     const ch = e.key;
     if (["Backspace", "Delete", "ArrowLeft", "ArrowRight", "Tab"].includes(ch))
@@ -166,6 +162,17 @@ export default function SettingsPage() {
       setSaving(false);
     }
   };
+  const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+
+  const handleFocus = (i: number) => {
+    setTimeout(() => {
+      const input = inputRefs.current[i];
+      if (input) {
+        const len = input.value.length;
+        input.setSelectionRange(len, len);
+      }
+    }, 0);
+  };
 
   return (
     <div id="setting.tsx">
@@ -220,6 +227,11 @@ export default function SettingsPage() {
                   style={{ background: "var(--primary-color)" }}
                 /> */}
                   <input
+                    ref={(el) => {
+                      inputRefs.current[i] = el;
+                    }}
+                    onFocus={() => handleFocus(i)}
+                    onClick={() => handleFocus(i)}
                     id={`stack_value_${i}`}
                     name={`stack_value_${i}`}
                     type="text"
