@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useAppStore } from "@/lib/store/store";
 import { CONFIG, STACK_VALUE } from "@/lib/config";
 import { fetchData, splitMsg } from "@/lib/functions";
@@ -31,15 +31,20 @@ export default function SettingsPage() {
   const [errorMsg, setErrorMsg] = useState<string>("");
   const { showToast } = useToast();
 
- useEffect(() => {
-  const stakes = stakeValue?.stake ?? stakeValue?.data?.stake;
-  if (Array.isArray(stakes) && stakes.length > 0) {
-    setStackButtonArry(stakes);
-  } else if (!stakeValue) {
-    // ✅ use STACK_VALUE from config as fallback
-    setStackButtonArry(STACK_VALUE.map((s) => ({ stakeAmount: s.stakeAmount, stakeName: s.stakeName })));
-  }
-}, [stakeValue]);
+  useEffect(() => {
+    const stakes = stakeValue?.stake ?? stakeValue?.data?.stake;
+    if (Array.isArray(stakes) && stakes.length > 0) {
+      setStackButtonArry(stakes);
+    } else if (!stakeValue) {
+      // ✅ use STACK_VALUE from config as fallback
+      setStackButtonArry(
+        STACK_VALUE.map((s) => ({
+          stakeAmount: s.stakeAmount,
+          stakeName: s.stakeName,
+        })),
+      );
+    }
+  }, [stakeValue]);
 
   const numberOnly = (e: React.KeyboardEvent<HTMLInputElement>) => {
     const ch = e.key;
@@ -157,6 +162,17 @@ export default function SettingsPage() {
       setSaving(false);
     }
   };
+  const inputRefs = useRef<(HTMLInputElement | null)[]>([]);
+
+  const handleFocus = (i: number) => {
+    setTimeout(() => {
+      const input = inputRefs.current[i];
+      if (input) {
+        const len = input.value.length;
+        input.setSelectionRange(len, len);
+      }
+    }, 0);
+  };
 
   return (
     <div id="setting.tsx">
@@ -211,6 +227,11 @@ export default function SettingsPage() {
                   style={{ background: "var(--primary-color)" }}
                 /> */}
                   <input
+                    ref={(el) => {
+                      inputRefs.current[i] = el;
+                    }}
+                    onFocus={() => handleFocus(i)}
+                    onClick={() => handleFocus(i)}
                     id={`stack_value_${i}`}
                     name={`stack_value_${i}`}
                     type="text"
