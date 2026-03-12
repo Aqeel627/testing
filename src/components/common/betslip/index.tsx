@@ -1,5 +1,5 @@
 "use client";
-import { CONFIG } from "@/lib/config";
+import { CONFIG, STACK_VALUE } from "@/lib/config";
 import { http } from "@/lib/axios-instance";
 import { useAppStore } from "@/lib/store/store";
 import { Minus, Plus } from "lucide-react";
@@ -97,14 +97,14 @@ export default function BetSlipUI() {
     setSlipPreview({ stake: 0, price: 0 });
   }, [pathname]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // ── Dynamic quick stakes from store ────────────────────────────
-  const quickValues = useMemo(() => {
-    const stakes = stakeValue?.stake ?? stakeValue?.data?.stake ?? [];
-    if (Array.isArray(stakes) && stakes.length > 0) {
-      return stakes.map((s: any) => String(s.stakeAmount));
-    }
-    return ["25", "50", "75", "100"];
-  }, [stakeValue]);
+ const quickValues = useMemo(() => {
+  const stakes = stakeValue?.stake ?? stakeValue?.data?.stake ?? [];
+  if (Array.isArray(stakes) && stakes.length > 0) {
+    return stakes.map((s: any) => String(s.stakeAmount));
+  }
+  // ✅ all 8 from config as fallback
+  return STACK_VALUE.map((s) => String(s.stakeAmount));
+}, [stakeValue]);
 
   if (!selectedBet) return null;
 
