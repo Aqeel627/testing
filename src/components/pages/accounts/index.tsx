@@ -295,9 +295,9 @@ const AccountPage = () => {
                   {/* Agar Heading hai to Center, Underline aur Bold */}
                   {item.isHeading && (
                     <strong>
-                      <u>
+                      <u className="text-(--primary-color)">
                         <span style={{ fontFamily: '"Segoe UI", sans-serif' }}>
-                          <span>{item.text}</span>
+                          <span className="text-(--primary-color)">{item.text}</span>
                         </span>
                       </u>
                     </strong>
@@ -310,7 +310,7 @@ const AccountPage = () => {
                       {item.boldNum && (
                         <strong>
                           <span style={{ fontFamily: '"Segoe UI", sans-serif' }}>
-                            <span>{item.boldNum}</span>
+                            <span className="text-(--primary-color)">{item.boldNum}</span>
                           </span>
                         </strong>
                       )}

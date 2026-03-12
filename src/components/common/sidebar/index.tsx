@@ -67,7 +67,7 @@ const SPORT_ICONS: Record<string, string> = {
   "1": "/sidebar/ic_football.svg",
   "2": "/ic_tennis.svg",
 };
-const NEW_SPORT_ICON_IDS = new Set(["7522", "5", "468328", "1477", "26420387"]);
+const NEW_SPORT_ICON_IDS = new Set(["7522", "5", "468328", "1477", "26420387", "61420", "3503", "998917"]);
 
 
 // ─────────────────────────────────────────────
