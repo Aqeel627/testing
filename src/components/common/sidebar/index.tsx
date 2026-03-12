@@ -354,6 +354,12 @@ const SportItemComponent = ({
     <Icon name="rugbyLeague" className={styles.linkIcon} />
   ) : sport.id === "26420387" ? (
     <Icon name="mixMartialArts" className={styles.linkIcon} />
+  ) : sport.id === "61420" ? (
+    <Icon name="australianRules" className={styles.linkIcon} />
+  ) : sport.id === "3503" ? (
+    <Icon name="darts" className={styles.linkIcon} />
+  ) : sport.id === "998917" ? (
+    <Icon name="volleyball" className={styles.linkIcon} />
   ) : (
     <></>
   )}
