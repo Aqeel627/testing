@@ -170,3 +170,15 @@
         width: 20px;
   height: 20px;
 }
+.icon-darts {
+  mask-image: url("/ic_darts.svg");
+  -webkit-mask-image: url("/ic_darts.svg");
+        width: 20px;
+  height: 20px;
+}
+.icon-volleyball {
+  mask-image: url("/ic_volleyball.svg");
+  -webkit-mask-image: url("/ic_volleyball.svg");
+        width: 20px;
+  height: 20px;
+}
