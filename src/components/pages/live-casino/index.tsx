@@ -2,6 +2,7 @@
 import React, { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { useAppStore } from "@/lib/store/store";
+import { shortNumber } from "@/lib/functions";
 
 export default function Casino({ hideHeading }: { hideHeading?: boolean }) {
   const { casinoEvents } = useAppStore();
@@ -115,7 +116,7 @@ export default function Casino({ hideHeading }: { hideHeading?: boolean }) {
                     </span>
                     <span className="bg-black/60 text-white text-[9px] font-semibold px-1.5 py-0.5  max-[350px]:text-[7px] rounded border border-white/20 whitespace-nowrap">
                       {/* {item.range || "10 - 500K"} */}
-                      {item.minBet} - {item.maxBet}
+                      {item.minBet} - {shortNumber(item.maxBet)}
                     </span>
                   </div>
                 </div>
