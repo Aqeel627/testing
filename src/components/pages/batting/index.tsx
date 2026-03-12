@@ -23,7 +23,7 @@ const BettingRoute = () => {
         <div className="mb-4 bg-(--palette-background-paper) rounded-[16px] overflow-hidden shadow-md">
           {/* Header */}
           <div 
-            className="flex justify-between items-center px-4 py-4 cursor-pointer text-(--primary-text-color) hover:bg-[#1b2636] transition-colors"
+            className="flex justify-between items-center px-4 py-4 cursor-pointer text-(--primary-text-color) hover:bg-(--primary-hover) transition-colors"
             onClick={() => toggleTab('cricket')}
           >
             <span className="font-bold text-[14px]  tracking-wide text-(--primary-text-color)">Cricket</span>
@@ -166,7 +166,7 @@ const BettingRoute = () => {
         <div className="mb-4 bg-(--palette-background-paper) rounded-[16px] overflow-hidden shadow-md">
           {/* Header */}
           <div 
-            className="flex justify-between items-center px-4 py-4 cursor-pointer text-(--primary-text-color)hover:bg-[#1b2636] transition-colors"
+            className="flex justify-between items-center px-4 py-4 cursor-pointer text-(--primary-text-color) hover:bg-(--primary-hover) transition-colors"
             onClick={() => toggleTab('casino')}
           >
             <span className="font-bold text-[14px] tracking-widetext-(--primary-text-color)">Casino</span>

@@ -133,7 +133,7 @@ const handleSelectLanguage = (title: string, langCode: string) => {
           <button
             type="button"
             onClick={() => setOpen(!open)}
-            className="flex flex-col justify-between items-center px-3 py-0.5 border bg-transparent border-[rgba(145,158,171,0.2)] dark:border-gray-600 rounded-[8px] text-sm font-medium text-[#919EAB] dark:text-[#637381] transition hover:bg-[rgba(145,158,171,0.12)]"
+            className="flex flex-col justify-between items-center px-3 py-0.5 border bg-transparent border-[rgba(145,158,171,0.2)] dark:border-gray-600 rounded-[8px] text-sm font-medium text-[#919EAB] dark:text-[#637381] transition hover:bg-[rgba(145,158,171,0.12)] cursor-pointer"
           >
             <p className="text-[12px] text-(--palette-text-secondary)">
               Language
