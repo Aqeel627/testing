@@ -11,7 +11,7 @@ export default function ContactUs() {
 
         {/* Section: Happy to Help */}
         <div id="happy-to-help">
-          <h2 className="text-base font-[18px] font-extrabold mb-2 text-[#9E9EFF] underline">
+          <h2 className="text-base font-[18px] font-extrabold mb-2 text-(--primary-color) underline">
             <a href="#happy-to-help" className="cursor-pointer">We’re here to help!</a>
           </h2>
           <p className="text-base">
@@ -23,7 +23,7 @@ export default function ContactUs() {
 
         {/* Section: Contact Options */}
         <div id="contact-options">
-          <h2 className="text-base font-[18px] font-extrabold mb-2 text-[#9E9EFF] underline">
+          <h2 className="text-base font-[18px] font-extrabold mb-2 text-(--primary-color) underline">
             <a href="#contact-options" className="cursor-pointer">Contact Options:</a>
           </h2>
           <ul className="space-y-4 pl-4 list-disc">
@@ -49,7 +49,7 @@ export default function ContactUs() {
         {/* Section: Customer Support */}
         <div id="customer-support">
           <h2 className="text-base font-normal mb-2">
-            <a href="#customer-support" className="text-[#9E9EFF] underline cursor-pointer">Customer Support</a>
+            <a href="#customer-support" className="text-(--primary-color) underline cursor-pointer">Customer Support</a>
           </h2>
           <p className="text-base">
             Our dedicated customer support team is available 24/7 to assist you with any inquiries.
@@ -60,18 +60,18 @@ export default function ContactUs() {
         {/* Section: Email Support */}
         <div id="email-support">
           <h2 className="text-base font-normal mb-2">
-            <a href="#email-support" className="text-[#9E9EFF] underline cursor-pointer">Email Support:</a>
+            <a href="#email-support" className="text-(--primary-color) underline cursor-pointer">Email Support:</a>
           </h2>
           <p className="text-base">
             If you prefer email, you can reach us at&nbsp;
-            <a href="mailto:support@GJEXCH.com" className="text-[#9E9EFF] underline cursor-pointer"></a>.
+            <a href="mailto:support@GJEXCH.com" className="text-(--primary-color) underline cursor-pointer"></a>.
           </p>
         </div>
 
         {/* Section: Feedback */}
         <div id="feedback">
           <h2 className="text-base font-normal mb-2">
-            <a href="#feedback" className="text-[#9E9EFF] underline cursor-pointer">Feedback</a>
+            <a href="#feedback" className="text-(--primary-color) underline cursor-pointer">Feedback</a>
           </h2>
           <p className="text-base">
             We continuously strive to improve our services, and your feedback plays a crucial role in that process.

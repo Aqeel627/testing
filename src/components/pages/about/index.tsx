@@ -111,7 +111,7 @@ function Section({
   return (
     <div id={id} className="scroll-mt-[35px] py-3">
       <h5 className="text-lg md:text-xl font-bold leading-6 mb-2">
-        <a href={`#${id}`} className="text-[#9E9EFF] underline">
+        <a href={`#${id}`} className="text-(--primary-color) underline">
           {title}
         </a>
       </h5>

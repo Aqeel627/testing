@@ -149,6 +149,7 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
               <Dialog.Title> </Dialog.Title>
 
               <div
+                  data-vaul-no-drag 
                 style={{
                   backgroundColor: "var(--background)",
                   minHeight: "100vh",

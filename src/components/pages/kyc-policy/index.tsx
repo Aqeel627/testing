@@ -8,7 +8,7 @@ const KPolicy = () => {
         <BreadCrumb title="KYC Policy"/>
         <div className="w-full mx-auto flex flex-col flex-grow scroll-mt-[40px]">
           <div className="space-y-3 mt-9">
-            <p className="text-center mb-3 text-[12pt] font-sans font-bold underline">
+            <p className="text-center mb-3 text-[12pt] font-sans font-bold underline text-(--primary-color)">
               KNOW YOUR CUSTOMER POLICY
             </p>
 
@@ -24,7 +24,7 @@ const KPolicy = () => {
               merchants.
             </p>
 
-            <p className="mb-3 text-[12pt] font-sans font-bold">
+            <p className="mb-3 text-[12pt] font-sans font-bold text-(--primary-color)">
               Why do I need to provide documentation?
             </p>
 
@@ -59,7 +59,7 @@ const KPolicy = () => {
               results in additional fees from our processors.
             </p>
 
-            <p className="mb-3 text-[12pt] font-sans font-bold underline">
+            <p className="mb-3 text-[12pt] font-sans font-bold underline text-(--primary-color)">
               What documents do I need to provide?
             </p>
 
@@ -88,7 +88,7 @@ const KPolicy = () => {
               withdrawal method you choose
             </p>
 
-            <p className="mb-3 text-[12pt] font-sans font-bold">
+            <p className="mb-3 text-[12pt] font-sans font-bold text-(--primary-color)">
               When do I need to provide these documents?
             </p>
 
@@ -108,7 +108,7 @@ const KPolicy = () => {
               notification system.
             </p>
 
-            <p className="mb-3 text-[12pt] font-sans font-bold">
+            <p className="mb-3 text-[12pt] font-sans font-bold text-(--primary-color)">
               How can I Email you these documents?
             </p>
 
@@ -118,7 +118,7 @@ const KPolicy = () => {
               official email.
             </p>
 
-            <p className="mb-3 text-[12pt] font-sans font-bold">
+            <p className="mb-3 text-[12pt] font-sans font-bold text-(--primary-color)">
               How do I know my documents are safe with you?
             </p>
 

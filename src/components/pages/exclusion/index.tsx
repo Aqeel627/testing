@@ -69,7 +69,7 @@ const ExclusionPage = () => {
                     {/* Agar Heading hai to Bold aur Underline */}
                     {item.isHeading && (
                       <strong>
-                        <u>
+                        <u className="text-(--primary-color)">
                           <span>{item.text}</span>
                         </u>
                       </strong>
