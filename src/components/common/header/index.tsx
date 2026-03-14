@@ -20,6 +20,7 @@ import { Ripple } from "primereact/ripple";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "framer-motion";
 import RightSidebar from "../right-sidebar";
+import ExposureModal from "@/components/modal/exposure";
 
 
 type HeaderProps = {
@@ -43,6 +44,7 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
   const pathName = usePathname();
   const router = useRouter();
   const pathname = usePathname();
+  const [isExposureOpen, setIsExposureOpen] = useState(false);
   const userName =
     token && typeof window !== "undefined"
       ? JSON.parse(localStorage.getItem("userDetail") || "null")?.userName || ""
@@ -123,11 +125,14 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
               onClick={() => {
                 window.dispatchEvent(new Event("reset-sidebar"));
                 clearSelectedBet();
+                const el = document.getElementById("main-scroll");
+                el?.scrollTo({ top: 0, behavior: "auto" });
+                window.scrollTo({ top: 0, behavior: "auto" });
               }}
               className="relative font-[inherit]  no-underline shrink-0 text-transparent inline-flex h-[44px] w-[120px] min-[321px]:w-[152px] cursor-pointer"
             >
               <Image
-              key={theme}
+                key={theme}
                 src={theme === "dark" ? "/logo-black.png" : "/logo-white.png"}
                 alt="GJEXCH Logo"
                 fill
@@ -141,7 +146,13 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
           <nav className="hidden min-[960px]:flex items-center gap-2 font-bold --palette-text-primary  relative left-[3px]">
             <Link
               href="/"
-              onClick={() => window.dispatchEvent(new Event("reset-sidebar"))}
+              onClick={() => {
+                window.dispatchEvent(new Event("reset-sidebar"));
+                clearSelectedBet();
+                const el = document.getElementById("main-scroll");
+                el?.scrollTo({ top: 0, behavior: "auto" });
+                window.scrollTo({ top: 0, behavior: "auto" });
+              }}
               className={cn(
                 pathName !== "/live-casino" && "active text-(--primary-color)!",
                 "flex p-1 items-center relative text-[13px] font-bold --palette-text-primary  hover:--palette-text-primary  transition-colors group rounded-lg  hover:bg-(--primary-hover) ",
@@ -324,7 +335,9 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
             )}
             {isLoggedIn && (
               <div className="flex items-center gap-2 mr-1" ref={menuRef}>
-                <div className="relative inline-flex items-center justify-center h-[29px] rounded-[8px] p-[1px] overflow-hidden bg-transparent group cursor-pointer max-w-16">
+                <div
+                  onClick={() => setIsExposureOpen(true)}
+                  className="relative inline-flex items-center justify-center h-[29px] rounded-[8px] p-[1px] overflow-hidden bg-transparent group cursor-pointer max-w-16">
                   <span
                     className="absolute inset-0 m-auto w-full h-full rounded-[inherit] content-[''] pointer-events-none 
         [mask:linear-gradient(#fff_0_0)_content-box_xor,linear-gradient(#fff_0_0)] 
@@ -665,6 +678,10 @@ export default function Header({ onMenuClick, hideMenuBtn }: HeaderProps) {
           </nav>
         </div>
       </header>
+      <ExposureModal
+        open={isExposureOpen}
+        onClose={() => setIsExposureOpen(false)}
+      />
     </div>
   );
 }

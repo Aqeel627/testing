@@ -19,6 +19,7 @@ import { PrimeReactProvider } from "primereact/api";
 import AuthListener from "@/lib/providers/auth-listener";
 import MyBetsDrawer from "@/components/common/my-bets/my-bets-drawer";
 import LazyTranslateLoader from "@/components/common/lazy-translate-loader";
+import ScrollToTop from "@/components/pages/top-to-scroll";
 // import SearchModal from "@/components/modal/search";
 const MiniCasinoDrawer = dynamic(
   () => import("@/components/common/mini-casino-drawer"),
@@ -126,6 +127,7 @@ export default function RootLayout({
         <PrimeReactProvider value={value}>
           <ToastProvider>
             <Suspense>
+              <ScrollToTop/>
               <AuthListener />
               <Closebetslip />
               <NavigationLoader />
