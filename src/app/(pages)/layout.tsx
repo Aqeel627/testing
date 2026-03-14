@@ -149,7 +149,7 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
               <Dialog.Title> </Dialog.Title>
 
               <div
-                  data-vaul-no-drag 
+                data-vaul-no-drag
                 style={{
                   backgroundColor: "var(--background)",
                   minHeight: "100vh",
@@ -200,11 +200,15 @@ export default function PagesLayout({ children }: { children: ReactNode }) {
               <ResizablePanel
                 minSize={450}
                 defaultSize="70%"
-                className="h-full pt-[50px] overflow-y-auto no-scrollbar pb-[30px] min-w-[450px] ps-3 pe-[6px]"
+                className="flex-1 min-h-0 h-full overflow-hidden"
               >
-                <div className="@container w-full">
-                  {children}
-                  {!shouldHideFooter && <Footer />}
+                <div id="main-scroll" className="h-full overflow-y-auto no-scrollbar pt-[50px] pb-[30px] ps-3 pe-[6px]">
+
+                  <div className="@container w-full">
+                    {children}
+                    {!shouldHideFooter && <Footer />}
+                  </div>
+                  
                 </div>
               </ResizablePanel>
 
