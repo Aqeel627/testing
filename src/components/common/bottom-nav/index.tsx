@@ -304,10 +304,6 @@ const BottomNavbar = () => {
 
   const glowOpacity = useTransform(engage, [0, 1], [0, 0.45]);
 
-  useEffect(() => {
-    // jab tab change ho ya drag kare → random chamak
-    setGlintAngle(Math.random() * 360);
-  }, [previewIndex, activeIndex]);
 
   return (
     <div id="bottomNavbar.tsx">
