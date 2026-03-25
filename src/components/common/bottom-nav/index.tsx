@@ -235,25 +235,32 @@ const BottomNavbar = () => {
   };
 
   const finishInteraction = useCallback(() => {
-    const targetIndex = previewIndexRef.current;
-    const currentIndex = activeIndexRef.current;
+  const targetIndex = previewIndexRef.current;
+  const currentIndex = activeIndexRef.current;
 
-    requestAnimationFrame(() => {
-      setIsInteracting(false);
-      setPreviewIndex(null);
+  if (targetIndex !== null && targetIndex !== currentIndex) {
+    // ✅ 1. Pehle active update karo
+    setActiveIndex(targetIndex);
 
-      // Agar user ne naye tab par ja kar ungli uthai hai, to routing chala do!
-      if (targetIndex !== null && targetIndex !== currentIndex) {
-        handleTabSelectRef.current(targetIndex); // 🚀 Automatic Route/Action Call
-        const restFrame = getRestFrame(targetIndex);
-        if (restFrame) applyFrame(restFrame, 0);
-      } else {
-        // Warna purani jagah par wapis aa jao
-        const restFrame = getRestFrame(currentIndex);
-        if (restFrame) applyFrame(restFrame, 0);
-      }
-    });
-  }, [applyFrame, getRestFrame]);
+    // ✅ 2. Action bhi call karo
+    handleTabSelectRef.current(targetIndex);
+
+    // ✅ 3. Frame ko turant target pe set karo
+    const restFrame = getRestFrame(targetIndex);
+    if (restFrame) applyFrame(restFrame, 0);
+  } else {
+    // fallback
+    const restFrame = getRestFrame(currentIndex);
+    if (restFrame) applyFrame(restFrame, 0);
+  }
+
+  // ✅ 4. END me interaction band karo
+  requestAnimationFrame(() => {
+    setIsInteracting(false);
+    setPreviewIndex(null);
+  });
+
+}, [applyFrame, getRestFrame]);
 
   useEffect(() => {
     if (!isInteracting) return;
