@@ -290,6 +290,7 @@ const CenterRadialButton = () => {
           })}
           {/* CENTER BUTTON */}
           <button
+          id="center-radial-btn"
             onClick={() => setOpen(!open)}
             className={cn(
               "absolute left-1/2 bottom-0 w-12 h-12 rounded-full pointer-events-auto z-10000 flex items-center justify-center transition-all duration-300 btn-glass backdrop-blur-[25px] border shadow-[0_8px_25px_rgba(0,0,0,0.25)]",
