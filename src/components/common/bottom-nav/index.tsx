@@ -23,7 +23,7 @@ const CenterRadialButton = dynamic(
 
 // --- FRAMER CONSTANTS ---
 const REST_LENS_SIZE = 48;
-const ENGAGED_LENS_SIZE = 60;
+const ENGAGED_LENS_SIZE = 68;
 const LENS_SPRING = { stiffness: 170, damping: 28, mass: 1.18 };
 const ENGAGE_SPRING = { stiffness: 220, damping: 26, mass: 0.92 };
 
