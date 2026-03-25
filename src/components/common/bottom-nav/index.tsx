@@ -366,7 +366,7 @@ const BottomNavbar = () => {
                 ref={(el) => { itemRefs.current[idx] = el; }}
                 onPointerDown={() => beginInteraction(idx)}
                 className={cn(
-                  "relative z-10 flex items-center justify-center transition-all duration-200 text-white",
+                  "relative z-10 flex items-center justify-center transition-all duration-200",
                   isInteracting ? "[&_*]:!bg-transparent [&_*]:!border-transparent [&_*]:!shadow-none" : "",
                   isInteracting && "[&_*]:!bg-transparent [&_*]:!backdrop-blur-none [&_*]:!shadow-none"
                 )}
