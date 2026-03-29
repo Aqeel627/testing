@@ -4,7 +4,7 @@ import { useAuthStore } from "@/lib/useAuthStore";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { useTheme } from "next-themes";
-import React, { Fragment, useEffect, useState, useRef, useLayoutEffect, useCallback } from "react";
+import React, { Fragment, useEffect, useState, useRef, useLayoutEffect, useCallback, useMemo } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useMiniCasinoStore } from "@/lib/store/miniCasinoStore";
 import { useCacheStore } from "@/lib/store/cacheStore";
@@ -14,11 +14,11 @@ import { useAppStore } from "@/lib/store/store";
 import { useMyBetsDrawerStore } from "@/lib/store/myBetsDrawerStore";
 
 // 🔥 Framer Motion
-import { motion, useSpring, useTransform, useVelocity } from "framer-motion";
+import { motion, useSpring, useTransform, useVelocity, MotionValue, useMotionTemplate } from "framer-motion";
 import styles from "./CrystalBottomNav.module.css";
 
 const CenterRadialButton = dynamic(
-  () => import("@/components/common/bottom-nav/center-radial-btn"), // <-- Yahan / miss ho gaya tha
+  () => import("@/components/common/bottom-nav/center-radial-btn"),
 );
 
 // --- FRAMER CONSTANTS ---
@@ -28,6 +28,45 @@ const LENS_SPRING = { stiffness: 170, damping: 28, mass: 1.18 };
 const ENGAGE_SPRING = { stiffness: 220, damping: 26, mass: 0.92 };
 
 type TabMeasure = { left: number; top: number; width: number; center: number };
+
+// 🔥 Icon Wrapper for Skew & Scale Effect (Jelly Bend) 🔥
+const AnimatedIconWrapper = ({
+  index,
+  measures,
+  lensLeft,
+  lensWidth,
+  children
+}: {
+  index: number;
+  measures: TabMeasure[];
+  lensLeft: MotionValue<number>;
+  lensWidth: MotionValue<number>;
+  children: React.ReactNode;
+}) => {
+  const rawDist = useTransform(() => {
+    if (!measures[index] || lensWidth.get() === 0) return 1000;
+    const lensCenter = lensLeft.get() + lensWidth.get() / 2;
+    return measures[index].center - lensCenter;
+  });
+
+  const scaleY = useTransform(rawDist, [-45, -38, -33, -15, 0, 15, 33, 38, 45], [1, 1, 1.75, 1.05, 1.05, 1.05, 1.75, 1, 1]);
+  const scaleX = useTransform(rawDist, [-45, -38, -33, -15, 0, 15, 33, 38, 45], [1, 1, 0.4, 1.05, 1.05, 1.05, 0.4, 1, 1]);
+  const x = useTransform(rawDist, [-45, -38, -33, -15, 0, 15, 33, 38, 45], [0, 0, -8, 0, 0, 0, 8, 0, 0]);
+  const skewY = useTransform(rawDist, [-45, -38, -33, -15, 0, 15, 33, 38, 45], [0, 0, -16, 0, 0, 0, 16, 0, 0]);
+
+  return (
+    <motion.div style={{ x, scaleX, scaleY, skewY }} className="flex items-center justify-center origin-center">
+      {children}
+    </motion.div>
+  );
+};
+
+// Helper for smooth color fade on edges
+const getTransparent = (c: string) => {
+  if (c.startsWith("rgb(")) return c.replace("rgb(", "rgba(").replace(")", ", 0)");
+  if (c.startsWith("rgba(")) return c.replace(/[\d.]+\)$/, "0)");
+  return "rgba(255, 255, 255, 0)";
+};
 
 const BottomNavbar = () => {
   const [isSafari, setIsSafari] = useState(false);
@@ -50,13 +89,13 @@ const BottomNavbar = () => {
   const eventId = segs?.[1] || params?.get("eventId");
   const sportId = segs?.[2] || params?.get("sportId");
 
-  const navItems = [
+  const navItems = useMemo(() => [
     { type: "link", icon: "house", link: "/", label: "Home" },
     { type: "link", icon: "inplay", link: "/inplay", label: "In Play" },
     { type: "center", label: "Center" },
     { type: "link", icon: "bets", link: "#", label: "My Bets" },
     { type: "link", icon: "casinoic", link: "#", label: "Casino" },
-  ];
+  ], []);
 
   const defaultActiveIndex = navItems.findIndex(item => item.type === "link" && item.link === pathName) >= 0
     ? navItems.findIndex(item => item.type === "link" && item.link === pathName)
@@ -65,59 +104,29 @@ const BottomNavbar = () => {
   const [activeIndex, setActiveIndex] = useState(defaultActiveIndex);
   const [previewIndex, setPreviewIndex] = useState<number | null>(null);
   const [isInteracting, setIsInteracting] = useState(false);
+  
   const [measures, setMeasures] = useState<TabMeasure[]>([]);
+  const [iconColors, setIconColors] = useState<string[]>(Array(5).fill("rgba(255, 255, 255, 1)"));
 
   const stageRef = useRef<HTMLDivElement>(null);
   const itemRefs = useRef<(HTMLAnchorElement | HTMLDivElement | null)[]>([]);
   const previewIndexRef = useRef<number | null>(null);
   const activeIndexRef = useRef(activeIndex);
 
+  const dragStartX = useRef<number | null>(null);
+  const hasDraggedRef = useRef(false);
+
   const lensLeft = useSpring(0, LENS_SPRING);
   const lensTop = useSpring(0, LENS_SPRING);
   const lensWidth = useSpring(0, LENS_SPRING);
   const lensHeight = useSpring(0, LENS_SPRING);
   const engage = useSpring(0, ENGAGE_SPRING);
-  const [glintAngle, setGlintAngle] = useState(0);
 
-  useEffect(() => { previewIndexRef.current = previewIndex; }, [previewIndex]);
-  useEffect(() => { activeIndexRef.current = activeIndex; }, [activeIndex]);
+  const xVelocity = useVelocity(lensLeft);
+  const squishScaleX = useTransform(xVelocity, [-600, 0, 600], [1.15, 1, 1.15]);
+  const squishScaleY = useTransform(xVelocity, [-600, 0, 600], [0.85, 1, 0.85]);
 
-  useEffect(() => {
-    const idx = navItems.findIndex(item => item.type === "link" && item.link === pathName);
-    if (idx !== -1) setActiveIndex(idx);
-  }, [pathName]);
-
-  useEffect(() => {
-    const userAgent = navigator.userAgent;
-    const safari = userAgent.includes("Safari") && !userAgent.includes("Chrome") && !userAgent.includes("Chromium");
-    setIsSafari(safari);
-  }, []);
-
-  // 🔥 COLOR PICKER LOGIC
-  useEffect(() => {
-    let raf: number;
-
-    const updateDynamicColor = () => {
-      const currentIndex = previewIndexRef.current ?? activeIndexRef.current;
-      const activeEl = itemRefs.current[currentIndex];
-
-      if (activeEl && stageRef.current) {
-        const iconEl = activeEl.querySelector("svg");
-
-        if (iconEl) {
-          const computedColor = window.getComputedStyle(iconEl).color;
-          stageRef.current.style.setProperty("--lens-edge-color", computedColor);
-        }
-      }
-
-      raf = requestAnimationFrame(updateDynamicColor);
-    };
-
-    raf = requestAnimationFrame(updateDynamicColor);
-    return () => cancelAnimationFrame(raf);
-  }, []);
-
-  const measure = useCallback(() => {
+  const measureAndColors = useCallback(() => {
     const stage = stageRef.current?.getBoundingClientRect();
     if (!stage) return;
 
@@ -130,13 +139,74 @@ const BottomNavbar = () => {
         return { left, top, width: rect.width, center: left + rect.width / 2 };
       })
     );
+
+    const newColors = itemRefs.current.map((el) => {
+      if (!el) return "rgba(255, 255, 255, 1)";
+      
+      const svg = el.querySelector("svg");
+      if (!svg) return window.getComputedStyle(el).color || "rgba(255, 255, 255, 1)";
+
+      const path = svg.querySelector("path, circle, rect, polyline, line");
+      if (path) {
+        const style = window.getComputedStyle(path);
+        if (style.stroke && style.stroke !== "none" && !style.stroke.includes("0, 0, 0, 0")) return style.stroke;
+        if (style.fill && style.fill !== "none" && !style.fill.includes("0, 0, 0, 0")) return style.fill;
+      }
+      return window.getComputedStyle(svg).color || "rgba(255, 255, 255, 1)";
+    });
+
+    setIconColors((prev) => {
+      const isSame = prev.length === newColors.length && prev.every((c, i) => c === newColors[i]);
+      return isSame ? prev : newColors;
+    });
   }, []);
 
   useLayoutEffect(() => {
-    measure();
-    window.addEventListener("resize", measure);
-    return () => window.removeEventListener("resize", measure);
-  }, [measure]);
+    measureAndColors();
+    window.addEventListener("resize", measureAndColors);
+    return () => window.removeEventListener("resize", measureAndColors);
+  }, [measureAndColors]);
+
+  useEffect(() => {
+    const timer = setTimeout(measureAndColors, 300);
+    return () => clearTimeout(timer);
+  }, [activeIndex, theme, pathName, measureAndColors]);
+
+  const defaultPositions = useMemo(() => navItems.map((_, i) => i * 60), [navItems]);
+  const positions = measures.length === navItems.length ? measures.map(m => m.left) : defaultPositions;
+
+  const leftColors = useMemo(() => {
+    if (iconColors.length !== navItems.length) return navItems.map(() => "rgba(255,255,255,0)");
+    return iconColors.map((c, i) => i > 0 ? iconColors[i - 1] : getTransparent(iconColors[0]));
+  }, [iconColors, navItems.length]);
+
+  const rightColors = useMemo(() => {
+    if (iconColors.length !== navItems.length) return navItems.map(() => "rgba(255,255,255,0)");
+    return iconColors.map((c, i) => i < iconColors.length - 1 ? iconColors[i + 1] : getTransparent(iconColors[iconColors.length - 1]));
+  }, [iconColors, navItems.length]);
+
+  const leftGlow = useTransform(lensLeft, positions, leftColors);
+  const rightGlow = useTransform(lensLeft, positions, rightColors);
+  const glowOpacity = useTransform(engage, [0, 1], [0, 1]); 
+
+  const dynamicBoxShadow = useMotionTemplate`
+    inset 2px 0 2px 0 ${leftGlow},  
+    inset -2px 0 2px 0 ${rightGlow}
+  `;
+
+  useEffect(() => { previewIndexRef.current = previewIndex; }, [previewIndex]);
+  useEffect(() => { activeIndexRef.current = activeIndex; }, [activeIndex]);
+
+  useEffect(() => {
+    const idx = navItems.findIndex(item => item.type === "link" && item.link === pathName);
+    if (idx !== -1) setActiveIndex(idx);
+  }, [pathName, navItems]);
+
+  useEffect(() => {
+    const userAgent = navigator.userAgent;
+    const safari = userAgent.includes("Safari") && !userAgent.includes("Chrome") && !userAgent.includes("Chromium");
+    setIsSafari(safari);
+  }, []);
 
   const getRestFrame = useCallback((index: number) => {
     const m = measures[index];
@@ -166,35 +236,41 @@ const BottomNavbar = () => {
   useLayoutEffect(() => {
     if (!measures.length || isInteracting) return;
     const frame = getRestFrame(activeIndex);
-    if (frame) applyFrame(frame, 0);
+    if (frame) applyFrame(frame, 0); 
   }, [activeIndex, applyFrame, getRestFrame, isInteracting, measures.length]);
 
-  const beginInteraction = useCallback((index: number) => {
+  const beginInteraction = useCallback((index: number, clientX: number) => {
     setPreviewIndex(index);
     setIsInteracting(true);
+    dragStartX.current = clientX;
+    hasDraggedRef.current = false; 
     const centerX = measures[index]?.center ?? 0;
     const frame = getEngagedFrameAtX(centerX);
     if (frame) applyFrame(frame, 1);
   }, [applyFrame, getEngagedFrameAtX, measures]);
 
-
-  // 🔥 JADOO YAHAN HAI: Click aur Drag Release dono ke liye ek unified function 🔥
   const handleTabSelectRef = useRef<any>(null);
 
   handleTabSelectRef.current = (idx: number, e?: React.MouseEvent) => {
     const item = navItems[idx];
-    if (!item) return; // 🔥 Puraani line yahan se change ki hai
+    if (!item) return;
 
-    // 🔥 JADOO YAHAN HAI: Agar Lens Center par aakar ruka hai 🔥
+    const centerIdx = navItems.findIndex(i => i.type === "center");
+
+    // 🔥 MAIN FIX YAHAN HAI: Agar user center se drag kar ke kisi aur par jaye toh Radial menu close karo
+    if (!e && activeIndexRef.current === centerIdx && idx !== centerIdx) {
+      document.getElementById("center-radial-btn")?.click();
+    }
+
+    // Har bar activeIndex update hoga (pill wahan jayega)
+    setActiveIndex(idx);
+
     if (item.type === "center") {
-      // Agar drag kar ke chhorda gaya hai (e exist nahi karta)
       if (!e) {
-        document.getElementById("center-radial-btn")?.click(); // Fake Click!
+        document.getElementById("center-radial-btn")?.click(); 
       }
       return;
     }
-
-    setActiveIndex(idx);
 
     if ((item.icon === "bets" || item.icon === "casinoic") && !isLoggedIn) {
       if (e) e.preventDefault();
@@ -235,32 +311,30 @@ const BottomNavbar = () => {
   };
 
   const finishInteraction = useCallback(() => {
-  const targetIndex = previewIndexRef.current;
-  const currentIndex = activeIndexRef.current;
+    const targetIndex = previewIndexRef.current;
+    const currentIndex = activeIndexRef.current;
 
-  if (targetIndex !== null && targetIndex !== currentIndex) {
-    // ✅ 1. Pehle active update karo
-    setActiveIndex(targetIndex);
+    if (targetIndex !== null) {
+      if (hasDraggedRef.current) {
+        if (targetIndex !== currentIndex) {
+          setActiveIndex(targetIndex);
+          handleTabSelectRef.current(targetIndex); 
+        }
+      }
+      const restFrame = getRestFrame(targetIndex);
+      if (restFrame) applyFrame(restFrame, 0);
+    } else {
+      const restFrame = getRestFrame(currentIndex);
+      if (restFrame) applyFrame(restFrame, 0);
+    }
 
-    // ✅ 2. Action bhi call karo
-    handleTabSelectRef.current(targetIndex);
-
-    // ✅ 3. Frame ko turant target pe set karo
-    const restFrame = getRestFrame(targetIndex);
-    if (restFrame) applyFrame(restFrame, 0);
-  } else {
-    // fallback
-    const restFrame = getRestFrame(currentIndex);
-    if (restFrame) applyFrame(restFrame, 0);
-  }
-
-  // ✅ 4. END me interaction band karo
-  requestAnimationFrame(() => {
-    setIsInteracting(false);
-    setPreviewIndex(null);
-  });
-
-}, [applyFrame, getRestFrame]);
+    requestAnimationFrame(() => {
+      setIsInteracting(false);
+      setPreviewIndex(null);
+      hasDraggedRef.current = false;
+      dragStartX.current = null;
+    });
+  }, [applyFrame, getRestFrame]);
 
   useEffect(() => {
     if (!isInteracting) return;
@@ -281,6 +355,10 @@ const BottomNavbar = () => {
     };
 
     const handleMove = (event: PointerEvent) => {
+      if (dragStartX.current !== null && Math.abs(event.clientX - dragStartX.current) > 10) {
+        hasDraggedRef.current = true;
+      }
+
       const localX = getLocalX(event.clientX);
       if (localX === null) return;
       const nextPreview = getNearestIndex(localX);
@@ -302,24 +380,30 @@ const BottomNavbar = () => {
     };
   }, [applyFrame, finishInteraction, getEngagedFrameAtX, isInteracting, measures]);
 
-  const glowOpacity = useTransform(engage, [0, 1], [0, 0.45]);
-
-
   return (
     <div id="bottomNavbar.tsx">
       <div
         ref={stageRef}
         className={cn(
-          "md:hidden z-[40] fixed border shadow-[0_8px_32px_rgba(0,0,0,0.2)]! bottom-5 left-1/2 -translate-x-1/2 px-2 py-2 w-[84%] flex justify-around items-center rounded-full glass-blur h-15",
-          theme === "dark"
-            ? "border-[rgba(255,255,255,0.3)]"
-            : "border-[rgb(205,192,192,0.5)] ",
-          isSafari ? "bottom-2" : "bottom-5",
+          "md:hidden z-[40] fixed left-1/2 -translate-x-1/2 w-[84%] h-15 flex justify-around items-center px-2 py-2",
+          isSafari ? "bottom-2" : "bottom-5"
         )}
         style={{ touchAction: "none" }}
       >
 
-        {/* 🔥 LENS 🔥 */}
+        {/* BACKGROUND LAYER */}
+        <div 
+          className={cn(
+            "absolute inset-0 rounded-full glass-blur shadow-[0_8px_32px_rgba(0,0,0,0.2)]! pointer-events-none",
+            "border",
+            theme === "dark"
+              ? "border-[rgba(255,255,255,0.3)]"
+              : "border-[rgb(205,192,192,0.5)] "
+          )}
+          style={{ zIndex: 0 }}
+        />
+
+        {/* LENS TRACK */}
         <motion.div
           className={cn(styles.lensTrack, "rounded-full")}
           style={{
@@ -327,51 +411,55 @@ const BottomNavbar = () => {
             top: lensTop,
             width: lensWidth,
             height: lensHeight,
+            scaleX: squishScaleX,
+            scaleY: squishScaleY,
             position: "absolute",
-            zIndex: 0,
+            zIndex: 10,
             pointerEvents: "none",
           }}
-          animate={{ opacity: isInteracting ? 1 : 0 }}
-          transition={{ duration: 0.15 }}
         >
-          <div className={styles.lens}>
-            <div className={styles.lensIsolation} />
-            <motion.div
-              className={styles.lensGlow}
+          <div className="absolute inset-0 rounded-full" style={{ 
+            background: theme === "dark" ? "rgba(255, 255, 255, 0.02)" : "rgba(255, 255, 255, 0.3)", 
+            backdropFilter: "blur(12px) saturate(1.2)",
+            boxShadow: theme === "dark" 
+              ? "0 8px 32px 0 rgba(0, 0, 0, 0.4), inset 0 0 15px rgba(0,0,0,0.8), inset 0 0 5px rgba(255,255,255,0.1), inset 0 0 0 1px rgba(255,255,255,0.05)"
+              : "0 8px 32px 0 rgba(0, 0, 0, 0.1), inset 0 0 15px rgba(255,255,255,0.6), inset 0 0 5px rgba(255,255,255,0.8), inset 0 0 0 1px rgba(0,0,0,0.05)"
+          }}>
+            <motion.div 
+              className="absolute inset-0 rounded-full pointer-events-none" 
               style={{
-                opacity: glowOpacity,
-                background: "var(--lens-edge-color)",
-                boxShadow: "0 0 24px 8px var(--lens-edge-color)"
-              }}
+                boxShadow: dynamicBoxShadow,
+                opacity: glowOpacity, 
+                maskImage: "linear-gradient(to bottom, transparent 10%, black 30%, black 70%, transparent 90%)",
+                WebkitMaskImage: "linear-gradient(to bottom, transparent 10%, black 30%, black 70%, transparent 90%)"
+              }} 
             />
-            <div className={styles.lensSpecular} />
+            {/* Top white reflection bar (Highlight) */}
+            <div className={cn(
+              "absolute top-[2px] left-[10%] right-[10%] h-[35%] rounded-t-full",
+              theme === "dark" ? "bg-gradient-to-b from-white/20 to-transparent" : "bg-gradient-to-b from-white/60 to-transparent"
+            )} />
           </div>
-
-          <motion.div
-            className={styles.shadesContainer}
-            style={{ rotate: glintAngle }}
-          />
-          <motion.div
-            className={styles.lensRim}
-            style={{ borderColor: "var(--lens-edge-color)" }}
-          />
         </motion.div>
 
+        {/* NAV ITEMS */}
         {navItems.map((item, idx) => {
-
           if (item.type === "center") {
             return (
               <div
                 key={`item-${idx}`}
                 ref={(el) => { itemRefs.current[idx] = el; }}
-                onPointerDown={() => beginInteraction(idx)}
+                onPointerDown={(e) => beginInteraction(idx, e.clientX)}
+                onClick={(e) => handleTabSelectRef.current(idx, e)}
                 className={cn(
-                  "relative z-10 flex items-center justify-center transition-all duration-200",
+                  "relative z-20 flex items-center justify-center transition-all duration-200 cursor-pointer",
                   isInteracting ? "[&_*]:!bg-transparent [&_*]:!border-transparent [&_*]:!shadow-none" : "",
                   isInteracting && "[&_*]:!bg-transparent [&_*]:!backdrop-blur-none [&_*]:!shadow-none"
                 )}
               >
-                <CenterRadialButton />
+                <AnimatedIconWrapper index={idx} measures={measures} lensLeft={lensLeft} lensWidth={lensWidth}>
+                  <CenterRadialButton />
+                </AnimatedIconWrapper>
               </div>
             );
           }
@@ -383,17 +471,11 @@ const BottomNavbar = () => {
               prefetch={false}
               aria-label={item.label}
               href={item.icon === "bets" || item.icon === "casinoic" ? "#" : (item.link || "#")}
-
-              onPointerDown={() => beginInteraction(idx)}
-
-              // 🔥 Click par bhi unified function call hoga 🔥
+              onPointerDown={(e) => beginInteraction(idx, e.clientX)}
               onClick={(e) => handleTabSelectRef.current(idx, e)}
-
               className={cn(
-                "h-12 w-12 flex justify-center items-center rounded-full relative z-10 transition-all duration-200",
-
+                "h-12 w-12 flex justify-center items-center rounded-full relative z-20 transition-all duration-200 cursor-pointer",
                 (pathName === item?.link || activeIndex === idx) ? "text-(--nav-item-root-active-color)" : "text-inherit",
-
                 isInteracting
                   ? "bg-transparent border-transparent shadow-none"
                   : cn(
@@ -405,7 +487,9 @@ const BottomNavbar = () => {
                   )
               )}
             >
-              <Icon name={item.icon as string} width={25} height={25} />
+              <AnimatedIconWrapper index={idx} measures={measures} lensLeft={lensLeft} lensWidth={lensWidth}>
+                <Icon name={item.icon as string} width={25} height={25} />
+              </AnimatedIconWrapper>
 
               {item.icon === "bets" &&
                 isLoggedIn &&
